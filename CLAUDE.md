@@ -2,124 +2,177 @@
 
 ## Project Overview
 
-**HTA-Reimbursement-Price** is a Health Technology Assessment (HTA) reimbursement pricing project. This repository is intended to support analysis, modeling, or tooling related to drug/therapy reimbursement price evaluation as part of HTA processes.
+**HTA Assessment Finder** — a web application that searches EMA-authorized medicines and retrieves HTA assessment outcomes by country. Currently supports **France (HAS)** with SMR/ASMR ratings, designed to expand to **Germany (G-BA)** and **UK (NICE)**.
 
-> **Status**: This project is in its initial setup phase. This document should be updated as the codebase evolves.
+**Tech stack**: Python 3.11+, FastAPI, httpx, vanilla HTML/CSS/JS frontend.
 
 ## Repository Structure
 
 ```
 HTA-Reimbursement-Price/
-├── CLAUDE.md          # This file - AI assistant guidelines
-└── (project files to be added)
+├── CLAUDE.md                          # This file
+├── README.md                          # Project documentation
+├── requirements.txt                   # Python dependencies
+├── run.py                             # Entry point (uvicorn)
+├── app/
+│   ├── main.py                        # FastAPI app, routes, startup lifecycle
+│   ├── config.py                      # Data source URLs, settings
+│   ├── models.py                      # Pydantic response models
+│   ├── services/
+│   │   ├── ema_service.py             # EMA medicine data (fetch, cache, search)
+│   │   └── hta_agencies/
+│   │       ├── base.py                # Abstract HTAAgency base class
+│   │       └── france_has.py          # France HAS adapter (BDPM data)
+│   └── static/
+│       ├── index.html                 # Single-page frontend
+│       ├── style.css                  # Styles
+│       └── app.js                     # Frontend logic
+└── tests/
+    ├── test_ema_service.py            # EMA search logic tests
+    └── test_france_has.py             # HAS adapter tests
 ```
-
-As the project grows, update this section to reflect the actual directory layout.
 
 ## Getting Started
 
-### Prerequisites
-
-_(To be defined as the project takes shape. Common prerequisites for HTA projects include Python 3.x, R, or Node.js depending on the technology stack chosen.)_
-
-### Setup
-
 ```bash
-git clone <repository-url>
-cd HTA-Reimbursement-Price
-# Additional setup steps to be added
+pip install -r requirements.txt
+python run.py
+# App runs at http://localhost:8000
 ```
+
+On startup, the app downloads data from EMA and BDPM (~30s). If fetch fails, the app still starts — use `POST /api/reload` to retry.
 
 ## Development Workflow
 
+### Running Tests
+
+```bash
+pip install pytest pytest-asyncio
+python -m pytest tests/ -v
+```
+
+Tests use sample data fixtures (no network calls). Always run tests before and after changes.
+
 ### Branch Strategy
 
-- **Main branch**: `main` — stable, production-ready code
-- **Feature branches**: `feature/<description>` or `claude/<description>` for AI-assisted development
-- Write clear, descriptive commit messages summarizing the "why" behind changes
-- Keep pull requests focused on a single concern
+- **Main branch**: `main` — stable code
+- **Feature branches**: `feature/<description>` or `claude/<description>`
+- Write descriptive commit messages focusing on "why"
 
-### Code Quality
+### Code Style
 
-When contributing to this project, follow these conventions:
+- Python: PEP 8, type hints on function signatures, docstrings on modules/classes
+- Frontend: vanilla JS (no framework), CSS custom properties for theming
+- No linter/formatter configured yet — follow existing patterns
 
-1. **Keep changes minimal and focused** — only modify what is necessary for the task at hand
-2. **Do not introduce security vulnerabilities** — validate inputs at system boundaries, avoid injection risks
-3. **Write tests** for new functionality when a test framework is in place
-4. **Document public interfaces** — but avoid over-commenting obvious code
+## Architecture
 
-### Testing
+### Data Flow
 
-_(Testing framework and instructions to be added once the project stack is established.)_
+1. **Startup**: App fetches EMA JSON + BDPM TSV files → caches in memory
+2. **Search**: User query → `EMAService.search()` → fuzzy match on name/substance
+3. **Assessments**: Active substance → `HTAAgency.search_assessments()` → matched by substance in BDPM compositions → returns SMR/ASMR with links
 
-```bash
-# Placeholder — update with actual test commands
-# e.g., pytest, npm test, Rscript tests/run_tests.R
+### Key Design: Country Adapter Pattern
+
+Each country's HTA agency is a subclass of `HTAAgency` (in `app/services/hta_agencies/base.py`):
+
+```python
+class HTAAgency(ABC):
+    country_code: str       # "FR", "DE", "GB"
+    agency_abbreviation: str  # "HAS", "G-BA", "NICE"
+    async def load_data(self) -> None: ...
+    async def search_assessments(self, active_substance, product_name=None) -> list[AssessmentResult]: ...
 ```
 
-### Linting and Formatting
+**To add a new country**: create a new adapter file, implement the base class, register in `hta_agencies` dict in `app/main.py`.
 
-_(Linter and formatter configuration to be added. Update this section when tools like ESLint, Prettier, Black, flake8, or styler are introduced.)_
+### External Data Sources
 
-```bash
-# Placeholder — update with actual lint/format commands
-```
+| Source | URL | Format | Encoding | Auth |
+|--------|-----|--------|----------|------|
+| EMA Medicines | `ema.europa.eu/.../medicines_json-report_en.json` | JSON | UTF-8 | None |
+| BDPM Medicines | `base-donnees-publique.medicaments.gouv.fr/download/file/CIS_bdpm.txt` | TSV | Latin-1 | None |
+| BDPM Compositions | `.../CIS_COMPO_bdpm.txt` | TSV | Latin-1 | None |
+| BDPM SMR | `.../CIS_HAS_SMR_bdpm.txt` | TSV | Latin-1 | None |
+| BDPM ASMR | `.../CIS_HAS_ASMR_bdpm.txt` | TSV | Latin-1 | None |
+| BDPM CT Links | `.../HAS_LiensPageCT_bdpm.txt` | TSV | Latin-1 | None |
 
-### Building
+BDPM files: tab-separated, no header row, Latin-1 encoded. See `app/config.py` for full URLs.
 
-_(Build steps to be documented once the project architecture is defined.)_
+### API Endpoints
 
-```bash
-# Placeholder — update with actual build commands
-```
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/search?q={query}` | Search EMA medicines by name/substance |
+| `GET` | `/api/countries` | List available countries with agency info |
+| `GET` | `/api/assessments/{country_code}?substance={inn}` | Get HTA assessments |
+| `GET` | `/api/status` | Data loading health check |
+| `POST` | `/api/reload` | Trigger data reload from sources |
 
 ## Key Conventions for AI Assistants
 
 ### Before Making Changes
 
-- **Read before writing**: Always read existing files before proposing modifications
-- **Understand context**: Check related files and dependencies before editing
-- **Check for tests**: If a test suite exists, run it before and after changes
+- **Read before writing**: Always read existing files before modifying
+- **Run tests**: `python -m pytest tests/ -v` before and after changes
+- **Check models.py**: API response shapes are defined as Pydantic models — keep frontend and backend in sync
 
 ### When Writing Code
 
-- Follow the existing code style and patterns in the repository
-- Prefer simple, readable solutions over clever abstractions
-- Do not add features, refactoring, or "improvements" beyond what was requested
-- Avoid creating unnecessary helper files or utility modules for one-time operations
-- Remove unused code completely rather than commenting it out
+- Follow the existing adapter pattern for new country support
+- All data fetching is async (httpx) — keep it that way
+- Frontend uses `esc()` helper for HTML escaping — always escape user/API data
+- Keep the frontend as vanilla JS — no framework dependencies
+- Prefer simple solutions; avoid premature abstractions
+
+### When Adding a New HTA Agency
+
+1. Create `app/services/hta_agencies/<country>.py`
+2. Subclass `HTAAgency` from `base.py`
+3. Implement `load_data()` and `search_assessments()`
+4. Register in `hta_agencies` dict in `app/main.py`
+5. Add tests in `tests/test_<country>.py` with sample data fixtures
+6. The frontend auto-discovers countries via `/api/countries` — no frontend changes needed
 
 ### When Committing
 
-- Use concise commit messages that explain the purpose of the change
-- Stage specific files rather than using `git add -A`
-- Never commit secrets, credentials, or `.env` files
-
-## Architecture Notes
-
-_(To be documented as the project architecture is established. This section should cover:)_
-
-- Data flow and processing pipeline
-- Key modules and their responsibilities
-- External data sources or APIs used
-- Database or storage layer (if applicable)
-- Deployment targets and CI/CD pipeline
+- Stage specific files (not `git add -A`)
+- Never commit secrets or `.env` files
+- Write concise messages explaining "why"
 
 ## Domain Context
 
-**Health Technology Assessment (HTA)** is the systematic evaluation of properties, effects, and impacts of health technologies and interventions. Reimbursement pricing is a key output of HTA processes, determining the price at which healthcare systems will reimburse drugs, devices, or therapies.
+**HTA** evaluates health technologies to inform reimbursement decisions.
 
-Key domain concepts that may appear in this codebase:
+### France (HAS) — Current
+
+- **SMR (Service Médical Rendu)**: Clinical benefit — Important, Modéré, Faible, Insuffisant
+- **ASMR (Amélioration du SMR)**: Improvement over existing treatments — I (major) to V (none)
+- **CT (Commission de la Transparence)**: The committee that issues SMR/ASMR opinions
+- **CIS code**: French unique medicine identifier in BDPM
+
+### Germany (G-BA) — Planned
+
+- **AMNOG**: Early benefit assessment for new drugs
+- **Zusatznutzen**: Added benefit categories (erheblich, beträchtlich, gering, nicht quantifizierbar, kein Zusatznutzen)
+
+### UK (NICE) — Planned
+
+- **TA (Technology Appraisal)**: Recommended / Optimised / Not recommended
+- **HST (Highly Specialised Technology)**: For ultra-rare conditions
+
+### General HTA Concepts
 
 - **ICER** — Incremental Cost-Effectiveness Ratio
 - **QALY** — Quality-Adjusted Life Year
-- **DALY** — Disability-Adjusted Life Year
 - **CEA** — Cost-Effectiveness Analysis
 - **BIA** — Budget Impact Analysis
-- **Reference pricing** — pricing based on comparable therapies
-- **Value-based pricing** — pricing tied to clinical outcomes
-- **Willingness-to-pay threshold** — maximum acceptable cost per QALY gained
 
 ## Updating This File
 
-This CLAUDE.md should be kept up to date as the project evolves. When making significant structural changes (adding frameworks, changing build tools, modifying directory layout), update the relevant sections of this file.
+Update this CLAUDE.md when:
+- Adding new country adapters
+- Changing the API contract or data models
+- Adding new dependencies or build tools
+- Modifying the directory structure

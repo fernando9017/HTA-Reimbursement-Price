@@ -1,0 +1,194 @@
+"""Tests for the France HAS adapter using sample data."""
+
+import pytest
+
+from app.services.hta_agencies.france_has import FranceHAS, _format_date
+
+
+@pytest.fixture
+def has_service():
+    """Create a HAS adapter pre-loaded with sample BDPM data."""
+    service = FranceHAS()
+
+    # Sample medicines (CIS_bdpm.txt)
+    service._medicines = {
+        "60001234": "KEYTRUDA 25 mg/mL, solution à diluer pour perfusion",
+        "60005678": "KEYTRUDA 50 mg, poudre pour solution à diluer pour perfusion",
+        "61009876": "OPDIVO 10 mg/mL, solution pour perfusion",
+        "62001111": "DOLIPRANE 500 mg, comprimé",
+    }
+
+    # Sample compositions (CIS_COMPO_bdpm.txt)
+    service._compositions = {
+        "60001234": ["pembrolizumab"],
+        "60005678": ["pembrolizumab"],
+        "61009876": ["nivolumab"],
+        "62001111": ["paracétamol"],
+    }
+
+    # Sample SMR data (CIS_HAS_SMR_bdpm.txt)
+    service._smr = {
+        "60001234": [
+            {
+                "dossier_code": "CT-15432",
+                "motif": "Inscription (première évaluation)",
+                "date": "2017-05-24",
+                "value": "Important",
+                "label": "Le service médical rendu par KEYTRUDA est important dans le mélanome.",
+            },
+            {
+                "dossier_code": "CT-18765",
+                "motif": "Extension d'indication",
+                "date": "2020-11-18",
+                "value": "Important",
+                "label": "Le service médical rendu par KEYTRUDA est important dans le CBNPC.",
+            },
+        ],
+        "61009876": [
+            {
+                "dossier_code": "CT-16543",
+                "motif": "Inscription (première évaluation)",
+                "date": "2016-03-09",
+                "value": "Important",
+                "label": "Le service médical rendu par OPDIVO est important.",
+            },
+        ],
+        "62001111": [
+            {
+                "dossier_code": "CT-10001",
+                "motif": "Renouvellement d'inscription",
+                "date": "2019-06-12",
+                "value": "Important",
+                "label": "Le service médical rendu par DOLIPRANE est important.",
+            },
+        ],
+    }
+
+    # Sample ASMR data (CIS_HAS_ASMR_bdpm.txt)
+    service._asmr = {
+        "60001234": [
+            {
+                "dossier_code": "CT-15432",
+                "motif": "Inscription (première évaluation)",
+                "date": "2017-05-24",
+                "value": "III",
+                "label": "ASMR modérée dans le mélanome.",
+            },
+            {
+                "dossier_code": "CT-18765",
+                "motif": "Extension d'indication",
+                "date": "2020-11-18",
+                "value": "IV",
+                "label": "ASMR mineure dans le CBNPC.",
+            },
+        ],
+        "61009876": [
+            {
+                "dossier_code": "CT-16543",
+                "motif": "Inscription (première évaluation)",
+                "date": "2016-03-09",
+                "value": "III",
+                "label": "ASMR modérée.",
+            },
+        ],
+        "62001111": [
+            {
+                "dossier_code": "CT-10001",
+                "motif": "Renouvellement d'inscription",
+                "date": "2019-06-12",
+                "value": "V",
+                "label": "Pas d'amélioration du service médical rendu.",
+            },
+        ],
+    }
+
+    # Sample CT links (HAS_LiensPageCT_bdpm.txt)
+    service._ct_links = {
+        "CT-15432": "https://www.has-sante.fr/jcms/c_example1/fr/keytruda-melanome",
+        "CT-18765": "https://www.has-sante.fr/jcms/c_example2/fr/keytruda-cbnpc",
+        "CT-16543": "https://www.has-sante.fr/jcms/c_example3/fr/opdivo-melanome",
+        "CT-10001": "https://www.has-sante.fr/jcms/c_example4/fr/doliprane",
+    }
+
+    service._loaded = True
+    return service
+
+
+@pytest.mark.asyncio
+async def test_search_by_substance(has_service):
+    results = await has_service.search_assessments("pembrolizumab")
+    assert len(results) >= 2
+    # All results should be for Keytruda (pembrolizumab)
+    for r in results:
+        assert "KEYTRUDA" in r.product_name
+
+
+@pytest.mark.asyncio
+async def test_search_returns_smr_and_asmr(has_service):
+    results = await has_service.search_assessments("pembrolizumab")
+    # The first result (most recent) should have both SMR and ASMR
+    recent = results[0]
+    assert recent.smr_value != ""
+    assert recent.asmr_value != ""
+
+
+@pytest.mark.asyncio
+async def test_search_by_product_name(has_service):
+    results = await has_service.search_assessments("nivolumab", product_name="OPDIVO")
+    assert len(results) >= 1
+    assert "OPDIVO" in results[0].product_name
+
+
+@pytest.mark.asyncio
+async def test_search_returns_assessment_urls(has_service):
+    results = await has_service.search_assessments("pembrolizumab")
+    urls = [r.assessment_url for r in results if r.assessment_url]
+    assert len(urls) >= 1
+    assert all(url.startswith("https://") for url in urls)
+
+
+@pytest.mark.asyncio
+async def test_search_no_match(has_service):
+    results = await has_service.search_assessments("nonexistentsubstance")
+    assert len(results) == 0
+
+
+@pytest.mark.asyncio
+async def test_search_sorted_most_recent_first(has_service):
+    results = await has_service.search_assessments("pembrolizumab")
+    dates = [r.opinion_date for r in results]
+    assert dates == sorted(dates, reverse=True)
+
+
+@pytest.mark.asyncio
+async def test_search_case_insensitive(has_service):
+    results = await has_service.search_assessments("Pembrolizumab")
+    assert len(results) >= 2
+
+
+@pytest.mark.asyncio
+async def test_product_name_search_alone(has_service):
+    results = await has_service.search_assessments("irrelevant", product_name="DOLIPRANE")
+    assert len(results) >= 1
+    assert "DOLIPRANE" in results[0].product_name
+
+
+@pytest.mark.asyncio
+async def test_not_loaded():
+    service = FranceHAS()
+    results = await service.search_assessments("pembrolizumab")
+    assert len(results) == 0
+
+
+def test_country_info(has_service):
+    info = has_service.get_country_info()
+    assert info.code == "FR"
+    assert info.name == "France"
+    assert info.agency == "HAS"
+
+
+def test_format_date():
+    assert _format_date("20170524") == "2017-05-24"
+    assert _format_date("2017-05-24") == "2017-05-24"
+    assert _format_date("") == ""
+    assert _format_date("invalid") == "invalid"
