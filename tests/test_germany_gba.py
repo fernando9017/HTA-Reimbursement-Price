@@ -3,7 +3,16 @@
 import pytest
 
 from app.config import GBA_ASSESSMENT_BASE_URL
-from app.services.hta_agencies.germany_gba import GermanyGBA, BENEFIT_TRANSLATIONS, EVIDENCE_TRANSLATIONS
+from app.services.hta_agencies.germany_gba import (
+    GermanyGBA,
+    BENEFIT_TRANSLATIONS,
+    EVIDENCE_TRANSLATIONS,
+    _normalize_date,
+    _parse_listing_page,
+    _enrich_with_listing_urls,
+    _matches,
+    _merge_decisions,
+)
 
 
 SAMPLE_XML = """\
@@ -245,11 +254,10 @@ def test_country_info():
 
 
 def test_normalize_date():
-    service = GermanyGBA()
-    assert service._normalize_date("2020-06-18") == "2020-06-18"
-    assert service._normalize_date("20200618") == "2020-06-18"
-    assert service._normalize_date("18.06.2020") == "2020-06-18"
-    assert service._normalize_date("") == ""
+    assert _normalize_date("2020-06-18") == "2020-06-18"
+    assert _normalize_date("20200618") == "2020-06-18"
+    assert _normalize_date("18.06.2020") == "2020-06-18"
+    assert _normalize_date("") == ""
 
 
 def test_benefit_translations():
@@ -303,14 +311,12 @@ SAMPLE_LISTING_HTML = """\
 
 
 def test_parse_listing_page_count():
-    service = GermanyGBA()
-    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    entries = _parse_listing_page(SAMPLE_LISTING_HTML)
     assert len(entries) == 3
 
 
 def test_parse_listing_page_urls():
-    service = GermanyGBA()
-    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    entries = _parse_listing_page(SAMPLE_LISTING_HTML)
     urls = {e["url"] for e in entries}
     assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1133/" in urls
     assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1132/" in urls
@@ -318,8 +324,7 @@ def test_parse_listing_page_urls():
 
 
 def test_parse_listing_page_procedure_ids():
-    service = GermanyGBA()
-    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    entries = _parse_listing_page(SAMPLE_LISTING_HTML)
     ids = {e["procedure_id"] for e in entries}
     assert "1133" in ids
     assert "1132" in ids
@@ -327,25 +332,24 @@ def test_parse_listing_page_procedure_ids():
 
 
 def test_parse_listing_page_titles():
-    service = GermanyGBA()
-    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    entries = _parse_listing_page(SAMPLE_LISTING_HTML)
     titles = [e["title"] for e in entries]
     assert any("Enfortumab" in t for t in titles)
     assert any("Pembrolizumab" in t for t in titles)
     assert any("Semaglutid" in t for t in titles)
 
 
-def test_listing_entry_to_result():
-    """Listing entries should produce AssessmentResult with correct URL."""
+@pytest.mark.asyncio
+async def test_listing_entry_to_result():
+    """Listing entries merged into decisions should produce correct AssessmentResults."""
+    listing = _parse_listing_page(SAMPLE_LISTING_HTML)
+    merged = _merge_decisions([], [], listing)
+
     service = GermanyGBA()
-    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
-    service._listing_entries = entries
+    service._decisions = merged
     service._loaded = True
 
-    import asyncio
-    results = asyncio.get_event_loop().run_until_complete(
-        service.search_assessments("Enfortumab Vedotin")
-    )
+    results = await service.search_assessments("Enfortumab Vedotin")
     assert len(results) >= 1
     assert "1133" in results[0].assessment_url
 
@@ -353,8 +357,8 @@ def test_listing_entry_to_result():
 def test_enrichment_links_xml_decisions_to_listing():
     """Enrichment should add listing URLs to matching AIS XML decisions."""
     service = GermanyGBA()
-    service._decisions = service._parse_xml(SAMPLE_XML)
-    service._listing_entries = [
+    decisions = service._parse_xml(SAMPLE_XML)
+    listing_entries = [
         {
             "procedure_id": "500",
             "title": "Pembrolizumab (Melanom)",
@@ -363,20 +367,18 @@ def test_enrichment_links_xml_decisions_to_listing():
             "date": "2020-06-18",
         },
     ]
-    service._enrich_decisions_with_listing_urls()
+    _enrich_with_listing_urls(decisions, listing_entries)
 
     # All Pembrolizumab decisions should now have the enriched URL
-    for dec in service._decisions:
+    for dec in decisions:
         if "Pembrolizumab" in dec.get("substances", []):
             assert dec["assessment_url"] == "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"
 
 
 @pytest.mark.asyncio
 async def test_search_with_listing_fallback():
-    """When AIS XML has no matches, listing entries should be used."""
-    service = GermanyGBA()
-    service._decisions = []  # No AIS XML data
-    service._listing_entries = [
+    """When AIS XML has no matches, listing entries merged in should be used."""
+    listing = [
         {
             "procedure_id": "1133",
             "title": "Enfortumab Vedotin (Urothelkarzinom)",
@@ -385,6 +387,10 @@ async def test_search_with_listing_fallback():
             "date": "2025-04-03",
         },
     ]
+    merged = _merge_decisions([], [], listing)
+
+    service = GermanyGBA()
+    service._decisions = merged
     service._loaded = True
 
     results = await service.search_assessments("Enfortumab Vedotin")
@@ -398,7 +404,6 @@ async def test_assessment_url_fallback_to_listing_base():
     """When no listing data available, assessment URL should fall back to base URL."""
     service = GermanyGBA()
     service._decisions = service._parse_xml(SAMPLE_XML)
-    service._listing_entries = []
     service._loaded = True
 
     results = await service.search_assessments("Pembrolizumab")
@@ -406,3 +411,58 @@ async def test_assessment_url_fallback_to_listing_base():
     # URL should be the base listing page (not a broken procedure URL)
     for r in results:
         assert r.assessment_url == GBA_ASSESSMENT_BASE_URL
+
+
+# ── Seed data tests ──────────────────────────────────────────────
+
+
+def test_seed_data_loads():
+    """The bundled seed data file should load and contain entries."""
+    service = GermanyGBA()
+    seed = service._load_seed_data()
+    assert len(seed) > 0
+    # Verify structure of entries
+    for entry in seed:
+        assert "substances" in entry
+        assert "assessment_url" in entry
+
+
+def test_seed_data_contains_padcev():
+    """Seed data should contain the Padcev (Enfortumab Vedotin) entry."""
+    service = GermanyGBA()
+    seed = service._load_seed_data()
+    padcev = [e for e in seed if "Enfortumab Vedotin" in e.get("substances", [])]
+    assert len(padcev) >= 1
+    assert "1133" in padcev[0]["assessment_url"]
+
+
+@pytest.mark.asyncio
+async def test_seed_data_search_pembrolizumab():
+    """Searching for Pembrolizumab in seed data should return multiple results."""
+    service = GermanyGBA()
+    service._decisions = service._load_seed_data()
+    service._loaded = True
+
+    results = await service.search_assessments("Pembrolizumab")
+    assert len(results) >= 2
+    # All results should have valid assessment URLs
+    for r in results:
+        assert "g-ba.de" in r.assessment_url
+
+
+def test_merge_deduplicates():
+    """Merging seed + live data should deduplicate by substance+date."""
+    seed = [
+        {"substances": ["TestDrug"], "trade_names": ["Brand"], "decision_date": "2024-01-01",
+         "assessment_url": "https://example.com/seed", "benefit_rating": "gering",
+         "evidence_level": "Beleg", "comparator": "", "patient_group": ""},
+    ]
+    live = [
+        {"substances": ["TestDrug"], "trade_names": ["Brand"], "decision_date": "2024-01-01",
+         "assessment_url": "https://example.com/live", "benefit_rating": "gering",
+         "evidence_level": "Beleg", "comparator": "", "patient_group": ""},
+    ]
+    merged = _merge_decisions(seed, live, [])
+    # Should deduplicate to just 1 entry (seed wins)
+    assert len(merged) == 1
+    assert merged[0]["assessment_url"] == "https://example.com/seed"
