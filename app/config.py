@@ -20,5 +20,17 @@ BDPM_FILES = {
 BDPM_ENCODING = "latin-1"
 BDPM_SEPARATOR = "\t"
 
+# G-BA (Gemeinsamer Bundesausschuss) - Germany
+# AIS XML file with all AMNOG benefit assessment decisions.
+# Updated on the 1st and 15th of each month.
+# A permanent download URL can be requested from ais@g-ba.de.
+# The URL below points to the AIS download page; the adapter
+# fetches the XML link from it automatically.
+GBA_AIS_PAGE_URL = (
+    "https://www.g-ba.de/themen/arzneimittel/"
+    "arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/"
+)
+GBA_ASSESSMENT_BASE_URL = "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/"
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0

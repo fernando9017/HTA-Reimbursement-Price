@@ -25,18 +25,29 @@ class CountryInfo(BaseModel):
 
 
 class AssessmentResult(BaseModel):
-    """A single HTA assessment outcome."""
+    """A single HTA assessment outcome.
+
+    Fields are country-agnostic where possible.  Country-specific rating
+    fields are optional so each adapter only populates what applies.
+    """
 
     product_name: str
     cis_code: str = ""
     dossier_code: str = ""
     evaluation_reason: str
     opinion_date: str
+    assessment_url: str = ""
+    # France (HAS)
     smr_value: str = ""
     smr_description: str = ""
     asmr_value: str = ""
     asmr_description: str = ""
-    assessment_url: str = ""
+    # Germany (G-BA)
+    benefit_rating: str = ""
+    benefit_rating_description: str = ""
+    evidence_level: str = ""
+    comparator: str = ""
+    patient_group: str = ""
 
 
 class AssessmentResponse(BaseModel):

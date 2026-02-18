@@ -198,6 +198,7 @@ function renderAssessments(data) {
 }
 
 function renderSingleAssessment(a) {
+    // France (HAS) badges
     const smrBadge = a.smr_value
         ? `<span class="badge badge-smr ${smrClass(a.smr_value)}">
             <span class="label">SMR:</span> ${esc(a.smr_value)}
@@ -210,12 +211,35 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
+    // Germany (G-BA) badges
+    const benefitBadge = a.benefit_rating
+        ? `<span class="badge badge-benefit ${benefitClass(a.benefit_rating)}">
+            <span class="label">Zusatznutzen:</span> ${esc(a.benefit_rating)}
+           </span>`
+        : "";
+
+    const evidenceBadge = a.evidence_level
+        ? `<span class="badge badge-evidence">
+            <span class="label">Evidence:</span> ${esc(a.evidence_level)}
+           </span>`
+        : "";
+
+    const comparatorBadge = a.comparator
+        ? `<span class="badge badge-comparator">
+            <span class="label">vs.</span> ${esc(a.comparator)}
+           </span>`
+        : "";
+
+    // Determine link text based on what's present
+    const isGermany = !!a.benefit_rating;
+    const linkText = isGermany ? "View on G-BA" : "View full assessment on HAS";
     const link = a.assessment_url
         ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
-            View full assessment on HAS &rarr;
+            ${linkText} &rarr;
            </a>`
         : "";
 
+    // Descriptions
     const smrDesc = a.smr_description
         ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
             <strong>SMR:</strong> ${esc(a.smr_description)}
@@ -228,6 +252,18 @@ function renderSingleAssessment(a) {
            </div>`
         : "";
 
+    const benefitDesc = a.benefit_rating_description && a.benefit_rating_description !== a.benefit_rating
+        ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+            ${esc(a.benefit_rating_description)}
+           </div>`
+        : "";
+
+    const patientGroup = a.patient_group
+        ? `<div style="font-size:0.85rem;color:var(--text);margin-bottom:8px;">
+            <strong>Patient group:</strong> ${esc(a.patient_group)}
+           </div>`
+        : "";
+
     return `
         <div class="assessment-card">
             <div class="assessment-header">
@@ -235,12 +271,17 @@ function renderSingleAssessment(a) {
                 <span class="opinion-date">${esc(a.opinion_date)}</span>
             </div>
             ${a.evaluation_reason ? `<div class="reason">${esc(a.evaluation_reason)}</div>` : ""}
+            ${patientGroup}
             <div class="rating-badges">
                 ${smrBadge}
                 ${asmrBadge}
+                ${benefitBadge}
+                ${evidenceBadge}
+                ${comparatorBadge}
             </div>
             ${smrDesc}
             ${asmrDesc}
+            ${benefitDesc}
             ${link}
         </div>
     `;
@@ -254,6 +295,17 @@ function smrClass(value) {
     if (v.includes("faible")) return "low";
     if (v.includes("modéré") || v.includes("modere")) return "moderate";
     return ""; // defaults to green (important)
+}
+
+function benefitClass(value) {
+    const v = value.toLowerCase();
+    if (v.includes("geringerer")) return "lesser";
+    if (v.includes("kein") || v.includes("nicht belegt")) return "none";
+    if (v.includes("nicht quantifizierbar")) return "non-quantifiable";
+    if (v.includes("gering")) return "minor";
+    if (v.includes("beträchtlich") || v.includes("betrachtlich")) return "considerable";
+    if (v.includes("erheblich")) return ""; // defaults to green (major)
+    return "";
 }
 
 function countryName(code) {

@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**HTA Assessment Finder** — a web application that searches EMA-authorized medicines and retrieves HTA assessment outcomes by country. Currently supports **France (HAS)** with SMR/ASMR ratings, designed to expand to **Germany (G-BA)** and **UK (NICE)**.
+**HTA Assessment Finder** — a web application that searches EMA-authorized medicines and retrieves HTA assessment outcomes by country. Currently supports **France (HAS)** with SMR/ASMR ratings and **Germany (G-BA)** with Zusatznutzen (added benefit) ratings, designed to expand to **UK (NICE)**.
 
 **Tech stack**: Python 3.11+, FastAPI, httpx, vanilla HTML/CSS/JS frontend.
 
@@ -22,14 +22,16 @@ HTA-Reimbursement-Price/
 │   │   ├── ema_service.py             # EMA medicine data (fetch, cache, search)
 │   │   └── hta_agencies/
 │   │       ├── base.py                # Abstract HTAAgency base class
-│   │       └── france_has.py          # France HAS adapter (BDPM data)
+│   │       ├── france_has.py          # France HAS adapter (BDPM data)
+│   │       └── germany_gba.py         # Germany G-BA adapter (AIS XML data)
 │   └── static/
 │       ├── index.html                 # Single-page frontend
 │       ├── style.css                  # Styles
 │       └── app.js                     # Frontend logic
 └── tests/
     ├── test_ema_service.py            # EMA search logic tests
-    └── test_france_has.py             # HAS adapter tests
+    ├── test_france_has.py             # HAS adapter tests
+    └── test_germany_gba.py            # G-BA adapter tests
 ```
 
 ## Getting Started
@@ -97,8 +99,9 @@ class HTAAgency(ABC):
 | BDPM SMR | `.../CIS_HAS_SMR_bdpm.txt` | TSV | Latin-1 | None |
 | BDPM ASMR | `.../CIS_HAS_ASMR_bdpm.txt` | TSV | Latin-1 | None |
 | BDPM CT Links | `.../HAS_LiensPageCT_bdpm.txt` | TSV | Latin-1 | None |
+| G-BA AIS | `g-ba.de/.../G-BA_Beschluss_Info.xml` | XML | UTF-8 | None |
 
-BDPM files: tab-separated, no header row, Latin-1 encoded. See `app/config.py` for full URLs.
+BDPM files: tab-separated, no header row, Latin-1 encoded. G-BA AIS: single XML file with all decisions. See `app/config.py` for full URLs.
 
 ### API Endpoints
 
@@ -152,10 +155,13 @@ BDPM files: tab-separated, no header row, Latin-1 encoded. See `app/config.py` f
 - **CT (Commission de la Transparence)**: The committee that issues SMR/ASMR opinions
 - **CIS code**: French unique medicine identifier in BDPM
 
-### Germany (G-BA) — Planned
+### Germany (G-BA) — Current
 
 - **AMNOG**: Early benefit assessment for new drugs
-- **Zusatznutzen**: Added benefit categories (erheblich, beträchtlich, gering, nicht quantifizierbar, kein Zusatznutzen)
+- **Zusatznutzen**: Added benefit — erheblich (major), beträchtlich (considerable), gering (minor), nicht quantifizierbar (non-quantifiable), kein Zusatznutzen (none), geringerer Nutzen (lesser)
+- **Aussagesicherheit**: Evidence certainty — Beleg (proof), Hinweis (indication), Anhaltspunkt (hint)
+- **zVT**: Zweckmäßige Vergleichstherapie (appropriate comparator therapy)
+- Data source: G-BA AIS XML (Arztinformationssystem), updated 1st/15th of each month
 
 ### UK (NICE) — Planned
 

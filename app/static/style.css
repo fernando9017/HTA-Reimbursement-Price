@@ -302,6 +302,49 @@ button:disabled {
     color: var(--primary);
 }
 
+/* Germany (G-BA) badges */
+.badge-benefit {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.badge-benefit.considerable {
+    background: #e8f6f3;
+    color: var(--accent);
+}
+
+.badge-benefit.minor {
+    background: #fef5e7;
+    color: var(--smr-moderate);
+}
+
+.badge-benefit.non-quantifiable {
+    background: #eaf2f8;
+    color: var(--primary);
+}
+
+.badge-benefit.none {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+.badge-benefit.lesser {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+.badge-evidence {
+    background: #f4ecf7;
+    color: #7d3c98;
+}
+
+.badge-comparator {
+    background: #f8f9fb;
+    color: var(--text);
+    font-weight: 400;
+    font-size: 0.82rem;
+}
+
 .assessment-link {
     display: inline-block;
     margin-top: 6px;

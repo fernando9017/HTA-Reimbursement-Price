@@ -12,6 +12,7 @@ from app.models import AssessmentResponse, CountryInfo, MedicineResult
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
 from app.services.hta_agencies.france_has import FranceHAS
+from app.services.hta_agencies.germany_gba import GermanyGBA
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -23,7 +24,7 @@ ema_service = EMAService()
 # Registry of HTA agency adapters — add new countries here
 hta_agencies: dict[str, HTAAgency] = {
     "FR": FranceHAS(),
-    # "DE": GermanyGBA(),  # future
+    "DE": GermanyGBA(),
     # "GB": UKNICE(),      # future
 }
 

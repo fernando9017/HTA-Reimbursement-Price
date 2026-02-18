@@ -1,0 +1,406 @@
+"""Germany G-BA (Gemeinsamer Bundesausschuss) adapter.
+
+Data source: G-BA AIS (Arztinformationssystem) XML file containing all
+AMNOG early benefit assessment decisions (Nutzenbewertung).
+
+The XML file is published as a complete delivery on the 1st and 15th of
+each month.  It contains decisions structured per patient group, with
+benefit ratings (Zusatznutzen), evidence levels, and comparator therapies.
+
+No authentication required.  A permanent download URL can be requested
+from ais@g-ba.de.
+"""
+
+import logging
+import re
+import xml.etree.ElementTree as ET
+
+import httpx
+
+from app.config import GBA_AIS_PAGE_URL, GBA_ASSESSMENT_BASE_URL, REQUEST_TIMEOUT
+from app.models import AssessmentResult
+from app.services.hta_agencies.base import HTAAgency
+
+logger = logging.getLogger(__name__)
+
+# Zusatznutzen extent values → English translations
+BENEFIT_TRANSLATIONS = {
+    "erheblich": "Major added benefit (erheblich)",
+    "beträchtlich": "Considerable added benefit (beträchtlich)",
+    "gering": "Minor added benefit (gering)",
+    "nicht quantifizierbar": "Non-quantifiable added benefit (nicht quantifizierbar)",
+    "kein Zusatznutzen": "No added benefit (kein Zusatznutzen)",
+    "geringerer Nutzen": "Lesser benefit (geringerer Nutzen)",
+}
+
+# Evidence certainty levels → English translations
+EVIDENCE_TRANSLATIONS = {
+    "Beleg": "Proof (Beleg)",
+    "Hinweis": "Indication (Hinweis)",
+    "Anhaltspunkt": "Hint (Anhaltspunkt)",
+}
+
+
+class GermanyGBA(HTAAgency):
+    """G-BA (Gemeinsamer Bundesausschuss) — Germany's HTA agency."""
+
+    def __init__(self) -> None:
+        # List of parsed decision dicts
+        self._decisions: list[dict] = []
+        self._loaded = False
+
+    @property
+    def country_code(self) -> str:
+        return "DE"
+
+    @property
+    def country_name(self) -> str:
+        return "Germany"
+
+    @property
+    def agency_abbreviation(self) -> str:
+        return "G-BA"
+
+    @property
+    def agency_full_name(self) -> str:
+        return "Gemeinsamer Bundesausschuss"
+
+    @property
+    def is_loaded(self) -> bool:
+        return self._loaded
+
+    async def load_data(self) -> None:
+        """Fetch and parse the G-BA AIS XML file."""
+        async with httpx.AsyncClient(
+            timeout=REQUEST_TIMEOUT,
+            follow_redirects=True,
+        ) as client:
+            xml_url = await self._find_xml_url(client)
+            logger.info("Fetching G-BA AIS XML from %s", xml_url)
+            response = await client.get(xml_url)
+            response.raise_for_status()
+            xml_content = response.content
+
+        self._decisions = self._parse_xml(xml_content)
+        self._loaded = True
+        logger.info("Germany G-BA data loaded: %d decision entries", len(self._decisions))
+
+    async def search_assessments(
+        self,
+        active_substance: str,
+        product_name: str | None = None,
+    ) -> list[AssessmentResult]:
+        """Find G-BA benefit assessments matching the given active substance."""
+        if not self._loaded:
+            return []
+
+        substance_lower = active_substance.lower().strip()
+        product_lower = product_name.lower().strip() if product_name else ""
+
+        results = []
+        for dec in self._decisions:
+            substance_match = False
+            product_match = False
+
+            # Match active substance
+            for ws in dec.get("substances", []):
+                if substance_lower in ws.lower() or ws.lower() in substance_lower:
+                    substance_match = True
+                    break
+
+            # Match trade name
+            if product_lower:
+                for hn in dec.get("trade_names", []):
+                    if product_lower in hn.lower() or hn.lower() in product_lower:
+                        product_match = True
+                        break
+
+            if not substance_match and not product_match:
+                continue
+
+            # Build the assessment URL
+            procedure_id = dec.get("procedure_id", "")
+            assessment_url = ""
+            if procedure_id:
+                assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
+
+            # Translate benefit rating
+            raw_benefit = dec.get("benefit_rating", "")
+            benefit_desc = BENEFIT_TRANSLATIONS.get(raw_benefit, raw_benefit)
+
+            # Translate evidence level
+            raw_evidence = dec.get("evidence_level", "")
+            evidence_desc = EVIDENCE_TRANSLATIONS.get(raw_evidence, raw_evidence)
+
+            trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
+            results.append(
+                AssessmentResult(
+                    product_name=trade_name,
+                    dossier_code=dec.get("decision_id", ""),
+                    evaluation_reason=dec.get("indication", ""),
+                    opinion_date=dec.get("decision_date", ""),
+                    assessment_url=assessment_url,
+                    benefit_rating=raw_benefit,
+                    benefit_rating_description=benefit_desc,
+                    evidence_level=evidence_desc,
+                    comparator=dec.get("comparator", ""),
+                    patient_group=dec.get("patient_group", ""),
+                )
+            )
+
+        # Sort most recent first
+        results.sort(key=lambda r: r.opinion_date, reverse=True)
+        return results
+
+    # ── Data loading helpers ──────────────────────────────────────────
+
+    async def _find_xml_url(self, client: httpx.AsyncClient) -> str:
+        """Try to find the XML download link from the AIS page.
+
+        Falls back to a guessed URL pattern if the page can't be parsed.
+        """
+        try:
+            response = await client.get(GBA_AIS_PAGE_URL)
+            response.raise_for_status()
+            html = response.text
+            # Look for .xml download link in the page
+            match = re.search(r'href="([^"]*G-BA_Beschluss_Info[^"]*\.xml)"', html)
+            if match:
+                url = match.group(1)
+                if not url.startswith("http"):
+                    url = "https://www.g-ba.de" + url
+                return url
+        except Exception:
+            logger.warning("Could not fetch AIS page to find XML URL, using fallback")
+
+        # Fallback: try common download paths
+        return "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml"
+
+    def _parse_xml(self, xml_content: bytes) -> list[dict]:
+        """Parse the G-BA AIS XML into a list of decision dicts.
+
+        The XML hierarchy is approximately:
+          G-BA_Beschluss_Info / Beschluss / PAT_GR (patient group)
+
+        Each patient group within a decision gets its own entry because
+        benefit ratings can differ per patient group for the same drug.
+        """
+        decisions = []
+        try:
+            root = ET.fromstring(xml_content)
+        except ET.ParseError:
+            logger.exception("Failed to parse G-BA XML")
+            return decisions
+
+        # Try multiple possible root/child structures
+        beschluesse = self._find_elements(root, [
+            "Beschluss", "BESCHLUSS", "besluit",
+            ".//Beschluss", ".//{*}Beschluss",
+        ])
+
+        # If no Beschluss elements found, iterate direct children
+        if not beschluesse:
+            beschluesse = list(root)
+
+        for beschluss in beschluesse:
+            base = self._parse_beschluss_base(beschluss)
+            patient_groups = self._find_elements(beschluss, [
+                "PAT_GR", "Pat_Gr", "PATGR", ".//PAT_GR", ".//{*}PAT_GR",
+            ])
+
+            if patient_groups:
+                for pg in patient_groups:
+                    entry = dict(base)
+                    entry.update(self._parse_patient_group(pg))
+                    decisions.append(entry)
+            else:
+                # No patient groups — treat the decision as a single entry
+                entry = dict(base)
+                entry.update(self._extract_benefit_from_element(beschluss))
+                decisions.append(entry)
+
+        return decisions
+
+    def _parse_beschluss_base(self, elem: ET.Element) -> dict:
+        """Extract top-level decision metadata."""
+        substances = []
+        trade_names = []
+        decision_id = ""
+        procedure_id = ""
+        indication = ""
+        decision_date = ""
+
+        # Decision ID (ID_BE_AKZ)
+        decision_id = self._get_text(elem, [
+            "ID_BE_AKZ", "id_be_akz", "AKZ", "akz",
+        ])
+
+        # Try to extract a procedure number from the decision ID
+        if decision_id:
+            # IDs often contain a sequential number
+            num_match = re.search(r"(\d{2,})", decision_id)
+            if num_match:
+                procedure_id = num_match.group(1)
+
+        # Decision date
+        decision_date = self._get_text(elem, [
+            "DAT_BESCHLUSS", "Dat_Beschluss", "DATUM", "datum",
+            "Beschluss_Datum", "beschluss_datum", "date",
+        ])
+        decision_date = self._normalize_date(decision_date)
+
+        # Active substance (Wirkstoff)
+        ws_containers = self._find_elements(elem, [
+            "WS_BEW", "Ws_Bew", "WIRKSTOFF", "Wirkstoff",
+            ".//WS_BEW", ".//{*}WS_BEW",
+        ])
+        for ws in ws_containers:
+            name = self._get_text(ws, [
+                "NAME_WS", "Name_Ws", "BEZEICHNUNG", "name",
+            ])
+            if name:
+                substances.append(name)
+
+        # If no substance in containers, try direct text
+        if not substances:
+            ws_text = self._get_text(elem, [
+                "WIRKSTOFF", "Wirkstoff", "wirkstoff", "WS_BEW",
+            ])
+            if ws_text:
+                substances.append(ws_text)
+
+        # Trade names (Handelsname)
+        hn_containers = self._find_elements(elem, [
+            "HN", "Hn", "HANDELSNAME", "Handelsname",
+            ".//HN", ".//{*}HN",
+        ])
+        for hn in hn_containers:
+            name = self._get_text(hn, ["NAME_HN", "Name_Hn", "name"])
+            if name:
+                trade_names.append(name)
+            elif hn.text and hn.text.strip():
+                trade_names.append(hn.text.strip())
+
+        if not trade_names:
+            hn_text = self._get_text(elem, [
+                "HANDELSNAME", "Handelsname", "handelsname",
+            ])
+            if hn_text:
+                trade_names.append(hn_text)
+
+        # Indication / therapeutic area (AWG)
+        indication = self._get_text(elem, [
+            "AWG", "Awg", "ANWENDUNGSGEBIET", "Anwendungsgebiet",
+            "awg", "indication",
+        ])
+
+        return {
+            "decision_id": decision_id,
+            "procedure_id": procedure_id,
+            "substances": substances,
+            "trade_names": trade_names,
+            "indication": indication,
+            "decision_date": decision_date,
+        }
+
+    def _parse_patient_group(self, pg_elem: ET.Element) -> dict:
+        """Extract patient-group-level benefit data."""
+        data = self._extract_benefit_from_element(pg_elem)
+
+        pg_id = self._get_text(pg_elem, [
+            "ID_PAT_GR", "Id_Pat_Gr", "PATGR_ID",
+        ])
+        pg_desc = self._get_text(pg_elem, [
+            "BEZ_PAT_GR", "Bez_Pat_Gr", "BEZEICHNUNG",
+            "PAT_GR_TEXT", "Pat_Gr_Text", "description",
+        ])
+        data["patient_group"] = pg_desc or pg_id
+
+        # Comparator therapy (zVT / VGL_TH)
+        comparator = self._get_text(pg_elem, [
+            "VGL_TH", "Vgl_Th", "ZVT", "zVT", "VERGLEICHSTHERAPIE",
+        ])
+        if not comparator:
+            vgl_containers = self._find_elements(pg_elem, [
+                "VGL_TH", "Vgl_Th", ".//VGL_TH",
+            ])
+            for vgl in vgl_containers:
+                text = self._get_text(vgl, [
+                    "NAME_VGL_TH", "Name_Vgl_Th", "WS_INFO", "name",
+                ])
+                if text:
+                    comparator = text
+                    break
+                elif vgl.text and vgl.text.strip():
+                    comparator = vgl.text.strip()
+                    break
+        data["comparator"] = comparator
+
+        return data
+
+    def _extract_benefit_from_element(self, elem: ET.Element) -> dict:
+        """Extract benefit rating and evidence level from an element."""
+        benefit = self._get_text(elem, [
+            "ZN_W", "Zn_W", "ZUSATZNUTZEN", "Zusatznutzen",
+            "AUSMASS", "Ausmass", "zn_w",
+        ])
+        evidence = self._get_text(elem, [
+            "AUSSAGESICHERHEIT", "Aussagesicherheit",
+            "aussagesicherheit", "WAHRSCHEINLICHKEIT",
+        ])
+        return {
+            "benefit_rating": benefit,
+            "evidence_level": evidence,
+            "comparator": "",
+            "patient_group": "",
+        }
+
+    # ── XML utility helpers ───────────────────────────────────────────
+
+    def _find_elements(self, parent: ET.Element, tag_names: list[str]) -> list[ET.Element]:
+        """Find child elements trying multiple possible tag names."""
+        for tag in tag_names:
+            if tag.startswith("."):
+                found = parent.findall(tag)
+            else:
+                found = list(parent.iter(tag))
+                # Also try as direct children
+                if not found:
+                    found = [c for c in parent if c.tag == tag]
+            if found:
+                return found
+        return []
+
+    def _get_text(self, parent: ET.Element, tag_names: list[str]) -> str:
+        """Get text content from the first matching child element."""
+        for tag in tag_names:
+            el = parent.find(tag)
+            if el is not None and el.text:
+                return el.text.strip()
+            # Try with namespace wildcard
+            el = parent.find(f".//{{{' '}*}}{tag}")
+            if el is not None and el.text:
+                return el.text.strip()
+        # Also check attributes
+        for tag in tag_names:
+            val = parent.get(tag)
+            if val:
+                return val.strip()
+        return ""
+
+    def _normalize_date(self, raw: str) -> str:
+        """Normalize various date formats to YYYY-MM-DD."""
+        raw = raw.strip()
+        if not raw:
+            return ""
+        # Already YYYY-MM-DD
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
+            return raw
+        # YYYYMMDD
+        if re.match(r"^\d{8}$", raw):
+            return f"{raw[:4]}-{raw[4:6]}-{raw[6:8]}"
+        # DD.MM.YYYY (German format)
+        m = re.match(r"^(\d{2})\.(\d{2})\.(\d{4})$", raw)
+        if m:
+            return f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
+        return raw
