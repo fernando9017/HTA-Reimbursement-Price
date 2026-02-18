@@ -71,15 +71,42 @@ class GermanyGBA(HTAAgency):
 
     async def load_data(self) -> None:
         """Fetch and parse the G-BA AIS XML file."""
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
+        }
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            headers=headers,
         ) as client:
-            xml_url = await self._find_xml_url(client)
-            logger.info("Fetching G-BA AIS XML from %s", xml_url)
-            response = await client.get(xml_url)
-            response.raise_for_status()
-            xml_content = response.content
+            xml_urls = await self._find_xml_urls(client)
+            xml_content = None
+            last_error = None
+            for url in xml_urls:
+                try:
+                    logger.info("Trying G-BA AIS XML from %s", url)
+                    response = await client.get(url)
+                    response.raise_for_status()
+                    xml_content = response.content
+                    break
+                except httpx.HTTPStatusError as exc:
+                    logger.warning("G-BA XML URL returned %s: %s", exc.response.status_code, url)
+                    last_error = exc
+                except httpx.HTTPError as exc:
+                    logger.warning("G-BA XML URL failed: %s — %s", url, exc)
+                    last_error = exc
+
+            if xml_content is None:
+                raise RuntimeError(
+                    "Could not fetch G-BA AIS XML from any known URL. "
+                    "The download link may have changed — check "
+                    "https://www.g-ba.de/themen/arzneimittel/"
+                    "arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/"
+                ) from last_error
 
         self._decisions = self._parse_xml(xml_content)
         self._loaded = True
@@ -154,27 +181,43 @@ class GermanyGBA(HTAAgency):
 
     # ── Data loading helpers ──────────────────────────────────────────
 
-    async def _find_xml_url(self, client: httpx.AsyncClient) -> str:
-        """Try to find the XML download link from the AIS page.
+    async def _find_xml_urls(self, client: httpx.AsyncClient) -> list[str]:
+        """Build a list of candidate XML download URLs to try.
 
-        Falls back to a guessed URL pattern if the page can't be parsed.
+        First attempts to scrape the actual link from the AIS page, then
+        falls back to several known/guessed URL patterns.
         """
+        urls: list[str] = []
+
+        # Try to scrape the current XML link from the AIS page
         try:
             response = await client.get(GBA_AIS_PAGE_URL)
             response.raise_for_status()
             html = response.text
             # Look for .xml download link in the page
-            match = re.search(r'href="([^"]*G-BA_Beschluss_Info[^"]*\.xml)"', html)
-            if match:
+            for match in re.finditer(r'href="([^"]*G-BA_Beschluss_Info[^"]*\.xml)"', html):
                 url = match.group(1)
                 if not url.startswith("http"):
                     url = "https://www.g-ba.de" + url
-                return url
+                urls.append(url)
         except Exception:
-            logger.warning("Could not fetch AIS page to find XML URL, using fallback")
+            logger.warning("Could not fetch AIS page to find XML URL, will try fallbacks")
 
-        # Fallback: try common download paths
-        return "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml"
+        # Fallback: known download path patterns
+        urls.extend([
+            "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
+            "https://www.g-ba.de/downloads/83-691-836/G-BA_Beschluss_Info.xml",
+            "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
+        ])
+
+        # De-duplicate while preserving order
+        seen: set[str] = set()
+        unique: list[str] = []
+        for u in urls:
+            if u not in seen:
+                seen.add(u)
+                unique.append(u)
+        return unique
 
     def _parse_xml(self, xml_content: bytes) -> list[dict]:
         """Parse the G-BA AIS XML into a list of decision dicts.

@@ -13,6 +13,7 @@ from app.models import (
     AnalogueResponse,
     AnalogueResult,
     AssessmentResponse,
+    AssessmentResult,
     CountryInfo,
     FilterOptions,
     MedicineResult,
