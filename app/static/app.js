@@ -9,6 +9,7 @@
 // ── State ────────────────────────────────────────────────────────────
 
 let selectedMedicine = null;
+let selectedIndication = null; // currently selected indication text (null = all)
 let countries = [];
 let analogueFiltersLoaded = false;
 
@@ -120,6 +121,7 @@ async function doSearch() {
     medicineSection.classList.add("hidden");
     assessmentSection.classList.add("hidden");
     selectedMedicine = null;
+    selectedIndication = null;
 
     try {
         const resp = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=20`);
@@ -184,7 +186,31 @@ function renderMedicineDetails(med) {
     assessmentResults.classList.add("hidden");
     hideStatus(assessmentStatus);
 
-    const indicationText = med.therapeutic_indication || "No indication text available.";
+    const indicationText = med.therapeutic_indication || "";
+    const indications = splitIndications(indicationText, med.name);
+    selectedIndication = null;
+
+    let indicationsHTML;
+    if (indications.length <= 1) {
+        // Single indication — show as plain text, no selection needed
+        indicationsHTML = `<div class="indication-text">${esc(indicationText || "No indication text available.")}</div>`;
+    } else {
+        // Multiple indications — show as selectable cards
+        indicationsHTML = `
+            <p class="indication-prompt">Select an indication to filter HTA assessments, or search all:</p>
+            <div class="indication-list">
+                <div class="indication-item indication-all selected" data-index="-1">
+                    <span class="indication-label">All indications</span>
+                </div>
+                ${indications.map((ind, i) => `
+                    <div class="indication-item" data-index="${i}">
+                        <span class="indication-number">${i + 1}</span>
+                        <span class="indication-label">${esc(ind)}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+    }
 
     medicineDetails.innerHTML = `
         <div class="medicine-header">
@@ -194,11 +220,68 @@ function renderMedicineDetails(med) {
             </div>
             ${med.ema_number ? `<span class="med-status">${esc(med.ema_number)}</span>` : ""}
         </div>
-        <div class="indication-text">${esc(indicationText)}</div>
+        ${indicationsHTML}
     `;
+
+    // Bind indication selection if multiple
+    if (indications.length > 1) {
+        medicineDetails._indications = indications;
+        medicineDetails.querySelectorAll(".indication-item").forEach(item => {
+            item.addEventListener("click", () => {
+                medicineDetails.querySelectorAll(".indication-item").forEach(el => el.classList.remove("selected"));
+                item.classList.add("selected");
+                const idx = parseInt(item.dataset.index);
+                selectedIndication = idx === -1 ? null : indications[idx];
+            });
+        });
+    }
 
     // Scroll to medicine section
     medicineSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/**
+ * Split a therapeutic indication text block into individual indications.
+ *
+ * EMA indication text is typically a single paragraph with multiple indications
+ * separated by the product name or newlines. For example:
+ *   "Padcev as monotherapy is indicated for ... Padcev in combination with
+ *    pembrolizumab is indicated for ..."
+ */
+function splitIndications(text, productName) {
+    if (!text || !text.trim()) return [];
+
+    text = text.trim();
+
+    // 1. Try splitting on double newlines
+    let parts = text.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+    if (parts.length > 1) return parts;
+
+    // 2. Try splitting where the product name starts a new sentence after a period
+    if (productName) {
+        const escaped = escRegex(productName);
+        // Split on ". ProductName" or ".\nProductName"
+        const re = new RegExp(`\\.\\s+(?=${escaped}\\b)`, "gi");
+        parts = text.split(re).map(s => s.trim()).filter(Boolean);
+        if (parts.length > 1) return parts;
+
+        // 3. Try splitting on newline followed by product name
+        const re2 = new RegExp(`\\n\\s*(?=${escaped}\\b)`, "gi");
+        parts = text.split(re2).map(s => s.trim()).filter(Boolean);
+        if (parts.length > 1) return parts;
+    }
+
+    // 4. Try splitting on " - " dash items (sometimes used for sub-indications)
+    parts = text.split(/\n\s*[-–]\s+/).map(s => s.trim()).filter(Boolean);
+    if (parts.length > 1) return parts;
+
+    // Single indication
+    return [text];
+}
+
+/** Escape a string for use in a RegExp. */
+function escRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // ── Assessments ──────────────────────────────────────────────────────
@@ -220,6 +303,9 @@ async function findAssessments() {
 
     try {
         const params = new URLSearchParams({ substance, product });
+        if (selectedIndication) {
+            params.set("indication", selectedIndication);
+        }
         const resp = await fetch(`/api/assessments/${countryCode}?${params}`);
         if (!resp.ok) {
             const err = await resp.json().catch(() => ({}));

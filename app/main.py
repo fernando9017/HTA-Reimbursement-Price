@@ -1,6 +1,7 @@
 """FastAPI application for HTA Reimbursement Price assessment lookup."""
 
 import logging
+import re
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -105,6 +106,7 @@ async def get_assessments(
     country_code: str,
     substance: str = Query(..., min_length=2, description="Active substance (INN)"),
     product: str = Query("", description="Optional product/brand name"),
+    indication: str = Query("", description="Selected indication text to filter results"),
 ):
     """Look up HTA assessments for a substance in the specified country."""
     code = country_code.upper()
@@ -117,6 +119,10 @@ async def get_assessments(
         raise HTTPException(503, f"{agency.agency_abbreviation} data is still loading.")
 
     assessments = await agency.search_assessments(substance, product_name=product or None)
+
+    # Filter by selected indication if provided
+    if indication.strip():
+        assessments = _filter_by_indication(assessments, indication)
 
     return AssessmentResponse(
         country_code=code,
@@ -166,6 +172,64 @@ async def status():
             for code, agency in hta_agencies.items()
         },
     }
+
+
+# ── Indication filtering helper ──────────────────────────────────────
+
+# Common words to ignore when extracting keywords from indication text
+_STOP_WORDS = frozenset({
+    "the", "for", "and", "with", "who", "have", "has", "been", "that",
+    "this", "from", "are", "were", "was", "will", "been", "being",
+    "their", "which", "after", "prior", "other", "than", "also",
+    "indicated", "treatment", "patients", "adult", "adults", "therapy",
+    "used", "received", "given", "following", "either",
+})
+
+
+def _extract_keywords(text: str) -> set[str]:
+    """Extract significant words (4+ chars, not stop words) from text."""
+    return {
+        w for w in re.findall(r"[a-zA-Z]{4,}", text.lower())
+        if w not in _STOP_WORDS
+    }
+
+
+def _assessment_text(a: AssessmentResult) -> str:
+    """Build a searchable text string from an assessment's relevant fields."""
+    return " ".join([
+        a.evaluation_reason,
+        a.patient_group,
+        a.smr_description,
+        a.asmr_description,
+    ]).lower()
+
+
+def _filter_by_indication(
+    assessments: list[AssessmentResult],
+    indication_text: str,
+) -> list[AssessmentResult]:
+    """Filter assessments by relevance to the selected indication.
+
+    Extracts keywords from the indication, scores each assessment by how many
+    keywords appear in its text fields, and keeps those with reasonable overlap.
+    Falls back to returning all assessments if filtering yields nothing.
+    """
+    keywords = _extract_keywords(indication_text)
+    if not keywords:
+        return assessments
+
+    scored: list[tuple[float, AssessmentResult]] = []
+    for a in assessments:
+        text = _assessment_text(a)
+        matches = sum(1 for kw in keywords if kw in text)
+        score = matches / len(keywords)
+        scored.append((score, a))
+
+    # Keep assessments that match at least 20% of keywords
+    filtered = [a for score, a in scored if score >= 0.2]
+
+    # Fall back to all assessments if the filter is too aggressive
+    return filtered if filtered else assessments
 
 
 # ── Analogue Selection Routes ────────────────────────────────────────

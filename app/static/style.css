@@ -235,6 +235,72 @@ button:disabled {
     white-space: pre-line;
 }
 
+.indication-prompt {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.indication-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.indication-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8f9fb;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.indication-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 2px 8px rgba(41, 128, 185, 0.1);
+}
+
+.indication-item.selected {
+    border-color: var(--accent);
+    background: #f0faf7;
+}
+
+.indication-item.indication-all {
+    background: #eaf2f8;
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+.indication-item.indication-all.selected {
+    background: #d5f0ea;
+    border-color: var(--accent);
+}
+
+.indication-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.indication-label {
+    flex: 1;
+}
+
 /* ── Country selector ─────────────────────────────────────────────── */
 
 .country-selector {
