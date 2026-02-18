@@ -488,6 +488,45 @@ button:disabled {
     font-size: 0.82rem;
 }
 
+/* Spain (AEMPS) badges */
+.badge-ipt {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.badge-ipt.favorable {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.badge-ipt.conditional {
+    background: #fef5e7;
+    color: var(--smr-moderate);
+}
+
+.badge-ipt.unfavorable {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+.badge-ipt.pending {
+    background: #f8f9fb;
+    color: var(--text-light);
+}
+
+.badge-ipt-ref {
+    background: #fef9e7;
+    color: #b7950b;
+    font-weight: 500;
+    font-size: 0.82rem;
+}
+
+/* Japan (PMDA) badges */
+.badge-pmda {
+    background: #fce4ec;
+    color: #c62828;
+}
+
 .assessment-link {
     display: inline-block;
     margin-top: 6px;

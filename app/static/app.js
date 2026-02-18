@@ -389,10 +389,36 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
+    // Spain (AEMPS) badges
+    const iptBadge = a.therapeutic_positioning
+        ? `<span class="badge badge-ipt ${iptClass(a.therapeutic_positioning)}">
+            <span class="label">IPT:</span> ${esc(a.therapeutic_positioning)}
+           </span>`
+        : "";
+
+    const iptRefBadge = a.ipt_reference
+        ? `<span class="badge badge-ipt-ref">
+            ${esc(a.ipt_reference)}
+           </span>`
+        : "";
+
+    // Japan (PMDA) badges
+    const pmdaBadge = a.pmda_review_type
+        ? `<span class="badge badge-pmda">
+            <span class="label">PMDA:</span> ${esc(a.pmda_review_type)}
+           </span>`
+        : "";
+
     // Determine link text based on what's present
     const isGermany = !!a.benefit_rating;
     const isNICE = !!a.nice_recommendation || !!a.guidance_reference;
-    const linkText = isNICE ? "View on NICE" : isGermany ? "View on G-BA" : "View full assessment on HAS";
+    const isSpain = !!a.therapeutic_positioning || !!a.ipt_reference;
+    const isJapan = !!a.pmda_review_type;
+    const linkText = isNICE ? "View on NICE"
+        : isGermany ? "View on G-BA"
+        : isSpain ? "View IPT on AEMPS"
+        : isJapan ? "View on PMDA"
+        : "View full assessment on HAS";
     const link = a.assessment_url
         ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
             ${linkText} &rarr;
@@ -440,6 +466,9 @@ function renderSingleAssessment(a) {
                 ${comparatorBadge}
                 ${niceRecBadge}
                 ${guidanceRefBadge}
+                ${iptBadge}
+                ${iptRefBadge}
+                ${pmdaBadge}
             </div>
             ${smrDesc}
             ${asmrDesc}
@@ -662,6 +691,15 @@ function niceRecClass(value) {
     if (v.includes("terminated")) return "terminated";
     if (v.includes("restrictions") || v.includes("optimised")) return "optimised";
     if (v.includes("recommended")) return "recommended";
+    return "";
+}
+
+function iptClass(value) {
+    const v = value.toLowerCase();
+    if (v.includes("unfavorable") || v.includes("desfavorable") || v.includes("no favorable")) return "unfavorable";
+    if (v.includes("conditions") || v.includes("condicionado")) return "conditional";
+    if (v.includes("favorable")) return "favorable";
+    if (v.includes("pending") || v.includes("pendiente")) return "pending";
     return "";
 }
 

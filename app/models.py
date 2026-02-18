@@ -52,6 +52,11 @@ class AssessmentResult(BaseModel):
     nice_recommendation: str = ""
     guidance_reference: str = ""
     guidance_type: str = ""
+    # Spain (AEMPS)
+    ipt_reference: str = ""
+    therapeutic_positioning: str = ""
+    # Japan (PMDA)
+    pmda_review_type: str = ""
 
 
 class AssessmentResponse(BaseModel):

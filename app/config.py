@@ -46,5 +46,24 @@ NICE_PROGRAMME_TYPES = [
 # Max pages to fetch from the NICE listing (each page ~50 items)
 NICE_MAX_PAGES = 30
 
+# AEMPS (Agencia Española de Medicamentos y Productos Sanitarios) - Spain
+# Informes de Posicionamiento Terapéutico (IPT) listing page.
+# Public HTML page listing all published IPT reports with links to PDF documents.
+AEMPS_BASE_URL = "https://www.aemps.gob.es"
+AEMPS_IPT_LISTING_URL = (
+    "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
+    "informes-de-posicionamiento-terapeutico/"
+)
+AEMPS_MAX_PAGES = 20
+
+# PMDA (Pharmaceuticals and Medical Devices Agency) - Japan
+# New drug approval information and review reports.
+# Public HTML listing of approved drugs with review report links.
+PMDA_BASE_URL = "https://www.pmda.go.jp"
+PMDA_DRUGS_URL = (
+    "https://www.pmda.go.jp/english/review-services/reviews/"
+    "approved-information/drugs/0002.html"
+)
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0
