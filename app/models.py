@@ -62,3 +62,44 @@ class AssessmentResponse(BaseModel):
     agency: str
     active_substance: str
     assessments: list[AssessmentResult]
+
+
+# ── Analogue Selection models ────────────────────────────────────────
+
+
+class AnalogueResult(BaseModel):
+    """A potential analogue medicine from EMA data."""
+
+    name: str
+    active_substance: str
+    therapeutic_indication: str = ""
+    authorisation_status: str = ""
+    ema_number: str = ""
+    therapeutic_area: str = ""
+    orphan_medicine: bool = False
+    authorisation_date: str = ""
+    first_approval: bool = False
+    generic: bool = False
+    biosimilar: bool = False
+    atc_code: str = ""
+    url: str = ""
+
+
+class YearRange(BaseModel):
+    label: str
+    value: int
+
+
+class FilterOptions(BaseModel):
+    """Available filter options for the analogue selection UI."""
+
+    therapeutic_areas: list[str]
+    year_ranges: list[YearRange]
+    statuses: list[str]
+
+
+class AnalogueResponse(BaseModel):
+    """Response for an analogue search query."""
+
+    total: int
+    results: list[AnalogueResult]

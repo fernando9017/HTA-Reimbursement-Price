@@ -1,15 +1,24 @@
 /**
  * HTA Assessment Finder — Frontend Application
  *
- * Flow: Search medicine → View EMA indications → Select country → View assessments
+ * Two modules:
+ *   1. HTA & Reimbursement: Search medicine → View EMA indications → Select country → View assessments
+ *   2. Analogue Selection:  Filter EMA medicines by therapeutic area, orphan status, approval date, etc.
  */
 
 // ── State ────────────────────────────────────────────────────────────
 
 let selectedMedicine = null;
 let countries = [];
+let analogueFiltersLoaded = false;
 
-// ── DOM Elements ─────────────────────────────────────────────────────
+// ── DOM Elements — Module navigation ─────────────────────────────────
+
+const moduleTabs = document.querySelectorAll(".module-tab");
+const moduleHTA = document.getElementById("module-hta");
+const moduleAnalogues = document.getElementById("module-analogues");
+
+// ── DOM Elements — HTA Module ────────────────────────────────────────
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
@@ -24,6 +33,48 @@ const countrySelect = document.getElementById("country-select");
 const findAssessmentsBtn = document.getElementById("find-assessments-btn");
 const assessmentStatus = document.getElementById("assessment-status");
 const assessmentResults = document.getElementById("assessment-results");
+
+// ── DOM Elements — Analogue Module ───────────────────────────────────
+
+const filterArea = document.getElementById("filter-area");
+const filterOrphan = document.getElementById("filter-orphan");
+const filterYears = document.getElementById("filter-years");
+const filterFirst = document.getElementById("filter-first");
+const filterStatus = document.getElementById("filter-status");
+const filterSubstance = document.getElementById("filter-substance");
+const filterExclGenerics = document.getElementById("filter-excl-generics");
+const filterExclBiosimilars = document.getElementById("filter-excl-biosimilars");
+const analogueSearchBtn = document.getElementById("analogue-search-btn");
+const analogueResetBtn = document.getElementById("analogue-reset-btn");
+const analogueStatus = document.getElementById("analogue-status");
+const analogueResultsDiv = document.getElementById("analogue-results");
+
+// ═══════════════════════════════════════════════════════════════════════
+//  MODULE NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════
+
+moduleTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+        const target = tab.dataset.module;
+
+        // Update tab active state
+        moduleTabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        // Toggle module visibility
+        moduleHTA.classList.toggle("hidden", target !== "hta");
+        moduleAnalogues.classList.toggle("hidden", target !== "analogues");
+
+        // Lazy-load analogue filters on first switch
+        if (target === "analogues" && !analogueFiltersLoaded) {
+            loadAnalogueFilters();
+        }
+    });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+//  MODULE 1: HTA & REIMBURSEMENT
+// ═══════════════════════════════════════════════════════════════════════
 
 // ── Init ─────────────────────────────────────────────────────────────
 
@@ -303,7 +354,144 @@ function renderSingleAssessment(a) {
     `;
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════
+//  MODULE 2: ANALOGUE SELECTION
+// ═══════════════════════════════════════════════════════════════════════
+
+async function loadAnalogueFilters() {
+    try {
+        const resp = await fetch("/api/analogues/filters");
+        if (!resp.ok) {
+            showStatus(analogueStatus, "Failed to load filter options. Data may still be loading.", "error");
+            return;
+        }
+        const data = await resp.json();
+
+        // Populate therapeutic areas
+        filterArea.innerHTML = '<option value="">All therapeutic areas</option>' +
+            data.therapeutic_areas.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join("");
+
+        // Populate statuses
+        filterStatus.innerHTML = '<option value="">All statuses</option>' +
+            data.statuses.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
+
+        analogueFiltersLoaded = true;
+    } catch {
+        showStatus(analogueStatus, "Failed to load filter options. Please try again.", "error");
+    }
+}
+
+analogueSearchBtn.addEventListener("click", searchAnalogues);
+analogueResetBtn.addEventListener("click", resetAnalogueFilters);
+filterSubstance.addEventListener("keydown", e => {
+    if (e.key === "Enter") searchAnalogues();
+});
+
+async function searchAnalogues() {
+    const params = new URLSearchParams();
+
+    if (filterArea.value) params.set("therapeutic_area", filterArea.value);
+    if (filterOrphan.value) params.set("orphan", filterOrphan.value);
+    if (filterYears.value !== "0") params.set("years", filterYears.value);
+    if (filterFirst.value) params.set("first_approval", filterFirst.value);
+    if (filterStatus.value) params.set("status", filterStatus.value);
+    if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
+    if (filterExclGenerics.checked) params.set("exclude_generics", "true");
+    if (filterExclBiosimilars.checked) params.set("exclude_biosimilars", "true");
+
+    showStatus(analogueStatus, "Searching for analogues...", "loading");
+    analogueResultsDiv.innerHTML = "";
+
+    try {
+        const resp = await fetch(`/api/analogues/search?${params}`);
+        if (!resp.ok) {
+            const err = await resp.json().catch(() => ({}));
+            throw new Error(err.detail || `Server error (${resp.status})`);
+        }
+        const data = await resp.json();
+        renderAnalogueResults(data);
+    } catch (err) {
+        showStatus(analogueStatus, `Error: ${err.message}`, "error");
+    }
+}
+
+function resetAnalogueFilters() {
+    filterArea.value = "";
+    filterOrphan.value = "";
+    filterYears.value = "0";
+    filterFirst.value = "";
+    filterStatus.value = "";
+    filterSubstance.value = "";
+    filterExclGenerics.checked = false;
+    filterExclBiosimilars.checked = false;
+    hideStatus(analogueStatus);
+    analogueResultsDiv.innerHTML = "";
+}
+
+function renderAnalogueResults(data) {
+    if (data.total === 0) {
+        showStatus(analogueStatus, "No medicines found matching your criteria. Try adjusting the filters.", "info");
+        analogueResultsDiv.innerHTML = "";
+        return;
+    }
+
+    hideStatus(analogueStatus);
+
+    const header = `
+        <p class="results-summary">
+            Found <strong>${data.total}</strong> medicine(s) matching your criteria
+        </p>
+    `;
+
+    const table = `
+        <div class="analogue-table-wrapper">
+        <table class="analogue-table">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Active Substance</th>
+                    <th>Therapeutic Area</th>
+                    <th>Auth. Date</th>
+                    <th>Status</th>
+                    <th>Attributes</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.results.map(renderAnalogueRow).join("")}
+            </tbody>
+        </table>
+        </div>
+    `;
+
+    analogueResultsDiv.innerHTML = header + table;
+}
+
+function renderAnalogueRow(med) {
+    const tags = [];
+    if (med.orphan_medicine) tags.push('<span class="tag tag-orphan">Orphan</span>');
+    if (med.first_approval) tags.push('<span class="tag tag-first">1st Approval</span>');
+    if (med.generic) tags.push('<span class="tag tag-generic">Generic</span>');
+    if (med.biosimilar) tags.push('<span class="tag tag-biosimilar">Biosimilar</span>');
+
+    const nameCell = med.url
+        ? `<a href="${esc(med.url)}" target="_blank" rel="noopener">${esc(med.name)}</a>`
+        : esc(med.name);
+
+    return `
+        <tr>
+            <td class="col-name">${nameCell}</td>
+            <td>${esc(med.active_substance)}</td>
+            <td class="col-area">${esc(med.therapeutic_area)}</td>
+            <td class="col-date">${esc(med.authorisation_date)}</td>
+            <td><span class="tag tag-status">${esc(med.authorisation_status)}</span></td>
+            <td class="col-tags">${tags.join(" ")}</td>
+        </tr>
+    `;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════════════
 
 function smrClass(value) {
     const v = value.toLowerCase();

@@ -8,7 +8,15 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.models import AssessmentResponse, CountryInfo, MedicineResult
+from app.models import (
+    AnalogueResponse,
+    AnalogueResult,
+    AssessmentResponse,
+    CountryInfo,
+    FilterOptions,
+    MedicineResult,
+)
+from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
 from app.services.hta_agencies.france_has import FranceHAS
@@ -21,6 +29,7 @@ logger = logging.getLogger(__name__)
 # ── Services ──────────────────────────────────────────────────────────
 
 ema_service = EMAService()
+analogue_service = AnalogueService()
 
 # Registry of HTA agency adapters — add new countries here
 hta_agencies: dict[str, HTAAgency] = {
@@ -37,6 +46,8 @@ async def lifespan(app: FastAPI):
     try:
         await ema_service.load_data()
         logger.info("EMA data loaded: %d medicines", ema_service.medicine_count)
+        # Feed raw EMA data into analogue service
+        analogue_service.load_from_ema(ema_service.raw_medicines)
     except Exception:
         logger.exception("Failed to load EMA data — search will be unavailable until retry")
 
@@ -123,6 +134,7 @@ async def reload_data():
 
     try:
         await ema_service.load_data()
+        analogue_service.load_from_ema(ema_service.raw_medicines)
     except Exception as e:
         errors.append(f"EMA: {e}")
 
@@ -145,6 +157,7 @@ async def status():
     return {
         "ema_loaded": ema_service.is_loaded,
         "ema_count": ema_service.medicine_count,
+        "analogue_loaded": analogue_service.is_loaded,
         "agencies": {
             code: {
                 "name": agency.agency_abbreviation,
@@ -153,3 +166,50 @@ async def status():
             for code, agency in hta_agencies.items()
         },
     }
+
+
+# ── Analogue Selection Routes ────────────────────────────────────────
+
+
+@app.get("/api/analogues/filters", response_model=FilterOptions)
+async def analogue_filters():
+    """Return available filter options for the analogue selection UI."""
+    if not analogue_service.is_loaded:
+        raise HTTPException(503, "Analogue data is still loading. Please try again shortly.")
+    return analogue_service.get_filter_options()
+
+
+@app.get("/api/analogues/search", response_model=AnalogueResponse)
+async def search_analogues(
+    therapeutic_area: str = Query("", description="Filter by therapeutic area"),
+    orphan: str = Query("", description="Orphan status: 'yes', 'no', or '' (any)"),
+    years: int = Query(0, ge=0, description="Years since approval (0 = all time)"),
+    first_approval: str = Query("", description="First approval: 'yes', 'no', or '' (any)"),
+    status: str = Query("", description="Authorisation status filter"),
+    substance: str = Query("", description="Active substance name (partial match)"),
+    name: str = Query("", description="Medicine name (partial match)"),
+    exclude_generics: bool = Query(False, description="Exclude generic medicines"),
+    exclude_biosimilars: bool = Query(False, description="Exclude biosimilar medicines"),
+    limit: int = Query(200, ge=1, le=500),
+):
+    """Search for analogue medicines using multi-criteria filters."""
+    if not analogue_service.is_loaded:
+        raise HTTPException(503, "Analogue data is still loading. Please try again shortly.")
+
+    results = analogue_service.search(
+        therapeutic_area=therapeutic_area,
+        orphan=orphan,
+        years_since_approval=years,
+        first_approval=first_approval,
+        status=status,
+        substance=substance,
+        name=name,
+        exclude_generics=exclude_generics,
+        exclude_biosimilars=exclude_biosimilars,
+        limit=limit,
+    )
+
+    return AnalogueResponse(
+        total=len(results),
+        results=[AnalogueResult(**r) for r in results],
+    )

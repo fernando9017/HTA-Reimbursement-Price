@@ -30,6 +30,11 @@ class EMAService:
     def medicine_count(self) -> int:
         return len(self._medicines)
 
+    @property
+    def raw_medicines(self) -> list[dict]:
+        """Return the raw medicine dicts (used by AnalogueService)."""
+        return self._medicines
+
     async def load_data(self) -> None:
         """Download and parse the EMA medicines JSON file."""
         logger.info("Fetching EMA medicines data from %s", EMA_MEDICINES_URL)
