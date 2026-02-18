@@ -48,6 +48,10 @@ class AssessmentResult(BaseModel):
     evidence_level: str = ""
     comparator: str = ""
     patient_group: str = ""
+    # UK (NICE)
+    nice_recommendation: str = ""
+    guidance_reference: str = ""
+    guidance_type: str = ""
 
 
 class AssessmentResponse(BaseModel):

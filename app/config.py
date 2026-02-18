@@ -32,5 +32,19 @@ GBA_AIS_PAGE_URL = (
 )
 GBA_ASSESSMENT_BASE_URL = "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/"
 
+# NICE (National Institute for Health and Care Excellence) - United Kingdom
+# Published guidance listing pages, filtered by programme type.
+# No API key required for the public website pages.
+NICE_BASE_URL = "https://www.nice.org.uk"
+NICE_PUBLISHED_URL = "https://www.nice.org.uk/guidance/published"
+NICE_GUIDANCE_BASE_URL = "https://www.nice.org.uk/guidance/"
+# Programme type filters for the published guidance page
+NICE_PROGRAMME_TYPES = [
+    "Technology appraisal guidance",
+    "Highly specialised technologies guidance",
+]
+# Max pages to fetch from the NICE listing (each page ~50 items)
+NICE_MAX_PAGES = 30
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0

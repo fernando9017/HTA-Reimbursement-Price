@@ -230,9 +230,23 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
+    // UK (NICE) badges
+    const niceRecBadge = a.nice_recommendation
+        ? `<span class="badge badge-nice-rec ${niceRecClass(a.nice_recommendation)}">
+            <span class="label">NICE:</span> ${esc(a.nice_recommendation)}
+           </span>`
+        : "";
+
+    const guidanceRefBadge = a.guidance_reference
+        ? `<span class="badge badge-guidance-ref">
+            ${esc(a.guidance_reference)}
+           </span>`
+        : "";
+
     // Determine link text based on what's present
     const isGermany = !!a.benefit_rating;
-    const linkText = isGermany ? "View on G-BA" : "View full assessment on HAS";
+    const isNICE = !!a.nice_recommendation || !!a.guidance_reference;
+    const linkText = isNICE ? "View on NICE" : isGermany ? "View on G-BA" : "View full assessment on HAS";
     const link = a.assessment_url
         ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
             ${linkText} &rarr;
@@ -278,6 +292,8 @@ function renderSingleAssessment(a) {
                 ${benefitBadge}
                 ${evidenceBadge}
                 ${comparatorBadge}
+                ${niceRecBadge}
+                ${guidanceRefBadge}
             </div>
             ${smrDesc}
             ${asmrDesc}
@@ -305,6 +321,16 @@ function benefitClass(value) {
     if (v.includes("gering")) return "minor";
     if (v.includes("beträchtlich") || v.includes("betrachtlich")) return "considerable";
     if (v.includes("erheblich")) return ""; // defaults to green (major)
+    return "";
+}
+
+function niceRecClass(value) {
+    const v = value.toLowerCase();
+    if (v.includes("not recommended")) return "not-recommended";
+    if (v.includes("only in research")) return "research-only";
+    if (v.includes("terminated")) return "terminated";
+    if (v.includes("restrictions") || v.includes("optimised")) return "optimised";
+    if (v.includes("recommended")) return "recommended";
     return "";
 }
 

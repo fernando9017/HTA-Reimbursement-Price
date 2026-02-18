@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**HTA Assessment Finder** — a web application that searches EMA-authorized medicines and retrieves HTA assessment outcomes by country. Currently supports **France (HAS)** with SMR/ASMR ratings and **Germany (G-BA)** with Zusatznutzen (added benefit) ratings, designed to expand to **UK (NICE)**.
+**HTA Assessment Finder** — a web application that searches EMA-authorized medicines and retrieves HTA assessment outcomes by country. Currently supports **France (HAS)** with SMR/ASMR ratings, **Germany (G-BA)** with Zusatznutzen (added benefit) ratings, and **UK (NICE)** with Technology Appraisal / HST recommendation outcomes.
 
 **Tech stack**: Python 3.11+, FastAPI, httpx, vanilla HTML/CSS/JS frontend.
 
@@ -23,7 +23,8 @@ HTA-Reimbursement-Price/
 │   │   └── hta_agencies/
 │   │       ├── base.py                # Abstract HTAAgency base class
 │   │       ├── france_has.py          # France HAS adapter (BDPM data)
-│   │       └── germany_gba.py         # Germany G-BA adapter (AIS XML data)
+│   │       ├── germany_gba.py         # Germany G-BA adapter (AIS XML data)
+│   │       └── uk_nice.py             # UK NICE adapter (published guidance HTML)
 │   └── static/
 │       ├── index.html                 # Single-page frontend
 │       ├── style.css                  # Styles
@@ -31,7 +32,8 @@ HTA-Reimbursement-Price/
 └── tests/
     ├── test_ema_service.py            # EMA search logic tests
     ├── test_france_has.py             # HAS adapter tests
-    └── test_germany_gba.py            # G-BA adapter tests
+    ├── test_germany_gba.py            # G-BA adapter tests
+    └── test_uk_nice.py                # NICE adapter tests
 ```
 
 ## Getting Started
@@ -100,8 +102,9 @@ class HTAAgency(ABC):
 | BDPM ASMR | `.../CIS_HAS_ASMR_bdpm.txt` | TSV | Latin-1 | None |
 | BDPM CT Links | `.../HAS_LiensPageCT_bdpm.txt` | TSV | Latin-1 | None |
 | G-BA AIS | `g-ba.de/.../G-BA_Beschluss_Info.xml` | XML | UTF-8 | None |
+| NICE Published | `nice.org.uk/guidance/published` | HTML | UTF-8 | None |
 
-BDPM files: tab-separated, no header row, Latin-1 encoded. G-BA AIS: single XML file with all decisions. See `app/config.py` for full URLs.
+BDPM files: tab-separated, no header row, Latin-1 encoded. G-BA AIS: single XML file with all decisions. NICE: public HTML listing pages parsed with regex. See `app/config.py` for full URLs.
 
 ### API Endpoints
 
@@ -163,10 +166,12 @@ BDPM files: tab-separated, no header row, Latin-1 encoded. G-BA AIS: single XML 
 - **zVT**: Zweckmäßige Vergleichstherapie (appropriate comparator therapy)
 - Data source: G-BA AIS XML (Arztinformationssystem), updated 1st/15th of each month
 
-### UK (NICE) — Planned
+### UK (NICE) — Current
 
 - **TA (Technology Appraisal)**: Recommended / Optimised / Not recommended
 - **HST (Highly Specialised Technology)**: For ultra-rare conditions
+- **Recommendation outcomes**: Recommended, Recommended with restrictions (Optimised), Not recommended, Only in research, Terminated appraisal
+- Data source: NICE published guidance listing pages (HTML), parsed to extract TA/HST guidance metadata and recommendation status
 
 ### General HTA Concepts
 

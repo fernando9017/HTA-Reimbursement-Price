@@ -13,6 +13,7 @@ from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
 from app.services.hta_agencies.france_has import FranceHAS
 from app.services.hta_agencies.germany_gba import GermanyGBA
+from app.services.hta_agencies.uk_nice import UKNICE
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -25,7 +26,7 @@ ema_service = EMAService()
 hta_agencies: dict[str, HTAAgency] = {
     "FR": FranceHAS(),
     "DE": GermanyGBA(),
-    # "GB": UKNICE(),      # future
+    "GB": UKNICE(),
 }
 
 

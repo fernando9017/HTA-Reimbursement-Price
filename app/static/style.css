@@ -345,6 +345,44 @@ button:disabled {
     font-size: 0.82rem;
 }
 
+/* UK (NICE) badges */
+.badge-nice-rec {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.badge-nice-rec.recommended {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.badge-nice-rec.optimised {
+    background: #fef5e7;
+    color: var(--smr-moderate);
+}
+
+.badge-nice-rec.not-recommended {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+.badge-nice-rec.research-only {
+    background: #f4ecf7;
+    color: #7d3c98;
+}
+
+.badge-nice-rec.terminated {
+    background: #f8f9fb;
+    color: var(--text-light);
+}
+
+.badge-guidance-ref {
+    background: #eaf2f8;
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 0.82rem;
+}
+
 .assessment-link {
     display: inline-block;
     margin-top: 6px;
