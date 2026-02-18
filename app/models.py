@@ -83,11 +83,25 @@ class AnalogueResult(BaseModel):
     biosimilar: bool = False
     atc_code: str = ""
     url: str = ""
+    # New fields for consulting-grade analogue screening
+    marketing_authorisation_holder: str = ""
+    conditional_approval: bool = False
+    exceptional_circumstances: bool = False
+    accelerated_assessment: bool = False
+    new_active_substance: bool = False
+    additional_monitoring: bool = False
+    medicine_type: str = ""
+    prevalence_category: str = ""
 
 
 class YearRange(BaseModel):
     label: str
     value: int
+
+
+class ATCPrefix(BaseModel):
+    code: str
+    label: str
 
 
 class FilterOptions(BaseModel):
@@ -96,6 +110,9 @@ class FilterOptions(BaseModel):
     therapeutic_areas: list[str]
     year_ranges: list[YearRange]
     statuses: list[str]
+    mahs: list[str]
+    atc_prefixes: list[ATCPrefix]
+    prevalence_categories: list[str]
 
 
 class AnalogueResponse(BaseModel):

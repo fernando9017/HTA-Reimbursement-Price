@@ -44,6 +44,15 @@ const filterStatus = document.getElementById("filter-status");
 const filterSubstance = document.getElementById("filter-substance");
 const filterExclGenerics = document.getElementById("filter-excl-generics");
 const filterExclBiosimilars = document.getElementById("filter-excl-biosimilars");
+const filterPrevalence = document.getElementById("filter-prevalence");
+const filterIndication = document.getElementById("filter-indication");
+const filterATC = document.getElementById("filter-atc");
+const filterMAH = document.getElementById("filter-mah");
+const filterNewSubstance = document.getElementById("filter-new-substance");
+const filterConditional = document.getElementById("filter-conditional");
+const filterExceptional = document.getElementById("filter-exceptional");
+const filterAccelerated = document.getElementById("filter-accelerated");
+const filterMonitoring = document.getElementById("filter-monitoring");
 const analogueSearchBtn = document.getElementById("analogue-search-btn");
 const analogueResetBtn = document.getElementById("analogue-reset-btn");
 const analogueStatus = document.getElementById("analogue-status");
@@ -375,6 +384,14 @@ async function loadAnalogueFilters() {
         filterStatus.innerHTML = '<option value="">All statuses</option>' +
             data.statuses.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
 
+        // Populate MAHs (companies)
+        filterMAH.innerHTML = '<option value="">All companies</option>' +
+            data.mahs.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
+
+        // Populate ATC prefixes
+        filterATC.innerHTML = '<option value="">All ATC codes</option>' +
+            data.atc_prefixes.map(a => `<option value="${esc(a.code)}">${esc(a.label)}</option>`).join("");
+
         analogueFiltersLoaded = true;
     } catch {
         showStatus(analogueStatus, "Failed to load filter options. Please try again.", "error");
@@ -386,16 +403,32 @@ analogueResetBtn.addEventListener("click", resetAnalogueFilters);
 filterSubstance.addEventListener("keydown", e => {
     if (e.key === "Enter") searchAnalogues();
 });
+filterIndication.addEventListener("keydown", e => {
+    if (e.key === "Enter") searchAnalogues();
+});
 
 async function searchAnalogues() {
     const params = new URLSearchParams();
 
+    // Disease & Epidemiology
     if (filterArea.value) params.set("therapeutic_area", filterArea.value);
+    if (filterPrevalence.value) params.set("prevalence_category", filterPrevalence.value);
     if (filterOrphan.value) params.set("orphan", filterOrphan.value);
+    if (filterIndication.value.trim()) params.set("indication_keyword", filterIndication.value.trim());
+    // Product Classification
+    if (filterATC.value) params.set("atc_code", filterATC.value);
+    if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
+    if (filterMAH.value) params.set("mah", filterMAH.value);
+    if (filterNewSubstance.value) params.set("new_active_substance", filterNewSubstance.value);
+    // Regulatory Pathway
+    if (filterStatus.value) params.set("status", filterStatus.value);
     if (filterYears.value !== "0") params.set("years", filterYears.value);
     if (filterFirst.value) params.set("first_approval", filterFirst.value);
-    if (filterStatus.value) params.set("status", filterStatus.value);
-    if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
+    if (filterConditional.value) params.set("conditional_approval", filterConditional.value);
+    if (filterExceptional.value) params.set("exceptional_circumstances", filterExceptional.value);
+    if (filterAccelerated.value) params.set("accelerated_assessment", filterAccelerated.value);
+    if (filterMonitoring.value) params.set("additional_monitoring", filterMonitoring.value);
+    // Exclusions
     if (filterExclGenerics.checked) params.set("exclude_generics", "true");
     if (filterExclBiosimilars.checked) params.set("exclude_biosimilars", "true");
 
@@ -416,12 +449,25 @@ async function searchAnalogues() {
 }
 
 function resetAnalogueFilters() {
+    // Disease & Epidemiology
     filterArea.value = "";
+    filterPrevalence.value = "";
     filterOrphan.value = "";
+    filterIndication.value = "";
+    // Product Classification
+    filterATC.value = "";
+    filterSubstance.value = "";
+    filterMAH.value = "";
+    filterNewSubstance.value = "";
+    // Regulatory Pathway
+    filterStatus.value = "";
     filterYears.value = "0";
     filterFirst.value = "";
-    filterStatus.value = "";
-    filterSubstance.value = "";
+    filterConditional.value = "";
+    filterExceptional.value = "";
+    filterAccelerated.value = "";
+    filterMonitoring.value = "";
+    // Exclusions
     filterExclGenerics.checked = false;
     filterExclBiosimilars.checked = false;
     hideStatus(analogueStatus);
@@ -450,9 +496,10 @@ function renderAnalogueResults(data) {
                 <tr>
                     <th>Medicine</th>
                     <th>Active Substance</th>
+                    <th>MAH</th>
                     <th>Therapeutic Area</th>
                     <th>Auth. Date</th>
-                    <th>Status</th>
+                    <th>Prevalence</th>
                     <th>Attributes</th>
                 </tr>
             </thead>
@@ -470,6 +517,11 @@ function renderAnalogueRow(med) {
     const tags = [];
     if (med.orphan_medicine) tags.push('<span class="tag tag-orphan">Orphan</span>');
     if (med.first_approval) tags.push('<span class="tag tag-first">1st Approval</span>');
+    if (med.new_active_substance) tags.push('<span class="tag tag-new-substance">New Substance</span>');
+    if (med.conditional_approval) tags.push('<span class="tag tag-conditional">Conditional</span>');
+    if (med.accelerated_assessment) tags.push('<span class="tag tag-accelerated">Accelerated</span>');
+    if (med.exceptional_circumstances) tags.push('<span class="tag tag-exceptional">Exceptional</span>');
+    if (med.additional_monitoring) tags.push('<span class="tag tag-monitoring">Black Triangle</span>');
     if (med.generic) tags.push('<span class="tag tag-generic">Generic</span>');
     if (med.biosimilar) tags.push('<span class="tag tag-biosimilar">Biosimilar</span>');
 
@@ -477,13 +529,18 @@ function renderAnalogueRow(med) {
         ? `<a href="${esc(med.url)}" target="_blank" rel="noopener">${esc(med.name)}</a>`
         : esc(med.name);
 
+    const prevalenceTag = med.prevalence_category
+        ? `<span class="tag tag-prevalence-${med.prevalence_category}">${esc(med.prevalence_category)}</span>`
+        : "";
+
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
             <td>${esc(med.active_substance)}</td>
+            <td class="col-mah">${esc(med.marketing_authorisation_holder)}</td>
             <td class="col-area">${esc(med.therapeutic_area)}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
-            <td><span class="tag tag-status">${esc(med.authorisation_status)}</span></td>
+            <td>${prevalenceTag}</td>
             <td class="col-tags">${tags.join(" ")}</td>
         </tr>
     `;

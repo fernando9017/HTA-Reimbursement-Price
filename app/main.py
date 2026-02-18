@@ -15,7 +15,7 @@ from app.models import (
     CountryInfo,
     FilterOptions,
     MedicineResult,
-)
+)  # ATCPrefix imported via FilterOptions
 from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
@@ -190,6 +190,15 @@ async def search_analogues(
     name: str = Query("", description="Medicine name (partial match)"),
     exclude_generics: bool = Query(False, description="Exclude generic medicines"),
     exclude_biosimilars: bool = Query(False, description="Exclude biosimilar medicines"),
+    atc_code: str = Query("", description="ATC code prefix (e.g. 'L01', 'L01FF')"),
+    mah: str = Query("", description="Marketing authorisation holder (partial match)"),
+    conditional_approval: str = Query("", description="Conditional approval: 'yes', 'no', ''"),
+    exceptional_circumstances: str = Query("", description="Exceptional circumstances: 'yes', 'no', ''"),
+    accelerated_assessment: str = Query("", description="Accelerated assessment: 'yes', 'no', ''"),
+    new_active_substance: str = Query("", description="New active substance: 'yes', 'no', ''"),
+    additional_monitoring: str = Query("", description="Additional monitoring: 'yes', 'no', ''"),
+    prevalence_category: str = Query("", description="Prevalence category: 'ultra-rare', 'rare', 'non-rare', ''"),
+    indication_keyword: str = Query("", description="Keyword in indication text"),
     limit: int = Query(200, ge=1, le=500),
 ):
     """Search for analogue medicines using multi-criteria filters."""
@@ -206,6 +215,15 @@ async def search_analogues(
         name=name,
         exclude_generics=exclude_generics,
         exclude_biosimilars=exclude_biosimilars,
+        atc_code=atc_code,
+        mah=mah,
+        conditional_approval=conditional_approval,
+        exceptional_circumstances=exceptional_circumstances,
+        accelerated_assessment=accelerated_assessment,
+        new_active_substance=new_active_substance,
+        additional_monitoring=additional_monitoring,
+        prevalence_category=prevalence_category,
+        indication_keyword=indication_keyword,
         limit=limit,
     )
 
