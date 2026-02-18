@@ -2,6 +2,7 @@
 
 import pytest
 
+from app.config import GBA_ASSESSMENT_BASE_URL
 from app.services.hta_agencies.germany_gba import GermanyGBA, BENEFIT_TRANSLATIONS, EVIDENCE_TRANSLATIONS
 
 
@@ -274,3 +275,134 @@ def test_parse_invalid_xml():
     service = GermanyGBA()
     result = service._parse_xml(b"not xml at all")
     assert result == []
+
+
+# ── Listing page parsing tests ──────────────────────────────────────
+
+
+SAMPLE_LISTING_HTML = """\
+<html>
+<body>
+<div class="bewertungsverfahren-list">
+  <a href="/bewertungsverfahren/nutzenbewertung/1133/">
+    Enfortumab Vedotin (Neues Anwendungsgebiet: Urothelkarzinom, Erstlinie)
+  </a>
+  <span>03.04.2025</span>
+  <a href="/bewertungsverfahren/nutzenbewertung/1132/">
+    Pembrolizumab (Neues Anwendungsgebiet: Urothelkarzinom, Kombination mit Enfortumab Vedotin)
+  </a>
+  <span>03.04.2025</span>
+  <a href="/bewertungsverfahren/nutzenbewertung/833/">
+    Semaglutid (Erstmalige Dossierpflicht: Typ-2-Diabetes)
+  </a>
+  <span>01.08.2023</span>
+</div>
+</body>
+</html>
+"""
+
+
+def test_parse_listing_page_count():
+    service = GermanyGBA()
+    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    assert len(entries) == 3
+
+
+def test_parse_listing_page_urls():
+    service = GermanyGBA()
+    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    urls = {e["url"] for e in entries}
+    assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1133/" in urls
+    assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1132/" in urls
+    assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/833/" in urls
+
+
+def test_parse_listing_page_procedure_ids():
+    service = GermanyGBA()
+    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    ids = {e["procedure_id"] for e in entries}
+    assert "1133" in ids
+    assert "1132" in ids
+    assert "833" in ids
+
+
+def test_parse_listing_page_titles():
+    service = GermanyGBA()
+    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    titles = [e["title"] for e in entries]
+    assert any("Enfortumab" in t for t in titles)
+    assert any("Pembrolizumab" in t for t in titles)
+    assert any("Semaglutid" in t for t in titles)
+
+
+def test_listing_entry_to_result():
+    """Listing entries should produce AssessmentResult with correct URL."""
+    service = GermanyGBA()
+    entries = service._parse_listing_page(SAMPLE_LISTING_HTML)
+    service._listing_entries = entries
+    service._loaded = True
+
+    import asyncio
+    results = asyncio.get_event_loop().run_until_complete(
+        service.search_assessments("Enfortumab Vedotin")
+    )
+    assert len(results) >= 1
+    assert "1133" in results[0].assessment_url
+
+
+def test_enrichment_links_xml_decisions_to_listing():
+    """Enrichment should add listing URLs to matching AIS XML decisions."""
+    service = GermanyGBA()
+    service._decisions = service._parse_xml(SAMPLE_XML)
+    service._listing_entries = [
+        {
+            "procedure_id": "500",
+            "title": "Pembrolizumab (Melanom)",
+            "url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/",
+            "substance": "Pembrolizumab",
+            "date": "2020-06-18",
+        },
+    ]
+    service._enrich_decisions_with_listing_urls()
+
+    # All Pembrolizumab decisions should now have the enriched URL
+    for dec in service._decisions:
+        if "Pembrolizumab" in dec.get("substances", []):
+            assert dec["assessment_url"] == "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"
+
+
+@pytest.mark.asyncio
+async def test_search_with_listing_fallback():
+    """When AIS XML has no matches, listing entries should be used."""
+    service = GermanyGBA()
+    service._decisions = []  # No AIS XML data
+    service._listing_entries = [
+        {
+            "procedure_id": "1133",
+            "title": "Enfortumab Vedotin (Urothelkarzinom)",
+            "url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1133/",
+            "substance": "Enfortumab Vedotin",
+            "date": "2025-04-03",
+        },
+    ]
+    service._loaded = True
+
+    results = await service.search_assessments("Enfortumab Vedotin")
+    assert len(results) == 1
+    assert "1133" in results[0].assessment_url
+    assert results[0].opinion_date == "2025-04-03"
+
+
+@pytest.mark.asyncio
+async def test_assessment_url_fallback_to_listing_base():
+    """When no listing data available, assessment URL should fall back to base URL."""
+    service = GermanyGBA()
+    service._decisions = service._parse_xml(SAMPLE_XML)
+    service._listing_entries = []
+    service._loaded = True
+
+    results = await service.search_assessments("Pembrolizumab")
+    assert len(results) == 2
+    # URL should be the base listing page (not a broken procedure URL)
+    for r in results:
+        assert r.assessment_url == GBA_ASSESSMENT_BASE_URL

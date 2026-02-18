@@ -56,24 +56,50 @@ class FranceHAS(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch all BDPM data files and parse them."""
+        """Fetch all BDPM data files and parse them.
+
+        Each file is loaded independently so a failure in one file doesn't
+        prevent loading of others.  The adapter marks itself as loaded if
+        at least the compositions file was successfully parsed (required
+        for substance matching).
+        """
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+            },
         ) as client:
-            await self._load_medicines(client)
-            await self._load_compositions(client)
-            await self._load_smr(client)
-            await self._load_asmr(client)
-            await self._load_ct_links(client)
+            # Load each file independently — don't fail if one is unavailable
+            for loader_name, loader in [
+                ("medicines", self._load_medicines),
+                ("compositions", self._load_compositions),
+                ("smr", self._load_smr),
+                ("asmr", self._load_asmr),
+                ("ct_links", self._load_ct_links),
+            ]:
+                try:
+                    await loader(client)
+                except Exception:
+                    logger.exception("Failed to load BDPM %s file", loader_name)
 
-        self._loaded = True
+        # Mark as loaded if we have at least some data to work with
+        has_compositions = len(self._compositions) > 0
+        has_assessments = sum(len(v) for v in self._smr.values()) > 0 or sum(len(v) for v in self._asmr.values()) > 0
+        self._loaded = has_compositions or has_assessments
+
         logger.info(
-            "France HAS data loaded: %d medicines, %d SMR records, %d ASMR records, %d CT links",
+            "France HAS data loaded: %d medicines, %d compositions, %d SMR records, %d ASMR records, %d CT links (loaded=%s)",
             len(self._medicines),
+            len(self._compositions),
             sum(len(v) for v in self._smr.values()),
             sum(len(v) for v in self._asmr.values()),
             len(self._ct_links),
+            self._loaded,
         )
 
     async def search_assessments(

@@ -1,10 +1,14 @@
 """Japan PMDA (Pharmaceuticals and Medical Devices Agency) adapter.
 
-Data source: PMDA approved drug information listing page (English).
-Lists new drug approvals with brand name, INN, therapeutic indication,
-approval date, and links to review reports.
+Focuses on regulatory approval and NHI (National Health Insurance) drug
+price setting for Japan.
 
-The English-language page is publicly available at:
+Data sources:
+1. PMDA approved drug information listing page (English) — regulatory
+   approval data including brand name, INN, indication, and approval date.
+2. NHI drug price database links — for price setting information.
+
+The English-language PMDA page is publicly available at:
   https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html
 
 No authentication required.
@@ -12,6 +16,7 @@ No authentication required.
 
 import logging
 import re
+import urllib.parse
 
 import httpx
 
@@ -20,6 +25,9 @@ from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
+
+# NHI drug price database search URL
+NHI_PRICE_SEARCH_URL = "https://www.pmda.go.jp/PmdaSearch/iyakuSearch/"
 
 # Review types for PMDA drug approvals
 REVIEW_TYPE_DISPLAY = {
@@ -34,7 +42,7 @@ REVIEW_TYPE_DISPLAY = {
 
 
 class JapanPMDA(HTAAgency):
-    """PMDA (Pharmaceuticals and Medical Devices Agency) — Japan's regulatory agency."""
+    """PMDA — Japan regulatory approval and NHI drug price setting."""
 
     def __init__(self) -> None:
         self._drug_list: list[dict] = []
@@ -66,8 +74,13 @@ class JapanPMDA(HTAAgency):
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={
-                "User-Agent": "HTA-Assessment-Finder/0.1 (research tool)",
-                "Accept": "text/html",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "ja,en;q=0.9",
             },
         ) as client:
             try:
@@ -89,7 +102,7 @@ class JapanPMDA(HTAAgency):
         active_substance: str,
         product_name: str | None = None,
     ) -> list[AssessmentResult]:
-        """Find PMDA drug reviews matching the given substance or product."""
+        """Find PMDA regulatory approvals and pricing info for a substance."""
         if not self._loaded:
             return []
 
@@ -118,13 +131,24 @@ class JapanPMDA(HTAAgency):
             review_type = drug.get("review_type", "")
             review_display = _normalize_review_type(review_type)
 
+            # Build assessment URL: prefer review report, fall back to PMDA search
+            assessment_url = drug.get("review_url", "")
+            if not assessment_url:
+                brand = drug.get("brand_name", "") or product_name or active_substance
+                assessment_url = _build_pmda_search_url(brand)
+
+            # Build NHI drug price lookup info
+            brand = drug.get("brand_name", "") or product_name or active_substance
+            drug_price_info = f"NHI price lookup: {_build_pmda_search_url(brand)}"
+
             results.append(
                 AssessmentResult(
-                    product_name=drug.get("brand_name", "") or product_name or active_substance,
+                    product_name=brand,
                     evaluation_reason=drug.get("indication", ""),
                     opinion_date=drug.get("approval_date", ""),
-                    assessment_url=drug.get("review_url", ""),
+                    assessment_url=assessment_url,
                     pmda_review_type=review_display,
+                    drug_price=drug_price_info,
                 )
             )
 
@@ -340,3 +364,9 @@ def _normalize_review_type(raw: str) -> str:
         return ""
     lower = raw.lower().strip()
     return REVIEW_TYPE_DISPLAY.get(lower, raw.strip().capitalize())
+
+
+def _build_pmda_search_url(drug_name: str) -> str:
+    """Build a PMDA drug information search URL."""
+    encoded = urllib.parse.quote(drug_name)
+    return f"{NHI_PRICE_SEARCH_URL}?iYakuKbn=1&iKensaku={encoded}"

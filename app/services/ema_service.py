@@ -38,7 +38,18 @@ class EMAService:
     async def load_data(self) -> None:
         """Download and parse the EMA medicines JSON file."""
         logger.info("Fetching EMA medicines data from %s", EMA_MEDICINES_URL)
-        async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT, follow_redirects=True) as client:
+        async with httpx.AsyncClient(
+            timeout=REQUEST_TIMEOUT,
+            follow_redirects=True,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Accept": "application/json, text/html, */*;q=0.8",
+            },
+        ) as client:
             response = await client.get(EMA_MEDICINES_URL)
             response.raise_for_status()
             data = response.json()

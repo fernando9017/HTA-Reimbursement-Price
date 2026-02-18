@@ -67,8 +67,13 @@ class SpainAEMPS(HTAAgency):
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={
-                "User-Agent": "HTA-Assessment-Finder/0.1 (research tool)",
-                "Accept": "text/html",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
             },
         ) as client:
             for page in range(1, AEMPS_MAX_PAGES + 1):

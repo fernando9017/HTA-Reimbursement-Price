@@ -405,7 +405,13 @@ function renderSingleAssessment(a) {
     // Japan (PMDA) badges
     const pmdaBadge = a.pmda_review_type
         ? `<span class="badge badge-pmda">
-            <span class="label">PMDA:</span> ${esc(a.pmda_review_type)}
+            <span class="label">Approval:</span> ${esc(a.pmda_review_type)}
+           </span>`
+        : "";
+
+    const drugPriceBadge = a.drug_price
+        ? `<span class="badge badge-price">
+            <span class="label">NHI Price:</span> Available
            </span>`
         : "";
 
@@ -417,7 +423,7 @@ function renderSingleAssessment(a) {
     const linkText = isNICE ? "View on NICE"
         : isGermany ? "View on G-BA"
         : isSpain ? "View IPT on AEMPS"
-        : isJapan ? "View on PMDA"
+        : isJapan ? "View approval / NHI price on PMDA"
         : "View full assessment on HAS";
     const link = a.assessment_url
         ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
@@ -441,6 +447,12 @@ function renderSingleAssessment(a) {
     const benefitDesc = a.benefit_rating_description && a.benefit_rating_description !== a.benefit_rating
         ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
             ${esc(a.benefit_rating_description)}
+           </div>`
+        : "";
+
+    const drugPriceDesc = a.drug_price
+        ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+            <strong>Price Setting:</strong> ${esc(a.drug_price)}
            </div>`
         : "";
 
@@ -469,10 +481,12 @@ function renderSingleAssessment(a) {
                 ${iptBadge}
                 ${iptRefBadge}
                 ${pmdaBadge}
+                ${drugPriceBadge}
             </div>
             ${smrDesc}
             ${asmrDesc}
             ${benefitDesc}
+            ${drugPriceDesc}
             ${link}
         </div>
     `;

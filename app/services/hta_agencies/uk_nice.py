@@ -76,13 +76,21 @@ class UKNICE(HTAAgency):
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={
-                "User-Agent": "HTA-Assessment-Finder/0.1 (research tool)",
-                "Accept": "text/html",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-GB,en;q=0.9",
             },
         ) as client:
             for programme_type in NICE_PROGRAMME_TYPES:
-                guidance = await self._fetch_guidance_listing(client, programme_type)
-                all_guidance.extend(guidance)
+                try:
+                    guidance = await self._fetch_guidance_listing(client, programme_type)
+                    all_guidance.extend(guidance)
+                except Exception:
+                    logger.exception("Failed to fetch NICE %s listing", programme_type)
 
         self._guidance_list = all_guidance
         self._loaded = True

@@ -1,14 +1,18 @@
 """Germany G-BA (Gemeinsamer Bundesausschuss) adapter.
 
-Data source: G-BA AIS (Arztinformationssystem) XML file containing all
-AMNOG early benefit assessment decisions (Nutzenbewertung).
+Data sources:
+1. G-BA AIS (Arztinformationssystem) XML file — contains all AMNOG early
+   benefit assessment decisions with detailed patient-group-level data
+   (Zusatznutzen, evidence levels, comparator therapies).
+2. G-BA Nutzenbewertung listing pages — HTML listing of all assessment
+   procedures with correct procedure URLs and drug/indication metadata.
 
-The XML file is published as a complete delivery on the 1st and 15th of
-each month.  It contains decisions structured per patient group, with
-benefit ratings (Zusatznutzen), evidence levels, and comparator therapies.
+The adapter tries both sources and merges the data: AIS XML provides detailed
+benefit/evidence data, while listing pages provide correct procedure URLs.
 
-No authentication required.  A permanent download URL can be requested
-from ais@g-ba.de.
+The AIS XML file is published as a complete delivery on the 1st and 15th of
+each month.  No authentication required for the XML, but a permanent download
+URL can be requested from ais@g-ba.de.
 """
 
 import logging
@@ -40,13 +44,19 @@ EVIDENCE_TRANSLATIONS = {
     "Anhaltspunkt": "Hint (Anhaltspunkt)",
 }
 
+# G-BA Nutzenbewertung listing page URL
+GBA_LISTING_URL = "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/"
+GBA_LISTING_MAX_PAGES = 50
+
 
 class GermanyGBA(HTAAgency):
     """G-BA (Gemeinsamer Bundesausschuss) — Germany's HTA agency."""
 
     def __init__(self) -> None:
-        # List of parsed decision dicts
+        # List of parsed decision dicts (from AIS XML)
         self._decisions: list[dict] = []
+        # List of procedure entries from listing pages
+        self._listing_entries: list[dict] = []
         self._loaded = False
 
     @property
@@ -70,47 +80,35 @@ class GermanyGBA(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch and parse the G-BA AIS XML file."""
+        """Fetch and parse G-BA data from multiple sources."""
         headers = {
             "User-Agent": (
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                 "AppleWebKit/537.36 (KHTML, like Gecko) "
                 "Chrome/120.0.0.0 Safari/537.36"
             ),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
         }
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers=headers,
         ) as client:
-            xml_urls = await self._find_xml_urls(client)
-            xml_content = None
-            last_error = None
-            for url in xml_urls:
-                try:
-                    logger.info("Trying G-BA AIS XML from %s", url)
-                    response = await client.get(url)
-                    response.raise_for_status()
-                    xml_content = response.content
-                    break
-                except httpx.HTTPStatusError as exc:
-                    logger.warning("G-BA XML URL returned %s: %s", exc.response.status_code, url)
-                    last_error = exc
-                except httpx.HTTPError as exc:
-                    logger.warning("G-BA XML URL failed: %s — %s", url, exc)
-                    last_error = exc
+            # Source 1: Try AIS XML for detailed benefit assessment data
+            await self._try_load_ais_xml(client)
 
-            if xml_content is None:
-                raise RuntimeError(
-                    "Could not fetch G-BA AIS XML from any known URL. "
-                    "The download link may have changed — check "
-                    "https://www.g-ba.de/themen/arzneimittel/"
-                    "arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/"
-                ) from last_error
+            # Source 2: Try listing pages for procedure URLs and basic metadata
+            await self._try_load_listing_pages(client)
 
-        self._decisions = self._parse_xml(xml_content)
+        # Enrich AIS decisions with listing page URLs where possible
+        self._enrich_decisions_with_listing_urls()
+
         self._loaded = True
-        logger.info("Germany G-BA data loaded: %d decision entries", len(self._decisions))
+        logger.info(
+            "Germany G-BA data loaded: %d decision entries, %d listing entries",
+            len(self._decisions), len(self._listing_entries),
+        )
 
     async def search_assessments(
         self,
@@ -125,68 +123,54 @@ class GermanyGBA(HTAAgency):
         product_lower = product_name.lower().strip() if product_name else ""
 
         results = []
+
+        # Search through AIS XML decisions (detailed data with benefit ratings)
         for dec in self._decisions:
-            substance_match = False
-            product_match = False
+            if self._matches_decision(dec, substance_lower, product_lower):
+                results.append(self._decision_to_result(dec, active_substance))
 
-            # Match active substance
-            for ws in dec.get("substances", []):
-                if substance_lower in ws.lower() or ws.lower() in substance_lower:
-                    substance_match = True
-                    break
-
-            # Match trade name
-            if product_lower:
-                for hn in dec.get("trade_names", []):
-                    if product_lower in hn.lower() or hn.lower() in product_lower:
-                        product_match = True
-                        break
-
-            if not substance_match and not product_match:
-                continue
-
-            # Build the assessment URL
-            procedure_id = dec.get("procedure_id", "")
-            assessment_url = ""
-            if procedure_id:
-                assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
-
-            # Translate benefit rating
-            raw_benefit = dec.get("benefit_rating", "")
-            benefit_desc = BENEFIT_TRANSLATIONS.get(raw_benefit, raw_benefit)
-
-            # Translate evidence level
-            raw_evidence = dec.get("evidence_level", "")
-            evidence_desc = EVIDENCE_TRANSLATIONS.get(raw_evidence, raw_evidence)
-
-            trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
-            results.append(
-                AssessmentResult(
-                    product_name=trade_name,
-                    dossier_code=dec.get("decision_id", ""),
-                    evaluation_reason=dec.get("indication", ""),
-                    opinion_date=dec.get("decision_date", ""),
-                    assessment_url=assessment_url,
-                    benefit_rating=raw_benefit,
-                    benefit_rating_description=benefit_desc,
-                    evidence_level=evidence_desc,
-                    comparator=dec.get("comparator", ""),
-                    patient_group=dec.get("patient_group", ""),
-                )
-            )
+        # If no AIS XML results, search through listing entries as fallback
+        if not results:
+            for entry in self._listing_entries:
+                if self._matches_listing_entry(entry, substance_lower, product_lower):
+                    results.append(self._listing_entry_to_result(entry, active_substance))
 
         # Sort most recent first
         results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results
 
-    # ── Data loading helpers ──────────────────────────────────────────
+    # ── Data loading: AIS XML ─────────────────────────────────────────
+
+    async def _try_load_ais_xml(self, client: httpx.AsyncClient) -> None:
+        """Try to load and parse the G-BA AIS XML file. Non-fatal on failure."""
+        try:
+            xml_urls = await self._find_xml_urls(client)
+            xml_content = None
+            for url in xml_urls:
+                try:
+                    logger.info("Trying G-BA AIS XML from %s", url)
+                    response = await client.get(url)
+                    response.raise_for_status()
+                    xml_content = response.content
+                    break
+                except httpx.HTTPStatusError as exc:
+                    logger.warning("G-BA XML URL returned %s: %s", exc.response.status_code, url)
+                except httpx.HTTPError as exc:
+                    logger.warning("G-BA XML URL failed: %s — %s", url, exc)
+
+            if xml_content is not None:
+                self._decisions = self._parse_xml(xml_content)
+                logger.info("G-BA AIS XML parsed: %d decisions", len(self._decisions))
+            else:
+                logger.warning(
+                    "Could not fetch G-BA AIS XML from any known URL. "
+                    "Will use listing page data as fallback."
+                )
+        except Exception:
+            logger.exception("Error loading G-BA AIS XML")
 
     async def _find_xml_urls(self, client: httpx.AsyncClient) -> list[str]:
-        """Build a list of candidate XML download URLs to try.
-
-        First attempts to scrape the actual link from the AIS page, then
-        falls back to several known/guessed URL patterns.
-        """
+        """Build a list of candidate XML download URLs to try."""
         urls: list[str] = []
 
         # Try to scrape the current XML link from the AIS page
@@ -195,7 +179,7 @@ class GermanyGBA(HTAAgency):
             response.raise_for_status()
             html = response.text
             # Look for .xml download link in the page
-            for match in re.finditer(r'href="([^"]*G-BA_Beschluss_Info[^"]*\.xml)"', html):
+            for match in re.finditer(r'href="([^"]*\.xml[^"]*)"', html, re.IGNORECASE):
                 url = match.group(1)
                 if not url.startswith("http"):
                     url = "https://www.g-ba.de" + url
@@ -203,11 +187,12 @@ class GermanyGBA(HTAAgency):
         except Exception:
             logger.warning("Could not fetch AIS page to find XML URL, will try fallbacks")
 
-        # Fallback: known download path patterns
+        # Fallback: known and guessed download path patterns
         urls.extend([
             "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/downloads/83-691-836/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
+            "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info_aktuell.xml",
         ])
 
         # De-duplicate while preserving order
@@ -218,6 +203,205 @@ class GermanyGBA(HTAAgency):
                 seen.add(u)
                 unique.append(u)
         return unique
+
+    # ── Data loading: Listing pages ───────────────────────────────────
+
+    async def _try_load_listing_pages(self, client: httpx.AsyncClient) -> None:
+        """Try to scrape G-BA Nutzenbewertung listing pages for procedure URLs."""
+        try:
+            all_entries: list[dict] = []
+            for page in range(1, GBA_LISTING_MAX_PAGES + 1):
+                params = {"page": str(page)} if page > 1 else {}
+                try:
+                    resp = await client.get(GBA_LISTING_URL, params=params)
+                    resp.raise_for_status()
+                    html = resp.text
+                except Exception:
+                    logger.debug("G-BA listing page %d fetch failed, stopping", page)
+                    break
+
+                entries = self._parse_listing_page(html)
+                if not entries:
+                    break
+
+                all_entries.extend(entries)
+                logger.debug("G-BA listing page %d: %d entries", page, len(entries))
+
+            self._listing_entries = all_entries
+            if all_entries:
+                logger.info("G-BA listing pages parsed: %d entries", len(all_entries))
+        except Exception:
+            logger.exception("Error loading G-BA listing pages")
+
+    def _parse_listing_page(self, html: str) -> list[dict]:
+        """Parse a G-BA Nutzenbewertung listing page HTML.
+
+        Entries typically look like:
+          <a href="/bewertungsverfahren/nutzenbewertung/1133/">
+            Wirkstoff: Enfortumab Vedotin (Neues Anwendungsgebiet: ...)
+          </a>
+        """
+        entries: list[dict] = []
+        seen_ids: set[str] = set()
+
+        # Pattern: links to /bewertungsverfahren/nutzenbewertung/NNN/
+        pattern = re.compile(
+            r'href="(/bewertungsverfahren/nutzenbewertung/(\d+)/[^"]*)"[^>]*>\s*(.*?)\s*</a>',
+            re.IGNORECASE | re.DOTALL,
+        )
+        for match in pattern.finditer(html):
+            path = match.group(1)
+            proc_id = match.group(2)
+            title_raw = match.group(3)
+
+            if proc_id in seen_ids:
+                continue
+            seen_ids.add(proc_id)
+
+            title = _clean_html_text(title_raw)
+            if not title or len(title) < 5:
+                continue
+
+            url = "https://www.g-ba.de" + path
+
+            # Try to extract substance from title
+            # Titles are often: "Wirkstoff: Substance (Indication...)"
+            substance = ""
+            sub_match = re.search(r'(?:Wirkstoff:\s*)?([^(]+)', title)
+            if sub_match:
+                substance = sub_match.group(1).strip().rstrip(' -\u2013')
+
+            # Try to extract date from nearby context
+            date = self._extract_date_near_listing(html, path)
+
+            entries.append({
+                "procedure_id": proc_id,
+                "title": title,
+                "url": url,
+                "substance": substance,
+                "date": date,
+            })
+
+        return entries
+
+    def _extract_date_near_listing(self, html: str, path: str) -> str:
+        """Try to find a date near a listing entry."""
+        escaped = re.escape(path)
+        match = re.search(escaped, html)
+        if match:
+            context = html[match.end():match.end() + 500]
+            # DD.MM.YYYY (German date format)
+            date_match = re.search(r'(\d{2})\.(\d{2})\.(\d{4})', context)
+            if date_match:
+                return f"{date_match.group(3)}-{date_match.group(2)}-{date_match.group(1)}"
+            # YYYY-MM-DD
+            iso_match = re.search(r'(\d{4}-\d{2}-\d{2})', context)
+            if iso_match:
+                return iso_match.group(1)
+        return ""
+
+    # ── Data enrichment ───────────────────────────────────────────────
+
+    def _enrich_decisions_with_listing_urls(self) -> None:
+        """Match AIS XML decisions to listing page entries to get correct URLs."""
+        if not self._listing_entries:
+            return
+
+        for dec in self._decisions:
+            if dec.get("assessment_url"):
+                continue  # Already has a URL
+
+            # Try to match by substance name or trade name
+            for entry in self._listing_entries:
+                entry_title_lower = entry.get("title", "").lower()
+                entry_substance_lower = entry.get("substance", "").lower()
+
+                matched = False
+                for ws in dec.get("substances", []):
+                    ws_lower = ws.lower()
+                    if ws_lower in entry_title_lower or ws_lower in entry_substance_lower:
+                        matched = True
+                        break
+
+                if not matched:
+                    for hn in dec.get("trade_names", []):
+                        if hn.lower() in entry_title_lower:
+                            matched = True
+                            break
+
+                if matched:
+                    dec["assessment_url"] = entry.get("url", "")
+                    break
+
+    # ── Matching helpers ──────────────────────────────────────────────
+
+    def _matches_decision(self, dec: dict, substance_lower: str, product_lower: str) -> bool:
+        """Check if an AIS XML decision matches the search criteria."""
+        for ws in dec.get("substances", []):
+            if substance_lower in ws.lower() or ws.lower() in substance_lower:
+                return True
+
+        if product_lower:
+            for hn in dec.get("trade_names", []):
+                if product_lower in hn.lower() or hn.lower() in product_lower:
+                    return True
+
+        return False
+
+    def _matches_listing_entry(self, entry: dict, substance_lower: str, product_lower: str) -> bool:
+        """Check if a listing page entry matches the search criteria."""
+        title_lower = entry.get("title", "").lower()
+        substance = entry.get("substance", "").lower()
+
+        if substance_lower in title_lower or substance_lower in substance:
+            return True
+        if product_lower and product_lower in title_lower:
+            return True
+        return False
+
+    # ── Result builders ───────────────────────────────────────────────
+
+    def _decision_to_result(self, dec: dict, active_substance: str) -> AssessmentResult:
+        """Convert an AIS XML decision dict to an AssessmentResult."""
+        raw_benefit = dec.get("benefit_rating", "")
+        benefit_desc = BENEFIT_TRANSLATIONS.get(raw_benefit, raw_benefit)
+
+        raw_evidence = dec.get("evidence_level", "")
+        evidence_desc = EVIDENCE_TRANSLATIONS.get(raw_evidence, raw_evidence)
+
+        trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
+
+        # Use enriched URL, or fall back to main listing page
+        assessment_url = dec.get("assessment_url", "") or GBA_ASSESSMENT_BASE_URL
+
+        return AssessmentResult(
+            product_name=trade_name,
+            dossier_code=dec.get("decision_id", ""),
+            evaluation_reason=dec.get("indication", ""),
+            opinion_date=dec.get("decision_date", ""),
+            assessment_url=assessment_url,
+            benefit_rating=raw_benefit,
+            benefit_rating_description=benefit_desc,
+            evidence_level=evidence_desc,
+            comparator=dec.get("comparator", ""),
+            patient_group=dec.get("patient_group", ""),
+        )
+
+    def _listing_entry_to_result(self, entry: dict, active_substance: str) -> AssessmentResult:
+        """Convert a listing page entry dict to an AssessmentResult."""
+        return AssessmentResult(
+            product_name=entry.get("substance", "") or active_substance,
+            evaluation_reason=entry.get("title", ""),
+            opinion_date=entry.get("date", ""),
+            assessment_url=entry.get("url", ""),
+            benefit_rating="",
+            benefit_rating_description="See assessment page for details",
+            evidence_level="",
+            comparator="",
+            patient_group="",
+        )
+
+    # ── XML parsing ───────────────────────────────────────────────────
 
     def _parse_xml(self, xml_content: bytes) -> list[dict]:
         """Parse the G-BA AIS XML into a list of decision dicts.
@@ -269,7 +453,6 @@ class GermanyGBA(HTAAgency):
         substances = []
         trade_names = []
         decision_id = ""
-        procedure_id = ""
         indication = ""
         decision_date = ""
 
@@ -277,13 +460,6 @@ class GermanyGBA(HTAAgency):
         decision_id = self._get_text(elem, [
             "ID_BE_AKZ", "id_be_akz", "AKZ", "akz",
         ])
-
-        # Try to extract a procedure number from the decision ID
-        if decision_id:
-            # IDs often contain a sequential number
-            num_match = re.search(r"(\d{2,})", decision_id)
-            if num_match:
-                procedure_id = num_match.group(1)
 
         # Decision date
         decision_date = self._get_text(elem, [
@@ -339,11 +515,11 @@ class GermanyGBA(HTAAgency):
 
         return {
             "decision_id": decision_id,
-            "procedure_id": procedure_id,
             "substances": substances,
             "trade_names": trade_names,
             "indication": indication,
             "decision_date": decision_date,
+            "assessment_url": "",  # Will be enriched from listing data
         }
 
     def _parse_patient_group(self, pg_elem: ET.Element) -> dict:
@@ -447,3 +623,16 @@ class GermanyGBA(HTAAgency):
         if m:
             return f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
         return raw
+
+
+def _clean_html_text(text: str) -> str:
+    """Remove HTML tags and normalize whitespace."""
+    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"&amp;", "&", text)
+    text = re.sub(r"&lt;", "<", text)
+    text = re.sub(r"&gt;", ">", text)
+    text = re.sub(r"&nbsp;", " ", text)
+    text = re.sub(r"&#\d+;", "", text)
+    text = re.sub(r"&\w+;", "", text)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
