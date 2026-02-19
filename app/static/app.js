@@ -55,7 +55,6 @@ const filterNewSubstance = document.getElementById("filter-new-substance");
 const filterConditional = document.getElementById("filter-conditional");
 const filterExceptional = document.getElementById("filter-exceptional");
 const filterAccelerated = document.getElementById("filter-accelerated");
-const filterMonitoring = document.getElementById("filter-monitoring");
 const filterMoleculeType = document.getElementById("filter-molecule-type");
 const filterRoute = document.getElementById("filter-route");
 const filterMoA = document.getElementById("filter-moa");
@@ -66,6 +65,8 @@ const analogueResultsDiv = document.getElementById("analogue-results");
 
 // Taxonomy data (populated on load)
 let therapeuticTaxonomy = [];
+// Last analogue search results (for Excel export)
+let lastAnalogueResults = null;
 
 // ═══════════════════════════════════════════════════════════════════════
 //  MODULE NAVIGATION
@@ -614,7 +615,6 @@ async function searchAnalogues() {
     if (filterConditional.value) params.set("conditional_approval", filterConditional.value);
     if (filterExceptional.value) params.set("exceptional_circumstances", filterExceptional.value);
     if (filterAccelerated.value) params.set("accelerated_assessment", filterAccelerated.value);
-    if (filterMonitoring.value) params.set("additional_monitoring", filterMonitoring.value);
     // Exclusions
     if (filterExclGenerics.checked) params.set("exclude_generics", "true");
     if (filterExclBiosimilars.checked) params.set("exclude_biosimilars", "true");
@@ -660,7 +660,6 @@ function resetAnalogueFilters() {
     filterConditional.value = "";
     filterExceptional.value = "";
     filterAccelerated.value = "";
-    filterMonitoring.value = "";
     // Exclusions
     filterExclGenerics.checked = false;
     filterExclBiosimilars.checked = false;
@@ -672,15 +671,20 @@ function renderAnalogueResults(data) {
     if (data.total === 0) {
         showStatus(analogueStatus, "No medicines found matching your criteria. Try adjusting the filters.", "info");
         analogueResultsDiv.innerHTML = "";
+        lastAnalogueResults = null;
         return;
     }
 
     hideStatus(analogueStatus);
+    lastAnalogueResults = data.results;
 
     const header = `
-        <p class="results-summary">
-            Found <strong>${data.total}</strong> medicine(s) matching your criteria
-        </p>
+        <div class="results-header">
+            <p class="results-summary">
+                Found <strong>${data.total}</strong> medicine(s) matching your criteria
+            </p>
+            <button class="btn-export" id="export-excel-btn" title="Download as Excel">Download Excel</button>
+        </div>
     `;
 
     const table = `
@@ -690,6 +694,7 @@ function renderAnalogueResults(data) {
                 <tr>
                     <th>Medicine</th>
                     <th>Active Substance</th>
+                    <th>Indication</th>
                     <th>Therapeutic Area</th>
                     <th>Type / Route</th>
                     <th>Auth. Date</th>
@@ -704,6 +709,12 @@ function renderAnalogueResults(data) {
     `;
 
     analogueResultsDiv.innerHTML = header + table;
+
+    // Bind export button
+    const exportBtn = document.getElementById("export-excel-btn");
+    if (exportBtn) {
+        exportBtn.addEventListener("click", exportAnalogueExcel);
+    }
 }
 
 function renderAnalogueRow(med) {
@@ -714,7 +725,6 @@ function renderAnalogueRow(med) {
     if (med.conditional_approval) tags.push('<span class="tag tag-conditional">Conditional</span>');
     if (med.accelerated_assessment) tags.push('<span class="tag tag-accelerated">Accelerated</span>');
     if (med.exceptional_circumstances) tags.push('<span class="tag tag-exceptional">Exceptional</span>');
-    if (med.additional_monitoring) tags.push('<span class="tag tag-monitoring">Black Triangle</span>');
     if (med.generic) tags.push('<span class="tag tag-generic">Generic</span>');
     if (med.biosimilar) tags.push('<span class="tag tag-biosimilar">Biosimilar</span>');
 
@@ -744,16 +754,77 @@ function renderAnalogueRow(med) {
         typeRouteDisplay += `<span class="moa-label" title="${esc(med.moa_class)}">${esc(med.moa_class)}</span>`;
     }
 
+    // Indication: truncate long text, show full on hover
+    const indicationFull = med.therapeutic_indication || "";
+    const indicationShort = indicationFull.length > 150
+        ? indicationFull.substring(0, 150) + "..."
+        : indicationFull;
+
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
             <td>${esc(med.active_substance)}</td>
+            <td class="col-indication" title="${esc(indicationFull)}">${esc(indicationShort)}</td>
             <td class="col-area">${areaDisplay}</td>
             <td class="col-type-route">${typeRouteDisplay}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
             <td class="col-tags">${tags.join(" ")}</td>
         </tr>
     `;
+}
+
+// ── Excel Export ─────────────────────────────────────────────────────
+
+function exportAnalogueExcel() {
+    if (!lastAnalogueResults || lastAnalogueResults.length === 0) return;
+    if (typeof XLSX === "undefined") {
+        alert("Excel library failed to load. Please check your internet connection and refresh.");
+        return;
+    }
+
+    const rows = lastAnalogueResults.map(med => ({
+        "Medicine Name": med.name,
+        "Active Substance": med.active_substance,
+        "Therapeutic Indication": med.therapeutic_indication || "",
+        "Broad Therapeutic Area": med.broad_therapeutic_area || "",
+        "Therapeutic Subcategory": med.therapeutic_subcategory || "",
+        "Therapeutic Area (EMA)": med.therapeutic_area || "",
+        "Molecule Type": med.molecule_type || "",
+        "Route of Administration": med.route_of_administration || "",
+        "Mechanism of Action": med.moa_class || "",
+        "Authorisation Date": med.authorisation_date || "",
+        "Authorisation Status": med.authorisation_status || "",
+        "EMA Number": med.ema_number || "",
+        "ATC Code": med.atc_code || "",
+        "Marketing Authorisation Holder": med.marketing_authorisation_holder || "",
+        "Orphan Medicine": med.orphan_medicine ? "Yes" : "No",
+        "Prevalence Category": med.prevalence_category || "",
+        "First Approval": med.first_approval ? "Yes" : "No",
+        "New Active Substance": med.new_active_substance ? "Yes" : "No",
+        "Generic": med.generic ? "Yes" : "No",
+        "Biosimilar": med.biosimilar ? "Yes" : "No",
+        "Conditional Approval": med.conditional_approval ? "Yes" : "No",
+        "Exceptional Circumstances": med.exceptional_circumstances ? "Yes" : "No",
+        "Accelerated Assessment": med.accelerated_assessment ? "Yes" : "No",
+        "Medicine Type": med.medicine_type || "",
+        "EMA URL": med.url || "",
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+
+    // Auto-size columns based on header + content width
+    const colWidths = Object.keys(rows[0]).map(key => {
+        const maxLen = Math.max(
+            key.length,
+            ...rows.map(r => (r[key] || "").toString().length)
+        );
+        return { wch: Math.min(maxLen + 2, 60) };
+    });
+    ws["!cols"] = colWidths;
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Analogues");
+    XLSX.writeFile(wb, "analogue_selection.xlsx");
 }
 
 // ═══════════════════════════════════════════════════════════════════════
