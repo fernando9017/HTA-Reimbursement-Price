@@ -547,10 +547,16 @@ async function loadAnalogueFilters() {
                 data.routes_of_administration.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
         }
 
-        // Populate MoA classes
+        // Populate MoA autocomplete suggestions (text input with datalist)
         if (data.moa_classes && filterMoA) {
-            filterMoA.innerHTML = '<option value="">All MoA classes</option>' +
-                data.moa_classes.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
+            let datalist = document.getElementById("moa-datalist");
+            if (!datalist) {
+                datalist = document.createElement("datalist");
+                datalist.id = "moa-datalist";
+                filterMoA.setAttribute("list", "moa-datalist");
+                filterMoA.parentNode.appendChild(datalist);
+            }
+            datalist.innerHTML = data.moa_classes.map(m => `<option value="${esc(m)}">`).join("");
         }
 
         analogueFiltersLoaded = true;
@@ -588,6 +594,9 @@ filterSubstance.addEventListener("keydown", e => {
 filterIndication.addEventListener("keydown", e => {
     if (e.key === "Enter") searchAnalogues();
 });
+filterMoA.addEventListener("keydown", e => {
+    if (e.key === "Enter") searchAnalogues();
+});
 
 async function searchAnalogues() {
     const params = new URLSearchParams();
@@ -600,7 +609,7 @@ async function searchAnalogues() {
     // Molecule Type & Route
     if (filterMoleculeType && filterMoleculeType.value) params.set("molecule_type", filterMoleculeType.value);
     if (filterRoute && filterRoute.value) params.set("route_of_administration", filterRoute.value);
-    if (filterMoA && filterMoA.value) params.set("moa_class", filterMoA.value);
+    if (filterMoA && filterMoA.value.trim()) params.set("moa_class", filterMoA.value.trim());
     // Approval & Classification
     if (filterPrevalence.value) params.set("prevalence_category", filterPrevalence.value);
     if (filterOrphan.value) params.set("orphan", filterOrphan.value);
