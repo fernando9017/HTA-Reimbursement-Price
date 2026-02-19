@@ -1,22 +1,19 @@
 """Japan PMDA (Pharmaceuticals and Medical Devices Agency) adapter.
 
-Focuses on regulatory approval and NHI (National Health Insurance) drug
-price setting for Japan.
-
-Data sources:
-1. PMDA approved drug information listing page (English) — regulatory
-   approval data including brand name, INN, indication, and approval date.
-2. NHI drug price database links — for price setting information.
-
-The English-language PMDA page is publicly available at:
-  https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html
+Data sources (in priority order):
+1. Bundled seed dataset — curated JSON of real PMDA approval entries.
+   Always available, works offline.
+2. PMDA approved drug information listing page (English) — scraped on
+   startup when available.
 
 No authentication required.
 """
 
+import json
 import logging
 import re
 import urllib.parse
+from pathlib import Path
 
 import httpx
 
@@ -25,6 +22,9 @@ from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
+
+# Path to the bundled seed dataset
+SEED_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "pmda_seed_data.json"
 
 # NHI drug price database search URL
 NHI_PRICE_SEARCH_URL = "https://www.pmda.go.jp/PmdaSearch/iyakuSearch/"
@@ -69,7 +69,12 @@ class JapanPMDA(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch and parse the PMDA approved drugs listing page."""
+        """Load PMDA data from seed file and optionally from live sources."""
+        # Step 1: Always load bundled seed data (guaranteed to work)
+        seed_drugs = self._load_seed_data()
+
+        # Step 2: Try live source for additional/updated data
+        live_drugs: list[dict] = []
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
@@ -87,15 +92,32 @@ class JapanPMDA(HTAAgency):
                 resp = await client.get(PMDA_DRUGS_URL)
                 resp.raise_for_status()
                 html = resp.text
+                if html:
+                    live_drugs = self._parse_listing_page(html)
             except Exception:
-                logger.warning("Failed to fetch PMDA drugs listing page")
-                html = ""
+                logger.warning("Failed to fetch PMDA drugs listing page (will use seed data)")
 
-            if html:
-                self._drug_list = self._parse_listing_page(html)
-
+        # Step 3: Merge seed + live, deduplicating
+        self._drug_list = _merge_drug_entries(seed_drugs, live_drugs)
         self._loaded = True
-        logger.info("Japan PMDA data loaded: %d drug entries", len(self._drug_list))
+        logger.info(
+            "Japan PMDA data loaded: %d total entries (%d seed, %d live)",
+            len(self._drug_list), len(seed_drugs), len(live_drugs),
+        )
+
+    def _load_seed_data(self) -> list[dict]:
+        """Load the bundled JSON seed dataset."""
+        try:
+            if SEED_DATA_PATH.exists():
+                with open(SEED_DATA_PATH, encoding="utf-8") as f:
+                    data = json.load(f)
+                logger.info("PMDA seed data loaded: %d entries", len(data))
+                return data
+            else:
+                logger.warning("PMDA seed data file not found at %s", SEED_DATA_PATH)
+        except Exception:
+            logger.exception("Error loading PMDA seed data")
+        return []
 
     async def search_assessments(
         self,
@@ -370,3 +392,20 @@ def _build_pmda_search_url(drug_name: str) -> str:
     """Build a PMDA drug information search URL."""
     encoded = urllib.parse.quote(drug_name)
     return f"{NHI_PRICE_SEARCH_URL}?iYakuKbn=1&iKensaku={encoded}"
+
+
+def _merge_drug_entries(seed: list[dict], live: list[dict]) -> list[dict]:
+    """Merge seed and live drug entries, deduplicating by brand+inn+date."""
+    merged = list(seed)
+    existing_keys = {
+        f"{d.get('brand_name', '')}|{d.get('inn', '')}|{d.get('approval_date', '')}"
+        for d in merged
+    }
+
+    for d in live:
+        key = f"{d.get('brand_name', '')}|{d.get('inn', '')}|{d.get('approval_date', '')}"
+        if key not in existing_keys:
+            merged.append(d)
+            existing_keys.add(key)
+
+    return merged

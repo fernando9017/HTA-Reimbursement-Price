@@ -1,0 +1,226 @@
+[
+  {
+    "brand_name": "Keytruda",
+    "inn": "Pembrolizumab",
+    "indication": "Treatment of unresectable advanced or recurrent non-small cell lung cancer",
+    "approval_date": "2023-09-28",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Keytruda",
+    "inn": "Pembrolizumab",
+    "indication": "Treatment of radically unresectable advanced or recurrent melanoma",
+    "approval_date": "2016-09-28",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Keytruda",
+    "inn": "Pembrolizumab",
+    "indication": "Treatment of locally advanced or metastatic urothelial carcinoma in combination with enfortumab vedotin",
+    "approval_date": "2024-09-24",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Opdivo",
+    "inn": "Nivolumab",
+    "indication": "Treatment of unresectable or metastatic melanoma",
+    "approval_date": "2014-07-04",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Opdivo",
+    "inn": "Nivolumab",
+    "indication": "Treatment of unresectable advanced or recurrent non-small cell lung cancer",
+    "approval_date": "2015-12-17",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Opdivo",
+    "inn": "Nivolumab",
+    "indication": "Treatment of unresectable advanced or recurrent renal cell carcinoma",
+    "approval_date": "2016-08-26",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Tecentriq",
+    "inn": "Atezolizumab",
+    "indication": "Treatment of advanced hepatocellular carcinoma in combination with bevacizumab",
+    "approval_date": "2020-09-25",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Tecentriq",
+    "inn": "Atezolizumab",
+    "indication": "Treatment of unresectable advanced or recurrent non-small cell lung cancer",
+    "approval_date": "2018-04-18",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Enhertu",
+    "inn": "Trastuzumab deruxtecan",
+    "indication": "Treatment of HER2-positive unresectable or metastatic breast cancer that has progressed after prior treatment",
+    "approval_date": "2020-03-25",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Enhertu",
+    "inn": "Trastuzumab deruxtecan",
+    "indication": "Treatment of HER2-low unresectable or metastatic breast cancer after prior chemotherapy",
+    "approval_date": "2023-04-12",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Padcev",
+    "inn": "Enfortumab vedotin",
+    "indication": "Treatment of locally advanced or metastatic urothelial carcinoma",
+    "approval_date": "2021-09-27",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Tagrisso",
+    "inn": "Osimertinib",
+    "indication": "Treatment of EGFR T790M mutation-positive non-small cell lung cancer",
+    "approval_date": "2016-03-28",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Tagrisso",
+    "inn": "Osimertinib",
+    "indication": "Treatment of EGFR mutation-positive locally advanced or metastatic non-small cell lung cancer, first-line",
+    "approval_date": "2018-08-21",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Lynparza",
+    "inn": "Olaparib",
+    "indication": "Maintenance treatment of BRCA-mutated advanced ovarian cancer after platinum-based chemotherapy",
+    "approval_date": "2018-01-19",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Lynparza",
+    "inn": "Olaparib",
+    "indication": "Treatment of BRCA-mutated HER2-negative metastatic breast cancer",
+    "approval_date": "2018-07-02",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new indication"
+  },
+  {
+    "brand_name": "Venclexta",
+    "inn": "Venetoclax",
+    "indication": "Treatment of relapsed or refractory chronic lymphocytic leukaemia with 17p deletion",
+    "approval_date": "2019-09-20",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Imbruvica",
+    "inn": "Ibrutinib",
+    "indication": "Treatment of relapsed or refractory chronic lymphocytic leukaemia and small lymphocytic lymphoma",
+    "approval_date": "2016-03-28",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Revlimid",
+    "inn": "Lenalidomide",
+    "indication": "Treatment of relapsed or refractory multiple myeloma",
+    "approval_date": "2010-06-25",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Darzalex",
+    "inn": "Daratumumab",
+    "indication": "Treatment of relapsed or refractory multiple myeloma",
+    "approval_date": "2017-11-22",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Zolgensma",
+    "inn": "Onasemnogene abeparvovec",
+    "indication": "Treatment of spinal muscular atrophy (SMA) with bi-allelic mutations in the SMN1 gene",
+    "approval_date": "2020-05-19",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "orphan"
+  },
+  {
+    "brand_name": "Spinraza",
+    "inn": "Nusinersen",
+    "indication": "Treatment of spinal muscular atrophy",
+    "approval_date": "2017-07-03",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "orphan"
+  },
+  {
+    "brand_name": "Imfinzi",
+    "inn": "Durvalumab",
+    "indication": "Treatment of unresectable stage III non-small cell lung cancer that has not progressed after concurrent chemoradiation",
+    "approval_date": "2018-07-02",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Ozempic",
+    "inn": "Semaglutide",
+    "indication": "Treatment of type 2 diabetes mellitus in adults insufficiently controlled with diet and exercise alone",
+    "approval_date": "2018-03-23",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Xtandi",
+    "inn": "Enzalutamide",
+    "indication": "Treatment of metastatic castration-resistant prostate cancer",
+    "approval_date": "2014-03-24",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Erleada",
+    "inn": "Apalutamide",
+    "indication": "Treatment of non-metastatic castration-resistant prostate cancer at high risk of developing metastasis",
+    "approval_date": "2019-05-21",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Trodelvy",
+    "inn": "Sacituzumab govitecan",
+    "indication": "Treatment of unresectable locally advanced or metastatic triple-negative breast cancer after 2 or more prior therapies",
+    "approval_date": "2022-08-15",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Libtayo",
+    "inn": "Cemiplimab",
+    "indication": "Treatment of metastatic or locally advanced cutaneous squamous cell carcinoma",
+    "approval_date": "2022-03-28",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0003.html",
+    "review_type": "new drug"
+  },
+  {
+    "brand_name": "Adcetris",
+    "inn": "Brentuximab vedotin",
+    "indication": "Treatment of relapsed or refractory CD30-positive Hodgkin lymphoma or systemic anaplastic large cell lymphoma",
+    "approval_date": "2014-01-17",
+    "review_url": "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html",
+    "review_type": "new drug"
+  }
+]

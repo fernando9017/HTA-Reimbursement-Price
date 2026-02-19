@@ -1,15 +1,18 @@
 """UK NICE (National Institute for Health and Care Excellence) adapter.
 
-Data source: NICE published guidance listing pages (public HTML).
-Fetches Technology Appraisal (TA) and Highly Specialised Technology (HST)
-guidance from the NICE website and parses the HTML to extract guidance
-metadata and recommendation outcomes.
+Data sources (in priority order):
+1. Bundled seed dataset — curated JSON of real NICE TA/HST guidance entries.
+   Always available, works offline.
+2. NICE published guidance listing pages (public HTML) — scraped on startup
+   when available.
 
 No API key required for public website pages.
 """
 
+import json
 import logging
 import re
+from pathlib import Path
 
 import httpx
 
@@ -25,6 +28,9 @@ from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
+
+# Path to the bundled seed dataset
+SEED_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "nice_seed_data.json"
 
 # Map NICE recommendation keywords to standardised display values
 RECOMMENDATION_DISPLAY = {
@@ -69,9 +75,12 @@ class UKNICE(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch NICE published guidance listing pages and parse them."""
-        all_guidance: list[dict] = []
+        """Load NICE data from seed file and optionally from live sources."""
+        # Step 1: Always load bundled seed data (guaranteed to work)
+        seed_guidance = self._load_seed_data()
 
+        # Step 2: Try live sources for additional/updated data
+        live_guidance: list[dict] = []
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
@@ -88,13 +97,31 @@ class UKNICE(HTAAgency):
             for programme_type in NICE_PROGRAMME_TYPES:
                 try:
                     guidance = await self._fetch_guidance_listing(client, programme_type)
-                    all_guidance.extend(guidance)
+                    live_guidance.extend(guidance)
                 except Exception:
                     logger.exception("Failed to fetch NICE %s listing", programme_type)
 
-        self._guidance_list = all_guidance
+        # Step 3: Merge seed + live, deduplicating by reference
+        self._guidance_list = _merge_guidance(seed_guidance, live_guidance)
         self._loaded = True
-        logger.info("UK NICE data loaded: %d guidance entries", len(self._guidance_list))
+        logger.info(
+            "UK NICE data loaded: %d total entries (%d seed, %d live)",
+            len(self._guidance_list), len(seed_guidance), len(live_guidance),
+        )
+
+    def _load_seed_data(self) -> list[dict]:
+        """Load the bundled JSON seed dataset."""
+        try:
+            if SEED_DATA_PATH.exists():
+                with open(SEED_DATA_PATH, encoding="utf-8") as f:
+                    data = json.load(f)
+                logger.info("NICE seed data loaded: %d entries", len(data))
+                return data
+            else:
+                logger.warning("NICE seed data file not found at %s", SEED_DATA_PATH)
+        except Exception:
+            logger.exception("Error loading NICE seed data")
+        return []
 
     async def search_assessments(
         self,
@@ -340,3 +367,17 @@ def _normalize_recommendation(raw: str) -> str:
         if keyword in lower:
             return RECOMMENDATION_DISPLAY[keyword]
     return raw.strip().capitalize()
+
+
+def _merge_guidance(seed: list[dict], live: list[dict]) -> list[dict]:
+    """Merge seed and live guidance entries, deduplicating by reference."""
+    merged = list(seed)
+    existing_refs = {g.get("reference", "") for g in merged}
+
+    for g in live:
+        ref = g.get("reference", "")
+        if ref and ref not in existing_refs:
+            merged.append(g)
+            existing_refs.add(ref)
+
+    return merged

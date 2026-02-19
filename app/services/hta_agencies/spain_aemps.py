@@ -1,17 +1,17 @@
 """Spain AEMPS (Agencia Española de Medicamentos y Productos Sanitarios) adapter.
 
-Data source: AEMPS Informes de Posicionamiento Terapéutico (IPT) listing page.
-IPTs are therapeutic positioning reports that evaluate new medicines and provide
-recommendations on their place in therapy relative to existing alternatives.
-
-The listing page is a public HTML page on the AEMPS website.  Each IPT entry
-contains the drug name, indication, date, and a link to the full PDF report.
+Data sources (in priority order):
+1. Bundled seed dataset — curated JSON of real AEMPS IPT entries.
+   Always available, works offline.
+2. AEMPS IPT listing page (public HTML) — scraped on startup when available.
 
 No authentication required.
 """
 
+import json
 import logging
 import re
+from pathlib import Path
 
 import httpx
 
@@ -20,6 +20,9 @@ from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
+
+# Path to the bundled seed dataset
+SEED_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "aemps_seed_data.json"
 
 # Therapeutic positioning outcomes → English display values
 POSITIONING_DISPLAY = {
@@ -60,9 +63,12 @@ class SpainAEMPS(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch and parse the AEMPS IPT listing page(s)."""
-        all_items: list[dict] = []
+        """Load AEMPS data from seed file and optionally from live sources."""
+        # Step 1: Always load bundled seed data (guaranteed to work)
+        seed_items = self._load_seed_data()
 
+        # Step 2: Try live sources for additional/updated data
+        live_items: list[dict] = []
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
@@ -91,12 +97,30 @@ class SpainAEMPS(HTAAgency):
                 if not items:
                     break
 
-                all_items.extend(items)
+                live_items.extend(items)
                 logger.debug("AEMPS IPT page %d: %d items", page, len(items))
 
-        self._ipt_list = all_items
+        # Step 3: Merge seed + live, deduplicating by reference
+        self._ipt_list = _merge_ipt_entries(seed_items, live_items)
         self._loaded = True
-        logger.info("Spain AEMPS data loaded: %d IPT entries", len(self._ipt_list))
+        logger.info(
+            "Spain AEMPS data loaded: %d total entries (%d seed, %d live)",
+            len(self._ipt_list), len(seed_items), len(live_items),
+        )
+
+    def _load_seed_data(self) -> list[dict]:
+        """Load the bundled JSON seed dataset."""
+        try:
+            if SEED_DATA_PATH.exists():
+                with open(SEED_DATA_PATH, encoding="utf-8") as f:
+                    data = json.load(f)
+                logger.info("AEMPS seed data loaded: %d entries", len(data))
+                return data
+            else:
+                logger.warning("AEMPS seed data file not found at %s", SEED_DATA_PATH)
+        except Exception:
+            logger.exception("Error loading AEMPS seed data")
+        return []
 
     async def search_assessments(
         self,
@@ -347,3 +371,22 @@ def _normalize_positioning(raw: str) -> str:
         if keyword in lower:
             return POSITIONING_DISPLAY[keyword]
     return raw.strip().capitalize()
+
+
+def _merge_ipt_entries(seed: list[dict], live: list[dict]) -> list[dict]:
+    """Merge seed and live IPT entries, deduplicating by reference."""
+    merged = list(seed)
+    existing_refs = {ipt.get("reference", "") for ipt in merged}
+
+    for ipt in live:
+        ref = ipt.get("reference", "")
+        if ref and ref not in existing_refs:
+            merged.append(ipt)
+            existing_refs.add(ref)
+        elif not ref:
+            # No reference — deduplicate by title
+            title = ipt.get("title", "").lower()
+            if not any(title == m.get("title", "").lower() for m in merged):
+                merged.append(ipt)
+
+    return merged

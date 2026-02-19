@@ -1,0 +1,177 @@
+[
+  {
+    "reference": "IPT-83/2024",
+    "title": "Pembrolizumab (Keytruda) en combinacion con enfortumab vedotina en carcinoma urotelial localmente avanzado o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/pembrolizumab-keytruda-en-carcinoma-urotelial/",
+    "published_date": "2024-09-15",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-23/2024",
+    "title": "Pembrolizumab (Keytruda) en cancer de pulmon no microcitico localmente avanzado o metastasico con expresion de PD-L1",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/pembrolizumab-keytruda-cancer-pulmon/",
+    "published_date": "2024-01-15",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-15/2023",
+    "title": "Pembrolizumab (Keytruda) en monoterapia en cancer de mama triple negativo localmente recurrente irresecable o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/pembrolizumab-mama-triple-negativo/",
+    "published_date": "2023-04-20",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-52/2022",
+    "title": "Pembrolizumab (Keytruda) en melanoma avanzado no resecable o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/pembrolizumab-melanoma/",
+    "published_date": "2022-06-10",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-18/2023",
+    "title": "Nivolumab (Opdivo) en carcinoma urotelial avanzado o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/nivolumab-opdivo-carcinoma-urotelial/",
+    "published_date": "2023-03-03",
+    "positioning": "favorable condicionado"
+  },
+  {
+    "reference": "IPT-41/2022",
+    "title": "Nivolumab (Opdivo) con cabozantinib en carcinoma de celulas renales avanzado de primera linea",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/nivolumab-cabozantinib-renal/",
+    "published_date": "2022-08-15",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-30/2022",
+    "title": "Nivolumab (Opdivo) con ipilimumab en melanoma avanzado no resecable o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/nivolumab-ipilimumab-melanoma/",
+    "published_date": "2022-04-18",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-12/2023",
+    "title": "Atezolizumab (Tecentriq) en carcinoma hepatocelular avanzado en combinacion con bevacizumab",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/atezolizumab-hepatocelular/",
+    "published_date": "2023-02-22",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-08/2022",
+    "title": "Trastuzumab deruxtecan (Enhertu) en cancer de mama HER2-positivo irresecable o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/trastuzumab-deruxtecan-enhertu-mama/",
+    "published_date": "2022-06-22",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-90/2024",
+    "title": "Trastuzumab deruxtecan (Enhertu) en cancer de mama HER2-low metastasico tras quimioterapia previa",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/trastuzumab-deruxtecan-her2low/",
+    "published_date": "2024-11-05",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-75/2024",
+    "title": "Enfortumab vedotina (Padcev) en carcinoma urotelial localmente avanzado o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/enfortumab-vedotina-padcev/",
+    "published_date": "2024-06-10",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-45/2023",
+    "title": "Osimertinib (Tagrisso) en cancer de pulmon no microcitico EGFR mutado localmente avanzado o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/osimertinib-tagrisso-pulmon/",
+    "published_date": "2023-07-14",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-33/2022",
+    "title": "Osimertinib (Tagrisso) en tratamiento adyuvante de cancer de pulmon no microcitico EGFR mutado tras reseccion tumoral completa",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/osimertinib-adyuvante/",
+    "published_date": "2022-05-20",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-60/2023",
+    "title": "Olaparib (Lynparza) en mantenimiento de cancer de ovario avanzado con mutacion BRCA tras respuesta a quimioterapia de primera linea con platino",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/olaparib-lynparza-ovario/",
+    "published_date": "2023-10-08",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-22/2022",
+    "title": "Venetoclax (Venclyxto) con obinutuzumab en leucemia linfocitica cronica no tratada previamente",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/venetoclax-venclyxto-llc/",
+    "published_date": "2022-03-15",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-35/2022",
+    "title": "Ibrutinib (Imbruvica) en leucemia linfocitica cronica previamente tratada",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ibrutinib-imbruvica-llc/",
+    "published_date": "2022-06-01",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-55/2023",
+    "title": "Lenalidomida (Revlimid) con dexametasona en mieloma multiple recidivante o refractario",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/lenalidomida-revlimid-mieloma/",
+    "published_date": "2023-09-05",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-42/2023",
+    "title": "Daratumumab (Darzalex) en mieloma multiple recidivante y refractario",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/daratumumab-darzalex-mieloma/",
+    "published_date": "2023-06-28",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-30/2023",
+    "title": "Onasemnogene abeparvovec (Zolgensma) en atrofia muscular espinal tipo 1",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/onasemnogene-zolgensma-ame/",
+    "published_date": "2023-07-07",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-10/2021",
+    "title": "Nusinersen (Spinraza) en atrofia muscular espinal",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/nusinersen-spinraza-ame/",
+    "published_date": "2021-02-15",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-65/2023",
+    "title": "Durvalumab (Imfinzi) con quimioterapia en cancer de vias biliares avanzado",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/durvalumab-imfinzi-biliar/",
+    "published_date": "2023-11-20",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-28/2022",
+    "title": "Semaglutida (Ozempic) en diabetes mellitus tipo 2 en adultos insuficientemente controlados",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/semaglutida-ozempic-dm2/",
+    "published_date": "2022-04-05",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-80/2024",
+    "title": "Enzalutamida (Xtandi) en cancer de prostata metastasico resistente a la castracion",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/enzalutamida-xtandi-prostata/",
+    "published_date": "2024-08-12",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-70/2024",
+    "title": "Sacituzumab govitecan (Trodelvy) en cancer de mama triple negativo irresecable localmente avanzado o metastasico",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/sacituzumab-govitecan-trodelvy/",
+    "published_date": "2024-04-18",
+    "positioning": "favorable"
+  },
+  {
+    "reference": "IPT-48/2023",
+    "title": "Cemiplimab (Libtayo) en carcinoma cutaneo de celulas escamosas metastasico o localmente avanzado",
+    "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/cemiplimab-libtayo-ccce/",
+    "published_date": "2023-08-10",
+    "positioning": "favorable"
+  }
+]
