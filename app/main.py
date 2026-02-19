@@ -8,6 +8,9 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 
 from app.models import (
     AnalogueResponse,
@@ -76,6 +79,19 @@ app = FastAPI(
 )
 
 STATIC_DIR = Path(__file__).parent / "static"
+
+
+class NoCacheStaticMiddleware(BaseHTTPMiddleware):
+    """Prevent browsers from caching static assets aggressively."""
+
+    async def dispatch(self, request: Request, call_next):
+        response: Response = await call_next(request)
+        if request.url.path.startswith("/static/"):
+            response.headers["Cache-Control"] = "no-cache, must-revalidate"
+        return response
+
+
+app.add_middleware(NoCacheStaticMiddleware)
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 
