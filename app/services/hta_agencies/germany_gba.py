@@ -288,6 +288,16 @@ def _to_result(dec: dict, active_substance: str) -> AssessmentResult:
     trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
     assessment_url = dec.get("assessment_url", "") or GBA_ASSESSMENT_BASE_URL
 
+    # Build a concise English summary
+    summary_parts = []
+    if benefit_desc:
+        summary_parts.append(f"Added benefit: {benefit_desc}")
+    if evidence_desc:
+        summary_parts.append(f"Evidence certainty: {evidence_desc}")
+    if dec.get("comparator"):
+        summary_parts.append(f"vs. {dec['comparator']}")
+    summary_en = " | ".join(summary_parts)
+
     return AssessmentResult(
         product_name=trade_name,
         dossier_code=dec.get("decision_id", "") or dec.get("procedure_id", ""),
@@ -299,6 +309,7 @@ def _to_result(dec: dict, active_substance: str) -> AssessmentResult:
         evidence_level=evidence_desc,
         comparator=dec.get("comparator", ""),
         patient_group=dec.get("patient_group", ""),
+        summary_en=summary_en,
     )
 
 

@@ -27,6 +27,86 @@ logger = logging.getLogger(__name__)
 # Path to the bundled seed dataset
 SEED_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "has_seed_data.json"
 
+# SMR (Service Médical Rendu) → English translations
+SMR_EN: dict[str, str] = {
+    "important": "Major clinical benefit",
+    "modéré": "Moderate clinical benefit",
+    "modere": "Moderate clinical benefit",
+    "faible": "Low clinical benefit",
+    "insuffisant": "Insufficient — not eligible for reimbursement",
+    "non précisé": "Clinical benefit not specified",
+    "non precise": "Clinical benefit not specified",
+}
+
+# ASMR (Amélioration du SMR) → English translations
+ASMR_EN: dict[str, str] = {
+    "i": "Major therapeutic improvement",
+    "ii": "Important therapeutic improvement",
+    "iii": "Moderate therapeutic improvement",
+    "iv": "Minor therapeutic improvement",
+    "v": "No therapeutic improvement over existing treatments",
+    "v (aucune amélioration)": "No therapeutic improvement",
+    "v (aucune amelioration)": "No therapeutic improvement",
+}
+
+# Evaluation motif (reason) → English translations
+MOTIF_EN: dict[str, str] = {
+    "1ère inscription": "Initial registration",
+    "1ere inscription": "Initial registration",
+    "renouvellement d'inscription": "Renewal of registration",
+    "renouvellement": "Renewal",
+    "extension d'indication": "Extension of indication",
+    "réévaluation": "Re-evaluation",
+    "reevaluation": "Re-evaluation",
+    "nouvelle indication": "New indication",
+    "rectificatif": "Amendment",
+    "changement de titulaire": "Change of marketing authorisation holder",
+    "changement de procédure": "Change of procedure",
+    "changement de procedure": "Change of procedure",
+    "réinscription": "Re-registration",
+    "reinscription": "Re-registration",
+}
+
+
+def _translate_motif(motif: str) -> str:
+    """Translate a French HAS evaluation motif to English."""
+    key = motif.lower().strip()
+    return MOTIF_EN.get(key, motif)
+
+
+def _translate_smr(value: str) -> str:
+    """Translate an SMR value to an English description."""
+    key = value.lower().strip()
+    return SMR_EN.get(key, value)
+
+
+def _translate_asmr(value: str) -> str:
+    """Translate an ASMR value to an English description."""
+    key = value.lower().strip()
+    # Try full value first, then just the Roman numeral
+    result = ASMR_EN.get(key)
+    if result:
+        return result
+    # Try just the first character (Roman numeral)
+    first = key.split()[0] if key else key
+    return ASMR_EN.get(first, value)
+
+
+def _build_summary_en(smr_value: str, asmr_value: str, motif: str) -> str:
+    """Build a concise English summary of a HAS assessment."""
+    parts = []
+    if smr_value:
+        parts.append(f"SMR: {_translate_smr(smr_value)}")
+    if asmr_value:
+        parts.append(f"ASMR {asmr_value}: {_translate_asmr(asmr_value)}")
+    if motif:
+        en_motif = _translate_motif(motif)
+        if en_motif != motif:
+            parts.append(f"Evaluation purpose: {en_motif}")
+        else:
+            parts.append(f"Evaluation purpose: {motif}")
+    return " | ".join(parts)
+
 
 class FranceHAS(HTAAgency):
     """HAS (Haute Autorité de Santé) — France's HTA agency."""
@@ -234,6 +314,13 @@ class FranceHAS(HTAAgency):
                 else:
                     dossier_assessments[key]["asmr_value"] = asmr["value"]
                     dossier_assessments[key]["asmr_description"] = asmr["label"]
+
+        for data in dossier_assessments.values():
+            data["summary_en"] = _build_summary_en(
+                data.get("smr_value", ""),
+                data.get("asmr_value", ""),
+                data.get("evaluation_reason", ""),
+            )
 
         results = [AssessmentResult(**data) for data in dossier_assessments.values()]
         # Sort by opinion date descending (most recent first)

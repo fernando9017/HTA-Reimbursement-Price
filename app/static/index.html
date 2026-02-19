@@ -3,22 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analogue Selection</title>
-    <link rel="stylesheet" href="/static/style.css?v=20260219c">
+    <title>HTA Assessment Finder</title>
+    <link rel="stylesheet" href="/static/style.css?v=20260219d">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Analogue Selection</h1>
-            <p class="subtitle">Search EMA-authorized human medicines by therapeutic area, orphan status, approval date &amp; more</p>
+            <h1>HTA Assessment Finder</h1>
+            <p class="subtitle">Search EMA-authorized medicines — HTA assessments &amp; analogue selection</p>
         </div>
     </header>
 
+    <!-- Module navigation tabs -->
+    <nav class="module-nav">
+        <div class="container">
+            <button class="module-tab active" data-module="hta">HTA &amp; Reimbursement</button>
+            <button class="module-tab" data-module="analogues">Analogue Selection</button>
+        </div>
+    </nav>
+
     <main class="container">
         <!-- ═══════════════════════════════════════════════════════════════
-             Analogue Selection
+             MODULE 1: HTA & Reimbursement
              ═══════════════════════════════════════════════════════════════ -->
-        <div id="module-analogues" class="module-content">
+        <div id="module-hta" class="module-content">
+            <!-- Step 1: Search for a medicine -->
+            <section id="search-section" class="card">
+                <h2>1. Search for a medicine</h2>
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Enter medicine name or active substance (e.g., Padcev, enfortumab vedotin)"
+                        autocomplete="off"
+                    >
+                    <button id="search-btn">Search</button>
+                </div>
+                <div id="search-status" class="status-msg hidden"></div>
+                <div id="search-results" class="hidden"></div>
+            </section>
+
+            <!-- Step 2: Medicine details + indication selection -->
+            <section id="medicine-section" class="card hidden">
+                <h2>2. Select an indication</h2>
+                <div id="medicine-details"></div>
+            </section>
+
+            <!-- Step 3: Select country and view assessments -->
+            <section id="assessment-section" class="card hidden">
+                <h2>3. HTA Assessment Results</h2>
+                <div class="country-selector">
+                    <label for="country-select">Country:</label>
+                    <select id="country-select"></select>
+                    <button id="find-assessments-btn">Find Assessments</button>
+                </div>
+                <div id="assessment-status" class="status-msg hidden"></div>
+                <div id="assessment-results" class="hidden"></div>
+            </section>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             MODULE 2: Analogue Selection
+             ═══════════════════════════════════════════════════════════════ -->
+        <div id="module-analogues" class="module-content hidden">
             <!-- Filters panel -->
             <section class="card">
                 <h2>Filter Criteria</h2>
@@ -183,11 +230,15 @@
 
     <footer>
         <div class="container">
-            <p>Data source: <a href="https://www.ema.europa.eu" target="_blank" rel="noopener">EMA</a> (European Medicines Agency) &middot; WHO INN</p>
+            <p>Data sources: <a href="https://www.ema.europa.eu" target="_blank" rel="noopener">EMA</a> &middot;
+            <a href="https://www.has-sante.fr" target="_blank" rel="noopener">HAS</a> &middot;
+            <a href="https://base-donnees-publique.medicaments.gouv.fr" target="_blank" rel="noopener">BDPM</a> &middot;
+            <a href="https://www.g-ba.de" target="_blank" rel="noopener">G-BA</a> &middot;
+            <a href="https://www.nice.org.uk" target="_blank" rel="noopener">NICE</a></p>
         </div>
     </footer>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-    <script src="/static/app.js?v=20260219c"></script>
+    <script src="/static/app.js?v=20260219d"></script>
 </body>
 </html>

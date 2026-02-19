@@ -58,6 +58,8 @@ class AssessmentResult(BaseModel):
     # Japan (PMDA)
     pmda_review_type: str = ""
     drug_price: str = ""
+    # English summary (FR and DE: translated/clarified assessment outcome)
+    summary_en: str = ""
 
 
 class AssessmentResponse(BaseModel):
