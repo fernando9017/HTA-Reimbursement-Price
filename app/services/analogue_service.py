@@ -990,12 +990,12 @@ class AnalogueService:
             if keyword_lower and keyword_lower not in med["therapeutic_indication"].lower():
                 continue
 
-            # Filter: molecule type
-            if mol_type_lower and med.get("molecule_type", "").lower() != mol_type_lower:
+            # Filter: molecule type (partial match for text input)
+            if mol_type_lower and mol_type_lower not in med.get("molecule_type", "").lower():
                 continue
 
-            # Filter: route of administration
-            if route_lower and med.get("route_of_administration", "").lower() != route_lower:
+            # Filter: route of administration (partial match for text input)
+            if route_lower and route_lower not in med.get("route_of_administration", "").lower():
                 continue
 
             # Filter: mechanism of action class (partial match)

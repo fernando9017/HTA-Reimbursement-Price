@@ -535,28 +535,19 @@ async function loadAnalogueFilters() {
         filterATC.innerHTML = '<option value="">All ATC codes</option>' +
             data.atc_prefixes.map(a => `<option value="${esc(a.code)}">${esc(a.label)}</option>`).join("");
 
-        // Populate molecule types
+        // Populate molecule type autocomplete (text input with datalist)
         if (data.molecule_types && filterMoleculeType) {
-            filterMoleculeType.innerHTML = '<option value="">All molecule types</option>' +
-                data.molecule_types.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
+            populateDatalist(filterMoleculeType, "molecule-type-datalist", data.molecule_types);
         }
 
-        // Populate routes of administration
+        // Populate route autocomplete (text input with datalist)
         if (data.routes_of_administration && filterRoute) {
-            filterRoute.innerHTML = '<option value="">All routes</option>' +
-                data.routes_of_administration.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+            populateDatalist(filterRoute, "route-datalist", data.routes_of_administration);
         }
 
-        // Populate MoA autocomplete suggestions (text input with datalist)
+        // Populate MoA autocomplete (text input with datalist)
         if (data.moa_classes && filterMoA) {
-            let datalist = document.getElementById("moa-datalist");
-            if (!datalist) {
-                datalist = document.createElement("datalist");
-                datalist.id = "moa-datalist";
-                filterMoA.setAttribute("list", "moa-datalist");
-                filterMoA.parentNode.appendChild(datalist);
-            }
-            datalist.innerHTML = data.moa_classes.map(m => `<option value="${esc(m)}">`).join("");
+            populateDatalist(filterMoA, "moa-datalist", data.moa_classes);
         }
 
         analogueFiltersLoaded = true;
@@ -607,8 +598,8 @@ async function searchAnalogues() {
     if (filterIndication.value.trim()) params.set("indication_keyword", filterIndication.value.trim());
     if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
     // Molecule Type & Route
-    if (filterMoleculeType && filterMoleculeType.value) params.set("molecule_type", filterMoleculeType.value);
-    if (filterRoute && filterRoute.value) params.set("route_of_administration", filterRoute.value);
+    if (filterMoleculeType && filterMoleculeType.value.trim()) params.set("molecule_type", filterMoleculeType.value.trim());
+    if (filterRoute && filterRoute.value.trim()) params.set("route_of_administration", filterRoute.value.trim());
     if (filterMoA && filterMoA.value.trim()) params.set("moa_class", filterMoA.value.trim());
     // Approval & Classification
     if (filterPrevalence.value) params.set("prevalence_category", filterPrevalence.value);
@@ -820,6 +811,18 @@ function showStatus(el, message, type) {
 
 function hideStatus(el) {
     el.classList.add("hidden");
+}
+
+/** Attach a <datalist> to a text input for autocomplete suggestions. */
+function populateDatalist(input, datalistId, values) {
+    let datalist = document.getElementById(datalistId);
+    if (!datalist) {
+        datalist = document.createElement("datalist");
+        datalist.id = datalistId;
+        input.setAttribute("list", datalistId);
+        input.parentNode.appendChild(datalist);
+    }
+    datalist.innerHTML = values.map(v => `<option value="${esc(v)}">`).join("");
 }
 
 function esc(str) {
