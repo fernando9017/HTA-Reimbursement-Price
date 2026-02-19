@@ -270,6 +270,9 @@ async def search_analogues(
     additional_monitoring: str = Query("", description="Additional monitoring: 'yes', 'no', ''"),
     prevalence_category: str = Query("", description="Prevalence category: 'ultra-rare', 'rare', 'non-rare', ''"),
     indication_keyword: str = Query("", description="Keyword in indication text"),
+    molecule_type: str = Query("", description="Molecule type (e.g. 'Small Molecule', 'Monoclonal Antibody')"),
+    route_of_administration: str = Query("", description="Route of administration (e.g. 'Oral', 'IV', 'SC')"),
+    moa_class: str = Query("", description="Mechanism of action class (partial match)"),
     limit: int = Query(200, ge=1, le=500),
 ):
     """Search for analogue medicines using multi-criteria filters."""
@@ -297,6 +300,9 @@ async def search_analogues(
         additional_monitoring=additional_monitoring,
         prevalence_category=prevalence_category,
         indication_keyword=indication_keyword,
+        molecule_type=molecule_type,
+        route_of_administration=route_of_administration,
+        moa_class=moa_class,
         limit=limit,
     )
 

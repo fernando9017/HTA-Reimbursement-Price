@@ -56,6 +56,9 @@ const filterConditional = document.getElementById("filter-conditional");
 const filterExceptional = document.getElementById("filter-exceptional");
 const filterAccelerated = document.getElementById("filter-accelerated");
 const filterMonitoring = document.getElementById("filter-monitoring");
+const filterMoleculeType = document.getElementById("filter-molecule-type");
+const filterRoute = document.getElementById("filter-route");
+const filterMoA = document.getElementById("filter-moa");
 const analogueSearchBtn = document.getElementById("analogue-search-btn");
 const analogueResetBtn = document.getElementById("analogue-reset-btn");
 const analogueStatus = document.getElementById("analogue-status");
@@ -532,6 +535,24 @@ async function loadAnalogueFilters() {
         filterATC.innerHTML = '<option value="">All ATC codes</option>' +
             data.atc_prefixes.map(a => `<option value="${esc(a.code)}">${esc(a.label)}</option>`).join("");
 
+        // Populate molecule types
+        if (data.molecule_types && filterMoleculeType) {
+            filterMoleculeType.innerHTML = '<option value="">All molecule types</option>' +
+                data.molecule_types.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
+        }
+
+        // Populate routes of administration
+        if (data.routes_of_administration && filterRoute) {
+            filterRoute.innerHTML = '<option value="">All routes</option>' +
+                data.routes_of_administration.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+        }
+
+        // Populate MoA classes
+        if (data.moa_classes && filterMoA) {
+            filterMoA.innerHTML = '<option value="">All MoA classes</option>' +
+                data.moa_classes.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
+        }
+
         analogueFiltersLoaded = true;
     } catch {
         showStatus(analogueStatus, "Failed to load filter options. Please try again.", "error");
@@ -576,6 +597,10 @@ async function searchAnalogues() {
     if (filterSubcategory.value) params.set("therapeutic_subcategory", filterSubcategory.value);
     if (filterIndication.value.trim()) params.set("indication_keyword", filterIndication.value.trim());
     if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
+    // Molecule Type & Route
+    if (filterMoleculeType && filterMoleculeType.value) params.set("molecule_type", filterMoleculeType.value);
+    if (filterRoute && filterRoute.value) params.set("route_of_administration", filterRoute.value);
+    if (filterMoA && filterMoA.value) params.set("moa_class", filterMoA.value);
     // Approval & Classification
     if (filterPrevalence.value) params.set("prevalence_category", filterPrevalence.value);
     if (filterOrphan.value) params.set("orphan", filterOrphan.value);
@@ -617,6 +642,10 @@ function resetAnalogueFilters() {
     filterSubcategory.disabled = true;
     filterIndication.value = "";
     filterSubstance.value = "";
+    // Molecule Type & Route
+    if (filterMoleculeType) filterMoleculeType.value = "";
+    if (filterRoute) filterRoute.value = "";
+    if (filterMoA) filterMoA.value = "";
     // Approval & Classification
     filterPrevalence.value = "";
     filterOrphan.value = "";
@@ -662,8 +691,8 @@ function renderAnalogueResults(data) {
                     <th>Medicine</th>
                     <th>Active Substance</th>
                     <th>Therapeutic Area</th>
+                    <th>Type / Route</th>
                     <th>Auth. Date</th>
-                    <th>Prevalence</th>
                     <th>Attributes</th>
                 </tr>
             </thead>
@@ -703,13 +732,25 @@ function renderAnalogueRow(med) {
         areaDisplay += `<span class="subcategory-label"> &rsaquo; ${esc(med.therapeutic_subcategory)}</span>`;
     }
 
+    // Molecule type + route display
+    let typeRouteDisplay = "";
+    if (med.molecule_type) {
+        typeRouteDisplay += `<span class="tag tag-molecule-type">${esc(med.molecule_type)}</span>`;
+    }
+    if (med.route_of_administration) {
+        typeRouteDisplay += `<span class="tag tag-route">${esc(med.route_of_administration)}</span>`;
+    }
+    if (med.moa_class) {
+        typeRouteDisplay += `<span class="moa-label" title="${esc(med.moa_class)}">${esc(med.moa_class)}</span>`;
+    }
+
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
             <td>${esc(med.active_substance)}</td>
             <td class="col-area">${areaDisplay}</td>
+            <td class="col-type-route">${typeRouteDisplay}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
-            <td>${prevalenceTag}</td>
             <td class="col-tags">${tags.join(" ")}</td>
         </tr>
     `;

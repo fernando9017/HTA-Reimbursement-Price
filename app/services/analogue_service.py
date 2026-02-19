@@ -3,14 +3,37 @@
 Uses EMA medicine data to find analogues for a given therapy based on
 configurable filters: therapeutic area (hierarchical), orphan status,
 years since approval, first approval, authorisation status, ATC code,
-marketing authorisation holder, regulatory pathway flags, and prevalence.
+marketing authorisation holder, regulatory pathway flags, prevalence,
+molecule type, route of administration, and mechanism of action.
+
+Extends beyond raw EMA data by using:
+- WHO INN (International Nonproprietary Name) suffix conventions
+- Curated molecular reference data (app/data/molecule_reference.json)
+- Pharmacological text-mining heuristics
 """
 
+import json
 import logging
 import re
 from datetime import date, timedelta
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+# ── Molecule reference data (beyond EMA) ──────────────────────────────
+# Curated dataset mapping known active substances to molecule type,
+# route of administration, and MoA class.
+
+_MOLECULE_REF: dict[str, dict] = {}
+_MOLECULE_REF_PATH = Path(__file__).parent.parent / "data" / "molecule_reference.json"
+
+try:
+    with open(_MOLECULE_REF_PATH, encoding="utf-8") as f:
+        _raw_ref = json.load(f)
+        _MOLECULE_REF = _raw_ref.get("substances", {})
+    logger.info("Molecule reference loaded: %d substances", len(_MOLECULE_REF))
+except Exception:
+    logger.warning("Could not load molecule reference data — will use INN rules only")
 
 # ATC Level 1 anatomical main groups
 ATC_LEVEL1 = {
@@ -399,6 +422,263 @@ def _classify_prevalence(orphan: bool, indication: str) -> str:
     return "non-rare"
 
 
+# ── Molecule Type Classification ──────────────────────────────────────
+#
+# Uses INN (International Nonproprietary Name) suffix conventions from
+# WHO plus curated reference data to classify medicines by molecule type.
+# Priority: reference data > INN suffix > EMA medicine_type > heuristics.
+
+# INN suffix → molecule type (order: most specific first)
+_INN_MOLECULE_RULES: list[tuple[str, str]] = [
+    # ADC payloads (check before -mab)
+    ("vedotin", "Antibody-Drug Conjugate"),
+    ("deruxtecan", "Antibody-Drug Conjugate"),
+    ("govitecan", "Antibody-Drug Conjugate"),
+    ("mafodotin", "Antibody-Drug Conjugate"),
+    ("ozogamicin", "Antibody-Drug Conjugate"),
+    ("emtansine", "Antibody-Drug Conjugate"),
+    ("ravtansine", "Antibody-Drug Conjugate"),
+    ("tesirine", "Antibody-Drug Conjugate"),
+    ("soravtansine", "Antibody-Drug Conjugate"),
+    # Gene therapy (AAV vectors)
+    ("parvovec", "Gene Therapy"),
+    # Cell therapy
+    ("leucel", "CAR-T / Cell Therapy"),
+    ("autoleucel", "CAR-T / Cell Therapy"),
+    ("autotemcel", "Gene Therapy"),
+    # Antisense / RNA
+    ("nersen", "Antisense / RNA Therapy"),
+    ("siran", "Antisense / RNA Therapy"),
+    # Fusion proteins
+    ("cept", "Fusion Protein"),
+    # Peptides
+    ("glutide", "Peptide"),
+    ("reotide", "Peptide"),
+    ("pressin", "Peptide"),
+    ("relin", "Peptide"),
+    ("tide", "Peptide"),
+    # Monoclonal antibodies (generic -mab suffix)
+    ("mab", "Monoclonal Antibody"),
+    # Small molecule suffixes
+    ("nib", "Small Molecule"),
+    ("tinib", "Small Molecule"),
+    ("ciclib", "Small Molecule"),
+    ("parib", "Small Molecule"),
+    ("clax", "Small Molecule"),
+    ("rafenib", "Small Molecule"),
+    ("metinib", "Small Molecule"),
+    ("zomib", "Small Molecule"),
+    ("domide", "Small Molecule"),
+    ("gliflozin", "Small Molecule"),
+    ("gliptin", "Small Molecule"),
+    ("sartan", "Small Molecule"),
+    ("pril", "Small Molecule"),
+    ("statin", "Small Molecule"),
+    ("olol", "Small Molecule"),
+    ("dipine", "Small Molecule"),
+    ("azole", "Small Molecule"),
+    ("cillin", "Small Molecule"),
+    ("mycin", "Small Molecule"),
+    ("floxacin", "Small Molecule"),
+    ("cycline", "Small Molecule"),
+    ("aftor", "Small Molecule"),
+    ("acaftor", "Small Molecule"),
+    ("xaban", "Small Molecule"),
+    ("vir", "Small Molecule"),
+    ("ib", "Small Molecule"),
+]
+
+# EMA medicine_type field values → molecule type
+_MEDICINE_TYPE_MAP: dict[str, str] = {
+    "generic": "Small Molecule",
+    "biosimilar": "Monoclonal Antibody",
+}
+
+# Keywords in indication text hinting at molecule type
+_MOLECULE_TEXT_HINTS: list[tuple[str, str]] = [
+    ("gene therapy", "Gene Therapy"),
+    ("gene replacement", "Gene Therapy"),
+    ("car-t", "CAR-T / Cell Therapy"),
+    ("car t", "CAR-T / Cell Therapy"),
+    ("chimeric antigen receptor", "CAR-T / Cell Therapy"),
+    ("vaccine", "Vaccine"),
+    ("immunisation", "Vaccine"),
+    ("immunization", "Vaccine"),
+    ("prophylaxis of", "Vaccine"),
+    ("enzyme replacement", "Enzyme Replacement"),
+    ("recombinant enzyme", "Enzyme Replacement"),
+]
+
+
+def _classify_molecule_type(
+    substance: str,
+    medicine_type: str,
+    indication: str,
+) -> str:
+    """Classify a medicine's molecule type.
+
+    Priority:
+    1. Curated reference data (most reliable)
+    2. INN suffix rules (WHO naming conventions)
+    3. EMA medicine_type field mapping
+    4. Indication text heuristics
+    """
+    substance_lower = substance.lower().strip()
+
+    # 1. Check curated reference data
+    ref = _MOLECULE_REF.get(substance_lower)
+    if ref:
+        return ref.get("molecule_type", "")
+
+    # For combination substances, try each component
+    for sep in [" / ", "/", " and ", ", "]:
+        if sep in substance_lower:
+            parts = [p.strip() for p in substance_lower.split(sep) if p.strip()]
+            for part in parts:
+                ref = _MOLECULE_REF.get(part)
+                if ref:
+                    return ref.get("molecule_type", "")
+
+    # 2. INN suffix rules
+    # Check each word in the substance name
+    words = substance_lower.split()
+    for word in words:
+        for suffix, mol_type in _INN_MOLECULE_RULES:
+            if word.endswith(suffix):
+                return mol_type
+
+    # 3. EMA medicine_type field
+    mt_lower = medicine_type.lower().strip()
+    for key, mol_type in _MEDICINE_TYPE_MAP.items():
+        if key in mt_lower:
+            return mol_type
+
+    # 4. Indication text heuristics
+    ind_lower = indication.lower()
+    for hint, mol_type in _MOLECULE_TEXT_HINTS:
+        if hint in ind_lower:
+            return mol_type
+
+    return ""
+
+
+# ── Route of Administration Classification ────────────────────────────
+#
+# Classifies medicines by route of administration using curated reference
+# data, molecule type defaults, and indication text parsing.
+
+# Molecule type → default route (for when no specific data available)
+_DEFAULT_ROUTES: dict[str, str] = {
+    "Small Molecule": "Oral",
+    "Monoclonal Antibody": "IV",
+    "Antibody-Drug Conjugate": "IV",
+    "Bispecific Antibody": "IV",
+    "CAR-T / Cell Therapy": "IV",
+    "Gene Therapy": "IV",
+    "Fusion Protein": "SC",
+    "Enzyme Replacement": "IV",
+    "Vaccine": "IM",
+    "mRNA Vaccine": "IM",
+}
+
+# Text patterns in indication/product name suggesting a specific route
+_ROUTE_TEXT_HINTS: list[tuple[str, str]] = [
+    ("for oral use", "Oral"),
+    ("oral solution", "Oral"),
+    ("film-coated tablet", "Oral"),
+    ("tablet", "Oral"),
+    ("capsule", "Oral"),
+    ("oral", "Oral"),
+    ("for infusion", "IV"),
+    ("intravenous", "IV"),
+    ("concentrate for solution for infusion", "IV"),
+    ("for injection", "SC"),
+    ("subcutaneous", "SC"),
+    ("solution for injection", "SC"),
+    ("pre-filled syringe", "SC"),
+    ("pre-filled pen", "SC"),
+    ("intramuscular", "IM"),
+    ("intravitreal", "Intravitreal"),
+    ("intrathecal", "Intrathecal"),
+    ("inhalation", "Inhaled"),
+    ("inhaler", "Inhaled"),
+    ("nebuliser", "Inhaled"),
+    ("topical", "Topical"),
+    ("cream", "Topical"),
+    ("ointment", "Topical"),
+    ("transdermal", "Topical"),
+    ("eye drops", "Ophthalmic"),
+]
+
+
+def _classify_route(
+    substance: str,
+    molecule_type: str,
+    indication: str,
+    product_name: str = "",
+) -> str:
+    """Classify a medicine's route of administration.
+
+    Priority:
+    1. Curated reference data
+    2. Indication/product text parsing
+    3. Molecule type default route
+    """
+    substance_lower = substance.lower().strip()
+
+    # 1. Check curated reference data
+    ref = _MOLECULE_REF.get(substance_lower)
+    if ref:
+        return ref.get("route", "")
+
+    # For combination substances, try each component
+    for sep in [" / ", "/", " and ", ", "]:
+        if sep in substance_lower:
+            parts = [p.strip() for p in substance_lower.split(sep) if p.strip()]
+            for part in parts:
+                ref = _MOLECULE_REF.get(part)
+                if ref:
+                    return ref.get("route", "")
+
+    # 2. Text parsing from indication + product name
+    text = f"{indication} {product_name}".lower()
+    for hint, route in _ROUTE_TEXT_HINTS:
+        if hint in text:
+            return route
+
+    # 3. Molecule type default
+    if molecule_type:
+        return _DEFAULT_ROUTES.get(molecule_type, "")
+
+    return ""
+
+
+# ── MoA Class Classification ─────────────────────────────────────────
+
+
+def _classify_moa(substance: str) -> str:
+    """Get the mechanism of action class from reference data."""
+    substance_lower = substance.lower().strip()
+
+    ref = _MOLECULE_REF.get(substance_lower)
+    if ref:
+        return ref.get("moa_class", "")
+
+    # For combination substances, collect MoA classes
+    for sep in [" / ", "/", " and ", ", "]:
+        if sep in substance_lower:
+            parts = [p.strip() for p in substance_lower.split(sep) if p.strip()]
+            moas = []
+            for part in parts:
+                ref = _MOLECULE_REF.get(part)
+                if ref and ref.get("moa_class"):
+                    moas.append(ref["moa_class"])
+            if moas:
+                return " + ".join(moas)
+
+    return ""
+
+
 class AnalogueService:
     """Finds analogue medicines from EMA data using multi-criteria filters."""
 
@@ -525,6 +805,15 @@ class AnalogueService:
                 indication, therapeutic_area, atc_code,
             )
 
+            # Molecule type classification (uses reference data + INN rules)
+            mol_type = _classify_molecule_type(substance, medicine_type, indication)
+
+            # Route of administration (uses reference data + defaults)
+            route = _classify_route(substance, mol_type, indication, name)
+
+            # Mechanism of action class (from reference data)
+            moa = _classify_moa(substance)
+
             # Track raw therapeutic areas (for backward compat)
             if therapeutic_area:
                 for area in re.split(r"[;,]", therapeutic_area):
@@ -569,6 +858,9 @@ class AnalogueService:
                 "additional_monitoring": additional_monitoring,
                 "medicine_type": medicine_type,
                 "prevalence_category": prevalence,
+                "molecule_type": mol_type,
+                "route_of_administration": route,
+                "moa_class": moa,
             }
             enriched.append(record)
 
@@ -605,6 +897,9 @@ class AnalogueService:
     def get_filter_options(self) -> dict:
         """Return all available filter options for the frontend."""
         statuses: set[str] = set()
+        molecule_types: set[str] = set()
+        routes: set[str] = set()
+        moa_classes: set[str] = set()
         # Collect which broad categories and subcategories actually have medicines
         category_subs: dict[str, set[str]] = {}
 
@@ -617,6 +912,12 @@ class AnalogueService:
                 category_subs.setdefault(broad, set())
                 if sub:
                     category_subs[broad].add(sub)
+            if med.get("molecule_type"):
+                molecule_types.add(med["molecule_type"])
+            if med.get("route_of_administration"):
+                routes.add(med["route_of_administration"])
+            if med.get("moa_class"):
+                moa_classes.add(med["moa_class"])
 
         # Build taxonomy for frontend: only categories that have medicines
         taxonomy = []
@@ -644,6 +945,9 @@ class AnalogueService:
                 for code in self._atc_prefixes
             ],
             "prevalence_categories": ["ultra-rare", "rare", "non-rare"],
+            "molecule_types": sorted(molecule_types),
+            "routes_of_administration": sorted(routes),
+            "moa_classes": sorted(moa_classes),
         }
 
     def search(
@@ -668,6 +972,9 @@ class AnalogueService:
         additional_monitoring: str = "",
         prevalence_category: str = "",
         indication_keyword: str = "",
+        molecule_type: str = "",
+        route_of_administration: str = "",
+        moa_class: str = "",
         limit: int = 200,
     ) -> list[dict]:
         """Search for analogue medicines matching the given filters."""
@@ -690,6 +997,9 @@ class AnalogueService:
         mah_lower = mah.lower().strip()
         prevalence_lower = prevalence_category.lower().strip()
         keyword_lower = indication_keyword.lower().strip()
+        mol_type_lower = molecule_type.lower().strip()
+        route_lower = route_of_administration.lower().strip()
+        moa_lower = moa_class.lower().strip()
 
         for med in self._medicines:
             # Filter: broad therapeutic area (hierarchical)
@@ -785,6 +1095,18 @@ class AnalogueService:
 
             # Filter: indication keyword search
             if keyword_lower and keyword_lower not in med["therapeutic_indication"].lower():
+                continue
+
+            # Filter: molecule type
+            if mol_type_lower and med.get("molecule_type", "").lower() != mol_type_lower:
+                continue
+
+            # Filter: route of administration
+            if route_lower and med.get("route_of_administration", "").lower() != route_lower:
+                continue
+
+            # Filter: mechanism of action class (partial match)
+            if moa_lower and moa_lower not in med.get("moa_class", "").lower():
                 continue
 
             results.append(med)

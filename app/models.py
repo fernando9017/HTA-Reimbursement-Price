@@ -100,6 +100,10 @@ class AnalogueResult(BaseModel):
     additional_monitoring: bool = False
     medicine_type: str = ""
     prevalence_category: str = ""
+    # Molecule & pharmacology classification (enriched beyond EMA data)
+    molecule_type: str = ""
+    route_of_administration: str = ""
+    moa_class: str = ""
 
 
 class YearRange(BaseModel):
@@ -129,6 +133,9 @@ class FilterOptions(BaseModel):
     mahs: list[str]
     atc_prefixes: list[ATCPrefix]
     prevalence_categories: list[str]
+    molecule_types: list[str] = []
+    routes_of_administration: list[str] = []
+    moa_classes: list[str] = []
 
 
 class AnalogueResponse(BaseModel):

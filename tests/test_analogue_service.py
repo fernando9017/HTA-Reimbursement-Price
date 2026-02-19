@@ -3,7 +3,14 @@
 import pytest
 from datetime import date
 
-from app.services.analogue_service import AnalogueService, _normalize_date, _classify_prevalence
+from app.services.analogue_service import (
+    AnalogueService,
+    _normalize_date,
+    _classify_prevalence,
+    _classify_molecule_type,
+    _classify_route,
+    _classify_moa,
+)
 
 
 # Sample EMA-like medicine records for testing
@@ -802,3 +809,308 @@ def test_combined_prevalence_and_indication(service):
     assert "Zolgensma" in names
     assert "Spinraza" in names
     assert len(results) == 2
+
+
+# ── Molecule type classification ────────────────────────────────────────
+
+
+def test_classify_molecule_type_mab_from_reference():
+    """pembrolizumab should be classified as Monoclonal Antibody from reference data."""
+    result = _classify_molecule_type("pembrolizumab", "", "")
+    assert result == "Monoclonal Antibody"
+
+
+def test_classify_molecule_type_small_molecule_from_reference():
+    """osimertinib should be classified as Small Molecule from reference data."""
+    result = _classify_molecule_type("osimertinib", "", "")
+    assert result == "Small Molecule"
+
+
+def test_classify_molecule_type_adc_from_reference():
+    """trastuzumab deruxtecan should be classified as ADC from reference data."""
+    result = _classify_molecule_type("trastuzumab deruxtecan", "", "")
+    assert result == "Antibody-Drug Conjugate"
+
+
+def test_classify_molecule_type_gene_therapy():
+    """onasemnogene abeparvovec should be Gene Therapy."""
+    result = _classify_molecule_type("onasemnogene abeparvovec", "", "")
+    assert result == "Gene Therapy"
+
+
+def test_classify_molecule_type_antisense():
+    """nusinersen should be Antisense / RNA Therapy."""
+    result = _classify_molecule_type("nusinersen", "", "")
+    assert result == "Antisense / RNA Therapy"
+
+
+def test_classify_molecule_type_bispecific():
+    """emicizumab should be Bispecific Antibody from reference data."""
+    result = _classify_molecule_type("emicizumab", "", "")
+    assert result == "Bispecific Antibody"
+
+
+def test_classify_molecule_type_car_t():
+    """tisagenlecleucel should be CAR-T / Cell Therapy."""
+    result = _classify_molecule_type("tisagenlecleucel", "", "")
+    assert result == "CAR-T / Cell Therapy"
+
+
+def test_classify_molecule_type_peptide():
+    """semaglutide should be Peptide from reference data."""
+    result = _classify_molecule_type("semaglutide", "", "")
+    assert result == "Peptide"
+
+
+def test_classify_molecule_type_inn_suffix_fallback():
+    """Unknown -mab substance should use INN suffix rules."""
+    result = _classify_molecule_type("unknownimab", "", "")
+    assert result == "Monoclonal Antibody"
+
+
+def test_classify_molecule_type_inn_suffix_nib():
+    """Unknown -nib substance should be Small Molecule."""
+    result = _classify_molecule_type("teststinib", "", "")
+    assert result == "Small Molecule"
+
+
+def test_classify_molecule_type_combination():
+    """sacubitril / valsartan should classify from reference data."""
+    result = _classify_molecule_type("sacubitril / valsartan", "", "")
+    assert result == "Small Molecule"
+
+
+def test_classify_molecule_type_vaccine_from_text():
+    """Unknown substance with vaccine indication text should classify."""
+    result = _classify_molecule_type("unknownsubstance", "", "Prevention vaccine against COVID-19")
+    assert result == "Vaccine"
+
+
+# ── Route of administration classification ──────────────────────────────
+
+
+def test_classify_route_from_reference():
+    """pembrolizumab should be IV from reference data."""
+    result = _classify_route("pembrolizumab", "", "")
+    assert result == "IV"
+
+
+def test_classify_route_oral_from_reference():
+    """osimertinib should be Oral from reference data."""
+    result = _classify_route("osimertinib", "", "")
+    assert result == "Oral"
+
+
+def test_classify_route_sc_from_reference():
+    """adalimumab should be SC from reference data."""
+    result = _classify_route("adalimumab", "", "")
+    assert result == "SC"
+
+
+def test_classify_route_intrathecal():
+    """nusinersen should be Intrathecal."""
+    result = _classify_route("nusinersen", "", "")
+    assert result == "Intrathecal"
+
+
+def test_classify_route_intravitreal():
+    """aflibercept should be Intravitreal."""
+    result = _classify_route("aflibercept", "", "")
+    assert result == "Intravitreal"
+
+
+def test_classify_route_default_from_molecule_type():
+    """Unknown small molecule should default to Oral."""
+    result = _classify_route("unknownstuff", "Small Molecule", "")
+    assert result == "Oral"
+
+
+def test_classify_route_default_mab():
+    """Unknown mAb should default to IV."""
+    result = _classify_route("unknownstuff", "Monoclonal Antibody", "")
+    assert result == "IV"
+
+
+def test_classify_route_combination():
+    """ivacaftor / tezacaftor / elexacaftor should be Oral from reference."""
+    result = _classify_route("ivacaftor / tezacaftor / elexacaftor", "", "")
+    assert result == "Oral"
+
+
+# ── MoA classification ──────────────────────────────────────────────────
+
+
+def test_classify_moa_pd1():
+    """pembrolizumab should have PD-1 Inhibitor MoA."""
+    result = _classify_moa("pembrolizumab")
+    assert result == "PD-1 Inhibitor"
+
+
+def test_classify_moa_egfr_tki():
+    """osimertinib should have EGFR TKI MoA."""
+    result = _classify_moa("osimertinib")
+    assert result == "EGFR TKI"
+
+
+def test_classify_moa_bcl2():
+    """venetoclax should have BCL-2 Inhibitor MoA."""
+    result = _classify_moa("venetoclax")
+    assert result == "BCL-2 Inhibitor"
+
+
+def test_classify_moa_combination():
+    """sacubitril / valsartan should combine MoA classes."""
+    result = _classify_moa("sacubitril / valsartan")
+    assert "Neprilysin Inhibitor" in result
+    assert "ARB" in result
+
+
+def test_classify_moa_unknown():
+    """Unknown substance should return empty string."""
+    result = _classify_moa("unknownsubstance")
+    assert result == ""
+
+
+# ── Enriched records have molecule type and route ───────────────────────
+
+
+def test_records_have_molecule_type(service):
+    """Keytruda (pembrolizumab) should have Monoclonal Antibody molecule type."""
+    results = service.search(name="Keytruda")
+    assert results[0]["molecule_type"] == "Monoclonal Antibody"
+
+
+def test_records_have_route(service):
+    """Keytruda (pembrolizumab) should have IV route."""
+    results = service.search(name="Keytruda")
+    assert results[0]["route_of_administration"] == "IV"
+
+
+def test_records_have_moa(service):
+    """Keytruda (pembrolizumab) should have PD-1 Inhibitor MoA."""
+    results = service.search(name="Keytruda")
+    assert results[0]["moa_class"] == "PD-1 Inhibitor"
+
+
+def test_gene_therapy_classification(service):
+    """Zolgensma should be Gene Therapy, IV."""
+    results = service.search(name="Zolgensma")
+    assert results[0]["molecule_type"] == "Gene Therapy"
+    assert results[0]["route_of_administration"] == "IV"
+
+
+def test_antisense_classification(service):
+    """Spinraza should be Antisense / RNA Therapy, Intrathecal."""
+    results = service.search(name="Spinraza")
+    assert results[0]["molecule_type"] == "Antisense / RNA Therapy"
+    assert results[0]["route_of_administration"] == "Intrathecal"
+
+
+# ── Filter by molecule type ─────────────────────────────────────────────
+
+
+def test_filter_molecule_type_mab(service):
+    """Filter by Monoclonal Antibody should return mAb drugs."""
+    results = service.search(molecule_type="Monoclonal Antibody")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" in names
+    assert "Avastin" in names
+    assert "Herceptin" in names
+    assert "Zolgensma" not in names
+
+
+def test_filter_molecule_type_gene_therapy(service):
+    """Filter by Gene Therapy should return only gene therapies."""
+    results = service.search(molecule_type="Gene Therapy")
+    names = {r["name"] for r in results}
+    assert "Zolgensma" in names
+    assert "Keytruda" not in names
+
+
+def test_filter_molecule_type_case_insensitive(service):
+    """Molecule type filter should be case insensitive."""
+    results = service.search(molecule_type="monoclonal antibody")
+    assert any(r["name"] == "Keytruda" for r in results)
+
+
+# ── Filter by route of administration ───────────────────────────────────
+
+
+def test_filter_route_iv(service):
+    """Filter by IV should return IV drugs."""
+    results = service.search(route_of_administration="IV")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" in names
+    assert "Zolgensma" in names
+
+
+def test_filter_route_intrathecal(service):
+    """Filter by Intrathecal should return only Spinraza."""
+    results = service.search(route_of_administration="Intrathecal")
+    names = {r["name"] for r in results}
+    assert "Spinraza" in names
+    assert "Keytruda" not in names
+
+
+# ── Filter by MoA class ────────────────────────────────────────────────
+
+
+def test_filter_moa_pd1(service):
+    """Filter by PD-1 should match PD-1 inhibitors."""
+    results = service.search(moa_class="PD-1")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" in names
+    assert "Avastin" not in names
+
+
+def test_filter_moa_partial_match(service):
+    """MoA filter should support partial matching."""
+    results = service.search(moa_class="Anti-VEGF")
+    names = {r["name"] for r in results}
+    assert "Avastin" in names
+    assert "Keytruda" not in names
+
+
+# ── Filter options include new fields ───────────────────────────────────
+
+
+def test_filter_options_have_molecule_types(service):
+    opts = service.get_filter_options()
+    assert "molecule_types" in opts
+    assert "Monoclonal Antibody" in opts["molecule_types"]
+
+
+def test_filter_options_have_routes(service):
+    opts = service.get_filter_options()
+    assert "routes_of_administration" in opts
+    assert "IV" in opts["routes_of_administration"]
+
+
+def test_filter_options_have_moa_classes(service):
+    opts = service.get_filter_options()
+    assert "moa_classes" in opts
+    assert len(opts["moa_classes"]) > 0
+
+
+# ── Combined filters with molecule type ─────────────────────────────────
+
+
+def test_combined_molecule_type_and_area(service):
+    """Monoclonal Antibody + Oncology should narrow results."""
+    results = service.search(
+        molecule_type="Monoclonal Antibody",
+        broad_therapeutic_area="Oncology",
+    )
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Zolgensma" not in names
+
+
+def test_combined_route_and_orphan(service):
+    """IV + orphan should combine correctly."""
+    results = service.search(route_of_administration="IV", orphan="yes")
+    names = {r["name"] for r in results}
+    assert "Zolgensma" in names
