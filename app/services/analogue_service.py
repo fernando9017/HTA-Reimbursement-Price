@@ -70,37 +70,20 @@ THERAPEUTIC_TAXONOMY: dict[str, dict] = {
         "keywords": [
             "cancer", "carcinoma", "tumour", "tumor", "neoplasm",
             "malignant", "malignancy", "oncology", "antineoplastic",
-            "metastatic", "metastases",
+            "metastatic", "metastases", "leukaemia", "leukemia",
+            "lymphoma", "myeloma", "myeloid", "lymphocytic",
         ],
         "subcategories": {
-            "Lung Cancer": [
-                "lung", "nsclc", "non-small cell lung", "small cell lung",
-                "bronchial", "mesothelioma",
-            ],
-            "Breast Cancer": [
-                "breast",
-            ],
-            "Skin Cancer": [
-                "melanoma", "basal cell", "squamous cell carcinoma skin",
-                "merkel cell",
-            ],
-            "GI & Liver Cancer": [
-                "colorectal", "colon cancer", "rectal cancer",
-                "gastric", "stomach cancer", "oesophageal", "esophageal",
-                "hepatocellular", "liver cancer", "hepatic",
+            "Solid Tumors": [
+                "lung", "nsclc", "non-small cell", "small cell lung",
+                "breast", "colorectal", "colon cancer", "rectal cancer",
+                "gastric", "oesophageal", "esophageal", "hepatocellular",
                 "pancreatic", "cholangiocarcinoma", "biliary",
-                "gastrointestinal stromal",
-            ],
-            "GU Cancer": [
-                "renal cell", "kidney cancer", "bladder", "urothelial",
-                "prostate", "testicular",
-            ],
-            "Gynecologic Cancer": [
-                "ovarian", "endometrial", "cervical", "uterine",
-                "fallopian",
-            ],
-            "Head & Neck Cancer": [
-                "head and neck", "thyroid", "nasopharyngeal",
+                "renal cell", "kidney", "bladder", "urothelial",
+                "prostate", "ovarian", "endometrial", "cervical",
+                "head and neck", "thyroid", "melanoma", "basal cell",
+                "merkel cell", "sarcoma", "glioblastoma", "glioma",
+                "mesothelioma", "neuroblastoma",
             ],
             "Hematological Malignancies": [
                 "leukaemia", "leukemia", "lymphoma", "myeloma",
@@ -108,208 +91,118 @@ THERAPEUTIC_TAXONOMY: dict[str, dict] = {
                 "myelodysplastic", "mantle cell", "follicular",
                 "diffuse large b-cell", "waldenstr",
             ],
-            "CNS Tumors": [
-                "glioblastoma", "glioma", "neuroblastoma",
-                "brain tumour", "brain tumor", "brain cancer",
-                "retinoblastoma",
-            ],
-            "Sarcoma": [
-                "sarcoma", "osteosarcoma",
-            ],
         },
     },
     "Immunology & Inflammation": {
         "atc_prefixes": ["L04"],
         "keywords": [
             "autoimmune", "inflammatory", "inflammation", "immune-mediated",
-            "immunomodulat",
+            "immunomodulat", "psoriasis", "atopic dermatitis", "eczema",
+            "rheumatoid", "crohn", "ulcerative colitis",
         ],
         "subcategories": {
-            "Rheumatology": [
+            "Autoimmune & Rheumatology": [
                 "rheumatoid", "psoriatic arthritis", "ankylosing spondylitis",
                 "axial spondyloarthritis", "juvenile idiopathic arthritis",
-                "gout",
+                "lupus", "scleroderma", "vasculitis", "sjogren",
+                "myasthenia gravis", "gout",
+                "transplant", "graft-versus-host", "gvhd", "rejection",
             ],
             "Dermatology": [
                 "psoriasis", "atopic dermatitis", "eczema",
                 "hidradenitis", "alopecia areata", "vitiligo",
             ],
-            "Gastroenterology": [
+            "GI Inflammatory": [
                 "crohn", "ulcerative colitis", "inflammatory bowel",
-            ],
-            "Systemic Autoimmune": [
-                "lupus", "scleroderma", "vasculitis", "sjogren",
-                "myasthenia gravis",
-            ],
-            "Transplantation": [
-                "transplant", "graft-versus-host", "gvhd", "rejection",
             ],
         },
     },
-    "Neurology": {
+    "Neuroscience": {
         "atc_prefixes": ["N"],
         "keywords": [
             "neurolog", "nervous system", "neurodegen",
+            "depression", "schizophrenia", "bipolar", "anxiety",
+            "psychosis", "migraine", "pain", "epilepsy", "seizure",
         ],
         "subcategories": {
-            "Neurodegeneration": [
+            "Neurodegeneration & Movement": [
                 "alzheimer", "parkinson", "huntington",
                 "amyotrophic lateral sclerosis", "motor neuron",
-                "dementia",
+                "dementia", "multiple sclerosis", "neuromyelitis",
             ],
-            "Multiple Sclerosis": [
-                "multiple sclerosis", "neuromyelitis",
-            ],
-            "Epilepsy": [
-                "epilepsy", "seizure", "lennox-gastaut", "dravet",
-            ],
-            "Neuromuscular": [
+            "Neuromuscular & Rare Neuro": [
                 "spinal muscular atrophy", "duchenne", "myasthenia",
-                "muscular dystrophy",
+                "muscular dystrophy", "epilepsy", "seizure",
+                "lennox-gastaut", "dravet",
             ],
-            "Psychiatry": [
+            "Psychiatry & Pain": [
                 "depression", "schizophrenia", "bipolar", "anxiety",
                 "psychosis", "adhd", "obsessive",
-            ],
-            "Pain & Migraine": [
-                "migraine", "pain", "neuropathic", "fibromyalgia",
+                "migraine", "neuropathic", "fibromyalgia",
             ],
         },
     },
-    "Cardiovascular": {
-        "atc_prefixes": ["C"],
+    "Cardiometabolic": {
+        "atc_prefixes": ["C", "A10", "H"],
         "keywords": [
             "cardiovascular", "cardiac", "heart", "vascular",
-        ],
-        "subcategories": {
-            "Heart Failure": [
-                "heart failure", "cardiomyopathy",
-            ],
-            "Thrombosis & Anticoagulation": [
-                "thrombosis", "anticoagul", "embolism", "atrial fibrillation",
-                "deep vein",
-            ],
-            "Hypertension & Lipids": [
-                "hypertension", "hypercholesterol", "dyslipid",
-                "atherosclerosis",
-            ],
-            "Pulmonary Hypertension": [
-                "pulmonary arterial hypertension", "pulmonary hypertension",
-            ],
-        },
-    },
-    "Metabolic & Endocrine": {
-        "atc_prefixes": ["A10", "H"],
-        "keywords": [
             "diabetes", "metaboli", "endocrin", "hormonal",
-        ],
-        "subcategories": {
-            "Diabetes": [
-                "diabetes", "glycaemic", "glycemic", "insulin",
-                "hyperglycaemia",
-            ],
-            "Obesity": [
-                "obesity", "overweight", "weight management",
-                "body mass index", "bmi",
-            ],
-            "Rare Metabolic": [
-                "fabry", "gaucher", "pompe", "phenylketonuria",
-                "lysosomal", "mucopolysaccharidos", "niemann-pick",
-                "hunter syndrome",
-            ],
-            "Endocrine Disorders": [
-                "acromegaly", "cushing", "thyroid", "adrenal",
-                "growth hormone",
-            ],
-        },
-    },
-    "Infectious Diseases": {
-        "atc_prefixes": ["J"],
-        "keywords": [
-            "infection", "infectious", "anti-infective", "antimicrobial",
-        ],
-        "subcategories": {
-            "HIV & Viral": [
-                "hiv", "hepatitis", "viral", "herpes", "influenza",
-                "covid", "sars-cov", "antiviral", "rsv",
-            ],
-            "Bacterial": [
-                "bacterial", "antibiotic", "tuberculosis", "mrsa",
-                "gram-negative", "gram-positive",
-            ],
-            "Fungal & Parasitic": [
-                "fungal", "antifungal", "parasit", "malaria",
-                "aspergillosis",
-            ],
-            "Vaccines": [
-                "vaccine", "immunisation", "immunization", "prophylaxis",
-            ],
-        },
-    },
-    "Respiratory": {
-        "atc_prefixes": ["R"],
-        "keywords": [
             "respiratory", "pulmonary", "lung disease", "airway",
+            "asthma", "copd",
         ],
         "subcategories": {
-            "Asthma & COPD": [
-                "asthma", "copd", "chronic obstructive", "bronchodilat",
+            "Cardiovascular": [
+                "heart failure", "cardiomyopathy",
+                "thrombosis", "anticoagul", "embolism", "atrial fibrillation",
+                "hypertension", "hypercholesterol", "dyslipid",
+                "pulmonary arterial hypertension",
             ],
-            "Cystic Fibrosis": [
+            "Diabetes & Obesity": [
+                "diabetes", "glycaemic", "glycemic", "insulin",
+                "hyperglycaemia", "obesity", "overweight",
+                "weight management", "body mass index",
+            ],
+            "Respiratory": [
+                "asthma", "copd", "chronic obstructive",
                 "cystic fibrosis", "cftr",
-            ],
-            "Pulmonary Fibrosis": [
-                "pulmonary fibrosis", "idiopathic pulmonary",
-                "interstitial lung",
+                "pulmonary fibrosis", "interstitial lung",
             ],
         },
     },
-    "Hematology": {
-        "atc_prefixes": ["B"],
+    "Rare & Specialty": {
+        "atc_prefixes": ["B", "S01"],
         "keywords": [
-            "hematolog", "haematolog", "blood",
-        ],
-        "subcategories": {
-            "Bleeding Disorders": [
-                "haemophilia", "hemophilia", "von willebrand",
-                "bleeding", "coagulation",
-            ],
-            "Anemias": [
-                "anaemia", "anemia", "thalassaemia", "thalassemia",
-                "sickle cell",
-            ],
-            "Other Hematology": [
-                "thrombocytopeni", "neutropeni", "paroxysmal nocturnal",
-            ],
-        },
-    },
-    "Ophthalmology": {
-        "atc_prefixes": ["S01"],
-        "keywords": [
+            "gene therapy", "orphan", "enzyme replacement",
+            "hematolog", "haematolog",
             "ophthalm", "retinal", "macular", "eye",
         ],
         "subcategories": {
-            "Retinal Diseases": [
+            "Hematology (Non-Malignant)": [
+                "haemophilia", "hemophilia", "von willebrand",
+                "bleeding", "coagulation",
+                "anaemia", "anemia", "thalassaemia", "thalassemia",
+                "sickle cell", "thrombocytopeni", "neutropeni",
+                "paroxysmal nocturnal",
+            ],
+            "Ophthalmology": [
                 "macular degeneration", "macular oedema", "macular edema",
-                "diabetic retinopathy", "retinal",
+                "diabetic retinopathy", "retinal", "glaucoma",
+                "intraocular pressure", "ophthalm",
             ],
-            "Glaucoma": [
-                "glaucoma", "intraocular pressure",
-            ],
-        },
-    },
-    "Rare & Genetic Diseases": {
-        "atc_prefixes": [],
-        "keywords": [
-            "gene therapy", "orphan",
-        ],
-        "subcategories": {
-            "Gene Therapies": [
+            "Gene Therapy & Rare Genetic": [
                 "gene therapy", "gene replacement", "adeno-associated",
-                "lentiviral", "onasemnogene",
+                "lentiviral", "enzyme replacement", "recombinant enzyme",
+                "fabry", "gaucher", "pompe", "phenylketonuria",
+                "lysosomal", "mucopolysaccharidos", "niemann-pick",
+                "acromegaly", "cushing",
             ],
-            "Enzyme Replacement": [
-                "enzyme replacement", "recombinant enzyme",
+            "Infectious Diseases": [
+                "hiv", "hepatitis", "viral", "herpes", "influenza",
+                "covid", "sars-cov", "antiviral", "rsv",
+                "bacterial", "antibiotic", "tuberculosis",
+                "fungal", "antifungal", "parasit", "malaria",
+                "vaccine", "immunisation", "immunization", "prophylaxis",
+                "infection", "infectious", "anti-infective",
             ],
         },
     },
