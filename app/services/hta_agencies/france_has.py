@@ -1,14 +1,20 @@
 """France HAS (Haute Autorité de Santé) adapter.
 
-Data source: BDPM (Base de Données Publique des Médicaments) TSV files.
-Provides SMR (Service Médical Rendu) and ASMR (Amélioration du SMR) ratings
-from the Commission de la Transparence opinions.
+Data sources (in priority order):
+1. Bundled seed dataset — curated JSON of real HAS SMR/ASMR assessments.
+   Always available, works offline.
+2. BDPM (Base de Données Publique des Médicaments) TSV files — live data
+   downloaded from the French public medicines database.
+   Downloaded on startup when available, supplements the seed data.
 
-No authentication required. Files are Latin-1 encoded, tab-separated, no headers.
+No authentication required. BDPM files are Latin-1 encoded, tab-separated,
+no headers.
 """
 
+import json
 import logging
 from collections import defaultdict
+from pathlib import Path
 
 import httpx
 
@@ -17,6 +23,9 @@ from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
+
+# Path to the bundled seed dataset
+SEED_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "has_seed_data.json"
 
 
 class FranceHAS(HTAAgency):
@@ -55,41 +64,87 @@ class FranceHAS(HTAAgency):
     def is_loaded(self) -> bool:
         return self._loaded
 
+    # ── Data loading ───────────────────────────────────────────────────
+
+    def _load_seed_data(self) -> None:
+        """Load bundled seed data from disk (synchronous, always works)."""
+        try:
+            with open(SEED_DATA_PATH, encoding="utf-8") as f:
+                data = json.load(f)
+
+            for cis_code, denomination in data.get("medicines", {}).items():
+                self._medicines[cis_code] = denomination
+
+            for cis_code, substances in data.get("compositions", {}).items():
+                for subst in substances:
+                    if subst not in self._compositions[cis_code]:
+                        self._compositions[cis_code].append(subst)
+
+            for cis_code, records in data.get("smr", {}).items():
+                for record in records:
+                    self._smr[cis_code].append(record)
+
+            for cis_code, records in data.get("asmr", {}).items():
+                for record in records:
+                    self._asmr[cis_code].append(record)
+
+            for dossier_code, url in data.get("ct_links", {}).items():
+                self._ct_links[dossier_code] = url
+
+            logger.info(
+                "Loaded HAS seed data: %d medicines, %d compositions, %d SMR, %d ASMR, %d CT links",
+                len(self._medicines),
+                len(self._compositions),
+                sum(len(v) for v in self._smr.values()),
+                sum(len(v) for v in self._asmr.values()),
+                len(self._ct_links),
+            )
+        except Exception:
+            logger.exception("Failed to load HAS seed data from %s", SEED_DATA_PATH)
+
     async def load_data(self) -> None:
-        """Fetch all BDPM data files and parse them.
+        """Load HAS data from seed file and optionally from live BDPM sources.
 
-        Each file is loaded independently so a failure in one file doesn't
-        prevent loading of others.  The adapter marks itself as loaded if
-        at least the compositions file was successfully parsed (required
-        for substance matching).
+        Step 1: Load bundled seed data (guaranteed to work, no network).
+        Step 2: Try live BDPM files for additional/updated data.
+        Step 3: Mark as loaded if we have any data to work with.
         """
-        async with httpx.AsyncClient(
-            timeout=REQUEST_TIMEOUT,
-            follow_redirects=True,
-            headers={
-                "User-Agent": (
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/120.0.0.0 Safari/537.36"
-                ),
-            },
-        ) as client:
-            # Load each file independently — don't fail if one is unavailable
-            for loader_name, loader in [
-                ("medicines", self._load_medicines),
-                ("compositions", self._load_compositions),
-                ("smr", self._load_smr),
-                ("asmr", self._load_asmr),
-                ("ct_links", self._load_ct_links),
-            ]:
-                try:
-                    await loader(client)
-                except Exception:
-                    logger.exception("Failed to load BDPM %s file", loader_name)
+        # Step 1: Always load seed data first
+        self._load_seed_data()
 
-        # Mark as loaded if we have at least some data to work with
+        # Step 2: Try live BDPM sources for supplementary data
+        try:
+            async with httpx.AsyncClient(
+                timeout=REQUEST_TIMEOUT,
+                follow_redirects=True,
+                headers={
+                    "User-Agent": (
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/120.0.0.0 Safari/537.36"
+                    ),
+                },
+            ) as client:
+                for loader_name, loader in [
+                    ("medicines", self._load_medicines),
+                    ("compositions", self._load_compositions),
+                    ("smr", self._load_smr),
+                    ("asmr", self._load_asmr),
+                    ("ct_links", self._load_ct_links),
+                ]:
+                    try:
+                        await loader(client)
+                    except Exception:
+                        logger.info("Failed to load BDPM %s file (will use seed data)", loader_name)
+        except Exception:
+            logger.info("Could not connect to BDPM — using seed data only")
+
+        # Step 3: Mark as loaded if we have at least some data
         has_compositions = len(self._compositions) > 0
-        has_assessments = sum(len(v) for v in self._smr.values()) > 0 or sum(len(v) for v in self._asmr.values()) > 0
+        has_assessments = (
+            sum(len(v) for v in self._smr.values()) > 0
+            or sum(len(v) for v in self._asmr.values()) > 0
+        )
         self._loaded = has_compositions or has_assessments
 
         logger.info(
@@ -185,7 +240,7 @@ class FranceHAS(HTAAgency):
         results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results
 
-    # ── Data loading helpers ──────────────────────────────────────────
+    # ── BDPM live data loading helpers ─────────────────────────────────
 
     async def _fetch_file(self, client: httpx.AsyncClient, file_key: str) -> str:
         """Download a BDPM file and return its content as a string."""

@@ -1,11 +1,18 @@
 """Service for fetching and searching EMA (European Medicines Agency) medicine data.
 
-Data source: EMA public JSON data file, updated twice daily.
+Data sources (in priority order):
+1. Bundled seed dataset — curated JSON of important EMA medicines.
+   Always available, works offline.
+2. EMA public JSON data file — full database, updated twice daily.
+   Downloaded on startup when available, replaces the seed data.
+
 No authentication required.
 """
 
+import json
 import logging
 from difflib import SequenceMatcher
+from pathlib import Path
 
 import httpx
 
@@ -13,6 +20,9 @@ from app.config import EMA_MEDICINES_URL, REQUEST_TIMEOUT
 from app.models import MedicineResult
 
 logger = logging.getLogger(__name__)
+
+# Path to the bundled seed dataset
+SEED_DATA_PATH = Path(__file__).parent.parent / "data" / "ema_seed_data.json"
 
 
 class EMAService:
@@ -35,42 +45,71 @@ class EMAService:
         """Return the raw medicine dicts (used by AnalogueService)."""
         return self._medicines
 
-    async def load_data(self) -> None:
-        """Download and parse the EMA medicines JSON file."""
-        logger.info("Fetching EMA medicines data from %s", EMA_MEDICINES_URL)
-        async with httpx.AsyncClient(
-            timeout=REQUEST_TIMEOUT,
-            follow_redirects=True,
-            headers={
-                "User-Agent": (
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/120.0.0.0 Safari/537.36"
-                ),
-                "Accept": "application/json, text/html, */*;q=0.8",
-            },
-        ) as client:
-            response = await client.get(EMA_MEDICINES_URL)
-            response.raise_for_status()
-            data = response.json()
-
-        # The JSON may be a list directly or wrapped in an object
-        if isinstance(data, list):
-            self._medicines = data
-        elif isinstance(data, dict):
-            # Try common wrapper keys
-            for key in ("data", "medicines", "results"):
-                if key in data and isinstance(data[key], list):
-                    self._medicines = data[key]
-                    break
+    def _load_seed_data(self) -> None:
+        """Load bundled seed data from disk (synchronous, always works)."""
+        try:
+            with open(SEED_DATA_PATH, encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                self._medicines = data
             else:
-                # If it's a dict of records, convert to list
-                self._medicines = list(data.values()) if data else []
-        else:
-            self._medicines = []
+                self._medicines = []
+            logger.info("Loaded EMA seed data: %d medicines", len(self._medicines))
+        except Exception:
+            logger.exception("Failed to load EMA seed data from %s", SEED_DATA_PATH)
 
-        self._loaded = True
-        logger.info("Loaded %d medicines from EMA", len(self._medicines))
+    async def load_data(self) -> None:
+        """Load EMA data from seed file and optionally from live source.
+
+        Step 1: Load bundled seed data (guaranteed to work, no network).
+        Step 2: Try live EMA JSON for full/updated data.
+        Step 3: Mark as loaded if we have any data.
+        """
+        # Step 1: Always load seed data first
+        self._load_seed_data()
+
+        # Step 2: Try live EMA source — if successful, it replaces seed data
+        try:
+            logger.info("Fetching EMA medicines data from %s", EMA_MEDICINES_URL)
+            async with httpx.AsyncClient(
+                timeout=REQUEST_TIMEOUT,
+                follow_redirects=True,
+                headers={
+                    "User-Agent": (
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/120.0.0.0 Safari/537.36"
+                    ),
+                    "Accept": "application/json, text/html, */*;q=0.8",
+                },
+            ) as client:
+                response = await client.get(EMA_MEDICINES_URL)
+                response.raise_for_status()
+                data = response.json()
+
+            # The JSON may be a list directly or wrapped in an object
+            live_medicines: list[dict] = []
+            if isinstance(data, list):
+                live_medicines = data
+            elif isinstance(data, dict):
+                for key in ("data", "medicines", "results"):
+                    if key in data and isinstance(data[key], list):
+                        live_medicines = data[key]
+                        break
+                else:
+                    live_medicines = list(data.values()) if data else []
+
+            if live_medicines:
+                self._medicines = live_medicines
+                logger.info("Loaded %d medicines from live EMA source", len(self._medicines))
+            else:
+                logger.info("Live EMA source returned no data — keeping seed data")
+        except Exception:
+            logger.info("Could not fetch live EMA data — using seed data (%d medicines)", len(self._medicines))
+
+        # Step 3: Mark as loaded if we have any data
+        self._loaded = len(self._medicines) > 0
+        logger.info("EMA service ready: %d medicines (loaded=%s)", len(self._medicines), self._loaded)
 
     def search(self, query: str, limit: int = 20) -> list[MedicineResult]:
         """Search medicines by name or active substance.

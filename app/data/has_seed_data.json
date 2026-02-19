@@ -1,0 +1,705 @@
+{
+  "medicines": {
+    "60001234": "KEYTRUDA 25 mg/mL, solution à diluer pour perfusion",
+    "60001235": "KEYTRUDA 50 mg, poudre pour solution à diluer pour perfusion",
+    "61009876": "OPDIVO 10 mg/mL, solution à diluer pour perfusion",
+    "61009877": "OPDIVO 40 mg/4 mL, solution à diluer pour perfusion",
+    "62003456": "TECENTRIQ 840 mg, solution à diluer pour perfusion",
+    "62003457": "TECENTRIQ 1200 mg, solution à diluer pour perfusion",
+    "63004567": "LYNPARZA 100 mg, comprimé pelliculé",
+    "63004568": "LYNPARZA 150 mg, comprimé pelliculé",
+    "64005678": "TAGRISSO 40 mg, comprimé pelliculé",
+    "64005679": "TAGRISSO 80 mg, comprimé pelliculé",
+    "65006789": "ENHERTU 100 mg, poudre pour solution à diluer pour perfusion",
+    "66007890": "DARZALEX 20 mg/mL, solution à diluer pour perfusion",
+    "66007891": "DARZALEX 1800 mg, solution injectable",
+    "67008901": "TRODELVY 200 mg, poudre pour solution à diluer pour perfusion",
+    "68009012": "PADCEV 20 mg, poudre pour solution à diluer pour perfusion",
+    "68009013": "PADCEV 30 mg, poudre pour solution à diluer pour perfusion",
+    "69010123": "IMFINZI 50 mg/mL, solution à diluer pour perfusion",
+    "70011234": "VENCLYXTO 10 mg, comprimé pelliculé",
+    "70011235": "VENCLYXTO 50 mg, comprimé pelliculé",
+    "70011236": "VENCLYXTO 100 mg, comprimé pelliculé",
+    "71012345": "IMBRUVICA 140 mg, gélule",
+    "71012346": "IMBRUVICA 280 mg, comprimé pelliculé",
+    "72013456": "ZOLGENSMA 2 × 10^13 génomes de vecteur/mL, solution pour perfusion",
+    "73014567": "SPINRAZA 12 mg, solution injectable",
+    "74015678": "OZEMPIC 0,25 mg, solution injectable en stylo prérempli",
+    "74015679": "OZEMPIC 0,5 mg, solution injectable en stylo prérempli",
+    "74015680": "OZEMPIC 1 mg, solution injectable en stylo prérempli",
+    "75016789": "WEGOVY 0,25 mg, solution injectable en stylo prérempli",
+    "76017890": "DUPIXENT 300 mg, solution injectable en seringue préremplie",
+    "77018901": "SKYRIZI 150 mg, solution injectable en seringue préremplie",
+    "78019012": "HEMLIBRA 150 mg/mL, solution injectable"
+  },
+  "compositions": {
+    "60001234": ["pembrolizumab"],
+    "60001235": ["pembrolizumab"],
+    "61009876": ["nivolumab"],
+    "61009877": ["nivolumab"],
+    "62003456": ["atézolizumab"],
+    "62003457": ["atézolizumab"],
+    "63004567": ["olaparib"],
+    "63004568": ["olaparib"],
+    "64005678": ["osimertinib"],
+    "64005679": ["osimertinib"],
+    "65006789": ["trastuzumab déruxtécan"],
+    "66007890": ["daratumumab"],
+    "66007891": ["daratumumab"],
+    "67008901": ["sacituzumab govitécan"],
+    "68009012": ["enfortumab védotine"],
+    "68009013": ["enfortumab védotine"],
+    "69010123": ["durvalumab"],
+    "70011234": ["vénétoclax"],
+    "70011235": ["vénétoclax"],
+    "70011236": ["vénétoclax"],
+    "71012345": ["ibrutinib"],
+    "71012346": ["ibrutinib"],
+    "72013456": ["onasemnogène abéparvovec"],
+    "73014567": ["nusinersen"],
+    "74015678": ["sémaglutide"],
+    "74015679": ["sémaglutide"],
+    "74015680": ["sémaglutide"],
+    "75016789": ["sémaglutide"],
+    "76017890": ["dupilumab"],
+    "77018901": ["risankizumab"],
+    "78019012": ["émicizumab"]
+  },
+  "smr": {
+    "60001234": [
+      {
+        "dossier_code": "CT-15432",
+        "motif": "Inscription (première évaluation)",
+        "date": "2017-05-24",
+        "value": "Important",
+        "label": "Le service médical rendu par KEYTRUDA est important dans le traitement du mélanome non résécable ou métastatique."
+      },
+      {
+        "dossier_code": "CT-18765",
+        "motif": "Extension d'indication",
+        "date": "2020-11-18",
+        "value": "Important",
+        "label": "Le service médical rendu par KEYTRUDA est important dans le cancer bronchique non à petites cellules (CBNPC)."
+      },
+      {
+        "dossier_code": "CT-19432",
+        "motif": "Extension d'indication",
+        "date": "2021-07-14",
+        "value": "Important",
+        "label": "Le service médical rendu par KEYTRUDA est important dans le cancer du rein à cellules claires avancé."
+      },
+      {
+        "dossier_code": "CT-20876",
+        "motif": "Extension d'indication",
+        "date": "2022-03-09",
+        "value": "Important",
+        "label": "Le service médical rendu par KEYTRUDA est important dans le traitement adjuvant du mélanome de stade III."
+      },
+      {
+        "dossier_code": "CT-22341",
+        "motif": "Extension d'indication",
+        "date": "2023-06-21",
+        "value": "Important",
+        "label": "Le service médical rendu par KEYTRUDA est important dans le cancer de l'endomètre avancé ou récidivant, en association avec le lenvatinib."
+      },
+      {
+        "dossier_code": "CT-24512",
+        "motif": "Extension d'indication",
+        "date": "2024-09-11",
+        "value": "Important",
+        "label": "Le service médical rendu par KEYTRUDA est important dans le cancer du col de l'utérus persistant, récidivant ou métastatique."
+      }
+    ],
+    "61009876": [
+      {
+        "dossier_code": "CT-16543",
+        "motif": "Inscription (première évaluation)",
+        "date": "2016-03-09",
+        "value": "Important",
+        "label": "Le service médical rendu par OPDIVO est important dans le traitement du mélanome avancé (non résécable ou métastatique)."
+      },
+      {
+        "dossier_code": "CT-17654",
+        "motif": "Extension d'indication",
+        "date": "2018-01-17",
+        "value": "Important",
+        "label": "Le service médical rendu par OPDIVO est important dans le CBNPC localement avancé ou métastatique."
+      },
+      {
+        "dossier_code": "CT-21345",
+        "motif": "Extension d'indication",
+        "date": "2021-12-15",
+        "value": "Important",
+        "label": "Le service médical rendu par OPDIVO est important dans le carcinome à cellules rénales avancé, en association avec cabozantinib."
+      },
+      {
+        "dossier_code": "CT-23456",
+        "motif": "Extension d'indication",
+        "date": "2023-11-22",
+        "value": "Important",
+        "label": "Le service médical rendu par OPDIVO est important dans le traitement adjuvant du cancer de l'œsophage ou de la jonction gastro-œsophagienne."
+      }
+    ],
+    "62003456": [
+      {
+        "dossier_code": "CT-18234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2018-09-19",
+        "value": "Important",
+        "label": "Le service médical rendu par TECENTRIQ est important dans le cancer bronchique non à petites cellules."
+      },
+      {
+        "dossier_code": "CT-20123",
+        "motif": "Extension d'indication",
+        "date": "2021-02-10",
+        "value": "Important",
+        "label": "Le service médical rendu par TECENTRIQ est important dans le cancer du sein triple-négatif localement avancé ou métastatique."
+      }
+    ],
+    "63004567": [
+      {
+        "dossier_code": "CT-17890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2018-06-13",
+        "value": "Important",
+        "label": "Le service médical rendu par LYNPARZA est important dans le cancer de l'ovaire avec mutation BRCA."
+      },
+      {
+        "dossier_code": "CT-21678",
+        "motif": "Extension d'indication",
+        "date": "2022-01-19",
+        "value": "Important",
+        "label": "Le service médical rendu par LYNPARZA est important dans le cancer du sein métastatique HER2-négatif avec mutation germinale BRCA."
+      },
+      {
+        "dossier_code": "CT-23890",
+        "motif": "Extension d'indication",
+        "date": "2024-03-20",
+        "value": "Important",
+        "label": "Le service médical rendu par LYNPARZA est important dans le cancer de la prostate métastatique résistant à la castration avec mutation BRCA."
+      }
+    ],
+    "64005678": [
+      {
+        "dossier_code": "CT-18567",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-04-03",
+        "value": "Important",
+        "label": "Le service médical rendu par TAGRISSO est important dans le CBNPC localement avancé ou métastatique avec mutation T790M de l'EGFR."
+      },
+      {
+        "dossier_code": "CT-22567",
+        "motif": "Extension d'indication",
+        "date": "2023-02-08",
+        "value": "Important",
+        "label": "Le service médical rendu par TAGRISSO est important en traitement adjuvant du CBNPC avec mutation de l'EGFR."
+      }
+    ],
+    "65006789": [
+      {
+        "dossier_code": "CT-22890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2023-05-17",
+        "value": "Important",
+        "label": "Le service médical rendu par ENHERTU est important dans le cancer du sein HER2-positif non résécable ou métastatique."
+      },
+      {
+        "dossier_code": "CT-24123",
+        "motif": "Extension d'indication",
+        "date": "2024-07-10",
+        "value": "Important",
+        "label": "Le service médical rendu par ENHERTU est important dans le cancer du sein HER2-low métastatique."
+      }
+    ],
+    "66007890": [
+      {
+        "dossier_code": "CT-17234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2017-11-15",
+        "value": "Important",
+        "label": "Le service médical rendu par DARZALEX est important dans le myélome multiple en rechute ou réfractaire."
+      },
+      {
+        "dossier_code": "CT-21890",
+        "motif": "Extension d'indication",
+        "date": "2022-05-25",
+        "value": "Important",
+        "label": "Le service médical rendu par DARZALEX est important dans le myélome multiple nouvellement diagnostiqué."
+      }
+    ],
+    "67008901": [
+      {
+        "dossier_code": "CT-23678",
+        "motif": "Inscription (première évaluation)",
+        "date": "2023-09-13",
+        "value": "Important",
+        "label": "Le service médical rendu par TRODELVY est important dans le cancer du sein triple-négatif localement avancé ou métastatique."
+      }
+    ],
+    "68009012": [
+      {
+        "dossier_code": "CT-24678",
+        "motif": "Inscription (première évaluation)",
+        "date": "2024-11-06",
+        "value": "Important",
+        "label": "Le service médical rendu par PADCEV est important dans le carcinome urothélial localement avancé ou métastatique."
+      }
+    ],
+    "69010123": [
+      {
+        "dossier_code": "CT-19678",
+        "motif": "Inscription (première évaluation)",
+        "date": "2020-03-11",
+        "value": "Important",
+        "label": "Le service médical rendu par IMFINZI est important dans le CBNPC localement avancé non résécable."
+      },
+      {
+        "dossier_code": "CT-24890",
+        "motif": "Extension d'indication",
+        "date": "2024-12-18",
+        "value": "Important",
+        "label": "Le service médical rendu par IMFINZI est important dans le cancer du poumon à petites cellules au stade étendu."
+      }
+    ],
+    "70011234": [
+      {
+        "dossier_code": "CT-19234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-10-16",
+        "value": "Important",
+        "label": "Le service médical rendu par VENCLYXTO est important dans la leucémie lymphoïde chronique."
+      },
+      {
+        "dossier_code": "CT-22345",
+        "motif": "Extension d'indication",
+        "date": "2023-04-05",
+        "value": "Important",
+        "label": "Le service médical rendu par VENCLYXTO est important dans la leucémie myéloïde aiguë nouvellement diagnostiquée."
+      }
+    ],
+    "71012345": [
+      {
+        "dossier_code": "CT-16890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2016-11-23",
+        "value": "Important",
+        "label": "Le service médical rendu par IMBRUVICA est important dans la leucémie lymphoïde chronique."
+      },
+      {
+        "dossier_code": "CT-20567",
+        "motif": "Extension d'indication",
+        "date": "2021-09-08",
+        "value": "Important",
+        "label": "Le service médical rendu par IMBRUVICA est important dans le lymphome à cellules du manteau."
+      }
+    ],
+    "72013456": [
+      {
+        "dossier_code": "CT-20890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2021-06-30",
+        "value": "Important",
+        "label": "Le service médical rendu par ZOLGENSMA est important dans l'amyotrophie spinale (SMA) de type 1."
+      }
+    ],
+    "73014567": [
+      {
+        "dossier_code": "CT-17456",
+        "motif": "Inscription (première évaluation)",
+        "date": "2018-03-21",
+        "value": "Important",
+        "label": "Le service médical rendu par SPINRAZA est important dans l'amyotrophie spinale 5q."
+      }
+    ],
+    "74015678": [
+      {
+        "dossier_code": "CT-19890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2020-07-08",
+        "value": "Important",
+        "label": "Le service médical rendu par OZEMPIC est important dans le diabète de type 2 insuffisamment contrôlé."
+      }
+    ],
+    "75016789": [
+      {
+        "dossier_code": "CT-23234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2023-07-12",
+        "value": "Insuffisant",
+        "label": "Le service médical rendu par WEGOVY est insuffisant pour justifier une prise en charge par la solidarité nationale dans l'obésité."
+      }
+    ],
+    "76017890": [
+      {
+        "dossier_code": "CT-18901",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-01-23",
+        "value": "Important",
+        "label": "Le service médical rendu par DUPIXENT est important dans la dermatite atopique modérée à sévère de l'adulte."
+      },
+      {
+        "dossier_code": "CT-22678",
+        "motif": "Extension d'indication",
+        "date": "2023-03-15",
+        "value": "Important",
+        "label": "Le service médical rendu par DUPIXENT est important dans l'asthme sévère avec inflammation de type 2."
+      }
+    ],
+    "77018901": [
+      {
+        "dossier_code": "CT-20234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2020-12-02",
+        "value": "Important",
+        "label": "Le service médical rendu par SKYRIZI est important dans le psoriasis en plaques modéré à sévère de l'adulte."
+      }
+    ],
+    "78019012": [
+      {
+        "dossier_code": "CT-18345",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-07-10",
+        "value": "Important",
+        "label": "Le service médical rendu par HEMLIBRA est important dans l'hémophilie A avec inhibiteurs du facteur VIII."
+      }
+    ]
+  },
+  "asmr": {
+    "60001234": [
+      {
+        "dossier_code": "CT-15432",
+        "motif": "Inscription (première évaluation)",
+        "date": "2017-05-24",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le traitement du mélanome non résécable ou métastatique chez les patients naïfs d'ipilimumab."
+      },
+      {
+        "dossier_code": "CT-18765",
+        "motif": "Extension d'indication",
+        "date": "2020-11-18",
+        "value": "IV",
+        "label": "ASMR mineure (IV) en monothérapie dans le CBNPC exprimant PD-L1 avec un TPS ≥ 50%."
+      },
+      {
+        "dossier_code": "CT-19432",
+        "motif": "Extension d'indication",
+        "date": "2021-07-14",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le cancer du rein à cellules claires avancé, en association avec axitinib."
+      },
+      {
+        "dossier_code": "CT-20876",
+        "motif": "Extension d'indication",
+        "date": "2022-03-09",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le traitement adjuvant du mélanome de stade III réséqué."
+      },
+      {
+        "dossier_code": "CT-22341",
+        "motif": "Extension d'indication",
+        "date": "2023-06-21",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le cancer de l'endomètre avancé ou récidivant, en association avec le lenvatinib."
+      },
+      {
+        "dossier_code": "CT-24512",
+        "motif": "Extension d'indication",
+        "date": "2024-09-11",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le cancer du col de l'utérus en association avec chimiothérapie avec ou sans bévacizumab."
+      }
+    ],
+    "61009876": [
+      {
+        "dossier_code": "CT-16543",
+        "motif": "Inscription (première évaluation)",
+        "date": "2016-03-09",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le traitement du mélanome avancé chez les patients naïfs d'ipilimumab."
+      },
+      {
+        "dossier_code": "CT-17654",
+        "motif": "Extension d'indication",
+        "date": "2018-01-17",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le CBNPC non épidermoïde localement avancé ou métastatique."
+      },
+      {
+        "dossier_code": "CT-21345",
+        "motif": "Extension d'indication",
+        "date": "2021-12-15",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le carcinome à cellules rénales avancé, en association avec cabozantinib."
+      },
+      {
+        "dossier_code": "CT-23456",
+        "motif": "Extension d'indication",
+        "date": "2023-11-22",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le traitement adjuvant du cancer de l'œsophage ou de la jonction gastro-œsophagienne."
+      }
+    ],
+    "62003456": [
+      {
+        "dossier_code": "CT-18234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2018-09-19",
+        "value": "V",
+        "label": "Pas d'amélioration du service médical rendu (V) par rapport à la stratégie thérapeutique de référence dans le CBNPC."
+      },
+      {
+        "dossier_code": "CT-20123",
+        "motif": "Extension d'indication",
+        "date": "2021-02-10",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le cancer du sein triple-négatif PD-L1 positif."
+      }
+    ],
+    "63004567": [
+      {
+        "dossier_code": "CT-17890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2018-06-13",
+        "value": "III",
+        "label": "ASMR modérée (III) en monothérapie d'entretien dans le cancer de l'ovaire avec mutation BRCA en rechute sensible au platine."
+      },
+      {
+        "dossier_code": "CT-21678",
+        "motif": "Extension d'indication",
+        "date": "2022-01-19",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le cancer du sein métastatique HER2-négatif avec mutation germinale BRCA."
+      },
+      {
+        "dossier_code": "CT-23890",
+        "motif": "Extension d'indication",
+        "date": "2024-03-20",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le cancer de la prostate métastatique résistant à la castration avec mutation BRCA, en association avec abiratérone."
+      }
+    ],
+    "64005678": [
+      {
+        "dossier_code": "CT-18567",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-04-03",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le CBNPC localement avancé ou métastatique avec mutation T790M de l'EGFR."
+      },
+      {
+        "dossier_code": "CT-22567",
+        "motif": "Extension d'indication",
+        "date": "2023-02-08",
+        "value": "III",
+        "label": "ASMR modérée (III) en traitement adjuvant du CBNPC de stade IB-IIIA avec délétion de l'exon 19 ou mutation L858R de l'EGFR."
+      }
+    ],
+    "65006789": [
+      {
+        "dossier_code": "CT-22890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2023-05-17",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le cancer du sein HER2-positif métastatique après au moins deux lignes de traitement anti-HER2."
+      },
+      {
+        "dossier_code": "CT-24123",
+        "motif": "Extension d'indication",
+        "date": "2024-07-10",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le cancer du sein HER2-low métastatique après chimiothérapie."
+      }
+    ],
+    "66007890": [
+      {
+        "dossier_code": "CT-17234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2017-11-15",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le myélome multiple en rechute ou réfractaire."
+      },
+      {
+        "dossier_code": "CT-21890",
+        "motif": "Extension d'indication",
+        "date": "2022-05-25",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le myélome multiple nouvellement diagnostiqué, en association avec bortézomib, melphalan et prednisone."
+      }
+    ],
+    "67008901": [
+      {
+        "dossier_code": "CT-23678",
+        "motif": "Inscription (première évaluation)",
+        "date": "2023-09-13",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le cancer du sein triple-négatif localement avancé ou métastatique après au moins deux traitements systémiques."
+      }
+    ],
+    "68009012": [
+      {
+        "dossier_code": "CT-24678",
+        "motif": "Inscription (première évaluation)",
+        "date": "2024-11-06",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le carcinome urothélial localement avancé ou métastatique, en association avec pembrolizumab."
+      }
+    ],
+    "69010123": [
+      {
+        "dossier_code": "CT-19678",
+        "motif": "Inscription (première évaluation)",
+        "date": "2020-03-11",
+        "value": "III",
+        "label": "ASMR modérée (III) dans le CBNPC localement avancé non résécable après chimioradiothérapie."
+      },
+      {
+        "dossier_code": "CT-24890",
+        "motif": "Extension d'indication",
+        "date": "2024-12-18",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le cancer du poumon à petites cellules au stade étendu, en association avec étoposide et carboplatine."
+      }
+    ],
+    "70011234": [
+      {
+        "dossier_code": "CT-19234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-10-16",
+        "value": "III",
+        "label": "ASMR modérée (III) dans la leucémie lymphoïde chronique, en association avec rituximab."
+      },
+      {
+        "dossier_code": "CT-22345",
+        "motif": "Extension d'indication",
+        "date": "2023-04-05",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans la leucémie myéloïde aiguë nouvellement diagnostiquée, en association avec azacitidine."
+      }
+    ],
+    "71012345": [
+      {
+        "dossier_code": "CT-16890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2016-11-23",
+        "value": "III",
+        "label": "ASMR modérée (III) dans la leucémie lymphoïde chronique en rechute ou réfractaire."
+      },
+      {
+        "dossier_code": "CT-20567",
+        "motif": "Extension d'indication",
+        "date": "2021-09-08",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le lymphome à cellules du manteau en rechute ou réfractaire."
+      }
+    ],
+    "72013456": [
+      {
+        "dossier_code": "CT-20890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2021-06-30",
+        "value": "II",
+        "label": "ASMR importante (II) dans l'amyotrophie spinale (SMA) de type 1 avec mutation bi-allélique du gène SMN1."
+      }
+    ],
+    "73014567": [
+      {
+        "dossier_code": "CT-17456",
+        "motif": "Inscription (première évaluation)",
+        "date": "2018-03-21",
+        "value": "II",
+        "label": "ASMR importante (II) dans l'amyotrophie spinale 5q."
+      }
+    ],
+    "74015678": [
+      {
+        "dossier_code": "CT-19890",
+        "motif": "Inscription (première évaluation)",
+        "date": "2020-07-08",
+        "value": "V",
+        "label": "Pas d'amélioration du service médical rendu (V) dans le diabète de type 2 par rapport aux traitements de référence."
+      }
+    ],
+    "75016789": [
+      {
+        "dossier_code": "CT-23234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2023-07-12",
+        "value": "Sans objet",
+        "label": "Sans objet (SMR insuffisant)."
+      }
+    ],
+    "76017890": [
+      {
+        "dossier_code": "CT-18901",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-01-23",
+        "value": "III",
+        "label": "ASMR modérée (III) dans la dermatite atopique modérée à sévère de l'adulte en cas d'échec, intolérance ou contre-indication à la ciclosporine."
+      },
+      {
+        "dossier_code": "CT-22678",
+        "motif": "Extension d'indication",
+        "date": "2023-03-15",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans l'asthme sévère avec inflammation de type 2 non contrôlé malgré une corticothérapie inhalée à forte dose."
+      }
+    ],
+    "77018901": [
+      {
+        "dossier_code": "CT-20234",
+        "motif": "Inscription (première évaluation)",
+        "date": "2020-12-02",
+        "value": "IV",
+        "label": "ASMR mineure (IV) dans le psoriasis en plaques modéré à sévère de l'adulte, en cas d'échec des traitements systémiques conventionnels."
+      }
+    ],
+    "78019012": [
+      {
+        "dossier_code": "CT-18345",
+        "motif": "Inscription (première évaluation)",
+        "date": "2019-07-10",
+        "value": "II",
+        "label": "ASMR importante (II) dans l'hémophilie A congénitale avec inhibiteurs du facteur VIII."
+      }
+    ]
+  },
+  "ct_links": {
+    "CT-15432": "https://www.has-sante.fr/jcms/c_2755406/fr/keytruda-melanome",
+    "CT-18765": "https://www.has-sante.fr/jcms/p_3220375/fr/keytruda-cbnpc",
+    "CT-19432": "https://www.has-sante.fr/jcms/p_3283162/fr/keytruda-cancer-rein",
+    "CT-20876": "https://www.has-sante.fr/jcms/p_3324578/fr/keytruda-melanome-adjuvant",
+    "CT-22341": "https://www.has-sante.fr/jcms/p_3445891/fr/keytruda-endometre",
+    "CT-24512": "https://www.has-sante.fr/jcms/p_3567123/fr/keytruda-col-uterus",
+    "CT-16543": "https://www.has-sante.fr/jcms/c_2667743/fr/opdivo-melanome",
+    "CT-17654": "https://www.has-sante.fr/jcms/c_2842156/fr/opdivo-cbnpc",
+    "CT-21345": "https://www.has-sante.fr/jcms/p_3312456/fr/opdivo-rein",
+    "CT-23456": "https://www.has-sante.fr/jcms/p_3467234/fr/opdivo-oesophage",
+    "CT-18234": "https://www.has-sante.fr/jcms/c_2891234/fr/tecentriq-cbnpc",
+    "CT-20123": "https://www.has-sante.fr/jcms/p_3256789/fr/tecentriq-sein-tn",
+    "CT-17890": "https://www.has-sante.fr/jcms/c_2856789/fr/lynparza-ovaire",
+    "CT-21678": "https://www.has-sante.fr/jcms/p_3298765/fr/lynparza-sein",
+    "CT-23890": "https://www.has-sante.fr/jcms/p_3489012/fr/lynparza-prostate",
+    "CT-18567": "https://www.has-sante.fr/jcms/c_2912345/fr/tagrisso-cbnpc-t790m",
+    "CT-22567": "https://www.has-sante.fr/jcms/p_3423456/fr/tagrisso-adjuvant",
+    "CT-22890": "https://www.has-sante.fr/jcms/p_3434567/fr/enhertu-sein-her2",
+    "CT-24123": "https://www.has-sante.fr/jcms/p_3545678/fr/enhertu-her2-low",
+    "CT-17234": "https://www.has-sante.fr/jcms/c_2823456/fr/darzalex-myelome",
+    "CT-21890": "https://www.has-sante.fr/jcms/p_3301234/fr/darzalex-myelome-1l",
+    "CT-23678": "https://www.has-sante.fr/jcms/p_3456789/fr/trodelvy-sein-tn",
+    "CT-24678": "https://www.has-sante.fr/jcms/p_3556789/fr/padcev-urothélial",
+    "CT-19678": "https://www.has-sante.fr/jcms/p_3234567/fr/imfinzi-cbnpc",
+    "CT-24890": "https://www.has-sante.fr/jcms/p_3578901/fr/imfinzi-cppc",
+    "CT-19234": "https://www.has-sante.fr/jcms/p_3201234/fr/venclyxto-llc",
+    "CT-22345": "https://www.has-sante.fr/jcms/p_3412345/fr/venclyxto-lma",
+    "CT-16890": "https://www.has-sante.fr/jcms/c_2678901/fr/imbruvica-llc",
+    "CT-20567": "https://www.has-sante.fr/jcms/p_3278901/fr/imbruvica-lcm",
+    "CT-20890": "https://www.has-sante.fr/jcms/p_3290123/fr/zolgensma-sma",
+    "CT-17456": "https://www.has-sante.fr/jcms/c_2834567/fr/spinraza-sma",
+    "CT-19890": "https://www.has-sante.fr/jcms/p_3245678/fr/ozempic-dt2",
+    "CT-23234": "https://www.has-sante.fr/jcms/p_3445012/fr/wegovy-obesite",
+    "CT-18901": "https://www.has-sante.fr/jcms/c_2923456/fr/dupixent-da",
+    "CT-22678": "https://www.has-sante.fr/jcms/p_3434012/fr/dupixent-asthme",
+    "CT-20234": "https://www.has-sante.fr/jcms/p_3267890/fr/skyrizi-psoriasis",
+    "CT-18345": "https://www.has-sante.fr/jcms/c_2934567/fr/hemlibra-hemophilie"
+  }
+}

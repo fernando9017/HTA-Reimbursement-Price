@@ -1,0 +1,317 @@
+[
+  {
+    "name_of_medicine": "Keytruda",
+    "active_substance": "pembrolizumab",
+    "therapeutic_indication": "Keytruda as monotherapy is indicated for the treatment of advanced (unresectable or metastatic) melanoma in adults.\nKeytruda as monotherapy is indicated for the adjuvant treatment of adults with Stage III melanoma and lymph node involvement who have undergone complete resection.\nKeytruda as monotherapy is indicated for the first-line treatment of metastatic non-small cell lung carcinoma (NSCLC) in adults whose tumours express PD-L1 with a ≥50% tumour proportion score (TPS) with no EGFR or ALK positive tumour mutations.\nKeytruda, in combination with pemetrexed and platinum chemotherapy, is indicated for the first-line treatment of metastatic non-squamous NSCLC in adults whose tumours have no EGFR or ALK positive mutations.\nKeytruda, in combination with carboplatin and either paclitaxel or nab-paclitaxel, is indicated for the first-line treatment of metastatic squamous NSCLC in adults.\nKeytruda as monotherapy is indicated for the treatment of locally advanced or metastatic NSCLC in adults whose tumours express PD-L1 with a ≥1% TPS and who have received at least one prior chemotherapy regimen.\nKeytruda, in combination with axitinib, is indicated for the first-line treatment of advanced renal cell carcinoma in adults.\nKeytruda, in combination with lenvatinib, is indicated for the treatment of advanced or recurrent endometrial carcinoma in adults who have disease progression on or following prior treatment with a platinum-containing therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/003820",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda"
+  },
+  {
+    "name_of_medicine": "Opdivo",
+    "active_substance": "nivolumab",
+    "therapeutic_indication": "Opdivo as monotherapy is indicated for the treatment of advanced (unresectable or metastatic) melanoma in adults.\nOpdivo in combination with ipilimumab is indicated for the first-line treatment of adult patients with advanced (unresectable or metastatic) melanoma.\nOpdivo as monotherapy is indicated for the adjuvant treatment of adults with melanoma with involvement of lymph nodes or metastatic disease who have undergone complete resection.\nOpdivo in combination with ipilimumab is indicated for the first-line treatment of adult patients with intermediate/poor-risk advanced renal cell carcinoma.\nOpdivo in combination with cabozantinib is indicated for the first-line treatment of adult patients with advanced renal cell carcinoma.\nOpdivo as monotherapy is indicated for the adjuvant treatment of adult patients with oesophageal or gastro-oesophageal junction cancer who have residual pathologic disease following prior neoadjuvant chemoradiotherapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/003985",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/opdivo"
+  },
+  {
+    "name_of_medicine": "Tecentriq",
+    "active_substance": "atezolizumab",
+    "therapeutic_indication": "Tecentriq, in combination with bevacizumab, paclitaxel and carboplatin, is indicated for the first-line treatment of adult patients with metastatic non-squamous NSCLC.\nTecentriq, in combination with nab-paclitaxel, is indicated for the treatment of adult patients with unresectable locally advanced or metastatic triple-negative breast cancer whose tumours have PD-L1 expression ≥1%.\nTecentriq, in combination with bevacizumab, is indicated for the treatment of adult patients with advanced or unresectable hepatocellular carcinoma who have not received prior systemic therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004143",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/tecentriq"
+  },
+  {
+    "name_of_medicine": "Lynparza",
+    "active_substance": "olaparib",
+    "therapeutic_indication": "Lynparza is indicated as monotherapy for the maintenance treatment of adult patients with platinum-sensitive relapsed BRCA-mutated high-grade serous epithelial ovarian, fallopian tube, or primary peritoneal cancer who are in response to platinum-based chemotherapy.\nLynparza is indicated as monotherapy for the treatment of adult patients with germline BRCA1/2-mutations, who have HER2-negative locally advanced or metastatic breast cancer.\nLynparza in combination with abiraterone and prednisone or prednisolone is indicated for the treatment of adult patients with metastatic castration-resistant prostate cancer in whom chemotherapy is not clinically indicated.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/003726",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/lynparza"
+  },
+  {
+    "name_of_medicine": "Tagrisso",
+    "active_substance": "osimertinib",
+    "therapeutic_indication": "Tagrisso as monotherapy is indicated for the first-line treatment of adult patients with locally advanced or metastatic non-small cell lung cancer with activating epidermal growth factor receptor (EGFR) mutations.\nTagrisso as monotherapy is indicated for the adjuvant treatment after complete tumour resection in adult patients with stage IB-IIIA non-small cell lung cancer whose tumours have EGFR exon 19 deletions or exon 21 (L858R) substitution mutations.\nTagrisso as monotherapy is indicated for the treatment of adult patients with locally advanced or metastatic EGFR T790M mutation-positive non-small cell lung cancer.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004124",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/tagrisso"
+  },
+  {
+    "name_of_medicine": "Enhertu",
+    "active_substance": "trastuzumab deruxtecan",
+    "therapeutic_indication": "Enhertu as monotherapy is indicated for the treatment of adult patients with unresectable or metastatic HER2-positive breast cancer who have received one or more prior anti-HER2-based regimens.\nEnhertu as monotherapy is indicated for the treatment of adult patients with unresectable or metastatic HER2-low breast cancer who have received prior chemotherapy in the metastatic setting or developed disease recurrence during or within 6 months of completing adjuvant chemotherapy.\nEnhertu as monotherapy is indicated for the treatment of adult patients with advanced non-small cell lung cancer whose tumours harbour an activating HER2 mutation and who require systemic therapy following platinum-based chemotherapy with or without immunotherapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005765",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/enhertu"
+  },
+  {
+    "name_of_medicine": "Darzalex",
+    "active_substance": "daratumumab",
+    "therapeutic_indication": "Darzalex is indicated in combination with lenalidomide and dexamethasone, or with bortezomib, melphalan and prednisone for the treatment of adult patients with newly diagnosed multiple myeloma who are ineligible for autologous stem cell transplant.\nDarzalex is indicated in combination with bortezomib, thalidomide and dexamethasone for the treatment of adult patients with newly diagnosed multiple myeloma who are eligible for autologous stem cell transplant.\nDarzalex is indicated in combination with lenalidomide and dexamethasone, or bortezomib and dexamethasone, for the treatment of adult patients with multiple myeloma who have received at least one prior therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004077",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/darzalex"
+  },
+  {
+    "name_of_medicine": "Trodelvy",
+    "active_substance": "sacituzumab govitecan",
+    "therapeutic_indication": "Trodelvy as monotherapy is indicated for the treatment of adult patients with unresectable or metastatic triple-negative breast cancer who have received two or more prior systemic therapies, including at least one of them for advanced disease.\nTrodelvy as monotherapy is indicated for the treatment of adult patients with unresectable locally advanced or metastatic hormone receptor-positive, HER2-negative breast cancer who have received endocrine-based therapy and at least two additional systemic therapies in the metastatic setting.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005764",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/trodelvy"
+  },
+  {
+    "name_of_medicine": "Padcev",
+    "active_substance": "enfortumab vedotin",
+    "therapeutic_indication": "Padcev in combination with pembrolizumab is indicated for the first-line treatment of adult patients with unresectable or metastatic urothelial cancer.\nPadcev as monotherapy is indicated for the treatment of adult patients with locally advanced or metastatic urothelial cancer who have previously received a platinum-containing chemotherapy and a programmed death receptor-1 or programmed death-ligand 1 inhibitor.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005765",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/padcev"
+  },
+  {
+    "name_of_medicine": "Imfinzi",
+    "active_substance": "durvalumab",
+    "therapeutic_indication": "Imfinzi as monotherapy is indicated for the treatment of locally advanced, unresectable non-small cell lung cancer in adults whose tumours express PD-L1 on ≥1% of tumour cells and whose disease has not progressed following platinum-based chemoradiation therapy.\nImfinzi, in combination with etoposide and either carboplatin or cisplatin, is indicated for the first-line treatment of adults with extensive-stage small cell lung cancer.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004771",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/imfinzi"
+  },
+  {
+    "name_of_medicine": "Venclyxto",
+    "active_substance": "venetoclax",
+    "therapeutic_indication": "Venclyxto in combination with obinutuzumab is indicated for the treatment of adult patients with previously untreated chronic lymphocytic leukaemia.\nVenclyxto in combination with rituximab is indicated for the treatment of adult patients with chronic lymphocytic leukaemia who have received at least one prior therapy.\nVenclyxto in combination with a hypomethylating agent is indicated for the treatment of adult patients with newly diagnosed acute myeloid leukaemia who are ineligible for intensive chemotherapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004106",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/venclyxto"
+  },
+  {
+    "name_of_medicine": "Imbruvica",
+    "active_substance": "ibrutinib",
+    "therapeutic_indication": "Imbruvica as a single agent is indicated for the treatment of adult patients with relapsed or refractory mantle cell lymphoma.\nImbruvica as a single agent or in combination with rituximab or obinutuzumab or venetoclax is indicated for the treatment of adult patients with previously untreated chronic lymphocytic leukaemia.\nImbruvica as a single agent or in combination with bendamustine and rituximab is indicated for the treatment of adult patients with chronic lymphocytic leukaemia who have received at least one prior therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/003791",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/imbruvica"
+  },
+  {
+    "name_of_medicine": "Zolgensma",
+    "active_substance": "onasemnogene abeparvovec",
+    "therapeutic_indication": "Zolgensma is indicated for the treatment of patients with 5q spinal muscular atrophy (SMA) with a bi-allelic mutation in the SMN1 gene and a clinical diagnosis of SMA Type 1, or patients with 5q SMA with a bi-allelic mutation in the SMN1 gene and up to 3 copies of the SMN2 gene.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004750",
+    "therapeutic_area": "Neurology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/zolgensma"
+  },
+  {
+    "name_of_medicine": "Spinraza",
+    "active_substance": "nusinersen",
+    "therapeutic_indication": "Spinraza is indicated for the treatment of 5q spinal muscular atrophy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004312",
+    "therapeutic_area": "Neurology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/spinraza"
+  },
+  {
+    "name_of_medicine": "Ozempic",
+    "active_substance": "semaglutide",
+    "therapeutic_indication": "Ozempic is indicated for the treatment of adults with insufficiently controlled type 2 diabetes mellitus as an adjunct to diet and exercise as monotherapy when metformin is considered inappropriate due to intolerance or contraindications, or in addition to other medicinal products for the treatment of diabetes.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004174",
+    "therapeutic_area": "Endocrinology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/ozempic"
+  },
+  {
+    "name_of_medicine": "Wegovy",
+    "active_substance": "semaglutide",
+    "therapeutic_indication": "Wegovy is indicated as an adjunct to a reduced-calorie diet and increased physical activity for weight management, including weight loss and weight maintenance, in adults with an initial BMI of ≥30 kg/m² (obesity), or ≥27 kg/m² to <30 kg/m² (overweight) in the presence of at least one weight-related comorbidity.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005422",
+    "therapeutic_area": "Endocrinology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/wegovy"
+  },
+  {
+    "name_of_medicine": "Rybelsus",
+    "active_substance": "semaglutide",
+    "therapeutic_indication": "Rybelsus is indicated for the treatment of adults with insufficiently controlled type 2 diabetes mellitus as an adjunct to diet and exercise as monotherapy when metformin is considered inappropriate due to intolerance or contraindications, or in addition to other medicinal products for the treatment of diabetes.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004953",
+    "therapeutic_area": "Endocrinology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/rybelsus"
+  },
+  {
+    "name_of_medicine": "Dupixent",
+    "active_substance": "dupilumab",
+    "therapeutic_indication": "Dupixent is indicated for the treatment of moderate-to-severe atopic dermatitis in adults and adolescents 12 years and older who are candidates for systemic therapy.\nDupixent is indicated as an add-on maintenance treatment for severe asthma with type 2 inflammation in adults and adolescents aged 12 years and older.\nDupixent is indicated as an add-on therapy with intranasal corticosteroids for the treatment of adults with severe chronic rhinosinusitis with nasal polyposis for whom therapy with systemic corticosteroids and/or surgery do not provide adequate disease control.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004390",
+    "therapeutic_area": "Dermatology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/dupixent"
+  },
+  {
+    "name_of_medicine": "Skyrizi",
+    "active_substance": "risankizumab",
+    "therapeutic_indication": "Skyrizi is indicated for the treatment of moderate to severe plaque psoriasis in adults who are candidates for systemic therapy.\nSkyrizi is indicated for the treatment of active psoriatic arthritis in adults who have had an inadequate response or intolerance to one or more disease-modifying antirheumatic drugs.\nSkyrizi is indicated for the treatment of moderately to severely active Crohn's disease in adults who have had an inadequate response to, lost response to, or were intolerant to conventional therapy or a biologic agent.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004759",
+    "therapeutic_area": "Dermatology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/skyrizi"
+  },
+  {
+    "name_of_medicine": "Hemlibra",
+    "active_substance": "emicizumab",
+    "therapeutic_indication": "Hemlibra is indicated for routine prophylaxis of bleeding episodes in patients with haemophilia A with factor VIII inhibitors.\nHemlibra is indicated for routine prophylaxis of bleeding episodes in patients with severe haemophilia A without factor VIII inhibitors.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004406",
+    "therapeutic_area": "Haematology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/hemlibra"
+  },
+  {
+    "name_of_medicine": "Humira",
+    "active_substance": "adalimumab",
+    "therapeutic_indication": "Rheumatoid arthritis, juvenile idiopathic arthritis, axial spondyloarthritis, psoriatic arthritis, psoriasis, paediatric plaque psoriasis, hidradenitis suppurativa, Crohn's disease, paediatric Crohn's disease, ulcerative colitis, paediatric ulcerative colitis, uveitis, paediatric uveitis.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/000481",
+    "therapeutic_area": "Immunology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/humira"
+  },
+  {
+    "name_of_medicine": "Revlimid",
+    "active_substance": "lenalidomide",
+    "therapeutic_indication": "Revlimid is indicated for the treatment of adult patients with previously untreated multiple myeloma who are not eligible for transplant.\nRevlimid in combination with dexamethasone is indicated for the treatment of multiple myeloma in adult patients who have received at least one prior therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/000717",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/revlimid"
+  },
+  {
+    "name_of_medicine": "Stelara",
+    "active_substance": "ustekinumab",
+    "therapeutic_indication": "Stelara is indicated for the treatment of moderate to severe plaque psoriasis in adults who failed to respond to, or who have a contraindication to, or are intolerant to other systemic therapies.\nStelara is indicated for the treatment of moderately to severely active Crohn's disease in adult patients who have had an inadequate response with, lost response to, or were intolerant to either conventional therapy or a TNFα antagonist.\nStelara is indicated for the treatment of moderately to severely active ulcerative colitis in adult patients who have had an inadequate response with, lost response to, or were intolerant to either conventional therapy or a biologic.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/000958",
+    "therapeutic_area": "Immunology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/stelara"
+  },
+  {
+    "name_of_medicine": "Jardiance",
+    "active_substance": "empagliflozin",
+    "therapeutic_indication": "Jardiance is indicated for the treatment of adults with insufficiently controlled type 2 diabetes mellitus as an adjunct to diet and exercise.\nJardiance is indicated in adults for the treatment of symptomatic chronic heart failure with reduced ejection fraction.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/002677",
+    "therapeutic_area": "Endocrinology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/jardiance"
+  },
+  {
+    "name_of_medicine": "Entresto",
+    "active_substance": "sacubitril / valsartan",
+    "therapeutic_indication": "Entresto is indicated in adult patients for treatment of symptomatic chronic heart failure with reduced ejection fraction.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004062",
+    "therapeutic_area": "Cardiology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/entresto"
+  },
+  {
+    "name_of_medicine": "Xarelto",
+    "active_substance": "rivaroxaban",
+    "therapeutic_indication": "Prevention of venous thromboembolism in adult patients undergoing elective hip or knee replacement surgery.\nPrevention of stroke and systemic embolism in adult patients with non-valvular atrial fibrillation.\nTreatment of deep vein thrombosis and pulmonary embolism, and prevention of recurrent DVT and PE in adults.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/000944",
+    "therapeutic_area": "Cardiology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/xarelto"
+  },
+  {
+    "name_of_medicine": "Eylea",
+    "active_substance": "aflibercept",
+    "therapeutic_indication": "Eylea is indicated for adults for the treatment of neovascular (wet) age-related macular degeneration, visual impairment due to macular oedema secondary to retinal vein occlusion, visual impairment due to diabetic macular oedema, and visual impairment due to myopic choroidal neovascularisation.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/002392",
+    "therapeutic_area": "Ophthalmology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/eylea"
+  },
+  {
+    "name_of_medicine": "Kymriah",
+    "active_substance": "tisagenlecleucel",
+    "therapeutic_indication": "Kymriah is indicated for paediatric and young adult patients up to 25 years of age with B-cell acute lymphoblastic leukaemia that is refractory, in relapse post-transplant or in second or later relapse.\nKymriah is indicated for adult patients with relapsed or refractory diffuse large B-cell lymphoma after two or more lines of systemic therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004090",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/kymriah"
+  },
+  {
+    "name_of_medicine": "Yescarta",
+    "active_substance": "axicabtagene ciloleucel",
+    "therapeutic_indication": "Yescarta is indicated for the treatment of adult patients with relapsed or refractory diffuse large B-cell lymphoma and primary mediastinal large B-cell lymphoma, after two or more lines of systemic therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/004480",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/yescarta"
+  },
+  {
+    "name_of_medicine": "Talvey",
+    "active_substance": "talquetamab",
+    "therapeutic_indication": "Talvey as monotherapy is indicated for the treatment of adult patients with relapsed and refractory multiple myeloma, who have received at least three prior therapies, including an immunomodulatory agent, a proteasome inhibitor and an anti-CD38 antibody and have demonstrated disease progression on the last therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005863",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/talvey"
+  },
+  {
+    "name_of_medicine": "Opdualag",
+    "active_substance": "nivolumab / relatlimab",
+    "therapeutic_indication": "Opdualag is indicated for the first-line treatment of advanced (unresectable or metastatic) melanoma in adults and adolescents 12 years of age and older with tumour cell PD-L1 expression < 1%.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005789",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/opdualag"
+  },
+  {
+    "name_of_medicine": "Trikafta",
+    "active_substance": "ivacaftor / tezacaftor / elexacaftor",
+    "therapeutic_indication": "Trikafta is indicated for the treatment of cystic fibrosis in patients aged 6 years and older who have at least one F508del mutation in the CFTR gene.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/005269",
+    "therapeutic_area": "Respiratory",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/kaftrio"
+  },
+  {
+    "name_of_medicine": "Soliris",
+    "active_substance": "eculizumab",
+    "therapeutic_indication": "Soliris is indicated in the treatment of adult and paediatric patients with paroxysmal nocturnal haemoglobinuria (PNH). Evidence of clinical benefit is demonstrated in patients with haemolysis with clinical symptom(s) indicative of high disease activity.\nSoliris is indicated in the treatment of atypical Haemolytic Uremic Syndrome (aHUS).\nSoliris is indicated in the treatment of refractory generalised Myasthenia Gravis (gMG) in patients who are anti-acetylcholine receptor antibody-positive.\nSoliris is indicated in the treatment of Neuromyelitis Optica Spectrum Disorder (NMOSD) in adult patients who are anti-aquaporin-4 antibody-positive.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/000791",
+    "therapeutic_area": "Haematology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/soliris"
+  },
+  {
+    "name_of_medicine": "Cosentyx",
+    "active_substance": "secukinumab",
+    "therapeutic_indication": "Cosentyx is indicated for the treatment of moderate to severe plaque psoriasis in adults who are candidates for systemic therapy.\nCosentyx, alone or in combination with methotrexate, is indicated for the treatment of active psoriatic arthritis in adult patients.\nCosentyx is indicated for the treatment of active ankylosing spondylitis in adults who have responded inadequately to conventional therapy.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/003729",
+    "therapeutic_area": "Dermatology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/cosentyx"
+  },
+  {
+    "name_of_medicine": "Avastin",
+    "active_substance": "bevacizumab",
+    "therapeutic_indication": "Avastin in combination with fluoropyrimidine-based chemotherapy is indicated for treatment of adult patients with metastatic carcinoma of the colon or rectum.\nAvastin in combination with paclitaxel is indicated for first-line treatment of adult patients with metastatic breast cancer.\nAvastin, in addition to platinum-based chemotherapy, is indicated for first-line treatment of adult patients with unresectable advanced, metastatic or recurrent non-small cell lung cancer other than predominantly squamous cell histology.",
+    "authorisation_status": "Authorised",
+    "ema_product_number": "EMEA/H/C/000582",
+    "therapeutic_area": "Oncology",
+    "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/avastin"
+  }
+]
