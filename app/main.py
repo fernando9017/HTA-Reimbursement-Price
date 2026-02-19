@@ -289,7 +289,7 @@ async def search_analogues(
     molecule_type: str = Query("", description="Molecule type (e.g. 'Small Molecule', 'Monoclonal Antibody')"),
     route_of_administration: str = Query("", description="Route of administration (e.g. 'Oral', 'IV', 'SC')"),
     moa_class: str = Query("", description="Mechanism of action class (partial match)"),
-    limit: int = Query(200, ge=1, le=500),
+    limit: int = Query(0, ge=0, description="Max results (0 = no limit)"),
 ):
     """Search for analogue medicines using multi-criteria filters."""
     if not analogue_service.is_loaded:

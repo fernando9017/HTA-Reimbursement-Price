@@ -868,9 +868,13 @@ class AnalogueService:
         molecule_type: str = "",
         route_of_administration: str = "",
         moa_class: str = "",
-        limit: int = 200,
+        limit: int = 0,
     ) -> list[dict]:
-        """Search for analogue medicines matching the given filters."""
+        """Search for analogue medicines matching the given filters.
+
+        Args:
+            limit: Maximum number of results to return. 0 means no limit.
+        """
         if not self._loaded:
             return []
 
@@ -1005,7 +1009,7 @@ class AnalogueService:
             results.append(med)
 
         results.sort(key=lambda r: r.get("authorisation_date", ""), reverse=True)
-        return results[:limit]
+        return results[:limit] if limit > 0 else results
 
 
 def _get_str(data: dict, *keys: str) -> str:

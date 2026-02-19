@@ -100,8 +100,8 @@ class EMAService:
                     live_medicines = list(data.values()) if data else []
 
             if live_medicines:
-                self._medicines = live_medicines
-                logger.info("Loaded %d medicines from live EMA source", len(self._medicines))
+                self._medicines = _filter_human_medicines(live_medicines)
+                logger.info("Loaded %d human medicines from live EMA source", len(self._medicines))
             else:
                 logger.info("Live EMA source returned no data — keeping seed data")
         except Exception:
@@ -207,6 +207,36 @@ class EMAService:
         # Sort by score descending, then by name
         scored_results.sort(key=lambda x: (-x[0], x[1].name))
         return [r for _, r in scored_results[:limit]]
+
+
+def _filter_human_medicines(medicines: list[dict]) -> list[dict]:
+    """Filter to only human medicines, excluding veterinary products.
+
+    Uses the 'category' field from EMA data (values: 'Human', 'Veterinary').
+    Falls back to checking if the URL contains '/human/' or the EMA product
+    number contains '/H/' (human) vs '/V/' (veterinary).
+    If no category info is available, the medicine is kept (assumed human).
+    """
+    result = []
+    for med in medicines:
+        category = _get_str(med, "category", "medicine_category").lower()
+        if category:
+            if category == "human":
+                result.append(med)
+            # Skip veterinary or other non-human categories
+            continue
+
+        # Fallback: check URL or product number for human indicator
+        url = _get_str(med, "url", "product_page_url", "ema_url").lower()
+        ema_num = _get_str(
+            med, "emaNumber", "ema_product_number", "product_number",
+        ).upper()
+        if "/veterinary/" in url or "/V/" in ema_num:
+            continue
+
+        # No category info — assume human
+        result.append(med)
+    return result
 
 
 def _get_str(data: dict, *keys: str) -> str:
