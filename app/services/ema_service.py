@@ -11,6 +11,7 @@ No authentication required.
 
 import json
 import logging
+import re
 from difflib import SequenceMatcher
 from pathlib import Path
 
@@ -159,6 +160,9 @@ class EMAService:
                 "therapeutic_area_mesh",
             )
             url = _get_str(med, "url", "product_page_url", "ema_url")
+            if not url and name:
+                slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+                url = f"https://www.ema.europa.eu/en/medicines/human/EPAR/{slug}"
 
             name_lower = name.lower()
             substance_lower = substance.lower()

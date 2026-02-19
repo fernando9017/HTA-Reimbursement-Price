@@ -618,6 +618,11 @@ class AnalogueService:
             )
             url = _get_str(med, "url", "product_page_url", "ema_url")
 
+            # Construct EMA product page URL if not provided
+            if not url and name:
+                slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+                url = f"https://www.ema.europa.eu/en/medicines/human/EPAR/{slug}"
+
             # Orphan status
             orphan_raw = _get_str(
                 med, "orphanMedicine", "orphan_medicine",
@@ -642,6 +647,17 @@ class AnalogueService:
             ).lower()
             is_generic = generic_raw in ("yes", "true", "1")
             is_biosimilar = biosimilar_raw in ("yes", "true", "1")
+
+            # Fallback: check medicine_type / product_group for biosimilar/generic
+            medicine_type = _get_str(
+                med, "medicineType", "medicine_type", "product_type",
+                "productGroup", "product_group",
+            )
+            mt_lower = medicine_type.lower()
+            if not is_biosimilar and "biosimilar" in mt_lower:
+                is_biosimilar = True
+            if not is_generic and "generic" in mt_lower:
+                is_generic = True
 
             # ATC code
             atc_code = _get_str(med, "atcCode", "atc_code", "ATC_code")
@@ -683,12 +699,6 @@ class AnalogueService:
                 "blackTriangle", "black_triangle",
             ).lower()
             additional_monitoring = additional_monitoring_raw in ("yes", "true", "1")
-
-            # Medicine type / legal basis
-            medicine_type = _get_str(
-                med, "medicineType", "medicine_type", "product_type",
-                "productGroup", "product_group",
-            )
 
             # Prevalence category (derived from orphan + indication text)
             prevalence = _classify_prevalence(orphan, indication)
