@@ -82,6 +82,8 @@ class AnalogueResult(BaseModel):
     authorisation_status: str = ""
     ema_number: str = ""
     therapeutic_area: str = ""
+    broad_therapeutic_area: str = ""
+    therapeutic_subcategory: str = ""
     orphan_medicine: bool = False
     authorisation_date: str = ""
     first_approval: bool = False
@@ -110,10 +112,18 @@ class ATCPrefix(BaseModel):
     label: str
 
 
+class TherapeuticCategory(BaseModel):
+    """A broad therapeutic area with its subcategories."""
+
+    name: str
+    subcategories: list[str]
+
+
 class FilterOptions(BaseModel):
     """Available filter options for the analogue selection UI."""
 
     therapeutic_areas: list[str]
+    therapeutic_taxonomy: list[TherapeuticCategory] = []
     year_ranges: list[YearRange]
     statuses: list[str]
     mahs: list[str]

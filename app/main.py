@@ -250,7 +250,9 @@ async def analogue_filters():
 
 @app.get("/api/analogues/search", response_model=AnalogueResponse)
 async def search_analogues(
-    therapeutic_area: str = Query("", description="Filter by therapeutic area"),
+    therapeutic_area: str = Query("", description="Filter by raw therapeutic area"),
+    broad_therapeutic_area: str = Query("", description="Broad therapeutic category (e.g. 'Oncology')"),
+    therapeutic_subcategory: str = Query("", description="Subcategory (e.g. 'Lung Cancer')"),
     orphan: str = Query("", description="Orphan status: 'yes', 'no', or '' (any)"),
     years: int = Query(0, ge=0, description="Years since approval (0 = all time)"),
     first_approval: str = Query("", description="First approval: 'yes', 'no', or '' (any)"),
@@ -276,6 +278,8 @@ async def search_analogues(
 
     results = analogue_service.search(
         therapeutic_area=therapeutic_area,
+        broad_therapeutic_area=broad_therapeutic_area,
+        therapeutic_subcategory=therapeutic_subcategory,
         orphan=orphan,
         years_since_approval=years,
         first_approval=first_approval,

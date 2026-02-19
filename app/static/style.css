@@ -808,6 +808,43 @@ button:disabled {
     font-size: 0.82rem;
 }
 
+/* Subcategory label in results table */
+.subcategory-label {
+    color: var(--text-light);
+    font-size: 0.78rem;
+}
+
+/* Collapsible advanced filters */
+.advanced-filters {
+    margin: 16px 0;
+}
+
+.advanced-toggle {
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    border-bottom: 1px dashed var(--border);
+}
+
+.advanced-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.advanced-toggle::before {
+    content: "+ ";
+    font-weight: 700;
+}
+
+details[open] > .advanced-toggle::before {
+    content: "- ";
+}
+
+.filter-group select:disabled {
+    background: var(--bg);
+    color: var(--text-light);
+    cursor: not-allowed;
+}
+
 /* ── Utility ──────────────────────────────────────────────────────── */
 
 .hidden {

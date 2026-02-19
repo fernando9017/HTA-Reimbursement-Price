@@ -37,7 +37,9 @@ const assessmentResults = document.getElementById("assessment-results");
 
 // ── DOM Elements — Analogue Module ───────────────────────────────────
 
-const filterArea = document.getElementById("filter-area");
+const filterBroadArea = document.getElementById("filter-broad-area");
+const filterSubcategory = document.getElementById("filter-subcategory");
+const filterArea = document.getElementById("filter-area"); // hidden legacy
 const filterOrphan = document.getElementById("filter-orphan");
 const filterYears = document.getElementById("filter-years");
 const filterFirst = document.getElementById("filter-first");
@@ -58,6 +60,9 @@ const analogueSearchBtn = document.getElementById("analogue-search-btn");
 const analogueResetBtn = document.getElementById("analogue-reset-btn");
 const analogueStatus = document.getElementById("analogue-status");
 const analogueResultsDiv = document.getElementById("analogue-results");
+
+// Taxonomy data (populated on load)
+let therapeuticTaxonomy = [];
 
 // ═══════════════════════════════════════════════════════════════════════
 //  MODULE NAVIGATION
@@ -505,9 +510,15 @@ async function loadAnalogueFilters() {
         }
         const data = await resp.json();
 
-        // Populate therapeutic areas
-        filterArea.innerHTML = '<option value="">All therapeutic areas</option>' +
-            data.therapeutic_areas.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join("");
+        // Store taxonomy for cascading subcategory updates
+        therapeuticTaxonomy = data.therapeutic_taxonomy || [];
+
+        // Populate broad therapeutic area categories
+        filterBroadArea.innerHTML = '<option value="">All therapeutic areas</option>' +
+            therapeuticTaxonomy.map(cat => `<option value="${esc(cat.name)}">${esc(cat.name)}</option>`).join("");
+
+        // Wire up cascading: when broad area changes, update subcategory options
+        filterBroadArea.addEventListener("change", updateSubcategoryOptions);
 
         // Populate statuses
         filterStatus.innerHTML = '<option value="">All statuses</option>' +
@@ -527,6 +538,27 @@ async function loadAnalogueFilters() {
     }
 }
 
+function updateSubcategoryOptions() {
+    const selectedBroad = filterBroadArea.value;
+    if (!selectedBroad) {
+        filterSubcategory.innerHTML = '<option value="">Select a category first</option>';
+        filterSubcategory.disabled = true;
+        return;
+    }
+
+    const category = therapeuticTaxonomy.find(c => c.name === selectedBroad);
+    const subs = category ? category.subcategories : [];
+
+    if (subs.length === 0) {
+        filterSubcategory.innerHTML = '<option value="">No subcategories available</option>';
+        filterSubcategory.disabled = true;
+    } else {
+        filterSubcategory.innerHTML = '<option value="">All subcategories</option>' +
+            subs.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
+        filterSubcategory.disabled = false;
+    }
+}
+
 analogueSearchBtn.addEventListener("click", searchAnalogues);
 analogueResetBtn.addEventListener("click", resetAnalogueFilters);
 filterSubstance.addEventListener("keydown", e => {
@@ -539,20 +571,21 @@ filterIndication.addEventListener("keydown", e => {
 async function searchAnalogues() {
     const params = new URLSearchParams();
 
-    // Disease & Epidemiology
-    if (filterArea.value) params.set("therapeutic_area", filterArea.value);
+    // Therapeutic Area (hierarchical)
+    if (filterBroadArea.value) params.set("broad_therapeutic_area", filterBroadArea.value);
+    if (filterSubcategory.value) params.set("therapeutic_subcategory", filterSubcategory.value);
+    if (filterIndication.value.trim()) params.set("indication_keyword", filterIndication.value.trim());
+    if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
+    // Approval & Classification
     if (filterPrevalence.value) params.set("prevalence_category", filterPrevalence.value);
     if (filterOrphan.value) params.set("orphan", filterOrphan.value);
-    if (filterIndication.value.trim()) params.set("indication_keyword", filterIndication.value.trim());
-    // Product Classification
-    if (filterATC.value) params.set("atc_code", filterATC.value);
-    if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
-    if (filterMAH.value) params.set("mah", filterMAH.value);
-    if (filterNewSubstance.value) params.set("new_active_substance", filterNewSubstance.value);
-    // Regulatory Pathway
-    if (filterStatus.value) params.set("status", filterStatus.value);
     if (filterYears.value !== "0") params.set("years", filterYears.value);
     if (filterFirst.value) params.set("first_approval", filterFirst.value);
+    // Advanced
+    if (filterATC.value) params.set("atc_code", filterATC.value);
+    if (filterMAH.value) params.set("mah", filterMAH.value);
+    if (filterNewSubstance.value) params.set("new_active_substance", filterNewSubstance.value);
+    if (filterStatus.value) params.set("status", filterStatus.value);
     if (filterConditional.value) params.set("conditional_approval", filterConditional.value);
     if (filterExceptional.value) params.set("exceptional_circumstances", filterExceptional.value);
     if (filterAccelerated.value) params.set("accelerated_assessment", filterAccelerated.value);
@@ -578,20 +611,23 @@ async function searchAnalogues() {
 }
 
 function resetAnalogueFilters() {
-    // Disease & Epidemiology
-    filterArea.value = "";
+    // Therapeutic Area
+    filterBroadArea.value = "";
+    filterSubcategory.innerHTML = '<option value="">Select a category first</option>';
+    filterSubcategory.disabled = true;
+    filterIndication.value = "";
+    filterSubstance.value = "";
+    // Approval & Classification
     filterPrevalence.value = "";
     filterOrphan.value = "";
-    filterIndication.value = "";
-    // Product Classification
-    filterATC.value = "";
-    filterSubstance.value = "";
-    filterMAH.value = "";
-    filterNewSubstance.value = "";
-    // Regulatory Pathway
-    filterStatus.value = "";
     filterYears.value = "0";
     filterFirst.value = "";
+    // Advanced
+    filterArea.value = "";
+    filterATC.value = "";
+    filterMAH.value = "";
+    filterNewSubstance.value = "";
+    filterStatus.value = "";
     filterConditional.value = "";
     filterExceptional.value = "";
     filterAccelerated.value = "";
@@ -625,7 +661,6 @@ function renderAnalogueResults(data) {
                 <tr>
                     <th>Medicine</th>
                     <th>Active Substance</th>
-                    <th>MAH</th>
                     <th>Therapeutic Area</th>
                     <th>Auth. Date</th>
                     <th>Prevalence</th>
@@ -662,12 +697,17 @@ function renderAnalogueRow(med) {
         ? `<span class="tag tag-prevalence-${med.prevalence_category}">${esc(med.prevalence_category)}</span>`
         : "";
 
+    // Show hierarchical area: "Oncology > Lung Cancer" or just "Oncology"
+    let areaDisplay = esc(med.broad_therapeutic_area || med.therapeutic_area || "");
+    if (med.therapeutic_subcategory) {
+        areaDisplay += `<span class="subcategory-label"> &rsaquo; ${esc(med.therapeutic_subcategory)}</span>`;
+    }
+
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
             <td>${esc(med.active_substance)}</td>
-            <td class="col-mah">${esc(med.marketing_authorisation_holder)}</td>
-            <td class="col-area">${esc(med.therapeutic_area)}</td>
+            <td class="col-area">${areaDisplay}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
             <td>${prevalenceTag}</td>
             <td class="col-tags">${tags.join(" ")}</td>

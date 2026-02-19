@@ -1,9 +1,9 @@
 """Analogue selection service.
 
 Uses EMA medicine data to find analogues for a given therapy based on
-configurable filters: therapeutic area, orphan status, years since
-approval, first approval, authorisation status, ATC code, marketing
-authorisation holder, regulatory pathway flags, and prevalence category.
+configurable filters: therapeutic area (hierarchical), orphan status,
+years since approval, first approval, authorisation status, ATC code,
+marketing authorisation holder, regulatory pathway flags, and prevalence.
 """
 
 import logging
@@ -29,6 +29,304 @@ ATC_LEVEL1 = {
     "S": "Sensory organs",
     "V": "Various",
 }
+
+# ── Therapeutic area taxonomy ──────────────────────────────────────
+#
+# Hierarchical classification: broad category → subcategories.
+# Each entry has:
+#   - atc_prefixes: ATC code prefixes that map to this category
+#   - keywords: terms in indication/therapeutic_area text
+#   - subcategories: dict of subcategory name → keyword list
+#
+# Classification priority: subcategory keywords checked first,
+# then broad category keywords, then ATC prefix fallback.
+
+THERAPEUTIC_TAXONOMY: dict[str, dict] = {
+    "Oncology": {
+        "atc_prefixes": ["L01"],
+        "keywords": [
+            "cancer", "carcinoma", "tumour", "tumor", "neoplasm",
+            "malignant", "malignancy", "oncology", "antineoplastic",
+            "metastatic", "metastases",
+        ],
+        "subcategories": {
+            "Lung Cancer": [
+                "lung", "nsclc", "non-small cell lung", "small cell lung",
+                "bronchial", "mesothelioma",
+            ],
+            "Breast Cancer": [
+                "breast",
+            ],
+            "Skin Cancer": [
+                "melanoma", "basal cell", "squamous cell carcinoma skin",
+                "merkel cell",
+            ],
+            "GI & Liver Cancer": [
+                "colorectal", "colon cancer", "rectal cancer",
+                "gastric", "stomach cancer", "oesophageal", "esophageal",
+                "hepatocellular", "liver cancer", "hepatic",
+                "pancreatic", "cholangiocarcinoma", "biliary",
+                "gastrointestinal stromal",
+            ],
+            "GU Cancer": [
+                "renal cell", "kidney cancer", "bladder", "urothelial",
+                "prostate", "testicular",
+            ],
+            "Gynecologic Cancer": [
+                "ovarian", "endometrial", "cervical", "uterine",
+                "fallopian",
+            ],
+            "Head & Neck Cancer": [
+                "head and neck", "thyroid", "nasopharyngeal",
+            ],
+            "Hematological Malignancies": [
+                "leukaemia", "leukemia", "lymphoma", "myeloma",
+                "myeloid", "lymphocytic", "hodgkin", "myelofibrosis",
+                "myelodysplastic", "mantle cell", "follicular",
+                "diffuse large b-cell", "waldenstr",
+            ],
+            "CNS Tumors": [
+                "glioblastoma", "glioma", "neuroblastoma",
+                "brain tumour", "brain tumor", "brain cancer",
+                "retinoblastoma",
+            ],
+            "Sarcoma": [
+                "sarcoma", "osteosarcoma",
+            ],
+        },
+    },
+    "Immunology & Inflammation": {
+        "atc_prefixes": ["L04"],
+        "keywords": [
+            "autoimmune", "inflammatory", "inflammation", "immune-mediated",
+            "immunomodulat",
+        ],
+        "subcategories": {
+            "Rheumatology": [
+                "rheumatoid", "psoriatic arthritis", "ankylosing spondylitis",
+                "axial spondyloarthritis", "juvenile idiopathic arthritis",
+                "gout",
+            ],
+            "Dermatology": [
+                "psoriasis", "atopic dermatitis", "eczema",
+                "hidradenitis", "alopecia areata", "vitiligo",
+            ],
+            "Gastroenterology": [
+                "crohn", "ulcerative colitis", "inflammatory bowel",
+            ],
+            "Systemic Autoimmune": [
+                "lupus", "scleroderma", "vasculitis", "sjogren",
+                "myasthenia gravis",
+            ],
+            "Transplantation": [
+                "transplant", "graft-versus-host", "gvhd", "rejection",
+            ],
+        },
+    },
+    "Neurology": {
+        "atc_prefixes": ["N"],
+        "keywords": [
+            "neurolog", "nervous system", "neurodegen",
+        ],
+        "subcategories": {
+            "Neurodegeneration": [
+                "alzheimer", "parkinson", "huntington",
+                "amyotrophic lateral sclerosis", "motor neuron",
+                "dementia",
+            ],
+            "Multiple Sclerosis": [
+                "multiple sclerosis", "neuromyelitis",
+            ],
+            "Epilepsy": [
+                "epilepsy", "seizure", "lennox-gastaut", "dravet",
+            ],
+            "Neuromuscular": [
+                "spinal muscular atrophy", "duchenne", "myasthenia",
+                "muscular dystrophy",
+            ],
+            "Psychiatry": [
+                "depression", "schizophrenia", "bipolar", "anxiety",
+                "psychosis", "adhd", "obsessive",
+            ],
+            "Pain & Migraine": [
+                "migraine", "pain", "neuropathic", "fibromyalgia",
+            ],
+        },
+    },
+    "Cardiovascular": {
+        "atc_prefixes": ["C"],
+        "keywords": [
+            "cardiovascular", "cardiac", "heart", "vascular",
+        ],
+        "subcategories": {
+            "Heart Failure": [
+                "heart failure", "cardiomyopathy",
+            ],
+            "Thrombosis & Anticoagulation": [
+                "thrombosis", "anticoagul", "embolism", "atrial fibrillation",
+                "deep vein",
+            ],
+            "Hypertension & Lipids": [
+                "hypertension", "hypercholesterol", "dyslipid",
+                "atherosclerosis",
+            ],
+            "Pulmonary Hypertension": [
+                "pulmonary arterial hypertension", "pulmonary hypertension",
+            ],
+        },
+    },
+    "Metabolic & Endocrine": {
+        "atc_prefixes": ["A10", "H"],
+        "keywords": [
+            "diabetes", "metaboli", "endocrin", "hormonal",
+        ],
+        "subcategories": {
+            "Diabetes": [
+                "diabetes", "glycaemic", "glycemic", "insulin",
+                "hyperglycaemia",
+            ],
+            "Obesity": [
+                "obesity", "overweight", "weight management",
+                "body mass index", "bmi",
+            ],
+            "Rare Metabolic": [
+                "fabry", "gaucher", "pompe", "phenylketonuria",
+                "lysosomal", "mucopolysaccharidos", "niemann-pick",
+                "hunter syndrome",
+            ],
+            "Endocrine Disorders": [
+                "acromegaly", "cushing", "thyroid", "adrenal",
+                "growth hormone",
+            ],
+        },
+    },
+    "Infectious Diseases": {
+        "atc_prefixes": ["J"],
+        "keywords": [
+            "infection", "infectious", "anti-infective", "antimicrobial",
+        ],
+        "subcategories": {
+            "HIV & Viral": [
+                "hiv", "hepatitis", "viral", "herpes", "influenza",
+                "covid", "sars-cov", "antiviral", "rsv",
+            ],
+            "Bacterial": [
+                "bacterial", "antibiotic", "tuberculosis", "mrsa",
+                "gram-negative", "gram-positive",
+            ],
+            "Fungal & Parasitic": [
+                "fungal", "antifungal", "parasit", "malaria",
+                "aspergillosis",
+            ],
+            "Vaccines": [
+                "vaccine", "immunisation", "immunization", "prophylaxis",
+            ],
+        },
+    },
+    "Respiratory": {
+        "atc_prefixes": ["R"],
+        "keywords": [
+            "respiratory", "pulmonary", "lung disease", "airway",
+        ],
+        "subcategories": {
+            "Asthma & COPD": [
+                "asthma", "copd", "chronic obstructive", "bronchodilat",
+            ],
+            "Cystic Fibrosis": [
+                "cystic fibrosis", "cftr",
+            ],
+            "Pulmonary Fibrosis": [
+                "pulmonary fibrosis", "idiopathic pulmonary",
+                "interstitial lung",
+            ],
+        },
+    },
+    "Hematology": {
+        "atc_prefixes": ["B"],
+        "keywords": [
+            "hematolog", "haematolog", "blood",
+        ],
+        "subcategories": {
+            "Bleeding Disorders": [
+                "haemophilia", "hemophilia", "von willebrand",
+                "bleeding", "coagulation",
+            ],
+            "Anemias": [
+                "anaemia", "anemia", "thalassaemia", "thalassemia",
+                "sickle cell",
+            ],
+            "Other Hematology": [
+                "thrombocytopeni", "neutropeni", "paroxysmal nocturnal",
+            ],
+        },
+    },
+    "Ophthalmology": {
+        "atc_prefixes": ["S01"],
+        "keywords": [
+            "ophthalm", "retinal", "macular", "eye",
+        ],
+        "subcategories": {
+            "Retinal Diseases": [
+                "macular degeneration", "macular oedema", "macular edema",
+                "diabetic retinopathy", "retinal",
+            ],
+            "Glaucoma": [
+                "glaucoma", "intraocular pressure",
+            ],
+        },
+    },
+    "Rare & Genetic Diseases": {
+        "atc_prefixes": [],
+        "keywords": [
+            "gene therapy", "orphan",
+        ],
+        "subcategories": {
+            "Gene Therapies": [
+                "gene therapy", "gene replacement", "adeno-associated",
+                "lentiviral", "onasemnogene",
+            ],
+            "Enzyme Replacement": [
+                "enzyme replacement", "recombinant enzyme",
+            ],
+        },
+    },
+}
+
+
+def _classify_therapeutic_area(
+    indication: str, therapeutic_area: str, atc_code: str,
+) -> tuple[str, str]:
+    """Classify a medicine into broad category and subcategory.
+
+    Returns (broad_category, subcategory). Both default to "" if no match.
+    Checks subcategory keywords first (more specific), then broad keywords,
+    then ATC prefix as fallback.
+    """
+    text = f"{indication} {therapeutic_area}".lower()
+    atc_upper = atc_code.upper() if atc_code else ""
+
+    # First pass: check subcategory keywords (most specific match)
+    for broad, config in THERAPEUTIC_TAXONOMY.items():
+        for sub_name, sub_keywords in config["subcategories"].items():
+            for kw in sub_keywords:
+                if kw in text:
+                    return broad, sub_name
+
+    # Second pass: check broad category keywords
+    for broad, config in THERAPEUTIC_TAXONOMY.items():
+        for kw in config["keywords"]:
+            if kw in text:
+                return broad, ""
+
+    # Third pass: ATC prefix fallback
+    if atc_upper:
+        for broad, config in THERAPEUTIC_TAXONOMY.items():
+            for prefix in config["atc_prefixes"]:
+                if atc_upper.startswith(prefix):
+                    return broad, ""
+
+    return "", ""
+
 
 # Keywords suggesting ultra-rare conditions (prevalence < 1 in 50,000)
 _ULTRA_RARE_KEYWORDS = [
@@ -222,7 +520,12 @@ class AnalogueService:
             # Prevalence category (derived from orphan + indication text)
             prevalence = _classify_prevalence(orphan, indication)
 
-            # Track therapeutic areas
+            # Hierarchical therapeutic area classification
+            broad_category, subcategory = _classify_therapeutic_area(
+                indication, therapeutic_area, atc_code,
+            )
+
+            # Track raw therapeutic areas (for backward compat)
             if therapeutic_area:
                 for area in re.split(r"[;,]", therapeutic_area):
                     area = area.strip()
@@ -250,6 +553,8 @@ class AnalogueService:
                 "authorisation_status": status,
                 "ema_number": ema_number,
                 "therapeutic_area": therapeutic_area,
+                "broad_therapeutic_area": broad_category,
+                "therapeutic_subcategory": subcategory,
                 "orphan_medicine": orphan,
                 "authorisation_date": auth_date,
                 "url": url,
@@ -300,12 +605,31 @@ class AnalogueService:
     def get_filter_options(self) -> dict:
         """Return all available filter options for the frontend."""
         statuses: set[str] = set()
+        # Collect which broad categories and subcategories actually have medicines
+        category_subs: dict[str, set[str]] = {}
+
         for med in self._medicines:
             if med["authorisation_status"]:
                 statuses.add(med["authorisation_status"])
+            broad = med.get("broad_therapeutic_area", "")
+            sub = med.get("therapeutic_subcategory", "")
+            if broad:
+                category_subs.setdefault(broad, set())
+                if sub:
+                    category_subs[broad].add(sub)
+
+        # Build taxonomy for frontend: only categories that have medicines
+        taxonomy = []
+        for broad_name in sorted(category_subs.keys()):
+            subs = sorted(category_subs[broad_name])
+            taxonomy.append({
+                "name": broad_name,
+                "subcategories": subs,
+            })
 
         return {
             "therapeutic_areas": self._therapeutic_areas,
+            "therapeutic_taxonomy": taxonomy,
             "year_ranges": [
                 {"label": "Last 3 years", "value": 3},
                 {"label": "Last 5 years", "value": 5},
@@ -325,6 +649,8 @@ class AnalogueService:
     def search(
         self,
         therapeutic_area: str = "",
+        broad_therapeutic_area: str = "",
+        therapeutic_subcategory: str = "",
         orphan: str = "",
         years_since_approval: int = 0,
         first_approval: str = "",
@@ -355,6 +681,8 @@ class AnalogueService:
 
         results = []
         area_lower = therapeutic_area.lower().strip()
+        broad_lower = broad_therapeutic_area.lower().strip()
+        sub_lower = therapeutic_subcategory.lower().strip()
         status_lower = status.lower().strip()
         substance_lower = substance.lower().strip()
         name_lower = name.lower().strip()
@@ -364,7 +692,15 @@ class AnalogueService:
         keyword_lower = indication_keyword.lower().strip()
 
         for med in self._medicines:
-            # Filter: therapeutic area
+            # Filter: broad therapeutic area (hierarchical)
+            if broad_lower and med.get("broad_therapeutic_area", "").lower() != broad_lower:
+                continue
+
+            # Filter: therapeutic subcategory (hierarchical)
+            if sub_lower and med.get("therapeutic_subcategory", "").lower() != sub_lower:
+                continue
+
+            # Filter: raw therapeutic area (legacy, backward compatible)
             if area_lower and area_lower not in med["therapeutic_area"].lower():
                 continue
 
