@@ -100,6 +100,12 @@ async def analogues_page():
     return FileResponse(str(STATIC_DIR / "analogues.html"))
 
 
+@app.get("/resources")
+async def resources_page():
+    """Serve the Global Secondary Resources module page."""
+    return FileResponse(str(STATIC_DIR / "resources.html"))
+
+
 @app.get("/api/search", response_model=list[MedicineResult])
 async def search_medicines(
     q: str = Query(..., min_length=2, description="Medicine name or active substance"),
