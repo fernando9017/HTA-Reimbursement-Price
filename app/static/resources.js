@@ -1114,23 +1114,84 @@ const COUNTRIES = [
                 ],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                id: "hta",
+                title: "HTA",
+                body: "Zorginstituut Nederland (ZIN) is the Dutch HTA body. It assesses medicines against 4 package criteria: effectiveness, cost-effectiveness, necessity, and feasibility. Expensive hospital drugs enter the sluis (lock) procedure — temporarily excluded from the basic package until assessment and price negotiation are complete.",
                 links: [
-                    { label: "Medicijnkosten.nl (drug costs/prices)", url: "https://www.medicijnkosten.nl/" },
-                    { label: "GVS — Geneesmiddelenvergoedingssysteem (reimbursement list)", url: "https://www.zorginstituutnederland.nl/over-ons/werkwijzen-en-procedures/adviseren-over-en-verduidelijken-van-het-basispakket-aan-zorg/geneesmiddelen/geneesmiddelenvergoedingssysteem-gvs" },
+                    { label: "Zorginstituut Nederland", url: "https://www.zorginstituutnederland.nl/" },
+                    { label: "Zorginstituut — GVS Assessments (Outpatient)", url: "https://www.zorginstituutnederland.nl/werkagenda/overzicht-gvs-adviezen" },
+                    { label: "Zorginstituut — Package Advice (Hospital/Sluis)", url: "https://www.zorginstituutnederland.nl/werkagenda/overzicht-pakketadviezen" },
+                    { label: "Medicines Currently in the Sluis", url: "https://www.zorginstituutnederland.nl/over-ons/programmas-en-samenwerkingsverbanden/horizonscan-geneesmiddelen/sluis-voor-dure-geneesmiddelen/overzicht-geneesmiddelen-in-de-sluis" },
+                    { label: "Horizonscan Geneesmiddelen (pipeline)", url: "https://www.horizonscangeneesmiddelen.nl/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "The WGP (Wet geneesmiddelenprijzen) sets maximum prices as the average of prices in Belgium, France, Norway, and UK (recalculated biannually on 1 April and 1 October). Farmatec administers the maximum price list. NZa sets pharmacy dispensing fees and hospital add-on tariffs.",
+                links: [
+                    { label: "Medicijnkosten.nl (prices & reimbursement status)", url: "https://www.medicijnkosten.nl/" },
+                    { label: "Farmatec — WGP Maximum Prices", url: "https://www.farmatec.nl/prijsvorming/wet-geneesmiddelenprijzen" },
+                    { label: "Farmatec — Maximum Price List (download)", url: "https://www.farmatec.nl/prijsvorming/wet-geneesmiddelenprijzen/berekening-maximumprijzen" },
+                    { label: "NZa (Dutch Healthcare Authority)", url: "https://www.nza.nl/english" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "The GVS (Geneesmiddelenvergoedingssysteem) determines outpatient drug reimbursement. Drugs are placed on Bijlage 1A (reference pricing clusters with reimbursement limits) or 1B (unique drugs, fully reimbursed). Bijlage 2 adds conditions. Expensive specialist drugs go through the sluis procedure with price negotiation.",
+                links: [
+                    { label: "Zorginstituut — GVS System Explained", url: "https://english.zorginstituutnederland.nl/about-us/working-methods-and-procedures/assessment-of-outpatient-medicines-for-the-benefit-of-the-medicine-reimbursement-system-gvs" },
+                    { label: "Farmatec — GVS Overview", url: "https://www.farmatec.nl/prijsvorming/geneesmiddelenvergoedingssysteem" },
+                    { label: "Farmatec — Reimbursement Processing Dashboard", url: "https://www.farmatec.nl/prijsvorming/dashboard-doorlooptijden-geneesmiddelen" },
+                    { label: "GIPdatabank (drug utilization & expenditure data)", url: "https://www.gipdatabank.nl/" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "Zorginstituut Nederland — Assessments & Advice", url: "https://www.zorginstituutnederland.nl/" },
-                    { label: "Farmacotherapeutisch Kompas (clinical drug information)", url: "https://www.farmacotherapeutischkompas.nl/" },
+                    { label: "Farmacotherapeutisch Kompas (prescribing reference)", url: "https://www.farmacotherapeutischkompas.nl/" },
+                    { label: "KNMP (Royal Dutch Pharmacists Association)", url: "https://www.knmp.nl/" },
+                    { label: "Lareb (Pharmacovigilance Centre)", url: "https://www.lareb.nl/en" },
+                    { label: "KNMP Farmanco (drug shortages)", url: "https://farmanco.knmp.nl/" },
+                    { label: "Guideline for Economic Evaluations (2024, PDF)", url: "https://english.zorginstituutnederland.nl/documents/2024/01/16/guideline-for-economic-evaluations-in-healthcare" },
                 ],
             },
         ],
-        tips: `The GVS (Geneesmiddelenvergoedingssysteem) is the Dutch reimbursement system. Drugs are placed in Annex 1A (reference pricing clusters) or Annex 1B (no cluster, individually assessed). Expensive inpatient drugs may be funded via the Sluisgeneesmiddelen (lock) procedure — check Zorginstituut for lock assessments.\n\nMedicijnkosten.nl shows current prices including the GVS reimbursement limit (vergoedingslimiet). If the drug price exceeds the limit, patients pay the difference.\n\nThe Farmacotherapeutisch Kompas is the standard clinical drug reference used by Dutch prescribers — useful for understanding local treatment guidelines.`,
+        tipsHtml: `
+<h4 class="tips-heading">GVS Reimbursement System</h4>
+<ol>
+    <li><strong>Bijlage 1A</strong> (Annex 1A): Clusters of interchangeable medicines (~500 clusters) with a <strong>vergoedingslimiet</strong> (reimbursement limit). If the pharmacy purchase price (AIP) exceeds the limit, the patient pays the difference (co-payment capped at EUR 250/year since 2019)</li>
+    <li><strong>Bijlage 1B</strong> (Annex 1B): Unique medicines with no equivalent — fully reimbursed, no vergoedingslimiet. New unique outpatient drugs require a full pharmacoeconomic assessment by Zorginstituut for 1B placement</li>
+    <li><strong>Bijlage 2</strong> (Annex 2): Additional reimbursement conditions (specific indications, specialist initiation, etc.) — applies to medicines on 1A or 1B</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Use <a href="https://www.medicijnkosten.nl/" target="_blank" rel="noopener">Medicijnkosten.nl</a> to look up any outpatient medicine's GVS status, vergoedingslimiet, and co-payment. Updated monthly. The <a href="https://www.medicijnkosten.nl/toelichting" target="_blank" rel="noopener">Toelichting page</a> explains all fields.</p>
+
+<h4 class="tips-heading">Sluis (Lock) Procedure — Expensive Hospital Drugs</h4>
+<ol>
+    <li>Applies to new hospital medicines costing <strong>EUR 20M+/year</strong> (threshold tightened from EUR 40M in July 2023), or EUR 10M+/year AND >EUR 50,000/patient/year</li>
+    <li>Three phases: <strong>Submission</strong> (manufacturer files dossier) &rarr; <strong>Assessment</strong> (Zorginstituut evaluates, target 120 days) &rarr; <strong>Negotiation</strong> (Minister negotiates price)</li>
+    <li>During the sluis period, the medicine is <strong>excluded</strong> from the basic insurance package — it cannot be reimbursed until released</li>
+    <li>Track current sluis medicines at <a href="https://www.zorginstituutnederland.nl/over-ons/programmas-en-samenwerkingsverbanden/horizonscan-geneesmiddelen/sluis-voor-dure-geneesmiddelen/overzicht-geneesmiddelen-in-de-sluis" target="_blank" rel="noopener">Zorginstituut's sluis overview</a>. The <a href="https://www.farmatec.nl/prijsvorming/dashboard-doorlooptijden-geneesmiddelen" target="_blank" rel="noopener">Farmatec dashboard</a> shows processing times for each phase</li>
+</ol>
+
+<h4 class="tips-heading">WGP Maximum Pricing</h4>
+<ol>
+    <li>The <strong>WGP (Wet geneesmiddelenprijzen)</strong> sets maximum prices as the average of list prices in <strong>Belgium, France, Norway, and UK</strong> (Norway replaced Germany in April 2020)</li>
+    <li>Recalculated <strong>twice yearly</strong> (1 April and 1 October). Downloadable Excel list at <a href="https://www.farmatec.nl/prijsvorming/wet-geneesmiddelenprijzen/berekening-maximumprijzen" target="_blank" rel="noopener">Farmatec</a></li>
+    <li>Pharmacists may not pay more than the maximum price; manufacturers may not charge more</li>
+</ol>
+
+<h4 class="tips-heading">HTA Assessments</h4>
+<ol>
+    <li>Zorginstituut evaluates against <strong>4 package criteria</strong>: effectiveness, cost-effectiveness, necessity (proportional shortfall), and feasibility</li>
+    <li><strong>WTP thresholds</strong> (per QALY): EUR 20,000 (low severity, shortfall 0.10–0.40), EUR 50,000 (medium, 0.41–0.70), EUR 80,000 (high, 0.71–1.00)</li>
+    <li>Find assessments: <a href="https://www.zorginstituutnederland.nl/werkagenda/overzicht-gvs-adviezen" target="_blank" rel="noopener">GVS assessments</a> (outpatient) or <a href="https://www.zorginstituutnederland.nl/werkagenda/overzicht-pakketadviezen" target="_blank" rel="noopener">Package advice</a> (hospital/sluis)</li>
+    <li>The <a href="https://www.horizonscangeneesmiddelen.nl/" target="_blank" rel="noopener">Horizonscan</a> identifies pipeline medicines expected to enter the Dutch market within ~2 years</li>
+</ol>
+<p class="tips-note"><strong>Clinical reference:</strong> The <a href="https://www.farmacotherapeutischkompas.nl/" target="_blank" rel="noopener">Farmacotherapeutisch Kompas</a> is the standard prescribing reference used by Dutch physicians — essential for understanding local treatment guidelines and formulary positioning.</p>
+        `,
     },
     {
         code: "NO",
