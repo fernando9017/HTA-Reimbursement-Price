@@ -1814,6 +1814,97 @@ const COUNTRIES = [
 <p class="tips-note"><strong>Note:</strong> Patient Access Schemes (PAS) are confidential commercial agreements between the manufacturer and NHS England. The "list price" in the BNF may not reflect the actual acquisition cost. NICE appraisals note when a PAS is in place but do not disclose the discount.</p>
         `,
     },
+    {
+        code: "VN",
+        name: "Vietnam",
+        flag: "🇻🇳",
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "The Drug Administration of Vietnam (DAV) under the Ministry of Health handles drug registration. Dossiers follow the ASEAN Common Technical Dossier (ACTD) format and must be in Vietnamese. Drugbank.vn is the national pharmaceutical data bank with 13,300+ registered drugs.",
+                links: [
+                    { label: "DAV (Drug Administration of Vietnam)", url: "https://dav.gov.vn/" },
+                    { label: "DAV — Drug Registration Lookup", url: "https://dichvucong.dav.gov.vn/congbothuoc/index" },
+                    { label: "Drugbank.vn — National Pharmaceutical Data Bank", url: "https://drugbank.vn/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are controlled through price declaration, competitive bidding/tendering for public facilities, and centralized procurement. Manufacturers must declare wholesale and retail prices; they cannot sell above declared prices. The NCDPC handles national-level centralized bidding. Vietnam references Thailand, Malaysia, Indonesia, Philippines, and Cambodia for international reference pricing.",
+                links: [
+                    { label: "MOH — Drug Price Declaration Portal", url: "https://congbogiathuoc.moh.gov.vn" },
+                    { label: "NCDPC (National Centralized Drug Procurement Center)", url: "https://ncdp.vn/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Vietnam Social Security (VSS/BHXH) manages the social health insurance system covering ~93% of the population. The Reimbursement Drug List specifies covered medicines by active ingredient (not brand name). Co-payments are 0–20% depending on beneficiary category. Budget Impact Analysis is mandatory for new drugs seeking reimbursement since 2018.",
+                links: [
+                    { label: "VSS (Vietnam Social Security)", url: "https://vss.gov.vn/english/Pages/default.aspx" },
+                    { label: "Circular 20/2022/TT-BYT — Health Insurance Drug List", url: "https://lawnet.vn/en/vb/Circular-30-2018-TT-BYT-promulgation-of-List-of-modern-medicines-biologicals-radiopharmaceuticals-64153.html" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "HTA is still developing in Vietnam. The Health Strategy and Policy Institute (HSPI) is the designated focal point for HTA activities under the MOH. There is no formal, standalone HTA agency that publishes individual drug appraisals.",
+                links: [
+                    { label: "HSPI (Health Strategy and Policy Institute)", url: "https://hspi.org.vn/en/home" },
+                    { label: "iDSI — Vietnam HTA Progress", url: "https://idsihealth.org/our-impact/vietnam/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ministry of Health — Vietnam", url: "https://moh.gov.vn/en/web/ministry-of-health" },
+                    { label: "LuatVietnam — English Legal Database", url: "https://english.luatvietnam.vn/" },
+                    { label: "ClinRegs (NIH) — Vietnam", url: "https://clinregs.niaid.nih.gov/country/vietnam" },
+                ],
+            },
+        ],
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization &amp; Drug Registry</h4>
+<ol>
+    <li>Search the <a href="https://dichvucong.dav.gov.vn/congbothuoc/index" target="_blank" rel="noopener">DAV Drug Registration Lookup</a> to find registered medicines — search by product name, active ingredient, or registration number (VD- for domestic, VN- for imported)</li>
+    <li><a href="https://drugbank.vn/" target="_blank" rel="noopener">Drugbank.vn</a> is the national pharmaceutical data bank launched by the DAV in 2019 with 13,300+ drugs, manufacturers, and distributors — also available as a mobile app</li>
+    <li>Registration dossiers must follow the <strong>ASEAN Common Technical Dossier (ACTD)</strong> format. Evaluation typically takes 12–18 months</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> Most official resources are in Vietnamese only. Use Google Translate to navigate. Key Vietnamese terms: "tra cuu thuoc" (drug lookup), "giay dang ky luu hanh" (marketing authorization), "danh muc thuoc" (drug list).</p>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>Declared and winning bid prices are published on the <a href="https://congbogiathuoc.moh.gov.vn" target="_blank" rel="noopener">MOH Drug Price Declaration Portal</a> — search by drug name or active ingredient (Vietnamese only)</li>
+    <li>Drugs for public facilities are procured through <strong>competitive bidding</strong> — generics are classified into 5 tiers (Gx1–Gx5) based on manufacturing standards, with price caps relative to brand-name drugs (Circular 15/2019/TT-BYT)</li>
+    <li>The <a href="https://ncdp.vn/" target="_blank" rel="noopener">NCDPC</a> handles national centralized procurement — brand-name drugs are procured via price negotiation; generics via competitive bidding</li>
+    <li>The <strong>Amended Pharmaceutical Law (effective July 2025)</strong> introduces stronger price transparency — manufacturers must announce estimated wholesale prices before market entry, and the MOH can recommend adjustments if prices exceed defined thresholds</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Vietnam references Thailand, Malaysia, Indonesia, Philippines, and Cambodia for international reference pricing. Bid price data is published online but is not available as downloadable datasets.</p>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li>The <strong>Reimbursement Drug List</strong> (Circular 20/2022/TT-BYT, replacing Circular 30/2018) covers 1,037 active ingredients across 27 therapeutic groups, plus 59 radiopharmaceuticals</li>
+    <li>The list is organized by <strong>active ingredient</strong> (not brand name) without specifying dosage form or trade name — this differs from European systems</li>
+    <li>Co-payment structure: <strong>0%</strong> for children under 6 and disabled persons; <strong>5%</strong> for poor people and veterans; <strong>20%</strong> for most others</li>
+    <li><strong>Budget Impact Analysis (BIA)</strong> has been mandatory since 2018 for new drugs seeking insurance coverage; cost-effectiveness analysis remains optional</li>
+    <li>For English translations of circulars, use <a href="https://english.luatvietnam.vn/" target="_blank" rel="noopener">LuatVietnam</a> or <a href="https://lawnet.vn/en/" target="_blank" rel="noopener">LawNet</a></li>
+</ol>
+<p class="tips-note"><strong>Important:</strong> Vietnam does not have individual drug appraisals like NICE TAs or G-BA Zusatznutzen assessments. Reimbursement decisions are made through periodic circular updates to the drug list, not per-product HTA reviews. The <a href="https://hspi.org.vn/en/home" target="_blank" rel="noopener">HSPI</a> is the designated HTA focal point but its outputs are not published as structured appraisal documents.</p>
+
+<h4 class="tips-heading">Key Legislation</h4>
+<ol>
+    <li><strong>Law on Pharmacy No. 105/2016/QH13</strong> — primary pharmaceutical law, amended by Law 44/2024 (effective July 2025)</li>
+    <li><strong>Circular 20/2022/TT-BYT</strong> — current health insurance drug reimbursement list</li>
+    <li><strong>Circular 15/2019/TT-BYT</strong> — drug tendering/bidding rules for public facilities (generic tiers Gx1–Gx5)</li>
+    <li><strong>Circular 19/2018/TT-BYT</strong> — Essential Medicines List</li>
+    <li>For the latest versions, search <a href="https://thuvienphapluat.vn/en/" target="_blank" rel="noopener">Thu Vien Phap Luat</a> (Vietnamese Legal Library)</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Vietnam's pharmaceutical sector is undergoing major reform. The Amended Pharmaceutical Law (Law 44/2024, effective July 2025) and new Decree 163/2025 introduce significant changes to pricing, registration, and foreign investment rules. Always verify circulars are current.</p>
+        `,
+    },
 ];
 
 // ── DOM Elements ──────────────────────────────────────────────────────
