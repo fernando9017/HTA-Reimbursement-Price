@@ -1917,7 +1917,7 @@ const COUNTRIES = [
                 title: "Pricing",
                 body: "Drug prices are controlled through price declaration, competitive bidding/tendering for public facilities, and centralized procurement. Manufacturers must declare wholesale and retail prices; they cannot sell above declared prices. The NCDPC handles national-level centralized bidding. Vietnam references Thailand, Malaysia, Indonesia, Philippines, and Cambodia for international reference pricing.",
                 links: [
-                    { label: "MOH — Drug Price Declaration Portal", url: "https://congbogiathuoc.moh.gov.vn" },
+                    { label: "DAV — Drug Price Declaration Portal", url: "https://dichvucong.dav.gov.vn/congbogiathuoc/index" },
                     { label: "NCDPC (National Centralized Drug Procurement Center)", url: "https://ncdp.vn/" },
                 ],
             },
@@ -1927,7 +1927,7 @@ const COUNTRIES = [
                 body: "Vietnam Social Security (VSS/BHXH) manages the social health insurance system covering ~93% of the population. The Reimbursement Drug List specifies covered medicines by active ingredient (not brand name). Co-payments are 0–20% depending on beneficiary category. Budget Impact Analysis is mandatory for new drugs seeking reimbursement since 2018.",
                 links: [
                     { label: "VSS (Vietnam Social Security)", url: "https://vss.gov.vn/english/Pages/default.aspx" },
-                    { label: "Circular 20/2022/TT-BYT — Health Insurance Drug List", url: "https://lawnet.vn/en/vb/Circular-30-2018-TT-BYT-promulgation-of-List-of-modern-medicines-biologicals-radiopharmaceuticals-64153.html" },
+                    { label: "Circular 20/2022/TT-BYT — Health Insurance Drug List", url: "https://thuvienphapluat.vn/van-ban/EN/The-thao-Y-te/Circular-20-2022-TT-BYT-payment-conditions-of-chemical-medications-under-health-insurance/554928/tieng-anh.aspx" },
                 ],
             },
             {
@@ -1960,7 +1960,7 @@ const COUNTRIES = [
 
 <h4 class="tips-heading">Pricing</h4>
 <ol>
-    <li>Declared and winning bid prices are published on the <a href="https://congbogiathuoc.moh.gov.vn" target="_blank" rel="noopener">MOH Drug Price Declaration Portal</a> — search by drug name or active ingredient (Vietnamese only)</li>
+    <li>Declared and winning bid prices are published on the <a href="https://dichvucong.dav.gov.vn/congbogiathuoc/index" target="_blank" rel="noopener">DAV Drug Price Declaration Portal</a> — search by drug name or active ingredient (Vietnamese only)</li>
     <li>Drugs for public facilities are procured through <strong>competitive bidding</strong> — generics are classified into 5 tiers (Gx1–Gx5) based on manufacturing standards, with price caps relative to brand-name drugs (Circular 15/2019/TT-BYT)</li>
     <li>The <a href="https://ncdp.vn/" target="_blank" rel="noopener">NCDPC</a> handles national centralized procurement — brand-name drugs are procured via price negotiation; generics via competitive bidding</li>
     <li>The <strong>Amended Pharmaceutical Law (effective July 2025)</strong> introduces stronger price transparency — manufacturers must announce estimated wholesale prices before market entry, and the MOH can recommend adjustments if prices exceed defined thresholds</li>
