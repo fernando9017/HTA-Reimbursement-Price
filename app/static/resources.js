@@ -204,14 +204,91 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "AFMPS — Medicines Database", url: "https://basededonneesdesmedicaments.be/usage-humain" }],
+                links: [
+                    { label: "FAMHP (Federal Agency for Medicines)", url: "https://www.famhp.be/en" },
+                    { label: "Medicines Database", url: "https://medicinesdatabase.be" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "KCE (Belgian Health Care Knowledge Centre) develops HTA methodology and strategic assessments. CRM/CTG (Drug Reimbursement Committee) within NIHDI evaluates individual drug reimbursement dossiers within a 180-day procedure. Belgium participates in the BeNeLuxA initiative for joint HTA and price negotiations.",
+                links: [
+                    { label: "KCE (Health Care Knowledge Centre)", url: "https://kce.fgov.be/en" },
+                    { label: "RIZIV/INAMI \u2014 CTG Assessment Reports & Decisions", url: "https://www.riziv.fgov.be/nl/webtoepassingen/geneesmiddelen-terugbetaling-ministeriele-beslissingen-en-ctg-beoordelingsrapporten" },
+                    { label: "BeNeLuxA Initiative", url: "https://beneluxa.org/collaboration" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "The FPS Economy determines maximum ex-factory prices. The public price adds wholesaler margin, pharmacist margin, dispensing fee, and 6% VAT. Generic entry triggers a ~45% 'patent cliff' reduction on the originator's reimbursement basis.",
+                links: [
+                    { label: "FPS Economy \u2014 Medicines Pricing", url: "https://economie.fgov.be/fr/themes/ventes/politique-des-prix/prix-reglementes/medicaments-usage-humain" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "INAMI/RIZIV — Reimbursable Drugs", url: "https://webappsa.riziv-inami.fgov.be/SSPWebApplicationPublic/fr/Public/ProductSearch" }],
+                body: "RIZIV/INAMI manages the positive reimbursement list. Categories: A (100%, life-saving), B (75\u201385%), C (50%), Cs (limited), Cx (contraceptives ~20%), Fa/Fb (flat-fee). Chapter IV medicines require prior authorization. Managed Entry Agreements (Article 81) cover ~30% of the medicines budget.",
+                links: [
+                    { label: "RIZIV/INAMI \u2014 Reimbursable Drug Search", url: "https://webappsa.riziv-inami.fgov.be/SSPWebApplicationPublic/fr/Public/ProductSearch" },
+                    { label: "RIZIV/INAMI \u2014 Chapter IV/VIII Request Forms", url: "https://webappsa.riziv-inami.fgov.be/ssp/RequestForms" },
+                    { label: "INAMI \u2014 Reimbursement Categories Explained", url: "https://www.riziv.fgov.be/fr/themes/soins-de-sante-cout-et-remboursement/les-prestations-de-sante-que-vous-rembourse-votre-mutualite/medicaments/remboursement-d-un-medicament/specialites-pharmaceutiques-remboursables/liste-des-specialites-pharmaceutiques-remboursables-les-categories-de-remboursement" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "CBIP/BCFI \u2014 R\u00e9pertoire Comment\u00e9 des M\u00e9dicaments", url: "https://www.cbip.be/fr/chapters" },
+                    { label: "pharma.be (Innovative Pharma Industry)", url: "https://pharma.be" },
+                    { label: "Medaxes (Generic & Biosimilar Association)", url: "https://www.medaxes.be/en" },
+                    { label: "APB (Pharmacists' Association)", url: "https://www.apb.be" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Key Bodies &mdash; Language Note</h4>
+<ol>
+    <li>Belgium is bilingual (Dutch/French). All institutions have parallel names: <strong>RIZIV</strong> (NL) = <strong>INAMI</strong> (FR); <strong>FAGG</strong> (NL) = <strong>AFMPS</strong> (FR); <strong>BCFI</strong> (NL) = <strong>CBIP</strong> (FR); <strong>CTG</strong> (NL) = <strong>CRM</strong> (FR)</li>
+    <li>The RIZIV/INAMI reimbursement database has <strong>no English interface</strong>. Use French (<code>/fr/</code>) or Dutch (<code>/nl/</code>) &mdash; drug names (brand + INN) are language-neutral and searchable in either version</li>
+    <li><a href="https://www.famhp.be/en" target="_blank" rel="noopener">FAMHP</a> has an English site. <a href="https://kce.fgov.be/en" target="_blank" rel="noopener">KCE</a> publishes English report summaries. CRM/CTG assessment reports are published in the language of the company's submission (not translated)</li>
+</ol>
+
+<h4 class="tips-heading">HTA &mdash; KCE vs. CRM/CTG</h4>
+<ol>
+    <li><strong>KCE</strong>: Independent research institute. Produces strategic HTA reports and develops the <a href="https://kce.fgov.be/sites/default/files/2025-05/KCE400_Method_guidelines_economic_evaluations.pdf" target="_blank" rel="noopener">methodology guidelines</a> (KCE Report 400, 2025) that CRM/CTG experts follow. Does NOT evaluate individual drug dossiers</li>
+    <li><strong>CRM/CTG</strong>: Advisory committee within NIHDI (30 members). Evaluates individual drug reimbursement applications within a <strong>180-day</strong> procedure. Classifies therapeutic value (class 1, 2, or 3) and proposes reimbursement terms to the Minister</li>
+    <li>In short: KCE develops the playbook; CRM/CTG runs the individual plays</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement Categories</h4>
+<ol>
+    <li><strong>Category A</strong> (100%): Life-saving medicines (insulin, cancer drugs, immunosuppressants) &mdash; no patient co-payment</li>
+    <li><strong>Category B</strong> (75&ndash;85%): Therapeutically essential medicines (antihypertensives, antibiotics). 85% for preferential insured (pensioners, disabled, low-income)</li>
+    <li><strong>Category C</strong> (50%): Symptomatic treatments. <strong>Cs</strong>: C with specific conditions. <strong>Cx</strong>: Contraceptives (~20%)</li>
+    <li><strong>Fa</strong> (100%): Flat-fee, primarily hospital-dispensed. <strong>Fb</strong>: Flat-fee at B-level reimbursement</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Categories B accounts for ~80&ndash;85% of public pharmaceutical expenditure. "Preferential insured" persons receive higher reimbursement rates and lower co-payment caps across all categories.</p>
+
+<h4 class="tips-heading">Chapter IV Procedure (Prior Authorization)</h4>
+<ol>
+    <li>Chapter IV medicines require <strong>prior authorization</strong> before reimbursement &mdash; this is how Belgium manages access to expensive/specialized drugs</li>
+    <li>Process: prescribing physician prepares the request &rarr; submitted to patient's health insurance fund (now often electronic) &rarr; reviewed by the fund's advising physician &rarr; approved or refused</li>
+    <li>Approvals are <strong>time-limited</strong> and must be renewed with updated clinical documentation</li>
+    <li>Search request forms at the <a href="https://webappsa.riziv-inami.fgov.be/ssp/RequestForms" target="_blank" rel="noopener">Chapter IV/VIII forms tool</a></li>
+</ol>
+
+<h4 class="tips-heading">Managed Entry Agreements &amp; Access</h4>
+<ol>
+    <li><strong>Article 81 Conventions (MEAs)</strong>: For expensive/innovative drugs with uncertain value. Temporary (3-year) reimbursement with confidential discounts, price-volume agreements, or outcome-based clawbacks. ~30% of the medicines budget is under MEAs</li>
+    <li>Since October 2024, non-confidential sections of MEAs are <a href="https://webappsa.riziv-inami.fgov.be/SSPWebApplicationPublic/fr/Public/ProductSearch" target="_blank" rel="noopener">publicly accessible</a></li>
+    <li><strong>Early &amp; Fast Access</strong> (effective 1 Jan 2026): Two-track reform for early temporary reimbursement of medicines in compassionate use or with EMA PRIME/accelerated status</li>
+    <li><strong>BeNeLuxA</strong>: Belgium participates with Netherlands, Luxembourg, Austria, and Ireland in joint HTA assessments and price negotiations for expensive medicines (e.g., Spinraza, Zolgensma)</li>
+</ol>
+<p class="tips-note"><strong>Clinical reference:</strong> The <a href="https://www.cbip.be/fr/chapters" target="_blank" rel="noopener">CBIP/BCFI R&eacute;pertoire</a> is the standard annotated drug directory used by Belgian prescribers &mdash; organized into 20 therapeutic chapters with commentary on positioning, pricing, and reimbursement.</p>
+        `,
     },
     {
         code: "BR",
