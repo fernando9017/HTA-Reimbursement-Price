@@ -24,8 +24,72 @@ const COUNTRIES = [
         code: "DZ",
         name: "Algeria",
         flag: "🇩🇿",
-        sections: [],
-        notes: "No resources currently listed.",
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "The ANPP (Agence Nationale des Produits Pharmaceutiques), established in 2018, handles marketing authorizations. Price agreement is required before MA is granted. The Nomenclature Nationale lists all registered medicines with prices and reimbursement status.",
+                links: [
+                    { label: "ANPP (National Agency for Pharmaceutical Products)", url: "https://anpp.dz/en/" },
+                    { label: "MIPH — Nomenclature Nationale (registered drugs with prices)", url: "https://www.miph.gov.dz/fr/nomenclature-nationale-des-produits-pharmaceutiques/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "The CEPS (Comité Économique Intersectoriel des Médicaments) sets drug prices using External Reference Pricing based on the lowest ex-factory price from 8 reference countries (Belgium, France, Greece, Morocco, Spain, Tunisia, Turkey, UK) plus the country of origin.",
+                links: [
+                    { label: "MIPH (Ministry of Pharmaceutical Industry)", url: "https://www.miph.gov.dz/fr/" },
+                    { label: "MIPH — Regulatory Downloads", url: "https://www.miph.gov.dz/fr/telechargements/" },
+                    { label: "JORADP (Official Gazette — pricing decisions)", url: "https://www.joradp.dz/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "CNAS (Caisse Nationale des Assurances Sociales) covers ~85% of the population. Reimbursement is 100% for chronic disease medicines and 80% for others. A Tarif de Référence (reference tariff) aligned with the cheapest generic determines the reimbursement basis. The Chifa electronic card enables third-party payment at pharmacies.",
+                links: [
+                    { label: "CNAS (National Social Insurance Fund)", url: "https://cnas.dz/en/the-presentation-of-cnas/" },
+                    { label: "MTESS (Ministry of Labour & Social Security)", url: "https://www.mtess.gov.dz/en/" },
+                    { label: "WHO — Reimbursable Medicines List 2023", url: "https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ministry of Health", url: "http://www.sante.gov.dz/" },
+                    { label: "PharmNet — Algerian Drug Encyclopedia", url: "https://pharmnet-dz.com/alphabet.aspx" },
+                    { label: "CLEISS — Social Security System Overview", url: "https://www.cleiss.fr/docs/regimes/regime_algerie_salaries.html" },
+                ],
+            },
+        ],
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization &amp; Drug Registry</h4>
+<ol>
+    <li>Download the <a href="https://www.miph.gov.dz/fr/nomenclature-nationale-des-produits-pharmaceutiques/" target="_blank" rel="noopener">Nomenclature Nationale</a> (Excel file) from the Ministry of Pharmaceutical Industry — it contains every registered medicine with registration number, dosage, laboratory, price, and reimbursement status</li>
+    <li>The <a href="https://anpp.dz/en/" target="_blank" rel="noopener">ANPP</a> website provides information on registration procedures — note that price agreement is required <strong>before</strong> marketing authorization is granted</li>
+    <li>For an unofficial but searchable drug database, try <a href="https://pharmnet-dz.com/alphabet.aspx" target="_blank" rel="noopener">PharmNet</a> (4,600+ medicines across 171 pharmacological classes)</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in French (with Arabic versions). Search in French for best results — key terms: "nomenclature des médicaments," "tarif de référence," "liste des médicaments remboursables."</p>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>Algeria uses <strong>External Reference Pricing (ERP)</strong> — the ex-factory price is set at the <strong>lowest</strong> price among 8 reference countries: Belgium, France, Greece, Morocco, Spain, Tunisia, Turkey, and the UK, plus the country of origin</li>
+    <li>Pricing decisions are published in the <a href="https://www.joradp.dz/" target="_blank" rel="noopener">JORADP (Journal Officiel)</a> — use third-party search tools like <a href="https://joradp.org/" target="_blank" rel="noopener">joradp.org</a> to search by keyword</li>
+    <li>The <a href="https://www.miph.gov.dz/fr/telechargements/" target="_blank" rel="noopener">MIPH downloads page</a> has key regulatory texts including the December 2020 ministerial order that established the current CEPS pricing procedure</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Generic prices are set using Internal Reference Pricing. Biosimilar prices must be 10–30% lower than the reference biologic (depending on the price tier).</p>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li>The official reimbursable medicines list is published by the Ministry of Labour (MTESS) — the <a href="https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" target="_blank" rel="noopener">WHO hosts the 2023 version</a></li>
+    <li>Reimbursement rates: <strong>100%</strong> for chronic/NCD medicines, <strong>80%</strong> for all others (20% co-payment)</li>
+    <li>The <strong>Tarif de Référence</strong> aligns brand-name drug reimbursement with the cheapest generic on the market — published in the JORADP 3 months before implementation</li>
+    <li>The Reimbursement Committee relies heavily on international HTA evidence, especially <strong>France's HAS</strong> (SMR/ASMR opinions), as Algeria has no formal HTA body</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Algeria has no formal HTA agency. A sub-directorate of economic evaluation exists within the MIPH, and the 2020 ministerial order introduced a role for pharmacoeconomic studies in pricing, but systematic HTA is still in early development.</p>
+        `,
     },
     {
         code: "AR",
