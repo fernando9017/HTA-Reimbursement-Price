@@ -1232,6 +1232,89 @@ const COUNTRIES = [
         ],
     },
     {
+        code: "PR",
+        name: "Puerto Rico",
+        flag: "🇵🇷",
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "As a U.S. territory, Puerto Rico follows FDA approval. However, every pharmaceutical product must also be separately registered with the PR Department of Health before distribution — a requirement unique among U.S. jurisdictions. Registration includes packaging samples, labeling, proof of FDA approval, and local representative information.",
+                links: [
+                    { label: "FDA — Drug Approval and Databases", url: "https://www.fda.gov/drugs/development-approval-process-drugs" },
+                    { label: "PR Department of Health", url: "https://www.salud.pr.gov/" },
+                    { label: "PR Board of Pharmacy", url: "https://www.salud.pr.gov/CMS/116" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug pricing largely follows the U.S. market. DACO (Department of Consumer Affairs) has authority to freeze or control drug prices, including 90-day freezes on leading prescription drugs. The 340B program and Medicaid Drug Rebate Program (since January 2023) apply. Puerto Rico is a major pharmaceutical manufacturing hub under Act 60-2019 (4% corporate tax rate).",
+                links: [
+                    { label: "DACO (Department of Consumer Affairs)", url: "https://www.daco.pr.gov/" },
+                    { label: "HRSA — 340B Drug Pricing Program", url: "https://www.hrsa.gov/opa" },
+                    { label: "340B OPAIS Database (search PR entities)", url: "https://340bopais.hrsa.gov/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Plan Vital (Medicaid) covers ~1.5 million residents through four MCOs managed by ASES. Since joining the Medicaid Drug Rebate Program in January 2023, Plan Vital operates an open formulary covering nearly all FDA-approved drugs. Medicare Part D is available but Puerto Rico is excluded from the Part D Low-Income Subsidy. Medicaid receives capped block grant funding (not open-ended matching like states).",
+                links: [
+                    { label: "Plan Vital — Official Website", url: "https://sssvital.com/en/" },
+                    { label: "Plan Vital — Drug Lists by Category", url: "https://sssvital.com/en/drug-lists/" },
+                    { label: "ASES (Health Insurance Administration)", url: "https://www.ases.pr.gov/" },
+                    { label: "PR Medicaid — Official Website", url: "https://www.medicaid.pr.gov/" },
+                    { label: "CMS — Puerto Rico Medicaid Overview", url: "https://www.medicaid.gov/state-overviews/puerto-rico.html" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "MACPAC — Medicaid & CHIP in Puerto Rico", url: "https://www.macpac.gov/wp-content/uploads/2020/08/Medicaid-and-CHIP-in-Puerto-Rico.pdf" },
+                    { label: "Colegio de Farmacéuticos de Puerto Rico", url: "https://www.cfpr.org/" },
+                    { label: "PIA-PR (Pharmaceutical Industry Association)", url: "https://piapr.org/" },
+                ],
+            },
+        ],
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization &amp; Drug Registration</h4>
+<ol>
+    <li>All drugs require <strong>FDA approval</strong> (same as the 50 states), but Puerto Rico also requires <strong>separate local product registration</strong> with the PR Department of Health before distribution — every NDC shipped to the island must be registered</li>
+    <li>Registration must occur at least 5 days prior to distribution and is a one-time filing (valid until the product is removed from market)</li>
+    <li>The PR pharmacy regulatory framework is governed by <strong>Act 247-2004</strong> (Ley de Farmacia de Puerto Rico). Regulation 156/156B covers pharmaceutical establishment requirements</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> In June 2025, SARSP (formerly SARAFS) repealed the Special Authorization requirement for nonresident manufacturers and distributors, simplifying market entry. However, drug product registration itself remains mandatory.</p>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li><strong>DACO</strong> (Department of Consumer Affairs) has broad authority to freeze or control drug prices — it has historically issued 90-day price freezes on leading prescription drugs at distribution, wholesale, and retail levels</li>
+    <li>The <a href="https://www.hrsa.gov/opa" target="_blank" rel="noopener">340B Drug Pricing Program</a> applies to PR hospitals, FQHCs, and safety-net providers — search the <a href="https://340bopais.hrsa.gov/" target="_blank" rel="noopener">340B OPAIS database</a> for enrolled PR entities</li>
+    <li>Puerto Rico joined the <strong>Medicaid Drug Rebate Program (MDRP)</strong> in January 2023 — a landmark change estimated to save $154.8 million over four years. A <strong>Supplemental Drug Rebate Program</strong> was added effective January 2025</li>
+    <li>The Inflation Reduction Act provisions (Medicare drug price negotiation, $2,000 out-of-pocket cap, $35 insulin cap) apply to PR Medicare beneficiaries</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Puerto Rico is a major pharmaceutical manufacturing hub — 12 of the world's top 20 pharma companies have operations here. Act 60-2019 offers a 4% corporate tax rate for eligible manufacturers. Products manufactured in PR qualify as "Made in USA."</p>
+
+<h4 class="tips-heading">Reimbursement — Plan Vital (Medicaid)</h4>
+<ol>
+    <li><a href="https://sssvital.com/en/" target="_blank" rel="noopener">Plan Vital</a> is delivered through four MCOs: <strong>First Medical</strong>, <strong>Triple-S Salud</strong>, <strong>MMM Multi Health</strong>, and <strong>Plan de Salud Menonita</strong>. <strong>Abarca Health</strong> serves as the single PBM for all four</li>
+    <li>Since joining the MDRP in 2023, Plan Vital operates an <strong>open formulary</strong> covering nearly all FDA-approved drugs — prior authorization and step therapy still apply as utilization management tools</li>
+    <li>Drug lists by therapeutic category are available at <a href="https://sssvital.com/en/drug-lists/" target="_blank" rel="noopener">sssvital.com/en/drug-lists/</a></li>
+    <li>Prescription drugs are <strong>free</strong> for children under 20 and pregnant women who are Medicaid/CHIP beneficiaries</li>
+</ol>
+<p class="tips-note"><strong>Important — Medicaid funding gap:</strong> Unlike U.S. states, Puerto Rico receives <strong>capped block grant funding</strong> (not open-ended matching). The statutory FMAP is 55% (temporarily 76% through FY2027; would be 83% if PR were a state). Per-enrollee spending is ~20% of the national average. A post-FY2027 "fiscal cliff" looms without Congressional action.</p>
+
+<h4 class="tips-heading">Medicare &amp; Private Insurance</h4>
+<ol>
+    <li>Medicare Part D plans are available in Puerto Rico (CMS PDP Region 38) — but PR residents are <strong>excluded from the Part D Low-Income Subsidy (LIS)</strong> and are <strong>not automatically enrolled in Part B</strong></li>
+    <li><strong>Medicare Platino</strong> serves dual-eligible (Medicare + Medicaid) beneficiaries through special needs MA plans from Humana, Triple-S, MCS, and MMM</li>
+    <li>Major private insurers: <strong>Triple-S Salud</strong> (Blue Cross Blue Shield licensee, largest insurer), <strong>MMM</strong>, <strong>MCS Healthcare</strong>, <strong>Humana</strong>. Triple-S publishes annual drug formularies (Supreme and Select tiers)</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> Official PR government documents are primarily in Spanish; federal documents (CMS, HRSA, FDA) are in English. The Plan Vital website has an English version. Key Spanish terms: "medicamentos" (drugs), "formulario" (formulary), "receta" (prescription), "aseguradora" (insurer).</p>
+        `,
+    },
+    {
         code: "QA",
         name: "Qatar",
         flag: "🇶🇦",
