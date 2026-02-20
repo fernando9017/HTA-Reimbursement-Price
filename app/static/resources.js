@@ -335,7 +335,7 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "HALMED — Drug Database", url: "https://www.halmed.hr/Lijekovi/Baza-lijekova/" }],
+                links: [{ label: "HALMED — Drug Database", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" }],
             },
             {
                 id: "reimbursement",
@@ -742,7 +742,7 @@ const COUNTRIES = [
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Insurance Information", url: "https://call.gov.il/product-page/1004199" }],
+                links: [{ label: "National Health Insurance — gov.il", url: "https://www.gov.il/en/pages/national-health-insurance" }],
             },
         ],
         tips: `The Health Basket (סל הבריאות) is updated annually by the Health Basket Committee, which reviews new technologies and drugs for inclusion. The committee's decisions are published each year — search for the latest year's page on gov.il.\n\nDrug prices are regulated by the MOH. The Open Data portal provides downloadable Excel files of all prescription drug prices.\n\nThe Israeli Drug Registry is available in Hebrew only — use Google Translate or search by INN in English characters.`,
@@ -1661,7 +1661,7 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 links: [
                     { label: "DHA — Drug Control (Dubai Health Authority)", url: "https://www.dha.gov.ae/en/HealthRegulationSector/DrugControl" },
-                    { label: "DAMAN — Drug Formulary (SEHA / DAMAN)", url: "https://www.damanhealth.ae/en/join-our-provider-network/pharmaceutical-benefits/ddf" },
+                    { label: "DAMAN — Drug Formulary (SEHA / DAMAN)", url: "https://www.damanhealth.ae/healthcare/pharmaceutical-benefits/daman-drug-formulary/" },
                 ],
             },
         ],
