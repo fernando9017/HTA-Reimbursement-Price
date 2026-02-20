@@ -8,7 +8,16 @@
  * Depends on shared.js for: esc
  */
 
+// ── EMA Centralized Procedure link (injected for all EU/EEA countries) ──
+
+const EMA_LINK = {
+    label: "EMA — Centralised Procedure",
+    url: "https://www.ema.europa.eu/en/human-regulatory-overview/marketing-authorisation/centralised-procedure",
+};
+
 // ── Country data (alphabetical) ───────────────────────────────────────
+// ema: true  → country is an EU/EEA member; EMA link is auto-appended
+//              to the Market Authorization section when rendering.
 
 const COUNTRIES = [
     {
@@ -67,6 +76,7 @@ const COUNTRIES = [
         code: "AT",
         name: "Austria",
         flag: "🇦🇹",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -89,6 +99,7 @@ const COUNTRIES = [
         code: "BE",
         name: "Belgium",
         flag: "🇧🇪",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -126,6 +137,7 @@ const COUNTRIES = [
         code: "BG",
         name: "Bulgaria",
         flag: "🇧🇬",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -199,6 +211,7 @@ const COUNTRIES = [
         code: "HR",
         name: "Croatia",
         flag: "🇭🇷",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -221,6 +234,7 @@ const COUNTRIES = [
         code: "CY",
         name: "Cyprus",
         flag: "🇨🇾",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -243,6 +257,7 @@ const COUNTRIES = [
         code: "CZ",
         name: "Czech Republic",
         flag: "🇨🇿",
+        ema: true,
         sections: [
             {
                 id: "reimbursement",
@@ -255,6 +270,7 @@ const COUNTRIES = [
         code: "DK",
         name: "Denmark",
         flag: "🇩🇰",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -279,6 +295,7 @@ const COUNTRIES = [
         code: "EE",
         name: "Estonia",
         flag: "🇪🇪",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -301,6 +318,7 @@ const COUNTRIES = [
         code: "FI",
         name: "Finland",
         flag: "🇫🇮",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -324,6 +342,7 @@ const COUNTRIES = [
         code: "FR",
         name: "France",
         flag: "🇫🇷",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -359,6 +378,7 @@ const COUNTRIES = [
         code: "DE",
         name: "Germany",
         flag: "🇩🇪",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -395,6 +415,7 @@ const COUNTRIES = [
         code: "GR",
         name: "Greece",
         flag: "🇬🇷",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -430,6 +451,7 @@ const COUNTRIES = [
         code: "HU",
         name: "Hungary",
         flag: "🇭🇺",
+        ema: true,
         sections: [
             {
                 id: "reimbursement",
@@ -449,6 +471,7 @@ const COUNTRIES = [
         code: "IS",
         name: "Iceland",
         flag: "🇮🇸",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -483,6 +506,7 @@ const COUNTRIES = [
         code: "IE",
         name: "Ireland",
         flag: "🇮🇪",
+        ema: true,
         sections: [
             {
                 id: "reimbursement",
@@ -551,6 +575,7 @@ const COUNTRIES = [
         code: "LV",
         name: "Latvia",
         flag: "🇱🇻",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -585,6 +610,7 @@ const COUNTRIES = [
         code: "LT",
         name: "Lithuania",
         flag: "🇱🇹",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -611,6 +637,7 @@ const COUNTRIES = [
         code: "LU",
         name: "Luxembourg",
         flag: "🇱🇺",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -634,6 +661,7 @@ const COUNTRIES = [
         code: "MT",
         name: "Malta",
         flag: "🇲🇹",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -681,6 +709,7 @@ const COUNTRIES = [
         code: "NL",
         name: "Netherlands",
         flag: "🇳🇱",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -703,6 +732,7 @@ const COUNTRIES = [
         code: "NO",
         name: "Norway",
         flag: "🇳🇴",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -766,6 +796,7 @@ const COUNTRIES = [
         code: "PL",
         name: "Poland",
         flag: "🇵🇱",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -787,6 +818,7 @@ const COUNTRIES = [
         code: "PT",
         name: "Portugal",
         flag: "🇵🇹",
+        ema: true,
         sections: [
             {
                 id: "reimbursement",
@@ -812,6 +844,7 @@ const COUNTRIES = [
         code: "RO",
         name: "Romania",
         flag: "🇷🇴",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -898,6 +931,7 @@ const COUNTRIES = [
         code: "SK",
         name: "Slovakia",
         flag: "🇸🇰",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -919,6 +953,7 @@ const COUNTRIES = [
         code: "SI",
         name: "Slovenia",
         flag: "🇸🇮",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -959,6 +994,7 @@ const COUNTRIES = [
         code: "ES",
         name: "Spain",
         flag: "🇪🇸",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -995,6 +1031,7 @@ const COUNTRIES = [
         code: "SE",
         name: "Sweden",
         flag: "🇸🇪",
+        ema: true,
         sections: [
             {
                 id: "marketing",
@@ -1183,13 +1220,30 @@ function openDetail(country, activeBtn) {
     detailFlag.textContent = country.flag;
     detailName.textContent = country.name;
 
+    // For EU/EEA countries, inject EMA Centralised Procedure link into the
+    // Market Authorization section (or prepend a new section if none exists).
+    let sections = country.sections;
+    if (country.ema) {
+        const idx = sections.findIndex(s => s.id === "marketing");
+        const alreadyHasEma = idx >= 0 && sections[idx].links.some(l => l.url.includes("ema.europa.eu"));
+        if (!alreadyHasEma) {
+            if (idx >= 0) {
+                sections = sections.map((s, i) =>
+                    i === idx ? { ...s, links: [...s.links, EMA_LINK] } : s
+                );
+            } else {
+                sections = [{ id: "marketing", title: "Market Authorization", links: [EMA_LINK] }, ...sections];
+            }
+        }
+    }
+
     let html = "";
 
-    if (country.sections.length === 0 && !country.notes && !country.tips) {
+    if (sections.length === 0 && !country.notes && !country.tips) {
         html = `<p class="resource-empty">No resources listed for this country yet.</p>`;
     }
 
-    html += country.sections.map(s => {
+    html += sections.map(s => {
         const hasContent = s.body || (s.links && s.links.length > 0);
         if (!hasContent) return "";
         return `
