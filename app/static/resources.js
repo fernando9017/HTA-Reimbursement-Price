@@ -58,19 +58,55 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "PBAC — HTA Public Summary Documents", url: "https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings/psd/public-summary-documents-by-product" }],
+                links: [
+                    { label: "PBAC — HTA Public Summary Documents", url: "https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings/psd/public-summary-documents-by-product" },
+                    { label: "PBS Schedule (online formulary)", url: "https://www.pbs.gov.au/browse/medicine-listing" },
+                ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "PBS — Ex-Manufacturer Price Lists", url: "https://www.pbs.gov.au/pbs/industry/pricing/ex-manufacturer-price" }],
+                links: [
+                    { label: "PBS — Ex-Manufacturer Price Lists", url: "https://www.pbs.gov.au/pbs/industry/pricing/ex-manufacturer-price" },
+                    { label: "PBS — Dispensed Price for Maximum Quantity", url: "https://www.pbs.gov.au/browse/medicine-listing" },
+                ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Trikipedia — Australia", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Australia.aspx" }],
+                links: [
+                    { label: "PBAC Meeting Outcomes", url: "https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings" },
+                    { label: "Trikipedia — Australia", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Australia.aspx" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Regulatory Approval (TGA)</h4>
+<ol>
+    <li>Search the <a href="https://www.tga.gov.au/resources/artg" target="_blank" rel="noopener">ARTG (Australian Register of Therapeutic Goods)</a> by product name or active ingredient to confirm TGA registration</li>
+    <li>The ARTG entry shows: sponsor, registration date, approved indications, and product category</li>
+    <li>TGA also publishes Australian Public Assessment Reports (AusPAR) for new chemical entities — search the <a href="https://www.tga.gov.au/resources/auspar" target="_blank" rel="noopener">AusPAR database</a> for the full regulatory review</li>
+</ol>
+
+<h4 class="tips-heading">PBAC Assessment &amp; PBS Listing</h4>
+<p>The Pharmaceutical Benefits Advisory Committee (PBAC) evaluates medicines for listing on the PBS. PBAC meets three times per year (March, July, November).</p>
+<ol>
+    <li>Search <a href="https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings/psd/public-summary-documents-by-product" target="_blank" rel="noopener">Public Summary Documents (PSDs)</a> by product name — these provide detailed summaries of the clinical evidence, economic evaluation, and PBAC recommendation</li>
+    <li>PBAC outcomes: <strong>Recommended</strong>, <strong>Recommended (deferred)</strong>, <strong>Not recommended</strong>, or <strong>Rejected</strong></li>
+    <li>A positive PBAC recommendation does not guarantee PBS listing — price negotiations with PBPA (Pharmaceutical Benefits Pricing Authority) follow</li>
+    <li>Check <a href="https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings" target="_blank" rel="noopener">PBAC meeting outcomes</a> for the most recent decisions before PSDs are published (PSDs may take several months to appear)</li>
+</ol>
+<p class="tips-note"><strong>Key concept:</strong> Australia uses an explicit cost-effectiveness threshold informally anchored around AUD 50,000–75,000/QALY for standard submissions. The "Rule of Rescue" and "Burden of Disease" criteria may allow higher ICERs for rare/severe conditions.</p>
+
+<h4 class="tips-heading">PBS Formulary &amp; Pricing</h4>
+<ol>
+    <li>The <a href="https://www.pbs.gov.au/browse/medicine-listing" target="_blank" rel="noopener">PBS Schedule</a> is the online formulary — search by product name to find: PBS item codes, restriction levels (Unrestricted, Restricted, Authority Required), and the Dispensed Price for Maximum Quantity (DPMQ)</li>
+    <li>Restrictions: "Authority Required" means the prescriber must obtain prior approval from Services Australia; "Restricted" means it is limited to specific indications listed on PBS</li>
+    <li>Ex-manufacturer prices are published in downloadable spreadsheets on the <a href="https://www.pbs.gov.au/pbs/industry/pricing/ex-manufacturer-price" target="_blank" rel="noopener">PBS pricing page</a> — updated monthly</li>
+    <li>For hospital-only medicines, check the Efficient Funding of Chemotherapy (EFC) and Section 100 programs</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> PBS prices are public but may include confidential rebates (Deeds of Agreement) between the manufacturer and government. The published DPMQ is the maximum price — actual acquisition costs may be lower.</p>
+        `,
     },
     {
         code: "AT",
@@ -121,7 +157,10 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "ANVISA", url: "https://consultas.anvisa.gov.br/" }],
+                links: [
+                    { label: "ANVISA — Drug Search (Consultas)", url: "https://consultas.anvisa.gov.br/" },
+                    { label: "ANVISA — New Drug Registrations", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -131,7 +170,40 @@ const COUNTRIES = [
                     { label: "CONITEC — Recomendações", url: "https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/recomendacoes-da-conitec" },
                 ],
             },
+            {
+                id: "pricing",
+                title: "Pricing",
+                links: [
+                    { label: "CMED — Regulated Drug Prices (Preços Máximos)", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
+                ],
+            },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Regulatory Approval (ANVISA)</h4>
+<ol>
+    <li>Search <a href="https://consultas.anvisa.gov.br/" target="_blank" rel="noopener">ANVISA Consultas</a> by product name or active substance to confirm Brazilian registration status</li>
+    <li>ANVISA operates independently — no mutual recognition with EMA or FDA. Local clinical data may be required</li>
+    <li>Brazil participates in Project Orbis for coordinated oncology reviews with FDA and other agencies</li>
+</ol>
+
+<h4 class="tips-heading">HTA (CONITEC)</h4>
+<p>CONITEC (Comissão Nacional de Incorporação de Tecnologias no SUS) evaluates new technologies for incorporation into the public health system (SUS).</p>
+<ol>
+    <li>Search <a href="https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/recomendacoes-da-conitec" target="_blank" rel="noopener">CONITEC recommendations</a> by product name — reports are published in Portuguese (PDF)</li>
+    <li>CONITEC outcomes: <strong>Incorporar</strong> (incorporate into SUS), <strong>Não incorporar</strong> (do not incorporate), or <strong>Incorporar com restrição</strong> (incorporate with restrictions)</li>
+    <li>A positive CONITEC recommendation leads to inclusion in the <strong>RENAME</strong> (National List of Essential Medicines) or <strong>PCDT</strong> (Clinical Protocols and Therapeutic Guidelines)</li>
+    <li>Important: SUS covers approximately 75% of the population. Private insurance and out-of-pocket payments cover the remainder</li>
+</ol>
+
+<h4 class="tips-heading">Pricing (CMED)</h4>
+<ol>
+    <li>Drug prices in Brazil are regulated by CMED (Câmara de Regulação do Mercado de Medicamentos) — a body under ANVISA</li>
+    <li>CMED sets the maximum manufacturer price (PMC — Preço Máximo ao Consumidor) using a formula based on international reference prices and local factors</li>
+    <li>Downloadable price lists are available on the <a href="https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" target="_blank" rel="noopener">CMED pricing page</a> — published as Excel files, updated periodically</li>
+    <li>Prices vary by state due to different ICMS (tax) rates — the price list includes columns for each state's maximum price</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> The CONITEC website is in Portuguese only. Use Google Translate for navigation. For the most comprehensive search, use <code>site:gov.br/conitec [product name]</code> on Google.</p>
+        `,
     },
     {
         code: "BG",
@@ -160,14 +232,61 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Health Canada — Drug Product Database", url: "https://health-products.canada.ca/dpd-bdpp/" }],
+                links: [
+                    { label: "Health Canada — Drug Product Database", url: "https://health-products.canada.ca/dpd-bdpp/" },
+                    { label: "Health Canada — Summary Basis of Decision", url: "https://health-products.canada.ca/dpd-bdpp/switchlocale.do?lang=en&url=t.sbd.srmd" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "CADTH (Canadian Drug Review)", url: "https://www.cadth.ca/" }],
+                links: [
+                    { label: "CADTH — Reimbursement Reviews", url: "https://www.cadth.ca/reimbursement-reviews" },
+                    { label: "INESSS (Québec HTA body)", url: "https://www.inesss.qc.ca/en/themes/medicaments.html" },
+                    { label: "pCPA — Pan-Canadian Price Negotiations", url: "https://www.pcpa.ca/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                links: [
+                    { label: "PMPRB — Patented Medicine Prices Review Board", url: "https://www.canada.ca/en/patented-medicine-prices-review.html" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "CADTH — Health Technology Assessments", url: "https://www.cadth.ca/health-technology-assessment" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Regulatory Approval (Health Canada)</h4>
+<ol>
+    <li>Search the <a href="https://health-products.canada.ca/dpd-bdpp/" target="_blank" rel="noopener">Drug Product Database (DPD)</a> by brand name or INN for Canadian marketing authorisation status, approved indications, and DIN (Drug Identification Number)</li>
+    <li>The <strong>Summary Basis of Decision (SBD)</strong> is Health Canada's equivalent of the EPAR — provides the regulatory review rationale. Search the DPD or Google <code>site:health-products.canada.ca [product name] "summary basis of decision"</code></li>
+    <li>Health Canada operates an independent pathway — no mutual recognition with EMA or FDA, though Project Orbis (for oncology) enables coordinated reviews</li>
+</ol>
+
+<h4 class="tips-heading">CADTH &amp; INESSS (HTA)</h4>
+<p>Canada has a two-track HTA system: CADTH (federal — covers all provinces except Québec) and INESSS (Québec only).</p>
+<ol>
+    <li>Search <a href="https://www.cadth.ca/reimbursement-reviews" target="_blank" rel="noopener">CADTH Reimbursement Reviews</a> for drug appraisal reports — outcomes are: <strong>Reimburse</strong>, <strong>Reimburse with conditions</strong>, <strong>Do not reimburse</strong></li>
+    <li>Key CADTH documents: the <strong>CADTH Recommendation</strong> (decision + rationale) and the <strong>Clinical Review Report</strong> (detailed evidence assessment)</li>
+    <li>For Québec, check <a href="https://www.inesss.qc.ca/en/themes/medicaments.html" target="_blank" rel="noopener">INESSS</a> — Québec does not follow CADTH recommendations and conducts its own HTA</li>
+    <li>A positive CADTH recommendation triggers price negotiations at the pan-Canadian level via <a href="https://www.pcpa.ca/" target="_blank" rel="noopener">pCPA (pan-Canadian Pharmaceutical Alliance)</a></li>
+</ol>
+<p class="tips-note"><strong>Important:</strong> A positive CADTH recommendation does NOT mean a drug is reimbursed. Each province/territory must then separately list the drug on its own formulary — this creates variable access timelines across Canada. Check individual provincial formularies for actual listing status.</p>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>The <a href="https://www.canada.ca/en/patented-medicine-prices-review.html" target="_blank" rel="noopener">PMPRB (Patented Medicine Prices Review Board)</a> sets maximum introductory prices for patented medicines using international reference pricing from a basket of comparator countries</li>
+    <li>Actual reimbursed prices are negotiated confidentially through pCPA — published list prices (from the PMPRB) may not reflect actual acquisition costs</li>
+    <li>Provincial formulary prices can vary — check the relevant provincial drug plan for listing-specific pricing details</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Canada's access pathway from approval to reimbursement typically takes 12–18 months (Health Canada → CADTH → pCPA → provincial listing). Track the stage of each product to understand the access timeline.</p>
+        `,
     },
     {
         code: "CL",
@@ -370,9 +489,49 @@ const COUNTRIES = [
                 links: [
                     { label: "CEPS (Economic Committee for Health Products)", url: "https://solidarites-sante.gouv.fr/ministere/organisation/directions/article/ceps-comite-economique-des-produits-de-sante" },
                     { label: "HAS — Early Access (Accès Précoce)", url: "https://www.has-sante.fr/jcms/p_3269698/en/acces-precoce" },
+                    { label: "Journal Officiel — Reimbursement Decisions", url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000000000" },
                 ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization</h4>
+<p>Most new innovative medicines are authorised via the EMA centralised procedure. National authorisations (AMM nationale) and mutual recognition / decentralised procedures are managed by ANSM.</p>
+<ol>
+    <li>Search the <a href="https://base-donnees-publique.medicaments.gouv.fr" target="_blank" rel="noopener">BDPM (Base de Données Publique des Médicaments)</a> by product name, INN, or CIS code — this is the most comprehensive French drug database</li>
+    <li>For EMA-authorised products, check the <a href="https://www.ema.europa.eu/en/medicines/human/EPAR" target="_blank" rel="noopener">EPAR database</a> for the full European Public Assessment Report</li>
+</ol>
+
+<h4 class="tips-heading">HTA Assessment (HAS / Commission de la Transparence)</h4>
+<p>The Commission de la Transparence (CT) evaluates all medicines seeking reimbursement. Two key ratings are issued:</p>
+<ol>
+    <li>Go to the <a href="https://www.has-sante.fr/jcms/c_452455/en/transparency-committee" target="_blank" rel="noopener">HAS Transparency Committee page</a> and search by product name or INN</li>
+    <li>Each CT opinion (Avis de la CT) provides:
+        <ul>
+            <li><strong>SMR (Service Médical Rendu)</strong> — clinical benefit rating: Important, Modéré, Faible, or Insuffisant. An "Insuffisant" SMR means the product will not be reimbursed</li>
+            <li><strong>ASMR (Amélioration du SMR)</strong> — improvement over existing therapies: I (major) → II (important) → III (moderate) → IV (minor) → V (no improvement)</li>
+        </ul>
+    </li>
+    <li>The ASMR rating directly influences price negotiations with CEPS — ASMR I–III can command a price premium vs. comparators; ASMR IV–V are typically priced at or below comparator level</li>
+    <li>Look for the <strong>Population cible</strong> (target population) estimate in the CT opinion — this is the estimated number of eligible patients and is critical for budget impact analysis</li>
+</ol>
+<p class="tips-note"><strong>SMR scale:</strong> Important (green) → Modéré (amber) → Faible (low) → Insuffisant (red = not reimbursed). Most innovative medicines receive SMR "Important".</p>
+
+<h4 class="tips-heading">Reimbursement &amp; Pricing</h4>
+<ol>
+    <li>After a positive CT opinion (SMR ≥ Faible), the product enters price negotiation with <a href="https://solidarites-sante.gouv.fr/ministere/organisation/directions/article/ceps-comite-economique-des-produits-de-sante" target="_blank" rel="noopener">CEPS</a></li>
+    <li>Official reimbursement listing is published in the <strong>Journal Officiel</strong> (JO) — search on <a href="https://www.legifrance.gouv.fr" target="_blank" rel="noopener">Légifrance</a> for the product name to find the JO publication with the reimbursement rate (typically 65% or 100% for serious/chronic conditions)</li>
+    <li>The <a href="https://base-donnees-publique.medicaments.gouv.fr" target="_blank" rel="noopener">BDPM</a> shows the current public price (Prix public TTC), reimbursement rate (taux de remboursement), and whether the product is on the T2A hospital list (GHS)</li>
+    <li>For hospital-only products, check the <strong>Liste en sus</strong> — products on this list are reimbursed on top of the DRG tariff</li>
+</ol>
+
+<h4 class="tips-heading">Early Access (Accès Précoce / Accès Compassionnel)</h4>
+<ol>
+    <li><strong>Accès Précoce</strong> (formerly ATU nominative/cohort): HAS grants early access for innovative products with presumed strong ASMR (I–III) pending full CT evaluation. Check the <a href="https://www.has-sante.fr/jcms/p_3269698/en/acces-precoce" target="_blank" rel="noopener">HAS Early Access page</a></li>
+    <li><strong>Accès Compassionnel</strong>: for products without a marketing authorisation, used case-by-case. Managed by ANSM</li>
+    <li>Early access products are funded by the <strong>Liste en sus</strong> mechanism and the manufacturer must apply for full HTA within a set timeframe</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> The BDPM database is searchable in French only. Use Google Translate or search by INN (international nonproprietary name) which is typically in English/Latin.</p>
+        `,
     },
     {
         code: "DE",
@@ -557,17 +716,26 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Israeli Drug Registry", url: "https://israeldrugs.health.gov.il/" }],
+                links: [
+                    { label: "Israeli Drug Registry", url: "https://israeldrugs.health.gov.il/" },
+                    { label: "Israeli Drug Index (English)", url: "https://www.gov.il/en/service/israeli-drug-index" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "Basket of Health Services (2022)", url: "https://www.gov.il/he/departments/policies/dec1053_2022" }],
+                links: [
+                    { label: "Health Basket Committee (ועדת סל)", url: "https://www.gov.il/he/departments/units/vsal-committee-unit" },
+                    { label: "Health Basket 2026 Committee", url: "https://www.gov.il/he/pages/hbs2026" },
+                ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "MOH — Drug Price Lists", url: "https://www.gov.il/he/departments/dynamiccollectors/drug-prices?skip=0&drug_price_sub=1" }],
+                links: [
+                    { label: "MOH — Drug Price Supervision", url: "https://www.gov.il/he/pages/budge-unit-drugs-price" },
+                    { label: "Prescription Drug Price List (Open Data)", url: "https://data.gov.il/he/dataset/prescription-drugs-price-list" },
+                ],
             },
             {
                 id: "additional",
@@ -575,6 +743,84 @@ const COUNTRIES = [
                 links: [{ label: "Insurance Information", url: "https://call.gov.il/product-page/1004199" }],
             },
         ],
+        tips: `The Health Basket (סל הבריאות) is updated annually by the Health Basket Committee, which reviews new technologies and drugs for inclusion. The committee's decisions are published each year — search for the latest year's page on gov.il.\n\nDrug prices are regulated by the MOH. The Open Data portal provides downloadable Excel files of all prescription drug prices.\n\nThe Israeli Drug Registry is available in Hebrew only — use Google Translate or search by INN in English characters.`,
+    },
+    {
+        code: "IT",
+        name: "Italy",
+        flag: "🇮🇹",
+        ema: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "Italy participates in the EMA centralised procedure. National authorisations and mutual recognition/decentralised procedures are managed by AIFA (Agenzia Italiana del Farmaco).",
+                links: [
+                    { label: "AIFA (Italian Medicines Agency)", url: "https://www.aifa.gov.it/" },
+                    { label: "AIFA — Farmadati / Banca Dati Farmaci", url: "https://farmaci.agenziafarmaco.gov.it/bancadatifarmaci/home" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA & Reimbursement",
+                body: "AIFA manages drug reimbursement through classification: Classe A (reimbursed by SSN), Classe H (hospital-only, reimbursed), Classe C (not reimbursed — patient pays). The CTS (Commissione Tecnico Scientifica) evaluates clinical evidence, and the CPR (Comitato Prezzi e Rimborso) negotiates pricing.",
+                links: [
+                    { label: "AIFA — Liste di Trasparenza (off-patent drugs)", url: "https://www.aifa.gov.it/liste-di-trasparenza" },
+                    { label: "AIFA — Registri di Monitoraggio", url: "https://www.aifa.gov.it/registri-e-piani-terapeutici" },
+                ],
+            },
+            {
+                id: "access",
+                title: "Access & Pricing",
+                body: "Prices are negotiated between AIFA (CPR committee) and the manufacturer. Italy uses external reference pricing with a basket of EU countries. Managed entry agreements (MEAs) including payment-by-result and risk-sharing are common.",
+                links: [
+                    { label: "AIFA — Negoziazione e Rimborsabilità", url: "https://www.aifa.gov.it/negoziazione-e-rimborsabilita" },
+                    { label: "Gazzetta Ufficiale (official pricing decisions)", url: "https://www.gazzettaufficiale.it/" },
+                ],
+            },
+        ],
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization</h4>
+<ol>
+    <li>Search the <a href="https://farmaci.agenziafarmaco.gov.it/bancadatifarmaci/home" target="_blank" rel="noopener">AIFA Banca Dati Farmaci</a> by product name, INN, or ATC code — this is the official Italian drug database</li>
+    <li>The database shows: authorisation status, approved indications (Riassunto delle Caratteristiche del Prodotto = SmPC), reimbursement class, and price</li>
+    <li>For EMA centralised products, the database links to the EPAR and includes the Italian-language RCP</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement Classification</h4>
+<p>Italy classifies medicines into three main categories that determine reimbursement status:</p>
+<ol>
+    <li><strong>Classe A</strong>: fully reimbursed by SSN (Servizio Sanitario Nazionale) — includes essential medicines and those for chronic/serious conditions</li>
+    <li><strong>Classe H</strong>: hospital-only medicines, reimbursed by SSN but dispensed only in hospital settings</li>
+    <li><strong>Classe C</strong>: not reimbursed — patients pay the full cost. Includes OTC products and some prescription medicines</li>
+    <li>Check the <a href="https://www.aifa.gov.it/liste-di-trasparenza" target="_blank" rel="noopener">Liste di Trasparenza</a> for off-patent medicines and their reference prices</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> A sub-category <strong>Classe C(nn)</strong> means "Classe C non negoziata" — the manufacturer has not yet submitted for reimbursement negotiation. This is common for recently approved products awaiting AIFA pricing discussions.</p>
+
+<h4 class="tips-heading">Managed Entry Agreements (MEA)</h4>
+<p>Italy is a pioneer in outcome-based managed entry agreements. AIFA's Registri di Monitoraggio track drug use and outcomes in real-world settings.</p>
+<ol>
+    <li>Check <a href="https://www.aifa.gov.it/registri-e-piani-terapeutici" target="_blank" rel="noopener">AIFA Registri di Monitoraggio</a> to see if a product has a monitoring registry — this indicates special reimbursement conditions are in place</li>
+    <li>Common MEA types in Italy:
+        <ul>
+            <li><strong>Payment by results</strong>: refund if patient does not respond</li>
+            <li><strong>Risk sharing</strong>: discount applied if outcomes fall below agreed thresholds</li>
+            <li><strong>Cost sharing</strong>: manufacturer provides initial treatment cycles free/discounted</li>
+            <li><strong>Capping</strong>: maximum expenditure per patient</li>
+        </ul>
+    </li>
+    <li>Registri data is collected via the AIFA web platform — prescribers must register patients before dispensing</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>Official prices are published in the <a href="https://www.gazzettaufficiale.it/" target="_blank" rel="noopener">Gazzetta Ufficiale</a> — search for the product name to find the pricing determination</li>
+    <li>The AIFA Banca Dati shows the current ex-factory price and public price (prezzo al pubblico)</li>
+    <li>Italy mandates payback mechanisms: manufacturers must reimburse the SSN if total pharmaceutical spending exceeds annual budget ceilings (tetti di spesa)</li>
+    <li>Regional pricing variation: while AIFA sets national prices, individual regions may negotiate additional discounts or manage hospital budgets differently</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> The AIFA website is in Italian only. Google Translate works well for navigation. For pricing data, the Banca Dati Farmaci is the most reliable source — prices shown are the official negotiated prices.</p>
+        `,
     },
     {
         code: "JP",
@@ -584,20 +830,63 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "PMDA (Pharmaceuticals and Medical Devices Agency)", url: "https://www.pmda.go.jp/" }],
+                links: [
+                    { label: "PMDA (Pharmaceuticals and Medical Devices Agency)", url: "https://www.pmda.go.jp/" },
+                    { label: "PMDA — New Drug Approvals (English)", url: "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "MHLW — Shingi (includes drug pricing decisions)", url: "https://www.mhlw.go.jp/stf/shingi/indexshingi.html" }],
+                links: [
+                    { label: "MHLW — Shingi (includes drug pricing decisions)", url: "https://www.mhlw.go.jp/stf/shingi/indexshingi.html" },
+                    { label: "NHI Drug Price List (薬価基準収載品目リスト)", url: "https://www.mhlw.go.jp/topics/2024/04/tp20240401-01.html" },
+                ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Trikipedia — Japan", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Japan.aspx" }],
+                links: [
+                    { label: "CORE2 HTA (Cost-effectiveness evaluations)", url: "https://c2h.niph.go.jp/en/" },
+                    { label: "Trikipedia — Japan", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Japan.aspx" },
+                ],
             },
         ],
-        tips: `Step 1: Google "[brand name] + 医薬品" to find the Japanese product name.\n\nStep 2: On the PMDA site, search "[Japanese brand name] + 承認情報" — the first result gives marketing authorisation details.\n\nStep 3: For reimbursement, go to the MHLW Shingi site and search "[Japanese brand name] + 医薬品の薬価". Locate the document titled 新医薬品一覧表 — this PDF details the pricing mechanism and NHI reimbursement status. Use Google Translate for the PDF; note that molecule name translations can vary.`,
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization (PMDA)</h4>
+<p>Japan has its own national regulatory pathway via PMDA. There is no mutual recognition with EMA or FDA — a separate Japanese clinical data package (often including Japanese bridging studies) is typically required.</p>
+<ol>
+    <li>Google <code>[brand name] + 医薬品</code> to find the Japanese product name and PMDA page</li>
+    <li>The <a href="https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html" target="_blank" rel="noopener">PMDA English approvals page</a> lists new drugs approved in each fiscal year — useful for checking approval dates</li>
+    <li>For the full Japanese review report, search on the <a href="https://www.pmda.go.jp/" target="_blank" rel="noopener">PMDA site</a>: <code>[Japanese brand name] + 承認情報</code> — the first result typically gives the marketing authorisation details and review report (審査報告書)</li>
+    <li>The Japanese package insert (添付文書) is available on <a href="https://www.pmda.go.jp/PmdaSearch/iyakuSearch/" target="_blank" rel="noopener">PMDA Drug Search</a> — this is the equivalent of the SmPC/PI</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> PMDA provides English summaries for some major approvals, but most detailed documents are in Japanese only. Google Translate handles Japanese pharmaceutical text reasonably well, but verify molecule names carefully as translations can vary.</p>
+
+<h4 class="tips-heading">NHI Pricing &amp; Reimbursement</h4>
+<p>All approved prescription drugs are listed on the NHI (National Health Insurance) Drug Price List. Pricing is determined by MHLW using a rules-based system with comparator-based or cost-calculation methods.</p>
+<ol>
+    <li>Go to the MHLW Shingi site and search <code>[Japanese brand name] + 医薬品の薬価</code></li>
+    <li>Locate the document titled <strong>新医薬品一覧表</strong> — this PDF details the pricing mechanism (類似薬効比較方式 = comparator method, or 原価計算方式 = cost calculation method) and the NHI price</li>
+    <li>The NHI Drug Price List is revised every April — the latest list is published on the <a href="https://www.mhlw.go.jp/topics/2024/04/tp20240401-01.html" target="_blank" rel="noopener">MHLW website</a></li>
+    <li>Premium pricing mechanisms:
+        <ul>
+            <li><strong>画期性加算 (Innovation premium)</strong>: up to +100% for truly innovative products</li>
+            <li><strong>有用性加算 (Usefulness premium)</strong>: +5% to +60% based on clinical advantages</li>
+            <li><strong>市場性加算 (Marketability premium)</strong>: +10% to +20% for orphan drugs</li>
+        </ul>
+    </li>
+</ol>
+
+<h4 class="tips-heading">Cost-Effectiveness Evaluation</h4>
+<ol>
+    <li>Since April 2019, Japan requires formal cost-effectiveness evaluation (費用対効果評価) for high-cost/high-impact drugs</li>
+    <li>Conducted by the <a href="https://c2h.niph.go.jp/en/" target="_blank" rel="noopener">CORE2 HTA centre</a> at the National Institute of Public Health</li>
+    <li>Results can lead to NHI price adjustment — unlike most countries, the evaluation occurs <em>after</em> initial NHI listing and pricing</li>
+    <li>Japan uses a modified ICER threshold: ¥5 million/QALY (~$35,000) as the base, with adjustments for disease severity and other factors</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Japan's fiscal year runs April–March. NHI drug price revisions, new listings, and regulatory approvals often cluster around April. When searching for the latest pricing, always check the most recent April revision.</p>
+        `,
     },
     {
         code: "LV",
@@ -742,19 +1031,29 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "CBG-MEB (Medicines Evaluation Board)", url: "https://www.cbg-meb.nl/" }],
+                links: [
+                    { label: "CBG-MEB (Medicines Evaluation Board)", url: "https://www.cbg-meb.nl/" },
+                    { label: "Geneesmiddeleninformatiebank (GIB)", url: "https://www.geneesmiddeleninformatiebank.nl/" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "Medicijnkosten.nl (Healthcare Institute)", url: "https://www.medicijnkosten.nl/" }],
+                links: [
+                    { label: "Medicijnkosten.nl (drug costs/prices)", url: "https://www.medicijnkosten.nl/" },
+                    { label: "GVS — Geneesmiddelenvergoedingssysteem (reimbursement list)", url: "https://www.zorginstituutnederland.nl/over-ons/werkwijzen-en-procedures/adviseren-over-en-verduidelijken-van-het-basispakket-aan-zorg/geneesmiddelen/geneesmiddelenvergoedingssysteem-gvs" },
+                ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Zorginstituut Nederland — HTA Reports", url: "https://www.zorginstituutnederland.nl/" }],
+                links: [
+                    { label: "Zorginstituut Nederland — Assessments & Advice", url: "https://www.zorginstituutnederland.nl/" },
+                    { label: "Farmacotherapeutisch Kompas (clinical drug information)", url: "https://www.farmacotherapeutischkompas.nl/" },
+                ],
             },
         ],
+        tips: `The GVS (Geneesmiddelenvergoedingssysteem) is the Dutch reimbursement system. Drugs are placed in Annex 1A (reference pricing clusters) or Annex 1B (no cluster, individually assessed). Expensive inpatient drugs may be funded via the Sluisgeneesmiddelen (lock) procedure — check Zorginstituut for lock assessments.\n\nMedicijnkosten.nl shows current prices including the GVS reimbursement limit (vergoedingslimiet). If the drug price exceeds the limit, patients pay the difference.\n\nThe Farmacotherapeutisch Kompas is the standard clinical drug reference used by Dutch prescribers — useful for understanding local treatment guidelines.`,
     },
     {
         code: "NO",
@@ -1003,12 +1302,19 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "MFDS — National Drug Information System", url: "https://nedrug.mfds.go.kr/index" }],
+                links: [
+                    { label: "MFDS — National Drug Information System", url: "https://nedrug.mfds.go.kr/index" },
+                    { label: "MFDS — Drug Search (의약품 검색)", url: "http://drug.mfds.go.kr/html/index.jsp" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "HIRA — Insurance Coverage Criteria", url: "https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" }],
+                links: [
+                    { label: "HIRA — Insurance Coverage Criteria", url: "https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" },
+                    { label: "HIRA — Reimbursed Drug Price List (Excel)", url: "http://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" },
+                    { label: "NECA — HTA Reports", url: "https://www.neca.re.kr/eng/index.do" },
+                ],
             },
             {
                 id: "additional",
@@ -1016,7 +1322,40 @@ const COUNTRIES = [
                 links: [{ label: "Trikipedia — South Korea", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/South%20Korea.aspx" }],
             },
         ],
-        tips: `Marketing approval: Go to the MFDS drug search (http://drug.mfds.go.kr/html/index.jsp) and search under the tab "의약품(제품명)검색". A Korean speaker may be needed.\n\nReimbursement: On the HIRA site, select "제품명" from the search dropdown and type the INN in English. If reviewed, you will see an Assessment Outcome (평가 결과) — click the PDF to download the assessment report (enable pop-ups).\n\nAlternatively, download the full Excel database of all reimbursed drugs from HIRA (http://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000) — the top row is the latest. Drug names are searchable in Korean by INN or brand name.`,
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization (MFDS)</h4>
+<ol>
+    <li>Go to the <a href="http://drug.mfds.go.kr/html/index.jsp" target="_blank" rel="noopener">MFDS Drug Search</a> and search under the tab <strong>의약품(제품명)검색</strong> — a Korean speaker may be needed for the interface</li>
+    <li>Alternatively, search <a href="https://nedrug.mfds.go.kr/index" target="_blank" rel="noopener">nedrug.mfds.go.kr</a> — this portal has some English search capability</li>
+    <li>The approval document (허가사항) includes approved indications, dosage, and approval date</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> The MFDS interface is primarily in Korean. Google Translate works for navigation, but drug names may not translate accurately. Try searching by INN in English or Korean (약물명).</p>
+
+<h4 class="tips-heading">HIRA Assessment &amp; Reimbursement</h4>
+<p>South Korea uses a positive list system — only drugs listed by HIRA (Health Insurance Review and Assessment Service) are reimbursed under the National Health Insurance (NHI).</p>
+<ol>
+    <li>On the <a href="https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" target="_blank" rel="noopener">HIRA Insurance Coverage Criteria page</a>, select <strong>제품명</strong> from the search dropdown and type the INN in English</li>
+    <li>If the product has been reviewed, you will see an Assessment Outcome (평가 결과) — click the PDF icon to download the assessment report (enable pop-ups in your browser)</li>
+    <li>The assessment report includes: clinical evidence summary, cost-effectiveness analysis, budget impact, and the HIRA Drug Reimbursement Evaluation Committee (DREC) recommendation</li>
+    <li>Download the full Excel database of all reimbursed drug prices from <a href="http://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" target="_blank" rel="noopener">HIRA's price list page</a> — the top row is the latest version. Drug names are searchable in Korean by INN or brand name</li>
+</ol>
+
+<h4 class="tips-heading">HTA &amp; NECA</h4>
+<ol>
+    <li><a href="https://www.neca.re.kr/eng/index.do" target="_blank" rel="noopener">NECA (National Evidence-based Healthcare Collaborating Agency)</a> conducts technology assessments that inform HIRA decisions</li>
+    <li>NECA reports are typically in Korean, but English summaries are available for some assessments</li>
+    <li>South Korea uses a formal cost-effectiveness threshold — generally around KRW 20–30 million/QALY (~USD 15,000–23,000), though flexibility exists for severe/rare diseases</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>NHI reimbursement prices are set through a negotiation between HIRA and the manufacturer after a positive DREC recommendation</li>
+    <li>Prices are listed in Korean Won (KRW) in the HIRA Excel price list</li>
+    <li>Drug price cuts occur through biennial price reviews (약가 재평가) — existing products may face price reductions if new comparators or generics enter the market</li>
+    <li>Risk-sharing agreements (위험분담제) are increasingly used for high-cost specialty drugs — details are generally not public</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> The Korean reimbursement process (from MFDS approval to HIRA listing) typically takes 12–18 months. The pathway is: MFDS approval → HIRA economic evaluation → DREC recommendation → price negotiation → NHI listing.</p>
+        `,
     },
     {
         code: "ES",
@@ -1050,10 +1389,45 @@ const COUNTRIES = [
                 body: "Reimbursement and pricing decisions are centralised via CIPM. Autonomous communities may apply additional regional restrictions. Early access is available via Uso Compasivo / Acceso Anticipado.",
                 links: [
                     { label: "AEMPS — Compassionate Use (Uso Compasivo)", url: "https://www.aemps.gob.es/medicamentosUsoHumano/usoCompasivo/home.htm" },
+                    { label: "BOT Plus — Pharmacological Database (CGCOF)", url: "https://botplusweb.portalfarma.com/" },
                     { label: "Trikipedia — Spain", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Spain.aspx" },
                 ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization</h4>
+<ol>
+    <li>Search <a href="https://cima.aemps.es/cima/publico/home.html" target="_blank" rel="noopener">CIMA (Centro de Información de Medicamentos Autorizados)</a> by product name, INN, or ATC code — this is the most comprehensive Spanish drug register</li>
+    <li>CIMA shows: authorisation status, approved indications (Ficha Técnica = SmPC), reimbursement status, and price</li>
+    <li>For EMA centralised products, CIMA includes the Spanish-language Ficha Técnica alongside the EMA authorisation reference</li>
+</ol>
+
+<h4 class="tips-heading">IPT (Informe de Posicionamiento Terapéutico)</h4>
+<p>The IPT is Spain's HTA positioning report, produced jointly by AEMPS and regional agencies. It determines a product's therapeutic positioning relative to available alternatives.</p>
+<ol>
+    <li>Search IPT reports on the <a href="https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/home.htm" target="_blank" rel="noopener">AEMPS IPT page</a> — reports are published in Spanish (PDF)</li>
+    <li>IPT outcomes: <strong>Favorable</strong> (positive positioning), <strong>Condicionado / Con restricciones</strong> (conditional — limited to specific subgroups), or <strong>No favorable</strong> (unfavorable positioning)</li>
+    <li>The IPT is a prerequisite for CIPM pricing and reimbursement decisions — without a positive IPT, a product cannot negotiate reimbursement</li>
+    <li>IPT reports include a comparative analysis against the therapeutic alternatives and position the product within the treatment algorithm</li>
+</ol>
+<p class="tips-note"><strong>Important:</strong> Spain operates a decentralised healthcare system with 17 Autonomous Communities (CCAAs). Even after a national CIPM reimbursement decision, each CCAA may apply additional regional restrictions (e.g., via Pharmacy & Therapeutics committees). National reimbursement ≠ universal regional access.</p>
+
+<h4 class="tips-heading">Pricing &amp; Reimbursement</h4>
+<ol>
+    <li>Pricing is negotiated centrally by CIPM (Comisión Interministerial de Precios de los Medicamentos) — CIPM decisions are not publicly published with detailed rationale</li>
+    <li>Reimbursed medicines are classified under "Inclusión en la prestación farmacéutica del SNS" — check CIMA for the reimbursement status field</li>
+    <li>Prices are listed in the <strong>BOT Plus</strong> database (General Pharmaceutical Council of Spain) — accessible at <a href="https://botplusweb.portalfarma.com/" target="_blank" rel="noopener">botplusweb.portalfarma.com</a></li>
+    <li>Spain uses international reference pricing (IRP) with a basket of EU countries for price setting</li>
+</ol>
+
+<h4 class="tips-heading">Early Access</h4>
+<ol>
+    <li><strong>Uso Compasivo</strong>: compassionate use for individual patients — authorised by AEMPS on a case-by-case basis</li>
+    <li><strong>Acceso Anticipado / Situaciones Especiales</strong>: early access for groups of patients — similar to France's Accès Précoce, available for products with anticipated high therapeutic value before formal pricing</li>
+    <li>Check the <a href="https://www.aemps.gob.es/medicamentosUsoHumano/usoCompasivo/home.htm" target="_blank" rel="noopener">AEMPS Uso Compasivo page</a> for current early access authorisations</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> For a quick reimbursement status check, search the product in CIMA — the "Condiciones de prescripción y dispensación" section shows whether it is SNS-reimbursed and the dispensing conditions (hospital, prescription required, etc.).</p>
+        `,
     },
     {
         code: "SE",
@@ -1087,14 +1461,45 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Swissmedic — Lists and Registers", url: "https://www.swissmedic.ch/swissmedic/en/home/services/listen_neu.html" }],
+                links: [
+                    { label: "Swissmedic — Lists and Registers", url: "https://www.swissmedic.ch/swissmedic/en/home/services/listen_neu.html" },
+                    { label: "Swissmedic — Authorised Medicines (AIPS)", url: "https://www.swissmedicinfo.ch/" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "Spezialitätenliste — Reimbursed Drugs (search by substance)", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" }],
+                links: [
+                    { label: "Spezialitätenliste (SL) — Reimbursed Drugs", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" },
+                    { label: "BAG — Federal Office of Public Health (SL management)", url: "https://www.bag.admin.ch/bag/en/home/versicherungen/krankenversicherung/krankenversicherung-leistungen-tarife/Arzneimittel.html" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization (Swissmedic)</h4>
+<ol>
+    <li>Search <a href="https://www.swissmedicinfo.ch/" target="_blank" rel="noopener">SwissmedicInfo (AIPS)</a> by product name for the Swiss approved product information (Fachinformation / SmPC equivalent)</li>
+    <li>Swissmedic operates independently from EMA — Switzerland is not an EU/EEA member, so EMA centralised authorisation does not automatically apply</li>
+    <li>However, Swissmedic increasingly recognises EMA/FDA assessments for expedited review pathways</li>
+</ol>
+
+<h4 class="tips-heading">Spezialitätenliste (SL) — Reimbursement</h4>
+<p>The SL (Spezialitätenliste) is the positive list of reimbursed medicines managed by BAG (Federal Office of Public Health).</p>
+<ol>
+    <li>Search the <a href="https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" target="_blank" rel="noopener">SL database</a> by substance or product name to check reimbursement status and price</li>
+    <li>The SL entry shows: reimbursement conditions (Limitatio), the public price (Publikumspreis), the ex-factory price (Fabrikabgabepreis), and any restrictions</li>
+    <li><strong>Limitatio</strong>: if a product has a Limitatio, reimbursement is restricted to specific indications or patient groups. Read the Limitatio text carefully — it often narrows the approved indication</li>
+    <li>Products NOT on the SL are not reimbursed by mandatory health insurance (OKP) — patients pay out-of-pocket or through supplementary insurance</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>Swiss drug prices are set using a combination of <strong>therapeutic cross-comparison</strong> (TQV — comparing with therapeutically equivalent products in Switzerland) and <strong>international reference pricing</strong> (APV — comparing with prices in 9 reference countries: AT, BE, DK, FI, FR, DE, NL, SE, UK)</li>
+    <li>Prices on the SL are in Swiss Francs (CHF) and include the Fabrikabgabepreis (ex-factory), Vertriebsanteil (distribution margin), and Publikumspreis (public price)</li>
+    <li>Mandatory price reviews occur every 3 years — products may face price reductions if reference country prices have decreased</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Switzerland has among the highest drug prices in Europe. The SL database is available in German, French, and Italian. For English navigation, use the German version with Google Translate — it handles Swiss pharmaceutical terms well.</p>
+        `,
     },
     {
         code: "TH",
@@ -1283,9 +1688,53 @@ const COUNTRIES = [
                     { label: "NHS England — Commercial Medicines", url: "https://www.england.nhs.uk/medicines-2/commercial-medicines" },
                     { label: "VPAS (Voluntary Scheme)", url: "https://www.gov.uk/government/collections/voluntary-scheme-for-branded-medicines-pricing-and-access-vpas" },
                     { label: "ILAP (Innovative Licensing and Access Pathway)", url: "https://www.gov.uk/guidance/innovative-licensing-and-access-pathway" },
+                    { label: "BNF (British National Formulary)", url: "https://bnf.nice.org.uk/" },
+                    { label: "NHS Drug Tariff", url: "https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/drug-tariff" },
                 ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization</h4>
+<p>Since Brexit (Jan 2021), the UK operates its own regulatory pathway via MHRA. Products previously authorised via EMA were "grandfathered" into UK marketing authorisations.</p>
+<ol>
+    <li>Search the <a href="https://products.mhra.gov.uk/" target="_blank" rel="noopener">MHRA Products database</a> for UK marketing authorisation status — includes approved indications, SmPC, and PIL</li>
+    <li>For products authorised before 2021, check whether the UK MA was converted from the EU centralised authorisation</li>
+    <li>The <a href="https://www.gov.uk/guidance/innovative-licensing-and-access-pathway" target="_blank" rel="noopener">ILAP (Innovative Licensing and Access Pathway)</a> provides early parallel scientific advice between MHRA and NICE — check if the product has an ILAP designation</li>
+</ol>
+
+<h4 class="tips-heading">NICE Technology Appraisals</h4>
+<p>NICE evaluates new medicines through Technology Appraisals (TA) and Highly Specialised Technology (HST) reviews. These are legally binding — NHS England must fund recommended treatments within 90 days.</p>
+<ol>
+    <li>Search the <a href="https://www.nice.org.uk/guidance/published?type=ta,hst" target="_blank" rel="noopener">NICE published guidance</a> by product name or therapeutic area</li>
+    <li>Key documents in each appraisal:
+        <ul>
+            <li><strong>Final Appraisal Document (FAD)</strong>: the decision document with recommendation, rationale, and conditions</li>
+            <li><strong>Committee Papers</strong>: include the ERG (Evidence Review Group) report, company submission, and clinical/patient evidence</li>
+            <li><strong>Costing template</strong>: NHS England's budget impact estimate</li>
+        </ul>
+    </li>
+    <li>Outcomes: <strong>Recommended</strong> (green) → <strong>Optimised / With restrictions</strong> (amber) → <strong>Only in Research</strong> → <strong>Not Recommended</strong> (red) → <strong>Terminated</strong></li>
+    <li>For oncology, check if the product entered the <a href="https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-technology-appraisal-guidance/cancer-drugs-fund" target="_blank" rel="noopener">Cancer Drugs Fund (CDF)</a> — CDF provides managed access while further data is collected</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> NICE appraisals include the <strong>ICER (incremental cost-effectiveness ratio)</strong> threshold. The standard threshold is £20,000–£30,000/QALY; end-of-life and HST appraisals may accept higher ICERs. Check the FAD for the accepted ICER range.</p>
+
+<h4 class="tips-heading">SMC (Scotland)</h4>
+<ol>
+    <li>The <a href="https://www.scottishmedicines.org.uk/medicines-advice/" target="_blank" rel="noopener">Scottish Medicines Consortium</a> conducts separate assessments for NHS Scotland</li>
+    <li>SMC outcomes are: Accepted, Accepted for restricted use, or Not recommended</li>
+    <li>SMC decisions are not binding in the same way as NICE TAs — NHS Scotland boards may make local formulary decisions</li>
+    <li>For rare diseases, the PACE (Patient and Clinician Engagement) process may apply — provides an additional route for medicines that would otherwise be "not recommended"</li>
+</ol>
+
+<h4 class="tips-heading">Pricing &amp; Reimbursement</h4>
+<ol>
+    <li>The <a href="https://bnf.nice.org.uk/" target="_blank" rel="noopener">BNF (British National Formulary)</a> lists indicative NHS prices — note these are list prices and confidential discounts (PAS — Patient Access Schemes) are common</li>
+    <li>The <a href="https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/drug-tariff" target="_blank" rel="noopener">NHS Drug Tariff</a> lists reimbursement prices for community pharmacy dispensing</li>
+    <li>Hospital medicines are procured via NHS Supply Chain or regional tenders — prices are generally not public</li>
+    <li>VPAS (Voluntary Scheme for Branded Medicines Pricing and Access) caps total branded medicine spend growth — includes a payment mechanism if growth exceeds agreed levels</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Patient Access Schemes (PAS) are confidential commercial agreements between the manufacturer and NHS England. The "list price" in the BNF may not reflect the actual acquisition cost. NICE appraisals note when a PAS is in place but do not disclose the discount.</p>
+        `,
     },
 ];
 
