@@ -457,10 +457,92 @@ const COUNTRIES = [
         sections: [
             {
                 id: "marketing",
-                title: "Market Authorization, Reimbursement & Pricing",
-                links: [{ label: "MedicinPriser", url: "https://www.medicinpriser.dk/Default.aspx" }],
+                title: "Market Authorization",
+                links: [
+                    { label: "DKMA (Danish Medicines Agency)", url: "https://laegemiddelstyrelsen.dk/en/" },
+                    { label: "DKMA — Find Medicines (product database)", url: "https://laegemiddelstyrelsen.dk/en/sideeffects/find-medicines/" },
+                    { label: "DKMA — Downloadable Medicine Lists (Excel)", url: "https://laegemiddelstyrelsen.dk/en/sideeffects/find-medicines/lists-with-information-about-medicines/" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "Medicinr\u00e5det (Danish Medicines Council) provides independent recommendations on new hospital medicines, evaluating clinical added value against cost. Amgros conducts parallel price negotiations. No formal cost-per-QALY threshold is published.",
+                links: [
+                    { label: "Medicinr\u00e5det (Danish Medicines Council)", url: "https://medicinraadet.dk/" },
+                    { label: "Medicinr\u00e5det — English Overview", url: "https://medicinraadet.dk/om-os/in-english" },
+                    { label: "Medicinr\u00e5det — Recommendations & Guidelines", url: "https://medicinraadet.dk/anbefalinger-og-vejledninger" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Denmark uses free pricing with internal reference pricing and mandatory generic substitution. Prices are updated every 14 days via blind reporting. The reimbursement price equals the cheapest product in each substitution group. Amgros handles hospital procurement and price negotiations.",
+                links: [
+                    { label: "MedicinPriser.dk (official price database, English)", url: "https://www.medicinpriser.dk/?lng=2" },
+                    { label: "DKMA — Prices of Medicines", url: "https://laegemiddelstyrelsen.dk/en/reimbursement/prices/" },
+                    { label: "DKMA — AIP to Consumer Price Conversion", url: "https://laegemiddelstyrelsen.dk/en/reimbursement/prices/conversion-to-consumer-price/" },
+                    { label: "Amgros — Hospital Price Negotiations & Tendering", url: "https://amgros.dk/en/pharmaceuticals/price-negotiations-and-tendering/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Denmark operates a needs-based subsidy system where reimbursement percentage increases with annual spending: 0% up to DKK 1,110, then 50%, 75%, 85%, and 100% above the annual cap (~DKK 4,735). The CTR (Central Reimbursement Register) tracks each individual's spending.",
+                links: [
+                    { label: "DKMA — Reimbursement Overview", url: "https://laegemiddelstyrelsen.dk/en/reimbursement/" },
+                    { label: "DKMA — Reimbursement Thresholds", url: "https://laegemiddelstyrelsen.dk/en/reimbursement/reimbursement-thresholds/" },
+                    { label: "DKMA — General Reimbursement", url: "https://laegemiddelstyrelsen.dk/en/reimbursement/general-reimbursement" },
+                    { label: "DKMA — Individual Reimbursement", url: "https://laegemiddelstyrelsen.dk/en/reimbursement/individual-reimbursement" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Pro.medicin.dk (professional drug monographs)", url: "https://pro.medicin.dk" },
+                    { label: "Amgros (hospital procurement agency)", url: "https://amgros.dk/en/" },
+                    { label: "Medstat.dk (medicine sales statistics)", url: "https://medstat.dk/en" },
+                    { label: "Danish Pharmacists Association", url: "https://www.apotekerforeningen.dk/" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">HTA &mdash; Medicinr&aring;det (Danish Medicines Council)</h4>
+<ol>
+    <li><a href="https://medicinraadet.dk/anbefalinger-og-vejledninger" target="_blank" rel="noopener">Recommendations &amp; guidelines</a> lists all published decisions, organized by therapeutic area. Each includes the Council's decision, clinical assessment, and rationale</li>
+    <li>Outcome categories: <strong>Recommended as possible standard treatment</strong>, <strong>Not recommended</strong>, <strong>Recommended for a restricted subpopulation</strong>, or <strong>Deferred</strong> (pending price negotiations)</li>
+    <li>The Council uses QALYs (since 2021) and the GRADE system for evidence quality, but unlike NICE, there is <strong>no published cost-per-QALY threshold</strong> &mdash; the assessment is whether the clinical benefit is "proportionate to the cost"</li>
+    <li>Amgros negotiates hospital drug prices in parallel with the clinical assessment. Negotiated prices are <strong>confidential</strong></li>
+</ol>
+<p class="tips-note"><strong>Historical note:</strong> Medicinr&aring;det replaced RADS (2009&ndash;2016) and KRIS on January 1, 2017. Legacy RADS guidelines at <a href="https://rads.dk/" target="_blank" rel="noopener">rads.dk</a> should be considered outdated.</p>
+
+<h4 class="tips-heading">Reimbursement &mdash; The Subsidy Ladder (Tilskudstrappen)</h4>
+<ol>
+    <li>The system is <strong>individual-based</strong>, not product-based. Each person's accumulated annual spending determines their reimbursement rate, tracked in the CTR (Central Reimbursement Register)</li>
+    <li><strong>2025 thresholds (adults 18+):</strong> 0% up to DKK 1,110 &rarr; 50% &rarr; 75% &rarr; 85% &rarr; <strong>100% above ~DKK 4,735</strong> (annual cap). Children under 18 get minimum 60% from first purchase</li>
+    <li><strong>General reimbursement</strong> (generelt tilskud): applied automatically at the pharmacy. <strong>Conditional</strong> (klausuleret): only for specific diseases, doctor must confirm eligibility. <strong>Individual</strong> (individuelt): doctor applies to DKMA for specific patients</li>
+    <li>Individual subtypes: <strong>Enkelttilskud</strong> (for drugs without general reimbursement, processed within 14 days), <strong>Forh&oslash;jet tilskud</strong> (increased reimbursement when patient needs a costlier product), <strong>Terminaltilskud</strong> (100% for terminally ill)</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Use <a href="https://laegemiddelstyrelsen.dk/en/reimbursement/prices/search-for-prices/calculate-your-co-payment/" target="_blank" rel="noopener">DKMA's co-payment calculator</a> to compute exact patient costs based on CTR balance.</p>
+
+<h4 class="tips-heading">Pricing &amp; Substitution</h4>
+<ol>
+    <li><a href="https://www.medicinpriser.dk/?lng=2" target="_blank" rel="noopener">MedicinPriser.dk</a> is the central price/reimbursement database. Search by product name, substance, product number, or ATC code. Shows price history since 1998. Updated every 14 days</li>
+    <li><strong>Mandatory generic substitution:</strong> pharmacists must offer the cheapest product in the substitution group. Patients can decline but pay the difference. Doctors can prohibit substitution but the patient bears the cost</li>
+    <li><strong>Internal reference pricing:</strong> reimbursement is based on the cheapest available product in each substitution group, not the actual purchase price</li>
+    <li><strong>14-day blind price cycles:</strong> companies report AIP changes without seeing competitors' prices. This aggressive biweekly competition drives Denmark to have some of Europe's lowest generic prices</li>
+</ol>
+
+<h4 class="tips-heading">Hospital Procurement via Amgros</h4>
+<ol>
+    <li><a href="https://amgros.dk/en/" target="_blank" rel="noopener">Amgros</a> is the sole procurement agency for Danish public hospitals (owned by the five regions)</li>
+    <li>New medicines: Medicinr&aring;det assesses clinical value while Amgros negotiates price in parallel &rarr; Council decides based on both</li>
+    <li>Generics/biosimilars: Amgros runs EU tenders (typically 1-year cycles, April&ndash;March). In 2024, hospital purchases totaled DKK 10.2 billion with 49% savings vs. list prices</li>
+    <li>Quarterly <a href="https://www.amgros.dk/viden-og-analyser/rapporteringer/markedsovervaagning/" target="_blank" rel="noopener">Market Surveillance reports</a> track spending, volumes, and compliance with Medicinr&aring;det recommendations</li>
+</ol>
+<p class="tips-note"><strong>Statistics:</strong> <a href="https://medstat.dk/en" target="_blank" rel="noopener">Medstat.dk</a> provides free, public aggregate data on all medicine sales in Denmark since 1996 (primary care) and 1997 (hospitals), searchable by ATC code, region, age, and sex.</p>
+        `,
     },
     {
         code: "EG",
