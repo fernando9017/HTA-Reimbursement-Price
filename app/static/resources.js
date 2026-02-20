@@ -629,9 +629,10 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "SAHPRA — Registered Health Products", url: "https://www.sahpra.org.za/" }],
+                links: [{ label: "EDA — Egyptian Drug Authority", url: "https://www.eda.gov.eg/" }],
             },
         ],
+        notes: "EDA (Egyptian Drug Authority) replaced CAPA (Central Administration of Pharmaceutical Affairs) in 2020 and handles all drug registrations. Public health insurance reimbursement is managed by HIO (Health Insurance Organisation); coverage is limited and no standalone HTA body exists.",
     },
     {
         code: "EE",
@@ -665,20 +666,30 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Kela — Drug Search", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" }],
+                links: [
+                    { label: "FIMEA (Finnish Medicines Agency)", url: "https://fimea.fi/web/en" },
+                    { label: "FIMEA \u2014 National Medicines Database", url: "https://messi.fimea.fi/" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "FIMEA (Finnish Medicines Agency) conducts HTA assessments of medicines (rapid reviews and full assessments). Hila (Pharmaceutical Pricing Board) makes reimbursement and pricing decisions based on FIMEA assessments and company applications.",
+                links: [
+                    { label: "FIMEA \u2014 HTA Assessments", url: "https://fimea.fi/laakehoidon-arviointi/arviointijulkaisut" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "Hila — Reimbursable Medicines List", url: "https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" }],
-            },
-            {
-                id: "pricing",
-                title: "Pricing",
-                links: [{ label: "Kela — Drug Search (includes pricing)", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" }],
+                body: "Two reimbursement tiers: Basic reimbursement (40%) and Special reimbursement (65% or 100% for severe chronic conditions). Hila maintains the reimbursable medicines list. Kela (Social Insurance Institution) reimburses patients at the pharmacy.",
+                links: [
+                    { label: "Hila \u2014 Reimbursable Medicines List", url: "https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" },
+                    { label: "Kela \u2014 Drug Reimbursement Search", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" },
+                ],
             },
         ],
-        notes: "Kela is not appropriate for reimbursement of oncology drugs or other hospital drugs (retail only). FIMEA is the HTA institution for Finland.",
+        notes: "Kela reimbursement covers community pharmacy drugs only \u2014 hospital and oncology drugs are funded separately by hospital districts and are not in the Kela/Hila system.",
     },
     {
         code: "FR",
@@ -1361,19 +1372,60 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "NYE Metoder (New Methods)", url: "https://nyemetoder.no/" }],
+                links: [
+                    { label: "Legemiddelverket (Norwegian Medicines Agency)", url: "https://legemiddelverket.no/english/" },
+                    { label: "Legemiddels\u00f8k \u2014 Drug Search", url: "https://www.legemiddelsok.no/" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "Norway has two HTA tracks: Legemiddelverket conducts Single Technology Assessments (STAs) for outpatient (blue prescription) medicines; Nye Metoder (New Methods) assesses hospital medicines for the specialist health services on behalf of the four regional health authorities.",
+                links: [
+                    { label: "Legemiddelverket \u2014 Single Technology Assessments", url: "https://legemiddelverket.no/english/public-funding-and-pricing/single-technology-assessments-status-and-reports" },
+                    { label: "Nye Metoder (New Methods \u2014 hospital medicines)", url: "https://nyemetoder.no/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Maximum prices are set by Legemiddelverket using external reference pricing from 9 EU/EEA countries. Step prices automatically reduce the maximum price when generics enter the market (typically \u221235% at 12 months, then \u221272% for high-volume products at 24 months).",
+                links: [
+                    { label: "Legemiddelverket \u2014 Maximum Price List", url: "https://legemiddelverket.no/english/public-funding-and-pricing/maximum-price" },
+                ],
             },
             {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                links: [{ label: "Legemiddelverket — Maximum Price List", url: "https://legemiddelverket.no/english/public-funding-and-pricing/maximum-price" }],
-            },
-            {
-                id: "additional",
-                title: "Additional Resources",
-                links: [{ label: "Legemiddelverket — Single Technology Assessment Reports", url: "https://legemiddelverket.no/english/public-funding-and-pricing/single-technology-assessments-status-and-reports" }],
+                title: "Reimbursement",
+                body: "Prescription medicines are reimbursed under the \u2018blue prescription\u2019 (bl\u00e5 resept) system. General reimbursement (\u00a72) is automatic for listed chronic conditions. Individual reimbursement (\u00a73a) requires a physician application for conditions not on the general list.",
+                links: [
+                    { label: "Legemiddelverket \u2014 Reimbursement (Blue Prescription)", url: "https://legemiddelverket.no/english/public-funding-and-pricing/reimbursement" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Two HTA Tracks</h4>
+<ol>
+    <li><strong>Outpatient (community pharmacy) medicines</strong>: Assessed by <a href="https://legemiddelverket.no/english/public-funding-and-pricing/single-technology-assessments-status-and-reports" target="_blank" rel="noopener">Legemiddelverket STAs</a>. The STA evaluates clinical benefit, cost-effectiveness, and budget impact. A positive STA leads to inclusion on the blue prescription list (&sect;2 or &sect;3a)</li>
+    <li><strong>Hospital medicines</strong>: Assessed by <a href="https://nyemetoder.no/" target="_blank" rel="noopener">Nye Metoder (New Methods)</a>, run jointly by the four regional health authorities (RHF). Results are binding for all Norwegian public hospitals. Both recommendations and full assessment reports are published online</li>
+    <li>Norway has no published explicit ICER threshold &mdash; decisions are based on cost-effectiveness and budget impact in context of disease severity</li>
+</ol>
+
+<h4 class="tips-heading">Blue Prescription Reimbursement (&sect;2 vs. &sect;3a)</h4>
+<ol>
+    <li><strong>&sect;2 (General reimbursement)</strong>: Automatic at the pharmacy for specific chronic conditions listed in the Blue Prescription Regulation (Bl&aring;reseptforskriften). Patient pays a co-payment capped at ~NOK&nbsp;3,415/year (2025) across all healthcare services</li>
+    <li><strong>&sect;3a (Individual reimbursement)</strong>: For diseases not on the &sect;2 list. The physician applies to Legemiddelverket on behalf of the patient &mdash; approval is time-limited and condition-specific</li>
+    <li>Once the annual co-payment ceiling is reached, further prescriptions are <strong>free for the rest of the calendar year</strong></li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> To check if a medicine is on the &sect;2 list, search <a href="https://www.legemiddelsok.no/" target="_blank" rel="noopener">Legemiddels&oslash;k</a> &mdash; the product page shows reimbursement status and the relevant &sect;2 condition code.</p>
+
+<h4 class="tips-heading">Pricing &mdash; Step Prices</h4>
+<ol>
+    <li>Maximum prices are the average of the three lowest prices among 9 reference countries (AT, BE, DK, FI, DE, IE, NL, SE, UK), recalculated twice yearly</li>
+    <li>When a generic enters the market, <strong>step prices</strong> apply: the originator's maximum price is automatically cut to a defined percentage below its pre-generic price. For high-volume products: &minus;35% at launch, &minus;72% at 18 months</li>
+    <li>Generic substitution is mandatory at pharmacies unless the physician marks "do not substitute" (and the patient pays the difference)</li>
+</ol>
+        `,
     },
     {
         code: "OM",
@@ -1902,20 +1954,46 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Läkemedelsverket — Swedish Medical Products", url: "https://www.lakemedelsverket.se/sv/sok-lakemedelsfakta?activeTab=1" }],
+                links: [
+                    { label: "L\u00e4kemedelsverket (Swedish Medical Products Agency)", url: "https://www.lakemedelsverket.se/en/" },
+                    { label: "L\u00e4kemedelsverket \u2014 Product Database", url: "https://www.lakemedelsverket.se/sv/sok-lakemedelsfakta?activeTab=1" },
+                ],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                links: [{ label: "TLV (Dental and Pharmaceutical Benefits Agency)", url: "https://www.tlv.se/in-english/medicines.html" }],
+                id: "hta",
+                title: "HTA & Reimbursement",
+                body: "TLV (Tan\u00f6 och l\u00e4kemedelsf\u00f6rm\u00e5nsverket / Dental and Pharmaceutical Benefits Agency) evaluates medicines for the high-cost drug benefit system using three criteria: need/solidarity, cost-effectiveness, and human value. A positive TLV decision means the medicine is subsidised under the high-cost protection scheme.",
+                links: [
+                    { label: "TLV \u2014 Decisions on Medicines", url: "https://www.tlv.se/in-english/medicines/decisions-on-medicines.html" },
+                    { label: "TLV (Dental and Pharmaceutical Benefits Agency)", url: "https://www.tlv.se/in-english/medicines.html" },
+                ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Janusinfo (commercially independent drug information)", url: "https://janusinfo.se/" }],
+                links: [
+                    { label: "FASS \u2014 Swedish Drug Directory (English)", url: "https://www.fass.se/LIF/startpage?lang=en" },
+                    { label: "Janusinfo (commercially independent drug information)", url: "https://janusinfo.se/" },
+                ],
             },
         ],
-        notes: "Janusinfo is preferred as a commercially independent drug information source.",
+        tipsHtml: `
+<h4 class="tips-heading">TLV Subsidy Assessment</h4>
+<ol>
+    <li>TLV evaluates all medicines applying for inclusion in the high-cost drug benefit (f&ouml;rm&aring;nen). Search <a href="https://www.tlv.se/in-english/medicines/decisions-on-medicines.html" target="_blank" rel="noopener">TLV decisions</a> by product name — decisions are published in Swedish with English summaries for key assessments</li>
+    <li>TLV outcomes: <strong>Included</strong> (in the benefit), <strong>Included with restriction</strong> (begr&auml;nsad subvention — limited to specific patient groups or indications), or <strong>Not included</strong></li>
+    <li>TLV uses an informal cost-per-QALY threshold (approximately SEK 500,000 / ~EUR 45,000 for standard conditions; flexibility for severe or rare diseases)</li>
+    <li>Hospital drugs are <strong>not</strong> evaluated by TLV &mdash; they are procured through regional tender processes coordinated by the NT (National Collaboration on New Therapies) Council</li>
+</ol>
+<p class="tips-note"><strong>High-cost protection:</strong> Sweden&rsquo;s high-cost protection (h&ouml;gkostnadsskyddet) caps patient annual out-of-pocket costs at ~SEK 1,300 (~EUR 115). Once the cap is reached, all further subsidised prescriptions are free for the rest of the 12-month period.</p>
+
+<h4 class="tips-heading">Drug Information Sources</h4>
+<ol>
+    <li><a href="https://www.fass.se/LIF/startpage?lang=en" target="_blank" rel="noopener">FASS (English)</a> is the standard drug reference used by Swedish clinicians &mdash; managed by LIF (the pharmaceutical industry association). It contains approved indications, SmPCs, pricing, and reimbursement status for all registered products</li>
+    <li><a href="https://janusinfo.se/" target="_blank" rel="noopener">Janusinfo</a> (Stockholm Region) is the commercially independent prescribing reference &mdash; preferred for unbiased treatment recommendations and drug interaction checks</li>
+    <li>For the official list of all authorised medicines, search <a href="https://www.lakemedelsverket.se/sv/sok-lakemedelsfakta?activeTab=1" target="_blank" rel="noopener">L&auml;kemedelsverket&rsquo;s product database</a> (primarily in Swedish)</li>
+</ol>
+        `,
     },
     {
         code: "CH",
@@ -2090,14 +2168,22 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "TITCK — Licensed Product Lists", url: "https://www.titck.gov.tr/dinamikmodul/85" }],
+                links: [{ label: "TITCK \u2014 Licensed Product Lists", url: "https://www.titck.gov.tr/dinamikmodul/85" }],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "TITCK — Drug Prices (download latest XLS, prices in Euros)", url: "https://www.titck.gov.tr/dinamikmodul/100" }],
+                body: "Turkey sets maximum ex-factory prices in Euros using a reference basket. TITCK publishes the full price list as a downloadable Excel file (updated monthly). Prices are denominated in Euros to limit exchange-rate exposure.",
+                links: [{ label: "TITCK \u2014 Drug Prices (download latest XLS, prices in Euros)", url: "https://www.titck.gov.tr/dinamikmodul/100" }],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "SGK (Sosyal G\u00fcvenlik Kurumu / Social Security Institution) manages reimbursement through the SUT (Sa\u011fl\u0131k Uygulama Tebli\u011fi), which specifies reimbursable conditions, dosing restrictions, and prescribing criteria for each medicine. Prescription-only medicines on the SGK positive list are reimbursed at 80\u201390% for insured patients.",
+                links: [{ label: "SGK \u2014 Social Security Institution", url: "https://www.sgk.gov.tr/" }],
             },
         ],
+        notes: "SGK and TITCK interfaces are in Turkish only. For the SUT reimbursement conditions, navigate to SGK \u2192 Sa\u011fl\u0131k Hizmetleri \u2192 SUT or search on the TITCK website for 'geri \u00f6deme' (reimbursement).",
     },
     {
         code: "AE",
