@@ -61,9 +61,9 @@ header h1 {
     font-size: 0.95rem;
 }
 
-/* ── Module navigation ───────────────────────────────────────────── */
+/* ── Page navigation (subpages) ──────────────────────────────────── */
 
-.module-nav {
+.page-nav {
     background: var(--card-bg);
     border-bottom: 2px solid var(--border);
     position: sticky;
@@ -71,33 +71,79 @@ header h1 {
     z-index: 100;
 }
 
-.module-nav .container {
+.page-nav .container {
     display: flex;
-    gap: 0;
+    align-items: center;
+    gap: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.module-tab {
-    padding: 12px 24px;
-    background: transparent;
+.page-nav .back-link {
     color: var(--text-light);
-    border: none;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
-    font-size: 0.95rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.page-nav .back-link:hover {
+    color: var(--primary);
+}
+
+.page-nav .page-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+/* ── Home page cards ─────────────────────────────────────────────── */
+
+.home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.home-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 32px 28px;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px solid var(--border);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.home-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 4px 20px rgba(41, 128, 185, 0.15);
+    transform: translateY(-2px);
+}
+
+.home-card h2 {
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.home-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.home-card-link {
+    font-size: 0.9rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-}
-
-.module-tab:hover {
-    color: var(--primary);
-    background: transparent;
-}
-
-.module-tab.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-    background: transparent;
+    color: var(--primary-light);
 }
 
 /* ── Cards ────────────────────────────────────────────────────────── */
@@ -860,8 +906,7 @@ footer a:hover {
     .filter-actions {
         flex-direction: column;
     }
-    .module-tab {
-        padding: 10px 16px;
-        font-size: 0.85rem;
+    .home-grid {
+        grid-template-columns: 1fr;
     }
 }
