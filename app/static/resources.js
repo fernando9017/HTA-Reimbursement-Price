@@ -410,6 +410,34 @@ const COUNTRIES = [
                 ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization</h4>
+<p>Most products are centrally authorised via the EMA. National authorisations (via BfArM or PEI) are uncommon for new innovative medicines.</p>
+<ol>
+    <li>Search the EMA's <a href="https://www.ema.europa.eu/en/medicines/human/EPAR" target="_blank" rel="noopener">EPAR database</a> by product name or INN to find the full European Public Assessment Report — includes approved indications, the SmPC, and the full assessment history</li>
+    <li>For nationally authorised products, search <a href="https://www.bfarm.de/EN" target="_blank" rel="noopener">BfArM</a> (small molecules) or <a href="https://www.pei.de/EN" target="_blank" rel="noopener">PEI</a> (biologics and vaccines)</li>
+</ol>
+
+<h4 class="tips-heading">G-BA Benefit Assessment (AMNOG)</h4>
+<p>All new reimbursed medicines undergo early benefit assessment (Nutzenbewertung) under AMNOG. Results are published within ~6 months of launch.</p>
+<ol>
+    <li>Go to the <a href="https://www.g-ba.de/themen/arzneimittel/arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/" target="_blank" rel="noopener">G-BA dossier assessment list</a> and search by active substance or brand name</li>
+    <li>Each entry links to: the G-BA resolution (Beschluss) with Zusatznutzen per patient subgroup, the comparator therapy (zVT), and the evidence certainty level (Beleg / Hinweis / Anhaltspunkt)</li>
+    <li>The independent IQWiG dossier evaluation can be found at <a href="https://www.iqwig.de/en/projects-results/products.html" target="_blank" rel="noopener">IQWiG — Products</a></li>
+    <li>For machine-readable data covering all AMNOG decisions, download the <a href="https://www.g-ba.de/downloads/17-98-5022/G-BA_Beschluss_Info.xml" target="_blank" rel="noopener">G-BA AIS XML</a> (updated on the 1st and 15th of each month)</li>
+    <li>If a product was withdrawn from the market after AMNOG assessment, this is often indicated in the G-BA list; note that <em>Marktaustritt</em> (market exit) typically follows a "no added benefit" decision for a new product with no reference price group</li>
+</ol>
+<p class="tips-note"><strong>Zusatznutzen scale:</strong> erheblich (major) &gt; beträchtlich (considerable) &gt; gering (minor) &gt; nicht quantifizierbar (non-quantifiable) &gt; kein Zusatznutzen (none) &gt; geringerer Nutzen (lesser benefit than comparator)</p>
+
+<h4 class="tips-heading">Pricing &amp; Reimbursement</h4>
+<ol>
+    <li>During the first 12 months after launch, the manufacturer sets the price freely — no negotiation is required and the product is immediately reimbursed by GKV payers</li>
+    <li>After the G-BA resolution, GKV-Spitzenverband negotiates the Erstattungsbetrag (reimbursement amount) — concluded agreements are published on the <a href="https://www.gkv-spitzenverband.de/english/english.jsp" target="_blank" rel="noopener">GKV-Spitzenverband website</a></li>
+    <li>Current market prices (including post-negotiation) are available via <a href="https://www.lauer-fischer.de" target="_blank" rel="noopener">LAUER-TAXE</a> — the standard trade reference in Germany (subscription required)</li>
+    <li>If price negotiations fail, an independent arbitration board (Schiedsverfahren) sets the reimbursement amount</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Products assessed as having "no added benefit" (kein Zusatznutzen) relative to the zVT are reimbursed at the comparator's price level (Festbetrag / ATC reference price group). If no suitable reference group exists, this often triggers market withdrawal by the manufacturer.</p>
+        `,
     },
     {
         code: "GR",
@@ -1091,6 +1119,101 @@ const COUNTRIES = [
         ],
     },
     {
+        code: "TW",
+        name: "Taiwan",
+        flag: "🇹🇼",
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                links: [{ label: "TFDA — Drug Search (MLMS)", url: "https://info.fda.gov.tw/MLMS/H0001.aspx" }],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                links: [
+                    { label: "NHIA — HTA Reports Archive (2011–2019)", url: "https://www.nhi.gov.tw/Content_List.aspx?n=5A8CAC5DBF33DD3D&topn=5FE8C9FEAE863B46" },
+                    { label: "CDE / NIHTA — HTA Reports", url: "https://nihta.cde.org.tw/" },
+                    { label: "NHI Formulary — Reimbursement Policies", url: "https://www.nhi.gov.tw/Content_List.aspx?n=238040CA6B7FC2BB&topn=787128DAD5F71B1A" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                links: [{ label: "NHI Drug Price Database", url: "https://www.nhi.gov.tw/QueryN/Query1.aspx" }],
+            },
+        ],
+        tipsHtml: `
+<h4 class="tips-heading">Regulatory Approval</h4>
+<p>The TFDA website lists products approved in Taiwan and their approval dates.</p>
+<ol>
+    <li>Go to the <a href="https://info.fda.gov.tw/MLMS/H0001.aspx" target="_blank" rel="noopener">TFDA Drug Search (MLMS)</a>, or Google <code>site:fda.gov.tw [PRODUCT NAME]</code></li>
+    <li>Use the Google Translate browser plugin for English — Google Translate handles Traditional Chinese accurately</li>
+    <li>Search by INN, English branded name, or disease category</li>
+    <li>Complete the CAPTCHA before searching — all results return 0 without it</li>
+    <li>If available, the product appears as a result. Note: unlike EMA/FDA, individual indication approval dates are not shown — read all results as the same drug may have different dates for different dosages or manufacturing sites</li>
+    <li>Click the result link to view approved indications and manufacturer details</li>
+</ol>
+<p class="tips-note"><strong>Calendar note:</strong> Taiwan uses the Minguo calendar (e.g., 2020 = Minguo year 109). <a href="https://www.minguo.info/" target="_blank" rel="noopener">Convert Minguo to Gregorian here</a>.</p>
+
+<h4 class="tips-heading">Reimbursement Outcomes</h4>
+<p>HTA outcomes and reimbursement decisions assessed by the NHIA can be found using two methods.</p>
+
+<p class="tips-subheading">Finding HTA Reports — Method 1</p>
+<ol>
+    <li>Browse the <a href="https://www.nhi.gov.tw/Content_List.aspx?n=5A8CAC5DBF33DD3D&topn=5FE8C9FEAE863B46" target="_blank" rel="noopener">NHIA HTA archive</a> by year to find the product</li>
+    <li>Note: only covers reports issued 2011–2019; not all reimbursed products have reports available online</li>
+    <li>Results vary from detailed clinical evidence summaries to simple reimbursement listings (unlike EU5 reports such as HAS or G-BA)</li>
+</ol>
+
+<p class="tips-subheading">Finding HTA Reports — Method 2</p>
+<ol>
+    <li>Google <code>site:www.nhi.gov.tw [PRODUCT NAME] 醫療科技評估</code> or <code>site:nihta.cde.org.tw [PRODUCT NAME]</code></li>
+    <li>HTA reports appear as PDF results in Google if available online</li>
+    <li>The correct document is issued by 財團法人醫藥品查驗中心 (Center for Drug Evaluation — CDE). Key fields:
+        <ul>
+            <li>Recommended reimbursement indications: <strong>建議健保給付之適應症內容</strong></li>
+            <li>TFDA-approved indication: <strong>主管機關許可適應症</strong> or <strong>衛生署許可適應症</strong></li>
+            <li>Recommended dosages: <strong>建議療程</strong></li>
+        </ul>
+    </li>
+</ol>
+
+<p class="tips-subheading">Finding Reimbursement Category (1 / 2A / 2B)</p>
+<ol>
+    <li>Google <code>[PRODUCT NAME] 第1/2A/2B類新藥</code> — NHIA does not publish drug categorization systematically on one page</li>
+    <li>Categorization information appears in NHIA meeting minutes from Google search results</li>
+    <li>Search <code>類新藥</code> within the document to locate the reference. Note: multiple products are discussed per meeting — confirm the mention refers to the product of interest</li>
+</ol>
+
+<p class="tips-subheading">Finding NHIA Reimbursement Status</p>
+<ol>
+    <li>Visit the <a href="https://www.nhi.gov.tw/Content_List.aspx?n=238040CA6B7FC2BB&topn=787128DAD5F71B1A" target="_blank" rel="noopener">NHI Formulary</a> for the most current reimbursement policies</li>
+    <li>Select the PDF for the relevant pharmaceutical class (e.g., oncology = item #9 on the list)</li>
+    <li>A date to the right of a reimbursement clause indicates when that clause was last revised</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> NHI reimbursement decisions are frequently updated as PDFs or meeting minutes. Review all available versions to find the most up-to-date status.</p>
+
+<p class="tips-subheading">Finding Biomarker Testing Reimbursement</p>
+<ol>
+    <li>Visit the <a href="https://sph.nhri.org.tw/nhis/?p=9040" target="_blank" rel="noopener">Biomarker Testing Reimbursement portal</a></li>
+    <li>Use Google Chrome's built-in translation for English</li>
+    <li>Enter the biomarker or test name in the "English project name" field and click "start query"</li>
+    <li>Click a result to view: pay points (NTD reimbursed per test), reference period (first funding approval date), reimbursement indications, and access restrictions</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<p>Drug prices in Taiwan are listed by SKU in the NHI drug price database.</p>
+<ol>
+    <li>Go to the <a href="https://www.nhi.gov.tw/QueryN/Query1.aspx" target="_blank" rel="noopener">NHI Drug Price Database</a></li>
+    <li>Search by Chinese/English name, SKU, INN, or dosing strength</li>
+    <li>Prices are in New Taiwan Dollars (NTD). The date of the most recent price adjustment is shown in Minguo calendar — <a href="https://www.minguo.info/" target="_blank" rel="noopener">convert here</a></li>
+    <li>For locally recommended dosages, Google <code>[PRODUCT NAME] 台灣建議劑量</code> — may return HTA/TFDA reports, pharma company sites, or local hospital pages</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Not all TFDA reports are available online.</p>
+        `,
+    },
+    {
         code: "TR",
         name: "Turkey",
         flag: "🇹🇷",
@@ -1272,18 +1395,21 @@ function openDetail(country, activeBtn) {
         `;
     }
 
-    if (country.tips) {
-        // tips may have \n for paragraphs
-        const tipsHtml = country.tips
-            .split("\n")
-            .map(line => line.trim())
-            .filter(Boolean)
-            .map(line => `<p>${esc(line)}</p>`)
-            .join("");
+    if (country.tipsHtml || country.tips) {
+        // tipsHtml: pre-formatted HTML for rich structured content (our own data, safe to inject)
+        // tips:     plain text split on \n into paragraphs
+        const tipsContent = country.tipsHtml
+            ? country.tipsHtml
+            : country.tips
+                .split("\n")
+                .map(line => line.trim())
+                .filter(Boolean)
+                .map(line => `<p>${esc(line)}</p>`)
+                .join("");
         html += `
             <div class="resource-callout resource-callout--tip">
                 <span class="resource-callout__label">Research Tips</span>
-                ${tipsHtml}
+                ${tipsContent}
             </div>
         `;
     }
