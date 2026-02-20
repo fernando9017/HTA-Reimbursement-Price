@@ -758,8 +758,8 @@ const COUNTRIES = [
                 title: "Market Authorization",
                 body: "Italy participates in the EMA centralised procedure. National authorisations and mutual recognition/decentralised procedures are managed by AIFA (Agenzia Italiana del Farmaco).",
                 links: [
-                    { label: "AIFA (Italian Medicines Agency)", url: "https://www.aifa.gov.it/" },
-                    { label: "AIFA — Farmadati / Banca Dati Farmaci", url: "https://farmaci.agenziafarmaco.gov.it/bancadatifarmaci/home" },
+                    { label: "AIFA (Italian Medicines Agency)", url: "https://www.aifa.gov.it/en/home" },
+                    { label: "AIFA — Trova Farmaco (drug search)", url: "https://www.aifa.gov.it/en/trova-farmaco" },
                 ],
             },
             {
@@ -767,8 +767,10 @@ const COUNTRIES = [
                 title: "HTA & Reimbursement",
                 body: "AIFA manages drug reimbursement through classification: Classe A (reimbursed by SSN), Classe H (hospital-only, reimbursed), Classe C (not reimbursed — patient pays). The CTS (Commissione Tecnico Scientifica) evaluates clinical evidence, and the CPR (Comitato Prezzi e Rimborso) negotiates pricing.",
                 links: [
-                    { label: "AIFA — Liste di Trasparenza (off-patent drugs)", url: "https://www.aifa.gov.it/liste-di-trasparenza" },
-                    { label: "AIFA — Registri di Monitoraggio", url: "https://www.aifa.gov.it/registri-e-piani-terapeutici" },
+                    { label: "AIFA — Class A & H Medicine Lists", url: "https://www.aifa.gov.it/en/liste-farmaci-a-h" },
+                    { label: "AIFA — AIFA Notes (prescribing conditions)", url: "https://www.aifa.gov.it/en/note-aifa" },
+                    { label: "AIFA — Registri di Monitoraggio", url: "https://www.aifa.gov.it/en/registri-farmaci-sottoposti-a-monitoraggio" },
+                    { label: "AIFA — HTA & Drug Access Area", url: "https://www.aifa.gov.it/en/area-accesso-al-farmaco-e-hta" },
                 ],
             },
             {
@@ -776,7 +778,9 @@ const COUNTRIES = [
                 title: "Access & Pricing",
                 body: "Prices are negotiated between AIFA (CPR committee) and the manufacturer. Italy uses external reference pricing with a basket of EU countries. Managed entry agreements (MEAs) including payment-by-result and risk-sharing are common.",
                 links: [
-                    { label: "AIFA — Negoziazione e Rimborsabilità", url: "https://www.aifa.gov.it/negoziazione-e-rimborsabilita" },
+                    { label: "AIFA — Liste di Trasparenza (off-patent reference prices)", url: "https://www.aifa.gov.it/en/liste-di-trasparenza" },
+                    { label: "AIFA — Negotiation & Reimbursement", url: "https://www.aifa.gov.it/en/negoziazione-e-rimborsabilit%C3%A0" },
+                    { label: "AIFA — Open Data", url: "https://www.aifa.gov.it/en/open-data" },
                     { label: "Gazzetta Ufficiale (official pricing decisions)", url: "https://www.gazzettaufficiale.it/" },
                 ],
             },
@@ -784,44 +788,48 @@ const COUNTRIES = [
         tipsHtml: `
 <h4 class="tips-heading">Marketing Authorization</h4>
 <ol>
-    <li>Search the <a href="https://farmaci.agenziafarmaco.gov.it/bancadatifarmaci/home" target="_blank" rel="noopener">AIFA Banca Dati Farmaci</a> by product name, INN, or ATC code — this is the official Italian drug database</li>
-    <li>The database shows: authorisation status, approved indications (Riassunto delle Caratteristiche del Prodotto = SmPC), reimbursement class, and price</li>
+    <li>Search <a href="https://www.aifa.gov.it/en/trova-farmaco" target="_blank" rel="noopener">AIFA Trova Farmaco</a> by product name (Farmaco), active ingredient (Principio Attivo), or pharmaceutical company (Azienda) — this is the primary Italian drug search interface covering 66,000+ authorised packages</li>
+    <li>The database shows: authorisation status, approved indications (Riassunto delle Caratteristiche del Prodotto = SmPC), reimbursement class, supply regime, and price</li>
     <li>For EMA centralised products, the database links to the EPAR and includes the Italian-language RCP</li>
 </ol>
 
 <h4 class="tips-heading">Reimbursement Classification</h4>
-<p>Italy classifies medicines into three main categories that determine reimbursement status:</p>
+<p>Italy classifies medicines into categories that determine reimbursement status:</p>
 <ol>
-    <li><strong>Classe A</strong>: fully reimbursed by SSN (Servizio Sanitario Nazionale) — includes essential medicines and those for chronic/serious conditions</li>
+    <li><strong>Classe A</strong>: fully reimbursed by SSN (Servizio Sanitario Nazionale) — includes essential medicines and those for chronic/serious conditions. All are prescription-only</li>
     <li><strong>Classe H</strong>: hospital-only medicines, reimbursed by SSN but dispensed only in hospital settings</li>
-    <li><strong>Classe C</strong>: not reimbursed — patients pay the full cost. Includes OTC products and some prescription medicines</li>
-    <li>Check the <a href="https://www.aifa.gov.it/liste-di-trasparenza" target="_blank" rel="noopener">Liste di Trasparenza</a> for off-patent medicines and their reference prices</li>
+    <li><strong>Classe C</strong>: not reimbursed — patients pay the full cost. Includes OTC (C-bis), SOP, and prescription medicines</li>
+    <li><strong>Classe C(nn)</strong>: "Classe C non negoziata" — automatically assigned to EMA centrally-authorised drugs within 60 days of EU Commission decision, pending price negotiation. Marketed at the manufacturer's price until AIFA negotiation concludes</li>
+    <li>Download the <a href="https://www.aifa.gov.it/en/liste-farmaci-a-h" target="_blank" rel="noopener">Class A & H medicine lists</a> for all reimbursed drugs (published periodically, sorted by active substance and trade name)</li>
+    <li><strong>AIFA Notes</strong> define specific conditions under which certain medicines are eligible for SSN reimbursement — check the <a href="https://www.aifa.gov.it/en/note-aifa" target="_blank" rel="noopener">AIFA Notes page</a> for prescribing restrictions</li>
 </ol>
-<p class="tips-note"><strong>Note:</strong> A sub-category <strong>Classe C(nn)</strong> means "Classe C non negoziata" — the manufacturer has not yet submitted for reimbursement negotiation. This is common for recently approved products awaiting AIFA pricing discussions.</p>
+<p class="tips-note"><strong>Note:</strong> A product classified as Classe C(nn) is likely a recently approved innovative medicine still awaiting AIFA pricing discussions. Check the <a href="https://www.aifa.gov.it/en/negoziazione-e-rimborsabilit%C3%A0" target="_blank" rel="noopener">Negotiation & Reimbursement page</a> for the current status.</p>
 
 <h4 class="tips-heading">Managed Entry Agreements (MEA)</h4>
-<p>Italy is a pioneer in outcome-based managed entry agreements. AIFA's Registri di Monitoraggio track drug use and outcomes in real-world settings.</p>
+<p>Italy is a pioneer in outcome-based managed entry agreements. AIFA's <a href="https://www.aifa.gov.it/en/registri-farmaci-sottoposti-a-monitoraggio" target="_blank" rel="noopener">Registri di Monitoraggio</a> (operational since 2005) track patient eligibility and treatment outcomes for high-cost/innovative medicines.</p>
 <ol>
-    <li>Check <a href="https://www.aifa.gov.it/registri-e-piani-terapeutici" target="_blank" rel="noopener">AIFA Registri di Monitoraggio</a> to see if a product has a monitoring registry — this indicates special reimbursement conditions are in place</li>
+    <li>Check the <a href="https://www.aifa.gov.it/en/registri-e-piani-terapeutici1" target="_blank" rel="noopener">registry list page</a> for downloadable lists of active and closed registries (CSV/ODS)</li>
     <li>Common MEA types in Italy:
         <ul>
             <li><strong>Payment by results</strong>: refund if patient does not respond</li>
             <li><strong>Risk sharing</strong>: discount applied if outcomes fall below agreed thresholds</li>
             <li><strong>Cost sharing</strong>: manufacturer provides initial treatment cycles free/discounted</li>
             <li><strong>Capping</strong>: maximum expenditure per patient</li>
+            <li><strong>Success fee</strong>: payment only upon demonstrated clinical benefit</li>
         </ul>
     </li>
-    <li>Registri data is collected via the AIFA web platform — prescribers must register patients before dispensing</li>
+    <li>Prescribers must register patients on the AIFA web platform before dispensing registry medicines — the registry enforces eligibility criteria and enables outcome tracking</li>
 </ol>
 
 <h4 class="tips-heading">Pricing</h4>
 <ol>
-    <li>Official prices are published in the <a href="https://www.gazzettaufficiale.it/" target="_blank" rel="noopener">Gazzetta Ufficiale</a> — search for the product name to find the pricing determination</li>
-    <li>The AIFA Banca Dati shows the current ex-factory price and public price (prezzo al pubblico)</li>
+    <li>The <a href="https://www.aifa.gov.it/en/liste-di-trasparenza" target="_blank" rel="noopener">Liste di Trasparenza</a> are published monthly (1st and 15th) with reference prices for off-patent medicines — available in PDF, XLS, and CSV formats</li>
+    <li>Official pricing determinations (Determine AIFA) are published in the <a href="https://www.gazzettaufficiale.it/" target="_blank" rel="noopener">Gazzetta Ufficiale</a> — search for the product name</li>
+    <li>The <a href="https://www.aifa.gov.it/en/open-data" target="_blank" rel="noopener">AIFA Open Data portal</a> provides downloadable datasets including pricing and consumption data</li>
     <li>Italy mandates payback mechanisms: manufacturers must reimburse the SSN if total pharmaceutical spending exceeds annual budget ceilings (tetti di spesa)</li>
-    <li>Regional pricing variation: while AIFA sets national prices, individual regions may negotiate additional discounts or manage hospital budgets differently</li>
+    <li>Regional variation: while AIFA sets national prices, individual regions may negotiate additional discounts or manage hospital budgets differently</li>
 </ol>
-<p class="tips-note"><strong>Tip:</strong> The AIFA website is in Italian only. Google Translate works well for navigation. For pricing data, the Banca Dati Farmaci is the most reliable source — prices shown are the official negotiated prices.</p>
+<p class="tips-note"><strong>Tip:</strong> AIFA has an English-language version of its website (use the /en/ prefix). The <a href="https://www.aifa.gov.it/en/trova-farmaco" target="_blank" rel="noopener">Trova Farmaco</a> search is the most reliable source for current pricing — it shows the official negotiated ex-factory and public prices.</p>
         `,
     },
     {
