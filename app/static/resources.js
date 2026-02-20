@@ -1368,11 +1368,97 @@ const COUNTRIES = [
         ema: true,
         sections: [
             {
+                id: "marketing",
+                title: "Market Authorization",
+                links: [
+                    { label: "INFARMED (National Medicines Authority)", url: "https://www.infarmed.pt/web/infarmed-en" },
+                    { label: "INFOMED — Drug Database", url: "https://extranet.infarmed.pt/INFOMED-fo/" },
+                    { label: "INFARMED — Medicine Search", url: "https://www.infarmed.pt/web/infarmed/servicos-on-line/pesquisa-do-medicamento" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "INFARMED uniquely combines regulatory, HTA, and pricing functions under one agency. HTA is performed by DATS (staff experts) and CATS (advisory committee) under the SiNATS framework (Decree-Law 97/2015). Hospital drugs undergo a separate prior evaluation (avalia\u00e7\u00e3o pr\u00e9via hospitalar).",
+                links: [
+                    { label: "INFARMED — Health Technology Assessment", url: "https://www.infarmed.pt/web/infarmed/entidades/medicamentos-uso-humano/avaliacao-tecnologias-de-saude" },
+                    { label: "INFARMED — HTA Methodology v3.0 (English, PDF)", url: "https://www.infarmed.pt/documents/15786/1963929/METOD_AFT_v3.0_ENvf_fev2023/b0cb1c54-adca-721a-6466-75ba04cdd542" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Outpatient drug prices are set via External Reference Pricing against Spain, France, Italy, and Belgium (2025\u20132026). Annual price revision (RAP) takes effect January 1. Hospital drug prices are negotiated through the prior evaluation process, not ERP.",
+                links: [
+                    { label: "INFARMED — Price Revision (RAP)", url: "https://www.infarmed.pt/web/infarmed/revisao-anual-de-precos-rap-" },
+                    { label: "INFARMED — Generics Guide & Reference Prices", url: "https://www.infarmed.pt/web/infarmed/entidades/medicamentos-uso-humano/genericos/guia_dos_genericos" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "INFARMED — INFOMED", url: "https://extranet.infarmed.pt/INFOMED-fo/index.xhtml" }],
+                body: "Four-tier co-payment system: A (90%), B (69%), C (37%), D (15%). Low-income patients receive an additional 15 percentage points. Hospital drugs are 100% SNS-funded. Generic reference pricing is based on the average of the 5 cheapest products in each homogeneous group, updated quarterly.",
+                links: [
+                    { label: "INFARMED — Advanced Drug Search (with reimbursement)", url: "https://www.infarmed.pt/web/infarmed/pesquisa-avancada" },
+                    { label: "Prontu\u00e1rio Terap\u00eautico Online (national formulary)", url: "https://app10.infarmed.pt/prontuario/index.php" },
+                    { label: "SNS Portal (National Health Service)", url: "https://www.sns.gov.pt/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ordem dos Farmac\u00eauticos (Pharmacists' Association)", url: "https://www.ordemfarmaceuticos.pt/pt/" },
+                    { label: "APIFARMA (Pharmaceutical Industry Association)", url: "https://apifarma.pt/" },
+                    { label: "ANF (National Association of Pharmacies)", url: "https://www.anf.pt/en/" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">INFARMED &mdash; Triple Role (Regulator + HTA + Pricing)</h4>
+<ol>
+    <li>INFARMED uniquely combines <strong>marketing authorization</strong>, <strong>health technology assessment</strong>, and <strong>price setting</strong> under one agency &mdash; unusual in Europe</li>
+    <li>HTA is performed by <strong>DATS</strong> (staff experts) and <strong>CATS</strong> (advisory committee) under the <strong>SiNATS</strong> framework (Decreto-Lei 97/2015)</li>
+    <li>The <a href="https://www.infarmed.pt/documents/15786/1963929/METOD_AFT_v3.0_ENvf_fev2023/b0cb1c54-adca-721a-6466-75ba04cdd542" target="_blank" rel="noopener">HTA Methodology Document v3.0 (English)</a> is one of the few official documents available in English</li>
+    <li>INFARMED chairs the EU Heads of HTA Agencies (HAG) group and co-chairs the EU HTA Coordination Group</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> Most INFARMED content is in Portuguese only. The English section at <a href="https://www.infarmed.pt/web/infarmed-en" target="_blank" rel="noopener">/web/infarmed-en</a> has limited content.</p>
+
+<h4 class="tips-heading">Reimbursement Tiers</h4>
+<ol>
+    <li><strong>Tier A (90%)</strong>: Essential drugs for life-threatening or severe chronic diseases (diabetes, cancer, HIV)</li>
+    <li><strong>Tier B (69%)</strong>: Essential drugs for chronic diseases requiring prolonged therapy</li>
+    <li><strong>Tier C (37%)</strong>: Drugs with confirmed therapeutic value not fitting A or B</li>
+    <li><strong>Tier D (15%)</strong>: New medicines or those with limited evidence, pending reassessment</li>
+    <li><strong>Low-income patients</strong> get an additional <strong>+15 percentage points</strong> (e.g., Tier A &rarr; 95%, Tier B &rarr; 84%)</li>
+</ol>
+<p class="tips-note"><strong>Hospital drugs:</strong> Not subject to these tiers. They undergo a separate <strong>avalia&ccedil;&atilde;o pr&eacute;via hospitalar</strong> (prior evaluation) that sets a maximum acquisition price and requires a contract (often with risk-sharing clauses). Generics are exempt from this requirement.</p>
+
+<h4 class="tips-heading">Pricing &mdash; External Reference Pricing</h4>
+<ol>
+    <li><strong>Reference countries (2025&ndash;2026):</strong> Spain, France, Italy, Belgium (changed from Spain/France/Italy/Slovenia in 2024)</li>
+    <li>Maximum ex-factory price cannot exceed the <strong>average wholesale price</strong> in reference countries</li>
+    <li>Annual price revision (RAP) takes effect January 1. For 2026, price <strong>increases have been eliminated</strong> (only decreases or maintenance)</li>
+    <li>Medicines under &euro;30 retail price are <strong>exempt</strong> from revision. Essential medicines (per Portaria 235/2023) are also exempt</li>
+</ol>
+
+<h4 class="tips-heading">Generic Substitution &amp; Reference Pricing</h4>
+<ol>
+    <li><strong>INN prescribing is mandatory</strong> since 2002 &mdash; physicians must prescribe by active substance when generics exist</li>
+    <li>Pharmacists <strong>must dispense the cheapest generic</strong> for INN-only prescriptions. Physicians can restrict substitution only in exceptional cases</li>
+    <li>The <strong>reference price</strong> for each homogeneous group = average of the 5 lowest-priced products. Updated <strong>quarterly</strong> by INFARMED</li>
+    <li>First generic: max price <strong>50% below</strong> the reference medicine (20% below if reference &lt; &euro;10). <strong>Biosimilar substitution is NOT allowed</strong> at community pharmacies</li>
+</ol>
+
+<h4 class="tips-heading">How to Search for Drug Information</h4>
+<ol>
+    <li><a href="https://extranet.infarmed.pt/INFOMED-fo/" target="_blank" rel="noopener">INFOMED</a>: Search by medicine name or substance. Shows authorization status, SmPCs, leaflets, and marketing status</li>
+    <li><a href="https://www.infarmed.pt/web/infarmed/pesquisa-avancada" target="_blank" rel="noopener">Advanced Search</a>: Filter by route of administration, status, with reimbursement details</li>
+    <li><a href="https://www.infarmed.pt/web/infarmed/entidades/medicamentos-uso-humano/genericos/guia_dos_genericos" target="_blank" rel="noopener">Guia dos Gen&eacute;ricos</a>: Quarterly-updated guide with homogeneous groups, reference prices, and patient costs</li>
+    <li><a href="https://app10.infarmed.pt/prontuario/index.php" target="_blank" rel="noopener">Prontu&aacute;rio Terap&ecirc;utico</a>: National therapeutic formulary &mdash; the standard prescribing reference</li>
+</ol>
+<p class="tips-note"><strong>Key legislation:</strong> Decreto-Lei 97/2015 (SiNATS master law), Portaria 195-D/2015 (reimbursement tiers), Portaria 394/2025/1 (2026 reference countries and price revision rules). All available at <a href="https://dre.pt/" target="_blank" rel="noopener">Di&aacute;rio da Rep&uacute;blica</a>.</p>
+        `,
     },
     {
         code: "PR",
