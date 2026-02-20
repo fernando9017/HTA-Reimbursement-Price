@@ -489,7 +489,9 @@ const COUNTRIES = [
                 links: [
                     { label: "CEPS (Economic Committee for Health Products)", url: "https://solidarites-sante.gouv.fr/ministere/organisation/directions/article/ceps-comite-economique-des-produits-de-sante" },
                     { label: "HAS — Early Access (Accès Précoce)", url: "https://www.has-sante.fr/jcms/p_3269698/en/acces-precoce" },
-                    { label: "Journal Officiel — Reimbursement Decisions", url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000000000" },
+                    { label: "ANSM — Medicines in Early/Compassionate Access", url: "https://ansm.sante.fr/documents/reference/medicaments-en-acces-derogatoires/les-acces-precoces-aap" },
+                    { label: "Liste en sus (hospital drugs)", url: "https://sante.gouv.fr/soins-et-maladies/medicaments/professionnels-de-sante/autorisation-de-mise-sur-le-marche/la-liste-en-sus/" },
+                    { label: "Journal Officiel — Reimbursement Decisions (Légifrance)", url: "https://www.legifrance.gouv.fr/jorf/jo" },
                 ],
             },
         ],
@@ -1678,6 +1680,7 @@ const COUNTRIES = [
                     { label: "NICE — Technology Appraisals", url: "https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-technology-appraisal-guidance" },
                     { label: "NICE — Cancer Drugs Fund", url: "https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-technology-appraisal-guidance/cancer-drugs-fund" },
                     { label: "SMC (Scottish Medicines Consortium)", url: "https://www.scottishmedicines.org.uk" },
+                    { label: "AWMSG (All Wales Medicines Strategy Group)", url: "https://awmsg.nhs.wales/medicines-appraisals-and-guidance/" },
                 ],
             },
             {
@@ -1718,13 +1721,15 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> NICE appraisals include the <strong>ICER (incremental cost-effectiveness ratio)</strong> threshold. The standard threshold is £20,000–£30,000/QALY; end-of-life and HST appraisals may accept higher ICERs. Check the FAD for the accepted ICER range.</p>
 
-<h4 class="tips-heading">SMC (Scotland)</h4>
+<h4 class="tips-heading">SMC (Scotland) &amp; AWMSG (Wales)</h4>
 <ol>
     <li>The <a href="https://www.scottishmedicines.org.uk/medicines-advice/" target="_blank" rel="noopener">Scottish Medicines Consortium</a> conducts separate assessments for NHS Scotland</li>
     <li>SMC outcomes are: Accepted, Accepted for restricted use, or Not recommended</li>
     <li>SMC decisions are not binding in the same way as NICE TAs — NHS Scotland boards may make local formulary decisions</li>
     <li>For rare diseases, the PACE (Patient and Clinician Engagement) process may apply — provides an additional route for medicines that would otherwise be "not recommended"</li>
+    <li>The <a href="https://awmsg.nhs.wales/medicines-appraisals-and-guidance/" target="_blank" rel="noopener">AWMSG (All Wales Medicines Strategy Group)</a> appraises medicines not covered by NICE for NHS Wales — check AWMSG for complete UK coverage</li>
 </ol>
+<p class="tips-note"><strong>Important:</strong> NICE (England), SMC (Scotland), and AWMSG (Wales) are three separate HTA bodies. Outcomes can differ — an analyst should check all three for comprehensive UK coverage.</p>
 
 <h4 class="tips-heading">Pricing &amp; Reimbursement</h4>
 <ol>
