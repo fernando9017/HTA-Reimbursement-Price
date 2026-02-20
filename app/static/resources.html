@@ -24,10 +24,14 @@
     <main class="container">
         <section class="card">
             <h2>Select a Country</h2>
-            <p class="resource-intro">Click a country to view key resources on marketing authorisation, HTA assessment, reimbursement, and patient access.</p>
+            <p class="resource-intro">Click a country to view key resources on marketing authorisation, HTA assessment, reimbursement, and patient access. Covers <strong id="country-count"></strong> countries.</p>
+            <div class="resource-search-row">
+                <input type="text" id="country-search" class="resource-search-input" placeholder="Filter countries…" autocomplete="off" aria-label="Filter countries">
+            </div>
             <div class="country-flag-grid" id="country-grid">
                 <!-- Populated by resources.js -->
             </div>
+            <p class="country-no-results hidden" id="country-no-results">No countries match your filter.</p>
         </section>
 
         <!-- Detail panel — shown when a country is selected -->
