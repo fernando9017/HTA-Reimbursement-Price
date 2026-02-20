@@ -3,229 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTA Assessment Finder</title>
-    <link rel="stylesheet" href="/static/style.css?v=20260219d">
+    <title>Analogue Selection</title>
+    <link rel="stylesheet" href="/static/style.css?v=20260220a">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>HTA Assessment Finder</h1>
-            <p class="subtitle">Search EMA-authorized medicines — HTA assessments &amp; analogue selection</p>
+            <h1>Analogue Selection</h1>
+            <p class="subtitle">Filter EMA-authorized medicines to identify comparable therapies</p>
         </div>
     </header>
 
-    <!-- Module navigation tabs -->
-    <nav class="module-nav">
-        <div class="container">
-            <button class="module-tab active" data-module="hta">HTA &amp; Reimbursement</button>
-            <button class="module-tab" data-module="analogues">Analogue Selection</button>
-        </div>
-    </nav>
-
     <main class="container">
-        <!-- ═══════════════════════════════════════════════════════════════
-             MODULE 1: HTA & Reimbursement
-             ═══════════════════════════════════════════════════════════════ -->
-        <div id="module-hta" class="module-content">
-            <!-- Step 1: Search for a medicine -->
-            <section id="search-section" class="card">
-                <h2>1. Search for a medicine</h2>
-                <div class="search-box">
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Enter medicine name or active substance (e.g., Padcev, enfortumab vedotin)"
-                        autocomplete="off"
-                    >
-                    <button id="search-btn">Search</button>
+        <!-- Filters panel -->
+        <section class="card">
+            <h2>Filter Criteria</h2>
+            <p class="filter-description">Start by choosing a therapeutic area, then narrow down with subcategories and additional filters.</p>
+
+            <!-- Primary filters: Therapeutic Area (cascading) -->
+            <h3 class="filter-section-title">Therapeutic Area</h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="filter-broad-area">Category</label>
+                    <select id="filter-broad-area"><option value="">All therapeutic areas</option></select>
                 </div>
-                <div id="search-status" class="status-msg hidden"></div>
-                <div id="search-results" class="hidden"></div>
-            </section>
-
-            <!-- Step 2: Medicine details + indication selection -->
-            <section id="medicine-section" class="card hidden">
-                <h2>2. Select an indication</h2>
-                <div id="medicine-details"></div>
-            </section>
-
-            <!-- Step 3: Select country and view assessments -->
-            <section id="assessment-section" class="card hidden">
-                <h2>3. HTA Assessment Results</h2>
-                <div class="country-selector">
-                    <label for="country-select">Country:</label>
-                    <select id="country-select"></select>
-                    <button id="find-assessments-btn">Find Assessments</button>
+                <div class="filter-group">
+                    <label for="filter-subcategory">Subcategory</label>
+                    <select id="filter-subcategory" disabled><option value="">Select a category first</option></select>
                 </div>
-                <div id="assessment-status" class="status-msg hidden"></div>
-                <div id="assessment-results" class="hidden"></div>
-            </section>
-        </div>
-
-        <!-- ═══════════════════════════════════════════════════════════════
-             MODULE 2: Analogue Selection
-             ═══════════════════════════════════════════════════════════════ -->
-        <div id="module-analogues" class="module-content hidden">
-            <!-- Filters panel -->
-            <section class="card">
-                <h2>Filter Criteria</h2>
-                <p class="filter-description">Start by choosing a therapeutic area, then narrow down with subcategories and additional filters.</p>
-
-                <!-- Primary filters: Therapeutic Area (cascading) -->
-                <h3 class="filter-section-title">Therapeutic Area</h3>
-                <div class="filter-grid">
-                    <div class="filter-group">
-                        <label for="filter-broad-area">Category</label>
-                        <select id="filter-broad-area"><option value="">All therapeutic areas</option></select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-subcategory">Subcategory</label>
-                        <select id="filter-subcategory" disabled><option value="">Select a category first</option></select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-indication">Indication Keyword</label>
-                        <input type="text" id="filter-indication" placeholder="e.g., first-line, metastatic, adjuvant">
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-substance">Active Substance</label>
-                        <input type="text" id="filter-substance" placeholder="e.g., pembrolizumab">
-                    </div>
+                <div class="filter-group">
+                    <label for="filter-indication">Indication Keyword</label>
+                    <input type="text" id="filter-indication" placeholder="e.g., first-line, metastatic, adjuvant">
                 </div>
-
-                <!-- Molecule Type & Route -->
-                <h3 class="filter-section-title">Molecule Type &amp; Administration</h3>
-                <div class="filter-grid">
-                    <div class="filter-group">
-                        <label for="filter-molecule-type">Molecule Type</label>
-                        <input type="text" id="filter-molecule-type" placeholder="e.g., Monoclonal Antibody, Small Molecule">
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-route">Route of Administration</label>
-                        <input type="text" id="filter-route" placeholder="e.g., IV, Oral, SC">
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-moa">Mechanism of Action</label>
-                        <input type="text" id="filter-moa" placeholder="e.g., PD-1, Anti-VEGF, EGFR TKI">
-                    </div>
+                <div class="filter-group">
+                    <label for="filter-substance">Active Substance</label>
+                    <input type="text" id="filter-substance" placeholder="e.g., pembrolizumab">
                 </div>
+            </div>
 
-                <!-- Core filters -->
-                <h3 class="filter-section-title">Approval &amp; Classification</h3>
-                <div class="filter-grid">
+            <!-- Molecule Type & Route -->
+            <h3 class="filter-section-title">Molecule Type &amp; Administration</h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="filter-molecule-type">Molecule Type</label>
+                    <input type="text" id="filter-molecule-type" placeholder="e.g., Monoclonal Antibody, Small Molecule">
+                </div>
+                <div class="filter-group">
+                    <label for="filter-route">Route of Administration</label>
+                    <input type="text" id="filter-route" placeholder="e.g., IV, Oral, SC">
+                </div>
+                <div class="filter-group">
+                    <label for="filter-moa">Mechanism of Action</label>
+                    <input type="text" id="filter-moa" placeholder="e.g., PD-1, Anti-VEGF, EGFR TKI">
+                </div>
+            </div>
+
+            <!-- Core filters -->
+            <h3 class="filter-section-title">Approval &amp; Classification</h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="filter-years">Approved Within</label>
+                    <select id="filter-years">
+                        <option value="0">All time</option>
+                        <option value="3">Last 3 years</option>
+                        <option value="5">Last 5 years</option>
+                        <option value="10">Last 10 years</option>
+                        <option value="15">Last 15 years</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-orphan">Orphan Designation</label>
+                    <select id="filter-orphan">
+                        <option value="">Any</option>
+                        <option value="yes">Orphan designated</option>
+                        <option value="no">Non-orphan</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-prevalence">Prevalence</label>
+                    <select id="filter-prevalence">
+                        <option value="">Any prevalence</option>
+                        <option value="ultra-rare">Ultra-rare (&lt;1 in 50,000)</option>
+                        <option value="rare">Rare (&lt;5 in 10,000)</option>
+                        <option value="non-rare">Non-rare</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-first">First Approval</label>
+                    <select id="filter-first">
+                        <option value="">Any</option>
+                        <option value="yes">Yes (first EMA authorization)</option>
+                        <option value="no">No (subsequent)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Exclusion checkboxes -->
+            <div class="filter-checkboxes">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="filter-excl-generics"> Exclude generics
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="filter-excl-biosimilars"> Exclude biosimilars
+                </label>
+            </div>
+
+            <!-- Advanced filters (collapsible) -->
+            <details class="advanced-filters">
+                <summary class="filter-section-title advanced-toggle">Advanced Filters</summary>
+                <div class="filter-grid" style="margin-top:12px;">
                     <div class="filter-group">
-                        <label for="filter-years">Approved Within</label>
-                        <select id="filter-years">
-                            <option value="0">All time</option>
-                            <option value="3">Last 3 years</option>
-                            <option value="5">Last 5 years</option>
-                            <option value="10">Last 10 years</option>
-                            <option value="15">Last 15 years</option>
-                        </select>
+                        <label for="filter-status">Authorisation Status</label>
+                        <select id="filter-status"><option value="">All statuses</option></select>
                     </div>
                     <div class="filter-group">
-                        <label for="filter-orphan">Orphan Designation</label>
-                        <select id="filter-orphan">
+                        <label for="filter-mah">Company (MAH)</label>
+                        <select id="filter-mah"><option value="">All companies</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-atc">ATC Code</label>
+                        <select id="filter-atc"><option value="">All ATC codes</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-new-substance">New Active Substance</label>
+                        <select id="filter-new-substance">
                             <option value="">Any</option>
-                            <option value="yes">Orphan designated</option>
-                            <option value="no">Non-orphan</option>
+                            <option value="yes">Yes (novel substance)</option>
+                            <option value="no">No</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label for="filter-prevalence">Prevalence</label>
-                        <select id="filter-prevalence">
-                            <option value="">Any prevalence</option>
-                            <option value="ultra-rare">Ultra-rare (&lt;1 in 50,000)</option>
-                            <option value="rare">Rare (&lt;5 in 10,000)</option>
-                            <option value="non-rare">Non-rare</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-first">First Approval</label>
-                        <select id="filter-first">
+                        <label for="filter-conditional">Conditional Approval</label>
+                        <select id="filter-conditional">
                             <option value="">Any</option>
-                            <option value="yes">Yes (first EMA authorization)</option>
-                            <option value="no">No (subsequent)</option>
+                            <option value="yes">Conditional MA</option>
+                            <option value="no">Standard MA</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-exceptional">Exceptional Circumstances</label>
+                        <select id="filter-exceptional">
+                            <option value="">Any</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-accelerated">Accelerated Assessment</label>
+                        <select id="filter-accelerated">
+                            <option value="">Any</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
                         </select>
                     </div>
                 </div>
+            </details>
 
-                <!-- Exclusion checkboxes -->
-                <div class="filter-checkboxes">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="filter-excl-generics"> Exclude generics
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="filter-excl-biosimilars"> Exclude biosimilars
-                    </label>
-                </div>
+            <!-- Hidden legacy filter -->
+            <input type="hidden" id="filter-area" value="">
 
-                <!-- Advanced filters (collapsible) -->
-                <details class="advanced-filters">
-                    <summary class="filter-section-title advanced-toggle">Advanced Filters</summary>
-                    <div class="filter-grid" style="margin-top:12px;">
-                        <div class="filter-group">
-                            <label for="filter-status">Authorisation Status</label>
-                            <select id="filter-status"><option value="">All statuses</option></select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="filter-mah">Company (MAH)</label>
-                            <select id="filter-mah"><option value="">All companies</option></select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="filter-atc">ATC Code</label>
-                            <select id="filter-atc"><option value="">All ATC codes</option></select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="filter-new-substance">New Active Substance</label>
-                            <select id="filter-new-substance">
-                                <option value="">Any</option>
-                                <option value="yes">Yes (novel substance)</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="filter-conditional">Conditional Approval</label>
-                            <select id="filter-conditional">
-                                <option value="">Any</option>
-                                <option value="yes">Conditional MA</option>
-                                <option value="no">Standard MA</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="filter-exceptional">Exceptional Circumstances</label>
-                            <select id="filter-exceptional">
-                                <option value="">Any</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="filter-accelerated">Accelerated Assessment</label>
-                            <select id="filter-accelerated">
-                                <option value="">Any</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                    </div>
-                </details>
+            <div class="filter-actions">
+                <button id="analogue-search-btn">Search Analogues</button>
+                <button id="analogue-reset-btn" class="btn-secondary">Reset Filters</button>
+            </div>
+        </section>
 
-                <!-- Hidden legacy filter -->
-                <input type="hidden" id="filter-area" value="">
-
-                <div class="filter-actions">
-                    <button id="analogue-search-btn">Search Analogues</button>
-                    <button id="analogue-reset-btn" class="btn-secondary">Reset Filters</button>
-                </div>
-            </section>
-
-            <!-- Results -->
-            <section class="card" id="analogue-results-section">
-                <h2>Results</h2>
-                <div id="analogue-status" class="status-msg hidden"></div>
-                <div id="analogue-results"></div>
-            </section>
-        </div>
+        <!-- Results -->
+        <section class="card" id="analogue-results-section">
+            <h2>Results</h2>
+            <div id="analogue-status" class="status-msg hidden"></div>
+            <div id="analogue-results"></div>
+        </section>
     </main>
 
     <footer>
@@ -239,6 +187,6 @@
     </footer>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-    <script src="/static/app.js?v=20260219d"></script>
+    <script src="/static/app.js?v=20260220a"></script>
 </body>
 </html>
