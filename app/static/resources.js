@@ -219,7 +219,7 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "NHIF — National Health Insurance Medicine List", url: "https://www.nhif.bg/bg/medicine_food/medical-list/2023" }],
+                links: [{ label: "NHIF — National Health Insurance Medicine List", url: "https://www.nhif.bg/bg/medicine_food/medical-list/2024" }],
             },
         ],
         notes: "EMA centralised procedure is an alternative route to obtain marketing authorisation.",
@@ -406,7 +406,7 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "EDA — Drug Search", url: "http://196.46.22.218/edasearch/SearchRegDrugs.ASPX" }],
+                links: [{ label: "SAHPRA — Registered Health Products", url: "https://www.sahpra.org.za/" }],
             },
         ],
     },
@@ -424,7 +424,7 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "Raviminfo — Reimbursed Drugs and Prices", url: "http://www.raviminfo.ee/apthkiri.php" }],
+                links: [{ label: "Raviminfo — Reimbursed Drugs and Prices", url: "https://raviminfo.ee/apthkiri.php" }],
             },
             {
                 id: "additional",
@@ -487,7 +487,7 @@ const COUNTRIES = [
                 title: "Access & Pricing",
                 body: "Reimbursement listing and price are negotiated with CEPS (Comité Économique des Produits de Santé) based on the ASMR rating. Early access (Accès Précoce) is available for innovative products pending full HTA.",
                 links: [
-                    { label: "CEPS (Economic Committee for Health Products)", url: "https://solidarites-sante.gouv.fr/ministere/organisation/directions/article/ceps-comite-economique-des-produits-de-sante" },
+                    { label: "CEPS (Economic Committee for Health Products)", url: "https://sante.gouv.fr/ministere/acteurs/instances-rattachees/comite-economique-des-produits-de-sante-ceps/" },
                     { label: "HAS — Early Access (Accès Précoce)", url: "https://www.has-sante.fr/jcms/p_3269698/en/acces-precoce" },
                     { label: "ANSM — Medicines in Early/Compassionate Access", url: "https://ansm.sante.fr/documents/reference/medicaments-en-acces-derogatoires/les-acces-precoces-aap" },
                     { label: "Liste en sus (hospital drugs)", url: "https://sante.gouv.fr/soins-et-maladies/medicaments/professionnels-de-sante/autorisation-de-mise-sur-le-marche/la-liste-en-sus/" },
@@ -520,7 +520,7 @@ const COUNTRIES = [
 
 <h4 class="tips-heading">Reimbursement &amp; Pricing</h4>
 <ol>
-    <li>After a positive CT opinion (SMR ≥ Faible), the product enters price negotiation with <a href="https://solidarites-sante.gouv.fr/ministere/organisation/directions/article/ceps-comite-economique-des-produits-de-sante" target="_blank" rel="noopener">CEPS</a></li>
+    <li>After a positive CT opinion (SMR ≥ Faible), the product enters price negotiation with <a href="https://sante.gouv.fr/ministere/acteurs/instances-rattachees/comite-economique-des-produits-de-sante-ceps/" target="_blank" rel="noopener">CEPS</a></li>
     <li>Official reimbursement listing is published in the <strong>Journal Officiel</strong> (JO) — search on <a href="https://www.legifrance.gouv.fr" target="_blank" rel="noopener">Légifrance</a> for the product name to find the JO publication with the reimbursement rate (typically 65% or 100% for serious/chronic conditions)</li>
     <li>The <a href="https://base-donnees-publique.medicaments.gouv.fr" target="_blank" rel="noopener">BDPM</a> shows the current public price (Prix public TTC), reimbursement rate (taux de remboursement), and whether the product is on the T2A hospital list (GHS)</li>
     <li>For hospital-only products, check the <strong>Liste en sus</strong> — products on this list are reimbursed on top of the DRG tariff</li>
@@ -645,7 +645,7 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "NEAK — IRP Reimbursed Drugs", url: "http://neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc.html" }],
+                links: [{ label: "NEAK — IRP Reimbursed Drugs", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" }],
             },
             {
                 id: "additional",
@@ -950,7 +950,7 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "VLK — Price Search (Compensatory Medicines)", url: "http://kainynas.vlk.lt/idrug-public-app/search.0" }],
+                links: [{ label: "VLK — Compensated Medicines (Ligoniukasa)", url: "https://ligoniukasa.lrv.lt/" }],
             },
             {
                 id: "additional",
@@ -1238,7 +1238,7 @@ const COUNTRIES = [
                 id: "reimbursement",
                 title: "Reimbursement",
                 links: [
-                    { label: "CCHI — Insurance Drug Formulary", url: "https://chi.gov.sa/AboutCCHI/CCHIprograms/Pages/IDF.aspx" },
+                    { label: "CCHI — Insurance Drug Formulary", url: "https://www.chi.gov.sa/en/aboutchi/cchiprograms/Pages/IDF.aspx" },
                 ],
             },
         ],
@@ -1298,7 +1298,7 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "CBZ — Central Drug Database", url: "http://www.cbz.si/cbz/bazazdr2.nsf/Search/$searchForm?SearchView" }],
+                links: [{ label: "JAZMP — Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" }],
             },
             {
                 id: "reimbursement",
@@ -1317,7 +1317,6 @@ const COUNTRIES = [
                 title: "Market Authorization",
                 links: [
                     { label: "MFDS — National Drug Information System", url: "https://nedrug.mfds.go.kr/index" },
-                    { label: "MFDS — Drug Search (의약품 검색)", url: "http://drug.mfds.go.kr/html/index.jsp" },
                 ],
             },
             {
@@ -1325,7 +1324,7 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 links: [
                     { label: "HIRA — Insurance Coverage Criteria", url: "https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" },
-                    { label: "HIRA — Reimbursed Drug Price List (Excel)", url: "http://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" },
+                    { label: "HIRA — Reimbursed Drug Price List (Excel)", url: "https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" },
                     { label: "NECA — HTA Reports", url: "https://www.neca.re.kr/eng/index.do" },
                 ],
             },
@@ -1338,8 +1337,7 @@ const COUNTRIES = [
         tipsHtml: `
 <h4 class="tips-heading">Marketing Authorization (MFDS)</h4>
 <ol>
-    <li>Go to the <a href="http://drug.mfds.go.kr/html/index.jsp" target="_blank" rel="noopener">MFDS Drug Search</a> and search under the tab <strong>의약품(제품명)검색</strong> — a Korean speaker may be needed for the interface</li>
-    <li>Alternatively, search <a href="https://nedrug.mfds.go.kr/index" target="_blank" rel="noopener">nedrug.mfds.go.kr</a> — this portal has some English search capability</li>
+    <li>Go to <a href="https://nedrug.mfds.go.kr/index" target="_blank" rel="noopener">nedrug.mfds.go.kr</a> and search under the tab <strong>의약품(제품명)검색</strong> — this portal has some English search capability</li>
     <li>The approval document (허가사항) includes approved indications, dosage, and approval date</li>
 </ol>
 <p class="tips-note"><strong>Language note:</strong> The MFDS interface is primarily in Korean. Google Translate works for navigation, but drug names may not translate accurately. Try searching by INN in English or Korean (약물명).</p>
@@ -1350,7 +1348,7 @@ const COUNTRIES = [
     <li>On the <a href="https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" target="_blank" rel="noopener">HIRA Insurance Coverage Criteria page</a>, select <strong>제품명</strong> from the search dropdown and type the INN in English</li>
     <li>If the product has been reviewed, you will see an Assessment Outcome (평가 결과) — click the PDF icon to download the assessment report (enable pop-ups in your browser)</li>
     <li>The assessment report includes: clinical evidence summary, cost-effectiveness analysis, budget impact, and the HIRA Drug Reimbursement Evaluation Committee (DREC) recommendation</li>
-    <li>Download the full Excel database of all reimbursed drug prices from <a href="http://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" target="_blank" rel="noopener">HIRA's price list page</a> — the top row is the latest version. Drug names are searchable in Korean by INN or brand name</li>
+    <li>Download the full Excel database of all reimbursed drug prices from <a href="https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" target="_blank" rel="noopener">HIRA's price list page</a> — the top row is the latest version. Drug names are searchable in Korean by INN or brand name</li>
 </ol>
 
 <h4 class="tips-heading">HTA &amp; NECA</h4>
@@ -1572,7 +1570,7 @@ const COUNTRIES = [
     <li>If available, the product appears as a result. Note: unlike EMA/FDA, individual indication approval dates are not shown — read all results as the same drug may have different dates for different dosages or manufacturing sites</li>
     <li>Click the result link to view approved indications and manufacturer details</li>
 </ol>
-<p class="tips-note"><strong>Calendar note:</strong> Taiwan uses the Minguo calendar (e.g., 2020 = Minguo year 109). <a href="https://www.minguo.info/" target="_blank" rel="noopener">Convert Minguo to Gregorian here</a>.</p>
+<p class="tips-note"><strong>Calendar note:</strong> Taiwan uses the Minguo calendar (e.g., 2020 = Minguo year 109). <a href="https://www.calendar-converter.com/minguo/" target="_blank" rel="noopener">Convert Minguo to Gregorian here</a>.</p>
 
 <h4 class="tips-heading">Reimbursement Outcomes</h4>
 <p>HTA outcomes and reimbursement decisions assessed by the NHIA can be found using two methods.</p>
@@ -1625,7 +1623,7 @@ const COUNTRIES = [
 <ol>
     <li>Go to the <a href="https://www.nhi.gov.tw/QueryN/Query1.aspx" target="_blank" rel="noopener">NHI Drug Price Database</a></li>
     <li>Search by Chinese/English name, SKU, INN, or dosing strength</li>
-    <li>Prices are in New Taiwan Dollars (NTD). The date of the most recent price adjustment is shown in Minguo calendar — <a href="https://www.minguo.info/" target="_blank" rel="noopener">convert here</a></li>
+    <li>Prices are in New Taiwan Dollars (NTD). The date of the most recent price adjustment is shown in Minguo calendar — <a href="https://www.calendar-converter.com/minguo/" target="_blank" rel="noopener">convert here</a></li>
     <li>For locally recommended dosages, Google <code>[PRODUCT NAME] 台灣建議劑量</code> — may return HTA/TFDA reports, pharma company sites, or local hospital pages</li>
 </ol>
 <p class="tips-note"><strong>Note:</strong> Not all TFDA reports are available online.</p>
