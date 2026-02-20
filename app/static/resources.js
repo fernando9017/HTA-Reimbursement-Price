@@ -767,6 +767,7 @@ const COUNTRIES = [
                 title: "HTA & Reimbursement",
                 body: "AIFA manages drug reimbursement through classification: Classe A (reimbursed by SSN), Classe H (hospital-only, reimbursed), Classe C (not reimbursed — patient pays). The CTS (Commissione Tecnico Scientifica) evaluates clinical evidence, and the CPR (Comitato Prezzi e Rimborso) negotiates pricing.",
                 links: [
+                    { label: "TrovaNormeFarmaco — Latest AIFA Determinations", url: "https://trovanorme.aifa.gov.it/#/" },
                     { label: "AIFA — Class A & H Medicine Lists", url: "https://www.aifa.gov.it/en/liste-farmaci-a-h" },
                     { label: "AIFA — AIFA Notes (prescribing conditions)", url: "https://www.aifa.gov.it/en/note-aifa" },
                     { label: "AIFA — Registri di Monitoraggio", url: "https://www.aifa.gov.it/en/registri-farmaci-sottoposti-a-monitoraggio" },
@@ -778,10 +779,11 @@ const COUNTRIES = [
                 title: "Access & Pricing",
                 body: "Prices are negotiated between AIFA (CPR committee) and the manufacturer. Italy uses external reference pricing with a basket of EU countries. Managed entry agreements (MEAs) including payment-by-result and risk-sharing are common.",
                 links: [
+                    { label: "TrovaNormeFarmaco — Pricing & Classification Decisions", url: "https://trovanorme.aifa.gov.it/#/" },
                     { label: "AIFA — Liste di Trasparenza (off-patent reference prices)", url: "https://www.aifa.gov.it/en/liste-di-trasparenza" },
                     { label: "AIFA — Negotiation & Reimbursement", url: "https://www.aifa.gov.it/en/negoziazione-e-rimborsabilit%C3%A0" },
                     { label: "AIFA — Open Data", url: "https://www.aifa.gov.it/en/open-data" },
-                    { label: "Gazzetta Ufficiale (official pricing decisions)", url: "https://www.gazzettaufficiale.it/" },
+                    { label: "Gazzetta Ufficiale (historical decisions)", url: "https://www.gazzettaufficiale.it/" },
                 ],
             },
         ],
@@ -821,15 +823,16 @@ const COUNTRIES = [
     <li>Prescribers must register patients on the AIFA web platform before dispensing registry medicines — the registry enforces eligibility criteria and enables outcome tracking</li>
 </ol>
 
-<h4 class="tips-heading">Pricing</h4>
+<h4 class="tips-heading">Pricing &amp; Latest Decisions</h4>
 <ol>
+    <li><strong>Start here:</strong> <a href="https://trovanorme.aifa.gov.it/#/" target="_blank" rel="noopener">TrovaNormeFarmaco</a> is AIFA's official portal for all regulatory determinations — reimbursement, pricing, classification, and marketing authorisation decisions. Since April 2025, this replaced the Gazzetta Ufficiale as the primary publication channel, cutting publication timelines by ~32%. Search by product name, INN, or determination number</li>
     <li>The <a href="https://www.aifa.gov.it/en/liste-di-trasparenza" target="_blank" rel="noopener">Liste di Trasparenza</a> are published monthly (1st and 15th) with reference prices for off-patent medicines — available in PDF, XLS, and CSV formats</li>
-    <li>Official pricing determinations (Determine AIFA) are published in the <a href="https://www.gazzettaufficiale.it/" target="_blank" rel="noopener">Gazzetta Ufficiale</a> — search for the product name</li>
+    <li>The <a href="https://www.gazzettaufficiale.it/" target="_blank" rel="noopener">Gazzetta Ufficiale</a> contains historical pricing decisions (pre-April 2025) — still useful for older products</li>
     <li>The <a href="https://www.aifa.gov.it/en/open-data" target="_blank" rel="noopener">AIFA Open Data portal</a> provides downloadable datasets including pricing and consumption data</li>
     <li>Italy mandates payback mechanisms: manufacturers must reimburse the SSN if total pharmaceutical spending exceeds annual budget ceilings (tetti di spesa)</li>
     <li>Regional variation: while AIFA sets national prices, individual regions may negotiate additional discounts or manage hospital budgets differently</li>
 </ol>
-<p class="tips-note"><strong>Tip:</strong> AIFA has an English-language version of its website (use the /en/ prefix). The <a href="https://www.aifa.gov.it/en/trova-farmaco" target="_blank" rel="noopener">Trova Farmaco</a> search is the most reliable source for current pricing — it shows the official negotiated ex-factory and public prices.</p>
+<p class="tips-note"><strong>Tip:</strong> For the latest reimbursement and pricing decisions, always check <a href="https://trovanorme.aifa.gov.it/#/" target="_blank" rel="noopener">TrovaNormeFarmaco</a> first — it is the most current source. For product-level pricing data (ex-factory and public prices), use <a href="https://www.aifa.gov.it/en/trova-farmaco" target="_blank" rel="noopener">Trova Farmaco</a>. AIFA has an English-language version of its main website (use the /en/ prefix), but TrovaNormeFarmaco is in Italian only — use Google Translate.</p>
         `,
     },
     {
