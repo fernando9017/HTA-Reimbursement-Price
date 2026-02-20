@@ -1185,7 +1185,7 @@ countryCount.textContent = COUNTRIES.length;
 // Build all cards once; filter by toggling .hidden
 countryGrid.innerHTML = COUNTRIES.map(c => `
     <button class="country-flag-card" data-code="${esc(c.code)}" aria-label="${esc(c.name)}">
-        <span class="flag-icon">${c.flag}</span>
+        <span class="fi fi-${c.code.toLowerCase()} flag-icon" aria-hidden="true"></span>
         <span class="flag-label">${esc(c.name)}</span>
     </button>
 `).join("");
@@ -1217,7 +1217,7 @@ function openDetail(country, activeBtn) {
     countryGrid.querySelectorAll(".country-flag-card").forEach(b => b.classList.remove("active"));
     activeBtn.classList.add("active");
 
-    detailFlag.textContent = country.flag;
+    detailFlag.className = `fi fi-${country.code.toLowerCase()} resource-flag`;
     detailName.textContent = country.name;
 
     // For EU/EEA countries, inject EMA Centralised Procedure link into the
