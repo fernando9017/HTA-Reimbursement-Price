@@ -2096,59 +2096,61 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "The Directorate General of Pharmaceutical Affairs and Drug Control (DGPADC) under the Ministry of Health handles drug registration. Oman is a member of the GCC-DR (Gulf Cooperation Council \u2014 Drug Registration) centralised registration system, which allows a single application to cover all 6 GCC states.",
+                body: "The Drug Safety Center (formerly DGPADC) under the Ministry of Health handles drug registration under Royal Decree 35/2015. Oman is a member of the GCC-DR centralised registration system, which allows a single application to cover all 6 GCC states. Oman is one of four GCC countries with an accredited quality-testing laboratory for GCC-DR submissions.",
                 links: [
-                    { label: "MOH \u2014 Pharmaceutical Affairs", url: "https://www.moh.gov.om/en/web/dgpadc" },
+                    { label: "MOH \u2014 Drug Safety Center", url: "https://www.moh.gov.om/en/hospitals-directorates/directorates-and-centers-at-hq/drug-safety-center/" },
+                    { label: "MOH \u2014 Drug Registration & Prices", url: "https://moh.gov.om/en_us/web/dgpadc/-2" },
                     { label: "MOH \u2014 Official Website", url: "https://www.moh.gov.om/en" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "Drug prices in Oman are regulated by the Ministry of Health. Maximum retail prices (MRPs) are set during the registration process. Oman participates in GCC joint procurement initiatives for government hospitals. Wholesale and retail markup percentages are government-regulated.",
+                body: "Drug prices are regulated by the MOH at registration. Retail price = CIF price \u00d7 1.55 (55% fixed markup for imports; 34% for locally produced generics). Oman uses External Reference Pricing against 18\u201319 countries plus the country of origin (reduced from 31 in 2024). Medicines are tax-free. Prices are uniform across all regions.",
                 links: [
-                    { label: "MOH \u2014 Drug Pricing Information", url: "https://www.moh.gov.om/en/web/dgpadc/-/drugs" },
+                    { label: "MOH \u2014 Drug Registration & Prices", url: "https://moh.gov.om/en_us/web/dgpadc/-2" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Omani nationals receive free healthcare including medicines at government hospitals and health centres. The MOH hospital formulary determines which medicines are available in the public sector. There is no separate health insurance scheme for nationals \u2014 the government directly funds healthcare through the MOH budget.",
+                body: "Omani nationals receive free healthcare including medicines at government hospitals and health centres (government covers ~94% of health expenditure). The Oman National Formulary (ONF) guides prescribing in MOH facilities. Public procurement is centralised through DGMS (Directorate General of Medical Supplies) via the Esnad electronic tendering platform.",
                 links: [
-                    { label: "MOH \u2014 Health Services", url: "https://www.moh.gov.om/en/web/directorate-general-of-health-services" },
+                    { label: "MOH \u2014 DGMS (Medical Supplies)", url: "https://www.moh.gov.om/en/hospitals-directorates/directorates-and-centers-at-hq/directorate-general-of-medical-supplies/" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "GCC-DR (Gulf Centralised Drug Registration)", url: "https://gcc-sg.org/en-us/CooperationAndAchievements/Ede" },
-                    { label: "WHO \u2014 Oman Country Page", url: "https://www.who.int/countries/omn/" },
+                    { label: "GHC \u2014 Central Registration (GCC-DR)", url: "https://www.ghc.sa/en/central-registration/" },
+                    { label: "WHO EMRO \u2014 Oman Essential Medicines", url: "https://www.emro.who.int/omn/programmes/essential-medicines.html" },
+                    { label: "MOH \u2014 HTA Methodological Guidelines (2024, PDF)", url: "https://moh.gov.om/media/txzllfqa/book.pdf" },
                 ],
             },
         ],
         tipsHtml: `
 <h4 class="tips-heading">Market Authorization</h4>
 <ol>
-    <li>Oman uses two registration pathways: <strong>national registration</strong> through DGPADC, and <strong>GCC centralised registration</strong> through the GCC-DR office in Riyadh</li>
-    <li>Products registered centrally through GCC-DR are automatically recognised in all 6 GCC states (Bahrain, Kuwait, Oman, Qatar, Saudi Arabia, UAE)</li>
-    <li>Contact the <a href="https://www.moh.gov.om/en/web/dgpadc" target="_blank" rel="noopener">DGPADC</a> for registration status enquiries &mdash; an online searchable drug registry may not be publicly available</li>
+    <li>Oman uses two registration pathways: <strong>national registration</strong> through the Drug Safety Center, and <strong>GCC centralised registration</strong> through the <a href="https://www.ghc.sa/en/central-registration/" target="_blank" rel="noopener">GCC-DR</a> office in Riyadh</li>
+    <li>Products registered centrally through GCC-DR are recognised in all 6 GCC states after national finalisation (pricing + local certificate)</li>
+    <li>The <a href="https://moh.gov.om/en_us/web/dgpadc/-2" target="_blank" rel="noopener">MOH Drug Registration & Prices page</a> lists registered manufacturers and products, but there is no fully interactive searchable drug database</li>
 </ol>
 
 <h4 class="tips-heading">Pricing &amp; Procurement</h4>
 <ol>
-    <li>Drug prices are regulated at the point of registration &mdash; the MOH sets the Maximum Retail Price (MRP)</li>
-    <li>Government hospital procurement is through <strong>centralised tenders</strong> managed by the MOH, often at significant discounts to MRP</li>
-    <li>GCC joint procurement initiatives can cover high-cost medicines across member states</li>
+    <li>Retail price = <strong>CIF \u00d7 1.55</strong> (55% total markup for imports); locally produced generics have a lower 34% markup. Medicines are <strong>tax-free</strong></li>
+    <li>Oman uses <strong>External Reference Pricing</strong> against 18&ndash;19 countries (reduced from 31 in 2024 reforms) plus the country of origin, aligned with GCC price harmonisation</li>
+    <li>Government hospital procurement is through centralised tenders managed by <a href="https://www.moh.gov.om/en/hospitals-directorates/directorates-and-centers-at-hq/directorate-general-of-medical-supplies/" target="_blank" rel="noopener">DGMS</a> via the Esnad electronic tendering platform, often at significant discounts to MRP</li>
 </ol>
 
-<h4 class="tips-heading">Reimbursement</h4>
+<h4 class="tips-heading">Reimbursement &amp; HTA</h4>
 <ol>
-    <li><strong>Omani nationals</strong> receive free healthcare including medicines at all government facilities</li>
-    <li>Expatriates (who form a large portion of the population) generally access healthcare through employer-provided private insurance or self-pay</li>
-    <li>The public hospital formulary determines drug availability &mdash; there is no publicly accessible formulary list online</li>
+    <li><strong>Omani nationals</strong> receive free healthcare including medicines at all government facilities (government covers ~94% of health expenditure)</li>
+    <li>Expatriates access healthcare through employer-provided private insurance or self-pay</li>
+    <li>The <strong>Oman National Formulary (ONF)</strong> guides prescribing in MOH facilities &mdash; no publicly accessible online formulary search is available</li>
+    <li>Oman published its first <a href="https://moh.gov.om/media/txzllfqa/book.pdf" target="_blank" rel="noopener">HTA Methodological Guidelines</a> in 2024, with plans to establish a central HTA body under the MOH within 3&ndash;5 years</li>
 </ol>
-<p class="tips-note"><strong>Note:</strong> Oman has no formal HTA body. Drug selection for the hospital formulary relies on expert clinical committees within the MOH.</p>
         `,
     },
     {
