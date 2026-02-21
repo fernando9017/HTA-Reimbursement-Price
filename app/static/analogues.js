@@ -55,11 +55,36 @@ loadAnalogueFilters();
 async function loadAnalogueFilters() {
     try {
         const resp = await fetch("/api/analogues/filters");
+        if (resp.status === 503) {
+            showStatus(
+                analogueStatus,
+                "EMA data is still loading. The EMA database may be temporarily unreachable. " +
+                "Use the Reload button below to retry, or wait and refresh the page.",
+                "error"
+            );
+            analogueResultsDiv.innerHTML =
+                '<button class="btn-secondary" onclick="reloadData()" style="margin-top:8px">' +
+                'Reload EMA Data</button>';
+            return;
+        }
         if (!resp.ok) {
             showStatus(analogueStatus, "Failed to load filter options. Data may still be loading.", "error");
             return;
         }
         const data = await resp.json();
+
+        // Check if we actually got therapeutic areas (EMA data loaded)
+        if (!data.therapeutic_taxonomy || data.therapeutic_taxonomy.length === 0) {
+            showStatus(
+                analogueStatus,
+                "EMA medicine data could not be loaded. Therapeutic area filters are unavailable. " +
+                "Use the Reload button below to retry fetching from EMA.",
+                "error"
+            );
+            analogueResultsDiv.innerHTML =
+                '<button class="btn-secondary" onclick="reloadData()" style="margin-top:8px">' +
+                'Reload EMA Data</button>';
+        }
 
         // Therapeutic taxonomy (cascading dropdowns)
         therapeuticTaxonomy = data.therapeutic_taxonomy || [];
@@ -103,6 +128,33 @@ async function loadAnalogueFilters() {
         }
     } catch {
         showStatus(analogueStatus, "Failed to load filter options. Please try again.", "error");
+    }
+}
+
+async function reloadData() {
+    showStatus(analogueStatus, "Reloading EMA data from source...", "loading");
+    analogueResultsDiv.innerHTML = "";
+    try {
+        const resp = await fetch("/api/reload", { method: "POST" });
+        const result = await resp.json();
+        if (result.success) {
+            showStatus(analogueStatus, `Data reloaded successfully (${result.ema_count} medicines). Refreshing filters...`, "info");
+            setTimeout(() => loadAnalogueFilters(), 500);
+        } else {
+            const errMsg = result.errors && result.errors.length > 0
+                ? result.errors.join("; ")
+                : "Unknown error";
+            showStatus(
+                analogueStatus,
+                `Reload partially failed: ${errMsg}. ${result.ema_count > 0 ? "EMA data is available." : "EMA data is still unavailable."}`,
+                "error"
+            );
+            if (result.ema_count > 0) {
+                setTimeout(() => loadAnalogueFilters(), 500);
+            }
+        }
+    } catch (err) {
+        showStatus(analogueStatus, `Reload failed: ${err.message}`, "error");
     }
 }
 

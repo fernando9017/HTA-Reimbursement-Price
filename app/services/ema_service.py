@@ -4,9 +4,13 @@ Data source: EMA public JSON data file, updated twice daily.
 No authentication required.
 """
 
+import asyncio
+import json
 import logging
 import re
+from datetime import datetime
 from difflib import SequenceMatcher
+from pathlib import Path
 
 import httpx
 
@@ -14,6 +18,21 @@ from app.config import EMA_MEDICINES_URL, REQUEST_TIMEOUT
 from app.models import MedicineResult
 
 logger = logging.getLogger(__name__)
+
+# Standard browser-like headers to avoid being blocked by WAF/CDN
+_HTTP_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+# Maximum retries with exponential backoff
+_MAX_RETRIES = 3
+_RETRY_BASE_DELAY = 2  # seconds
 
 
 class EMAService:
@@ -37,14 +56,42 @@ class EMAService:
         return self._medicines
 
     async def load_data(self) -> None:
-        """Download and parse the EMA medicines JSON file."""
-        logger.info("Fetching EMA medicines data from %s", EMA_MEDICINES_URL)
-        async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT, follow_redirects=True) as client:
-            response = await client.get(EMA_MEDICINES_URL)
-            response.raise_for_status()
-            data = response.json()
+        """Download and parse the EMA medicines JSON file.
 
-        # The JSON may be a list directly or wrapped in an object
+        Retries with exponential backoff on failure.
+        """
+        logger.info("Fetching EMA medicines data from %s", EMA_MEDICINES_URL)
+        last_error: Exception | None = None
+
+        for attempt in range(_MAX_RETRIES):
+            try:
+                async with httpx.AsyncClient(
+                    timeout=REQUEST_TIMEOUT,
+                    follow_redirects=True,
+                    headers=_HTTP_HEADERS,
+                ) as client:
+                    response = await client.get(EMA_MEDICINES_URL)
+                    response.raise_for_status()
+                    data = response.json()
+
+                self._parse_json(data)
+                self._loaded = True
+                logger.info("Loaded %d medicines from EMA", len(self._medicines))
+                return
+            except Exception as e:
+                last_error = e
+                if attempt < _MAX_RETRIES - 1:
+                    delay = _RETRY_BASE_DELAY * (2 ** attempt)
+                    logger.warning(
+                        "EMA fetch attempt %d/%d failed: %s — retrying in %ds",
+                        attempt + 1, _MAX_RETRIES, e, delay,
+                    )
+                    await asyncio.sleep(delay)
+
+        raise last_error  # type: ignore[misc]
+
+    def _parse_json(self, data: object) -> None:
+        """Parse the EMA JSON response into the internal medicines list."""
         if isinstance(data, list):
             self._medicines = data
         elif isinstance(data, dict):
@@ -59,8 +106,47 @@ class EMAService:
         else:
             self._medicines = []
 
-        self._loaded = True
-        logger.info("Loaded %d medicines from EMA", len(self._medicines))
+    # ── File-based caching ──────────────────────────────────────────
+
+    def load_from_file(self, data_file: Path) -> bool:
+        """Load EMA medicine data from a local JSON cache file.
+
+        Returns True if data was loaded successfully.
+        """
+        try:
+            if not data_file.exists():
+                return False
+            with open(data_file, encoding="utf-8") as fh:
+                envelope = json.load(fh)
+            medicines = envelope.get("data", [])
+            if not medicines:
+                return False
+            self._medicines = medicines
+            self._loaded = True
+            logger.info(
+                "EMA data loaded from cache (%s): %d medicines (cached at %s)",
+                data_file.name, len(self._medicines),
+                envelope.get("updated_at", "unknown"),
+            )
+            return True
+        except Exception:
+            logger.warning("Could not load EMA cache from %s", data_file)
+            return False
+
+    def save_to_file(self, data_file: Path) -> None:
+        """Save the currently loaded EMA data to a local JSON cache file."""
+        if not self._loaded or not self._medicines:
+            return
+        data_file.parent.mkdir(parents=True, exist_ok=True)
+        envelope = {
+            "source": "EMA",
+            "updated_at": datetime.now().isoformat(timespec="seconds"),
+            "record_count": len(self._medicines),
+            "data": self._medicines,
+        }
+        with open(data_file, "w", encoding="utf-8") as fh:
+            json.dump(envelope, fh, ensure_ascii=False)
+        logger.info("EMA data cached to %s (%d medicines)", data_file, len(self._medicines))
 
     def search(self, query: str, limit: int = 20) -> list[MedicineResult]:
         """Search medicines by name or active substance.

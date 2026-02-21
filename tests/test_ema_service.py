@@ -1,6 +1,8 @@
 """Tests for the EMA service search logic using sample data."""
 
+import json
 import pytest
+from pathlib import Path
 
 from app.services.ema_service import EMAService
 
@@ -121,3 +123,55 @@ def test_not_loaded():
     assert service.is_loaded is False
     results = service.search("anything")
     assert len(results) == 0
+
+
+# ── File-based caching ──────────────────────────────────────────────
+
+
+def test_save_and_load_from_file(ema_service, tmp_path):
+    """save_to_file + load_from_file round-trips correctly."""
+    cache_file = tmp_path / "EMA.json"
+
+    ema_service.save_to_file(cache_file)
+    assert cache_file.exists()
+
+    # Verify JSON structure
+    with open(cache_file) as fh:
+        envelope = json.load(fh)
+    assert envelope["source"] == "EMA"
+    assert envelope["record_count"] == 5
+    assert len(envelope["data"]) == 5
+
+    # Load into a fresh service
+    new_service = EMAService()
+    assert new_service.load_from_file(cache_file) is True
+    assert new_service.is_loaded is True
+    assert new_service.medicine_count == 5
+
+    # Search should work on the loaded data
+    results = new_service.search("Keytruda")
+    assert len(results) >= 1
+    assert results[0].name == "Keytruda"
+
+
+def test_load_from_file_missing(tmp_path):
+    """load_from_file returns False for non-existent file."""
+    service = EMAService()
+    assert service.load_from_file(tmp_path / "nonexistent.json") is False
+    assert service.is_loaded is False
+
+
+def test_load_from_file_empty(tmp_path):
+    """load_from_file returns False for empty data."""
+    cache_file = tmp_path / "EMA.json"
+    cache_file.write_text(json.dumps({"source": "EMA", "data": []}))
+    service = EMAService()
+    assert service.load_from_file(cache_file) is False
+
+
+def test_save_not_loaded(tmp_path):
+    """save_to_file is a no-op when not loaded."""
+    cache_file = tmp_path / "EMA.json"
+    service = EMAService()
+    service.save_to_file(cache_file)
+    assert not cache_file.exists()
