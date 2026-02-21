@@ -74,12 +74,28 @@ class AssessmentResponse(BaseModel):
 # ── Analogue Selection models ────────────────────────────────────────
 
 
+class HTACountrySummary(BaseModel):
+    """Summary of HTA outcomes for one country."""
+
+    country_code: str
+    agency: str
+    has_assessment: bool = False
+    latest_date: str = ""
+    rating: str = ""
+    rating_detail: str = ""
+
+
 class AnalogueResult(BaseModel):
-    """A potential analogue medicine from EMA data."""
+    """A potential analogue medicine from EMA data.
+
+    When indication_keyword is used, a product may appear multiple times
+    — once per matching indication segment.
+    """
 
     name: str
     active_substance: str
     therapeutic_indication: str = ""
+    indication_segment: str = ""
     authorisation_status: str = ""
     ema_number: str = ""
     therapeutic_area: str = ""
@@ -99,6 +115,13 @@ class AnalogueResult(BaseModel):
     new_active_substance: bool = False
     medicine_type: str = ""
     prevalence_category: str = ""
+    # Line of therapy / treatment context
+    line_of_therapy: list[str] = []
+    treatment_setting: list[str] = []
+    # Evidence package signals
+    evidence_tier: str = ""
+    # HTA cross-reference
+    hta_summaries: list[HTACountrySummary] = []
 
 
 class YearRange(BaseModel):
@@ -128,6 +151,10 @@ class FilterOptions(BaseModel):
     mahs: list[str]
     atc_prefixes: list[ATCPrefix]
     prevalence_categories: list[str]
+    lines_of_therapy: list[str] = []
+    treatment_settings: list[str] = []
+    evidence_tiers: list[str] = []
+    hta_countries: list[str] = []
 
 
 class AnalogueResponse(BaseModel):

@@ -3,7 +3,8 @@
 Uses EMA medicine data to find analogues for a given therapy based on
 configurable filters: therapeutic area, orphan status, years since
 approval, first approval, authorisation status, ATC code, marketing
-authorisation holder, regulatory pathway flags, and prevalence category.
+authorisation holder, regulatory pathway flags, prevalence category,
+line of therapy, treatment setting, evidence tier, and HTA outcomes.
 """
 
 import logging
@@ -11,6 +12,151 @@ import re
 from datetime import date, timedelta
 
 logger = logging.getLogger(__name__)
+
+# ── Line of therapy extraction ────────────────────────────────────────
+
+LINE_OF_THERAPY_PATTERNS: dict[str, list[str]] = {
+    "1L / First-line": [
+        r"\bfirst[- ]line\b",
+        r"\b1st[- ]line\b",
+        r"\b1L\b",
+        r"\btreatment[- ]na[iï]ve\b",
+        r"\bpreviously untreated\b",
+        r"\bnewly diagnosed\b",
+        r"\binitial therapy\b",
+        r"\bfront[- ]line\b",
+    ],
+    "2L / Second-line": [
+        r"\bsecond[- ]line\b",
+        r"\b2nd[- ]line\b",
+        r"\b2L\b",
+        r"\bpreviously treated\b",
+        r"\bafter.*(?:prior|previous|failure)\b",
+        r"\brelapsed\b",
+        r"\brefractory\b",
+    ],
+    "3L+ / Later-line": [
+        r"\bthird[- ]line\b",
+        r"\b3rd[- ]line\b",
+        r"\b3L\b",
+        r"\blater[- ]line\b",
+        r"\bheavily pretreated\b",
+        r"\bmultiple prior\b",
+    ],
+    "Adjuvant": [
+        r"\badjuvant\b",
+    ],
+    "Neoadjuvant": [
+        r"\bneoadjuvant\b",
+        r"\bneo-adjuvant\b",
+    ],
+    "Maintenance": [
+        r"\bmaintenance\b",
+    ],
+}
+
+TREATMENT_SETTING_PATTERNS: dict[str, list[str]] = {
+    "Monotherapy": [
+        r"\bmonotherapy\b",
+        r"\bas a single agent\b",
+        r"\bas monotherapy\b",
+    ],
+    "Combination": [
+        r"\bcombination\b",
+        r"\bin combination with\b",
+        r"\bwith (?:chemotherapy|radiotherapy|platinum)\b",
+    ],
+}
+
+# Compiled regex cache
+_LOT_COMPILED: dict[str, list[re.Pattern]] = {
+    lot: [re.compile(p, re.IGNORECASE) for p in patterns]
+    for lot, patterns in LINE_OF_THERAPY_PATTERNS.items()
+}
+_SETTING_COMPILED: dict[str, list[re.Pattern]] = {
+    s: [re.compile(p, re.IGNORECASE) for p in patterns]
+    for s, patterns in TREATMENT_SETTING_PATTERNS.items()
+}
+
+
+def _extract_line_of_therapy(text: str) -> list[str]:
+    """Extract line-of-therapy labels from indication text."""
+    found: list[str] = []
+    for lot, patterns in _LOT_COMPILED.items():
+        for pat in patterns:
+            if pat.search(text):
+                found.append(lot)
+                break
+    return found
+
+
+def _extract_treatment_setting(text: str) -> list[str]:
+    """Extract treatment setting labels from indication text."""
+    found: list[str] = []
+    for setting, patterns in _SETTING_COMPILED.items():
+        for pat in patterns:
+            if pat.search(text):
+                found.append(setting)
+                break
+    return found
+
+
+def _classify_evidence_tier(
+    conditional: bool, exceptional: bool, accelerated: bool,
+    new_active_substance: bool, orphan: bool,
+) -> str:
+    """Infer evidence tier from regulatory pathway flags.
+
+    Returns a label indicating the likely robustness of the evidence package.
+    """
+    if conditional:
+        return "Conditional (limited data)"
+    if exceptional:
+        return "Exceptional circumstances"
+    if accelerated and new_active_substance:
+        return "Accelerated (strong package)"
+    if orphan:
+        return "Orphan (may have smaller trials)"
+    return "Standard"
+
+
+def _split_indications(text: str) -> list[str]:
+    """Split a multi-indication text into individual indication segments.
+
+    EMA indication text may contain multiple indications separated by bullets,
+    numbered lists, or clear sentence boundaries. This function attempts to
+    split them while keeping each segment meaningful.
+    """
+    if not text or not text.strip():
+        return [text] if text else []
+
+    # Try bullet/numbered list patterns first
+    # Pattern: lines starting with "- ", "• ", "– ", or "1. ", "2. " etc.
+    lines = text.split("\n")
+    bullet_lines = [
+        l.strip() for l in lines
+        if re.match(r"^\s*(?:[-•–]\s+|\d+[.)]\s+)", l.strip())
+    ]
+    if len(bullet_lines) >= 2:
+        return [re.sub(r"^[-•–]\s+|\d+[.)]\s+", "", bl).strip() for bl in bullet_lines]
+
+    # Try splitting on "indicated for the treatment of:" followed by
+    # separate clauses with semicolons or " - "
+    # Common pattern: "Product is indicated for: indication1; indication2; ..."
+    colon_match = re.search(r"indicated\s+(?:for|in)\s*:?\s*", text, re.IGNORECASE)
+    if colon_match:
+        rest = text[colon_match.end():]
+        # Split on " - " dashes used as separators
+        dash_parts = re.split(r"\s*[-–]\s+(?=[A-Z])", rest)
+        if len(dash_parts) >= 2:
+            return [p.strip().rstrip(".;,") for p in dash_parts if p.strip()]
+        # Split on semicolons
+        semi_parts = [p.strip().rstrip(".;,") for p in rest.split(";") if p.strip()]
+        if len(semi_parts) >= 2:
+            return semi_parts
+
+    # If no clear delimiters, return as single indication
+    return [text.strip()]
 
 # ── Therapeutic area taxonomy ─────────────────────────────────────────
 # Broad categories with keyword-based classification and sub-categories.
@@ -383,6 +529,9 @@ class AnalogueService:
         self._therapeutic_taxonomy: dict[str, list[str]] = {}
         self._mahs: list[str] = []
         self._atc_prefixes: list[str] = []
+        # HTA cross-reference: substance_lower → {country_code → summary_dict}
+        self._hta_summaries: dict[str, dict[str, dict]] = {}
+        self._hta_countries: list[str] = []
         self._loaded = False
 
     @property
@@ -495,6 +644,18 @@ class AnalogueService:
                 therapeutic_area, indication, atc_code,
             )
 
+            # Line of therapy and treatment setting (from indication text)
+            lot = _extract_line_of_therapy(indication)
+            treatment_setting = _extract_treatment_setting(indication)
+
+            # Evidence tier (from regulatory pathway flags)
+            evidence_tier = _classify_evidence_tier(
+                conditional, exceptional, accelerated, new_active_substance, orphan,
+            )
+
+            # Split indications into segments
+            indication_segments = _split_indications(indication)
+
             # Track taxonomy (category → subcategories that exist in data)
             if t_category:
                 if t_category not in taxonomy_index:
@@ -527,6 +688,7 @@ class AnalogueService:
                 "name": name,
                 "active_substance": substance,
                 "therapeutic_indication": indication,
+                "indication_segments": indication_segments,
                 "authorisation_status": status,
                 "ema_number": ema_number,
                 "therapeutic_area": therapeutic_area,
@@ -545,6 +707,9 @@ class AnalogueService:
                 "new_active_substance": new_active_substance,
                 "medicine_type": medicine_type,
                 "prevalence_category": prevalence,
+                "line_of_therapy": lot,
+                "treatment_setting": treatment_setting,
+                "evidence_tier": evidence_tier,
             }
             enriched.append(record)
 
@@ -581,12 +746,48 @@ class AnalogueService:
     def get_therapeutic_areas(self) -> list[str]:
         return self._therapeutic_areas
 
+    def unique_substances(self) -> list[str]:
+        """Return sorted list of unique active substances."""
+        return sorted({
+            med["active_substance"]
+            for med in self._medicines
+            if med["active_substance"]
+        })
+
+    def set_hta_summaries(
+        self,
+        summaries: dict[str, dict[str, dict]],
+        countries: list[str],
+    ) -> None:
+        """Store pre-computed HTA cross-reference data.
+
+        Args:
+            summaries: substance_lower → {country_code → summary_dict}
+            countries: list of country codes with loaded HTA data
+        """
+        self._hta_summaries = summaries
+        self._hta_countries = countries
+        logger.info(
+            "HTA cross-reference loaded: %d substances with assessments across %s",
+            len(summaries), ", ".join(countries),
+        )
+
     def get_filter_options(self) -> dict:
         """Return all available filter options for the frontend."""
         statuses: set[str] = set()
+        lot_set: set[str] = set()
+        setting_set: set[str] = set()
+        tier_set: set[str] = set()
         for med in self._medicines:
             if med["authorisation_status"]:
                 statuses.add(med["authorisation_status"])
+            for lot in med.get("line_of_therapy", []):
+                lot_set.add(lot)
+            for s in med.get("treatment_setting", []):
+                setting_set.add(s)
+            tier = med.get("evidence_tier", "")
+            if tier:
+                tier_set.add(tier)
 
         return {
             "therapeutic_areas": self._therapeutic_areas,
@@ -608,6 +809,10 @@ class AnalogueService:
                 for code in self._atc_prefixes
             ],
             "prevalence_categories": ["ultra-rare", "rare", "non-rare"],
+            "lines_of_therapy": sorted(lot_set),
+            "treatment_settings": sorted(setting_set),
+            "evidence_tiers": sorted(tier_set),
+            "hta_countries": self._hta_countries,
         }
 
     def search(
@@ -632,9 +837,17 @@ class AnalogueService:
         new_active_substance: str = "",
         prevalence_category: str = "",
         indication_keyword: str = "",
+        line_of_therapy: str = "",
+        treatment_setting: str = "",
+        evidence_tier: str = "",
+        hta_country: str = "",
         limit: int = 200,
     ) -> list[dict]:
-        """Search for analogue medicines matching the given filters."""
+        """Search for analogue medicines matching the given filters.
+
+        When indication_keyword is provided, results are expanded to
+        per-indication rows (one row per matching indication segment).
+        """
         if not self._loaded:
             return []
 
@@ -659,6 +872,10 @@ class AnalogueService:
         mah_lower = mah.lower().strip()
         prevalence_lower = prevalence_category.lower().strip()
         keyword_lower = indication_keyword.lower().strip()
+        lot_filter = line_of_therapy.strip()
+        setting_filter = treatment_setting.strip()
+        tier_filter = evidence_tier.strip().lower()
+        hta_filter = hta_country.upper().strip()
 
         for med in self._medicines:
             # Filter: therapeutic category (broad)
@@ -748,14 +965,92 @@ class AnalogueService:
             if prevalence_lower and med["prevalence_category"] != prevalence_lower:
                 continue
 
-            # Filter: indication keyword search
-            if keyword_lower and keyword_lower not in med["therapeutic_indication"].lower():
+            # Filter: line of therapy
+            if lot_filter and lot_filter not in med.get("line_of_therapy", []):
                 continue
 
-            results.append(med)
+            # Filter: treatment setting
+            if setting_filter and setting_filter not in med.get("treatment_setting", []):
+                continue
+
+            # Filter: evidence tier
+            if tier_filter and med.get("evidence_tier", "").lower() != tier_filter:
+                continue
+
+            # Filter: HTA country (only show medicines with an HTA assessment in this country)
+            if hta_filter:
+                subst_key = med["active_substance"].lower().strip()
+                hta_data = self._hta_summaries.get(subst_key, {})
+                if hta_filter not in hta_data:
+                    continue
+
+            # Filter: indication keyword search — with per-indication expansion
+            if keyword_lower:
+                segments = med.get("indication_segments", [med["therapeutic_indication"]])
+                matching_segments = [
+                    seg for seg in segments if keyword_lower in seg.lower()
+                ]
+                if not matching_segments:
+                    continue
+                # Expand to per-indication rows
+                for seg in matching_segments:
+                    row = self._build_result_row(med, indication_segment=seg)
+                    results.append(row)
+                continue
+
+            results.append(self._build_result_row(med))
 
         results.sort(key=lambda r: r.get("authorisation_date", ""), reverse=True)
         return results[:limit]
+
+    def _build_result_row(
+        self, med: dict, indication_segment: str = "",
+    ) -> dict:
+        """Build a result dict from a medicine record, attaching HTA summaries."""
+        subst_key = med["active_substance"].lower().strip()
+        hta_data = self._hta_summaries.get(subst_key, {})
+        hta_list = [
+            {
+                "country_code": cc,
+                "agency": summary["agency"],
+                "has_assessment": True,
+                "latest_date": summary.get("latest_date", ""),
+                "rating": summary.get("rating", ""),
+                "rating_detail": summary.get("rating_detail", ""),
+            }
+            for cc, summary in hta_data.items()
+        ]
+
+        row = {
+            "name": med["name"],
+            "active_substance": med["active_substance"],
+            "therapeutic_indication": med["therapeutic_indication"],
+            "indication_segment": indication_segment,
+            "authorisation_status": med["authorisation_status"],
+            "ema_number": med["ema_number"],
+            "therapeutic_area": med["therapeutic_area"],
+            "therapeutic_category": med["therapeutic_category"],
+            "therapeutic_subcategory": med["therapeutic_subcategory"],
+            "orphan_medicine": med["orphan_medicine"],
+            "authorisation_date": med["authorisation_date"],
+            "first_approval": med["first_approval"],
+            "url": med["url"],
+            "generic": med["generic"],
+            "biosimilar": med["biosimilar"],
+            "atc_code": med["atc_code"],
+            "marketing_authorisation_holder": med["marketing_authorisation_holder"],
+            "conditional_approval": med["conditional_approval"],
+            "exceptional_circumstances": med["exceptional_circumstances"],
+            "accelerated_assessment": med["accelerated_assessment"],
+            "new_active_substance": med["new_active_substance"],
+            "medicine_type": med["medicine_type"],
+            "prevalence_category": med["prevalence_category"],
+            "line_of_therapy": med.get("line_of_therapy", []),
+            "treatment_setting": med.get("treatment_setting", []),
+            "evidence_tier": med.get("evidence_tier", ""),
+            "hta_summaries": hta_list,
+        }
+        return row
 
 
 def _get_str(data: dict, *keys: str) -> str:
