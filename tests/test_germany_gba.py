@@ -274,3 +274,77 @@ def test_parse_invalid_xml():
     service = GermanyGBA()
     result = service._parse_xml(b"not xml at all")
     assert result == []
+
+
+def test_procedure_id_extracted_from_trailing_number():
+    """The procedure URL should use the trailing sequential number, not the year.
+
+    Regression test: previously re.search(r'(\\d{2,})', '2024-01-15-D-1234')
+    would match '2024' (the year) instead of '1234' (the actual procedure ID).
+    The fixed pattern looks for a '-D-<digits>' suffix first, then falls back
+    to the last numeric segment.
+    """
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<G-BA_Beschluss_Info>'
+        '<Beschluss>'
+        '<ID_BE_AKZ>2024-01-15-D-1234</ID_BE_AKZ>'
+        '<DAT_BESCHLUSS>2024-06-01</DAT_BESCHLUSS>'
+        '<AWG>Mammakarzinom</AWG>'
+        '<WS_BEW><NAME_WS>Inavolisib</NAME_WS></WS_BEW>'
+        '<HN><NAME_HN ID_HN="1">Itovebi</NAME_HN></HN>'
+        '<PAT_GR>'
+        '<ID_PAT_GR>a</ID_PAT_GR>'
+        '<BEZ_PAT_GR>HR-positive, HER2-negative Mammakarzinom</BEZ_PAT_GR>'
+        '<ZN_W>betr\u00e4chtlich</ZN_W>'
+        '<AUSSAGESICHERHEIT>Hinweis</AUSSAGESICHERHEIT>'
+        '</PAT_GR>'
+        '</Beschluss>'
+        '</G-BA_Beschluss_Info>'
+    ).encode("utf-8")
+    service = GermanyGBA()
+    decisions = service._parse_xml(xml)
+    assert len(decisions) == 1
+    # procedure_id must be "1234", not "2024"
+    assert decisions[0]["procedure_id"] == "1234"
+
+
+@pytest.mark.asyncio
+async def test_search_inavolisib(gba_service):
+    """Confirm substance-name matching is case-insensitive."""
+    # Inject an inavolisib entry into the fixture service
+    gba_service._decisions.append({
+        "decision_id": "2024-01-15-D-1234",
+        "procedure_id": "1234",
+        "substances": ["Inavolisib"],
+        "trade_names": ["Itovebi"],
+        "indication": "Mammakarzinom",
+        "decision_date": "2024-06-01",
+        "benefit_rating": "beträchtlich",
+        "evidence_level": "Hinweis",
+        "comparator": "Fulvestrant",
+        "patient_group": "HR-positive, HER2-negative Mammakarzinom",
+    })
+    results = await gba_service.search_assessments("inavolisib")
+    assert len(results) >= 1
+    assert any("Itovebi" in r.product_name for r in results)
+    assert any(r.benefit_rating == "beträchtlich" for r in results)
+
+
+@pytest.mark.asyncio
+async def test_search_itovebi_by_product_name(gba_service):
+    """Trade-name search for itovebi should find inavolisib entries."""
+    gba_service._decisions.append({
+        "decision_id": "2024-01-15-D-1234",
+        "procedure_id": "1234",
+        "substances": ["Inavolisib"],
+        "trade_names": ["Itovebi"],
+        "indication": "Mammakarzinom",
+        "decision_date": "2024-06-01",
+        "benefit_rating": "gering",
+        "evidence_level": "Beleg",
+        "comparator": "Fulvestrant",
+        "patient_group": "HR-positive Mammakarzinom",
+    })
+    results = await gba_service.search_assessments("nomatch", product_name="Itovebi")
+    assert len(results) >= 1

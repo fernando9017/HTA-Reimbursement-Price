@@ -305,13 +305,18 @@ def _extract_keywords(text: str) -> set[str]:
 
 
 def _assessment_text(a: AssessmentResult) -> str:
-    """Build a searchable text string from an assessment's relevant fields."""
-    return " ".join([
+    """Build a searchable text string from an assessment's relevant fields.
+
+    Includes summary_en so that German assessments (whose other fields are in
+    German) can still be matched via their English-language summary.
+    """
+    return " ".join(filter(None, [
         a.evaluation_reason,
         a.patient_group,
         a.smr_description,
         a.asmr_description,
-    ]).lower()
+        a.summary_en,
+    ])).lower()
 
 
 def _filter_by_indication(

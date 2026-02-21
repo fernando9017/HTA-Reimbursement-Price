@@ -1318,6 +1318,49 @@ def test_split_indications_multiple_is_indicated_sentences():
     assert len(segments) == 2
 
 
+def test_split_indications_continuation_not_split():
+    """Product name reappearing in a NON-indication sentence must NOT cause a split.
+
+    Regression test for the itovebi bug: a single-indication drug whose text
+    contains a continuation sentence starting with the product name (e.g. a
+    pharmacokinetics or study-exclusion note) was incorrectly split into two
+    indications.
+    """
+    text = (
+        "Itovebi in combination with palbociclib and fulvestrant is indicated "
+        "for the treatment of adult patients with HR-positive, HER2-negative "
+        "locally advanced or metastatic breast cancer with a PIK3CA mutation "
+        "who have received prior endocrine-based therapy. "
+        "Itovebi has not been studied in patients who have previously received "
+        "CDK4/6 inhibitor therapy."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 1, (
+        "A continuation sentence starting with the product name should not "
+        "create a second indication when it does not contain 'is indicated'."
+    )
+
+
+def test_split_indications_product_name_only_splits_on_is_indicated():
+    """Splitting on product name requires both parts to be indication clauses."""
+    # First part has "is indicated"; second does NOT → single result
+    text = (
+        "Padcev is indicated for the treatment of urothelial carcinoma. "
+        "Padcev should be administered by a healthcare professional."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 1
+
+    # Both parts have "is indicated" → two results
+    text2 = (
+        "Padcev as monotherapy is indicated for urothelial carcinoma. "
+        "Padcev in combination with pembrolizumab is indicated for "
+        "first-line urothelial carcinoma."
+    )
+    segments2 = _split_indications(text2)
+    assert len(segments2) == 2
+
+
 # ── Indication-specific HTA matching ─────────────────────────────────
 
 
