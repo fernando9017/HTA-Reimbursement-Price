@@ -1,4 +1,4 @@
-"""FastAPI application for HTA Reimbursement Price assessment lookup."""
+"""FastAPI application for VAP Global Resources — Value, Access & Pricing."""
 
 import logging
 import re
@@ -69,8 +69,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="HTA Reimbursement Price Finder",
-    description="Search EMA-authorized medicines and find HTA assessment outcomes by country.",
+    title="VAP Global Resources",
+    description="Value, Access & Pricing — Search EMA-authorized medicines and find HTA assessment outcomes by country.",
     version="0.1.0",
     lifespan=lifespan,
 )

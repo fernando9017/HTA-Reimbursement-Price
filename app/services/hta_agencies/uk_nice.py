@@ -76,7 +76,7 @@ class UKNICE(HTAAgency):
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={
-                "User-Agent": "HTA-Assessment-Finder/0.1 (research tool)",
+                "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
                 "Accept": "text/html",
             },
         ) as client:

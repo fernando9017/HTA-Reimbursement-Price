@@ -1,6 +1,6 @@
-# HTA Assessment Finder
+# VAP Global Resources
 
-A web application to search for EMA-authorized medicines and retrieve HTA (Health Technology Assessment) outcomes by country. Currently supports **France (HAS)** with an architecture designed to expand to **Germany (G-BA)** and **UK (NICE)**.
+A Value, Access & Pricing (VAP) web application to search for EMA-authorized medicines and retrieve HTA assessment outcomes, reimbursement decisions, and analogue selection across multiple countries. Currently supports **France (HAS)**, **Germany (G-BA)**, **UK (NICE)**, **Spain (AEMPS)**, and **Japan (PMDA)**.
 
 ## How It Works
 

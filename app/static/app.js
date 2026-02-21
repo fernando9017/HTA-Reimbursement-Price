@@ -1,5 +1,5 @@
 /**
- * HTA Assessment Finder — Frontend Application
+ * VAP Global Resources — Frontend Application
  *
  * Two modules:
  *   1. HTA & Reimbursement: Search medicine → View EMA indications → Select country → View assessments
