@@ -659,20 +659,22 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "The CNPMDM (Comisi\u00f3n Nacional de Precios de Medicamentos y Dispositivos M\u00e9dicos) regulates drug prices. Medicines under price control are subject to a Maximum Reported Price (PMR). SISMED is the national price information system where manufacturers and distributors report transaction prices.",
+                body: "The CNPMDM regulates drug prices under three regimes: Libertad Vigilada (monitored freedom, default for all medicines), Control Directo (maximum sale price set by CNPMDM using ERP against 19 countries), and Libertad Regulada (not actively applied). SISMED collects transaction prices from manufacturers and distributors. The Term\u00f3metro de Precios tool shows whether observed prices are normal, low, or high.",
                 links: [
-                    { label: "CNPMDM \u2014 Drug Price Regulation Circulars", url: "https://www.minsalud.gov.co/salud/MT/Paginas/comision-nacional-de-precios-de-medicamentos.aspx" },
-                    { label: "SISMED \u2014 Drug Price Information System", url: "https://www.sispro.gov.co/Central-Medicamentos/Paginas/Consultas-Medicamentos.aspx" },
+                    { label: "CNPMDM \u2014 Price Regulation", url: "https://minsalud.gov.co/salud/MT/paginas/medicamentos-regulacion-precios.aspx" },
+                    { label: "SISMED \u2014 Public Price Data", url: "https://www.datos.gov.co/Salud-y-Protecci-n-Social/Consulta-p-blica-de-Precios-de-Medicamentos/3he6-m866" },
+                    { label: "Term\u00f3metro de Precios (price comparison tool)", url: "https://www.minsalud.gov.co/salud/MT/Paginas/termometro-de-precios.aspx" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "The PBS (Plan de Beneficios en Salud, formerly POS) defines the benefits package covered by the mandatory health system (contributory and subsidised regimes). ADRES (Administradora de los Recursos del SGSSS) manages reimbursement of high-cost medicines not included in PBS. IETS (Instituto de Evaluaci\u00f3n Tecnol\u00f3gica en Salud) conducts HTA evaluations to inform coverage decisions.",
+                body: "The PBS (Plan de Beneficios en Salud) defines the benefits package for both contributory and subsidised regimes (unified since 2012). Non-PBS medicines are prescribed via MIPRES (digital platform \u2014 physicians prescribe directly, EPS must deliver within 5 days). ADRES manages financing through Presupuestos M\u00e1ximos (annual budgets to EPS). IETS is Colombia\u2019s HTA body (INAHTA member).",
                 links: [
                     { label: "IETS (HTA Institute)", url: "https://www.iets.org.co/" },
                     { label: "ADRES \u2014 Health System Resources", url: "https://www.adres.gov.co/" },
                     { label: "MINSALUD \u2014 PBS Medicines List", url: "https://www.minsalud.gov.co/salud/POS/Paginas/plan-obligatorio-de-salud-pos.aspx" },
+                    { label: "PBS Medicines (Open Data)", url: "https://www.datos.gov.co/Salud-y-Protecci-n-Social/MEDICAMENTOS-POS/a7iv-sme8" },
                 ],
             },
             {
@@ -686,24 +688,25 @@ const COUNTRIES = [
         tipsHtml: `
 <h4 class="tips-heading">Market Authorization</h4>
 <ol>
-    <li>Search the <a href="https://consultaregistro.invima.gov.co/Consultas/consultas/consreg_encabcum.jsp" target="_blank" rel="noopener">INVIMA Consulta Registro</a> by product name, active ingredient, or registration number</li>
-    <li>The portal may require a Colombian IP address or VPN &mdash; try Opera browser&rsquo;s built-in VPN (Americas location) if access is blocked</li>
+    <li>Search the <a href="https://consultaregistro.invima.gov.co/Consultas/consultas/consreg_encabcum.jsp" target="_blank" rel="noopener">INVIMA Consulta Registro</a> by product name, active ingredient, or registration number. For a lighter interface try the <a href="https://consultaregistro.invima.gov.co/registrosconsultaligera/registrosanitario/consultar" target="_blank" rel="noopener">Consulta Ligera</a> (no CAPTCHA)</li>
+    <li>The main portal may require a Colombian IP address or VPN &mdash; try Opera browser&rsquo;s built-in VPN (Americas location) if access is blocked</li>
+    <li>A <a href="https://www.datos.gov.co/en/Salud-y-Protecci-n-Social/C-DIGO-NICO-DE-MEDICAMENTOS-VIGENTES/i7cb-raxc/data" target="_blank" rel="noopener">machine-readable dataset</a> of all valid registrations is available on Open Data Colombia (SODA API)</li>
 </ol>
 
 <h4 class="tips-heading">Pricing</h4>
 <ol>
-    <li>The <strong>CNPMDM</strong> issues price control circulars identifying molecules under regulation &mdash; published on the <a href="https://www.minsalud.gov.co/salud/MT/Paginas/comision-nacional-de-precios-de-medicamentos.aspx" target="_blank" rel="noopener">MINSALUD website</a></li>
-    <li><a href="https://www.sispro.gov.co/Central-Medicamentos/Paginas/Consultas-Medicamentos.aspx" target="_blank" rel="noopener">SISMED</a> reports actual transaction prices from manufacturers and distributors &mdash; useful for understanding real market prices</li>
-    <li>Colombia uses <strong>External Reference Pricing (ERP)</strong> for price-controlled drugs, referencing prices in 17 countries across the OECD and Latin America</li>
+    <li>By default, all medicines are under <strong>Libertad Vigilada</strong> (monitored freedom) &mdash; prices are freely set but must be reported to SISMED. The CNPMDM can place specific molecules under <strong>Control Directo</strong> with a maximum sale price (PMV)</li>
+    <li>The current methodology (Circular 18 de 2024) uses <strong>ERP against 19 countries</strong> &mdash; the PMV is the lower of the 20th percentile of international reference prices or the national average price</li>
+    <li>The <a href="https://www.minsalud.gov.co/salud/MT/Paginas/termometro-de-precios.aspx" target="_blank" rel="noopener">Term&oacute;metro de Precios</a> is a visual tool showing whether current prices for a medicine are low (green), normal (yellow), or high (red)</li>
 </ol>
 
 <h4 class="tips-heading">Reimbursement &amp; HTA</h4>
 <ol>
-    <li>The <strong>PBS</strong> (Plan de Beneficios en Salud) covers the mandatory health benefits package &mdash; medicines not in PBS can be accessed via <strong>MIPRES</strong> (prescripci&oacute;n digital platform for non-PBS technologies)</li>
-    <li><a href="https://www.iets.org.co/" target="_blank" rel="noopener">IETS</a> is Colombia&rsquo;s formal HTA body &mdash; it produces clinical evaluations, economic assessments, and coverage recommendations for the PBS update process</li>
-    <li>Colombia has <strong>universal health coverage</strong> through contributory (employed) and subsidised (low-income) regimes, both offering the same PBS benefits package</li>
+    <li>The <strong>PBS</strong> covers the mandatory benefits package &mdash; medicines not in PBS are prescribed via <strong>MIPRES</strong> (digital platform where physicians prescribe directly; EPS must deliver within 5 days). This replaced the old CTC committee system</li>
+    <li>Non-PBS costs are covered through <strong>Presupuestos M&aacute;ximos</strong> (annual budgets from ADRES to EPS), not individual reimbursement claims</li>
+    <li><a href="https://www.iets.org.co/" target="_blank" rel="noopener">IETS</a> is Colombia&rsquo;s formal HTA body (INAHTA member) &mdash; 900+ assessments produced, informing PBS update decisions</li>
 </ol>
-<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "plan de beneficios en salud," "precio m&aacute;ximo de venta."</p>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "plan de beneficios en salud," "precio m&aacute;ximo de venta," "presupuestos m&aacute;ximos."</p>
         `,
     },
     {
