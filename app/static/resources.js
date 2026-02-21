@@ -181,19 +181,37 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "BASG — Online Suche Arzneispezialitäten", url: "https://aspregister.basg.gv.at/aspregister/faces/aspregister.jspx" }],
+                links: [{ label: "BASG \u2014 ASPREGISTER (national drug register)", url: "https://aspregister.basg.gv.at/aspregister/faces/aspregister.jspx" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "Sozialversicherung — List of Reimbursed Drugs", url: "https://www.sozialversicherung.at/oeko/views/index.xhtml" }],
+                body: "The EKO (Erstattungskodex) is Austria\u2019s positive reimbursement list managed by SV-Dachverband. Drugs are classified by box colour: green (no restriction), yellow (physician notifies fund within 8 days), red (prior authorisation required). HTA advice is provided by G\u00d6G (Gesundheit \u00d6sterreich GmbH).",
+                links: [{ label: "Sozialversicherung \u2014 EKO (Erstattungskodex)", url: "https://www.sozialversicherung.at/oeko/views/index.xhtml" }],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "Sozialversicherung — Drug Prices", url: "https://www.sozialversicherung.at/cdscontent/load?contentid=10008.784743&version=1703680781" }],
+                links: [{ label: "Sozialversicherung \u2014 Drug Prices", url: "https://www.sozialversicherung.at/cdscontent/load?contentid=10008.784743&version=1703680781" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">EKO Reimbursement System (Green / Yellow / Red Box)</h4>
+<ol>
+    <li>Search the EKO at <a href="https://www.sozialversicherung.at/oeko/views/index.xhtml" target="_blank" rel="noopener">sozialversicherung.at</a> by product name, ATC code, or active ingredient &mdash; results show the box colour, Kassenpreis (reimbursement price), and any prescribing restrictions</li>
+    <li><strong>Green box (gr&uuml;ne Kiste)</strong>: reimbursed directly at the pharmacy &mdash; no prior steps needed</li>
+    <li><strong>Yellow box (gelbe Kiste)</strong>: reimbursed, but the prescribing physician must notify the patient&rsquo;s health insurance fund (Krankenkasse) within 8 days &mdash; no pre-approval required</li>
+    <li><strong>Red box (rote Kiste)</strong>: prior authorisation from the regional Krankenkasse is required before the prescription can be dispensed</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Austria does not publish a formal ICER threshold. HTA is conducted by G&Ouml;G (formerly LBI-HTA) and informs EKO listing decisions, but assessments are advisory.</p>
+
+<h4 class="tips-heading">Finding Products &amp; Pricing</h4>
+<ol>
+    <li>For nationally authorised products, search <a href="https://aspregister.basg.gv.at/aspregister/faces/aspregister.jspx" target="_blank" rel="noopener">ASPREGISTER (BASG)</a> &mdash; shows MA status, Fachinformation (SmPC), and package leaflet</li>
+    <li>For EMA centrally authorised products, the EU Commission decision covers Austria automatically &mdash; search the <a href="https://www.ema.europa.eu/en/medicines/human/EPAR" target="_blank" rel="noopener">EPAR database</a> for the full assessment</li>
+    <li>Drug prices are published by SV-Dachverband; the EKO search also shows the current Kassenpreis alongside reimbursement conditions</li>
+</ol>
+        `,
     },
     {
         code: "BE",
@@ -355,15 +373,31 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "BDA — Drug Register", url: "https://www.bda.bg/bg/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D0%BB%D0%B5%D0%BA%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%B8-%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%B8" }],
+                links: [{ label: "BDA \u2014 Drug Register", url: "https://www.bda.bg/bg/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D0%BB%D0%B5%D0%BA%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%B8-%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%B8" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "NHIF — National Health Insurance Medicine List", url: "https://www.nhif.bg/bg/medicine_food/medical-list/2024" }],
+                body: "NHIF (National Health Insurance Fund / НЗОК) maintains the positive drug list, updated quarterly. Reimbursement is grouped by therapeutic indication with three levels based on medical condition severity. Reference pricing against EU member states determines maximum reimbursable prices.",
+                links: [{ label: "NHIF \u2014 National Health Insurance Medicine List", url: "https://www.nhif.bg/bg/medicine_food/medical-list/2024" }],
             },
         ],
         notes: "EMA centralised procedure is an alternative route to obtain marketing authorisation.",
+        tipsHtml: `
+<h4 class="tips-heading">BDA Drug Register &amp; Marketing Authorization</h4>
+<ol>
+    <li>The BDA (Bulgarian Drug Agency / ИАЛ) drug register is <strong>in Bulgarian (Cyrillic)</strong> &mdash; use Google Translate to navigate. INN names appear in Latin characters and can be searched directly</li>
+    <li>For EMA centrally authorised products, the EU Commission decision automatically covers Bulgaria &mdash; use the <a href="https://www.ema.europa.eu/en/medicines/human/EPAR" target="_blank" rel="noopener">EPAR database</a> for those products</li>
+</ol>
+
+<h4 class="tips-heading">NHIF Positive Drug List</h4>
+<ol>
+    <li>The <a href="https://www.nhif.bg/bg/medicine_food/medical-list/2024" target="_blank" rel="noopener">NHIF positive list</a> is updated <strong>quarterly</strong> and published on the NHIF website. It is organised by INN with reimbursement conditions and the maximum reimbursable price</li>
+    <li>Three reimbursement levels apply depending on the therapeutic group and medical severity &mdash; higher reimbursement (up to 100%) applies for cancer, HIV, and other severe conditions; lower levels (50&ndash;75%) apply for other chronic conditions</li>
+    <li>Reference pricing against EU member states establishes maximum manufacturer prices; companies must apply to have products added to the positive list through NHIF</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> Both the BDA and NHIF interfaces are in Bulgarian (Cyrillic). Google Translate handles Bulgarian reasonably well. INN (active ingredient) names are in Latin characters and are the most reliable search terms.</p>
+        `,
     },
     {
         code: "CA",
@@ -476,19 +510,29 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "HALMED — Drug Database", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" }],
+                links: [{ label: "HALMED \u2014 Drug Database", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "HZZO — List of Reimbursed Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" }],
+                body: "HZZO (Croatian Health Insurance Fund) maintains two reimbursement lists: the primary list (osnovna lista \u2014 100% reimbursed) and the supplementary list (dopunska lista \u2014 reimbursed with co-payment). Expensive or restricted medicines require prior authorisation (\u201esuglasnost\u201c) from HZZO before reimbursement.",
+                links: [{ label: "HZZO \u2014 Published Lists of Reimbursed Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" }],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "HZZO — Right to Use Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/pravo-na-koristenje-lijekova" }],
+                links: [{ label: "HZZO \u2014 Right to Use Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/pravo-na-koristenje-lijekova" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">HZZO Reimbursement Lists</h4>
+<ol>
+    <li>Croatia has two public lists: the <strong>primary list</strong> (osnovna lista) where drugs are fully reimbursed, and the <strong>supplementary list</strong> (dopunska lista) where a co-payment applies</li>
+    <li>The lists are published on <a href="https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" target="_blank" rel="noopener">hzzo.hr</a> as downloadable documents (updated periodically). They are organised by ATC group with INN, dosage, and reimbursement conditions</li>
+    <li>Medicines requiring prior authorisation are marked in the list &mdash; the physician must obtain a <strong>suglasnost</strong> (HZZO approval) before the patient can receive reimbursement. This applies to biologics, oncologics, and other restricted drugs</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> HALMED&rsquo;s drug database has an English interface. The HZZO reimbursement lists are in Croatian only &mdash; drug names (INN) are in Latin characters and searchable directly. Use Google Translate to navigate the list conditions.</p>
+        `,
     },
     {
         code: "CY",
@@ -499,19 +543,33 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "PHS Cyprus — Product Search", url: "https://www.phs.moh.gov.cy/" }],
+                links: [{ label: "PHS Cyprus \u2014 Product Search", url: "https://www.phs.moh.gov.cy/" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "MoH — Co-payment Scheme", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/supplplan_en/supplplan_en?opendocument" }],
+                body: "Since 2019, most residents are covered by Ge\u03a3\u03a5 (General Healthcare System / GeSY) managed by HIO (Health Insurance Organisation of Cyprus). GeSY maintains a positive list of reimbursable medicines; patients pay a fixed co-payment per prescription (waived for certain chronic conditions and vulnerable groups).",
+                links: [{ label: "MoH \u2014 Co-payment Scheme", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/supplplan_en/supplplan_en?opendocument" }],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "MoH — Price of Medicinal Products", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" }],
+                links: [{ label: "MoH \u2014 Price of Medicinal Products", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">GeSY (General Healthcare System)</h4>
+<ol>
+    <li>GeSY (Ge\u03a3\u03a5) launched in June 2019, replacing the previous fragmented public system. It covers all legal residents and is funded via payroll contributions and government transfers</li>
+    <li>HIO (Health Insurance Organisation of Cyprus / \u039f\u0391\u03a5) administers GeSY and publishes the positive medicines list. Medicines on the list are reimbursed with a fixed patient co-payment per prescription &mdash; currently waived for vulnerable groups and specific chronic conditions</li>
+    <li>EMA centrally authorised medicines are valid in Cyprus automatically &mdash; national authorisation is not required for these products</li>
+</ol>
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>PHS (Pharmaceutical Services) under the Ministry of Health sets maximum prices &mdash; download the current price list from the <a href="https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" target="_blank" rel="noopener">MoH pricing page</a></li>
+    <li>Cyprus uses external reference pricing against other EU member states to set maximum wholesale and retail prices</li>
+</ol>
+        `,
     },
     {
         code: "CZ",
@@ -520,11 +578,27 @@ const COUNTRIES = [
         ema: true,
         sections: [
             {
+                id: "marketing",
+                title: "Market Authorization",
+                links: [{ label: "S\u00daKL \u2014 Drug Register", url: "https://www.sukl.cz/modules/medication/search.php" }],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "SÚKL — Reimbursed Drugs and Prices", url: "https://www.sukl.cz/modules/medication/search.php" }],
+                body: "S\u00daKL (State Institute for Drug Control) manages a single database covering marketing authorisation, reimbursement status, and regulated prices. Reimbursement decisions include indication-based conditions (IND codes) that restrict which patients are eligible. HTA is conducted by S\u00daKL\u2019s own assessment department.",
+                links: [{ label: "S\u00daKL \u2014 Reimbursed Drugs and Prices", url: "https://www.sukl.cz/modules/medication/search.php" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Using the S&Uacute;KL Database</h4>
+<ol>
+    <li>The <a href="https://www.sukl.cz/modules/medication/search.php" target="_blank" rel="noopener">S&Uacute;KL search</a> is a unified tool &mdash; it shows marketing authorisation status, the current regulated price, and whether a drug is reimbursed, all in one place. Search by product name or active substance (INN)</li>
+    <li>Reimbursement entries include <strong>IND codes</strong> (indika&ccaron;n&iacute; omezen&iacute;) &mdash; these define the specific indications and patient conditions under which reimbursement applies. Always read the IND codes: a product may be reimbursed for one indication but not another</li>
+    <li>Regulated prices are set in CZK. The S&Uacute;KL database shows both the maximum ex-factory price and the pharmacy retail price</li>
+    <li>HTA is conducted internally by S&Uacute;KL (not a separate HTA body). The assessment informs the reimbursement decision made by S&Uacute;KL, with final approval from the Ministry of Health</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> The S&Uacute;KL interface is primarily in Czech. The product search accepts INN (Latin characters) and brand names. Use Google Translate for the result fields &mdash; key terms: "hrazen" (reimbursed), "cena" (price), "indika&ccaron;n&iacute; omezen&iacute;" (indication restriction).</p>
+        `,
     },
     {
         code: "DK",
@@ -648,14 +722,31 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "Raviminfo — Reimbursed Drugs and Prices", url: "https://raviminfo.ee/apthkiri.php" }],
+                body: "Haigekassa (Estonian Health Insurance Fund, EHIF) manages three reimbursement tiers: 100% (severe chronic or rare conditions on the special conditions list), 75% (standard compensated medicines), and 50% (selected medicines). Individual compensation is possible for off-list drugs via application.",
+                links: [{ label: "Raviminfo \u2014 Reimbursed Drugs and Prices", url: "https://raviminfo.ee/apthkiri.php" }],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Haigekassa — How Reimbursement Works", url: "https://www.haigekassa.ee/inimesele/ravimid" }],
+                links: [{ label: "Haigekassa \u2014 How Reimbursement Works", url: "https://www.haigekassa.ee/inimesele/ravimid" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Ravimiregister &mdash; Drug Register</h4>
+<ol>
+    <li><a href="https://www.ravimiregister.ee/" target="_blank" rel="noopener">Ravimiregister</a> is Estonia&rsquo;s comprehensive drug register &mdash; search by product name or INN for MA status, approved indications, SmPC, and pricing. It is one of the most complete national drug databases in the EU</li>
+    <li>The register has English and Estonian interfaces &mdash; the English version covers most key fields including MA status and product leaflets</li>
+</ol>
+
+<h4 class="tips-heading">Haigekassa Reimbursement Tiers</h4>
+<ol>
+    <li><strong>100% reimbursement</strong>: medicines on the special conditions list for severe chronic or rare diseases &mdash; patient pays nothing. A physician must certify the condition</li>
+    <li><strong>75% reimbursement</strong>: standard compensated medicines &mdash; patient pays 25% co-payment</li>
+    <li><strong>50% reimbursement</strong>: selected medicines with a lower reimbursement percentage</li>
+    <li>Medicines <strong>not on the positive list</strong> can be applied for individually through Haigekassa under specific circumstances (e.g., no therapeutic alternative on the list)</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> Search <a href="https://raviminfo.ee/apthkiri.php" target="_blank" rel="noopener">Raviminfo</a> for current reimbursement status and price &mdash; the database shows the reimbursement percentage and the patient&rsquo;s share of the cost. Language: Estonian, but INN terms are searchable in Latin characters.</p>
+        `,
     },
     {
         code: "FI",
@@ -690,6 +781,23 @@ const COUNTRIES = [
             },
         ],
         notes: "Kela reimbursement covers community pharmacy drugs only \u2014 hospital and oncology drugs are funded separately by hospital districts and are not in the Kela/Hila system.",
+        tipsHtml: `
+<h4 class="tips-heading">Reimbursement Tiers (Kela / Hila)</h4>
+<ol>
+    <li><strong>Basic reimbursement (peruskorvaus, 40%)</strong>: most common outpatient prescription medicines. Patient pays 60% of the price up to the reference price; above the reference price the patient pays 100%</li>
+    <li><strong>Lower special reimbursement (alempi erityiskorvaus, 65%)</strong>: for specific severe chronic diseases (e.g., asthma, diabetes type 2, rheumatoid arthritis). Requires a written medical certificate from a specialist</li>
+    <li><strong>Higher special reimbursement (ylempi erityiskorvaus, 100%)</strong>: for the most severe chronic diseases (e.g., severe diabetes type 1, severe epilepsy, severe hypertension, cancer). Patient pays a fixed annual co-payment ceiling of ~EUR 50 per medicine</li>
+    <li>Annual out-of-pocket cap: once a patient&rsquo;s total Kela-reimbursed medicine costs reach ~EUR 592/year (2025), all further prescriptions on the list are reimbursed at 100% for the rest of the year</li>
+</ol>
+<p class="tips-note"><strong>Hospital drugs:</strong> Drugs dispensed in hospitals or hospital outpatient clinics are funded directly by hospital districts and do NOT appear in the Kela/Hila system. This includes oncology drugs and most biologics &mdash; search FIMEA&rsquo;s <a href="https://fimea.fi/laakehoidon-arviointi/arviointijulkaisut" target="_blank" rel="noopener">HTA assessment publications</a> for evidence of hospital-sector use.</p>
+
+<h4 class="tips-heading">FIMEA HTA &amp; Hila Decisions</h4>
+<ol>
+    <li>FIMEA (Finnish Medicines Agency) conducts rapid HTA reviews for medicines applying for reimbursement. Reports are published at <a href="https://fimea.fi/laakehoidon-arviointi/arviointijulkaisut" target="_blank" rel="noopener">fimea.fi</a> (primarily in Finnish; some English summaries)</li>
+    <li>Hila (Pharmaceutical Pricing Board) makes binding reimbursement and wholesale price decisions. The process typically runs ~180 days from company application</li>
+    <li>To check if a specific drug has Hila approval, search the <a href="https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" target="_blank" rel="noopener">Hila list of reimbursable medicines</a> or use the <a href="https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" target="_blank" rel="noopener">Kela drug search</a></li>
+</ol>
+        `,
     },
     {
         code: "FR",
@@ -852,6 +960,22 @@ const COUNTRIES = [
             },
         ],
         notes: "The EOPYY list shows medicines submitted for reimbursement consideration — listing does not confirm reimbursement status. EOF discloses pricing information.",
+        tipsHtml: `
+<h4 class="tips-heading">EOF &mdash; Pricing and Market Authorization</h4>
+<ol>
+    <li><a href="https://services.eof.gr/human-search/home.xhtml" target="_blank" rel="noopener">EOF&rsquo;s drug search</a> covers both MA status and price &mdash; search by INN or product name (Greek or Latin characters). Results show the hospital price and the retail price</li>
+    <li>EOF uses external reference pricing against EU member states to set maximum prices. Greece has historically had some of the lowest ex-factory prices in Europe following austerity-era price cuts (2010&ndash;2014 saw mandatory reductions of 15&ndash;25%)</li>
+    <li>For EMA centrally authorised products, the EU Commission decision applies automatically; EOF grants the Greek marketing authorisation</li>
+</ol>
+
+<h4 class="tips-heading">EOPYY Reimbursement &amp; Clawback</h4>
+<ol>
+    <li>EOPYY (Εθνικός Οργανισμός Παροχής Υπηρεσιών Υγείας) manages outpatient reimbursement. Reimbursement categories: <strong>Category A</strong> (90% &mdash; serious conditions), <strong>Category B</strong> (75% &mdash; chronic conditions), <strong>Category C</strong> (prescription only, low reimbursement)</li>
+    <li>Greece uses a mandatory <strong>clawback (rebate)</strong> mechanism &mdash; if total pharmaceutical expenditure exceeds the annual budget, manufacturers must pay back the excess proportionally, regardless of price negotiations. This creates significant uncertainty for pricing</li>
+    <li>Prior authorisation (<strong>&epsilon;&gamma;&kappa;&rho;&iacute;&sigma;&epsilon;&iota;&sigmaf;</strong>) is required for many specialist and high-cost medicines &mdash; prescribing physicians must submit an online request through the e-DAP prescription system</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> EOF and EOPYY interfaces are primarily in Greek (using the Greek alphabet). Drug names (INN) can be searched in Latin characters. Use Google Translate to navigate &mdash; it handles Greek pharmaceutical terminology well.</p>
+        `,
     },
     {
         code: "HK",
@@ -861,14 +985,34 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Drug Office — Department of Health", url: "https://www.drugoffice.gov.hk/" }],
+                body: "The Drug Office (Department of Health) regulates pharmaceuticals in Hong Kong under the Pharmacy and Poisons Ordinance. Since November 2023, a \u20181+\u2019 mechanism allows registration based on one reference agency approval (instead of two), cutting approval time from ~24 to ~7 months.",
+                links: [{ label: "Drug Office \u2014 Drug Registration Search", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" }],
             },
             {
                 id: "reimbursement",
-                title: "Reimbursement",
-                links: [{ label: "HA Drug Formulary — Drug Advisory Committee", url: "https://www.ha.org.hk/hadf/en-us/" }],
+                title: "Reimbursement (HA Drug Formulary)",
+                body: "The Hospital Authority (HA) Drug Advisory Committee (DAC) classifies drugs into four tiers: General Drugs (covered under standard charges), Special Drugs (criteria-based), Self-Financed Items with Safety Net (patient pays, but financial assistance available), and Self-Financed Items without Safety Net (full out-of-pocket). DAC meets quarterly and publishes outcomes including rejection reasons.",
+                links: [{ label: "HA Drug Formulary \u2014 Formulary Search", url: "https://www.ha.org.hk/hadf/en-us/Updated-HA-Drug-Formulary/Drug-Formulary.html" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">HA Drug Formulary Tiers</h4>
+<ol>
+    <li><strong>General Drugs</strong>: well-established, cost-effective &mdash; available to all patients with relevant indications at the standard HA fee (~HKD 100 per outpatient attendance covering all dispensed drugs)</li>
+    <li><strong>Special Drugs</strong>: require specialist authorisation and defined clinical criteria; patients not meeting criteria must self-pay</li>
+    <li><strong>Self-Financed Items (SFI) with Safety Net</strong>: clinically significant but expensive; patients pay out-of-pocket but can apply for financial assistance via the Samaritan Fund or Community Care Fund based on need</li>
+    <li><strong>Self-Financed Items (SFI) without Safety Net</strong>: HA does not procure these; patients must purchase from community pharmacies at full market price</li>
+    <li>Search the <a href="https://www.ha.org.hk/hadf/en-us/Updated-HA-Drug-Formulary/Drug-Formulary.html" target="_blank" rel="noopener">HA Drug Formulary (HADF)</a> by drug name, ATC code, or tier. DAC outcomes (including rejection reasons) are published quarterly on the same site</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Hong Kong has no standalone HTA body &mdash; the DAC conducts evidence review internally and does <em>not</em> publish detailed assessment rationales. This contrasts with Singapore (ACE) and EU countries. From 2026, new outpatient drug charges apply: HKD 5/item (Family Medicine) and HKD 20/item (Specialist Outpatient).</p>
+
+<h4 class="tips-heading">Drug Registration &amp; the &lsquo;1+&rsquo; Mechanism</h4>
+<ol>
+    <li>Search the <a href="https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" target="_blank" rel="noopener">Drug Office registration database</a> by brand name, active ingredient, or HK registration number. A bulk downloadable dataset is available at data.gov.hk for batch lookups</li>
+    <li>Since November 2023, the <strong>&lsquo;1+&rsquo; mechanism</strong> allows registration with approval from one reference agency (EMA, FDA, TGA, MHRA, or Health Canada) instead of two, cutting approval from ~24 to ~7 months. A planned Centre for Medical Products Regulation (CMPR, launching ~2026) will eventually move to independent primary evaluation</li>
+    <li>Products approved by EMA or FDA are <strong>not</strong> automatically valid in Hong Kong &mdash; a separate HK application is required</li>
+</ol>
+        `,
     },
     {
         code: "HU",
@@ -888,7 +1032,23 @@ const COUNTRIES = [
             },
         ],
         notes: "If a drug appears in the NEAK IRP list, it is reimbursed.",
-        tips: "Use the NEAK drug search portal (https://neak.gov.hu/felso_menu/lakossagnak/gyogszerkereso) and make sure to tick the prescribing doctor type — otherwise results may not appear.",
+        tipsHtml: `
+<h4 class="tips-heading">NEAK Drug Search</h4>
+<ol>
+    <li>Use the <a href="https://neak.gov.hu/felso_menu/lakossagnak/gyogszerkereso" target="_blank" rel="noopener">NEAK drug search portal</a> to check reimbursement status &mdash; <strong>make sure to select the prescribing physician type</strong> (h&aacute;ziorvos for GP, szakorvos for specialist) before searching, otherwise results may not appear</li>
+    <li>The NEAK IRP (International Reference Pricing) list at <a href="https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" target="_blank" rel="noopener">neak.gov.hu</a> shows reimbursed drugs with their reference prices &mdash; if a drug is on this list it is reimbursed</li>
+    <li>For HTA reports and drug database information, search <a href="https://ogyei.gov.hu/drug_database" target="_blank" rel="noopener">OGYEI (National Institute of Pharmacy and Nutrition)</a> &mdash; the drug database covers nationally authorised products</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement Categories</h4>
+<ol>
+    <li>Hungary uses <strong>normatív</strong> (normative) reimbursement for most medicines &mdash; fixed reimbursement amounts based on therapeutic groups with patient co-payments</li>
+    <li><strong>Emelt normatív</strong> (elevated normative): higher reimbursement for severe chronic conditions &mdash; patient contribution is lower</li>
+    <li><strong>Kiemelt</strong> (priority) reimbursement: for the most serious conditions (e.g., life-threatening diseases) &mdash; 100% reimbursed</li>
+    <li>For innovative medicines not yet on the standard list, <strong>egyedi m&eacute;lt&aacute;nyoss&aacute;g</strong> (individual compassionate use) provides a case-by-case reimbursement pathway through NEAK</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> NEAK and OGYEI interfaces are in Hungarian. Key terms: "t&aacute;mogat&aacute;s" (support/reimbursement), "hum&aacute;n gy&oacute;gyszer" (human medicine), "fizet&eacute;si ar&aacute;ny" (payment ratio). INN names are searchable in Latin characters.</p>
+        `,
     },
     {
         code: "IS",
@@ -904,9 +1064,25 @@ const COUNTRIES = [
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "IMA — Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" }],
+                body: "Iceland is an EEA member \u2014 EMA centrally authorised medicines are valid in Iceland. IMA sets maximum prices using external reference pricing against Nordic countries. Two reimbursement categories apply: Category A (fully reimbursed for specific conditions) and Category B (partial reimbursement). IMA conducts HTA assessments for new medicines.",
+                links: [{ label: "IMA \u2014 Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Small Market &amp; EEA Status</h4>
+<ol>
+    <li>Iceland (~380,000 population) is an EEA member &mdash; EMA centrally authorised products are automatically valid and do not require a separate Icelandic MA application</li>
+    <li>IMA (Icelandic Medicines Agency) is a small agency that conducts HTA assessments and sets maximum prices. It collaborates with the other Nordic agencies on methodology and occasionally on joint assessments</li>
+    <li>Iceland references other Nordic countries (Denmark, Sweden, Norway, Finland) for external reference pricing &mdash; prices in Iceland are among the lowest in the Nordics as a result</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li><strong>Category A</strong>: fully reimbursed for patients with specific conditions listed in the IMA schedule &mdash; patient pays a small fixed co-payment per prescription</li>
+    <li><strong>Category B</strong>: partial reimbursement (approximately 65&ndash;75%) for a broader range of conditions</li>
+    <li>For detailed reimbursement status and pricing, use the <a href="https://www.ima.is/home/pricing-and-reimbursement/" target="_blank" rel="noopener">IMA Pricing and Reimbursement page</a></li>
+</ol>
+        `,
     },
     {
         code: "ID",
@@ -932,17 +1108,41 @@ const COUNTRIES = [
         ema: true,
         sections: [
             {
-                id: "reimbursement",
-                title: "Reimbursement",
-                links: [{ label: "HSE — List of Reimbursable Items", url: "https://www.hse.ie/eng/staff/pcrs/items/" }],
+                id: "marketing",
+                title: "Market Authorization",
+                links: [{ label: "HPRA (Health Products Regulatory Authority)", url: "https://www.hpra.ie/homepage/medicines" }],
             },
             {
-                id: "additional",
-                title: "Additional Resources",
-                links: [{ label: "NCPE — Drug Evaluations (HTA)", url: "https://www.ncpe.ie/drugs/" }],
+                id: "hta",
+                title: "HTA",
+                body: "NCPE (National Centre for Pharmacoeconomics) conducts health technology assessments for medicines applying for public reimbursement. NCPE outcomes (positive / negative recommendation) go to the HSE for final reimbursement decision. Ireland collaborates with Northern Ireland under the Shared Island initiative for some assessments.",
+                links: [{ label: "NCPE \u2014 Drug Evaluations (HTA)", url: "https://www.ncpe.ie/drugs/" }],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "HSE (Primary Care Reimbursement Service, PCRS) maintains the reimbursable items list. Under the Drugs Payment Scheme (DPS), patients pay a maximum of \u20ac80/month for approved medicines. High-tech drugs (biologics, oncologics) are dispensed through hospital pharmacies under separate High-Tech Arrangements.",
+                links: [{ label: "HSE \u2014 List of Reimbursable Items", url: "https://www.hse.ie/eng/staff/pcrs/items/" }],
             },
         ],
-        notes: "NCPE (National Centre for Pharmacoeconomics) provides the status of drug evaluations in Ireland.",
+        tipsHtml: `
+<h4 class="tips-heading">NCPE Assessment Process</h4>
+<ol>
+    <li>Search <a href="https://www.ncpe.ie/drugs/" target="_blank" rel="noopener">NCPE Drug Evaluations</a> by product name or INN &mdash; results show the current evaluation status: under review, completed with recommendation, or declined</li>
+    <li>NCPE conducts <strong>rapid reviews</strong> (for products with strong evidence, ~3 months) or <strong>full HTAs</strong> (for complex cases, ~6 months). Full HTA reports are publicly available on the NCPE website</li>
+    <li>A <strong>positive NCPE recommendation</strong> triggers commercial negotiations with the HSE, after which the product is added to the reimbursable items list &mdash; this step can add several more months to the access timeline</li>
+    <li>Ireland participates in the EU HTA joint assessments for oncology medicines (EU HTA Regulation); NCPE uses these joint clinical assessments to inform Irish reimbursement decisions from 2025</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement Schemes</h4>
+<ol>
+    <li><strong>General Medical Services (GMS)</strong>: free medicines for medical card holders (~35% of population). GMS items are a superset of the DPS list</li>
+    <li><strong>Drugs Payment Scheme (DPS)</strong>: all residents pay a maximum of <strong>&euro;80/month</strong> for approved prescription medicines regardless of quantity &mdash; the state covers the rest</li>
+    <li><strong>High-Tech Arrangements (HTA)</strong>: biologics, oncologics, and other complex medicines are dispensed by hospital pharmacies and funded separately. These do NOT appear on the standard PCRS reimbursable items list &mdash; search the <a href="https://www.ncpe.ie/drugs/" target="_blank" rel="noopener">NCPE database</a> for high-tech drug status</li>
+    <li><strong>Long-Term Illness (LTI) Scheme</strong>: free medicines for 16 specific chronic conditions (e.g., epilepsy, diabetes, multiple sclerosis)</li>
+</ol>
+<p class="tips-note"><strong>Access timeline:</strong> From EMA approval to Irish reimbursement typically takes 12&ndash;18 months (EMA &rarr; NCPE &rarr; HSE commercial negotiation &rarr; listing). Track status on <a href="https://www.ncpe.ie/drugs/" target="_blank" rel="noopener">ncpe.ie</a>.</p>
+        `,
     },
     {
         code: "IL",
@@ -1144,14 +1344,30 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "ZVA — DATI Drug Register", url: "https://dati.zva.gov.lv/zalu-registrs/lv" }],
+                links: [{ label: "ZVA \u2014 DATI Drug Register", url: "https://dati.zva.gov.lv/zalu-registrs/lv" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "VMNVD — National Health Service Compensated Medicines", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" }],
+                body: "NHS Latvia (National Health Service / VMNVD) manages the compensated medicines list. Three reimbursement tiers apply: 100% (severe chronic conditions), 75%, and 50%. Individual patient compensation is available for off-list drugs via application to NHS Latvia.",
+                links: [{ label: "VMNVD \u2014 National Health Service Compensated Medicines", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Drug Register (ZVA)</h4>
+<ol>
+    <li>Search <a href="https://dati.zva.gov.lv/zalu-registrs/lv" target="_blank" rel="noopener">ZVA DATI</a> by product name or INN for marketing authorisation status. The database has a Latvian interface &mdash; INN names are in Latin characters and searchable directly</li>
+    <li>For EMA centrally authorised products, the EU Commission decision covers Latvia automatically</li>
+</ol>
+
+<h4 class="tips-heading">Compensated Medicines (VMNVD)</h4>
+<ol>
+    <li>The <a href="https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" target="_blank" rel="noopener">NHS Latvia compensated medicines list</a> is published on the VMNVD website and shows reimbursement tier and conditions for each drug</li>
+    <li>Three tiers: <strong>100%</strong> reimbursed (severe chronic conditions and rare diseases), <strong>75%</strong>, and <strong>50%</strong></li>
+    <li>For drugs not on the compensated list, individual compensation can be requested &mdash; the physician submits an application to NHS Latvia with clinical justification</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> ZVA and VMNVD are in Latvian. Google Translate handles Latvian adequately. Key terms: "kompens\u0113jamie" (compensated/reimbursed), "re\u0123istr\u0113ts" (registered), "aktiv\u0101 viela" (active substance).</p>
+        `,
     },
     {
         code: "LB",
@@ -1220,6 +1436,21 @@ const COUNTRIES = [
             },
         ],
         notes: "In the 'Liste des Médicaments Commercialisés' (CNS), if Prix d'achat pharm., Prix public, and Taux are all listed as 0, the medicine is likely not currently available or reimbursed in Luxembourg.",
+        tipsHtml: `
+<h4 class="tips-heading">CNS Positive List &amp; Reading Zero-Price Entries</h4>
+<ol>
+    <li>CNS (Caisse Nationale de Sant&eacute;) is the single national health insurance fund. Luxembourg uses a single positive reimbursement list &mdash; products not on the list require exceptional authorisation</li>
+    <li>Search the <a href="https://cns.public.lu/en/professionnels-sante/medicaments/liste-positive.html" target="_blank" rel="noopener">CNS positive list</a> by INN or product name. The list shows the reimbursement rate (taux) and the reimbursable price</li>
+    <li><strong>If Prix d&rsquo;achat pharm., Prix public, and Taux are all 0</strong>, the product is registered in the system but is <strong>not currently marketed or reimbursed</strong> in Luxembourg &mdash; this is a common finding for products marketed in larger EU markets but not in Luxembourg&rsquo;s small market (~670,000 population)</li>
+</ol>
+
+<h4 class="tips-heading">Pricing &amp; Market Context</h4>
+<ol>
+    <li>Luxembourg closely follows <strong>Belgian pricing</strong> as a reference &mdash; prices for reimbursed medicines are generally aligned with Belgian levels. Luxembourg also participates in BeNeLuxA joint negotiations for expensive medicines</li>
+    <li>The CNS website has French, German, and English sections &mdash; the most complete drug list information is in French or German. INN names are in Latin characters</li>
+    <li>For EMA centrally authorised products not marketed in Luxembourg, the product may still be available for individual patients via exceptional import authorisation</li>
+</ol>
+        `,
     },
     {
         code: "MT",
@@ -1230,9 +1461,18 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Medicines Authority — Advanced Search", url: "https://medicinesauthority.gov.mt/advanced-search" }],
+                links: [{ label: "Medicines Authority \u2014 Advanced Search", url: "https://medicinesauthority.gov.mt/advanced-search" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Small Market &amp; EMA Status</h4>
+<ol>
+    <li>Malta (~520,000 population) is a small EU market. EMA centrally authorised products are automatically valid in Malta without a separate national application</li>
+    <li>Search the <a href="https://medicinesauthority.gov.mt/advanced-search" target="_blank" rel="noopener">Medicines Authority advanced search</a> for nationally authorised products &mdash; the database has an English interface</li>
+    <li>Many products authorised in larger EU markets may not have been commercially launched in Malta due to the small market size. Absence from the Medicines Authority database does not necessarily indicate the product is unavailable &mdash; it may be imported or ordered through a compassionate use/special authorisation route</li>
+</ol>
+<p class="tips-note"><strong>Reimbursement:</strong> The government formulary for publicly funded medicines is administered by the Department of Health. Malta&rsquo;s formulary covers medicines dispensed through government health centres and hospitals. For reimbursement status, contact the Medicines Authority or the Department of Pharmacy at the Ministry for Health.</p>
+        `,
     },
     {
         code: "MX",
@@ -1255,19 +1495,28 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "CJNMED — Humani lijekovi register", url: "https://secure.cinmed.me/Portal/faces/registarHumani" }],
+                links: [{ label: "CJNMED \u2014 Humani lijekovi register", url: "https://secure.cinmed.me/Portal/faces/registarHumani" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "Fond za zdravstveno osiguranje — Lista ljekova", url: "https://fzocg.me/lista-ljekova/" }],
+                links: [{ label: "Fond za zdravstveno osiguranje \u2014 Lista ljekova", url: "https://fzocg.me/lista-ljekova/" }],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "CJNMED — Maximum Price of Medicines", url: "https://secure.cinmed.me/Portal/faces/dinamickeStrane?paramPut=+%3E+Humani+ljekovi+%3E+Maksimalne+cijene+ljekova&paramRender=1&paramS=151" }],
+                links: [{ label: "CJNMED \u2014 Maximum Price of Medicines", url: "https://secure.cinmed.me/Portal/faces/dinamickeStrane?paramPut=+%3E+Humani+ljekovi+%3E+Maksimalne+cijene+ljekova&paramRender=1&paramS=151" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Small Market &amp; Regional Context</h4>
+<ol>
+    <li>Montenegro (~620,000 population) is an EU candidate country. It operates its own independent regulatory pathway (CJNMED) &mdash; EMA authorisations are not automatically valid, but Montenegro frequently references EMA assessments in its own process</li>
+    <li>Maximum prices are set by CJNMED using reference pricing against neighbouring countries (Serbia, Croatia, Slovenia) &mdash; prices are generally among the lowest in the Western Balkans region</li>
+    <li>The Health Insurance Fund (Fond za zdravstveno osiguranje) maintains the reimbursement drug list. Products must be on the list to be reimbursed; hospital drugs are funded separately</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> CJNMED and the Health Insurance Fund websites are in Montenegrin/Serbian (Latin script). INN names are in Latin characters. Google Translate handles Serbian/Montenegrin (Latin) adequately.</p>
+        `,
     },
     {
         code: "NL",
@@ -1489,6 +1738,22 @@ const COUNTRIES = [
             },
         ],
         notes: "Reimbursement in Poland is established via ministerial announcements rather than a continuously updated database.",
+        tipsHtml: `
+<h4 class="tips-heading">How Reimbursement Works in Poland</h4>
+<ol>
+    <li>Unlike most EU countries, Poland does NOT maintain a continuously updated online reimbursement database. The Minister of Health publishes the reimbursement list as a <strong>quarterly ministerial announcement</strong> (Obwieszczenie) in the official gazette &mdash; find the latest at <a href="https://www.gov.pl/web/zdrowie/leki-refundowane" target="_blank" rel="noopener">gov.pl/web/zdrowie/leki-refundowane</a></li>
+    <li>HTA for reimbursement is conducted by <strong>AOTMiT</strong> (Agencja Oceny Technologii Medycznych i Taryfikacji / Agency for Health Technology Assessment and Tariff System). AOTMiT issues recommendations that inform the Ministry of Health&rsquo;s listing decision</li>
+    <li>Reimbursement is organised by <strong>indication groups</strong> (grupy limitowe) &mdash; each group has a limit price. Medicines priced above the limit price require patient co-payment for the excess. Medicines at or below the limit are reimbursed with a fixed co-payment</li>
+</ol>
+
+<h4 class="tips-heading">Drug Programs (Programy Lekowe)</h4>
+<ol>
+    <li>Expensive oncology drugs and rare disease medicines are typically reimbursed via <strong>programy lekowe</strong> (drug programs) rather than standard pharmacy reimbursement</li>
+    <li>Drug programs specify: eligible indications, entry/exclusion criteria, required diagnostic tests, dosing regimens, and monitoring requirements &mdash; these are strictly enforced</li>
+    <li>Prescribing in a drug program is limited to authorised hospital departments; patients receive the drug free of charge within the program. Programs are listed in the ministerial reimbursement announcement</li>
+</ol>
+<p class="tips-note"><strong>Tip:</strong> For current reimbursement status, the third-party portal <a href="https://www.lekinfo24.pl" target="_blank" rel="noopener">Lekinfo24.pl</a> aggregates ministerial announcements into a searchable format &mdash; useful for quick look-ups between quarterly updates. Always verify against the official announcement for binding information.</p>
+        `,
     },
     {
         code: "PT",
@@ -1708,6 +1973,22 @@ const COUNTRIES = [
             },
         ],
         notes: "ANM authorisation data may not be fully up to date — many products are authorised via the EMA centralised procedure.",
+        tipsHtml: `
+<h4 class="tips-heading">Marketing Authorization (ANM)</h4>
+<ol>
+    <li>ANM (Agen\u021bia Na\u021bional\u0103 a Medicamentului \u0219i a Dispozitivelor Medicale) handles national MAs but many innovative products use the EMA centralised procedure or mutual recognition route. Search the <a href="https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/" target="_blank" rel="noopener">ANM database</a> by product name or INN</li>
+    <li>For EMA centrally authorised products, the EU Commission decision covers Romania automatically &mdash; the ANM database may lag; use the <a href="https://www.ema.europa.eu/en/medicines/human/EPAR" target="_blank" rel="noopener">EPAR database</a> as primary source for those products</li>
+</ol>
+
+<h4 class="tips-heading">CNAS Reimbursement &amp; National Drug Programs</h4>
+<ol>
+    <li>CNAS (Casa Na\u021bional\u0103 de Asigur\u0103ri de S\u0103n\u0103tate / National Health Insurance House) manages the reimbursement list. Search at <a href="https://cnas.ro/lista-medicamente/" target="_blank" rel="noopener">cnas.ro/lista-medicamente</a></li>
+    <li>Most innovative and expensive medicines are funded through <strong>national health programs (PNS \u2014 Programe Na\u021bionale de S\u0103n\u0103tate)</strong> rather than ordinary outpatient reimbursement. PNS programs cover oncology, rare diseases, HIV, hepatitis C, diabetes, and other conditions</li>
+    <li>HTA is conducted by ANM through its HTA department. Reports are published at <a href="https://www.anm.ro/medicamente-de-uz-uman/evaluare-tehnologii-medicale/rapoarte-de-evaluare-a-tehnologiilor-medicale/" target="_blank" rel="noopener">anm.ro/evaluare-tehnologii-medicale</a></li>
+    <li>Reimbursement prices use reference pricing against other EU member states. Prices are in RON (Romanian Leu)</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> ANM and CNAS interfaces are in Romanian. Google Translate handles Romanian well. Key terms: "autorizat" (authorised), "rambursat" (reimbursed), "pre\u021b" (price), "substan\u021b\u0103 activ\u0103" (active substance).</p>
+        `,
     },
     {
         code: "RU",
@@ -1737,17 +2018,35 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization & Pricing",
-                links: [{ label: "SFDA — Saudi Food & Drug Authority Drugs List", url: "https://www.sfda.gov.sa/en/drugs-list" }],
+                links: [{ label: "SFDA — Drug Query (RSD portal)", url: "https://rsd.sfda.gov.sa/drug-query-en.html" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
                 links: [
-                    { label: "CCHI — Insurance Drug Formulary", url: "https://www.chi.gov.sa/en/aboutchi/cchiprograms/Pages/IDF.aspx" },
+                    { label: "CCHI — Insurance Drug Formulary (IDF)", url: "https://eportal.cchi.gov.sa/EBP/idf-policy-en.html" },
                 ],
             },
         ],
         notes: "Three reimbursement sources exist: CCHI, MoH formulary (last updated 2014), and NGHA. NGHA does not have a public source currently available. Please contact the relevant team for the MoH formulary document.",
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization &amp; Pricing (SFDA)</h4>
+<ol>
+    <li>Search registered drugs via the <a href="https://rsd.sfda.gov.sa/drug-query-en.html" target="_blank" rel="noopener">SFDA RSD Drug Query portal</a> (English interface). This is more reliable than the older SFDA drugs-list page. Search by INN, brand name, or registration number</li>
+    <li>Pricing is regulated by SFDA. Saudi Arabia uses <strong>International Reference Pricing (IRP)</strong> based on a basket of approximately 20 countries &mdash; the ex-factory price must not exceed the lowest price in that basket</li>
+    <li>Generics are priced at 70% (first generic), 65%, or 60% of the originator price depending on number of market entrants</li>
+    <li>Since <strong>July 2025</strong>, SFDA requires Economic Evaluation Studies (EES &mdash; formal HTA dossiers) as part of new drug pricing applications. This is a significant structural shift; there is no standalone Saudi HTA body yet but SFDA applies cost-effectiveness and budget impact criteria. See the <a href="https://www.sfda.gov.sa/en/regulations/990220" target="_blank" rel="noopener">SFDA EES Guidelines</a></li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement: CCHI, MoH &amp; NGHA</h4>
+<ol>
+    <li><strong>CCHI (Council of Cooperative Health Insurance)</strong> oversees mandatory private health insurance. The <a href="https://eportal.cchi.gov.sa/EBP/idf-policy-en.html" target="_blank" rel="noopener">CCHI Insurance Drug Formulary (IDF)</a> lists drugs reimbursable under private insurance plans in English</li>
+    <li><strong>MoH formulary</strong>: The Ministry of Health manages public sector hospitals. The formulary was last publicly updated in 2014 &mdash; contact MoH directly for the current version</li>
+    <li><strong>NGHA (National Guard Health Affairs)</strong>: Separate health system for military/National Guard. No public formulary; contact NGHA directly</li>
+    <li><strong>NUPCO (National Unified Procurement Company)</strong> is the public-sector procurement entity &mdash; tendering and pricing for MoH and NGHA hospitals. NUPCO pricing may differ significantly from SFDA-approved retail prices</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Saudi Arabia&rsquo;s pharmaceutical market is predominantly private insurance and out-of-pocket; public reimbursement databases are limited. The CCHI IDF is the most accessible public formulary reference.</p>
+`,
     },
     {
         code: "SG",
@@ -1771,6 +2070,27 @@ const COUNTRIES = [
             },
         ],
         notes: "ACE is the HTA body of Singapore and provides guidelines useful for understanding reimbursement context.",
+        tipsHtml: `
+<h4 class="tips-heading">ACE HTA &amp; Subsidised Drug Lists (SDL / MAF)</h4>
+<ol>
+    <li><a href="https://www.ace-hta.gov.sg/" target="_blank" rel="noopener">ACE (Agency for Care Effectiveness)</a> is Singapore&rsquo;s HTA body. Navigate to &ldquo;Our Guidance&rdquo; for published drug/vaccine HTA reports and ACE Clinical Guidances (ACGs). ACE evaluations directly inform the Drug Advisory Committee (DAC), which recommends to MOH whether to subsidise via SDL or MAF</li>
+    <li>Check <strong>both</strong> the SDL and MAF at <a href="https://www.moh.gov.sg/healthcare-schemes-subsidies/subsidised-drug-list" target="_blank" rel="noopener">moh.gov.sg subsidised drug list</a> &mdash; they are distinct lists:
+        <ul>
+            <li><strong>SDL (Standard Drug List)</strong>: ~560+ cost-effective medicines for common conditions. Singapore Citizens: 50&ndash;75% subsidy (means-tested); Permanent Residents: 25%</li>
+            <li><strong>MAF (Medication Assistance Fund)</strong>: High-cost specialty drugs with proven clinical benefit. Citizens: up to 75%; PRs: up to 20%</li>
+        </ul>
+    </li>
+    <li>CHAS (Community Health Assist Scheme) provides additional subsidies for lower-to-middle income Citizens (Blue/Orange/Green card tiers) at participating GP clinics &mdash; PRs are ineligible</li>
+    <li>MediShield Life (mandatory insurance) covers large hospitalisation and outpatient cancer drug bills &mdash; annual claim limit raised to SGD 200,000 from April 2025</li>
+</ol>
+<p class="tips-note"><strong>Timeline:</strong> From HSA approval to SDL/MAF listing typically takes 6&ndash;12+ months (HSA &rarr; ACE evaluation &rarr; DAC recommendation &rarr; MOH listing). Drug prices are <strong>not</strong> set by statute &mdash; public hospitals use centralised group purchasing tenders (GPOs) for cost containment. The <a href="https://www.ace-hta.gov.sg/docs/default-source/educational-resources/general-factsheets/types-of-funding-for-drugs-and-vaccines-in-singapore.pdf" target="_blank" rel="noopener">ACE funding types factsheet</a> is a useful one-page orientation.</p>
+
+<h4 class="tips-heading">Drug Registration (HSA PRISM)</h4>
+<ol>
+    <li>Search the <a href="https://eservice.hsa.gov.sg/prism/common/enquirepublic/SearchDRBProduct.do?action=load" target="_blank" rel="noopener">HSA PRISM public portal</a> by product name, active ingredient, or registration number. HSA registration confers market authorisation but does <strong>not</strong> guarantee public subsidy or formulary listing</li>
+    <li>For broader searches, use <a href="https://www.hsa.gov.sg/e-services/infosearch" target="_blank" rel="noopener">HSA InfoSearch</a> across all health product categories</li>
+</ol>
+        `,
     },
     {
         code: "SK",
@@ -1792,7 +2112,17 @@ const COUNTRIES = [
                 ],
             },
         ],
-        notes: "In the list of categorised medicines, 'List B' (lieky, ktoré sú zaradené v zozname kategorizovaných liekov) contains reimbursed medicines.",
+        notes: "In the list of categorised medicines, 'List B' (lieky, ktor\u00e9 s\u00fa zaradi\u0107 v zozname kategorizovan\u00fdch liekov) contains reimbursed medicines.",
+        tipsHtml: `
+<h4 class="tips-heading">Categorization List (Zoznam kategorizovan\u00fdch liekov)</h4>
+<ol>
+    <li>Slovakia&rsquo;s reimbursement system is based on the <strong>categorization list</strong> managed by the Ministry of Health. The list is divided into several sublists &mdash; <strong>&ldquo;List B&rdquo;</strong> (kategorizovan&eacute; lieky) is the core reimbursed medicines list</li>
+    <li>Search the list at <a href="https://www.health.gov.sk/?kategorizacia-a-uuc" target="_blank" rel="noopener">health.gov.sk</a> by product name or active substance. The list shows the reimbursement level and any indication-based restrictions</li>
+    <li>Three reimbursement levels apply based on the therapeutic group: drugs in the group can receive 100%, 75%, or 50% reimbursement depending on their positioning relative to the reference drug in the group</li>
+    <li>The Ministry of Health makes final categorization decisions following an HTA evaluation. &Scaron;&Uacute;KL (Slovak State Institute for Drug Control) manages the drug register; the Ministry manages the categorization list</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> The &Scaron;&Uacute;KL and Ministry of Health websites are in Slovak. Google Translate handles Slovak adequately. Key terms: "kategorizovan&eacute; lieky" (categorized/reimbursed medicines), "cena" (price), "&uacute;&ccaron;inn&aacute; l&aacute;tka" (active substance), "indika&ccaron;n&eacute; obmedzenie" (indication restriction).</p>
+        `,
     },
     {
         code: "SI",
@@ -1803,14 +2133,30 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "JAZMP — Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" }],
+                links: [{ label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" }],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement & Pricing",
-                links: [{ label: "JAZMP — List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" }],
+                body: "ZZZS (Health Insurance Institute of Slovenia / Zavod za zdravstveno zavarovanje Slovenije) manages two reimbursement lists: List A (highest priority, 100% reimbursed) and List B (broader, partially reimbursed). JAZMP sets regulated maximum prices. Prior authorisation (predhodna odobritev) is required for restricted medicines.",
+                links: [{ label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">JAZMP &mdash; Drug Database &amp; Pricing</h4>
+<ol>
+    <li>The <a href="https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" target="_blank" rel="noopener">JAZMP medicinal products database</a> has an English interface &mdash; search by product name or INN for MA status, SmPC, and pricing information</li>
+    <li>JAZMP sets <strong>regulated maximum prices</strong> using external reference pricing against EU member states. The price list is published on the JAZMP website</li>
+</ol>
+
+<h4 class="tips-heading">ZZZS Reimbursement Lists (A &amp; B)</h4>
+<ol>
+    <li><strong>List A</strong>: highest priority medicines fully reimbursed (100%) &mdash; essential chronic disease treatments and life-saving drugs</li>
+    <li><strong>List B</strong>: broader list with partial reimbursement (co-payment applies). The patient&rsquo;s share depends on the product&rsquo;s position within the therapeutic group</li>
+    <li>Some restricted medicines require <strong>prior authorisation (predhodna odobritev)</strong> from ZZZS before reimbursement. Physicians apply through the ZZZS online system</li>
+    <li>For current reimbursement status, check the <a href="https://www.zzzs.si/" target="_blank" rel="noopener">ZZZS website</a> (in Slovenian) &mdash; INN names are in Latin characters</li>
+</ol>
+        `,
     },
     {
         code: "KR",
@@ -2064,6 +2410,24 @@ const COUNTRIES = [
                 links: [{ label: "NDI — Drug Prices", url: "https://ndi.fda.moph.go.th/drug_value/index/public/" }],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Three Reimbursement Schemes</h4>
+<p>Thailand has three parallel public health insurance schemes &mdash; understanding which scheme covers a patient is essential:</p>
+<ol>
+    <li><strong>UCS (Universal Coverage Scheme)</strong>: Managed by NHSO (National Health Security Office), covers ~71% of the population. Only NLEM-listed drugs used in <a href="https://www.nhso.go.th/" target="_blank" rel="noopener">NHSO</a>-contracted hospitals are reimbursed; NLEM listing alone does <em>not</em> guarantee NHSO reimbursement</li>
+    <li><strong>CSMBS (Civil Servant Medical Benefit Scheme)</strong>: Managed by the Comptroller General&rsquo;s Department (CGD), covers ~10% (civil servants and dependants). Broader drug coverage than UCS; non-NLEM drugs may be reimbursed via individual approval</li>
+    <li><strong>SSS (Social Security Scheme)</strong>: Managed by Social Security Office, covers ~19% (private-sector employees). Uses a capitation model; drug coverage varies by contracted hospital</li>
+</ol>
+
+<h4 class="tips-heading">NLEM &amp; HTA (HITAP)</h4>
+<ol>
+    <li>The <strong>NLEM (National List of Essential Medicines)</strong> is structured in categories A through E2. <strong>Category E2</strong> (innovative high-cost medicines) requires mandatory HTA by <a href="https://www.hitap.net/en/" target="_blank" rel="noopener">HITAP (Health Intervention and Technology Assessment Program)</a> before a drug can be considered for the NLEM</li>
+    <li>Thailand&rsquo;s formal WTP threshold is <strong>THB 160,000 per QALY</strong> (roughly USD 4,500) &mdash; one of the lowest globally, reflecting domestic GDP per capita. Cost-effectiveness above this threshold is a major access barrier</li>
+    <li>Search the <a href="https://ndi.fda.moph.go.th/drug_national/search" target="_blank" rel="noopener">NDI portal</a> for current NLEM status and search drug prices at the NDI pricing module. The <a href="https://en.fda.moph.go.th/" target="_blank" rel="noopener">Thai FDA English portal</a> provides registration information in English</li>
+    <li>Thai FDA drug registration search: <a href="https://pertento.fda.moph.go.th/FDA_SEARCH_DRUG/SEARCH_DRUG/FRM_SEARCH_DRUG.aspx" target="_blank" rel="noopener">pertento.fda.moph.go.th</a> (Thai language; use Google Translate browser extension)</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> Most Thai government portals are in Thai only. The Thai FDA English portal and HITAP English site are the main exceptions. Google Translate handles Thai adequately for navigation. The NDI portal has partial English support.</p>
+`,
     },
     {
         code: "TW",
@@ -2184,6 +2548,21 @@ const COUNTRIES = [
             },
         ],
         notes: "SGK and TITCK interfaces are in Turkish only. For the SUT reimbursement conditions, navigate to SGK \u2192 Sa\u011fl\u0131k Hizmetleri \u2192 SUT or search on the TITCK website for 'geri \u00f6deme' (reimbursement).",
+        tipsHtml: `
+<h4 class="tips-heading">TITCK &mdash; Marketing Authorization &amp; Pricing</h4>
+<ol>
+    <li>The <a href="https://www.titck.gov.tr/dinamikmodul/85" target="_blank" rel="noopener">TITCK licensed product list</a> is downloadable as Excel &mdash; search by brand name or INN (etken madde). Turkey operates its own independent registration pathway; EMA authorisations are not automatically valid</li>
+    <li>Drug prices are published monthly as a downloadable Excel file from <a href="https://www.titck.gov.tr/dinamikmodul/100" target="_blank" rel="noopener">TITCK pricing page</a>. Prices are denominated in <strong>Euros</strong> to avoid lira depreciation effects. Turkey uses reference pricing against a basket of European countries to set maximum ex-factory prices</li>
+</ol>
+
+<h4 class="tips-heading">SGK &amp; SUT Reimbursement</h4>
+<ol>
+    <li>SGK (Sosyal G&uuml;venlik Kurumu) administers health insurance for ~85% of Turkey&rsquo;s population. The <strong>SUT (Sa&gbreve;l&imath;k Uygulama Tebli&gbreve;i)</strong> is the comprehensive reimbursement circular that specifies eligible conditions, dosing rules, prescribing restrictions (uzman hekim &mdash; specialist physician, rapor &mdash; committee report), and special conditions for each medicine</li>
+    <li>To find SUT conditions for a specific drug: go to <a href="https://www.sgk.gov.tr/" target="_blank" rel="noopener">sgk.gov.tr</a>, navigate to Sa&gbreve;l&imath;k Hizmetleri &rarr; SUT and download the latest version (typically updated annually). The SUT is a large document &mdash; search by INN or ATC code within the PDF</li>
+    <li>Prescription-only medicines on the SGK positive list are reimbursed at <strong>80&ndash;90%</strong> for insured patients (with co-payment). Some products require a specialist physician prescription or a committee report (heyet raporu) for reimbursement</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> SGK and TITCK are entirely in Turkish. Google Translate handles Turkish pharmaceutical text well. Key terms: "geri &ouml;deme" (reimbursement), "etken madde" (active substance), "uzman hekim" (specialist physician), "rapor" (physician committee report required).</p>
+        `,
     },
     {
         code: "AE",
@@ -2193,18 +2572,40 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization & Pricing",
-                links: [{ label: "MOHAP — Registered Medical Product Directory", url: "https://mohap.gov.ae/en/services/registered-medical-product-directory" }],
+                links: [
+                    { label: "MOHAP — Registered Medications List", url: "https://mohap.gov.ae/en/w/registered-medications-list" },
+                    { label: "DoH (Abu Dhabi) — Drug Search", url: "https://www.doh.gov.ae/en/resources/drug-search-page" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
                 links: [
                     { label: "DHA — Drug Control (Dubai Health Authority)", url: "https://www.dha.gov.ae/en/HealthRegulationSector/DrugControl" },
-                    { label: "DAMAN — Drug Formulary (SEHA / DAMAN)", url: "https://www.damanhealth.ae/healthcare/pharmaceutical-benefits/daman-drug-formulary/" },
+                    { label: "DoH (Abu Dhabi) — Shafafiya Drug Prices", url: "https://www.doh.gov.ae/en/Shafafiya/prices" },
+                    { label: "DAMAN — Drug Formulary", url: "https://www.damanhealth.ae/healthcare/pharmaceutical-benefits/daman-drug-formulary/" },
                 ],
             },
         ],
-        notes: "Two main funding sources: DHA (Dubai) and SEHA/DAMAN. Other Emirates may have different arrangements.",
+        notes: "UAE pharmaceutical regulation is split across three authorities: MOHAP/EDE (federal + Northern Emirates), DHA (Dubai), and DoH (Abu Dhabi). Mandatory health insurance applies in Abu Dhabi (since 2007) and Dubai (since 2014–2016).",
+        tipsHtml: `
+<h4 class="tips-heading">Three-Authority Structure</h4>
+<p>The UAE has <strong>no single national pharmaceutical database</strong> &mdash; registration and reimbursement are split across three authorities:</p>
+<ol>
+    <li><strong>MOHAP / EDE (federal)</strong>: Covers Northern Emirates (Sharjah, Ajman, RAK, Fujairah, UAQ). MOHAP is transitioning pharmaceutical registration to the <strong>Emirates Drug Establishment (EDE)</strong> &mdash; check <a href="https://ede.gov.ae" target="_blank" rel="noopener">ede.gov.ae</a> for the latest portal. Search the <a href="https://mohap.gov.ae/en/w/registered-medications-list" target="_blank" rel="noopener">MOHAP registered medications list</a> for currently authorised products</li>
+    <li><strong>DHA (Dubai Health Authority)</strong>: Regulates Dubai. The <a href="https://www.dha.gov.ae/en/HealthRegulationSector/DrugControl" target="_blank" rel="noopener">DHA Drug Control page</a> lists approved products and drug pricing in Dubai</li>
+    <li><strong>DoH (Department of Health, Abu Dhabi)</strong>: Regulates Abu Dhabi. Use the <a href="https://www.doh.gov.ae/en/resources/drug-search-page" target="_blank" rel="noopener">DoH Drug Search</a> for Abu Dhabi-registered products and the <a href="https://www.doh.gov.ae/en/Shafafiya/prices" target="_blank" rel="noopener">Shafafiya price transparency portal</a> for drug prices</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement &amp; Pricing</h4>
+<ol>
+    <li>Mandatory health insurance operates in <strong>Abu Dhabi</strong> (since 2007, for all residents) and <strong>Dubai</strong> (since 2014&ndash;2016, phased). Formulary listing by insurers &mdash; including <a href="https://www.damanhealth.ae/healthcare/pharmaceutical-benefits/daman-drug-formulary/" target="_blank" rel="noopener">Daman (Abu Dhabi)</a> &mdash; determines practical reimbursement access</li>
+    <li>Drug prices are set by the relevant authority using the <strong>Unified Pricing Policy (UPP)</strong>: maximum retail price is published per product. MOHAP, DHA, and DoH each set prices independently &mdash; prices may differ between Emirates</li>
+    <li>There is <strong>no UAE-wide HTA body or ICER threshold</strong>. Market access is primarily driven by formulary negotiations with individual insurance providers and procurement by hospital groups</li>
+    <li>Multi-Emirate launches require separate registration or mutual recognition filings with each authority &mdash; budget for parallel submissions</li>
+</ol>
+<p class="tips-note"><strong>EDE transition note:</strong> MOHAP is in the process of transferring pharmaceutical oversight to the Emirates Drug Establishment (EDE). During this transition, both the MOHAP portal and the new EDE portal (<a href="https://ede.gov.ae" target="_blank" rel="noopener">ede.gov.ae</a>) may be relevant. Check both if a product is not found in one database.</p>
+`,
     },
     {
         code: "GB",
