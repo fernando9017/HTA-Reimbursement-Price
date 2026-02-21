@@ -2415,14 +2415,14 @@ const COUNTRIES = [
 <p>Thailand has three parallel public health insurance schemes &mdash; understanding which scheme covers a patient is essential:</p>
 <ol>
     <li><strong>UCS (Universal Coverage Scheme)</strong>: Managed by NHSO (National Health Security Office), covers ~71% of the population. Only NLEM-listed drugs used in <a href="https://www.nhso.go.th/" target="_blank" rel="noopener">NHSO</a>-contracted hospitals are reimbursed; NLEM listing alone does <em>not</em> guarantee NHSO reimbursement</li>
-    <li><strong>CSMBS (Civil Servant Medical Benefit Scheme)</strong>: Managed by the Comptroller General&rsquo;s Department (CGD), covers ~10% (civil servants and dependants). Broader drug coverage than UCS; non-NLEM drugs may be reimbursed via individual approval</li>
+    <li><strong>CSMBS (Civil Servant Medical Benefit Scheme)</strong>: Managed by the Comptroller General&rsquo;s Department (CGD), covers ~10% (civil servants and dependants). Uses fee-for-service reimbursement &mdash; the most generous scheme. Non-NLEM drugs can be accessed via prior authorization, including the <strong>OCPA (Oncology Clinical Practice Assessment)</strong> program for cancer medicines</li>
     <li><strong>SSS (Social Security Scheme)</strong>: Managed by Social Security Office, covers ~19% (private-sector employees). Uses a capitation model; drug coverage varies by contracted hospital</li>
 </ol>
 
 <h4 class="tips-heading">NLEM &amp; HTA (HITAP)</h4>
 <ol>
     <li>The <strong>NLEM (National List of Essential Medicines)</strong> is structured in categories A through E2. <strong>Category E2</strong> (innovative high-cost medicines) requires mandatory HTA by <a href="https://www.hitap.net/en/" target="_blank" rel="noopener">HITAP (Health Intervention and Technology Assessment Program)</a> before a drug can be considered for the NLEM</li>
-    <li>Thailand&rsquo;s formal WTP threshold is <strong>THB 160,000 per QALY</strong> (roughly USD 4,500) &mdash; one of the lowest globally, reflecting domestic GDP per capita. Cost-effectiveness above this threshold is a major access barrier</li>
+    <li>Thailand&rsquo;s formal WTP threshold is <strong>THB 160,000 per QALY</strong> (~USD 4,500, approximately 1.3&times; GDP per capita) &mdash; one of the lowest globally and a significant access barrier, especially for oncology. Where a drug exceeds this threshold, <strong>Managed Entry Agreements (MEAs)</strong> &mdash; risk-sharing, outcomes-based, or price-volume agreements &mdash; may be negotiated with NHSO before final NLEM listing</li>
     <li>Search the <a href="https://ndi.fda.moph.go.th/drug_national/search" target="_blank" rel="noopener">NDI portal</a> for current NLEM status and search drug prices at the NDI pricing module. The <a href="https://en.fda.moph.go.th/" target="_blank" rel="noopener">Thai FDA English portal</a> provides registration information in English</li>
     <li>Thai FDA drug registration search: <a href="https://pertento.fda.moph.go.th/FDA_SEARCH_DRUG/SEARCH_DRUG/FRM_SEARCH_DRUG.aspx" target="_blank" rel="noopener">pertento.fda.moph.go.th</a> (Thai language; use Google Translate browser extension)</li>
 </ol>
