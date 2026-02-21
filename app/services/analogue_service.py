@@ -151,6 +151,10 @@ def _split_indications(text: str) -> list[str]:
     # 2. Product-name-repeated pattern
     #    Detect when the same product name introduces multiple indication
     #    clauses separated by sentence boundaries (period + space).
+    #    Guard: only split when EVERY resulting part contains "is indicated"
+    #    — this prevents splitting on continuation sentences (e.g. "Itovebi
+    #    has not been studied in…") that share the product name but are NOT
+    #    a new indication clause.
     name_m = re.match(r"^([A-Z][a-zA-Z0-9-]+)", t)
     if name_m:
         prod = name_m.group(1)
@@ -160,7 +164,9 @@ def _split_indications(text: str) -> list[str]:
             r"(?<=\.)\s+(?=" + re.escape(prod) + r"\b)",
             t,
         )
-        if len(parts) >= 2:
+        if len(parts) >= 2 and all(
+            re.search(r"\bis indicated\b", p, re.IGNORECASE) for p in parts
+        ):
             return [p.strip() for p in parts if p.strip()]
 
     # 3. "indicated for/in:" followed by semicolons or dash-separated items

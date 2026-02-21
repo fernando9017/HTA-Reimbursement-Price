@@ -202,25 +202,47 @@ class GermanyGBA(HTAAgency):
         """
         urls: list[str] = []
 
-        # Try to scrape the current XML link from the AIS page
+        # Try to scrape the current XML link from the AIS page.
+        # The G-BA site may render links with single or double quotes, and
+        # the href may be relative or absolute.
         try:
             response = await client.get(GBA_AIS_PAGE_URL)
             response.raise_for_status()
             html = response.text
-            # Look for .xml download link in the page
-            for match in re.finditer(r'href="([^"]*G-BA_Beschluss_Info[^"]*\.xml)"', html):
+            # Match href/src/data-href attributes pointing to the AIS XML
+            for match in re.finditer(
+                r"""(?:href|src|data-href|data-url)=['"]((?:[^'"]*/)"""
+                r"""G-BA_Beschluss_Info[^'"]*\.xml)['"]""",
+                html,
+                re.IGNORECASE,
+            ):
                 url = match.group(1)
                 if not url.startswith("http"):
-                    url = "https://www.g-ba.de" + url
+                    url = "https://www.g-ba.de" + (
+                        url if url.startswith("/") else "/" + url
+                    )
                 urls.append(url)
+
+            # Also scan for any .xml links that contain "Beschluss" (broader)
+            if not urls:
+                for match in re.finditer(
+                    r"""href=['"](/[^'"]*Beschluss[^'"]*\.xml)['"]""",
+                    html,
+                    re.IGNORECASE,
+                ):
+                    urls.append("https://www.g-ba.de" + match.group(1))
         except Exception:
             logger.warning("Could not fetch AIS page to find XML URL, will try fallbacks")
 
-        # Fallback: known download path patterns
+        # Fallback: known and guessed download path patterns.
+        # The G-BA periodically changes the numeric folder segment in the URL,
+        # so we list the most commonly observed patterns alongside a direct
+        # /downloads/ais/ path that works when the AIS page is unavailable.
         urls.extend([
             "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
-            "https://www.g-ba.de/downloads/83-691-836/G-BA_Beschluss_Info.xml",
+            "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
+            "https://www.g-ba.de/fileadmin/downloads/ais/G-BA_Beschluss_Info.xml",
         ])
 
         # De-duplicate while preserving order
@@ -291,10 +313,15 @@ class GermanyGBA(HTAAgency):
             "ID_BE_AKZ", "id_be_akz", "AKZ", "akz",
         ])
 
-        # Try to extract a procedure number from the decision ID
+        # Extract the procedure number from the decision ID.
+        # G-BA decision IDs follow the pattern "YYYY-MM-DD-D-<seq>" where
+        # <seq> is the sequential procedure number used in the assessment URL.
+        # Prefer a trailing "-D-<digits>" suffix; fall back to the last
+        # numeric segment so we don't accidentally pick up the year.
         if decision_id:
-            # IDs often contain a sequential number
-            num_match = re.search(r"(\d{2,})", decision_id)
+            num_match = re.search(r"-[Dd]-(\d+)\s*$", decision_id)
+            if not num_match:
+                num_match = re.search(r"(\d+)\s*$", decision_id)
             if num_match:
                 procedure_id = num_match.group(1)
 
@@ -433,8 +460,8 @@ class GermanyGBA(HTAAgency):
             el = parent.find(tag)
             if el is not None and el.text:
                 return el.text.strip()
-            # Try with namespace wildcard
-            el = parent.find(f".//{{{' '}*}}{tag}")
+            # Search anywhere in the subtree (handles varying nesting)
+            el = parent.find(".//" + tag)
             if el is not None and el.text:
                 return el.text.strip()
         # Also check attributes

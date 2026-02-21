@@ -257,18 +257,22 @@ function splitIndications(text, productName) {
     let parts = text.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
     if (parts.length > 1) return parts;
 
-    // 2. Try splitting where the product name starts a new sentence after a period
+    // 2. Try splitting where the product name starts a new sentence after a period.
+    //    Guard: only accept the split when EVERY resulting part contains
+    //    "is indicated" — this prevents breaking on continuation sentences
+    //    (e.g. "Itovebi has not been studied in…") that are NOT new
+    //    indication clauses.
     if (productName) {
         const escaped = escRegex(productName);
         // Split on ". ProductName" or ".\nProductName"
         const re = new RegExp(`\\.\\s+(?=${escaped}\\b)`, "gi");
         parts = text.split(re).map(s => s.trim()).filter(Boolean);
-        if (parts.length > 1) return parts;
+        if (parts.length > 1 && parts.every(p => /\bis indicated\b/i.test(p))) return parts;
 
         // 3. Try splitting on newline followed by product name
         const re2 = new RegExp(`\\n\\s*(?=${escaped}\\b)`, "gi");
         parts = text.split(re2).map(s => s.trim()).filter(Boolean);
-        if (parts.length > 1) return parts;
+        if (parts.length > 1 && parts.every(p => /\bis indicated\b/i.test(p))) return parts;
     }
 
     // 4. Try splitting on " - " dash items (sometimes used for sub-indications)
