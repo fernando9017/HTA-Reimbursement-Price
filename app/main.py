@@ -73,32 +73,48 @@ async def _build_hta_cross_reference() -> None:
             if not assessments:
                 continue
 
-            # Build summary from most recent assessment
-            latest = assessments[0]  # already sorted most recent first
-            summary = {
-                "agency": agency.agency_abbreviation,
-                "latest_date": latest.opinion_date,
-                "rating": "",
-                "rating_detail": "",
-            }
-            # Country-specific best rating
-            if code == "FR":
-                summary["rating"] = latest.smr_value or ""
-                if latest.asmr_value:
-                    summary["rating_detail"] = f"ASMR {latest.asmr_value}"
-            elif code == "DE":
-                summary["rating"] = latest.benefit_rating or ""
-                summary["rating_detail"] = latest.evidence_level or ""
-            elif code == "GB":
-                summary["rating"] = latest.nice_recommendation or ""
-                summary["rating_detail"] = latest.guidance_reference or ""
-            elif code == "ES":
-                summary["rating"] = latest.therapeutic_positioning or ""
-                summary["rating_detail"] = latest.ipt_reference or ""
-            else:
-                summary["rating"] = latest.summary_en or ""
+            # Store ALL assessments so they can be matched to specific
+            # indication segments later.  Each entry carries the rating
+            # plus a concatenation of text fields useful for matching.
+            assessment_list: list[dict] = []
+            for a in assessments:
+                indication_text = " ".join(filter(None, [
+                    a.evaluation_reason,
+                    a.patient_group,
+                    a.smr_description,
+                    a.asmr_description,
+                    a.nice_recommendation,
+                    a.summary_en,
+                ]))
 
-            summaries.setdefault(subst_lower, {})[code] = summary
+                rating = ""
+                rating_detail = ""
+                if code == "FR":
+                    rating = a.smr_value or ""
+                    rating_detail = f"ASMR {a.asmr_value}" if a.asmr_value else ""
+                elif code == "DE":
+                    rating = a.benefit_rating or ""
+                    rating_detail = a.evidence_level or ""
+                elif code == "GB":
+                    rating = a.nice_recommendation or ""
+                    rating_detail = a.guidance_reference or ""
+                elif code == "ES":
+                    rating = a.therapeutic_positioning or ""
+                    rating_detail = a.ipt_reference or ""
+                else:
+                    rating = a.summary_en or ""
+
+                assessment_list.append({
+                    "date": a.opinion_date,
+                    "rating": rating,
+                    "rating_detail": rating_detail,
+                    "indication_text": indication_text,
+                })
+
+            summaries.setdefault(subst_lower, {})[code] = {
+                "agency": agency.agency_abbreviation,
+                "assessments": assessment_list,
+            }
 
     analogue_service.set_hta_summaries(summaries, loaded_countries)
     logger.info("HTA cross-reference built for %d substances", len(summaries))

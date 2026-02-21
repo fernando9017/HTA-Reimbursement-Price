@@ -123,40 +123,67 @@ def _classify_evidence_tier(
 def _split_indications(text: str) -> list[str]:
     """Split a multi-indication text into individual indication segments.
 
-    EMA indication text may contain multiple indications separated by bullets,
-    numbered lists, or clear sentence boundaries. This function attempts to
-    split them while keeping each segment meaningful.
+    EMA indication text may contain multiple indications separated by:
+    - Bullet or numbered lists
+    - Product name repeated at sentence boundaries (e.g. ``Product is
+      indicated for X.  Product as monotherapy is indicated for Y.``)
+    - HTML entities (``&nbsp;``) separating indication blocks
+    - Semicolons after an ``indicated for:`` preamble
     """
     if not text or not text.strip():
         return [text] if text else []
 
-    # Try bullet/numbered list patterns first
-    # Pattern: lines starting with "- ", "• ", "– ", or "1. ", "2. " etc.
-    lines = text.split("\n")
-    bullet_lines = [
-        l.strip() for l in lines
-        if re.match(r"^\s*(?:[-•–]\s+|\d+[.)]\s+)", l.strip())
-    ]
-    if len(bullet_lines) >= 2:
-        return [re.sub(r"^[-•–]\s+|\d+[.)]\s+", "", bl).strip() for bl in bullet_lines]
+    # ── Normalise HTML entities & whitespace ──────────────────────────
+    t = re.sub(r"&nbsp;|&#160;", " ", text)
+    t = re.sub(r"&[a-z]+;", " ", t)
+    t = re.sub(r"&#\d+;", " ", t)
+    t = re.sub(r"\s+", " ", t).strip()
 
-    # Try splitting on "indicated for the treatment of:" followed by
-    # separate clauses with semicolons or " - "
-    # Common pattern: "Product is indicated for: indication1; indication2; ..."
-    colon_match = re.search(r"indicated\s+(?:for|in)\s*:?\s*", text, re.IGNORECASE)
-    if colon_match:
-        rest = text[colon_match.end():]
-        # Split on " - " dashes used as separators
+    # 1. Bullet / numbered lists (newline-delimited)
+    lines = t.split("\n")
+    bullets = [
+        ln.strip() for ln in lines
+        if re.match(r"^\s*(?:[-•–]\s+|\d+[.)]\s+)", ln.strip())
+    ]
+    if len(bullets) >= 2:
+        return [re.sub(r"^[-•–]\s+|\d+[.)]\s+", "", b).strip() for b in bullets]
+
+    # 2. Product-name-repeated pattern
+    #    Detect when the same product name introduces multiple indication
+    #    clauses separated by sentence boundaries (period + space).
+    name_m = re.match(r"^([A-Z][a-zA-Z0-9-]+)", t)
+    if name_m:
+        prod = name_m.group(1)
+        # Split after a period (end of previous indication) before the
+        # product name reappears to start a new clause.
+        parts = re.split(
+            r"(?<=\.)\s+(?=" + re.escape(prod) + r"\b)",
+            t,
+        )
+        if len(parts) >= 2:
+            return [p.strip() for p in parts if p.strip()]
+
+    # 3. "indicated for/in:" followed by semicolons or dash-separated items
+    cm = re.search(r"indicated\s+(?:for|in)\s*:?\s*", t, re.IGNORECASE)
+    if cm:
+        rest = t[cm.end():]
         dash_parts = re.split(r"\s*[-–]\s+(?=[A-Z])", rest)
         if len(dash_parts) >= 2:
             return [p.strip().rstrip(".;,") for p in dash_parts if p.strip()]
-        # Split on semicolons
         semi_parts = [p.strip().rstrip(".;,") for p in rest.split(";") if p.strip()]
         if len(semi_parts) >= 2:
             return semi_parts
 
-    # If no clear delimiters, return as single indication
-    return [text.strip()]
+    # 4. Multiple sentences each containing "is indicated"
+    sentences = re.split(r"(?<=\.)\s+", t)
+    ind_sents = [
+        s for s in sentences
+        if re.search(r"\bis indicated\b", s, re.IGNORECASE)
+    ]
+    if len(ind_sents) >= 2:
+        return [s.strip() for s in ind_sents]
+
+    return [t]
 
 # ── Therapeutic area taxonomy ─────────────────────────────────────────
 # Broad categories with keyword-based classification and sub-categories.
@@ -517,6 +544,63 @@ def _classify_prevalence(orphan: bool, indication: str) -> str:
             return "rare"
 
     return "non-rare"
+
+
+# ── HTA-to-indication matching helpers ────────────────────────────────
+
+_INDICATION_STOP_WORDS = frozenset({
+    "the", "for", "and", "with", "who", "have", "has", "been", "that",
+    "this", "from", "are", "were", "was", "will", "being", "their",
+    "which", "after", "prior", "other", "than", "also", "used",
+    "indicated", "treatment", "patients", "adult", "adults", "therapy",
+    "received", "given", "following", "either", "more", "those",
+    "should", "dose", "including",
+})
+
+
+def _extract_indication_keywords(text: str) -> set[str]:
+    """Extract significant words (4+ chars, not stop-words) from text."""
+    return {
+        w for w in re.findall(r"[a-zA-Z]{4,}", text.lower())
+        if w not in _INDICATION_STOP_WORDS
+    }
+
+
+def _match_assessment_to_indication(
+    assessments: list[dict], indication: str,
+) -> dict:
+    """Pick the assessment best matching a specific indication segment.
+
+    Scores each assessment by keyword overlap with the indication text.
+    Prefers higher overlap; ties broken by most recent date.  Falls back
+    to the first (most recent) assessment when nothing matches.
+    """
+    if not assessments:
+        return {}
+    if not indication:
+        return assessments[0]
+
+    keywords = _extract_indication_keywords(indication)
+    if not keywords:
+        return assessments[0]
+
+    best_score = 0.0
+    best = assessments[0]  # default: most recent
+
+    for a in assessments:
+        a_text = a.get("indication_text", "").lower()
+        if not a_text:
+            continue
+        matches = sum(1 for kw in keywords if kw in a_text)
+        score = matches / len(keywords)
+        if score > best_score or (
+            score > 0 and score == best_score
+            and a.get("date", "") > best.get("date", "")
+        ):
+            best_score = score
+            best = a
+
+    return best
 
 
 class AnalogueService:
@@ -1006,20 +1090,31 @@ class AnalogueService:
     def _build_result_row(
         self, med: dict, indication_segment: str = "",
     ) -> dict:
-        """Build a result dict from a medicine record, attaching HTA summaries."""
+        """Build a result dict from a medicine record, attaching HTA summaries.
+
+        When *indication_segment* is provided the best-matching assessment per
+        country is selected via keyword overlap; otherwise the most recent
+        assessment is used.
+        """
         subst_key = med["active_substance"].lower().strip()
         hta_data = self._hta_summaries.get(subst_key, {})
-        hta_list = [
-            {
+        hta_list = []
+
+        for cc, country_data in hta_data.items():
+            assessments = country_data.get("assessments", [])
+            if not assessments:
+                continue
+
+            best = _match_assessment_to_indication(assessments, indication_segment)
+
+            hta_list.append({
                 "country_code": cc,
-                "agency": summary["agency"],
+                "agency": country_data["agency"],
                 "has_assessment": True,
-                "latest_date": summary.get("latest_date", ""),
-                "rating": summary.get("rating", ""),
-                "rating_detail": summary.get("rating_detail", ""),
-            }
-            for cc, summary in hta_data.items()
-        ]
+                "latest_date": best.get("date", ""),
+                "rating": best.get("rating", ""),
+                "rating_detail": best.get("rating_detail", ""),
+            })
 
         row = {
             "name": med["name"],
