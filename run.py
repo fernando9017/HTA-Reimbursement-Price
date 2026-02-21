@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Entry point to run the HTA Reimbursement Price Finder application."""
+"""Entry point to run the VAP Global Resources application."""
 
 import uvicorn
 

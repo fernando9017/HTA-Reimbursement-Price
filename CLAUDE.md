@@ -1,8 +1,8 @@
-# CLAUDE.md - AI Assistant Guide for HTA-Reimbursement-Price
+# CLAUDE.md - AI Assistant Guide for VAP Global Resources
 
 ## Project Overview
 
-**HTA Assessment Finder** — a web application with two modules:
+**VAP Global Resources** (Value, Access & Pricing) — a web application with two modules:
 
 1. **HTA & Reimbursement**: Search EMA-authorized medicines and retrieve HTA assessment outcomes by country. Supports **France (HAS)** with SMR/ASMR ratings, **Germany (G-BA)** with Zusatznutzen (added benefit) ratings, and **UK (NICE)** with Technology Appraisal / HST recommendation outcomes.
 2. **Analogue Selection**: Filter EMA medicines by therapeutic area, orphan status, years since approval, first approval status, and more to identify comparable therapies.

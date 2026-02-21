@@ -1,5 +1,5 @@
 /**
- * Shared utilities for HTA Assessment Finder frontend.
+ * Shared utilities for VAP Global Resources frontend.
  */
 
 // ── HTML escaping ─────────────────────────────────────────────────────

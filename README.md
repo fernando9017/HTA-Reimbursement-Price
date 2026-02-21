@@ -1,6 +1,6 @@
-# HTA Assessment Finder
+# VAP Global Resources
 
-A web application with three integrated modules to support market access and health technology assessment (HTA) research for EMA-authorized medicines.
+A Value, Access & Pricing (VAP) web application with three integrated modules to support market access and health technology assessment (HTA) research for EMA-authorized medicines.
 
 ## Modules
 
