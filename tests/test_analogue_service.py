@@ -3,7 +3,9 @@
 import pytest
 from datetime import date
 
-from app.services.analogue_service import AnalogueService, _normalize_date, _classify_prevalence
+from app.services.analogue_service import (
+    AnalogueService, _normalize_date, _classify_prevalence, _classify_therapeutic_area,
+)
 
 
 # Sample EMA-like medicine records for testing
@@ -26,7 +28,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "yes",
-        "additionalMonitoring": "yes",
     },
     {
         "medicineName": "Opdivo",
@@ -46,7 +47,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "yes",
-        "additionalMonitoring": "yes",
     },
     {
         "medicineName": "Zolgensma",
@@ -66,7 +66,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "yes",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "yes",
-        "additionalMonitoring": "yes",
     },
     {
         "medicineName": "Avastin",
@@ -86,7 +85,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "no",
-        "additionalMonitoring": "no",
     },
     {
         "medicineName": "Mvasi",
@@ -106,7 +104,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "no",
-        "additionalMonitoring": "no",
     },
     {
         "medicineName": "Herceptin",
@@ -126,7 +123,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "no",
-        "additionalMonitoring": "no",
     },
     {
         "medicineName": "Spinraza",
@@ -146,7 +142,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "yes",
         "newActiveSubstance": "yes",
-        "additionalMonitoring": "yes",
     },
     {
         "medicineName": "OldDrug",
@@ -166,7 +161,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "no",
-        "additionalMonitoring": "no",
     },
     {
         "medicineName": "GenericDrug",
@@ -186,7 +180,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "no",
         "newActiveSubstance": "no",
-        "additionalMonitoring": "no",
     },
     {
         "medicineName": "CovidVax",
@@ -206,7 +199,6 @@ SAMPLE_MEDICINES = [
         "exceptionalCircumstances": "no",
         "acceleratedAssessment": "yes",
         "newActiveSubstance": "yes",
-        "additionalMonitoring": "yes",
     },
 ]
 
@@ -258,6 +250,11 @@ def test_get_filter_options(service):
     assert len(opts["atc_prefixes"]) > 0
     assert any(p["code"] == "L01" for p in opts["atc_prefixes"])
     assert opts["prevalence_categories"] == ["ultra-rare", "rare", "non-rare"]
+    # Therapeutic taxonomy
+    taxonomy = opts["therapeutic_taxonomy"]
+    assert len(taxonomy) > 0
+    cats = {t["category"] for t in taxonomy}
+    assert "Oncology" in cats
 
 
 # ── Filtering by therapeutic area ────────────────────────────────────
@@ -663,23 +660,6 @@ def test_filter_new_active_substance_no(service):
     assert "Keytruda" not in names
 
 
-# ── Additional monitoring filtering ──────────────────────────────────
-
-
-def test_filter_additional_monitoring_yes(service):
-    results = service.search(additional_monitoring="yes")
-    names = {r["name"] for r in results}
-    assert "Keytruda" in names
-    assert "Zolgensma" in names
-    assert "Avastin" not in names
-
-
-def test_filter_additional_monitoring_no(service):
-    results = service.search(additional_monitoring="no")
-    assert "Avastin" in {r["name"] for r in results}
-    assert "Keytruda" not in {r["name"] for r in results}
-
-
 # ── Prevalence category filtering ────────────────────────────────────
 
 
@@ -761,7 +741,6 @@ def test_records_have_regulatory_flags(service):
     assert r["conditional_approval"] is True
     assert r["accelerated_assessment"] is True
     assert r["new_active_substance"] is True
-    assert r["additional_monitoring"] is True
     assert r["exceptional_circumstances"] is False
 
 
@@ -802,3 +781,91 @@ def test_combined_prevalence_and_indication(service):
     assert "Zolgensma" in names
     assert "Spinraza" in names
     assert len(results) == 2
+
+
+# ── Therapeutic area classification ─────────────────────────────────
+
+
+def test_classify_oncology():
+    cat, sub = _classify_therapeutic_area("Oncology", "Treatment of melanoma and NSCLC")
+    assert cat == "Oncology"
+    assert sub == "Solid Tumours"
+
+
+def test_classify_oncology_haem():
+    cat, sub = _classify_therapeutic_area("", "Treatment of acute myeloid leukemia")
+    assert cat == "Oncology"
+    assert sub == "Haematological Malignancies"
+
+
+def test_classify_neurology():
+    cat, sub = _classify_therapeutic_area("Neurology", "Treatment of spinal muscular atrophy")
+    assert cat == "Neurology"
+    assert sub == "Neuromuscular"
+
+
+def test_classify_infectious():
+    cat, sub = _classify_therapeutic_area("Infectious Disease", "Prevention of COVID-19")
+    assert cat == "Infectious Diseases"
+
+
+def test_classify_unknown():
+    cat, sub = _classify_therapeutic_area("", "")
+    assert cat == "Other"
+    assert sub == ""
+
+
+def test_records_have_therapeutic_category(service):
+    results = service.search(name="Keytruda")
+    r = results[0]
+    assert r["therapeutic_category"] == "Oncology"
+    assert r["therapeutic_subcategory"] == "Solid Tumours"
+
+
+def test_records_neurology_category(service):
+    results = service.search(name="Zolgensma")
+    r = results[0]
+    assert r["therapeutic_category"] == "Neurology"
+
+
+# ── Filtering by therapeutic category ───────────────────────────────
+
+
+def test_filter_by_category_oncology(service):
+    results = service.search(therapeutic_category="Oncology")
+    for r in results:
+        assert r["therapeutic_category"] == "Oncology"
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Zolgensma" not in names
+
+
+def test_filter_by_category_neurology(service):
+    results = service.search(therapeutic_category="Neurology")
+    names = {r["name"] for r in results}
+    assert "Zolgensma" in names
+    assert "Spinraza" in names
+    assert "Keytruda" not in names
+
+
+def test_filter_by_subcategory_solid_tumours(service):
+    results = service.search(
+        therapeutic_category="Oncology",
+        therapeutic_subcategory="Solid Tumours",
+    )
+    for r in results:
+        assert r["therapeutic_category"] == "Oncology"
+        assert r["therapeutic_subcategory"] == "Solid Tumours"
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Herceptin" in names
+
+
+def test_filter_by_category_case_insensitive(service):
+    results = service.search(therapeutic_category="oncology")
+    assert any(r["name"] == "Keytruda" for r in results)
+
+
+def test_filter_by_nonexistent_category(service):
+    results = service.search(therapeutic_category="Dentistry")
+    assert len(results) == 0

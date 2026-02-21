@@ -268,7 +268,9 @@ async def analogue_filters():
 
 @app.get("/api/analogues/search", response_model=AnalogueResponse)
 async def search_analogues(
-    therapeutic_area: list[str] = Query([], description="Filter by therapeutic area(s)"),
+    therapeutic_area: list[str] = Query([], description="Filter by therapeutic area(s) — legacy text match"),
+    therapeutic_category: str = Query("", description="Broad therapeutic category (e.g. 'Oncology')"),
+    therapeutic_subcategory: str = Query("", description="Sub-category within category (e.g. 'Solid Tumours')"),
     orphan: str = Query("", description="Orphan status: 'yes', 'no', or '' (any)"),
     years: int = Query(0, ge=0, description="Years since approval (0 = all time)"),
     first_approval: str = Query("", description="First approval: 'yes', 'no', or '' (any)"),
@@ -283,7 +285,6 @@ async def search_analogues(
     exceptional_circumstances: str = Query("", description="Exceptional circumstances: 'yes', 'no', ''"),
     accelerated_assessment: str = Query("", description="Accelerated assessment: 'yes', 'no', ''"),
     new_active_substance: str = Query("", description="New active substance: 'yes', 'no', ''"),
-    additional_monitoring: str = Query("", description="Additional monitoring: 'yes', 'no', ''"),
     prevalence_category: str = Query("", description="Prevalence category: 'ultra-rare', 'rare', 'non-rare', ''"),
     indication_keyword: str = Query("", description="Keyword in indication text"),
     limit: int = Query(200, ge=1, le=500),
@@ -297,6 +298,8 @@ async def search_analogues(
 
     results = analogue_service.search(
         therapeutic_areas=area_filter,
+        therapeutic_category=therapeutic_category,
+        therapeutic_subcategory=therapeutic_subcategory,
         orphan=orphan,
         years_since_approval=years,
         first_approval=first_approval,
@@ -311,7 +314,6 @@ async def search_analogues(
         exceptional_circumstances=exceptional_circumstances,
         accelerated_assessment=accelerated_assessment,
         new_active_substance=new_active_substance,
-        additional_monitoring=additional_monitoring,
         prevalence_category=prevalence_category,
         indication_keyword=indication_keyword,
         limit=limit,

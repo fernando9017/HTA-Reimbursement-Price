@@ -36,13 +36,17 @@
             <!-- Section: Disease & Epidemiology -->
             <h3 class="filter-section-title">Disease &amp; Epidemiology</h3>
             <div class="filter-grid">
-                <div class="filter-group filter-group-wide">
-                    <label for="filter-area-input">Therapeutic Area</label>
-                    <div class="area-multiselect">
-                        <div id="filter-area-tags" class="area-tags"></div>
-                        <input type="text" id="filter-area-input" placeholder="Type to search therapeutic areas..." autocomplete="off">
-                        <div id="filter-area-dropdown" class="area-dropdown hidden"></div>
-                    </div>
+                <div class="filter-group">
+                    <label for="filter-category">Therapeutic Area</label>
+                    <select id="filter-category">
+                        <option value="">All therapeutic areas</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-subcategory">Sub-category</label>
+                    <select id="filter-subcategory" disabled>
+                        <option value="">Select a therapeutic area first</option>
+                    </select>
                 </div>
                 <div class="filter-group">
                     <label for="filter-prevalence">Prevalence Category</label>
@@ -138,14 +142,6 @@
                     <select id="filter-accelerated">
                         <option value="">Any</option>
                         <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-monitoring">Additional Monitoring</label>
-                    <select id="filter-monitoring">
-                        <option value="">Any</option>
-                        <option value="yes">Yes (black triangle)</option>
                         <option value="no">No</option>
                     </select>
                 </div>
