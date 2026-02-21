@@ -808,6 +808,186 @@ button:disabled {
     font-size: 0.82rem;
 }
 
+/* ── WIP tab badge ────────────────────────────────────────────────── */
+
+.tab-wip {
+    display: inline-block;
+    background: #e67e22;
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Global Secondary Resources — filter & count ──────────────────── */
+
+.secondary-search-box {
+    margin-bottom: 10px;
+}
+
+.secondary-search-box input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.secondary-search-box input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+}
+
+.secondary-count {
+    color: var(--text-light);
+    font-size: 0.82rem;
+    margin-bottom: 12px;
+}
+
+/* ── Global Secondary Resources — country grid ────────────────────── */
+
+.country-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+}
+
+.country-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px 10px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    text-align: center;
+    background: white;
+    user-select: none;
+}
+
+.country-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 2px 8px rgba(41, 128, 185, 0.12);
+}
+
+.country-card.active {
+    border-color: var(--accent);
+    background: #f0faf7;
+}
+
+.country-flag {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.country-card-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+.country-card-region {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+/* ── Global Secondary Resources — country detail panel ────────────── */
+
+.secondary-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+}
+
+.secondary-detail-flag {
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+.secondary-detail-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.secondary-link-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.secondary-link-category {
+    border-left: 3px solid var(--border);
+    padding-left: 14px;
+}
+
+.secondary-link-category.cat-border-regulatory {
+    border-left-color: var(--primary-light);
+}
+
+.secondary-link-category.cat-border-hta {
+    border-left-color: var(--accent);
+}
+
+.secondary-link-category.cat-border-reimbursement {
+    border-left-color: var(--smr-moderate);
+}
+
+.secondary-link-category.cat-border-database {
+    border-left-color: #7d3c98;
+}
+
+.secondary-link-category-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.secondary-link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.secondary-link-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.secondary-link-item a {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+.secondary-link-item a:hover {
+    text-decoration: underline;
+}
+
+.secondary-link-desc {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
 /* ── Utility ──────────────────────────────────────────────────────── */
 
 .hidden {
@@ -861,7 +1041,14 @@ footer a:hover {
         flex-direction: column;
     }
     .module-tab {
-        padding: 10px 16px;
-        font-size: 0.85rem;
+        padding: 10px 12px;
+        font-size: 0.82rem;
+    }
+    .country-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 6px;
+    }
+    .country-flag {
+        font-size: 1.6rem;
     }
 }

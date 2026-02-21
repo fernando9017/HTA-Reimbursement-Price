@@ -10,55 +10,35 @@
     <header>
         <div class="container">
             <h1>HTA Assessment Finder</h1>
-            <p class="subtitle">Search EMA-authorized medicines — HTA assessments &amp; analogue selection</p>
+            <p class="subtitle">Global secondary resources, analogue selection &amp; HTA assessments for EMA-authorized medicines</p>
         </div>
     </header>
 
     <!-- Module navigation tabs -->
     <nav class="module-nav">
         <div class="container">
-            <button class="module-tab active" data-module="hta">HTA &amp; Reimbursement</button>
+            <button class="module-tab active" data-module="secondary">Global Secondary Resources</button>
             <button class="module-tab" data-module="analogues">Analogue Selection</button>
+            <button class="module-tab" data-module="hta">HTA &amp; Reimbursement <span class="tab-wip">WIP</span></button>
         </div>
     </nav>
 
     <main class="container">
         <!-- ═══════════════════════════════════════════════════════════════
-             MODULE 1: HTA & Reimbursement
+             MODULE 1: Global Secondary Resources
              ═══════════════════════════════════════════════════════════════ -->
-        <div id="module-hta" class="module-content">
-            <!-- Step 1: Search for a medicine -->
-            <section id="search-section" class="card">
-                <h2>1. Search for a medicine</h2>
-                <div class="search-box">
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Enter medicine name or active substance (e.g., Keytruda, pembrolizumab)"
-                        autocomplete="off"
-                    >
-                    <button id="search-btn">Search</button>
+        <div id="module-secondary" class="module-content">
+            <section class="card">
+                <h2>Global Secondary Resources</h2>
+                <p class="filter-description">Country-level directory of official links covering marketing authorisation, HTA assessments, reimbursement decisions, and patient access — across major markets worldwide. Click a country flag to view its resources.</p>
+                <div class="secondary-search-box">
+                    <input type="text" id="secondary-filter" placeholder="Filter by country name or region…" autocomplete="off">
                 </div>
-                <div id="search-status" class="status-msg hidden"></div>
-                <div id="search-results" class="hidden"></div>
+                <div id="secondary-country-count" class="secondary-count"></div>
+                <div id="secondary-country-grid" class="country-grid"></div>
             </section>
-
-            <!-- Step 2: Medicine details + indication -->
-            <section id="medicine-section" class="card hidden">
-                <h2>2. EMA Authorized Indications</h2>
-                <div id="medicine-details"></div>
-            </section>
-
-            <!-- Step 3: Select country and view assessments -->
-            <section id="assessment-section" class="card hidden">
-                <h2>3. HTA Assessment Results</h2>
-                <div class="country-selector">
-                    <label for="country-select">Select country:</label>
-                    <select id="country-select"></select>
-                    <button id="find-assessments-btn">Find Assessments</button>
-                </div>
-                <div id="assessment-status" class="status-msg hidden"></div>
-                <div id="assessment-results" class="hidden"></div>
+            <section class="card hidden" id="secondary-detail-card">
+                <div id="secondary-country-detail"></div>
             </section>
         </div>
 
@@ -206,6 +186,45 @@
                 <h2>Results</h2>
                 <div id="analogue-status" class="status-msg hidden"></div>
                 <div id="analogue-results"></div>
+            </section>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             MODULE 3: HTA & Reimbursement  [WIP]
+             ═══════════════════════════════════════════════════════════════ -->
+        <div id="module-hta" class="module-content hidden">
+            <!-- Step 1: Search for a medicine -->
+            <section id="search-section" class="card">
+                <h2>1. Search for a medicine</h2>
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Enter medicine name or active substance (e.g., Keytruda, pembrolizumab)"
+                        autocomplete="off"
+                    >
+                    <button id="search-btn">Search</button>
+                </div>
+                <div id="search-status" class="status-msg hidden"></div>
+                <div id="search-results" class="hidden"></div>
+            </section>
+
+            <!-- Step 2: Medicine details + indication -->
+            <section id="medicine-section" class="card hidden">
+                <h2>2. EMA Authorized Indications</h2>
+                <div id="medicine-details"></div>
+            </section>
+
+            <!-- Step 3: Select country and view assessments -->
+            <section id="assessment-section" class="card hidden">
+                <h2>3. HTA Assessment Results</h2>
+                <div class="country-selector">
+                    <label for="country-select">Select country:</label>
+                    <select id="country-select"></select>
+                    <button id="find-assessments-btn">Find Assessments</button>
+                </div>
+                <div id="assessment-status" class="status-msg hidden"></div>
+                <div id="assessment-results" class="hidden"></div>
             </section>
         </div>
     </main>
