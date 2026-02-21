@@ -127,13 +127,22 @@ async def _build_hta_cross_reference() -> None:
 async def lifespan(app: FastAPI):
     """Load all data sources on startup."""
     logger.info("Loading data sources...")
+    ema_cache_file = DATA_DIR / "EMA.json"
     try:
         await ema_service.load_data()
         logger.info("EMA data loaded: %d medicines", ema_service.medicine_count)
+        # Cache to disk for future fallback
+        ema_service.save_to_file(ema_cache_file)
         # Feed raw EMA data into analogue service
         analogue_service.load_from_ema(ema_service.raw_medicines)
     except Exception:
-        logger.exception("Failed to load EMA data — search will be unavailable until retry")
+        logger.exception("Failed to fetch EMA data from remote source")
+        # Try loading from local cache as fallback
+        if ema_service.load_from_file(ema_cache_file):
+            logger.info("EMA data loaded from cache: %d medicines", ema_service.medicine_count)
+            analogue_service.load_from_ema(ema_service.raw_medicines)
+        else:
+            logger.error("No EMA cache available — search will be unavailable until reload")
 
     for code, agency in hta_agencies.items():
         data_file = DATA_DIR / f"{code}.json"
@@ -249,9 +258,11 @@ async def get_assessments(
 async def reload_data():
     """Manually trigger a reload of all data sources."""
     errors = []
+    ema_cache_file = DATA_DIR / "EMA.json"
 
     try:
         await ema_service.load_data()
+        ema_service.save_to_file(ema_cache_file)
         analogue_service.load_from_ema(ema_service.raw_medicines)
     except Exception as e:
         errors.append(f"EMA: {e}")
