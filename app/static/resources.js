@@ -3132,6 +3132,140 @@ const COUNTRIES = [
         ],
         notes: "Ukraine is undergoing significant healthcare reform (since 2016). The ongoing conflict since 2022 has significantly disrupted the pharmaceutical market. As an EU candidate, Ukraine is aligning its pharmaceutical regulations with EU standards. Verify current market access conditions with local partners.",
     },
+    {
+        code: "BD",
+        name: "Bangladesh",
+        flag: "🇧🇩",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "DGDA (Directorate General of Drug Administration) under the Ministry of Health handles drug registration. Bangladesh has a National Drug Policy and a local manufacturing base that is one of the largest generics exporters globally. Registration requires a local manufacturing partner or authorized agent.",
+                links: [
+                    { label: "DGDA — Directorate General of Drug Administration", url: "https://www.dgda.gov.bd/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Bangladesh has limited formal drug reimbursement. Government hospitals provide medicines from the Essential Drugs List free of charge, but supply is inconsistent. Out-of-pocket expenditure accounts for ~70% of total health spending. The Directorate General of Health Services (DGHS) manages the public health system.",
+                links: [
+                    { label: "DGHS — Directorate General of Health Services", url: "https://www.dghs.gov.bd/index.php/en" },
+                ],
+            },
+        ],
+        notes: "Bangladesh is an IQVIA pharmerging market with ~170 million population. It has a large, internationally recognized generic pharmaceutical manufacturing sector that exports to over 150 countries. Drug prices are regulated by DGDA. The primary market access challenge is distribution infrastructure outside major urban areas.",
+    },
+    {
+        code: "CR",
+        name: "Costa Rica",
+        flag: "🇨🇷",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "The Ministry of Health (Ministerio de Salud) handles pharmaceutical registration via RTCA (Reglamento Técnico Centroamericano), the Central American regional technical standard. Products approved by FDA or EMA benefit from an expedited review pathway. The national medicines registry is managed by the Dirección de Regulación de Productos de Interés Sanitario (DRPIS).",
+                links: [
+                    { label: "Ministry of Health — Costa Rica", url: "https://www.ministeriodesalud.go.cr/" },
+                    { label: "RTCA — Central American Technical Regulation Framework", url: "https://www.minsa.gob.pa/rtca/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement (CCSS)",
+                body: "Costa Rica's CCSS (Caja Costarricense de Seguro Social) provides near-universal healthcare coverage (~96% of the population). The CCSS maintains a centralized formulary (Lista Oficial de Medicamentos, LOM) and procures drugs centrally through CENDEISSS. CCSS listing is essential for access to the majority of patients.",
+                links: [
+                    { label: "CCSS — Caja Costarricense de Seguro Social", url: "https://www.ccss.sa.cr/" },
+                    { label: "CCSS — Medicines Formulary (LOM)", url: "https://www.ccss.sa.cr/farmacia" },
+                ],
+            },
+        ],
+        notes: "Costa Rica has one of Latin America's strongest universal health systems. CCSS formulary listing is the primary access gate for the majority of the population. Drug prices are regulated. The market is small (~5 million population) but high-income and with a well-developed healthcare system.",
+    },
+    {
+        code: "EC",
+        name: "Ecuador",
+        flag: "🇪🇨",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "ARCSA (Agencia Nacional de Regulación, Control y Vigilancia Sanitaria) handles drug registration in Ecuador. Ecuador accepts references to FDA or EMA approvals as part of an expedited registration pathway. Ecuador uses the dollarized economy (USD), which simplifies pricing.",
+                links: [
+                    { label: "ARCSA — National Agency for Health Regulation", url: "https://www.controlsanitario.gob.ec/" },
+                    { label: "MSP — Ministerio de Salud Pública", url: "https://www.salud.gob.ec/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "The MSP (Ministerio de Salud Pública) manages the public health system with a Cuadro Nacional de Medicamentos Básicos (CNMB — essential medicines list). IESS (Instituto Ecuatoriano de Seguridad Social) covers formal-sector workers and their families. Drug pricing in the public sector is regulated through maximum reference prices.",
+                links: [
+                    { label: "IESS — Instituto Ecuatoriano de Seguridad Social", url: "https://www.iess.gob.ec/" },
+                    { label: "SERCOP — Public Procurement Portal", url: "https://www.sercop.gob.ec/" },
+                ],
+            },
+        ],
+        notes: "Ecuador has a dollarized economy (~17 million population). Public-sector procurement through IESS and MSP is centralized and uses maximum reference prices. The private market operates with limited price controls. Spanish is the regulatory language.",
+    },
+    {
+        code: "KE",
+        name: "Kenya",
+        flag: "🇰🇪",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "The Pharmacy and Poisons Board (PPB) handles drug registration in Kenya. Kenya uses a dossier-based system and accepts references to WHO prequalification, EMA, FDA, or TGA approvals for an expedited pathway. Kenya is the East African regulatory reference market and a COMESA hub.",
+                links: [
+                    { label: "PPB — Pharmacy and Poisons Board", url: "https://ppb.go.ke/" },
+                    { label: "PPB — Registered Products Search", url: "https://ppb.go.ke/index.php/registered-products" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Kenya transitioned from NHIF (National Hospital Insurance Fund) to SHA (Social Health Authority) in 2024 under the Affordable Care Act. SHA manages three funds: Primary Healthcare Fund, Social Health Insurance Fund (SHIF), and Emergency, Chronic and Critical Illness Fund (ECCIF). KEMSA (Kenya Medical Supplies Agency) handles centralized procurement for public facilities.",
+                links: [
+                    { label: "SHA — Social Health Authority", url: "https://sha.go.ke/" },
+                    { label: "KEMSA — Kenya Medical Supplies Agency", url: "https://kemsa.go.ke/" },
+                    { label: "Ministry of Health — Kenya", url: "https://www.health.go.ke/" },
+                ],
+            },
+        ],
+        notes: "Kenya is East Africa's largest pharmaceutical market and a regulatory hub for the region. A positive PPB registration is often used as a reference for other East African countries. Out-of-pocket spending remains significant despite expanding insurance coverage. The SHA reform (2024) represents a major shift in healthcare financing.",
+    },
+    {
+        code: "RS",
+        name: "Serbia",
+        flag: "🇷🇸",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "ALIMS (Agencija za lekove i medicinska sredstva Srbije — Medicines and Medical Devices Agency of Serbia) handles drug registration. Serbia is an EU accession candidate and is progressively aligning with EU pharmaceutical regulations. EMA-approved products benefit from an accelerated review pathway.",
+                links: [
+                    { label: "ALIMS — Medicines and Medical Devices Agency of Serbia", url: "https://www.alims.gov.rs/eng/" },
+                    { label: "ALIMS — Drug Search", url: "https://www.alims.gov.rs/eng/medicines/search-for-human-medicines/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "RFZO (Republički fond za zdravstveno osiguranje — Republic Fund for Health Insurance) manages compulsory health insurance covering ~95% of the population. The Positive Drug List (Lista lekova) determines reimbursable medicines. Drug prices are set via IRP using EU reference countries. Prior authorization (saglasnost) is required for high-cost medicines.",
+                links: [
+                    { label: "RFZO — Republic Fund for Health Insurance", url: "https://www.rfzo.rs/index.php/en/" },
+                    { label: "RFZO — Positive Drug List", url: "https://www.rfzo.rs/index.php/en/svi-propisi-en/lista-lekova-en" },
+                ],
+            },
+        ],
+        notes: "Serbia is the largest Western Balkans pharmaceutical market (~6.8 million population). It uses IRP with reference to EU countries, which can make prices lower than EU averages. EU accession alignment is ongoing. Serbian (Cyrillic and Latin scripts) is the official language; English-language ALIMS portal is available.",
+    },
 ];
 
 // ── DOM Elements ──────────────────────────────────────────────────────
