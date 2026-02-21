@@ -1482,10 +1482,66 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "COFEPRIS — Registro Sanitario", url: "https://tramiteselectronicos02.cofepris.gob.mx/BuscadorPublicoRegistrosSanitarios/BusquedaRegistroSanitario.aspx" }],
+                body: "COFEPRIS (Comisión Federal para la Protección contra Riesgos Sanitarios) handles drug registration via the Registro Sanitario. Dossiers follow ICH CTD format and are submitted through the DIGIPRiS digital platform. An Abbreviated Pathway (active from September 2025) allows expedited review (45 days) for products already approved by reference regulators including FDA, EMA, Health Canada, TGA, ANVISA, and MFDS.",
+                links: [
+                    { label: "COFEPRIS — Registro Sanitario Search", url: "https://tramiteselectronicos02.cofepris.gob.mx/BuscadorPublicoRegistrosSanitarios/BusquedaRegistroSanitario.aspx" },
+                    { label: "COFEPRIS — DIGIPRiS (Digital Submissions Portal)", url: "https://digiprisregulacionenlinea.cofepris.gob.mx/" },
+                    { label: "COFEPRIS — Official Website", url: "https://www.gob.mx/cofepris" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA &amp; Formulary (Cuadro Básico)",
+                body: "CENETEC (Centro Nacional de Excelencia Tecnológica en Salud) is the official HTA body under the Secretaría de Salud. It produces health technology assessments and clinical practice guidelines that inform the Cuadro Básico de Medicamentos (CBM). The Consejo de Salubridad General manages CBM inclusions via its Interinstitutional Commission — listing in the CBM is required for procurement by all public health institutions (IMSS, ISSSTE, IMSS-Bienestar, MoH). Inclusion requests go through a three-stage evaluation: admissibility → scientific review → final ruling, considering clinical efficacy, safety, cost-effectiveness, and pharmacoeconomic data.",
+                links: [
+                    { label: "CENETEC — Centro Nacional de Excelencia Tecnológica en Salud", url: "http://www.cenetec.salud.gob.mx/" },
+                    { label: "Cuadro Básico y Catálogo de Medicamentos (Consejo de Salubridad General)", url: "https://www.gob.mx/conasa" },
+                    { label: "IMSS — Cuadro Básico de Medicamentos", url: "https://www.imss.gob.mx/profesionales-salud/cuadros-basicos/medicamentos" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement — Payer Landscape",
+                body: "Mexico has multiple parallel public payers: IMSS (formal-sector workers and families, ~37% of population) provides medicines free at point of use; ISSSTE (public-sector employees, ~6%) operates similarly; IMSS-Bienestar (since 2023, replacing INSABI which replaced Seguro Popular in 2020) covers informal/uninsured population in 19 states. All institutions procure from the CBM. Private-sector patients pay largely out-of-pocket (~50% of total health spend); voluntary maximum retail price (MRP) caps apply to patented drugs but are not strictly enforced.",
+                links: [
+                    { label: "IMSS (Instituto Mexicano del Seguro Social)", url: "https://www.imss.gob.mx/" },
+                    { label: "ISSSTE (Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado)", url: "https://www.issste.gob.mx/" },
+                    { label: "IMSS-Bienestar", url: "https://www.imss.gob.mx/imss-bienestar" },
+                    { label: "Secretaría de Salud — Official Site", url: "https://www.gob.mx/salud" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing — Public Tenders",
+                body: "Unlike most markets, Mexico has no published ex-factory price list for public-sector drugs. Prices are determined exclusively through competitive procurement tenders. BIRMEX (Laboratorios de Biológicos y Reactivos de México), a state-owned entity, leads the biannual Compra Consolidada (consolidated purchase) on behalf of all federal health institutions. All federal tenders are published on CompraNet. Historical awarded prices, bid specifications, and contract documents are accessible through CompraNet and the Secretaría de Salud procurement portal. The CCPNM (Coordinating Commission for Negotiating Medicine Prices), which negotiated patented drug prices 2008–2020, was disbanded under INSABI reforms; price negotiation is now embedded in the BIRMEX tender process. UNOPS managed procurement on behalf of INSABI from 2020 to December 2022 before domestic institutions resumed control.",
+                links: [
+                    { label: "CompraNet — Federal e-Procurement Platform (tender search &amp; awards)", url: "https://compranet.funcionpublica.gob.mx/" },
+                    { label: "Compra Consolidada — Ministry of Health Procurement Portal", url: "https://contratacion.salud.gob.mx" },
+                    { label: "BIRMEX — Laboratorios de Biológicos y Reactivos de México", url: "https://www.birmex.gob.mx/" },
+                    { label: "IMSS Compras — IMSS Procurement Archive", url: "https://compras.imss.gob.mx/" },
+                ],
             },
         ],
-        notes: "Multiple funding institutions cover reimbursement in Mexico — please contact the LATAM team.",
+        tipsHtml: `
+<h4 class="tips-heading">How Public-Sector Drug Prices Work in Mexico</h4>
+<ol>
+    <li>There is <strong>no published reference price list</strong> for public-sector pharmaceuticals in Mexico. The effective public price is whatever winning tender price is awarded in the most recent <strong>Compra Consolidada</strong></li>
+    <li><strong>BIRMEX</strong> runs the consolidated tender process on behalf of IMSS, ISSSTE, IMSS-Bienestar, MoH, PEMEX, and other federal entities — pooling demand to maximise negotiating leverage. Products must be in the <strong>Cuadro Básico de Medicamentos (CBM)</strong> to be eligible for public procurement</li>
+    <li>Tenders are published on <strong>CompraNet</strong> (<a href="https://compranet.funcionpublica.gob.mx/" target="_blank" rel="noopener">compranet.funcionpublica.gob.mx</a>). Award documents include lot-level prices and supplier names — this is the primary source for benchmarking public-sector prices. The Ministry of Health procurement portal (<a href="https://contratacion.salud.gob.mx" target="_blank" rel="noopener">contratacion.salud.gob.mx</a>) contains Compra Consolidada-specific records</li>
+    <li>The <strong>2025–2026 consolidated tender</strong> was declared null by the Anti-Corruption Ministry due to procedural violations — over 70% of lots were left unawarded. Expect ongoing supply disruptions and re-tendering activity; verify current status before any market access planning</li>
+</ol>
+<h4 class="tips-heading">CBM Inclusion — Key Access Gate</h4>
+<ol>
+    <li>CBM inclusion by the Consejo de Salubridad General is a prerequisite for public-sector sales. The three-stage process (admissibility → scientific review → ruling) is CENETEC-informed but ultimately decided by the Interinstitutional Commission</li>
+    <li>CENETEC HTA recommendations are <strong>advisory, not binding</strong> — but a favourable assessment significantly strengthens the CBM inclusion dossier</li>
+</ol>
+<h4 class="tips-heading">Payer Complexity</h4>
+<ol>
+    <li>Each institution (IMSS, ISSSTE, IMSS-Bienestar) nominally maintains its own drug list, though all align with the CBM. IMSS is by far the largest buyer and the most important for commercial success in the public segment</li>
+    <li>The private market (~50% of spend) operates without reference pricing. Voluntary MRP caps for patented products are self-reported and lightly enforced — private-sector prices can differ substantially from public tender prices</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> All regulatory and procurement materials are in Spanish. CompraNet and COFEPRIS portals are Spanish-only. Google Translate handles Mexican regulatory Spanish adequately for navigation.</p>
+        `,
     },
     {
         code: "ME",
