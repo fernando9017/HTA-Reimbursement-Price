@@ -914,9 +914,10 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "Egypt uses government-controlled drug pricing administered by the EDA\u2019s Pricing Committee. Prices are set based on a cost-plus methodology for locally manufactured drugs and External Reference Pricing for imported products. The EDA publishes official price bulletins. Generic prices are typically set at a percentage of the originator price.",
+                body: "Egypt uses government-controlled drug pricing administered by CAPA (within the EDA). Under Decree 499/2012, innovator prices are set at 10% below the lowest retail price across 36 reference countries. Generic prices are set at a 35% markdown (first 5 generics) or 40% (subsequent). Public sector procurement is centralised through UPA (Unified Procurement Authority).",
                 links: [
                     { label: "EDA \u2014 Pricing Circulars & Updates", url: "https://edaegypt.gov.eg/en/eda-publications/" },
+                    { label: "UPA (Unified Procurement Authority)", url: "https://upa.gov.eg/introduction/" },
                 ],
             },
             {
@@ -933,7 +934,8 @@ const COUNTRIES = [
                 title: "Additional Resources",
                 links: [
                     { label: "Ministry of Health & Population", url: "https://www.mohp.gov.eg/" },
-                    { label: "WHO \u2014 Egypt Country Page", url: "https://www.who.int/countries/egy/" },
+                    { label: "WHO \u2014 Egypt Essential Drug List 2018", url: "https://www.who.int/publications/m/item/egypt--essential-drug-list-2018-(english)" },
+                    { label: "GAHAR (Healthcare Accreditation & Regulation)", url: "https://www.gahar.gov.eg/" },
                 ],
             },
         ],
@@ -942,21 +944,23 @@ const COUNTRIES = [
 <ol>
     <li>Search the <a href="http://eservices.edaegypt.gov.eg/EDASearch/SearchRegDrugs.aspx" target="_blank" rel="noopener">EDA Drug Registry Search</a> by product name, active ingredient, or company name to find all registered drugs</li>
     <li>The <a href="https://edaegypt.gov.eg/en/eda-publications/the-egyptian-drug-registry/" target="_blank" rel="noopener">Egyptian Drug Registry</a> is published periodically as a downloadable document listing all registered products</li>
-    <li>EDA replaced CAPA in 2020 &mdash; older references to &ldquo;CAPA&rdquo; or &ldquo;Central Administration of Pharmaceutical Affairs&rdquo; refer to the predecessor organisation</li>
+    <li>EDA (Law 151/2019) replaced CAPA in 2020 and consolidated three former bodies: CAPA (registration), NODCAR (quality control), and NORCB (biologicals). EDA reports directly to the Prime Minister, not the Ministry of Health</li>
 </ol>
 
 <h4 class="tips-heading">Pricing</h4>
 <ol>
-    <li>Drug prices are <strong>government-controlled</strong> by EDA&rsquo;s Pricing Committee &mdash; manufacturers cannot freely set prices</li>
-    <li>Locally manufactured drugs use a <strong>cost-plus</strong> pricing methodology; imported drugs use <strong>External Reference Pricing</strong></li>
-    <li>Generic drug prices are set as a percentage of the originator price, with tiered reductions based on the number of generics on the market</li>
+    <li>Drug prices are <strong>government-controlled</strong> under Decree 499/2012 &mdash; manufacturers cannot freely set prices</li>
+    <li><strong>Innovator products</strong>: price set at 10% below the lowest retail price across a basket of <strong>36 reference countries</strong></li>
+    <li><strong>Generics</strong>: first 5 generics at 35% markdown from innovator price; subsequent generics at 40% markdown</li>
+    <li>Price reviews are permitted for new indications and when exchange rate fluctuations exceed 15% in a year</li>
+    <li><a href="https://upa.gov.eg/introduction/" target="_blank" rel="noopener">UPA</a> (Unified Procurement Authority) handles all public-sector pharmaceutical procurement and is developing <strong>cost-effectiveness assessment</strong> capacity for innovative medicines</li>
 </ol>
 
-<h4 class="tips-heading">Reimbursement</h4>
+<h4 class="tips-heading">Reimbursement &amp; HTA</h4>
 <ol>
-    <li>The <strong>Universal Health Insurance Law (2018)</strong> aims for nationwide coverage by 2032 &mdash; <a href="https://uhia.gov.eg/" target="_blank" rel="noopener">UHIA</a> is currently piloting in 6 governorates</li>
-    <li>Until full rollout, <strong>HIO</strong> covers formal-sector employees, and public hospitals provide medicines from the government Essential Drug List</li>
-    <li>Egypt has <strong>no standalone HTA body</strong>, though the UHIA is developing pharmacoeconomic evaluation capacity as part of the universal coverage programme</li>
+    <li>The <strong>Universal Health Insurance Law (2018)</strong> is being phased in through <a href="https://uhia.gov.eg/" target="_blank" rel="noopener">UHIA</a> &mdash; Phase 1 (Port Said, Ismailia, Suez, South Sinai, Luxor, Aswan) is largely complete; Phase 2 (Damietta, Marsa Matrouh, Kafr El-Sheikh, North Sinai, Minya) is in progress</li>
+    <li>Until full rollout, <strong>HIO</strong> covers formal-sector employees (~60% of population on paper), and public hospitals provide medicines from the government Essential Drug List</li>
+    <li><strong>HTA is emerging</strong>: UPA handles cost-effectiveness assessment and UHIA handles budget impact analysis in a joint process. Innovative medicines require HTA dossier for UHIA formulary listing. Egypt has been collaborating with <strong>NICE (UK)</strong> on developing its national HTA framework</li>
 </ol>
 <p class="tips-note"><strong>Language note:</strong> EDA website is available in English and Arabic. The drug registry search interface supports English queries. Pricing circulars are primarily in Arabic.</p>
         `,
