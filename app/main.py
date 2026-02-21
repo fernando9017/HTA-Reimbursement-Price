@@ -268,7 +268,7 @@ async def analogue_filters():
 
 @app.get("/api/analogues/search", response_model=AnalogueResponse)
 async def search_analogues(
-    therapeutic_area: str = Query("", description="Filter by therapeutic area"),
+    therapeutic_area: list[str] = Query([], description="Filter by therapeutic area(s)"),
     orphan: str = Query("", description="Orphan status: 'yes', 'no', or '' (any)"),
     years: int = Query(0, ge=0, description="Years since approval (0 = all time)"),
     first_approval: str = Query("", description="First approval: 'yes', 'no', or '' (any)"),
@@ -292,8 +292,11 @@ async def search_analogues(
     if not analogue_service.is_loaded:
         raise HTTPException(503, "Analogue data is still loading. Please try again shortly.")
 
+    # Support multiple therapeutic areas (OR logic) or single/empty
+    area_filter = [a for a in therapeutic_area if a.strip()]
+
     results = analogue_service.search(
-        therapeutic_area=therapeutic_area,
+        therapeutic_areas=area_filter,
         orphan=orphan,
         years_since_approval=years,
         first_approval=first_approval,
