@@ -4,9 +4,15 @@ Each country's HTA agency (HAS, G-BA, NICE, etc.) implements this interface
 so the application can query assessments uniformly across countries.
 """
 
+import json
+import logging
 from abc import ABC, abstractmethod
+from datetime import datetime
+from pathlib import Path
 
 from app.models import AssessmentResult, CountryInfo
+
+logger = logging.getLogger(__name__)
 
 
 class HTAAgency(ABC):
@@ -38,7 +44,7 @@ class HTAAgency(ABC):
 
     @abstractmethod
     async def load_data(self) -> None:
-        """Fetch and cache the agency's assessment data."""
+        """Fetch and cache the agency's assessment data from the live source."""
         ...
 
     @abstractmethod
@@ -62,6 +68,63 @@ class HTAAgency(ABC):
     def is_loaded(self) -> bool:
         """Whether data has been loaded. Override if tracking load state."""
         return False
+
+    # ── Bundled data file interface ───────────────────────────────────
+    # Concrete adapters may override these to support fast file-based
+    # startup without a network dependency.  The default implementations
+    # are no-ops so that existing adapters work unchanged.
+
+    def load_from_file(self, data_file: Path) -> bool:
+        """Load cached assessment data from a local JSON file.
+
+        Returns True if data was successfully loaded and the adapter is now
+        ready to serve requests.  Returns False if the file does not exist,
+        is empty, or this adapter does not support file-based loading.
+        """
+        return False
+
+    def save_to_file(self, data_file: Path) -> None:
+        """Persist the currently loaded data to a local JSON file.
+
+        Creates the file and any missing parent directories.
+        Does nothing if data has not been loaded or the adapter does not
+        support file-based caching.
+        """
+
+    # ── Helpers ───────────────────────────────────────────────────────
+
+    def _read_json_file(self, data_file: Path) -> dict | None:
+        """Read and parse a JSON data file. Returns None on any error."""
+        try:
+            with open(data_file, encoding="utf-8") as fh:
+                return json.load(fh)
+        except FileNotFoundError:
+            return None
+        except Exception:
+            logger.warning(
+                "%s: could not read data file %s",
+                self.agency_abbreviation, data_file,
+            )
+            return None
+
+    def _write_json_file(self, data_file: Path, payload: dict) -> None:
+        """Serialize payload to a JSON file, creating parents as needed."""
+        data_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(data_file, "w", encoding="utf-8") as fh:
+            json.dump(payload, fh, ensure_ascii=False, indent=2)
+
+    def _make_envelope(self, data: list | dict) -> dict:
+        """Wrap serialized data in a standard envelope with metadata."""
+        count = len(data) if isinstance(data, list) else sum(
+            len(v) if isinstance(v, list) else 1 for v in data.values()
+        )
+        return {
+            "country": self.country_code,
+            "agency": self.agency_abbreviation,
+            "updated_at": datetime.now().isoformat(timespec="seconds"),
+            "record_count": count,
+            "data": data,
+        }
 
     def get_country_info(self) -> CountryInfo:
         return CountryInfo(

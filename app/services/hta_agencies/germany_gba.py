@@ -14,6 +14,7 @@ from ais@g-ba.de.
 import logging
 import re
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 import httpx
 
@@ -487,3 +488,27 @@ class GermanyGBA(HTAAgency):
         if m:
             return f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
         return raw
+
+    # ── File-based caching ────────────────────────────────────────────
+
+    def load_from_file(self, data_file: Path) -> bool:
+        payload = self._read_json_file(data_file)
+        if not payload or not isinstance(payload.get("data"), list):
+            return False
+        self._decisions = payload["data"]
+        self._loaded = bool(self._decisions)
+        if self._loaded:
+            logger.info(
+                "%s loaded %d decisions from %s",
+                self.agency_abbreviation, len(self._decisions), data_file,
+            )
+        return self._loaded
+
+    def save_to_file(self, data_file: Path) -> None:
+        if not self._loaded:
+            return
+        self._write_json_file(data_file, self._make_envelope(self._decisions))
+        logger.info(
+            "%s saved %d decisions to %s",
+            self.agency_abbreviation, len(self._decisions), data_file,
+        )

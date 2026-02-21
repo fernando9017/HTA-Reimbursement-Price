@@ -1507,3 +1507,80 @@ def test_hta_no_indication_uses_most_recent(service):
     # Most recent (2023) should be used when no indication filter
     assert gb["rating"] == "Recommended"
     assert gb["latest_date"] == "2023-06-01"
+
+
+# ── Line of therapy — "previously received" regression ───────────────
+
+def test_previously_received_classified_as_2l():
+    """Padcev-style indication with 'previously received' is 2L / Second-line."""
+    indication = (
+        "Padcev as monotherapy is indicated for the treatment of adult patients "
+        "with locally advanced or metastatic urothelial cancer who have previously "
+        "received a platinum-containing chemotherapy and a programmed death receptor 1 "
+        "or programmed death ligand 1 inhibitor."
+    )
+    result = _extract_line_of_therapy(indication)
+    assert "2L / Second-line" in result
+
+
+def test_prior_chemotherapy_classified_as_2l():
+    """'Prior chemotherapy' phrase is detected as 2L."""
+    indication = (
+        "indicated for patients who have failed prior chemotherapy"
+    )
+    result = _extract_line_of_therapy(indication)
+    assert "2L / Second-line" in result
+
+
+def test_prior_therapy_classified_as_2l():
+    """'Prior therapy' phrase is detected as 2L."""
+    result = _extract_line_of_therapy(
+        "for adult patients after at least one prior therapy"
+    )
+    assert "2L / Second-line" in result
+
+
+def test_inadequate_response_classified_as_2l():
+    """'Inadequate response' phrase is detected as 2L."""
+    result = _extract_line_of_therapy(
+        "for patients with inadequate response to prior treatment"
+    )
+    assert "2L / Second-line" in result
+
+
+def test_previously_untreated_still_1l():
+    """'Previously untreated' remains 1L and is not misclassified as 2L."""
+    indication = "for adult patients with previously untreated advanced melanoma"
+    result = _extract_line_of_therapy(indication)
+    assert "1L / First-line" in result
+    assert "2L / Second-line" not in result
+
+
+# ── EMA URL fallback construction ─────────────────────────────────────
+
+def test_url_from_field_used_directly():
+    """When EMA data has a url field it is passed through unchanged."""
+    service = AnalogueService()
+    service.load_from_ema([{
+        "medicineName": "Padcev",
+        "activeSubstance": "enfortumab vedotin",
+        "therapeuticIndication": "indicated for urothelial cancer",
+        "authorisationStatus": "Authorised",
+        "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/padcev",
+    }])
+    results = service.search(name="Padcev")
+    assert results[0]["url"] == "https://www.ema.europa.eu/en/medicines/human/EPAR/padcev"
+
+
+def test_url_constructed_when_field_absent():
+    """When no url field exists, a fallback EMA EPAR URL is built from the medicine name."""
+    service = AnalogueService()
+    service.load_from_ema([{
+        "medicineName": "Padcev",
+        "activeSubstance": "enfortumab vedotin",
+        "therapeuticIndication": "indicated for urothelial cancer",
+        "authorisationStatus": "Authorised",
+        # no url key at all
+    }])
+    results = service.search(name="Padcev")
+    assert results[0]["url"] == "https://www.ema.europa.eu/en/medicines/human/EPAR/padcev"

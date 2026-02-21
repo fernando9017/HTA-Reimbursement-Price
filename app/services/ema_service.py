@@ -5,6 +5,7 @@ No authentication required.
 """
 
 import logging
+import re
 from difflib import SequenceMatcher
 
 import httpx
@@ -108,7 +109,12 @@ class EMAService:
                 "therapeutic_area",
                 "therapeutic_area_mesh",
             )
-            url = _get_str(med, "url", "product_page_url", "ema_url")
+            url = _get_str(med, "url", "URL", "productUrl", "product_page_url", "ema_url")
+            if not url and name:
+                brand = re.split(r"[\s,/]", name)[0].lower()
+                brand = re.sub(r"[^a-z0-9-]", "", brand)
+                if len(brand) >= 2:
+                    url = f"https://www.ema.europa.eu/en/medicines/human/EPAR/{brand}"
 
             name_lower = name.lower()
             substance_lower = substance.lower()

@@ -9,6 +9,7 @@ No authentication required. Files are Latin-1 encoded, tab-separated, no headers
 
 import logging
 from collections import defaultdict
+from pathlib import Path
 
 import httpx
 
@@ -288,6 +289,46 @@ class FranceHAS(HTAAgency):
                 dossier_code = row[0]
                 url = row[1]
                 self._ct_links[dossier_code] = url
+
+    # ── File-based caching ────────────────────────────────────────────
+
+    def load_from_file(self, data_file: Path) -> bool:
+        payload = self._read_json_file(data_file)
+        if not payload or not isinstance(payload.get("data"), dict):
+            return False
+        data = payload["data"]
+        try:
+            self._medicines = dict(data.get("medicines", {}))
+            self._compositions = defaultdict(list, data.get("compositions", {}))
+            self._smr = defaultdict(list, data.get("smr", {}))
+            self._asmr = defaultdict(list, data.get("asmr", {}))
+            self._ct_links = dict(data.get("ct_links", {}))
+        except Exception:
+            logger.warning("%s: malformed data in %s", self.agency_abbreviation, data_file)
+            return False
+        self._loaded = bool(self._medicines)
+        if self._loaded:
+            logger.info(
+                "%s loaded %d medicines from %s",
+                self.agency_abbreviation, len(self._medicines), data_file,
+            )
+        return self._loaded
+
+    def save_to_file(self, data_file: Path) -> None:
+        if not self._loaded:
+            return
+        data = {
+            "medicines": self._medicines,
+            "compositions": dict(self._compositions),
+            "smr": dict(self._smr),
+            "asmr": dict(self._asmr),
+            "ct_links": self._ct_links,
+        }
+        self._write_json_file(data_file, self._make_envelope(data))
+        logger.info(
+            "%s saved %d medicines to %s",
+            self.agency_abbreviation, len(self._medicines), data_file,
+        )
 
 
 def _format_date(raw: str) -> str:

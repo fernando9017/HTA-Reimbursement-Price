@@ -31,9 +31,15 @@ LINE_OF_THERAPY_PATTERNS: dict[str, list[str]] = {
         r"\b2nd[- ]line\b",
         r"\b2L\b",
         r"\bpreviously treated\b",
+        # "previously received [a treatment]" — common EMA phrasing for 2L+ patients
+        r"\bpreviously received\b",
+        # "prior therapy / treatment / chemotherapy / immunotherapy"
+        r"\bprior (?:systemic )?(?:therapy|treatment|chemotherapy|immunotherapy|line[s]?)\b",
         r"\bafter.*(?:prior|previous|failure)\b",
         r"\brelapsed\b",
         r"\brefractory\b",
+        # "inadequate response to" a prior treatment
+        r"\binadequate (?:response|control)\b",
     ],
     "3L+ / Later-line": [
         r"\bthird[- ]line\b",
@@ -658,7 +664,13 @@ class AnalogueService:
                 med, "condition", "therapeutic_area",
                 "therapeuticArea", "therapeutic_area_mesh",
             )
-            url = _get_str(med, "url", "product_page_url", "ema_url")
+            url = _get_str(med, "url", "URL", "productUrl", "product_page_url", "ema_url")
+            # Fallback: construct EMA EPAR URL from medicine brand name
+            if not url and name:
+                brand = re.split(r"[\s,/]", name)[0].lower()
+                brand = re.sub(r"[^a-z0-9-]", "", brand)
+                if len(brand) >= 2:
+                    url = f"https://www.ema.europa.eu/en/medicines/human/EPAR/{brand}"
 
             # Orphan status
             orphan_raw = _get_str(
