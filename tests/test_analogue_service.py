@@ -6,7 +6,7 @@ from datetime import date
 from app.services.analogue_service import (
     AnalogueService, _normalize_date, _classify_prevalence, _classify_therapeutic_area,
     _extract_line_of_therapy, _extract_treatment_setting, _classify_evidence_tier,
-    _split_indications,
+    _split_indications, _match_assessment_to_indication, _extract_indication_keywords,
 )
 
 
@@ -1120,15 +1120,25 @@ def test_set_hta_summaries(service):
             "pembrolizumab": {
                 "FR": {
                     "agency": "HAS",
-                    "latest_date": "2023-06-01",
-                    "rating": "Important",
-                    "rating_detail": "ASMR III",
+                    "assessments": [
+                        {
+                            "date": "2023-06-01",
+                            "rating": "Important",
+                            "rating_detail": "ASMR III",
+                            "indication_text": "melanoma first line",
+                        },
+                    ],
                 },
                 "DE": {
                     "agency": "G-BA",
-                    "latest_date": "2023-05-15",
-                    "rating": "beträchtlich",
-                    "rating_detail": "Hinweis",
+                    "assessments": [
+                        {
+                            "date": "2023-05-15",
+                            "rating": "beträchtlich",
+                            "rating_detail": "Hinweis",
+                            "indication_text": "melanoma",
+                        },
+                    ],
                 },
             }
         },
@@ -1152,9 +1162,14 @@ def test_filter_by_hta_country(service):
             "pembrolizumab": {
                 "FR": {
                     "agency": "HAS",
-                    "latest_date": "2023-01-01",
-                    "rating": "Important",
-                    "rating_detail": "",
+                    "assessments": [
+                        {
+                            "date": "2023-01-01",
+                            "rating": "Important",
+                            "rating_detail": "",
+                            "indication_text": "melanoma",
+                        },
+                    ],
                 },
             }
         },
@@ -1233,3 +1248,194 @@ def test_combined_setting_and_prevalence(service):
     )
     names = {r["name"] for r in results}
     assert "Opdivo" in names
+
+
+# ── Improved indication splitting (HTML entities, product name) ──────
+
+
+def test_split_indications_nbsp_product_name():
+    """Padcev-style: two indications separated by &nbsp; with product name repeated."""
+    text = (
+        "Padcev, in combination with pembrolizumab, is indicated for the "
+        "first-line treatment of adult patients with unresectable or metastatic "
+        "urothelial cancer.&nbsp; Padcev as monotherapy is indicated for the "
+        "treatment of adult patients with locally advanced or metastatic "
+        "urothelial cancer who have previously received chemotherapy."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 2
+    assert "combination" in segments[0].lower()
+    assert "monotherapy" in segments[1].lower()
+
+
+def test_split_indications_numeric_entity():
+    """&#160; (non-breaking space) should also be normalised."""
+    text = (
+        "DrugX is indicated for treatment of condition A.&#160; "
+        "DrugX is indicated for treatment of condition B."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 2
+    assert "condition A" in segments[0]
+    assert "condition B" in segments[1]
+
+
+def test_split_indications_product_name_no_entity():
+    """Product name repeated at sentence boundary without HTML entities."""
+    text = (
+        "Tecentriq is indicated for the treatment of advanced NSCLC. "
+        "Tecentriq is indicated for the treatment of SCLC."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 2
+    assert "NSCLC" in segments[0]
+    assert "SCLC" in segments[1]
+
+
+def test_split_indications_preserves_single():
+    """A single indication (product name appears once) should not be split."""
+    text = "Keytruda is indicated for the treatment of advanced melanoma."
+    segments = _split_indications(text)
+    assert len(segments) == 1
+
+
+def test_split_indications_semicolons_still_work():
+    """Original semicolon splitting still works after refactoring."""
+    text = "indicated for: treatment of melanoma; treatment of NSCLC; treatment of RCC"
+    segments = _split_indications(text)
+    assert len(segments) == 3
+    assert any("melanoma" in s for s in segments)
+    assert any("NSCLC" in s for s in segments)
+
+
+def test_split_indications_multiple_is_indicated_sentences():
+    """Sentences each containing 'is indicated' should be split."""
+    text = (
+        "DrugA is indicated for the treatment of diabetes. "
+        "DrugA is indicated for the treatment of obesity."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 2
+
+
+# ── Indication-specific HTA matching ─────────────────────────────────
+
+
+def test_extract_indication_keywords():
+    keywords = _extract_indication_keywords("first-line treatment of metastatic NSCLC")
+    assert "first" in keywords
+    assert "line" in keywords
+    assert "metastatic" in keywords
+    assert "nsclc" in keywords
+    # Stop words excluded
+    assert "treatment" not in keywords
+
+
+def test_match_assessment_empty():
+    """Empty assessments returns empty dict."""
+    result = _match_assessment_to_indication([], "melanoma")
+    assert result == {}
+
+
+def test_match_assessment_no_indication():
+    """No indication returns first (most recent) assessment."""
+    assessments = [
+        {"date": "2023-06-01", "rating": "A", "rating_detail": "", "indication_text": "melanoma"},
+        {"date": "2022-01-01", "rating": "B", "rating_detail": "", "indication_text": "NSCLC"},
+    ]
+    result = _match_assessment_to_indication(assessments, "")
+    assert result["rating"] == "A"
+
+
+def test_match_assessment_specific_indication():
+    """When indication_segment is provided, the best keyword match is returned."""
+    assessments = [
+        {"date": "2023-06-01", "rating": "Recommended", "rating_detail": "",
+         "indication_text": "pembrolizumab for untreated advanced melanoma"},
+        {"date": "2022-01-01", "rating": "Not recommended", "rating_detail": "",
+         "indication_text": "pembrolizumab for metastatic NSCLC second line"},
+    ]
+    # Query for NSCLC → should match the second assessment
+    result = _match_assessment_to_indication(assessments, "metastatic NSCLC second-line")
+    assert result["rating"] == "Not recommended"
+    assert result["date"] == "2022-01-01"
+
+
+def test_match_assessment_fallback_to_recent():
+    """When no keyword matches, falls back to most recent."""
+    assessments = [
+        {"date": "2023-06-01", "rating": "A", "rating_detail": "", "indication_text": "melanoma"},
+        {"date": "2022-01-01", "rating": "B", "rating_detail": "", "indication_text": "breast"},
+    ]
+    result = _match_assessment_to_indication(assessments, "urothelial cancer")
+    assert result["rating"] == "A"  # most recent, no keyword matches
+
+
+def test_hta_indication_specific_in_search(service):
+    """When searching with indication_keyword, HTA should match the relevant assessment."""
+    service.set_hta_summaries(
+        {
+            "pembrolizumab": {
+                "GB": {
+                    "agency": "NICE",
+                    "assessments": [
+                        {
+                            "date": "2023-06-01",
+                            "rating": "Recommended",
+                            "rating_detail": "TA900",
+                            "indication_text": "pembrolizumab for advanced melanoma",
+                        },
+                        {
+                            "date": "2022-01-01",
+                            "rating": "Not recommended",
+                            "rating_detail": "TA800",
+                            "indication_text": "pembrolizumab for metastatic NSCLC second line",
+                        },
+                    ],
+                }
+            }
+        },
+        ["GB"],
+    )
+    results = service.search(indication_keyword="NSCLC")
+    nsclc_results = [r for r in results if r["name"] == "Keytruda"]
+    assert len(nsclc_results) >= 1
+    # The HTA summary should match the NSCLC assessment, not melanoma
+    hta = nsclc_results[0]["hta_summaries"]
+    gb = next(h for h in hta if h["country_code"] == "GB")
+    assert gb["rating_detail"] == "TA800"
+    assert gb["rating"] == "Not recommended"
+
+
+def test_hta_no_indication_uses_most_recent(service):
+    """Without indication_keyword, HTA uses the most recent assessment."""
+    service.set_hta_summaries(
+        {
+            "pembrolizumab": {
+                "GB": {
+                    "agency": "NICE",
+                    "assessments": [
+                        {
+                            "date": "2023-06-01",
+                            "rating": "Recommended",
+                            "rating_detail": "TA900",
+                            "indication_text": "melanoma",
+                        },
+                        {
+                            "date": "2022-01-01",
+                            "rating": "Not recommended",
+                            "rating_detail": "TA800",
+                            "indication_text": "NSCLC",
+                        },
+                    ],
+                }
+            }
+        },
+        ["GB"],
+    )
+    results = service.search(name="Keytruda")
+    hta = results[0]["hta_summaries"]
+    gb = next(h for h in hta if h["country_code"] == "GB")
+    # Most recent (2023) should be used when no indication filter
+    assert gb["rating"] == "Recommended"
+    assert gb["latest_date"] == "2023-06-01"
