@@ -241,6 +241,15 @@ def test_country_info():
     assert info.code == "DE"
     assert info.name == "Germany"
     assert info.agency == "G-BA"
+    # Before data is loaded the flag must be False so the frontend can
+    # show a "data unavailable" indicator instead of a 503 error.
+    assert info.is_loaded is False
+
+
+def test_country_info_loaded(gba_service):
+    """is_loaded must be True once the service has data."""
+    info = gba_service.get_country_info()
+    assert info.is_loaded is True
 
 
 def test_normalize_date():

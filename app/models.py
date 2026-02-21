@@ -22,6 +22,7 @@ class CountryInfo(BaseModel):
     name: str
     agency: str
     agency_full_name: str
+    is_loaded: bool = False  # Whether the agency's data has been loaded successfully
 
 
 class AssessmentResult(BaseModel):

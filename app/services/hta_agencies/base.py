@@ -69,4 +69,5 @@ class HTAAgency(ABC):
             name=self.country_name,
             agency=self.agency_abbreviation,
             agency_full_name=self.agency_full_name,
+            is_loaded=self.is_loaded,
         )
