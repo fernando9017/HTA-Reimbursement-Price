@@ -517,28 +517,31 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "ISP (Instituto de Salud P\u00fablica de Chile) is the national regulatory authority for drug registration. The Registro Sanitario database allows searching all authorised medicines. Chile is an ICH observer and a PIC/S member.",
+                body: "ISP (Instituto de Salud P\u00fablica) is Chile\u2019s national regulatory authority. Within ISP, ANAMED (Agencia Nacional de Medicamentos) evaluates and grants marketing authorisations (registro sanitario). Since February 2025, a reliance pathway allows abbreviated review for biologics already approved by FDA or EMA.",
                 links: [
                     { label: "ISP \u2014 Registro Sanitario (drug registry)", url: "https://registrosanitario.ispch.gob.cl/" },
-                    { label: "ISP \u2014 Official Website", url: "https://www.ispch.gob.cl/" },
+                    { label: "ISP/ANAMED \u2014 Medicines Agency", url: "https://www.ispch.gob.cl/anamed/" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "Chile has free drug pricing in the private market \u2014 there is no government-mandated price control for retail pharmacy sales. For the public sector, CENABAST (Central Nacional de Abastecimiento) conducts centralised procurement through competitive tenders and framework agreements, achieving significant volume discounts.",
+                body: "Chile has free drug pricing in the private retail market. For the public sector, CENABAST conducts centralised procurement through competitive tenders. Since Ley CENABAST (2020), CENABAST also acts as intermediary for ~400 private pharmacies, selling ~250 medicines at government-negotiated prices (up to 70% lower acquisition cost).",
                 links: [
                     { label: "CENABAST (public-sector procurement)", url: "https://www.cenabast.cl/" },
+                    { label: "CENABAST \u2014 Ley CENABAST Drug List", url: "https://www.cenabast.cl/lista-de-medicamentos-ley-cenabast/" },
+                    { label: "Remedios M\u00e1s Baratos (pharmacy locator)", url: "https://www.remediosmasbaratos.cl/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Chile has a dual system: FONASA (public insurer, ~80% of population) and ISAPREs (private health insurers). The GES/AUGE programme guarantees coverage for 87 priority health conditions with defined treatments and maximum co-payments. The Ley Ricarte Soto (Law 20.850, 2015) funds high-cost medicines for rare and catastrophic diseases through a separate state fund.",
+                body: "Chile has a dual system: FONASA (public insurer, ~80% of population) and ISAPREs (private health insurers). The GES/AUGE programme guarantees coverage for 90 priority health conditions (updated December 2025) with defined treatments and maximum co-payments. The Ley Ricarte Soto (Law 20.850, 2015) provides 100% coverage for 27 high-cost rare/catastrophic diseases.",
                 links: [
                     { label: "FONASA (public health insurer)", url: "https://www.fonasa.cl/" },
-                    { label: "GES/AUGE \u2014 Guaranteed Health Conditions", url: "https://afroinnovacion.fonasa.cl/ges/" },
-                    { label: "Ley Ricarte Soto \u2014 High-Cost Medicines Programme", url: "https://www.minsal.cl/ley-ricarte-soto/" },
+                    { label: "GES/AUGE \u2014 Health Conditions List", url: "https://auge.minsal.cl/problemasdesalud/index" },
+                    { label: "Ley Ricarte Soto \u2014 High-Cost Medicines", url: "https://www.superdesalud.gob.cl/tax-temas-de-orientacion/ley-ricarte-soto-6088/" },
+                    { label: "Superintendencia de Salud (regulator)", url: "https://www.supersalud.gob.cl/" },
                 ],
             },
             {
@@ -554,20 +557,21 @@ const COUNTRIES = [
 <h4 class="tips-heading">Market Authorization</h4>
 <ol>
     <li>Search the <a href="https://registrosanitario.ispch.gob.cl/" target="_blank" rel="noopener">ISP Registro Sanitario</a> by product name or active ingredient to confirm registration status, dosage forms, and marketing authorisation holder</li>
-    <li>Chile has mutual recognition agreements with several regulators &mdash; products approved by FDA, EMA, or Health Canada may qualify for abbreviated review</li>
+    <li>Since February 2025, <a href="https://www.ispch.gob.cl/anamed/" target="_blank" rel="noopener">ANAMED</a> has a <strong>reliance pathway</strong> for biologics &mdash; products approved by FDA or EMA can undergo abbreviated review (CTD Module 2 only)</li>
 </ol>
 
 <h4 class="tips-heading">Pricing &amp; Procurement</h4>
 <ol>
-    <li><strong>No retail price control</strong> &mdash; private-market prices are freely set by manufacturers and pharmacies</li>
+    <li><strong>No retail price control</strong> &mdash; private-market prices are freely set by manufacturers and pharmacies (a broader reform bill &ldquo;F&aacute;rmacos 2&rdquo; proposing international reference pricing is pending)</li>
     <li>For public procurement prices, check <a href="https://www.cenabast.cl/" target="_blank" rel="noopener">CENABAST</a> &mdash; centralised purchasing achieves significant discounts through competitive tenders</li>
-    <li>The <a href="https://www.mercadopublico.cl/" target="_blank" rel="noopener">Mercado P&uacute;blico</a> portal publishes all government procurement contracts including hospital and CENABAST purchases</li>
+    <li>Since <strong>Ley CENABAST (2020)</strong>, ~400 private pharmacies can also purchase through CENABAST at negotiated prices &mdash; use <a href="https://www.remediosmasbaratos.cl/" target="_blank" rel="noopener">Remedios M&aacute;s Baratos</a> to find participating pharmacies near you</li>
 </ol>
 
 <h4 class="tips-heading">Reimbursement</h4>
 <ol>
-    <li><strong>GES/AUGE</strong> guarantees coverage for 87 priority conditions (including several cancers, diabetes, HIV, etc.) with defined treatment protocols and maximum out-of-pocket costs</li>
-    <li>The <strong>Ley Ricarte Soto</strong> (Law 20.850) covers high-cost medicines for rare/catastrophic diseases &mdash; a <a href="https://www.minsal.cl/ley-ricarte-soto/" target="_blank" rel="noopener">searchable list of covered conditions and medicines</a> is available on the MINSAL website</li>
+    <li><strong>GES/AUGE</strong> guarantees coverage for <strong>90 priority conditions</strong> (updated December 2025) including cancers, diabetes, HIV, cardiovascular diseases, mental health &mdash; search the <a href="https://auge.minsal.cl/problemasdesalud/index" target="_blank" rel="noopener">full list on MINSAL</a></li>
+    <li>The <strong>Ley Ricarte Soto</strong> (Law 20.850) provides <strong>100% coverage</strong> (no copayment) for 27 high-cost rare/catastrophic diseases &mdash; <a href="https://www.superdesalud.gob.cl/tax-temas-de-orientacion/ley-ricarte-soto-6088/" target="_blank" rel="noopener">full list on Superintendencia de Salud</a></li>
+    <li>Since September 2022, <strong>Copago Cero</strong> eliminated copayments for all FONASA beneficiaries in public facilities</li>
     <li>ETESA (Evaluaci&oacute;n de Tecnolog&iacute;as Sanitarias) within MINSAL conducts HTA evaluations for inclusion in GES and Ricarte Soto programmes</li>
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key search terms: "registro sanitario," "garant&iacute;as expl&iacute;citas en salud," "ley Ricarte Soto."</p>
