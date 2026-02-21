@@ -99,15 +99,61 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "ANMAT", url: "https://www.argentina.gob.ar/anmat" }],
+                body: "ANMAT (Administraci\u00f3n Nacional de Medicamentos, Alimentos y Tecnolog\u00eda M\u00e9dica) handles drug registration. The Vademecum Nacional de Medicamentos (VNM) is the searchable database of registered pharmaceutical products.",
+                links: [
+                    { label: "ANMAT \u2014 Official Website", url: "https://www.argentina.gob.ar/anmat" },
+                    { label: "ANMAT \u2014 Vademecum Nacional (drug registry)", url: "https://www.argentina.gob.ar/anmat/regulados/medicamentos/vademecum" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Argentina does not have formal government price controls for most medicines. The Manual Farmac\u00e9utico (Kairos/Alfa Beta) publishes reference prices. In practice, drug prices are influenced by inflation adjustments, voluntary price agreements between the government and the pharmaceutical industry, and Obras Sociales negotiated discounts.",
+                links: [
+                    { label: "Kairos \u2014 Manual Farmac\u00e9utico (reference prices)", url: "https://www.kairosweb.com/" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                links: [{ label: "Sur — Anexo 5 (Public)", url: "https://www.boletinoficial.gob.ar/detalleAviso/primera/241408/20210303" }],
+                body: "Argentina\u2019s health system is fragmented: Obras Sociales (union-based social health insurance), PAMI (retiree/pensioner insurance), and Prepagas (private insurers). The PMO (Programa M\u00e9dico Obligatorio) defines the mandatory benefits package. The SUR system manages high-cost drug reimbursement through the Superintendencia de Servicios de Salud.",
+                links: [
+                    { label: "Superintendencia de Servicios de Salud \u2014 SUR System", url: "https://www.argentina.gob.ar/sssalud" },
+                    { label: "PAMI (retiree health insurance)", url: "https://www.pami.org.ar/" },
+                    { label: "Bolet\u00edn Oficial \u2014 PMO Regulatory Updates", url: "https://www.boletinoficial.gob.ar/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ministry of Health", url: "https://www.argentina.gob.ar/salud" },
+                ],
             },
         ],
-        notes: "There are additional funding institutions — please contact someone from the LATAM team.",
+        notes: "Argentina has multiple funding institutions (Obras Sociales, PAMI, Prepagas, provincial systems). The landscape is fragmented \u2014 please contact the LATAM team for institution-specific guidance.",
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>Search the <a href="https://www.argentina.gob.ar/anmat/regulados/medicamentos/vademecum" target="_blank" rel="noopener">ANMAT Vademecum Nacional</a> by product name, active ingredient, or laboratory to confirm registration status</li>
+    <li>Argentina accepts abbreviated dossiers for WHO-prequalified products and products approved by stringent regulatory authorities</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>Argentina has <strong>no formal statutory price controls</strong> for most medicines &mdash; prices are influenced by voluntary industry agreements, inflation adjustments, and negotiation</li>
+    <li>Reference prices are published by private sources such as <a href="https://www.kairosweb.com/" target="_blank" rel="noopener">Kairos</a> and Alfa Beta &mdash; these are widely used but are not government-regulated prices</li>
+    <li>High inflation makes pricing dynamic &mdash; prices are frequently adjusted</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li>The <strong>PMO</strong> (Programa M&eacute;dico Obligatorio) defines the mandatory benefits package that all Obras Sociales and Prepagas must cover</li>
+    <li>High-cost medicines are reimbursed through the <strong>SUR system</strong> managed by the Superintendencia de Servicios de Salud</li>
+    <li><strong>PAMI</strong> (the largest single payer, covering ~5 million retirees) has its own formulary and negotiates prices directly with manufacturers</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "vademecum," "registro sanitario," "programa m&eacute;dico obligatorio," "obras sociales."</p>
+        `,
     },
     {
         code: "AU",
@@ -471,9 +517,61 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "ISP — Registro Sanitario", url: "https://registrosanitario.ispch.gob.cl/" }],
+                body: "ISP (Instituto de Salud P\u00fablica de Chile) is the national regulatory authority for drug registration. The Registro Sanitario database allows searching all authorised medicines. Chile is an ICH observer and a PIC/S member.",
+                links: [
+                    { label: "ISP \u2014 Registro Sanitario (drug registry)", url: "https://registrosanitario.ispch.gob.cl/" },
+                    { label: "ISP \u2014 Official Website", url: "https://www.ispch.gob.cl/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Chile has free drug pricing in the private market \u2014 there is no government-mandated price control for retail pharmacy sales. For the public sector, CENABAST (Central Nacional de Abastecimiento) conducts centralised procurement through competitive tenders and framework agreements, achieving significant volume discounts.",
+                links: [
+                    { label: "CENABAST (public-sector procurement)", url: "https://www.cenabast.cl/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Chile has a dual system: FONASA (public insurer, ~80% of population) and ISAPREs (private health insurers). The GES/AUGE programme guarantees coverage for 87 priority health conditions with defined treatments and maximum co-payments. The Ley Ricarte Soto (Law 20.850, 2015) funds high-cost medicines for rare and catastrophic diseases through a separate state fund.",
+                links: [
+                    { label: "FONASA (public health insurer)", url: "https://www.fonasa.cl/" },
+                    { label: "GES/AUGE \u2014 Guaranteed Health Conditions", url: "https://afroinnovacion.fonasa.cl/ges/" },
+                    { label: "Ley Ricarte Soto \u2014 High-Cost Medicines Programme", url: "https://www.minsal.cl/ley-ricarte-soto/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "MINSAL (Ministry of Health)", url: "https://www.minsal.cl/" },
+                    { label: "ETESA \u2014 HTA Unit (within MINSAL)", url: "https://etesa.minsal.cl/" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>Search the <a href="https://registrosanitario.ispch.gob.cl/" target="_blank" rel="noopener">ISP Registro Sanitario</a> by product name or active ingredient to confirm registration status, dosage forms, and marketing authorisation holder</li>
+    <li>Chile has mutual recognition agreements with several regulators &mdash; products approved by FDA, EMA, or Health Canada may qualify for abbreviated review</li>
+</ol>
+
+<h4 class="tips-heading">Pricing &amp; Procurement</h4>
+<ol>
+    <li><strong>No retail price control</strong> &mdash; private-market prices are freely set by manufacturers and pharmacies</li>
+    <li>For public procurement prices, check <a href="https://www.cenabast.cl/" target="_blank" rel="noopener">CENABAST</a> &mdash; centralised purchasing achieves significant discounts through competitive tenders</li>
+    <li>The <a href="https://www.mercadopublico.cl/" target="_blank" rel="noopener">Mercado P&uacute;blico</a> portal publishes all government procurement contracts including hospital and CENABAST purchases</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li><strong>GES/AUGE</strong> guarantees coverage for 87 priority conditions (including several cancers, diabetes, HIV, etc.) with defined treatment protocols and maximum out-of-pocket costs</li>
+    <li>The <strong>Ley Ricarte Soto</strong> (Law 20.850) covers high-cost medicines for rare/catastrophic diseases &mdash; a <a href="https://www.minsal.cl/ley-ricarte-soto/" target="_blank" rel="noopener">searchable list of covered conditions and medicines</a> is available on the MINSAL website</li>
+    <li>ETESA (Evaluaci&oacute;n de Tecnolog&iacute;as Sanitarias) within MINSAL conducts HTA evaluations for inclusion in GES and Ricarte Soto programmes</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key search terms: "registro sanitario," "garant&iacute;as expl&iacute;citas en salud," "ley Ricarte Soto."</p>
+        `,
     },
     {
         code: "CN",
@@ -481,12 +579,64 @@ const COUNTRIES = [
         flag: "🇨🇳",
         sections: [
             {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "NMPA (National Medical Products Administration) is China\u2019s drug regulatory authority. The CDE (Center for Drug Evaluation) handles scientific review of drug applications. China joined ICH in 2017 and has been aligning with international standards. The NMPA drug database allows searching approved domestic and imported drugs.",
+                links: [
+                    { label: "NMPA \u2014 Drug Database (Search Approved Drugs)", url: "https://www.nmpa.gov.cn/datasearch/search-info.html" },
+                    { label: "NMPA \u2014 Official Website", url: "https://www.nmpa.gov.cn/" },
+                    { label: "CDE (Center for Drug Evaluation)", url: "https://www.cde.org.cn/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "NHSA (National Healthcare Security Administration) manages drug pricing through two mechanisms: annual NRDL price negotiations for innovative/patented drugs (typically 50\u201360% reductions), and Volume-Based Procurement (VBP) competitive tenders for off-patent generics and biosimilars (9 national rounds covering 370+ molecules). Prior to NHSA\u2019s creation in 2018, pricing was fragmented across multiple agencies.",
+                links: [
+                    { label: "NHSA (National Healthcare Security Administration)", url: "https://www.nhsa.gov.cn/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "The NRDL (National Reimbursement Drug List) determines which drugs are reimbursable under Basic Medical Insurance (covering >95% of the 1.4 billion population). Category A drugs are fully reimbursed; Category B requires co-payment. The NRDL is updated annually through a structured negotiation cycle (applications in spring, negotiations in autumn, implementation January 1).",
+                links: [
+                    { label: "NHSA \u2014 Medical Insurance Drug Catalog Query", url: "https://code.nhsa.gov.cn/" },
+                ],
+            },
+            {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "EVERSANA — China NRDL Overview (PDF)", url: "https://www.eversana.com/wp-content/uploads/2021/12/WP_4Q21_Pricentric_ChinaNRDLOverview_EVERSANA-3-1.pdf" }],
+                links: [
+                    { label: "China Clinical Trial Registry", url: "http://www.chinadrugtrials.org.cn/" },
+                    { label: "NMPA English Page", url: "https://english.nmpa.gov.cn/" },
+                ],
             },
         ],
-        notes: "The National Reimbursement Drug List (NRDL) is not publicly accessible online. The third-party link above provides a useful overview.",
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization (NMPA)</h4>
+<ol>
+    <li>Search the <a href="https://www.nmpa.gov.cn/datasearch/search-info.html" target="_blank" rel="noopener">NMPA Drug Database</a> by drug name (Chinese or English), approval number, or manufacturer &mdash; covers domestic drugs, imported drugs, and supplements</li>
+    <li>The <a href="https://www.cde.org.cn/" target="_blank" rel="noopener">CDE website</a> publishes accepted and approved drug applications, technical guidelines, and review timelines</li>
+    <li>China offers <strong>priority review pathways</strong>: breakthrough therapy designation, conditional approval, priority review, and special approval for urgently needed drugs</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> The NMPA database and most regulatory documents are in Chinese. Use Chinese drug names for best results. The <a href="https://english.nmpa.gov.cn/" target="_blank" rel="noopener">NMPA English page</a> has limited content.</p>
+
+<h4 class="tips-heading">NRDL &amp; Pricing</h4>
+<ol>
+    <li>The <a href="https://code.nhsa.gov.cn/" target="_blank" rel="noopener">NHSA coding platform</a> provides a searchable database of NRDL-listed drugs with medical insurance codes</li>
+    <li>The annual <strong>NRDL negotiation cycle</strong>: applications (Apr&ndash;May) &rarr; expert review (Jul&ndash;Aug) &rarr; price negotiations (Sep&ndash;Oct) &rarr; publication (Nov&ndash;Dec) &rarr; effective January 1</li>
+    <li><strong>Volume-Based Procurement (VBP)</strong> targets off-patent generics and biosimilars through competitive tenders with guaranteed volume contracts &mdash; average price reductions of 50&ndash;60% per round</li>
+</ol>
+<p class="tips-note"><strong>Key distinction:</strong> NRDL negotiations are for <strong>innovative/patented drugs</strong> (price negotiation for reimbursement access), while VBP is for <strong>off-patent generics and biosimilars</strong> (competitive tendering for procurement contracts).</p>
+
+<h4 class="tips-heading">Insurance Coverage</h4>
+<ol>
+    <li><strong>UEBMI</strong> (Urban Employee Basic Medical Insurance) covers urban formal-sector employees and retirees &mdash; generally more generous</li>
+    <li><strong>URRBMI</strong> (Urban-Rural Resident Basic Medical Insurance) covers rural residents and urban non-employed &mdash; funded by premiums plus government subsidies</li>
+    <li>Reimbursement rates vary by scheme, hospital tier, and province (typically 50&ndash;90%). NRDL Category A drugs are reimbursed at the standard rate; Category B requires co-payment</li>
+</ol>
+        `,
     },
     {
         code: "CO",
@@ -496,10 +646,61 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "INVIMA — Consulta Registro", url: "https://consultaregistro.invima.gov.co/Consultas/consultas/consreg_encabcum.jsp" }],
+                body: "INVIMA (Instituto Nacional de Vigilancia de Medicamentos y Alimentos) is the national regulatory authority for drug registration. The Consulta Registro portal allows searching all authorised products.",
+                links: [
+                    { label: "INVIMA \u2014 Consulta Registro (drug registry)", url: "https://consultaregistro.invima.gov.co/Consultas/consultas/consreg_encabcum.jsp" },
+                    { label: "INVIMA \u2014 Official Website", url: "https://www.invima.gov.co/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "The CNPMDM (Comisi\u00f3n Nacional de Precios de Medicamentos y Dispositivos M\u00e9dicos) regulates drug prices. Medicines under price control are subject to a Maximum Reported Price (PMR). SISMED is the national price information system where manufacturers and distributors report transaction prices.",
+                links: [
+                    { label: "CNPMDM \u2014 Drug Price Regulation Circulars", url: "https://www.minsalud.gov.co/salud/MT/Paginas/comision-nacional-de-precios-de-medicamentos.aspx" },
+                    { label: "SISMED \u2014 Drug Price Information System", url: "https://www.sispro.gov.co/Central-Medicamentos/Paginas/Consultas-Medicamentos.aspx" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "The PBS (Plan de Beneficios en Salud, formerly POS) defines the benefits package covered by the mandatory health system (contributory and subsidised regimes). ADRES (Administradora de los Recursos del SGSSS) manages reimbursement of high-cost medicines not included in PBS. IETS (Instituto de Evaluaci\u00f3n Tecnol\u00f3gica en Salud) conducts HTA evaluations to inform coverage decisions.",
+                links: [
+                    { label: "IETS (HTA Institute)", url: "https://www.iets.org.co/" },
+                    { label: "ADRES \u2014 Health System Resources", url: "https://www.adres.gov.co/" },
+                    { label: "MINSALUD \u2014 PBS Medicines List", url: "https://www.minsalud.gov.co/salud/POS/Paginas/plan-obligatorio-de-salud-pos.aspx" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "MINSALUD (Ministry of Health)", url: "https://www.minsalud.gov.co/" },
+                ],
             },
         ],
-        tips: "Use the free VPN from the OPERA browser (select Americas location) to access the INVIMA portal.",
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>Search the <a href="https://consultaregistro.invima.gov.co/Consultas/consultas/consreg_encabcum.jsp" target="_blank" rel="noopener">INVIMA Consulta Registro</a> by product name, active ingredient, or registration number</li>
+    <li>The portal may require a Colombian IP address or VPN &mdash; try Opera browser&rsquo;s built-in VPN (Americas location) if access is blocked</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>The <strong>CNPMDM</strong> issues price control circulars identifying molecules under regulation &mdash; published on the <a href="https://www.minsalud.gov.co/salud/MT/Paginas/comision-nacional-de-precios-de-medicamentos.aspx" target="_blank" rel="noopener">MINSALUD website</a></li>
+    <li><a href="https://www.sispro.gov.co/Central-Medicamentos/Paginas/Consultas-Medicamentos.aspx" target="_blank" rel="noopener">SISMED</a> reports actual transaction prices from manufacturers and distributors &mdash; useful for understanding real market prices</li>
+    <li>Colombia uses <strong>External Reference Pricing (ERP)</strong> for price-controlled drugs, referencing prices in 17 countries across the OECD and Latin America</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement &amp; HTA</h4>
+<ol>
+    <li>The <strong>PBS</strong> (Plan de Beneficios en Salud) covers the mandatory health benefits package &mdash; medicines not in PBS can be accessed via <strong>MIPRES</strong> (prescripci&oacute;n digital platform for non-PBS technologies)</li>
+    <li><a href="https://www.iets.org.co/" target="_blank" rel="noopener">IETS</a> is Colombia&rsquo;s formal HTA body &mdash; it produces clinical evaluations, economic assessments, and coverage recommendations for the PBS update process</li>
+    <li>Colombia has <strong>universal health coverage</strong> through contributory (employed) and subsidised (low-income) regimes, both offering the same PBS benefits package</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "plan de beneficios en salud," "precio m&aacute;ximo de venta."</p>
+        `,
     },
     {
         code: "HR",
@@ -703,10 +904,62 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "EDA — Egyptian Drug Authority", url: "https://www.eda.gov.eg/" }],
+                body: "EDA (Egyptian Drug Authority), established in 2020, replaced the former CAPA and handles all drug registration, quality control, and pharmacovigilance. The EDA Drug Registry Search allows querying all registered pharmaceutical products in Egypt.",
+                links: [
+                    { label: "EDA \u2014 Drug Registry Search", url: "http://eservices.edaegypt.gov.eg/EDASearch/SearchRegDrugs.aspx" },
+                    { label: "EDA \u2014 Official Website", url: "https://edaegypt.gov.eg/en/" },
+                    { label: "EDA \u2014 Egyptian Drug Registry (publications)", url: "https://edaegypt.gov.eg/en/eda-publications/the-egyptian-drug-registry/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Egypt uses government-controlled drug pricing administered by the EDA\u2019s Pricing Committee. Prices are set based on a cost-plus methodology for locally manufactured drugs and External Reference Pricing for imported products. The EDA publishes official price bulletins. Generic prices are typically set at a percentage of the originator price.",
+                links: [
+                    { label: "EDA \u2014 Pricing Circulars & Updates", url: "https://edaegypt.gov.eg/en/eda-publications/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Egypt\u2019s Universal Health Insurance Law (2018) is being phased in through UHIA (Universal Health Insurance Authority), aiming for nationwide coverage by 2032. Currently, HIO (Health Insurance Organisation) covers formal-sector employees and their dependants (~60% of the population). The UHIA is piloting in Port Said, Luxor, Ismailia, South Sinai, Aswan, and Suez governorates. The Ministry of Health also maintains an Essential Drug List (EDL) for public hospital procurement.",
+                links: [
+                    { label: "UHIA (Universal Health Insurance Authority)", url: "https://uhia.gov.eg/" },
+                    { label: "HIO (Health Insurance Organisation)", url: "http://www.hio.gov.eg/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ministry of Health & Population", url: "https://www.mohp.gov.eg/" },
+                    { label: "WHO \u2014 Egypt Country Page", url: "https://www.who.int/countries/egy/" },
+                ],
             },
         ],
-        notes: "EDA (Egyptian Drug Authority) replaced CAPA (Central Administration of Pharmaceutical Affairs) in 2020 and handles all drug registrations. Public health insurance reimbursement is managed by HIO (Health Insurance Organisation); coverage is limited and no standalone HTA body exists.",
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>Search the <a href="http://eservices.edaegypt.gov.eg/EDASearch/SearchRegDrugs.aspx" target="_blank" rel="noopener">EDA Drug Registry Search</a> by product name, active ingredient, or company name to find all registered drugs</li>
+    <li>The <a href="https://edaegypt.gov.eg/en/eda-publications/the-egyptian-drug-registry/" target="_blank" rel="noopener">Egyptian Drug Registry</a> is published periodically as a downloadable document listing all registered products</li>
+    <li>EDA replaced CAPA in 2020 &mdash; older references to &ldquo;CAPA&rdquo; or &ldquo;Central Administration of Pharmaceutical Affairs&rdquo; refer to the predecessor organisation</li>
+</ol>
+
+<h4 class="tips-heading">Pricing</h4>
+<ol>
+    <li>Drug prices are <strong>government-controlled</strong> by EDA&rsquo;s Pricing Committee &mdash; manufacturers cannot freely set prices</li>
+    <li>Locally manufactured drugs use a <strong>cost-plus</strong> pricing methodology; imported drugs use <strong>External Reference Pricing</strong></li>
+    <li>Generic drug prices are set as a percentage of the originator price, with tiered reductions based on the number of generics on the market</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li>The <strong>Universal Health Insurance Law (2018)</strong> aims for nationwide coverage by 2032 &mdash; <a href="https://uhia.gov.eg/" target="_blank" rel="noopener">UHIA</a> is currently piloting in 6 governorates</li>
+    <li>Until full rollout, <strong>HIO</strong> covers formal-sector employees, and public hospitals provide medicines from the government Essential Drug List</li>
+    <li>Egypt has <strong>no standalone HTA body</strong>, though the UHIA is developing pharmacoeconomic evaluation capacity as part of the universal coverage programme</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> EDA website is available in English and Arabic. The drug registry search interface supports English queries. Pricing circulars are primarily in Arabic.</p>
+        `,
     },
     {
         code: "EE",
@@ -1538,6 +1791,22 @@ const COUNTRIES = [
                 title: "Market Authorization",
                 links: [{ label: "Medicines Authority \u2014 Advanced Search", url: "https://medicinesauthority.gov.mt/advanced-search" }],
             },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "The Government Formulary List (GFL) determines which medicines are available free of charge at government health centres and hospitals. The Pharmacy of Your Choice (POYC) scheme allows patients with chronic conditions to collect formulary medicines from community pharmacies instead of government dispensaries.",
+                links: [
+                    { label: "POYC (Pharmacy of Your Choice) Scheme", url: "https://health.gov.mt/en/poyc/Pages/poyc.aspx" },
+                    { label: "Medicines Authority \u2014 Official Website", url: "https://medicinesauthority.gov.mt/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ministry for Health", url: "https://health.gov.mt/" },
+                ],
+            },
         ],
         tipsHtml: `
 <h4 class="tips-heading">Small Market &amp; EMA Status</h4>
@@ -1546,7 +1815,15 @@ const COUNTRIES = [
     <li>Search the <a href="https://medicinesauthority.gov.mt/advanced-search" target="_blank" rel="noopener">Medicines Authority advanced search</a> for nationally authorised products &mdash; the database has an English interface</li>
     <li>Many products authorised in larger EU markets may not have been commercially launched in Malta due to the small market size. Absence from the Medicines Authority database does not necessarily indicate the product is unavailable &mdash; it may be imported or ordered through a compassionate use/special authorisation route</li>
 </ol>
-<p class="tips-note"><strong>Reimbursement:</strong> The government formulary for publicly funded medicines is administered by the Department of Health. Malta&rsquo;s formulary covers medicines dispensed through government health centres and hospitals. For reimbursement status, contact the Medicines Authority or the Department of Pharmacy at the Ministry for Health.</p>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li>The <strong>Government Formulary List (GFL)</strong> determines which medicines are available free of charge at government facilities and through the POYC scheme</li>
+    <li>The <a href="https://health.gov.mt/en/poyc/Pages/poyc.aspx" target="_blank" rel="noopener">POYC (Pharmacy of Your Choice)</a> scheme allows chronic patients to collect their formulary medicines from community pharmacies &mdash; a significant convenience</li>
+    <li>Malta does not have a publicly accessible online formulary search &mdash; for GFL status, contact the Department of Pharmacy within the Ministry for Health</li>
+    <li>Medicines not on the GFL may be accessed through the <strong>Exceptional Medicinal Treatment (EMT)</strong> pathway via individual patient applications</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Malta has no formal HTA body. Formulary decisions are made by the GFL committee. Drug prices are not formally regulated &mdash; the government negotiates directly with suppliers for formulary-listed products.</p>
         `,
     },
     {
@@ -1811,8 +2088,64 @@ const COUNTRIES = [
         code: "OM",
         name: "Oman",
         flag: "🇴🇲",
-        sections: [],
-        notes: "No resources currently listed.",
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "The Directorate General of Pharmaceutical Affairs and Drug Control (DGPADC) under the Ministry of Health handles drug registration. Oman is a member of the GCC-DR (Gulf Cooperation Council \u2014 Drug Registration) centralised registration system, which allows a single application to cover all 6 GCC states.",
+                links: [
+                    { label: "MOH \u2014 Pharmaceutical Affairs", url: "https://www.moh.gov.om/en/web/dgpadc" },
+                    { label: "MOH \u2014 Official Website", url: "https://www.moh.gov.om/en" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices in Oman are regulated by the Ministry of Health. Maximum retail prices (MRPs) are set during the registration process. Oman participates in GCC joint procurement initiatives for government hospitals. Wholesale and retail markup percentages are government-regulated.",
+                links: [
+                    { label: "MOH \u2014 Drug Pricing Information", url: "https://www.moh.gov.om/en/web/dgpadc/-/drugs" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Omani nationals receive free healthcare including medicines at government hospitals and health centres. The MOH hospital formulary determines which medicines are available in the public sector. There is no separate health insurance scheme for nationals \u2014 the government directly funds healthcare through the MOH budget.",
+                links: [
+                    { label: "MOH \u2014 Health Services", url: "https://www.moh.gov.om/en/web/directorate-general-of-health-services" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "GCC-DR (Gulf Centralised Drug Registration)", url: "https://gcc-sg.org/en-us/CooperationAndAchievements/Ede" },
+                    { label: "WHO \u2014 Oman Country Page", url: "https://www.who.int/countries/omn/" },
+                ],
+            },
+        ],
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>Oman uses two registration pathways: <strong>national registration</strong> through DGPADC, and <strong>GCC centralised registration</strong> through the GCC-DR office in Riyadh</li>
+    <li>Products registered centrally through GCC-DR are automatically recognised in all 6 GCC states (Bahrain, Kuwait, Oman, Qatar, Saudi Arabia, UAE)</li>
+    <li>Contact the <a href="https://www.moh.gov.om/en/web/dgpadc" target="_blank" rel="noopener">DGPADC</a> for registration status enquiries &mdash; an online searchable drug registry may not be publicly available</li>
+</ol>
+
+<h4 class="tips-heading">Pricing &amp; Procurement</h4>
+<ol>
+    <li>Drug prices are regulated at the point of registration &mdash; the MOH sets the Maximum Retail Price (MRP)</li>
+    <li>Government hospital procurement is through <strong>centralised tenders</strong> managed by the MOH, often at significant discounts to MRP</li>
+    <li>GCC joint procurement initiatives can cover high-cost medicines across member states</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li><strong>Omani nationals</strong> receive free healthcare including medicines at all government facilities</li>
+    <li>Expatriates (who form a large portion of the population) generally access healthcare through employer-provided private insurance or self-pay</li>
+    <li>The public hospital formulary determines drug availability &mdash; there is no publicly accessible formulary list online</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Oman has no formal HTA body. Drug selection for the hospital formulary relies on expert clinical committees within the MOH.</p>
+        `,
     },
     {
         code: "PE",
@@ -1822,9 +2155,63 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "DIGEMID — Registro Sanitario", url: "https://www.digemid.minsa.gob.pe/rsProductosFarmaceuticos/" }],
+                body: "DIGEMID (Direcci\u00f3n General de Medicamentos, Insumos y Drogas) under the Ministry of Health handles drug registration. The Registro Sanitario allows searching authorised pharmaceutical products.",
+                links: [
+                    { label: "DIGEMID \u2014 Registro Sanitario (drug registry)", url: "https://www.digemid.minsa.gob.pe/rsProductosFarmaceuticos/" },
+                    { label: "DIGEMID \u2014 Official Website", url: "https://www.digemid.minsa.gob.pe/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Peru has free drug pricing in the private market \u2014 no government-mandated price controls for retail sales. The public sector uses centralised procurement through CENARES (Centro Nacional de Abastecimiento de Recursos Estrat\u00e9gicos en Salud). DIGEMID\u2019s Observatorio de Precios publishes reference pricing data for medicines.",
+                links: [
+                    { label: "DIGEMID \u2014 Observatorio de Precios (price observatory)", url: "https://opm-digemid.minsa.gob.pe/" },
+                    { label: "CENARES (public procurement)", url: "https://www.cenares.minsa.gob.pe/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Peru has a segmented health system: SIS (Seguro Integral de Salud) covers low-income/uninsured populations, and EsSalud (social security) covers formal-sector employees. Both use the PNUME (Petitorio Nacional \u00danico de Medicamentos Esenciales) as the national formulary. FISSAL (Fondo Intangible Solidario de Salud) funds high-cost treatments for cancer, rare diseases, and other catastrophic conditions.",
+                links: [
+                    { label: "PNUME \u2014 National Essential Medicines List", url: "https://www.digemid.minsa.gob.pe/Main.asp?Seccion=767" },
+                    { label: "SIS (Seguro Integral de Salud)", url: "https://www.gob.pe/sis" },
+                    { label: "EsSalud (Social Security)", url: "http://www.essalud.gob.pe/" },
+                    { label: "FISSAL (High-cost treatment fund)", url: "https://www.fissal.gob.pe/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "MINSA (Ministry of Health)", url: "https://www.gob.pe/minsa" },
+                    { label: "IETSI \u2014 EsSalud HTA Unit", url: "https://ietsi.essalud.gob.pe/" },
+                ],
             },
         ],
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>Search the <a href="https://www.digemid.minsa.gob.pe/rsProductosFarmaceuticos/" target="_blank" rel="noopener">DIGEMID Registro Sanitario</a> by product name, active ingredient, or registration holder</li>
+    <li>Peru accepts abbreviated dossiers for products already approved by reference regulators (FDA, EMA, Health Canada) under the Decreto Supremo 014-2011-SA</li>
+</ol>
+
+<h4 class="tips-heading">Pricing &amp; Procurement</h4>
+<ol>
+    <li><strong>No retail price controls</strong> &mdash; private-market prices are freely set</li>
+    <li>The <a href="https://opm-digemid.minsa.gob.pe/" target="_blank" rel="noopener">Observatorio de Precios</a> (DIGEMID) publishes comparative pricing data &mdash; useful for understanding market prices across retail pharmacies and the public sector</li>
+    <li>Public procurement is centralised through <a href="https://www.cenares.minsa.gob.pe/" target="_blank" rel="noopener">CENARES</a>, which manages strategic purchasing for the public health system</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li>The <strong>PNUME</strong> (National Essential Medicines List) is the basis for public-sector drug availability across both SIS and EsSalud</li>
+    <li><strong>FISSAL</strong> covers high-cost treatments for catastrophic diseases (oncology, rare diseases, transplants) for SIS beneficiaries</li>
+    <li>EsSalud&rsquo;s <a href="https://ietsi.essalud.gob.pe/" target="_blank" rel="noopener">IETSI</a> (Instituto de Evaluaci&oacute;n de Tecnolog&iacute;as en Salud e Investigaci&oacute;n) conducts HTA evaluations for EsSalud formulary decisions</li>
+</ol>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "petitorio nacional," "observatorio de precios."</p>
+        `,
     },
     {
         code: "PH",
@@ -2076,10 +2463,55 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Qatar National Formulary", url: "https://qnf.moph.gov.qa/" }],
+                body: "The Department of Pharmacy and Drug Control (DPDC) under the Ministry of Public Health (MOPH) handles drug registration. Qatar participates in the GCC-DR centralised registration system. The Qatar National Formulary (QNF) lists medicines approved for use in Qatar.",
+                links: [
+                    { label: "Qatar National Formulary (QNF)", url: "https://qnf.moph.gov.qa/" },
+                    { label: "MOPH \u2014 Drug Registration Services", url: "https://moph.gov.qa/english/OurServices/advancedsearch/Pages/servicesdetails.aspx?serviceId=225" },
+                    { label: "MOPH \u2014 Official Website", url: "https://www.moph.gov.qa/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are regulated by the MOPH during the registration process. Maximum selling prices are set and printed on packaging. Government hospitals (HMC) procure medicines through centralised tenders managed by the government procurement system.",
+                links: [
+                    { label: "MOPH \u2014 Pharmacy & Drug Control", url: "https://www.moph.gov.qa/english/departments/policyaffairs/pdc/Pages/default.aspx" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Qatari nationals receive free healthcare including medicines at Hamad Medical Corporation (HMC) hospitals and Primary Health Care Corporation (PHCC) centres. The government directly funds all public healthcare. Expatriates access public services at subsidised rates or through employer-provided private insurance.",
+                links: [
+                    { label: "HMC (Hamad Medical Corporation)", url: "https://www.hamad.qa/" },
+                    { label: "PHCC (Primary Health Care Corporation)", url: "https://www.phcc.qa/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "GCC-DR (Gulf Centralised Drug Registration)", url: "https://gcc-sg.org/en-us/CooperationAndAchievements/Ede" },
+                    { label: "WHO \u2014 Qatar Country Page", url: "https://www.who.int/countries/qat/" },
+                ],
             },
         ],
-        notes: "The Qatar National Formulary portal has been intermittently unavailable — verify accessibility before use.",
+        tipsHtml: `
+<h4 class="tips-heading">Market Authorization</h4>
+<ol>
+    <li>The <a href="https://qnf.moph.gov.qa/" target="_blank" rel="noopener">Qatar National Formulary (QNF)</a> lists approved medicines &mdash; note this portal has been intermittently unavailable; verify accessibility before use</li>
+    <li>Qatar accepts <strong>GCC-DR centralised registration</strong> &mdash; a single application covers all 6 GCC states (Bahrain, Kuwait, Oman, Qatar, Saudi Arabia, UAE)</li>
+    <li>Contact the <a href="https://www.moph.gov.qa/english/departments/policyaffairs/pdc/Pages/default.aspx" target="_blank" rel="noopener">Department of Pharmacy and Drug Control</a> for registration enquiries</li>
+</ol>
+
+<h4 class="tips-heading">Reimbursement</h4>
+<ol>
+    <li><strong>Qatari nationals</strong> receive fully funded healthcare including medicines at HMC and PHCC facilities</li>
+    <li><strong>Expatriates</strong> access subsidised public healthcare or use private insurance &mdash; mandatory employer-provided health insurance has been implemented</li>
+    <li>Drug selection for government hospitals is managed through the <strong>HMC hospital formulary committee</strong></li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Qatar has no formal HTA body. Formulary decisions are made by clinical committees within HMC. The Qatar National Health Strategy includes plans for developing health technology assessment capacity.</p>
+        `,
     },
     {
         code: "RO",
