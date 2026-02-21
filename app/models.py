@@ -56,8 +56,9 @@ class AssessmentResult(BaseModel):
     # Spain (AEMPS)
     ipt_reference: str = ""
     therapeutic_positioning: str = ""
-    # Japan (PMDA)
-    pmda_review_type: str = ""
+    # Japan (MHLW / KEGG JAPIC)
+    pmda_review_type: str = ""      # reimbursement status: "Reimbursed (NHI)" or "Not in NHI price list"
+    japan_mhlw_url: str = ""        # MHLW quarterly pricing notifications page
     # Translated summary (all countries)
     summary_en: str = ""
 

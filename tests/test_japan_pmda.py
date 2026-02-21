@@ -1,269 +1,217 @@
-"""Tests for the Japan PMDA adapter using sample HTML data."""
+"""Tests for the Japan MHLW adapter (KEGG/JAPIC data source)."""
 
 import pytest
 
-from app.services.hta_agencies.japan_pmda import (
-    REVIEW_TYPE_DISPLAY,
-    JapanPMDA,
-    _clean_html_text,
-    _detect_review_type,
-    _normalize_review_type,
-    _parse_date,
-    _parse_english_date_parts,
-)
+from app.services.hta_agencies.japan_pmda import JapanPMDA, _parse_kegg_disease
 
 
-# Sample PMDA approved drugs listing HTML
-SAMPLE_LISTING_HTML = """\
-<!DOCTYPE html>
-<html>
-<head><title>Approved Drugs | PMDA</title></head>
-<body>
-<h2>List of Approved Drugs</h2>
-<table class="drugs-table">
-  <thead>
-    <tr>
-      <td>Brand Name</td>
-      <td>INN</td>
-      <td>Indication</td>
-      <td>Approval Date</td>
-      <td>Review Report</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Keytruda</td>
-      <td>Pembrolizumab</td>
-      <td>Treatment of unresectable advanced or recurrent non-small cell lung cancer</td>
-      <td>September 28, 2023</td>
-      <td><a href="/files/review/keytruda-review-report.pdf">Review Report</a></td>
-    </tr>
-    <tr>
-      <td>Opdivo</td>
-      <td>Nivolumab</td>
-      <td>Treatment of unresectable or metastatic melanoma</td>
-      <td>March 15, 2023</td>
-      <td><a href="/files/review/opdivo-review-report.pdf">Review Report</a></td>
-    </tr>
-    <tr>
-      <td>Tecentriq</td>
-      <td>Atezolizumab</td>
-      <td>Treatment of advanced hepatocellular carcinoma</td>
-      <td>November 25, 2022</td>
-      <td><a href="/files/review/tecentriq-review-report.pdf">Review Report</a></td>
-    </tr>
-    <tr>
-      <td>Enhertu</td>
-      <td>Trastuzumab deruxtecan</td>
-      <td>Treatment of HER2-positive unresectable or metastatic breast cancer</td>
-      <td>January 20, 2023</td>
-      <td><a href="/files/review/enhertu-review-report.pdf">Review Report</a></td>
-    </tr>
-    <tr>
-      <td>Zolgensma</td>
-      <td>Onasemnogene abeparvovec</td>
-      <td>Treatment of spinal muscular atrophy (orphan drug)</td>
-      <td>May 19, 2020</td>
-      <td><a href="/files/review/zolgensma-review-report.pdf">Review Report</a></td>
-    </tr>
-  </tbody>
-</table>
-</body>
-</html>
-"""
+# ── Fixtures ──────────────────────────────────────────────────────────
+
+def _make_drug(kegg_id, names, japic_code=""):
+    """Build a drug dict in the format stored in _drug_list."""
+    names_display = names if isinstance(names, list) else [names]
+    return {
+        "kegg_id": kegg_id,
+        "names_lower": [n.lower() for n in names_display],
+        "names_display": names_display,
+        "japic_code": japic_code,
+        "japic_url": f"https://www.kegg.jp/medicus-bin/japic_med?japic_code={japic_code}"
+        if japic_code
+        else "",
+    }
 
 
 @pytest.fixture
-def pmda_service():
-    """Create a PMDA adapter pre-loaded with sample HTML data."""
+def mhlw_service():
+    """MHLW adapter pre-loaded with synthetic drug list; no network calls."""
     service = JapanPMDA()
-    items = service._parse_listing_page(SAMPLE_LISTING_HTML)
-    service._drug_list = items
+    service._drug_list = [
+        _make_drug("dr:D00001", ["Pembrolizumab", "Keytruda"], japic_code="00070751"),
+        _make_drug("dr:D00002", ["Nivolumab", "Opdivo"], japic_code="00068421"),
+        _make_drug("dr:D00003", ["Atezolizumab", "Tecentriq"], japic_code="00069812"),
+        _make_drug("dr:D00004", ["Trastuzumab deruxtecan", "Enhertu"], japic_code="00071234"),
+        _make_drug("dr:D00005", ["Onasemnogene abeparvovec", "Zolgensma"], japic_code="00065900"),
+        # Drug not on NHI price list (no JAPIC code)
+        _make_drug("dr:D00006", ["Experimental compound X"]),
+    ]
+    # Pre-populate disease cache so search_assessments makes no HTTP calls
+    service._disease_cache = {
+        "dr:D00001": "Non-small cell lung cancer; Melanoma",
+        "dr:D00002": "Melanoma; Renal cell carcinoma",
+        "dr:D00003": "Hepatocellular carcinoma",
+        "dr:D00004": "Breast cancer",
+        "dr:D00005": "Spinal muscular atrophy",
+        "dr:D00006": "",
+    }
     service._loaded = True
     return service
 
 
-def test_parse_listing_count(pmda_service):
-    """Should parse all 5 drug entries from the sample HTML (header skipped)."""
-    assert len(pmda_service._drug_list) == 5
+# ── Unit tests: adapter properties ────────────────────────────────────
+
+def test_country_code():
+    assert JapanPMDA().country_code == "JP"
 
 
-def test_parse_listing_brand_names(pmda_service):
-    names = {d["brand_name"] for d in pmda_service._drug_list}
-    assert "Keytruda" in names
-    assert "Opdivo" in names
-    assert "Tecentriq" in names
-    assert "Enhertu" in names
-    assert "Zolgensma" in names
+def test_country_name():
+    assert JapanPMDA().country_name == "Japan"
 
 
-def test_parse_listing_inns(pmda_service):
-    inns = {d["inn"] for d in pmda_service._drug_list}
-    assert "Pembrolizumab" in inns
-    assert "Nivolumab" in inns
-    assert "Atezolizumab" in inns
-    assert "Trastuzumab deruxtecan" in inns
-    assert "Onasemnogene abeparvovec" in inns
+def test_agency_abbreviation():
+    assert JapanPMDA().agency_abbreviation == "MHLW"
 
 
-def test_parse_listing_dates(pmda_service):
-    dates = {d["approval_date"] for d in pmda_service._drug_list}
-    assert "2023-09-28" in dates
-    assert "2023-03-15" in dates
+def test_agency_full_name():
+    assert "Ministry of Health" in JapanPMDA().agency_full_name
 
 
-def test_parse_listing_review_urls(pmda_service):
-    urls = [d["review_url"] for d in pmda_service._drug_list]
-    assert any("keytruda" in u for u in urls)
-    assert any("opdivo" in u for u in urls)
+def test_country_info():
+    info = JapanPMDA().get_country_info()
+    assert info.code == "JP"
+    assert info.name == "Japan"
+    assert info.agency == "MHLW"
 
 
-def test_parse_listing_indications(pmda_service):
-    indications = [d["indication"] for d in pmda_service._drug_list]
-    assert any("lung cancer" in i.lower() for i in indications)
-    assert any("melanoma" in i.lower() for i in indications)
-    assert any("spinal muscular atrophy" in i.lower() for i in indications)
+def test_not_loaded_initially():
+    assert not JapanPMDA().is_loaded
+
+
+# ── Unit tests: _parse_kegg_disease helper ────────────────────────────
+
+SAMPLE_KEGG_ENTRY = """\
+ENTRY       D11678                      Drug
+NAME        Pembrolizumab (USAN/INN);
+            Keytruda (TN)
+DISEASE     H01563  Urothelial carcinoma [DS:H01563]
+            H01562  Bladder cancer [DS:H01562]
+            H00023  Non-small cell lung cancer [DS:H00023]
+DBLINKS     CAS: 1374853-91-4
+///
+"""
+
+
+def test_parse_kegg_disease_extracts_names():
+    result = _parse_kegg_disease(SAMPLE_KEGG_ENTRY)
+    assert "Urothelial carcinoma" in result
+    assert "Bladder cancer" in result
+    assert "Non-small cell lung cancer" in result
+
+
+def test_parse_kegg_disease_semicolon_joined():
+    result = _parse_kegg_disease(SAMPLE_KEGG_ENTRY)
+    assert ";" in result
+
+
+def test_parse_kegg_disease_no_duplicates():
+    duplicated = SAMPLE_KEGG_ENTRY + "DISEASE     H01563  Urothelial carcinoma [DS:H01563]\n"
+    result = _parse_kegg_disease(duplicated)
+    assert result.count("Urothelial carcinoma") == 1
+
+
+def test_parse_kegg_disease_empty_entry():
+    assert _parse_kegg_disease("ENTRY       D99999\nNAME        Foo\n///\n") == ""
+
+
+def test_parse_kegg_disease_stops_at_next_field():
+    entry = (
+        "ENTRY       D00001\n"
+        "DISEASE     H01234  Some cancer [DS:H01234]\n"
+        "DBLINKS     CAS: 12345\n"  # non-indented line ends DISEASE block
+        "            H99999  Should not appear [DS:H99999]\n"
+    )
+    result = _parse_kegg_disease(entry)
+    assert "Some cancer" in result
+    assert "Should not appear" not in result
+
+
+# ── Integration-style tests: search_assessments ───────────────────────
+
+@pytest.mark.asyncio
+async def test_search_not_loaded():
+    service = JapanPMDA()
+    results = await service.search_assessments("Pembrolizumab")
+    assert results == []
 
 
 @pytest.mark.asyncio
-async def test_search_by_substance(pmda_service):
-    results = await pmda_service.search_assessments("Pembrolizumab")
+async def test_search_by_substance(mhlw_service):
+    results = await mhlw_service.search_assessments("Pembrolizumab")
     assert len(results) == 1
-    assert results[0].product_name == "Keytruda"
+    assert results[0].product_name == "Pembrolizumab"
 
 
 @pytest.mark.asyncio
-async def test_search_case_insensitive(pmda_service):
-    results = await pmda_service.search_assessments("pembrolizumab")
+async def test_search_case_insensitive(mhlw_service):
+    results = await mhlw_service.search_assessments("pembrolizumab")
     assert len(results) == 1
 
 
 @pytest.mark.asyncio
-async def test_search_by_product_name(pmda_service):
-    results = await pmda_service.search_assessments("irrelevant", product_name="Opdivo")
+async def test_search_by_brand_name(mhlw_service):
+    results = await mhlw_service.search_assessments("irrelevant", product_name="Keytruda")
     assert len(results) == 1
-    assert "Nivolumab" in results[0].evaluation_reason or results[0].product_name == "Opdivo"
+    assert results[0].product_name == "Pembrolizumab"
 
 
 @pytest.mark.asyncio
-async def test_search_returns_review_type(pmda_service):
-    results = await pmda_service.search_assessments("Pembrolizumab")
+async def test_search_no_match(mhlw_service):
+    results = await mhlw_service.search_assessments("nonexistentsubstance")
+    assert results == []
+
+
+@pytest.mark.asyncio
+async def test_search_reimbursed_status(mhlw_service):
+    results = await mhlw_service.search_assessments("Pembrolizumab")
+    assert results[0].pmda_review_type == "Reimbursed (NHI)"
+
+
+@pytest.mark.asyncio
+async def test_search_not_reimbursed_status(mhlw_service):
+    results = await mhlw_service.search_assessments("Experimental compound X")
     assert len(results) == 1
-    assert results[0].pmda_review_type != ""
+    assert results[0].pmda_review_type == "Not in NHI price list"
 
 
 @pytest.mark.asyncio
-async def test_search_returns_assessment_url(pmda_service):
-    results = await pmda_service.search_assessments("Pembrolizumab")
-    assert "keytruda" in results[0].assessment_url
+async def test_search_reimbursed_has_japic_url(mhlw_service):
+    results = await mhlw_service.search_assessments("Pembrolizumab")
+    assert "japic_code=00070751" in results[0].assessment_url
 
 
 @pytest.mark.asyncio
-async def test_search_returns_evaluation_reason(pmda_service):
-    results = await pmda_service.search_assessments("Pembrolizumab")
+async def test_search_not_reimbursed_has_no_japic_url(mhlw_service):
+    results = await mhlw_service.search_assessments("Experimental compound X")
+    assert results[0].assessment_url == ""
+
+
+@pytest.mark.asyncio
+async def test_search_reimbursed_has_mhlw_url(mhlw_service):
+    results = await mhlw_service.search_assessments("Pembrolizumab")
+    assert "mhlw.go.jp" in results[0].japan_mhlw_url
+
+
+@pytest.mark.asyncio
+async def test_search_not_reimbursed_no_mhlw_url(mhlw_service):
+    results = await mhlw_service.search_assessments("Experimental compound X")
+    assert results[0].japan_mhlw_url == ""
+
+
+@pytest.mark.asyncio
+async def test_search_indication_from_cache(mhlw_service):
+    results = await mhlw_service.search_assessments("Pembrolizumab")
     assert "lung cancer" in results[0].evaluation_reason.lower()
 
 
 @pytest.mark.asyncio
-async def test_search_sorted_most_recent_first(pmda_service):
-    # Nivolumab and Trastuzumab deruxtecan both have 2023 dates
-    results = await pmda_service.search_assessments("Pembrolizumab")
-    if len(results) > 1:
-        dates = [r.opinion_date for r in results]
-        assert dates == sorted(dates, reverse=True)
+async def test_search_partial_substance_match(mhlw_service):
+    # "trastuzumab" is a substring of "Trastuzumab deruxtecan"
+    results = await mhlw_service.search_assessments("trastuzumab")
+    assert len(results) >= 1
+    assert any("Trastuzumab" in r.product_name for r in results)
 
 
 @pytest.mark.asyncio
-async def test_search_no_match(pmda_service):
-    results = await pmda_service.search_assessments("nonexistentsubstance")
-    assert len(results) == 0
-
-
-@pytest.mark.asyncio
-async def test_search_orphan_drug(pmda_service):
-    results = await pmda_service.search_assessments("Onasemnogene")
-    assert len(results) == 1
-    assert results[0].product_name == "Zolgensma"
-
-
-@pytest.mark.asyncio
-async def test_not_loaded():
-    service = JapanPMDA()
-    results = await service.search_assessments("Pembrolizumab")
-    assert len(results) == 0
-
-
-def test_country_info():
-    service = JapanPMDA()
-    info = service.get_country_info()
-    assert info.code == "JP"
-    assert info.name == "Japan"
-    assert info.agency == "PMDA"
-
-
-def test_clean_html_text():
-    assert _clean_html_text("  Hello   World  ") == "Hello World"
-    assert _clean_html_text("<b>Bold</b> text") == "Bold text"
-    assert _clean_html_text("A &amp; B") == "A & B"
-    assert _clean_html_text("") == ""
-
-
-def test_parse_date_english():
-    assert _parse_date("September 28, 2023") == "2023-09-28"
-    assert _parse_date("March 15, 2023") == "2023-03-15"
-    assert _parse_date("January 20, 2023") == "2023-01-20"
-
-
-def test_parse_date_japanese():
-    assert _parse_date("2023年9月28日") == "2023-09-28"
-    assert _parse_date("2020年5月19日") == "2020-05-19"
-
-
-def test_parse_date_iso():
-    assert _parse_date("2023-09-28") == "2023-09-28"
-
-
-def test_parse_date_empty():
-    assert _parse_date("") == ""
-
-
-def test_parse_english_date_parts():
-    assert _parse_english_date_parts("28", "September", "2023") == "2023-09-28"
-    assert _parse_english_date_parts("15", "March", "2023") == "2023-03-15"
-    assert _parse_english_date_parts("1", "January", "2024") == "2024-01-01"
-
-
-def test_detect_review_type():
-    assert _detect_review_type("new drug application", "") == "new drug"
-    assert _detect_review_type("biosimilar approval", "") == "biosimilar"
-    assert _detect_review_type("", "spinal muscular atrophy (orphan drug)") == "orphan"
-    assert _detect_review_type("additional indication", "") == "new indication"
-    assert _detect_review_type("", "normal indication text") == "new drug"
-
-
-def test_normalize_review_type():
-    assert _normalize_review_type("new drug") == "New Drug Approval"
-    assert _normalize_review_type("orphan") == "Orphan Drug"
-    assert _normalize_review_type("biosimilar") == "Biosimilar"
-    assert _normalize_review_type("new indication") == "New Indication"
-    assert _normalize_review_type("") == ""
-
-
-def test_review_type_display_dict():
-    assert "new drug" in REVIEW_TYPE_DISPLAY
-    assert "orphan" in REVIEW_TYPE_DISPLAY
-    assert "biosimilar" in REVIEW_TYPE_DISPLAY
-
-
-def test_parse_empty_html():
-    service = JapanPMDA()
-    result = service._parse_listing_page("<html><body></body></html>")
-    assert result == []
-
-
-def test_parse_html_with_no_drug_tables():
-    service = JapanPMDA()
-    result = service._parse_listing_page(
-        "<html><body><p>No drug information here</p></body></html>"
-    )
-    assert result == []
+async def test_search_opinion_date_empty(mhlw_service):
+    """KEGG does not provide a pricing date — opinion_date should be empty."""
+    results = await mhlw_service.search_assessments("Nivolumab")
+    assert results[0].opinion_date == ""
