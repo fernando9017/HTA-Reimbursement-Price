@@ -702,6 +702,95 @@ button:disabled {
     cursor: pointer;
 }
 
+/* Therapeutic area multi-select widget */
+.filter-group-wide {
+    grid-column: 1 / -1;
+}
+
+.area-multiselect {
+    position: relative;
+}
+
+.area-multiselect input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.area-multiselect input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-light);
+}
+
+.area-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.area-tags:empty {
+    margin-bottom: 0;
+}
+
+.area-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: #eaf2f8;
+    color: var(--primary);
+    border-radius: 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.area-tag-remove {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 0 2px;
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.6;
+}
+
+.area-tag-remove:hover {
+    opacity: 1;
+}
+
+.area-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    background: white;
+    border: 2px solid var(--primary-light);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    z-index: 200;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.area-option {
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.area-option:hover {
+    background: #eaf2f8;
+    color: var(--primary);
+}
+
 .filter-actions {
     display: flex;
     gap: 10px;
@@ -719,10 +808,33 @@ button:disabled {
 
 /* ── Analogue Selection — Results table ──────────────────────────── */
 
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
 .results-summary {
     color: var(--text-light);
     font-size: 0.9rem;
-    margin-bottom: 12px;
+    margin-bottom: 0;
+}
+
+.btn-export {
+    padding: 8px 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-export:hover {
+    background: var(--accent-light);
 }
 
 .analogue-table-wrapper {

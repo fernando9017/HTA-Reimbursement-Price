@@ -325,6 +325,7 @@ class AnalogueService:
     def search(
         self,
         therapeutic_area: str = "",
+        therapeutic_areas: list[str] | None = None,
         orphan: str = "",
         years_since_approval: int = 0,
         first_approval: str = "",
@@ -354,7 +355,12 @@ class AnalogueService:
             cutoff_date = cutoff.isoformat()
 
         results = []
-        area_lower = therapeutic_area.lower().strip()
+        # Support both single string and list of areas (OR logic)
+        areas_lower: list[str] = []
+        if therapeutic_areas:
+            areas_lower = [a.lower().strip() for a in therapeutic_areas if a.strip()]
+        elif therapeutic_area:
+            areas_lower = [therapeutic_area.lower().strip()]
         status_lower = status.lower().strip()
         substance_lower = substance.lower().strip()
         name_lower = name.lower().strip()
@@ -364,9 +370,11 @@ class AnalogueService:
         keyword_lower = indication_keyword.lower().strip()
 
         for med in self._medicines:
-            # Filter: therapeutic area
-            if area_lower and area_lower not in med["therapeutic_area"].lower():
-                continue
+            # Filter: therapeutic area(s) — OR logic across multiple areas
+            if areas_lower:
+                med_area_lower = med["therapeutic_area"].lower()
+                if not any(a in med_area_lower for a in areas_lower):
+                    continue
 
             # Filter: orphan status
             if orphan == "yes" and not med["orphan_medicine"]:

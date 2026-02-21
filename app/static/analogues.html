@@ -36,9 +36,13 @@
             <!-- Section: Disease & Epidemiology -->
             <h3 class="filter-section-title">Disease &amp; Epidemiology</h3>
             <div class="filter-grid">
-                <div class="filter-group">
-                    <label for="filter-area">Therapeutic Area</label>
-                    <select id="filter-area"><option value="">All therapeutic areas</option></select>
+                <div class="filter-group filter-group-wide">
+                    <label for="filter-area-input">Therapeutic Area</label>
+                    <div class="area-multiselect">
+                        <div id="filter-area-tags" class="area-tags"></div>
+                        <input type="text" id="filter-area-input" placeholder="Type to search therapeutic areas..." autocomplete="off">
+                        <div id="filter-area-dropdown" class="area-dropdown hidden"></div>
+                    </div>
                 </div>
                 <div class="filter-group">
                     <label for="filter-prevalence">Prevalence Category</label>
