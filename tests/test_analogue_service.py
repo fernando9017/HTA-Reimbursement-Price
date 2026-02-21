@@ -1361,6 +1361,31 @@ def test_split_indications_product_name_only_splits_on_is_indicated():
     assert len(segments2) == 2
 
 
+def test_split_indications_padcev_style_different_sentence_start():
+    """Backend strategy 4 must split when indication sentences don't share a prefix.
+
+    Padcev-style: the two indications may start with different subjects
+    (e.g. "Padcev as monotherapy…" vs "In combination with pembrolizumab,
+    Padcev…"), so the product-name strategy (strategy 2) cannot find a
+    split boundary.  Strategy 4 — collecting sentences that each contain
+    "is indicated" — must rescue these cases.
+    """
+    text = (
+        "Padcev as monotherapy is indicated for the treatment of adults with "
+        "locally advanced or metastatic urothelial carcinoma who have received "
+        "prior platinum-based chemotherapy and a PD-L1 inhibitor. "
+        "In combination with pembrolizumab, Padcev is indicated for the "
+        "first-line treatment of adults with la/mUC not eligible for cisplatin."
+    )
+    segments = _split_indications(text)
+    assert len(segments) == 2, (
+        "Strategy 4 must split two 'is indicated' sentences even when the "
+        "product name does not appear at the start of the second sentence."
+    )
+    assert any("monotherapy" in s for s in segments)
+    assert any("pembrolizumab" in s for s in segments)
+
+
 # ── Indication-specific HTA matching ─────────────────────────────────
 
 

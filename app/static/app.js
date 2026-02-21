@@ -93,8 +93,18 @@ async function init() {
         const resp = await fetch("/api/countries");
         countries = await resp.json();
         countrySelect.innerHTML = countries
-            .map(c => `<option value="${c.code}">${c.name} (${c.agency})</option>`)
+            .map(c => {
+                const label = c.is_loaded
+                    ? `${c.name} (${c.agency})`
+                    : `${c.name} (${c.agency}) — data unavailable`;
+                return `<option value="${c.code}"${c.is_loaded ? "" : " disabled"}>${label}</option>`;
+            })
             .join("");
+        // If the currently selected option is disabled, select the first enabled one
+        if (countrySelect.selectedOptions.length === 0 || countrySelect.selectedOptions[0].disabled) {
+            const firstEnabled = countrySelect.querySelector("option:not([disabled])");
+            if (firstEnabled) countrySelect.value = firstEnabled.value;
+        }
     } catch {
         countrySelect.innerHTML = '<option value="FR">France (HAS)</option>';
     }
@@ -275,9 +285,20 @@ function splitIndications(text, productName) {
         if (parts.length > 1 && parts.every(p => /\bis indicated\b/i.test(p))) return parts;
     }
 
-    // 4. Try splitting on " - " dash items (sometimes used for sub-indications)
+    // 4. Try splitting on newline + dash items (sometimes used for sub-indications)
     parts = text.split(/\n\s*[-–]\s+/).map(s => s.trim()).filter(Boolean);
     if (parts.length > 1) return parts;
+
+    // 5. Multiple sentences each containing "is indicated" (mirrors backend strategy 4).
+    //    Catches drugs like Padcev where the two indication clauses start differently
+    //    (e.g. "Padcev as monotherapy is indicated for…" / "In combination with
+    //    pembrolizumab, Padcev is indicated for…") and cannot be split by the
+    //    product-name pattern above.
+    const indSents = text
+        .split(/\.[ \t\n]+/)
+        .map(s => s.trim())
+        .filter(s => s && /\bis indicated\b/i.test(s));
+    if (indSents.length >= 2) return indSents;
 
     // Single indication
     return [text];
