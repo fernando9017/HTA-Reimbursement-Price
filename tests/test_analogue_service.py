@@ -5,6 +5,8 @@ from datetime import date
 
 from app.services.analogue_service import (
     AnalogueService, _normalize_date, _classify_prevalence, _classify_therapeutic_area,
+    _extract_line_of_therapy, _extract_treatment_setting, _classify_evidence_tier,
+    _split_indications,
 )
 
 
@@ -13,7 +15,7 @@ SAMPLE_MEDICINES = [
     {
         "medicineName": "Keytruda",
         "activeSubstance": "pembrolizumab",
-        "therapeuticIndication": "Treatment of melanoma and NSCLC",
+        "therapeuticIndication": "Keytruda is indicated for the treatment of: first-line treatment of metastatic NSCLC in combination with chemotherapy; treatment of advanced melanoma as monotherapy",
         "authorisationStatus": "Authorised",
         "emaNumber": "EMEA/H/C/003820",
         "condition": "Oncology",
@@ -32,7 +34,7 @@ SAMPLE_MEDICINES = [
     {
         "medicineName": "Opdivo",
         "activeSubstance": "nivolumab",
-        "therapeuticIndication": "Treatment of melanoma",
+        "therapeuticIndication": "Treatment of advanced melanoma as second-line monotherapy after prior treatment",
         "authorisationStatus": "Authorised",
         "emaNumber": "EMEA/H/C/003985",
         "condition": "Oncology",
@@ -869,3 +871,365 @@ def test_filter_by_category_case_insensitive(service):
 def test_filter_by_nonexistent_category(service):
     results = service.search(therapeutic_category="Dentistry")
     assert len(results) == 0
+
+
+# ── Line of therapy extraction ─────────────────────────────────────────
+
+
+def test_extract_lot_first_line():
+    lots = _extract_line_of_therapy("first-line treatment of metastatic NSCLC")
+    assert "1L / First-line" in lots
+
+
+def test_extract_lot_second_line():
+    lots = _extract_line_of_therapy("second-line monotherapy after prior treatment")
+    assert "2L / Second-line" in lots
+
+
+def test_extract_lot_previously_treated():
+    lots = _extract_line_of_therapy("for previously treated patients with melanoma")
+    assert "2L / Second-line" in lots
+
+
+def test_extract_lot_adjuvant():
+    lots = _extract_line_of_therapy("adjuvant treatment of early breast cancer")
+    assert "Adjuvant" in lots
+
+
+def test_extract_lot_neoadjuvant():
+    lots = _extract_line_of_therapy("neoadjuvant treatment followed by surgery")
+    assert "Neoadjuvant" in lots
+
+
+def test_extract_lot_maintenance():
+    lots = _extract_line_of_therapy("maintenance treatment after first-line")
+    assert "Maintenance" in lots
+    assert "1L / First-line" in lots
+
+
+def test_extract_lot_none():
+    lots = _extract_line_of_therapy("Treatment of melanoma")
+    assert lots == []
+
+
+def test_extract_lot_newly_diagnosed():
+    lots = _extract_line_of_therapy("treatment of newly diagnosed glioblastoma")
+    assert "1L / First-line" in lots
+
+
+def test_extract_lot_relapsed_refractory():
+    lots = _extract_line_of_therapy("relapsed or refractory multiple myeloma")
+    assert "2L / Second-line" in lots
+
+
+# ── Treatment setting extraction ───────────────────────────────────────
+
+
+def test_extract_setting_monotherapy():
+    settings = _extract_treatment_setting("as monotherapy for advanced melanoma")
+    assert "Monotherapy" in settings
+
+
+def test_extract_setting_combination():
+    settings = _extract_treatment_setting("in combination with chemotherapy")
+    assert "Combination" in settings
+
+
+def test_extract_setting_both():
+    settings = _extract_treatment_setting("as monotherapy or in combination with pemetrexed")
+    assert "Monotherapy" in settings
+    assert "Combination" in settings
+
+
+def test_extract_setting_none():
+    settings = _extract_treatment_setting("Treatment of melanoma")
+    assert settings == []
+
+
+# ── Evidence tier classification ───────────────────────────────────────
+
+
+def test_evidence_tier_conditional():
+    tier = _classify_evidence_tier(True, False, False, True, False)
+    assert "Conditional" in tier
+
+
+def test_evidence_tier_exceptional():
+    tier = _classify_evidence_tier(False, True, False, True, True)
+    assert "Exceptional" in tier
+
+
+def test_evidence_tier_accelerated():
+    tier = _classify_evidence_tier(False, False, True, True, False)
+    assert "Accelerated" in tier
+
+
+def test_evidence_tier_orphan():
+    tier = _classify_evidence_tier(False, False, False, False, True)
+    assert "Orphan" in tier
+
+
+def test_evidence_tier_standard():
+    tier = _classify_evidence_tier(False, False, False, False, False)
+    assert tier == "Standard"
+
+
+# ── Indication splitting ──────────────────────────────────────────────
+
+
+def test_split_indications_semicolons():
+    text = "indicated for: treatment of melanoma; treatment of NSCLC; treatment of RCC"
+    segments = _split_indications(text)
+    assert len(segments) == 3
+    assert any("melanoma" in s for s in segments)
+    assert any("NSCLC" in s for s in segments)
+
+
+def test_split_indications_single():
+    text = "Treatment of advanced melanoma"
+    segments = _split_indications(text)
+    assert len(segments) == 1
+    assert segments[0] == text
+
+
+def test_split_indications_empty():
+    segments = _split_indications("")
+    assert segments == []
+
+
+# ── Enriched records have new fields ──────────────────────────────────
+
+
+def test_records_have_line_of_therapy(service):
+    results = service.search(name="Keytruda")
+    r = results[0]
+    assert "1L / First-line" in r["line_of_therapy"]
+    assert "Combination" in r["treatment_setting"]
+
+
+def test_records_have_lot_second_line(service):
+    results = service.search(name="Opdivo")
+    r = results[0]
+    assert "2L / Second-line" in r["line_of_therapy"]
+    assert "Monotherapy" in r["treatment_setting"]
+
+
+def test_records_have_evidence_tier(service):
+    results = service.search(name="CovidVax")
+    assert results[0]["evidence_tier"] == "Conditional (limited data)"
+
+
+def test_records_have_evidence_tier_standard(service):
+    results = service.search(name="Keytruda")
+    assert results[0]["evidence_tier"] == "Standard"
+
+
+def test_records_have_evidence_tier_exceptional(service):
+    results = service.search(name="Zolgensma")
+    assert results[0]["evidence_tier"] == "Exceptional circumstances"
+
+
+# ── Filtering by line of therapy ──────────────────────────────────────
+
+
+def test_filter_by_lot_first_line(service):
+    results = service.search(line_of_therapy="1L / First-line")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" not in names
+
+
+def test_filter_by_lot_second_line(service):
+    results = service.search(line_of_therapy="2L / Second-line")
+    names = {r["name"] for r in results}
+    assert "Opdivo" in names
+    assert "Keytruda" not in names  # Keytruda has 1L but not 2L in test data
+
+
+# ── Filtering by treatment setting ────────────────────────────────────
+
+
+def test_filter_by_setting_monotherapy(service):
+    results = service.search(treatment_setting="Monotherapy")
+    names = {r["name"] for r in results}
+    assert "Opdivo" in names
+
+
+def test_filter_by_setting_combination(service):
+    results = service.search(treatment_setting="Combination")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+
+
+# ── Filtering by evidence tier ────────────────────────────────────────
+
+
+def test_filter_by_evidence_tier_conditional(service):
+    results = service.search(evidence_tier="Conditional (limited data)")
+    names = {r["name"] for r in results}
+    assert "CovidVax" in names
+    assert "Keytruda" not in names
+
+
+def test_filter_by_evidence_tier_standard(service):
+    results = service.search(evidence_tier="Standard")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "CovidVax" not in names
+
+
+# ── Per-indication rows (indication_keyword expansion) ────────────────
+
+
+def test_indication_keyword_per_indication_rows(service):
+    """With indication_keyword, matching segments create separate rows."""
+    results = service.search(indication_keyword="NSCLC")
+    # Keytruda has NSCLC in its indication; should match
+    nsclc_results = [r for r in results if r["name"] == "Keytruda"]
+    assert len(nsclc_results) >= 1
+    # Each result should have indication_segment set
+    for r in nsclc_results:
+        assert r["indication_segment"]
+        assert "nsclc" in r["indication_segment"].lower()
+
+
+def test_indication_keyword_melanoma_multiple_products(service):
+    """Melanoma should match both Keytruda and Opdivo with segments."""
+    results = service.search(indication_keyword="melanoma")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" in names
+    for r in results:
+        assert r["indication_segment"]
+        assert "melanoma" in r["indication_segment"].lower()
+
+
+# ── HTA cross-reference ──────────────────────────────────────────────
+
+
+def test_hta_summaries_empty_by_default(service):
+    """Without setting HTA summaries, results should have empty lists."""
+    results = service.search(name="Keytruda")
+    assert results[0]["hta_summaries"] == []
+
+
+def test_set_hta_summaries(service):
+    """After setting HTA summaries, they appear in results."""
+    service.set_hta_summaries(
+        {
+            "pembrolizumab": {
+                "FR": {
+                    "agency": "HAS",
+                    "latest_date": "2023-06-01",
+                    "rating": "Important",
+                    "rating_detail": "ASMR III",
+                },
+                "DE": {
+                    "agency": "G-BA",
+                    "latest_date": "2023-05-15",
+                    "rating": "beträchtlich",
+                    "rating_detail": "Hinweis",
+                },
+            }
+        },
+        ["FR", "DE"],
+    )
+    results = service.search(name="Keytruda")
+    hta = results[0]["hta_summaries"]
+    assert len(hta) == 2
+    fr = next(h for h in hta if h["country_code"] == "FR")
+    assert fr["agency"] == "HAS"
+    assert fr["rating"] == "Important"
+    assert fr["rating_detail"] == "ASMR III"
+    de = next(h for h in hta if h["country_code"] == "DE")
+    assert de["rating"] == "beträchtlich"
+
+
+def test_filter_by_hta_country(service):
+    """Filter by HTA country only shows medicines with assessments."""
+    service.set_hta_summaries(
+        {
+            "pembrolizumab": {
+                "FR": {
+                    "agency": "HAS",
+                    "latest_date": "2023-01-01",
+                    "rating": "Important",
+                    "rating_detail": "",
+                },
+            }
+        },
+        ["FR"],
+    )
+    results = service.search(hta_country="FR")
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" not in names  # no HTA data for nivolumab
+
+
+def test_filter_by_hta_country_no_match(service):
+    """No medicines should match if none have HTA data for the country."""
+    service.set_hta_summaries({}, ["FR"])
+    results = service.search(hta_country="FR")
+    assert len(results) == 0
+
+
+# ── Filter options include new fields ─────────────────────────────────
+
+
+def test_filter_options_include_lot(service):
+    opts = service.get_filter_options()
+    assert "lines_of_therapy" in opts
+    assert len(opts["lines_of_therapy"]) > 0
+    assert "1L / First-line" in opts["lines_of_therapy"]
+
+
+def test_filter_options_include_treatment_settings(service):
+    opts = service.get_filter_options()
+    assert "treatment_settings" in opts
+    assert len(opts["treatment_settings"]) > 0
+
+
+def test_filter_options_include_evidence_tiers(service):
+    opts = service.get_filter_options()
+    assert "evidence_tiers" in opts
+    assert len(opts["evidence_tiers"]) > 0
+    assert "Standard" in opts["evidence_tiers"]
+
+
+def test_filter_options_include_hta_countries(service):
+    service.set_hta_summaries({}, ["FR", "DE"])
+    opts = service.get_filter_options()
+    assert opts["hta_countries"] == ["FR", "DE"]
+
+
+# ── unique_substances ─────────────────────────────────────────────────
+
+
+def test_unique_substances(service):
+    subs = service.unique_substances()
+    assert "pembrolizumab" in subs
+    assert "bevacizumab" in subs
+    # Should be sorted
+    assert subs == sorted(subs)
+
+
+# ── Combined new + existing filters ───────────────────────────────────
+
+
+def test_combined_lot_and_category(service):
+    results = service.search(
+        therapeutic_category="Oncology",
+        line_of_therapy="1L / First-line",
+    )
+    names = {r["name"] for r in results}
+    assert "Keytruda" in names
+    assert "Opdivo" not in names  # 2L
+
+
+def test_combined_setting_and_prevalence(service):
+    results = service.search(
+        treatment_setting="Monotherapy",
+        prevalence_category="non-rare",
+    )
+    names = {r["name"] for r in results}
+    assert "Opdivo" in names

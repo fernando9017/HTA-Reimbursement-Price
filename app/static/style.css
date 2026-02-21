@@ -35,7 +35,7 @@ body {
 }
 
 .container {
-    max-width: 960px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
     width: 100%;
@@ -884,6 +884,102 @@ button:disabled {
 
 .col-mah {
     max-width: 160px;
+    font-size: 0.82rem;
+}
+
+/* Indication column */
+.col-indication {
+    max-width: 250px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+/* Line of therapy & treatment setting tags */
+.tag-lot {
+    background: #e8f6f3;
+    color: var(--accent);
+}
+
+.tag-setting {
+    background: #eaf2f8;
+    color: var(--primary);
+}
+
+/* Evidence tier tags */
+.tag-evidence-standard {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.tag-evidence-conditional {
+    background: #fef9e7;
+    color: #b7950b;
+}
+
+.tag-evidence-exceptional {
+    background: #fdf2e9;
+    color: var(--smr-low);
+}
+
+.tag-evidence-accelerated {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.tag-evidence-orphan {
+    background: #f4ecf7;
+    color: #7d3c98;
+}
+
+/* HTA outcome tags */
+.col-hta {
+    min-width: 140px;
+}
+
+.tag-hta {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 0.72rem;
+    margin-bottom: 2px;
+}
+
+.tag-hta.hta-positive {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.tag-hta.hta-moderate {
+    background: #fef5e7;
+    color: var(--smr-moderate);
+}
+
+.tag-hta.hta-low {
+    background: #fdf2e9;
+    color: var(--smr-low);
+}
+
+.tag-hta.hta-negative {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+.tag-hta.hta-unknown {
+    background: #f8f9fb;
+    color: var(--text-light);
+}
+
+/* LoT / Evidence columns */
+.col-lot {
+    white-space: nowrap;
+}
+
+.col-evidence {
+    white-space: nowrap;
+}
+
+/* Muted text for empty cells */
+.text-muted {
+    color: var(--text-light);
     font-size: 0.82rem;
 }
 

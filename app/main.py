@@ -45,6 +45,65 @@ hta_agencies: dict[str, HTAAgency] = {
 }
 
 
+async def _build_hta_cross_reference() -> None:
+    """Pre-compute HTA assessment summaries per substance for analogue cross-reference."""
+    if not analogue_service.is_loaded:
+        return
+
+    loaded_countries: list[str] = []
+    for code, agency in hta_agencies.items():
+        if agency.is_loaded:
+            loaded_countries.append(code)
+
+    if not loaded_countries:
+        return
+
+    substances = analogue_service.unique_substances()
+    summaries: dict[str, dict[str, dict]] = {}
+
+    for substance in substances:
+        subst_lower = substance.lower().strip()
+        for code in loaded_countries:
+            agency = hta_agencies[code]
+            try:
+                assessments = await agency.search_assessments(substance)
+            except Exception:
+                continue
+
+            if not assessments:
+                continue
+
+            # Build summary from most recent assessment
+            latest = assessments[0]  # already sorted most recent first
+            summary = {
+                "agency": agency.agency_abbreviation,
+                "latest_date": latest.opinion_date,
+                "rating": "",
+                "rating_detail": "",
+            }
+            # Country-specific best rating
+            if code == "FR":
+                summary["rating"] = latest.smr_value or ""
+                if latest.asmr_value:
+                    summary["rating_detail"] = f"ASMR {latest.asmr_value}"
+            elif code == "DE":
+                summary["rating"] = latest.benefit_rating or ""
+                summary["rating_detail"] = latest.evidence_level or ""
+            elif code == "GB":
+                summary["rating"] = latest.nice_recommendation or ""
+                summary["rating_detail"] = latest.guidance_reference or ""
+            elif code == "ES":
+                summary["rating"] = latest.therapeutic_positioning or ""
+                summary["rating_detail"] = latest.ipt_reference or ""
+            else:
+                summary["rating"] = latest.summary_en or ""
+
+            summaries.setdefault(subst_lower, {})[code] = summary
+
+    analogue_service.set_hta_summaries(summaries, loaded_countries)
+    logger.info("HTA cross-reference built for %d substances", len(summaries))
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load all data sources on startup."""
@@ -63,6 +122,12 @@ async def lifespan(app: FastAPI):
             logger.info("%s (%s) data loaded", agency.agency_abbreviation, code)
         except Exception:
             logger.exception("Failed to load %s data", agency.agency_abbreviation)
+
+    # Build HTA cross-reference for analogue module
+    try:
+        await _build_hta_cross_reference()
+    except Exception:
+        logger.exception("Failed to build HTA cross-reference")
 
     logger.info("Startup complete.")
     yield
@@ -172,6 +237,12 @@ async def reload_data():
             await agency.load_data()
         except Exception as e:
             errors.append(f"{agency.agency_abbreviation}: {e}")
+
+    # Rebuild HTA cross-reference
+    try:
+        await _build_hta_cross_reference()
+    except Exception as e:
+        errors.append(f"HTA cross-reference: {e}")
 
     return {
         "success": len(errors) == 0,
@@ -287,6 +358,10 @@ async def search_analogues(
     new_active_substance: str = Query("", description="New active substance: 'yes', 'no', ''"),
     prevalence_category: str = Query("", description="Prevalence category: 'ultra-rare', 'rare', 'non-rare', ''"),
     indication_keyword: str = Query("", description="Keyword in indication text"),
+    line_of_therapy: str = Query("", description="Line of therapy filter (e.g. '1L / First-line')"),
+    treatment_setting: str = Query("", description="Treatment setting filter (e.g. 'Monotherapy', 'Combination')"),
+    evidence_tier: str = Query("", description="Evidence tier filter (e.g. 'Standard', 'Conditional')"),
+    hta_country: str = Query("", description="Only show medicines assessed by this HTA body (country code)"),
     limit: int = Query(200, ge=1, le=500),
 ):
     """Search for analogue medicines using multi-criteria filters."""
@@ -316,6 +391,10 @@ async def search_analogues(
         new_active_substance=new_active_substance,
         prevalence_category=prevalence_category,
         indication_keyword=indication_keyword,
+        line_of_therapy=line_of_therapy,
+        treatment_setting=treatment_setting,
+        evidence_tier=evidence_tier,
+        hta_country=hta_country,
         limit=limit,
     )
 

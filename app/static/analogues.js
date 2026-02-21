@@ -1,7 +1,8 @@
 /**
  * Analogue Selection module — Frontend logic.
  *
- * Filters EMA medicines by therapeutic category, orphan status, approval date, etc.
+ * Filters EMA medicines by therapeutic category, orphan status, approval date,
+ * line of therapy, treatment setting, evidence tier, HTA outcomes, and more.
  * Depends on shared.js for: esc, showStatus, hideStatus
  */
 
@@ -24,6 +25,10 @@ const filterNewSubstance = document.getElementById("filter-new-substance");
 const filterConditional = document.getElementById("filter-conditional");
 const filterExceptional = document.getElementById("filter-exceptional");
 const filterAccelerated = document.getElementById("filter-accelerated");
+const filterLoT = document.getElementById("filter-lot");
+const filterSetting = document.getElementById("filter-setting");
+const filterEvidence = document.getElementById("filter-evidence");
+const filterHTA = document.getElementById("filter-hta");
 const analogueSearchBtn = document.getElementById("analogue-search-btn");
 const analogueResetBtn = document.getElementById("analogue-reset-btn");
 const analogueStatus = document.getElementById("analogue-status");
@@ -33,6 +38,15 @@ const analogueResultsDiv = document.getElementById("analogue-results");
 
 let therapeuticTaxonomy = []; // [{category, subcategories: [...]}]
 let lastSearchResults = [];
+
+// HTA country code → display label
+const HTA_LABELS = {
+    FR: "HAS (France)",
+    DE: "G-BA (Germany)",
+    GB: "NICE (UK)",
+    ES: "AEMPS (Spain)",
+    JP: "PMDA (Japan)",
+};
 
 // ── Init ──────────────────────────────────────────────────────────────
 
@@ -60,6 +74,33 @@ async function loadAnalogueFilters() {
 
         filterATC.innerHTML = '<option value="">All ATC codes</option>' +
             data.atc_prefixes.map(a => `<option value="${esc(a.code)}">${esc(a.label)}</option>`).join("");
+
+        // Line of therapy
+        if (data.lines_of_therapy && data.lines_of_therapy.length > 0) {
+            filterLoT.innerHTML = '<option value="">Any line of therapy</option>' +
+                data.lines_of_therapy.map(l => `<option value="${esc(l)}">${esc(l)}</option>`).join("");
+        }
+
+        // Treatment setting
+        if (data.treatment_settings && data.treatment_settings.length > 0) {
+            filterSetting.innerHTML = '<option value="">Any setting</option>' +
+                data.treatment_settings.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
+        }
+
+        // Evidence tier
+        if (data.evidence_tiers && data.evidence_tiers.length > 0) {
+            filterEvidence.innerHTML = '<option value="">Any evidence tier</option>' +
+                data.evidence_tiers.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+        }
+
+        // HTA country filter
+        if (data.hta_countries && data.hta_countries.length > 0) {
+            filterHTA.innerHTML = '<option value="">Any (no HTA filter)</option>' +
+                data.hta_countries.map(c => {
+                    const label = HTA_LABELS[c] || c;
+                    return `<option value="${esc(c)}">Assessed by ${esc(label)}</option>`;
+                }).join("");
+        }
     } catch {
         showStatus(analogueStatus, "Failed to load filter options. Please try again.", "error");
     }
@@ -115,13 +156,18 @@ async function searchAnalogues() {
     if (filterSubstance.value.trim()) params.set("substance", filterSubstance.value.trim());
     if (filterMAH.value) params.set("mah", filterMAH.value);
     if (filterNewSubstance.value) params.set("new_active_substance", filterNewSubstance.value);
-    // Regulatory Pathway
+    // Treatment Context
+    if (filterLoT.value) params.set("line_of_therapy", filterLoT.value);
+    if (filterSetting.value) params.set("treatment_setting", filterSetting.value);
+    // Regulatory Pathway & Evidence
     if (filterStatus.value) params.set("status", filterStatus.value);
     if (filterYears.value !== "0") params.set("years", filterYears.value);
     if (filterFirst.value) params.set("first_approval", filterFirst.value);
     if (filterConditional.value) params.set("conditional_approval", filterConditional.value);
     if (filterExceptional.value) params.set("exceptional_circumstances", filterExceptional.value);
     if (filterAccelerated.value) params.set("accelerated_assessment", filterAccelerated.value);
+    if (filterEvidence.value) params.set("evidence_tier", filterEvidence.value);
+    if (filterHTA.value) params.set("hta_country", filterHTA.value);
     // Exclusions
     if (filterExclGenerics.checked) params.set("exclude_generics", "true");
     if (filterExclBiosimilars.checked) params.set("exclude_biosimilars", "true");
@@ -160,6 +206,10 @@ function resetAnalogueFilters() {
     filterConditional.value = "";
     filterExceptional.value = "";
     filterAccelerated.value = "";
+    filterLoT.value = "";
+    filterSetting.value = "";
+    filterEvidence.value = "";
+    filterHTA.value = "";
     filterExclGenerics.checked = false;
     filterExclBiosimilars.checked = false;
     hideStatus(analogueStatus);
@@ -178,10 +228,15 @@ function renderAnalogueResults(data) {
 
     hideStatus(analogueStatus);
 
+    // Check if any results have HTA data
+    const hasHTA = data.results.some(m => m.hta_summaries && m.hta_summaries.length > 0);
+    // Check if we're showing per-indication rows
+    const hasIndicationSegments = data.results.some(m => m.indication_segment);
+
     const header = `
         <div class="results-header">
             <p class="results-summary">
-                Found <strong>${data.total}</strong> medicine(s) matching your criteria
+                Found <strong>${data.total}</strong> result(s) matching your criteria
             </p>
             <button class="btn-export" id="export-excel-btn" title="Export results to Excel">Export to Excel</button>
         </div>
@@ -194,15 +249,17 @@ function renderAnalogueResults(data) {
                 <tr>
                     <th>Medicine</th>
                     <th>Active Substance</th>
+                    ${hasIndicationSegments ? '<th>Matching Indication</th>' : '<th>Indication</th>'}
                     <th>MAH</th>
-                    <th>Category</th>
                     <th>Auth. Date</th>
-                    <th>Prevalence</th>
+                    <th>LoT / Setting</th>
+                    <th>Evidence</th>
+                    ${hasHTA ? '<th>HTA Outcomes</th>' : ''}
                     <th>Attributes</th>
                 </tr>
             </thead>
             <tbody>
-                ${data.results.map(renderAnalogueRow).join("")}
+                ${data.results.map(med => renderAnalogueRow(med, hasHTA, hasIndicationSegments)).join("")}
             </tbody>
         </table>
         </div>
@@ -213,7 +270,7 @@ function renderAnalogueResults(data) {
     document.getElementById("export-excel-btn").addEventListener("click", exportToExcel);
 }
 
-function renderAnalogueRow(med) {
+function renderAnalogueRow(med, hasHTA, hasIndicationSegments) {
     const tags = [];
     if (med.orphan_medicine) tags.push('<span class="tag tag-orphan">Orphan</span>');
     if (med.first_approval) tags.push('<span class="tag tag-first">1st Approval</span>');
@@ -224,30 +281,103 @@ function renderAnalogueRow(med) {
     if (med.generic) tags.push('<span class="tag tag-generic">Generic</span>');
     if (med.biosimilar) tags.push('<span class="tag tag-biosimilar">Biosimilar</span>');
 
+    // Product name — clickable to EMA page
     const nameCell = med.url
-        ? `<a href="${esc(med.url)}" target="_blank" rel="noopener">${esc(med.name)}</a>`
+        ? `<a href="${esc(med.url)}" target="_blank" rel="noopener" title="View on EMA">${esc(med.name)}</a>`
         : esc(med.name);
 
-    const prevalenceTag = med.prevalence_category
-        ? `<span class="tag tag-prevalence-${med.prevalence_category}">${esc(med.prevalence_category)}</span>`
-        : "";
+    // Indication column
+    let indicationCell;
+    if (hasIndicationSegments && med.indication_segment) {
+        indicationCell = `<td class="col-indication">${esc(med.indication_segment)}</td>`;
+    } else {
+        // Show truncated full indication with tooltip
+        const full = med.therapeutic_indication || "";
+        const truncated = full.length > 120 ? full.substring(0, 120) + "..." : full;
+        indicationCell = `<td class="col-indication" title="${esc(full)}">${esc(truncated)}</td>`;
+    }
 
-    // Show category + subcategory
-    const categoryLabel = med.therapeutic_subcategory
-        ? `${esc(med.therapeutic_category)} — ${esc(med.therapeutic_subcategory)}`
-        : esc(med.therapeutic_category);
+    // Line of therapy & treatment setting
+    const lotParts = [];
+    if (med.line_of_therapy && med.line_of_therapy.length > 0) {
+        med.line_of_therapy.forEach(l => lotParts.push(`<span class="tag tag-lot">${esc(l)}</span>`));
+    }
+    if (med.treatment_setting && med.treatment_setting.length > 0) {
+        med.treatment_setting.forEach(s => lotParts.push(`<span class="tag tag-setting">${esc(s)}</span>`));
+    }
+    const lotCell = lotParts.length > 0 ? lotParts.join(" ") : '<span class="text-muted">-</span>';
+
+    // Evidence tier
+    const evidenceCell = med.evidence_tier
+        ? `<span class="tag tag-evidence-${evidenceTierClass(med.evidence_tier)}">${esc(med.evidence_tier)}</span>`
+        : '<span class="text-muted">-</span>';
+
+    // HTA outcomes column
+    let htaCell = "";
+    if (hasHTA) {
+        if (med.hta_summaries && med.hta_summaries.length > 0) {
+            const htaTags = med.hta_summaries.map(h => {
+                const label = h.agency || h.country_code;
+                const rating = h.rating || "Assessed";
+                const detail = h.rating_detail ? ` (${h.rating_detail})` : "";
+                const cssClass = htaRatingClass(h.country_code, h.rating);
+                return `<span class="tag tag-hta ${cssClass}" title="${esc(label)}: ${esc(rating)}${esc(detail)}">${esc(label)}: ${esc(rating)}</span>`;
+            }).join(" ");
+            htaCell = `<td class="col-hta">${htaTags}</td>`;
+        } else {
+            htaCell = '<td class="col-hta"><span class="text-muted">No HTA data</span></td>';
+        }
+    }
 
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
             <td>${esc(med.active_substance)}</td>
+            ${indicationCell}
             <td class="col-mah">${esc(med.marketing_authorisation_holder)}</td>
-            <td class="col-area">${categoryLabel}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
-            <td>${prevalenceTag}</td>
+            <td class="col-lot">${lotCell}</td>
+            <td class="col-evidence">${evidenceCell}</td>
+            ${htaCell}
             <td class="col-tags">${tags.join(" ")}</td>
         </tr>
     `;
+}
+
+// ── HTA rating CSS class helpers ──────────────────────────────────────
+
+function htaRatingClass(countryCode, rating) {
+    if (!rating) return "hta-unknown";
+    const r = rating.toLowerCase();
+    if (countryCode === "FR") {
+        if (r.includes("insuffisant")) return "hta-negative";
+        if (r.includes("faible")) return "hta-low";
+        if (r.includes("modéré") || r.includes("modere")) return "hta-moderate";
+        return "hta-positive";
+    }
+    if (countryCode === "DE") {
+        if (r.includes("kein") || r.includes("geringerer")) return "hta-negative";
+        if (r.includes("gering") && !r.includes("geringerer")) return "hta-low";
+        if (r.includes("nicht quantifizierbar")) return "hta-moderate";
+        return "hta-positive";
+    }
+    if (countryCode === "GB") {
+        if (r.includes("not recommended")) return "hta-negative";
+        if (r.includes("terminated")) return "hta-negative";
+        if (r.includes("restrictions") || r.includes("optimised")) return "hta-moderate";
+        if (r.includes("recommended")) return "hta-positive";
+        return "hta-unknown";
+    }
+    return "hta-unknown";
+}
+
+function evidenceTierClass(tier) {
+    const t = tier.toLowerCase();
+    if (t.includes("conditional")) return "conditional";
+    if (t.includes("exceptional")) return "exceptional";
+    if (t.includes("accelerated")) return "accelerated";
+    if (t.includes("orphan")) return "orphan";
+    return "standard";
 }
 
 // ── Excel Export ──────────────────────────────────────────────────────
@@ -256,36 +386,56 @@ function exportToExcel() {
     if (lastSearchResults.length === 0) return;
 
     const headers = [
-        "Medicine", "Active Substance", "MAH",
+        "Medicine", "Active Substance", "Indication", "Indication (matched segment)", "MAH",
         "Therapeutic Category", "Therapeutic Sub-category", "Therapeutic Area (EMA)",
-        "Auth. Date", "Prevalence", "Orphan", "1st Approval",
+        "Auth. Date", "Prevalence",
+        "Line of Therapy", "Treatment Setting", "Evidence Tier",
+        "Orphan", "1st Approval",
         "New Active Substance", "Conditional Approval",
         "Accelerated Assessment", "Exceptional Circumstances",
         "Generic", "Biosimilar",
-        "ATC Code", "Authorisation Status", "Therapeutic Indication",
+        "ATC Code", "Authorisation Status",
+        "HTA FR (HAS)", "HTA DE (G-BA)", "HTA GB (NICE)",
+        "EMA URL",
     ];
 
-    const rows = lastSearchResults.map(med => [
-        med.name,
-        med.active_substance,
-        med.marketing_authorisation_holder,
-        med.therapeutic_category,
-        med.therapeutic_subcategory,
-        med.therapeutic_area,
-        med.authorisation_date,
-        med.prevalence_category,
-        med.orphan_medicine ? "Yes" : "No",
-        med.first_approval ? "Yes" : "No",
-        med.new_active_substance ? "Yes" : "No",
-        med.conditional_approval ? "Yes" : "No",
-        med.accelerated_assessment ? "Yes" : "No",
-        med.exceptional_circumstances ? "Yes" : "No",
-        med.generic ? "Yes" : "No",
-        med.biosimilar ? "Yes" : "No",
-        med.atc_code,
-        med.authorisation_status,
-        med.therapeutic_indication,
-    ]);
+    const rows = lastSearchResults.map(med => {
+        // Extract HTA summaries by country
+        const htaFR = (med.hta_summaries || []).find(h => h.country_code === "FR");
+        const htaDE = (med.hta_summaries || []).find(h => h.country_code === "DE");
+        const htaGB = (med.hta_summaries || []).find(h => h.country_code === "GB");
+        const htaStr = (h) => h ? `${h.rating}${h.rating_detail ? ' (' + h.rating_detail + ')' : ''}` : "";
+
+        return [
+            med.name,
+            med.active_substance,
+            med.therapeutic_indication,
+            med.indication_segment || "",
+            med.marketing_authorisation_holder,
+            med.therapeutic_category,
+            med.therapeutic_subcategory,
+            med.therapeutic_area,
+            med.authorisation_date,
+            med.prevalence_category,
+            (med.line_of_therapy || []).join("; "),
+            (med.treatment_setting || []).join("; "),
+            med.evidence_tier || "",
+            med.orphan_medicine ? "Yes" : "No",
+            med.first_approval ? "Yes" : "No",
+            med.new_active_substance ? "Yes" : "No",
+            med.conditional_approval ? "Yes" : "No",
+            med.accelerated_assessment ? "Yes" : "No",
+            med.exceptional_circumstances ? "Yes" : "No",
+            med.generic ? "Yes" : "No",
+            med.biosimilar ? "Yes" : "No",
+            med.atc_code,
+            med.authorisation_status,
+            htaStr(htaFR),
+            htaStr(htaDE),
+            htaStr(htaGB),
+            med.url || "",
+        ];
+    });
 
     // Build Excel XML (SpreadsheetML) for native .xls opening
     const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>\n' +
