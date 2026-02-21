@@ -238,7 +238,7 @@ function renderAnalogueResults(data) {
             <p class="results-summary">
                 Found <strong>${data.total}</strong> result(s) matching your criteria
             </p>
-            <button class="btn-export" id="export-excel-btn" title="Export results to Excel">Export to Excel</button>
+            <button class="btn-export" id="export-excel-btn" title="Export results to CSV (opens in Excel)">Export to CSV</button>
         </div>
     `;
 
@@ -437,36 +437,24 @@ function exportToExcel() {
         ];
     });
 
-    // Build Excel XML (SpreadsheetML) for native .xls opening
-    const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-        '<?mso-application progid="Excel.Sheet"?>\n' +
-        '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n' +
-        '  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n' +
-        '<Styles>\n' +
-        '  <Style ss:ID="hdr"><Font ss:Bold="1"/><Interior ss:Color="#EAF2F8" ss:Pattern="Solid"/></Style>\n' +
-        '</Styles>\n' +
-        '<Worksheet ss:Name="Analogue Selection">\n<Table>\n';
+    // RFC 4180 CSV with UTF-8 BOM so Excel opens with correct encoding
+    const csvField = (v) => {
+        const s = String(v ?? "");
+        // Quote any field that contains a comma, double-quote, or newline
+        if (s.includes(",") || s.includes('"') || s.includes("\n") || s.includes("\r")) {
+            return '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+    };
 
-    const escXml = (v) => String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    const lines = [headers, ...rows].map(row => row.map(csvField).join(","));
+    const csv = "\uFEFF" + lines.join("\r\n"); // UTF-8 BOM so Excel auto-detects encoding
 
-    const headerRow = "<Row>" + headers.map(h =>
-        `<Cell ss:StyleID="hdr"><Data ss:Type="String">${escXml(h)}</Data></Cell>`
-    ).join("") + "</Row>\n";
-
-    const dataRows = rows.map(row =>
-        "<Row>" + row.map(cell =>
-            `<Cell><Data ss:Type="String">${escXml(cell)}</Data></Cell>`
-        ).join("") + "</Row>\n"
-    ).join("");
-
-    const xmlFooter = "</Table>\n</Worksheet>\n</Workbook>";
-    const xml = xmlHeader + headerRow + dataRows + xmlFooter;
-
-    const blob = new Blob([xml], { type: "application/vnd.ms-excel" });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `analogue_selection_${new Date().toISOString().slice(0, 10)}.xls`;
+    a.download = `analogue_selection_${new Date().toISOString().slice(0, 10)}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
