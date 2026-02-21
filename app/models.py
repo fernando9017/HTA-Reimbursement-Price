@@ -83,6 +83,8 @@ class AnalogueResult(BaseModel):
     authorisation_status: str = ""
     ema_number: str = ""
     therapeutic_area: str = ""
+    therapeutic_category: str = ""
+    therapeutic_subcategory: str = ""
     orphan_medicine: bool = False
     authorisation_date: str = ""
     first_approval: bool = False
@@ -90,13 +92,11 @@ class AnalogueResult(BaseModel):
     biosimilar: bool = False
     atc_code: str = ""
     url: str = ""
-    # New fields for consulting-grade analogue screening
     marketing_authorisation_holder: str = ""
     conditional_approval: bool = False
     exceptional_circumstances: bool = False
     accelerated_assessment: bool = False
     new_active_substance: bool = False
-    additional_monitoring: bool = False
     medicine_type: str = ""
     prevalence_category: str = ""
 
@@ -111,10 +111,18 @@ class ATCPrefix(BaseModel):
     label: str
 
 
+class TherapeuticCategory(BaseModel):
+    """A broad therapeutic category with its available sub-categories."""
+
+    category: str
+    subcategories: list[str]
+
+
 class FilterOptions(BaseModel):
     """Available filter options for the analogue selection UI."""
 
     therapeutic_areas: list[str]
+    therapeutic_taxonomy: list[TherapeuticCategory]
     year_ranges: list[YearRange]
     statuses: list[str]
     mahs: list[str]

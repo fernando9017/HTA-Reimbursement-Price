@@ -1,15 +1,14 @@
 /**
  * Analogue Selection module — Frontend logic.
  *
- * Filters EMA medicines by therapeutic area, orphan status, approval date, etc.
+ * Filters EMA medicines by therapeutic category, orphan status, approval date, etc.
  * Depends on shared.js for: esc, showStatus, hideStatus
  */
 
 // ── DOM Elements ──────────────────────────────────────────────────────
 
-const filterAreaInput = document.getElementById("filter-area-input");
-const filterAreaDropdown = document.getElementById("filter-area-dropdown");
-const filterAreaTags = document.getElementById("filter-area-tags");
+const filterCategory = document.getElementById("filter-category");
+const filterSubcategory = document.getElementById("filter-subcategory");
 const filterOrphan = document.getElementById("filter-orphan");
 const filterYears = document.getElementById("filter-years");
 const filterFirst = document.getElementById("filter-first");
@@ -25,7 +24,6 @@ const filterNewSubstance = document.getElementById("filter-new-substance");
 const filterConditional = document.getElementById("filter-conditional");
 const filterExceptional = document.getElementById("filter-exceptional");
 const filterAccelerated = document.getElementById("filter-accelerated");
-const filterMonitoring = document.getElementById("filter-monitoring");
 const analogueSearchBtn = document.getElementById("analogue-search-btn");
 const analogueResetBtn = document.getElementById("analogue-reset-btn");
 const analogueStatus = document.getElementById("analogue-status");
@@ -33,8 +31,7 @@ const analogueResultsDiv = document.getElementById("analogue-results");
 
 // ── State ─────────────────────────────────────────────────────────────
 
-let allTherapeuticAreas = [];
-let selectedAreas = [];
+let therapeuticTaxonomy = []; // [{category, subcategories: [...]}]
 let lastSearchResults = [];
 
 // ── Init ──────────────────────────────────────────────────────────────
@@ -50,7 +47,10 @@ async function loadAnalogueFilters() {
         }
         const data = await resp.json();
 
-        allTherapeuticAreas = data.therapeutic_areas || [];
+        // Therapeutic taxonomy (cascading dropdowns)
+        therapeuticTaxonomy = data.therapeutic_taxonomy || [];
+        filterCategory.innerHTML = '<option value="">All therapeutic areas</option>' +
+            therapeuticTaxonomy.map(t => `<option value="${esc(t.category)}">${esc(t.category)}</option>`).join("");
 
         filterStatus.innerHTML = '<option value="">All statuses</option>' +
             data.statuses.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
@@ -65,79 +65,27 @@ async function loadAnalogueFilters() {
     }
 }
 
-// ── Therapeutic Area multi-select ─────────────────────────────────────
+// ── Cascading therapeutic area dropdowns ──────────────────────────────
 
-function renderAreaDropdown(filter) {
-    const lower = (filter || "").toLowerCase();
-    const available = allTherapeuticAreas.filter(
-        a => !selectedAreas.includes(a) && (!lower || a.toLowerCase().includes(lower))
-    );
-    if (available.length === 0 || !filterAreaInput.matches(":focus")) {
-        filterAreaDropdown.classList.add("hidden");
+filterCategory.addEventListener("change", () => {
+    const selected = filterCategory.value;
+    if (!selected) {
+        filterSubcategory.innerHTML = '<option value="">Select a therapeutic area first</option>';
+        filterSubcategory.disabled = true;
         return;
     }
-    filterAreaDropdown.innerHTML = available.map(a =>
-        `<div class="area-option" data-value="${esc(a)}">${esc(a)}</div>`
-    ).join("");
-    filterAreaDropdown.classList.remove("hidden");
-}
 
-function renderAreaTags() {
-    filterAreaTags.innerHTML = selectedAreas.map(a =>
-        `<span class="area-tag">${esc(a)} <button type="button" class="area-tag-remove" data-value="${esc(a)}">&times;</button></span>`
-    ).join("");
-}
+    const match = therapeuticTaxonomy.find(t => t.category === selected);
+    const subs = match ? match.subcategories : [];
 
-function addArea(area) {
-    if (!selectedAreas.includes(area)) {
-        selectedAreas.push(area);
-        renderAreaTags();
+    if (subs.length === 0) {
+        filterSubcategory.innerHTML = '<option value="">No sub-categories</option>';
+        filterSubcategory.disabled = true;
+    } else {
+        filterSubcategory.innerHTML = '<option value="">All sub-categories</option>' +
+            subs.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
+        filterSubcategory.disabled = false;
     }
-    filterAreaInput.value = "";
-    filterAreaDropdown.classList.add("hidden");
-}
-
-function removeArea(area) {
-    selectedAreas = selectedAreas.filter(a => a !== area);
-    renderAreaTags();
-}
-
-filterAreaInput.addEventListener("input", () => renderAreaDropdown(filterAreaInput.value));
-filterAreaInput.addEventListener("focus", () => renderAreaDropdown(filterAreaInput.value));
-
-filterAreaDropdown.addEventListener("mousedown", (e) => {
-    // Use mousedown to fire before blur hides the dropdown
-    const opt = e.target.closest(".area-option");
-    if (opt) {
-        e.preventDefault();
-        addArea(opt.dataset.value);
-    }
-});
-
-filterAreaInput.addEventListener("blur", () => {
-    // Delay to allow click on dropdown option
-    setTimeout(() => filterAreaDropdown.classList.add("hidden"), 150);
-});
-
-filterAreaInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        // If there's exactly one visible option, select it
-        const visible = filterAreaDropdown.querySelectorAll(".area-option");
-        if (visible.length === 1) {
-            addArea(visible[0].dataset.value);
-        } else if (visible.length === 0 && filterAreaInput.value.trim() === "") {
-            searchAnalogues();
-        }
-    }
-    if (e.key === "Backspace" && filterAreaInput.value === "" && selectedAreas.length > 0) {
-        removeArea(selectedAreas[selectedAreas.length - 1]);
-    }
-});
-
-filterAreaTags.addEventListener("click", (e) => {
-    const btn = e.target.closest(".area-tag-remove");
-    if (btn) removeArea(btn.dataset.value);
 });
 
 // ── Event listeners ───────────────────────────────────────────────────
@@ -156,10 +104,9 @@ filterIndication.addEventListener("keydown", e => {
 async function searchAnalogues() {
     const params = new URLSearchParams();
 
-    // Disease & Epidemiology — multiple therapeutic areas
-    if (selectedAreas.length > 0) {
-        selectedAreas.forEach(a => params.append("therapeutic_area", a));
-    }
+    // Disease & Epidemiology — cascading therapeutic area
+    if (filterCategory.value) params.set("therapeutic_category", filterCategory.value);
+    if (filterSubcategory.value) params.set("therapeutic_subcategory", filterSubcategory.value);
     if (filterPrevalence.value) params.set("prevalence_category", filterPrevalence.value);
     if (filterOrphan.value) params.set("orphan", filterOrphan.value);
     if (filterIndication.value.trim()) params.set("indication_keyword", filterIndication.value.trim());
@@ -175,7 +122,6 @@ async function searchAnalogues() {
     if (filterConditional.value) params.set("conditional_approval", filterConditional.value);
     if (filterExceptional.value) params.set("exceptional_circumstances", filterExceptional.value);
     if (filterAccelerated.value) params.set("accelerated_assessment", filterAccelerated.value);
-    if (filterMonitoring.value) params.set("additional_monitoring", filterMonitoring.value);
     // Exclusions
     if (filterExclGenerics.checked) params.set("exclude_generics", "true");
     if (filterExclBiosimilars.checked) params.set("exclude_biosimilars", "true");
@@ -198,9 +144,9 @@ async function searchAnalogues() {
 }
 
 function resetAnalogueFilters() {
-    selectedAreas = [];
-    renderAreaTags();
-    filterAreaInput.value = "";
+    filterCategory.value = "";
+    filterSubcategory.innerHTML = '<option value="">Select a therapeutic area first</option>';
+    filterSubcategory.disabled = true;
     filterPrevalence.value = "";
     filterOrphan.value = "";
     filterIndication.value = "";
@@ -214,7 +160,6 @@ function resetAnalogueFilters() {
     filterConditional.value = "";
     filterExceptional.value = "";
     filterAccelerated.value = "";
-    filterMonitoring.value = "";
     filterExclGenerics.checked = false;
     filterExclBiosimilars.checked = false;
     hideStatus(analogueStatus);
@@ -250,7 +195,7 @@ function renderAnalogueResults(data) {
                     <th>Medicine</th>
                     <th>Active Substance</th>
                     <th>MAH</th>
-                    <th>Therapeutic Area</th>
+                    <th>Category</th>
                     <th>Auth. Date</th>
                     <th>Prevalence</th>
                     <th>Attributes</th>
@@ -276,7 +221,6 @@ function renderAnalogueRow(med) {
     if (med.conditional_approval) tags.push('<span class="tag tag-conditional">Conditional</span>');
     if (med.accelerated_assessment) tags.push('<span class="tag tag-accelerated">Accelerated</span>');
     if (med.exceptional_circumstances) tags.push('<span class="tag tag-exceptional">Exceptional</span>');
-    if (med.additional_monitoring) tags.push('<span class="tag tag-monitoring">Black Triangle</span>');
     if (med.generic) tags.push('<span class="tag tag-generic">Generic</span>');
     if (med.biosimilar) tags.push('<span class="tag tag-biosimilar">Biosimilar</span>');
 
@@ -288,12 +232,17 @@ function renderAnalogueRow(med) {
         ? `<span class="tag tag-prevalence-${med.prevalence_category}">${esc(med.prevalence_category)}</span>`
         : "";
 
+    // Show category + subcategory
+    const categoryLabel = med.therapeutic_subcategory
+        ? `${esc(med.therapeutic_category)} — ${esc(med.therapeutic_subcategory)}`
+        : esc(med.therapeutic_category);
+
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
             <td>${esc(med.active_substance)}</td>
             <td class="col-mah">${esc(med.marketing_authorisation_holder)}</td>
-            <td class="col-area">${esc(med.therapeutic_area)}</td>
+            <td class="col-area">${categoryLabel}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
             <td>${prevalenceTag}</td>
             <td class="col-tags">${tags.join(" ")}</td>
@@ -307,11 +256,12 @@ function exportToExcel() {
     if (lastSearchResults.length === 0) return;
 
     const headers = [
-        "Medicine", "Active Substance", "MAH", "Therapeutic Area",
+        "Medicine", "Active Substance", "MAH",
+        "Therapeutic Category", "Therapeutic Sub-category", "Therapeutic Area (EMA)",
         "Auth. Date", "Prevalence", "Orphan", "1st Approval",
         "New Active Substance", "Conditional Approval",
         "Accelerated Assessment", "Exceptional Circumstances",
-        "Additional Monitoring", "Generic", "Biosimilar",
+        "Generic", "Biosimilar",
         "ATC Code", "Authorisation Status", "Therapeutic Indication",
     ];
 
@@ -319,6 +269,8 @@ function exportToExcel() {
         med.name,
         med.active_substance,
         med.marketing_authorisation_holder,
+        med.therapeutic_category,
+        med.therapeutic_subcategory,
         med.therapeutic_area,
         med.authorisation_date,
         med.prevalence_category,
@@ -328,7 +280,6 @@ function exportToExcel() {
         med.conditional_approval ? "Yes" : "No",
         med.accelerated_assessment ? "Yes" : "No",
         med.exceptional_circumstances ? "Yes" : "No",
-        med.additional_monitoring ? "Yes" : "No",
         med.generic ? "Yes" : "No",
         med.biosimilar ? "Yes" : "No",
         med.atc_code,
