@@ -1800,22 +1800,43 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "Medicines Authority \u2014 Advanced Search", url: "https://medicinesauthority.gov.mt/advanced-search" }],
+                body: "The Medicines Authority (MA) is the national regulatory body. As an EU member state, EMA centrally authorised products are valid in Malta. National authorisations follow the mutual recognition (MRP) or decentralised (DCP) procedures. The MA also manages medical devices regulation and pharmacovigilance.",
+                links: [
+                    { label: "Medicines Authority \u2014 Advanced Search", url: "https://medicinesauthority.gov.mt/advanced-search" },
+                    { label: "Medicines Authority \u2014 Official Website", url: "https://medicinesauthority.gov.mt/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "The Directorate for Pharmaceutical Affairs (DPA) within the Superintendence of Public Health houses a Pharmaceutical Pricing Unit. Malta uses external reference pricing (ERP) benchmarked against EU countries with GDP per capita within \u00b120% of Malta\u2019s. The DPA sets maximum wholesale and retail mark-ups. There is no formal manufacturer price negotiation for non-formulary medicines \u2014 pricing is market-driven within the ERP ceiling.",
+                links: [
+                    { label: "DPA \u2014 Directorate for Pharmaceutical Affairs", url: "https://deputyprimeminister.gov.mt/dpa/" },
+                ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "The Government Formulary List (GFL) determines which medicines are available free of charge at government health centres and hospitals. The Pharmacy of Your Choice (POYC) scheme allows patients with chronic conditions to collect formulary medicines from community pharmacies instead of government dispensaries.",
+                body: "The Government Formulary List (GFL) determines which medicines are available free of charge through the public health system. The Pharmacy of Your Choice (POYC) scheme serves 170,000+ outpatients (~33% of the population), allowing chronic patients to collect GFL medicines from community pharmacies. Entitlement is via Schedule V (Yellow Card \u2014 83 chronic conditions, free medicines regardless of income) or Schedule II (Pink Card \u2014 means-tested, covers all GFL medicines for low-income residents). GFL downloadable PDFs are available from the DPA website.",
                 links: [
-                    { label: "POYC (Pharmacy of Your Choice) Scheme", url: "https://health.gov.mt/en/poyc/Pages/poyc.aspx" },
-                    { label: "Medicines Authority \u2014 Official Website", url: "https://medicinesauthority.gov.mt/" },
+                    { label: "POYC (Pharmacy of Your Choice) Scheme", url: "https://poyc.gov.mt/" },
+                    { label: "DPA \u2014 Government Formulary List (GFL)", url: "https://deputyprimeminister.gov.mt/dpa/government-formulary-list/" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "Health Technology Assessment",
+                body: "The DPA houses an HTA Unit that performs Relative Effectiveness Assessments (REAs) and budget impact analyses to inform GFL inclusion decisions. Malta participates in EUnetHTA joint assessments and is preparing for the EU HTA Regulation (HTAR) which takes effect January 2025 for oncology and ATMPs.",
+                links: [
+                    { label: "DPA \u2014 HTA Unit", url: "https://deputyprimeminister.gov.mt/dpa/" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "Ministry for Health", url: "https://health.gov.mt/" },
+                    { label: "Ministry for Active Ageing", url: "https://activeageing.gov.mt/" },
+                    { label: "Mater Dei Hospital \u2014 Main Public Hospital", url: "https://www.gov.mt/en/Government/Government%20of%20Malta/Ministries%20and%20Entities/Pages/Ministries%20and%20Entities.aspx" },
                 ],
             },
         ],
@@ -1824,17 +1845,24 @@ const COUNTRIES = [
 <ol>
     <li>Malta (~520,000 population) is a small EU market. EMA centrally authorised products are automatically valid in Malta without a separate national application</li>
     <li>Search the <a href="https://medicinesauthority.gov.mt/advanced-search" target="_blank" rel="noopener">Medicines Authority advanced search</a> for nationally authorised products &mdash; the database has an English interface</li>
-    <li>Many products authorised in larger EU markets may not have been commercially launched in Malta due to the small market size. Absence from the Medicines Authority database does not necessarily indicate the product is unavailable &mdash; it may be imported or ordered through a compassionate use/special authorisation route</li>
+    <li>Many products authorised in larger EU markets may not have been commercially launched in Malta due to the small market size. Products may be imported or ordered through compassionate use / special authorisation routes</li>
 </ol>
 
-<h4 class="tips-heading">Reimbursement</h4>
+<h4 class="tips-heading">Pricing &amp; Reimbursement</h4>
 <ol>
-    <li>The <strong>Government Formulary List (GFL)</strong> determines which medicines are available free of charge at government facilities and through the POYC scheme</li>
-    <li>The <a href="https://health.gov.mt/en/poyc/Pages/poyc.aspx" target="_blank" rel="noopener">POYC (Pharmacy of Your Choice)</a> scheme allows chronic patients to collect their formulary medicines from community pharmacies &mdash; a significant convenience</li>
-    <li>Malta does not have a publicly accessible online formulary search &mdash; for GFL status, contact the Department of Pharmacy within the Ministry for Health</li>
+    <li>The <strong>Directorate for Pharmaceutical Affairs (DPA)</strong> sets prices using external reference pricing (ERP) against EU countries with similar GDP per capita (\u00b120%)</li>
+    <li>The <strong>Government Formulary List (GFL)</strong> determines free medicines &mdash; downloadable as PDFs from the <a href="https://deputyprimeminister.gov.mt/dpa/government-formulary-list/" target="_blank" rel="noopener">DPA website</a></li>
+    <li>The <a href="https://poyc.gov.mt/" target="_blank" rel="noopener">POYC (Pharmacy of Your Choice)</a> scheme serves 170,000+ outpatients (~33% of population) &mdash; chronic patients collect GFL medicines from community pharmacies</li>
+    <li>Patient entitlement: <strong>Schedule V (Yellow Card)</strong> covers 83 chronic conditions (free regardless of income); <strong>Schedule II (Pink Card)</strong> is means-tested for low-income residents</li>
     <li>Medicines not on the GFL may be accessed through the <strong>Exceptional Medicinal Treatment (EMT)</strong> pathway via individual patient applications</li>
 </ol>
-<p class="tips-note"><strong>Note:</strong> Malta has no formal HTA body. Formulary decisions are made by the GFL committee. Drug prices are not formally regulated &mdash; the government negotiates directly with suppliers for formulary-listed products.</p>
+
+<h4 class="tips-heading">HTA</h4>
+<ol>
+    <li>The DPA\u2019s <strong>HTA Unit</strong> performs Relative Effectiveness Assessments (REAs) and budget impact analyses for GFL inclusion decisions</li>
+    <li>Malta participates in <strong>EUnetHTA</strong> joint assessments and is preparing for the EU HTA Regulation (HTAR) which applies from January 2025 for oncology and ATMPs</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Due to Malta\u2019s small size, commercial launch may lag behind larger EU markets. For access to non-launched products, enquire about compassionate use or named-patient import through the Medicines Authority.</p>
         `,
     },
     {
