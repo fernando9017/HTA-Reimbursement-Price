@@ -2506,54 +2506,83 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "The Department of Pharmacy and Drug Control (DPDC) under the Ministry of Public Health (MOPH) handles drug registration. Qatar participates in the GCC-DR centralised registration system. The Qatar National Formulary (QNF) lists medicines approved for use in Qatar.",
+                body: "The Pharmacy and Drug Control Department (PDCD) under the Ministry of Public Health (MOPH) handles drug registration. Applications are submitted electronically through the PDCD E-System. The Qatar National Formulary (QNF) lists 4,800+ registered medicines with real-time updates. Qatar also participates in the GCC-DR centralised registration system, which provides fast-track assessment for centrally approved products.",
                 links: [
                     { label: "Qatar National Formulary (QNF)", url: "https://qnf.moph.gov.qa/" },
-                    { label: "MOPH \u2014 Drug Registration Services", url: "https://moph.gov.qa/english/OurServices/advancedsearch/Pages/servicesdetails.aspx?serviceId=225" },
-                    { label: "MOPH \u2014 Official Website", url: "https://www.moph.gov.qa/" },
+                    { label: "PDCD E-System \u2014 Drug Registration Portal", url: "https://eservices.moph.gov.qa/dps/" },
+                    { label: "MOPH \u2014 Pharmacy & Drug Control Department", url: "https://www.moph.gov.qa/english/departments/policyaffairs/pdc/Pages/default.aspx" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "Drug prices are regulated by the MOPH during the registration process. Maximum selling prices are set and printed on packaging. Government hospitals (HMC) procure medicines through centralised tenders managed by the government procurement system.",
+                body: "Drug prices are set by the PDCD at registration using external reference pricing (ERP) benchmarked against GCC and international markets. A cumulative 40% mark-up applies across the private supply chain; the public sector mark-up is much lower (2\u201310%). Generic prices are set at a mandated discount from the originator. Prices are reviewed every 5 years. The MOPH has recently reduced prices on 1,019+ products (15\u201375% reductions) across cardiovascular, diabetes, oncology, and antibiotic categories. Essential medicines are tax-exempt.",
                 links: [
                     { label: "MOPH \u2014 Pharmacy & Drug Control", url: "https://www.moph.gov.qa/english/departments/policyaffairs/pdc/Pages/default.aspx" },
+                    { label: "GHC \u2014 Gulf Joint Procurement Programme", url: "https://www.ghc.sa/en/procurement/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Qatari nationals receive free healthcare including medicines at Hamad Medical Corporation (HMC) hospitals and Primary Health Care Corporation (PHCC) centres. The government directly funds all public healthcare. Expatriates access public services at subsidised rates or through employer-provided private insurance.",
+                body: "Qatari nationals receive fully free medicines at HMC hospitals and PHCC\u2019s 31 health centres (~3 million pharmacy visits annually, 1.8 million registered patients). Expatriates pay 20% copayment (10% for cancer medicines). Law No. 22 of 2021 introduced mandatory private health insurance for all non-Qatari residents, with employers required to provide coverage for employees and dependents. Public sector procurement includes GCC Joint Procurement (bulk purchasing across 6 states), HMC closed tenders, and direct purchasing agreements.",
                 links: [
                     { label: "HMC (Hamad Medical Corporation)", url: "https://www.hamad.qa/" },
-                    { label: "PHCC (Primary Health Care Corporation)", url: "https://www.phcc.qa/" },
+                    { label: "PHCC (Primary Health Care Corporation)", url: "https://www.phcc.gov.qa/" },
+                    { label: "HMC \u2014 Vendors Portal", url: "https://hamad.qa/EN/Quick%20Links/HMC%20Vendors/Pages/default.aspx" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "Health Technology Assessment",
+                body: "Qatar established a dedicated National HTA Unit in 2025 under the National Health Strategy 2024\u20132030. The unit performs evidence-based assessments to inform formulary and reimbursement decisions. In June 2025, MOPH organised an HTA capacity-building workshop in collaboration with the London School of Economics (LSE). The Qatar Oncology Health Economics Expert Panel (Q-OHEP) develops value-based strategies for cancer drug access. HTA is not yet legislatively mandated for pricing/reimbursement decisions.",
+                links: [
+                    { label: "MOPH \u2014 HTA Workshop Announcement (2025)", url: "https://qna.org.qa/en/News-Area/News/2025-6/18/moph-strengthens-health-technology-assessment-in-qatar" },
+                    { label: "Q-OHEP Value-Based Strategies (BMC)", url: "https://bmchealthservres.biomedcentral.com/articles/10.1186/s12913-022-08981-5" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "GCC-DR (Gulf Centralised Drug Registration)", url: "https://gcc-sg.org/en-us/CooperationAndAchievements/Ede" },
-                    { label: "WHO \u2014 Qatar Country Page", url: "https://www.who.int/countries/qat/" },
+                    { label: "GHC \u2014 Central Drug Registration", url: "https://www.ghc.sa/en/central-registration/" },
+                    { label: "WHO \u2014 HTA Country Profile: Qatar", url: "https://www.who.int/publications/m/item/health-technology-assessment-country-profile-qatar" },
+                    { label: "Monaqasat (State Procurement Portal)", url: "https://monaqasat.mof.gov.qa/" },
                 ],
             },
         ],
         tipsHtml: `
 <h4 class="tips-heading">Market Authorization</h4>
 <ol>
-    <li>The <a href="https://qnf.moph.gov.qa/" target="_blank" rel="noopener">Qatar National Formulary (QNF)</a> lists approved medicines &mdash; note this portal has been intermittently unavailable; verify accessibility before use</li>
-    <li>Qatar accepts <strong>GCC-DR centralised registration</strong> &mdash; a single application covers all 6 GCC states (Bahrain, Kuwait, Oman, Qatar, Saudi Arabia, UAE)</li>
-    <li>Contact the <a href="https://www.moph.gov.qa/english/departments/policyaffairs/pdc/Pages/default.aspx" target="_blank" rel="noopener">Department of Pharmacy and Drug Control</a> for registration enquiries</li>
+    <li>The <a href="https://qnf.moph.gov.qa/" target="_blank" rel="noopener">Qatar National Formulary (QNF)</a> lists 4,800+ registered medicines with prescribing and patient information &mdash; also available as a mobile app</li>
+    <li>Drug registration applications are submitted via the <a href="https://eservices.moph.gov.qa/dps/" target="_blank" rel="noopener">PDCD E-System</a> &mdash; new drug applications take 6&ndash;12 months; GCC-registered products receive fast-track assessment</li>
+    <li>Qatar accepts <strong>GCC-DR centralised registration</strong> &mdash; a single application covers all 6 GCC states (Bahrain, Kuwait, Oman, Qatar, Saudi Arabia, UAE) plus Yemen</li>
+    <li>A local Qatari agent (authorised representative) is required for all drug registration applications</li>
+</ol>
+
+<h4 class="tips-heading">Pricing &amp; Procurement</h4>
+<ol>
+    <li>Prices set at registration using <strong>ERP</strong> against GCC and international markets; cumulative <strong>40% mark-up</strong> for private supply chain (public sector only 2&ndash;10%)</li>
+    <li>Generic prices are set at a mandated discount from the originator; prices reviewed every <strong>5 years</strong></li>
+    <li>Public sector procurement: <a href="https://www.ghc.sa/en/procurement/" target="_blank" rel="noopener">GCC Joint Procurement</a> (bulk purchasing across 6 states), HMC closed tenders, and direct purchasing agreements</li>
+    <li>Essential medicines are <strong>tax-exempt</strong>; 97% of medicines are imported</li>
 </ol>
 
 <h4 class="tips-heading">Reimbursement</h4>
 <ol>
-    <li><strong>Qatari nationals</strong> receive fully funded healthcare including medicines at HMC and PHCC facilities</li>
-    <li><strong>Expatriates</strong> access subsidised public healthcare or use private insurance &mdash; mandatory employer-provided health insurance has been implemented</li>
-    <li>Drug selection for government hospitals is managed through the <strong>HMC hospital formulary committee</strong></li>
+    <li><strong>Qatari nationals</strong> receive fully free medicines at all public facilities (HMC hospitals + PHCC\u2019s 31 health centres)</li>
+    <li><strong>Expatriates</strong> pay 20% copayment (only 10% for cancer medicines); mandatory private health insurance under Law No. 22/2021</li>
+    <li>PHCC serves <strong>1.8 million registered patients</strong> with ~3 million pharmacy visits annually</li>
+    <li>Drug selection for HMC/PHCC is managed through formulary committees aligned with the QNF</li>
 </ol>
-<p class="tips-note"><strong>Note:</strong> Qatar has no formal HTA body. Formulary decisions are made by clinical committees within HMC. The Qatar National Health Strategy includes plans for developing health technology assessment capacity.</p>
+
+<h4 class="tips-heading">HTA</h4>
+<ol>
+    <li>Qatar established a <strong>National HTA Unit in 2025</strong> under the National Health Strategy 2024&ndash;2030 &mdash; capacity building is underway with LSE collaboration</li>
+    <li>HTA is <strong>not yet legislatively mandated</strong> for pricing/reimbursement but is increasingly influential</li>
+    <li>The <strong>Q-OHEP</strong> (Qatar Oncology Health Economics Expert Panel) develops value-based strategies for cancer drug access</li>
+</ol>
+<p class="tips-note"><strong>Note:</strong> Qatar\u2019s pharma market is small (QAR 2.4 billion / ~US$657 million in 2019) but growing. The GCC-DR pathway can streamline market access across the Gulf region.</p>
         `,
     },
     {
