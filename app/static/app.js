@@ -427,28 +427,37 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
-    // Japan (PMDA) badges
+    // Japan (MHLW) NHI reimbursement status badge
+    const isReimbursed = a.pmda_review_type === "Reimbursed (NHI)";
     const pmdaBadge = a.pmda_review_type
-        ? `<span class="badge badge-pmda">
-            <span class="label">PMDA:</span> ${esc(a.pmda_review_type)}
+        ? `<span class="badge ${isReimbursed ? "badge-reimbursed" : "badge-not-reimbursed"}">
+            <span class="label">NHI:</span> ${esc(a.pmda_review_type)}
            </span>`
         : "";
 
-    // Determine link text based on what's present
+    // Determine link(s) based on country
     const isGermany = !!a.benefit_rating;
     const isNICE = !!a.nice_recommendation || !!a.guidance_reference;
     const isSpain = !!a.therapeutic_positioning || !!a.ipt_reference;
     const isJapan = !!a.pmda_review_type;
-    const linkText = isNICE ? "View on NICE"
-        : isGermany ? "View on G-BA"
-        : isSpain ? "View IPT on AEMPS"
-        : isJapan ? "View on PMDA"
-        : "View full assessment on HAS";
-    const link = a.assessment_url
-        ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
-            ${linkText} &rarr;
-           </a>`
-        : "";
+    let linkHtml = "";
+    if (isJapan) {
+        const keggLink = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">Current price on KEGG JAPIC &rarr;</a>`
+            : "";
+        const mhlwLink = a.japan_mhlw_url
+            ? `<a class="assessment-link" href="${esc(a.japan_mhlw_url)}" target="_blank" rel="noopener">MHLW pricing decisions &rarr;</a>`
+            : "";
+        linkHtml = [keggLink, mhlwLink].filter(Boolean).join(" ");
+    } else {
+        const linkText = isNICE ? "View on NICE"
+            : isGermany ? "View on G-BA"
+            : isSpain ? "View IPT on AEMPS"
+            : "View full assessment on HAS";
+        linkHtml = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">${linkText} &rarr;</a>`
+            : "";
+    }
 
     // Descriptions
     const smrDesc = a.smr_description
@@ -498,7 +507,7 @@ function renderSingleAssessment(a) {
             ${smrDesc}
             ${asmrDesc}
             ${benefitDesc}
-            ${link}
+            ${linkHtml}
         </div>
     `;
 }

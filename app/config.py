@@ -65,5 +65,19 @@ PMDA_DRUGS_URL = (
     "approved-information/drugs/0002.html"
 )
 
+# KEGG REST API — used to look up JAPIC codes and disease text for Japan NHI pricing
+# JAPIC (Japan Pharmaceutical Information Center) codes identify NHI-priced drugs.
+# KEGG conv endpoint gives all JAPIC→KEGG drug ID mappings in one call.
+KEGG_API_BASE = "https://rest.kegg.jp"
+# Append JAPIC code to construct the pricing page URL
+KEGG_JAPIC_BASE_URL = "https://www.kegg.jp/medicus-bin/japic_med?japic_code="
+
+# MHLW (Ministry of Health, Labour and Welfare) — sets NHI drug prices
+# Quarterly drug pricing decisions (新薬収載) are published on this index page.
+MHLW_PRICING_URL = (
+    "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/"
+    "iryouhoken/newpage_00037.html"
+)
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0

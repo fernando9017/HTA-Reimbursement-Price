@@ -1,13 +1,26 @@
-"""Japan PMDA (Pharmaceuticals and Medical Devices Agency) adapter.
+"""Japan NHI pricing adapter — KEGG / JAPIC data source.
 
-Data source: PMDA approved drug information listing page (English).
-Lists new drug approvals with brand name, INN, therapeutic indication,
-approval date, and links to review reports.
+Two data sources fetched at startup (two HTTP calls):
+  1. https://rest.kegg.jp/conv/drug/japic
+       Maps every JAPIC code to a KEGG drug ID.
+       JAPIC (Japan Pharmaceutical Information Center) codes identify drugs
+       that are listed on Japan's National Health Insurance (NHI) price schedule.
+       A drug with a JAPIC code is reimbursed; one without is not.
 
-The English-language page is publicly available at:
-  https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html
+  2. https://rest.kegg.jp/list/drug
+       Maps every KEGG drug ID to its name(s) (INN + brand names marked "(TN)").
 
-No authentication required.
+At search time one additional call per matched drug:
+  3. https://rest.kegg.jp/get/{kegg_id}
+       Returns the full drug entry including DISEASE (indication) and JAPIC fields.
+       Results are cached in memory so repeated searches for the same drug are fast.
+
+Pricing URL returned:
+  https://www.kegg.jp/medicus-bin/japic_med?japic_code=XXXXXXXX
+
+MHLW pricing notifications page (static reference for launch pricing PDFs):
+  https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/
+  iryouhoken/newpage_00037.html
 """
 
 import logging
@@ -16,29 +29,21 @@ from pathlib import Path
 
 import httpx
 
-from app.config import PMDA_BASE_URL, PMDA_DRUGS_URL, REQUEST_TIMEOUT
+from app.config import KEGG_API_BASE, KEGG_JAPIC_BASE_URL, MHLW_PRICING_URL, REQUEST_TIMEOUT
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
 
-# Review types for PMDA drug approvals
-REVIEW_TYPE_DISPLAY = {
-    "new drug": "New Drug Approval",
-    "new indication": "New Indication",
-    "new dosage": "New Dosage",
-    "new route": "New Route of Administration",
-    "new combination": "New Combination",
-    "biosimilar": "Biosimilar",
-    "orphan": "Orphan Drug",
-}
-
 
 class JapanPMDA(HTAAgency):
-    """PMDA (Pharmaceuticals and Medical Devices Agency) — Japan's regulatory agency."""
+    """Japan NHI pricing via KEGG/JAPIC — Ministry of Health, Labour and Welfare."""
 
     def __init__(self) -> None:
+        # Each entry: {kegg_id, names_lower, names_display, japic_code, japic_url}
         self._drug_list: list[dict] = []
+        # Per-drug disease/indication text fetched on demand at search time (kegg_id → text)
+        self._disease_cache: dict[str, str] = {}
         self._loaded = False
 
     @property
@@ -51,214 +56,150 @@ class JapanPMDA(HTAAgency):
 
     @property
     def agency_abbreviation(self) -> str:
-        return "PMDA"
+        return "MHLW"
 
     @property
     def agency_full_name(self) -> str:
-        return "Pharmaceuticals and Medical Devices Agency"
+        return "Ministry of Health, Labour and Welfare"
 
     @property
     def is_loaded(self) -> bool:
         return self._loaded
 
+    # ── Startup data loading ──────────────────────────────────────────
+
     async def load_data(self) -> None:
-        """Fetch and parse the PMDA approved drugs listing page."""
+        """Fetch KEGG drug list and JAPIC mappings to build the NHI pricing index."""
+        drug_to_japic: dict[str, str] = {}
+
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
-            headers={
-                "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
-                "Accept": "text/html",
-            },
+            headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
         ) as client:
+            # Step 1: JAPIC → KEGG drug ID mapping (one call gives all NHI-priced drugs)
             try:
-                resp = await client.get(PMDA_DRUGS_URL)
+                resp = await client.get(f"{KEGG_API_BASE}/conv/drug/japic")
                 resp.raise_for_status()
-                html = resp.text
-            except Exception:
-                logger.warning("Failed to fetch PMDA drugs listing page")
-                html = ""
+                for line in resp.text.splitlines():
+                    if "\t" not in line:
+                        continue
+                    japic_part, drug_part = line.split("\t", 1)
+                    japic_code = japic_part.strip().removeprefix("japic:")
+                    drug_id = drug_part.strip()  # "dr:D11678"
+                    drug_to_japic[drug_id] = japic_code
+                logger.info("KEGG JAPIC conv: %d NHI-priced drugs", len(drug_to_japic))
+            except Exception as exc:
+                logger.warning("KEGG JAPIC conv fetch failed: %s", exc)
 
-            if html:
-                self._drug_list = self._parse_listing_page(html)
+            # Step 2: Drug ID → name(s)
+            items: list[dict] = []
+            try:
+                resp = await client.get(f"{KEGG_API_BASE}/list/drug")
+                resp.raise_for_status()
+                for line in resp.text.splitlines():
+                    if "\t" not in line:
+                        continue
+                    id_part, names_raw = line.split("\t", 1)
+                    kegg_id = id_part.strip()  # "dr:D11678"
+
+                    # Semicolon-separated names; brand names carry "(TN)"
+                    raw_parts = [n.strip() for n in names_raw.split(";")]
+                    names_display: list[str] = []
+                    names_lower: list[str] = []
+                    for part in raw_parts:
+                        clean = re.sub(r"\s*\(TN\)\s*", "", part).strip()
+                        if clean:
+                            names_display.append(clean)
+                            names_lower.append(clean.lower())
+
+                    japic_code = drug_to_japic.get(kegg_id, "")
+                    items.append({
+                        "kegg_id": kegg_id,
+                        "names_lower": names_lower,
+                        "names_display": names_display,
+                        "japic_code": japic_code,
+                        "japic_url": f"{KEGG_JAPIC_BASE_URL}{japic_code}" if japic_code else "",
+                    })
+            except Exception as exc:
+                logger.warning("KEGG drug list fetch failed: %s", exc)
+
+            self._drug_list = items
 
         self._loaded = True
-        logger.info("Japan PMDA data loaded: %d drug entries", len(self._drug_list))
+        reimbursed = sum(1 for d in self._drug_list if d["japic_code"])
+        logger.info(
+            "Japan (KEGG/JAPIC) loaded: %d drugs total, %d with NHI pricing",
+            len(self._drug_list), reimbursed,
+        )
+
+    # ── Search ────────────────────────────────────────────────────────
 
     async def search_assessments(
         self,
         active_substance: str,
         product_name: str | None = None,
     ) -> list[AssessmentResult]:
-        """Find PMDA drug reviews matching the given substance or product."""
+        """Return NHI pricing entries for the given substance or brand name."""
         if not self._loaded:
             return []
 
-        substance_lower = active_substance.lower().strip()
-        product_lower = product_name.lower().strip() if product_name else ""
+        sub_lower = active_substance.lower().strip()
+        prod_lower = (product_name or "").lower().strip()
 
-        results = []
+        matched: list[dict] = []
         for drug in self._drug_list:
-            inn_lower = drug.get("inn", "").lower()
-            brand_lower = drug.get("brand_name", "").lower()
-            indication_lower = drug.get("indication", "").lower()
+            names = drug["names_lower"]
+            sub_match = any(sub_lower in n or n in sub_lower for n in names)
+            prod_match = prod_lower and any(prod_lower in n or n in prod_lower for n in names)
+            if sub_match or prod_match:
+                matched.append(drug)
 
-            substance_match = (
-                substance_lower in inn_lower
-                or inn_lower in substance_lower
-                or substance_lower in indication_lower
-            )
-            product_match = product_lower and (
-                product_lower in brand_lower
-                or brand_lower in product_lower
-            )
+        if not matched:
+            return []
 
-            if not substance_match and not product_match:
-                continue
+        # Cap to avoid excessive KEGG API calls
+        matched = matched[:5]
 
-            review_type = drug.get("review_type", "")
-            review_display = _normalize_review_type(review_type)
+        results: list[AssessmentResult] = []
+        async with httpx.AsyncClient(
+            timeout=30.0,
+            follow_redirects=True,
+            headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
+        ) as client:
+            for drug in matched:
+                # Fetch indication text (cached after first lookup)
+                indication = await self._get_indication(client, drug["kegg_id"])
+                is_reimbursed = bool(drug["japic_code"])
 
-            results.append(
-                AssessmentResult(
-                    product_name=drug.get("brand_name", "") or product_name or active_substance,
-                    evaluation_reason=drug.get("indication", ""),
-                    opinion_date=drug.get("approval_date", ""),
-                    assessment_url=drug.get("review_url", ""),
-                    pmda_review_type=review_display,
-                )
-            )
+                results.append(AssessmentResult(
+                    product_name=(
+                        drug["names_display"][0] if drug["names_display"] else active_substance
+                    ),
+                    evaluation_reason=indication,
+                    opinion_date="",
+                    assessment_url=drug["japic_url"],
+                    pmda_review_type="Reimbursed (NHI)" if is_reimbursed else "Not in NHI price list",
+                    japan_mhlw_url=MHLW_PRICING_URL if is_reimbursed else "",
+                ))
 
-        # Sort most recent first
-        results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results
 
-    # ── Data loading helpers ──────────────────────────────────────────
-
-    def _parse_listing_page(self, html: str) -> list[dict]:
-        """Parse the PMDA approved drugs listing page HTML.
-
-        The page typically contains a table with columns:
-          Brand Name | INN | Indication | Approval Date | Review Report
-        """
-        items: list[dict] = []
-        seen: set[str] = set()
-
-        # Pattern 1: Table rows with drug data
-        # Each row has 4+ <td> cells; capture rest of row for link extraction
-        row_pattern = re.compile(
-            r'<tr[^>]*>\s*'
-            r'<td[^>]*>(.*?)</td>\s*'
-            r'<td[^>]*>(.*?)</td>\s*'
-            r'<td[^>]*>(.*?)</td>\s*'
-            r'<td[^>]*>(.*?)</td>'
-            r'(.*?)</tr>',
-            re.IGNORECASE | re.DOTALL,
-        )
-        for match in row_pattern.finditer(html):
-            brand = _clean_html_text(match.group(1))
-            inn = _clean_html_text(match.group(2))
-            indication = _clean_html_text(match.group(3))
-            date_text = _clean_html_text(match.group(4))
-
-            # Skip header rows
-            if not brand or brand.lower() in ("brand name", "product name", "name"):
-                continue
-
-            # Create a dedup key
-            key = f"{brand}_{inn}_{date_text}"
-            if key in seen:
-                continue
-            seen.add(key)
-
-            # Try to find review report link in the row
-            review_url = ""
-            link_match = re.search(
-                r'href="([^"]*(?:review|report|pdf)[^"]*)"',
-                match.group(0), re.IGNORECASE,
-            )
-            if link_match:
-                review_url = link_match.group(1)
-                if review_url and not review_url.startswith("http"):
-                    review_url = PMDA_BASE_URL + (
-                        review_url if review_url.startswith("/") else "/" + review_url
-                    )
-
-            # Detect review type from context
-            review_type = _detect_review_type(match.group(0), indication)
-
-            items.append({
-                "brand_name": brand,
-                "inn": inn,
-                "indication": indication,
-                "approval_date": _parse_date(date_text),
-                "review_url": review_url,
-                "review_type": review_type,
-            })
-
-        # Pattern 2: Links to drug review pages with drug info
-        if not items:
-            link_pattern = re.compile(
-                r'<a\s+href="([^"]*(?:drugs|review)[^"]*)"[^>]*>\s*(.*?)\s*</a>',
-                re.IGNORECASE | re.DOTALL,
-            )
-            for match in link_pattern.finditer(html):
-                url = match.group(1)
-                title = _clean_html_text(match.group(2))
-
-                if not title or len(title) < 3:
-                    continue
-
-                key = title.lower()
-                if key in seen:
-                    continue
-                seen.add(key)
-
-                if not url.startswith("http"):
-                    url = PMDA_BASE_URL + (url if url.startswith("/") else "/" + url)
-
-                # Extract date from nearby context
-                date = self._extract_date_near(html, match.group(2))
-
-                items.append({
-                    "brand_name": title,
-                    "inn": "",
-                    "indication": "",
-                    "approval_date": date,
-                    "review_url": url,
-                    "review_type": "",
-                })
-
-        return items
-
-    def _extract_date_near(self, html: str, anchor_text: str) -> str:
-        """Try to find an approval date near a drug entry in the HTML."""
-        escaped = re.escape(anchor_text[:40]) if len(anchor_text) > 40 else re.escape(anchor_text)
-        match = re.search(escaped, html, re.IGNORECASE)
-        if match:
-            context = html[max(0, match.start() - 200):match.end() + 500]
-
-            # Japanese date: YYYY年MM月DD日
-            jp_date = re.search(r'(\d{4})年(\d{1,2})月(\d{1,2})日', context)
-            if jp_date:
-                return f"{jp_date.group(1)}-{int(jp_date.group(2)):02d}-{int(jp_date.group(3)):02d}"
-
-            # English: Month DD, YYYY
-            en_date = re.search(
-                r'(January|February|March|April|May|June|July|'
-                r'August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})',
-                context,
-            )
-            if en_date:
-                return _parse_english_date_parts(
-                    en_date.group(2), en_date.group(1), en_date.group(3),
-                )
-
-            # ISO: YYYY-MM-DD
-            iso_date = re.search(r'(\d{4}-\d{2}-\d{2})', context)
-            if iso_date:
-                return iso_date.group(1)
-
+    async def _get_indication(self, client: httpx.AsyncClient, kegg_id: str) -> str:
+        """Return KEGG DISEASE/indication text for a drug; caches results."""
+        if kegg_id in self._disease_cache:
+            return self._disease_cache[kegg_id]
+        try:
+            # Strip "dr:" prefix — KEGG GET accepts bare IDs like "D11678"
+            clean_id = kegg_id.removeprefix("dr:")
+            resp = await client.get(f"{KEGG_API_BASE}/get/{clean_id}")
+            if resp.status_code == 200:
+                text = _parse_kegg_disease(resp.text)
+                self._disease_cache[kegg_id] = text
+                return text
+        except Exception as exc:
+            logger.debug("KEGG GET %s failed: %s", kegg_id, exc)
+        self._disease_cache[kegg_id] = ""
         return ""
 
     # ── File-based caching ────────────────────────────────────────────
@@ -270,9 +211,10 @@ class JapanPMDA(HTAAgency):
         self._drug_list = payload["data"]
         self._loaded = bool(self._drug_list)
         if self._loaded:
+            reimbursed = sum(1 for d in self._drug_list if d.get("japic_code"))
             logger.info(
-                "%s loaded %d drug entries from %s",
-                self.agency_abbreviation, len(self._drug_list), data_file,
+                "%s loaded %d drugs (%d with NHI pricing) from %s",
+                self.agency_abbreviation, len(self._drug_list), reimbursed, data_file,
             )
         return self._loaded
 
@@ -281,87 +223,40 @@ class JapanPMDA(HTAAgency):
             return
         self._write_json_file(data_file, self._make_envelope(self._drug_list))
         logger.info(
-            "%s saved %d drug entries to %s",
+            "%s saved %d drugs to %s",
             self.agency_abbreviation, len(self._drug_list), data_file,
         )
 
 
-def _clean_html_text(text: str) -> str:
-    """Remove HTML tags and normalize whitespace."""
-    text = re.sub(r"<[^>]+>", "", text)
-    text = re.sub(r"&amp;", "&", text)
-    text = re.sub(r"&lt;", "<", text)
-    text = re.sub(r"&gt;", ">", text)
-    text = re.sub(r"&nbsp;", " ", text)
-    text = re.sub(r"&#\d+;", "", text)
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
+# ── Helpers ──────────────────────────────────────────────────────────
 
 
-def _parse_date(text: str) -> str:
-    """Parse various date formats to YYYY-MM-DD."""
-    text = text.strip()
-    if not text:
-        return ""
+def _parse_kegg_disease(entry_text: str) -> str:
+    """Extract disease/indication names from a KEGG flat-file drug entry.
 
-    # Already ISO
-    if re.match(r"\d{4}-\d{2}-\d{2}", text):
-        return text[:10]
+    KEGG drug entries use a fixed-width flat-file format.  The DISEASE section
+    looks like::
 
-    # Japanese: YYYY年MM月DD日
-    match = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日", text)
-    if match:
-        return f"{match.group(1)}-{int(match.group(2)):02d}-{int(match.group(3)):02d}"
+        DISEASE     H01563  Urothelial carcinoma [DS:H01563]
+                    H01562  Bladder cancer [DS:H01562]
 
-    # English: Month DD, YYYY
-    match = re.search(
-        r"(January|February|March|April|May|June|July|"
-        r"August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})",
-        text,
-    )
-    if match:
-        return _parse_english_date_parts(match.group(2), match.group(1), match.group(3))
+    Continuation lines are indented; the next non-indented keyword ends the block.
+    """
+    diseases: list[str] = []
+    in_disease = False
 
-    # DD/MM/YYYY or MM/DD/YYYY (assume DD/MM for non-US)
-    match = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4})", text)
-    if match:
-        return f"{match.group(3)}-{int(match.group(2)):02d}-{int(match.group(1)):02d}"
+    for line in entry_text.splitlines():
+        if line.startswith("DISEASE"):
+            in_disease = True
+        elif in_disease and not (line.startswith(" ") or line.startswith("\t")):
+            break  # Next top-level field
 
-    return text
+        if in_disease:
+            # Each disease line contains an H-number then a free-text name
+            m = re.search(r"H\d{5}\s+(.+?)(?:\s+\[DS:|$)", line)
+            if m:
+                name = m.group(1).strip()
+                if name and name not in diseases:
+                    diseases.append(name)
 
-
-def _parse_english_date_parts(day: str, month_name: str, year: str) -> str:
-    """Convert English date parts to YYYY-MM-DD."""
-    months = {
-        "january": "01", "february": "02", "march": "03", "april": "04",
-        "may": "05", "june": "06", "july": "07", "august": "08",
-        "september": "09", "october": "10", "november": "11", "december": "12",
-    }
-    month = months.get(month_name.lower(), "01")
-    return f"{year}-{month}-{int(day):02d}"
-
-
-def _detect_review_type(row_html: str, indication: str) -> str:
-    """Detect the review type from HTML context and indication text."""
-    text = (row_html + " " + indication).lower()
-
-    if "biosimilar" in text:
-        return "biosimilar"
-    if "orphan" in text:
-        return "orphan"
-    if "new indication" in text or "additional indication" in text:
-        return "new indication"
-    if "new dosage" in text or "dosage form" in text:
-        return "new dosage"
-    if "new combination" in text:
-        return "new combination"
-
-    return "new drug"
-
-
-def _normalize_review_type(raw: str) -> str:
-    """Normalize a review type to a display value."""
-    if not raw:
-        return ""
-    lower = raw.lower().strip()
-    return REVIEW_TYPE_DISPLAY.get(lower, raw.strip().capitalize())
+    return "; ".join(diseases)
