@@ -1355,6 +1355,12 @@ footer a:hover {
     text-decoration: underline;
 }
 
+footer .copyright {
+    margin-top: 6px;
+    font-size: 0.78rem;
+    opacity: 0.75;
+}
+
 /* ── Responsive ───────────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
