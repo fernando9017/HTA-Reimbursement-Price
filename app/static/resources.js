@@ -2034,7 +2034,7 @@ const COUNTRIES = [
 <ol>
     <li>Search registered drugs via the <a href="https://rsd.sfda.gov.sa/drug-query-en.html" target="_blank" rel="noopener">SFDA RSD Drug Query portal</a> (English interface). This is more reliable than the older SFDA drugs-list page. Search by INN, brand name, or registration number</li>
     <li>Pricing is regulated by SFDA. Saudi Arabia uses <strong>International Reference Pricing (IRP)</strong> based on a basket of approximately 20 countries &mdash; the ex-factory price must not exceed the lowest price in that basket</li>
-    <li>Generics are priced at 70% (first generic), 65%, or 60% of the originator price depending on number of market entrants</li>
+    <li>Generics are priced at 70% (first generic), 65%, or 60% of the originator price. Biosimilars follow a similar stepped sequence: 75% / 65% / 55%. The <a href="https://www.sfda.gov.sa/sites/default/files/2022-10/PharmaceuticalPricingRulesE.pdf" target="_blank" rel="noopener">SFDA Pharmaceutical Pricing Rules (PDF)</a> is the authoritative methodology document</li>
     <li>Since <strong>July 2025</strong>, SFDA requires Economic Evaluation Studies (EES &mdash; formal HTA dossiers) as part of new drug pricing applications. This is a significant structural shift; there is no standalone Saudi HTA body yet but SFDA applies cost-effectiveness and budget impact criteria. See the <a href="https://www.sfda.gov.sa/en/regulations/990220" target="_blank" rel="noopener">SFDA EES Guidelines</a></li>
 </ol>
 
@@ -2599,8 +2599,9 @@ const COUNTRIES = [
 
 <h4 class="tips-heading">Reimbursement &amp; Pricing</h4>
 <ol>
-    <li>Mandatory health insurance operates in <strong>Abu Dhabi</strong> (since 2007, for all residents) and <strong>Dubai</strong> (since 2014&ndash;2016, phased). Formulary listing by insurers &mdash; including <a href="https://www.damanhealth.ae/healthcare/pharmaceutical-benefits/daman-drug-formulary/" target="_blank" rel="noopener">Daman (Abu Dhabi)</a> &mdash; determines practical reimbursement access</li>
-    <li>Drug prices are set by the relevant authority using the <strong>Unified Pricing Policy (UPP)</strong>: maximum retail price is published per product. MOHAP, DHA, and DoH each set prices independently &mdash; prices may differ between Emirates</li>
+    <li><strong>Abu Dhabi</strong>: Mandatory insurance since 2007. <a href="https://www.damanhealth.ae/healthcare/pharmaceutical-benefits/daman-drug-formulary/" target="_blank" rel="noopener">Daman</a> is the dominant insurer. Plans are tiered: <em>Thiqa</em> (UAE nationals, comprehensive), <em>Basic</em> (lower-income expats, restricted formulary), and ABM intermediate levels. The DoH&rsquo;s <strong>Unified Prescription Pricing (UPP)</strong> system standardises drug prices and copays across all Abu Dhabi providers, linked to the Shafafiya claims platform</li>
+    <li><strong>Dubai</strong>: Mandatory insurance since 2014&ndash;2016. DHA manages the <strong>SHIFA unified formulary</strong> (effective February 2021), which replaced hospital-by-hospital formularies. The <strong>Essential Benefits Plan (EBP)</strong> covers a minimum AED 150,000/year with drug coverage capped at AED 1,500/year under basic plans; insurers may offer enhanced formularies above the EBP minimum</li>
+    <li>Drug prices are set by the relevant authority using international reference pricing. MOHAP, DHA, and DoH each set prices independently &mdash; prices may differ between Emirates. The DoH Shafafiya portal has the most reliably current price reference for Abu Dhabi</li>
     <li>There is <strong>no UAE-wide HTA body or ICER threshold</strong>. Market access is primarily driven by formulary negotiations with individual insurance providers and procurement by hospital groups</li>
     <li>Multi-Emirate launches require separate registration or mutual recognition filings with each authority &mdash; budget for parallel submissions</li>
 </ol>
