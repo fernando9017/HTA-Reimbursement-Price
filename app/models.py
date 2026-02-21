@@ -57,6 +57,8 @@ class AssessmentResult(BaseModel):
     therapeutic_positioning: str = ""
     # Japan (PMDA)
     pmda_review_type: str = ""
+    # Translated summary (all countries)
+    summary_en: str = ""
 
 
 class AssessmentResponse(BaseModel):

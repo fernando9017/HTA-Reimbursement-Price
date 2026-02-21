@@ -84,8 +84,26 @@ app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 @app.get("/")
 async def index():
-    """Serve the frontend."""
+    """Serve the landing page."""
     return FileResponse(str(STATIC_DIR / "index.html"))
+
+
+@app.get("/hta")
+async def hta_page():
+    """Serve the HTA & Reimbursement module page."""
+    return FileResponse(str(STATIC_DIR / "hta.html"))
+
+
+@app.get("/analogues")
+async def analogues_page():
+    """Serve the Analogue Selection module page."""
+    return FileResponse(str(STATIC_DIR / "analogues.html"))
+
+
+@app.get("/resources")
+async def resources_page():
+    """Serve the Global Secondary Resources module page."""
+    return FileResponse(str(STATIC_DIR / "resources.html"))
 
 
 @app.get("/api/search", response_model=list[MedicineResult])

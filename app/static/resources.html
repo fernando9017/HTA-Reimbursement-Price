@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Resources — VAP Global Resources</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-WicLt2ziy4Y9gaHl7hJ8s.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Global Secondary Resources</h1>
+            <p class="subtitle">Country-level information on marketing approval, HTA, reimbursement, and access</p>
+        </div>
+    </header>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Home</a>
+            <span class="page-title">Global Secondary Resources</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Select a Country</h2>
+            <p class="resource-intro">Click a country to view key resources on marketing authorisation, HTA assessment, reimbursement, and patient access. Covers <strong id="country-count"></strong> countries.</p>
+            <div class="resource-search-row">
+                <input type="text" id="country-search" class="resource-search-input" placeholder="Filter countries…" autocomplete="off" aria-label="Filter countries">
+            </div>
+            <div class="country-flag-grid" id="country-grid">
+                <!-- Populated by resources.js -->
+            </div>
+            <p class="country-no-results hidden" id="country-no-results">No countries match your filter.</p>
+        </section>
+
+        <!-- Detail panel — shown when a country is selected -->
+        <section class="card hidden" id="resource-detail">
+            <div class="resource-detail-header">
+                <div class="resource-country-title">
+                    <span class="resource-flag" id="detail-flag"></span>
+                    <h2 id="detail-country-name"></h2>
+                </div>
+                <button class="btn-secondary btn-close" id="detail-close">Close</button>
+            </div>
+
+            <div class="resource-sections" id="detail-sections">
+                <!-- Populated by resources.js -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Data sources: <a href="https://www.ema.europa.eu" target="_blank" rel="noopener">EMA</a> &middot;
+            <a href="https://www.has-sante.fr" target="_blank" rel="noopener">HAS</a> &middot;
+            <a href="https://www.g-ba.de" target="_blank" rel="noopener">G-BA</a> &middot;
+            <a href="https://www.nice.org.uk" target="_blank" rel="noopener">NICE</a> &middot;
+            <a href="https://www.aemps.gob.es" target="_blank" rel="noopener">AEMPS</a></p>
+            <p>&copy; 2026 Fernando Rosas. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/shared.js"></script>
+    <script src="/static/resources.js"></script>
+</body>
+</html>

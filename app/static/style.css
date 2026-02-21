@@ -61,9 +61,9 @@ header h1 {
     font-size: 0.95rem;
 }
 
-/* ── Module navigation ───────────────────────────────────────────── */
+/* ── Page navigation (subpages) ──────────────────────────────────── */
 
-.module-nav {
+.page-nav {
     background: var(--card-bg);
     border-bottom: 2px solid var(--border);
     position: sticky;
@@ -71,33 +71,93 @@ header h1 {
     z-index: 100;
 }
 
-.module-nav .container {
+.page-nav .container {
     display: flex;
-    gap: 0;
+    align-items: center;
+    gap: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.module-tab {
-    padding: 12px 24px;
-    background: transparent;
+.page-nav .back-link {
     color: var(--text-light);
-    border: none;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
-    font-size: 0.95rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.page-nav .back-link:hover {
+    color: var(--primary);
+}
+
+.page-nav .page-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+/* ── Home page cards ─────────────────────────────────────────────── */
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.home-wip-badge {
+    display: inline-block;
+    background: #e67e22;
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.home-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 32px 28px;
+    text-decoration: none;
+    color: var(--text);
+    border: 2px solid var(--border);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.home-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 4px 20px rgba(41, 128, 185, 0.15);
+    transform: translateY(-2px);
+}
+
+.home-card h2 {
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.home-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.home-card-link {
+    font-size: 0.9rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-}
-
-.module-tab:hover {
-    color: var(--primary);
-    background: transparent;
-}
-
-.module-tab.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-    background: transparent;
+    color: var(--primary-light);
 }
 
 /* ── Cards ────────────────────────────────────────────────────────── */
@@ -808,6 +868,481 @@ button:disabled {
     font-size: 0.82rem;
 }
 
+/* ── Global Resources — intro text ───────────────────────────────── */
+
+.resource-intro {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+/* ── Global Resources — country search filter ────────────────────── */
+
+.resource-search-row {
+    margin-bottom: 20px;
+}
+
+.resource-search-input {
+    width: 100%;
+    max-width: 320px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.resource-search-input:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+}
+
+.country-no-results {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-top: 12px;
+}
+
+/* ── Global Resources — country flag grid ────────────────────────── */
+
+.country-flag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.country-flag-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    font-family: inherit;
+    min-width: 90px;
+}
+
+.country-flag-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 2px 10px rgba(41, 128, 185, 0.12);
+    background: #eaf2f8;
+}
+
+.country-flag-card.active {
+    border-color: var(--primary);
+    background: #eaf2f8;
+    box-shadow: 0 2px 10px rgba(41, 128, 185, 0.18);
+}
+
+/* flag-icons library: font-size controls flag height; width = 4:3 ratio */
+.flag-icon {
+    font-size: 2rem;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+    flex-shrink: 0;
+}
+
+.flag-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+}
+
+/* ── Global Resources — detail panel ────────────────────────────── */
+
+.resource-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+}
+
+.resource-country-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.resource-flag {
+    font-size: 2.4rem;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.resource-detail-header h2 {
+    font-size: 1.3rem;
+    color: var(--primary);
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.btn-close {
+    padding: 8px 16px;
+    font-size: 0.88rem;
+}
+
+.resource-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.resource-section {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.resource-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.resource-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.resource-section-body {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 14px;
+}
+
+.resource-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.resource-links li a {
+    font-size: 0.88rem;
+    color: var(--primary-light);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.resource-links li a:hover {
+    text-decoration: underline;
+}
+
+/* ── Global Resources — callout boxes (notes / tips) ─────────────── */
+
+.resource-callout {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.resource-callout p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    margin: 6px 0 0;
+    color: var(--text);
+}
+
+.resource-callout p:first-of-type {
+    margin-top: 4px;
+}
+
+.resource-callout__label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.resource-callout--note {
+    background: #fef9e7;
+    border-color: #f0c040;
+}
+
+.resource-callout--note .resource-callout__label {
+    color: #9a7d0a;
+}
+
+.resource-callout--tip {
+    background: #eaf7ef;
+    border-color: var(--smr-important);
+}
+
+.resource-callout--tip .resource-callout__label {
+    color: #1a7a40;
+}
+
+/* Rich tips content (tipsHtml) */
+
+.resource-callout--tip h4.tips-heading {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1a7a40;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 18px 0 6px;
+}
+
+.resource-callout--tip h4.tips-heading:first-child {
+    margin-top: 8px;
+}
+
+.resource-callout--tip p.tips-subheading {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 12px 0 4px;
+}
+
+.resource-callout--tip ol,
+.resource-callout--tip ul {
+    font-size: 0.87rem;
+    line-height: 1.7;
+    padding-left: 22px;
+    margin: 4px 0 8px;
+    color: var(--text);
+}
+
+.resource-callout--tip li {
+    margin-bottom: 4px;
+}
+
+.resource-callout--tip li ul {
+    margin-top: 4px;
+}
+
+.resource-callout--tip p.tips-note {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.83rem;
+    color: var(--text-light);
+    margin: 8px 0;
+    font-style: italic;
+}
+
+.resource-callout--tip a {
+    color: #1a7a40;
+    text-decoration: underline;
+    text-decoration-color: rgba(26, 122, 64, 0.35);
+}
+
+.resource-callout--tip a:hover {
+    text-decoration-color: #1a7a40;
+}
+
+.resource-callout--tip code {
+    background: rgba(0, 0, 0, 0.07);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    font-size: 0.82rem;
+    font-style: normal;
+}
+
+/* ── Global Resources — WIP badge (flag grid cards) ─────────────── */
+
+.country-flag-card {
+    position: relative;
+}
+
+.wip-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #fef3cd;
+    color: #856404;
+    border: 1px solid #f0c040;
+    border-radius: 4px;
+    padding: 1px 5px;
+    line-height: 1.4;
+}
+
+/* ── Global Resources — WIP notice (detail panel) ────────────────── */
+
+.resource-wip-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fef9e7;
+    border: 1px solid #f0c040;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: #856404;
+    margin-bottom: 16px;
+}
+
+.resource-wip-notice strong {
+    font-weight: 700;
+}
+
+/* ── Global Resources — Drug Example callout ─────────────────────── */
+
+.resource-callout--example {
+    background: #eef3f8;
+    border-color: var(--primary-light);
+}
+
+.resource-callout--example .resource-callout__label {
+    color: var(--primary);
+}
+
+.resource-callout--example .drug-example-header {
+    margin: 10px 0 4px;
+}
+
+.resource-callout--example .drug-example-drug {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.resource-callout--example .drug-example-drug small {
+    font-weight: 400;
+    color: var(--text-light);
+    font-size: 0.82rem;
+}
+
+.resource-callout--example .drug-example-indication {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    margin: 2px 0 14px;
+    font-style: italic;
+}
+
+.drug-example-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.drug-example-step {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 0 12px;
+    padding-bottom: 16px;
+    position: relative;
+}
+
+.drug-example-step:last-child {
+    padding-bottom: 0;
+}
+
+/* Vertical connector line */
+.drug-example-step::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 24px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+
+.drug-example-step:last-child::before {
+    display: none;
+}
+
+/* Circle marker */
+.drug-example-marker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.drug-example-step-content {
+    min-width: 0;
+}
+
+.drug-example-step-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 24px;
+}
+
+.drug-example-step-detail {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--text);
+    margin-top: 2px;
+}
+
+.drug-example-step-detail a {
+    color: var(--primary-light);
+    text-decoration: underline;
+    text-decoration-color: rgba(41, 128, 185, 0.35);
+}
+
+.drug-example-step-detail a:hover {
+    text-decoration-color: var(--primary-light);
+}
+
+.drug-example-step-meta {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.drug-example-takeaway {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.drug-example-takeaway strong {
+    color: var(--primary);
+}
+
+/* ── Global Resources — empty state ──────────────────────────────── */
+
+.resource-empty {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-style: italic;
+    padding: 12px 0;
+}
+
 /* ── Utility ──────────────────────────────────────────────────────── */
 
 .hidden {
@@ -860,8 +1395,44 @@ footer a:hover {
     .filter-actions {
         flex-direction: column;
     }
-    .module-tab {
-        padding: 10px 16px;
-        font-size: 0.85rem;
+    .home-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
+}
+
+/* ── HTA assessment enriched display ─────────────────────────────── */
+
+.assessment-summary-en {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.assessment-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.assessment-patient-group {
+    font-size: 0.82rem;
+    color: var(--text-muted, #888);
+    margin-top: 2px;
+    padding-left: 8px;
+    border-left: 2px solid var(--border-color, #ddd);
+}
+
+.indication-filter-note {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.indication-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted, #888);
+    margin-top: 2px;
 }
