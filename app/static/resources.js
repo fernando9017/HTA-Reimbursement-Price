@@ -1495,7 +1495,7 @@ const COUNTRIES = [
                 body: "CENETEC (Centro Nacional de Excelencia Tecnológica en Salud) is the official HTA body under the Secretaría de Salud. It produces health technology assessments and clinical practice guidelines that inform the Cuadro Básico de Medicamentos (CBM). The Consejo de Salubridad General manages CBM inclusions via its Interinstitutional Commission — listing in the CBM is required for procurement by all public health institutions (IMSS, ISSSTE, IMSS-Bienestar, MoH). Inclusion requests go through a three-stage evaluation: admissibility → scientific review → final ruling, considering clinical efficacy, safety, cost-effectiveness, and pharmacoeconomic data.",
                 links: [
                     { label: "CENETEC — Centro Nacional de Excelencia Tecnológica en Salud", url: "http://www.cenetec.salud.gob.mx/" },
-                    { label: "Cuadro Básico y Catálogo de Medicamentos (Consejo de Salubridad General)", url: "https://www.gob.mx/conasa" },
+                    { label: "Compendio Nacional de Insumos para la Salud (Consejo de Salubridad General)", url: "http://www.gob.mx/csg/articulos/medicamentos-compendio-nacional-de-insumos-para-la-salud-2025" },
                     { label: "IMSS — Cuadro Básico de Medicamentos", url: "https://www.imss.gob.mx/profesionales-salud/cuadros-basicos/medicamentos" },
                 ],
             },
@@ -1516,7 +1516,7 @@ const COUNTRIES = [
                 body: "Unlike most markets, Mexico has no published ex-factory price list for public-sector drugs. Prices are determined exclusively through competitive procurement tenders. BIRMEX (Laboratorios de Biológicos y Reactivos de México), a state-owned entity, leads the biannual Compra Consolidada (consolidated purchase) on behalf of all federal health institutions. All federal tenders are published on CompraNet. Historical awarded prices, bid specifications, and contract documents are accessible through CompraNet and the Secretaría de Salud procurement portal. The CCPNM (Coordinating Commission for Negotiating Medicine Prices), which negotiated patented drug prices 2008–2020, was disbanded under INSABI reforms; price negotiation is now embedded in the BIRMEX tender process. UNOPS managed procurement on behalf of INSABI from 2020 to December 2022 before domestic institutions resumed control.",
                 links: [
                     { label: "CompraNet — Federal e-Procurement Platform (tender search &amp; awards)", url: "https://compranet.funcionpublica.gob.mx/" },
-                    { label: "Compra Consolidada — Ministry of Health Procurement Portal", url: "https://contratacion.salud.gob.mx" },
+                    { label: "Compra Consolidada — Ministry of Health Procurement Portal", url: "https://compraconsolidada.salud.gob.mx/" },
                     { label: "BIRMEX — Laboratorios de Biológicos y Reactivos de México", url: "https://www.birmex.gob.mx/" },
                     { label: "IMSS Compras — IMSS Procurement Archive", url: "https://compras.imss.gob.mx/" },
                 ],
@@ -1527,7 +1527,7 @@ const COUNTRIES = [
 <ol>
     <li>There is <strong>no published reference price list</strong> for public-sector pharmaceuticals in Mexico. The effective public price is whatever winning tender price is awarded in the most recent <strong>Compra Consolidada</strong></li>
     <li><strong>BIRMEX</strong> runs the consolidated tender process on behalf of IMSS, ISSSTE, IMSS-Bienestar, MoH, PEMEX, and other federal entities — pooling demand to maximise negotiating leverage. Products must be in the <strong>Cuadro Básico de Medicamentos (CBM)</strong> to be eligible for public procurement</li>
-    <li>Tenders are published on <strong>CompraNet</strong> (<a href="https://compranet.funcionpublica.gob.mx/" target="_blank" rel="noopener">compranet.funcionpublica.gob.mx</a>). Award documents include lot-level prices and supplier names — this is the primary source for benchmarking public-sector prices. The Ministry of Health procurement portal (<a href="https://contratacion.salud.gob.mx" target="_blank" rel="noopener">contratacion.salud.gob.mx</a>) contains Compra Consolidada-specific records</li>
+    <li>Tenders are published on <strong>CompraNet</strong> (<a href="https://compranet.funcionpublica.gob.mx/" target="_blank" rel="noopener">compranet.funcionpublica.gob.mx</a>). Award documents include lot-level prices and supplier names — this is the primary source for benchmarking public-sector prices. The Ministry of Health procurement portal (<a href="https://compraconsolidada.salud.gob.mx/" target="_blank" rel="noopener">compraconsolidada.salud.gob.mx</a>) contains Compra Consolidada-specific records</li>
     <li>The <strong>2025–2026 consolidated tender</strong> was declared null by the Anti-Corruption Ministry due to procedural violations — over 70% of lots were left unawarded. Expect ongoing supply disruptions and re-tendering activity; verify current status before any market access planning</li>
 </ol>
 <h4 class="tips-heading">CBM Inclusion — Key Access Gate</h4>
