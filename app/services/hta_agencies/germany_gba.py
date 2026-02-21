@@ -160,6 +160,18 @@ class GermanyGBA(HTAAgency):
             evidence_desc = EVIDENCE_TRANSLATIONS.get(raw_evidence, raw_evidence)
 
             trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
+
+            # Build concise English summary
+            summary_parts: list[str] = []
+            if benefit_desc:
+                summary_parts.append(f"Added benefit: {benefit_desc}")
+            if evidence_desc:
+                summary_parts.append(f"Evidence: {evidence_desc}")
+            comparator_val = dec.get("comparator", "")
+            if comparator_val:
+                summary_parts.append(f"vs. {comparator_val}")
+            summary_en = " | ".join(summary_parts)
+
             results.append(
                 AssessmentResult(
                     product_name=trade_name,
@@ -170,8 +182,9 @@ class GermanyGBA(HTAAgency):
                     benefit_rating=raw_benefit,
                     benefit_rating_description=benefit_desc,
                     evidence_level=evidence_desc,
-                    comparator=dec.get("comparator", ""),
+                    comparator=comparator_val,
                     patient_group=dec.get("patient_group", ""),
+                    summary_en=summary_en,
                 )
             )
 

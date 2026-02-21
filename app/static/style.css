@@ -1385,3 +1385,39 @@ footer a:hover {
         grid-template-columns: 1fr;
     }
 }
+
+/* ── HTA assessment enriched display ─────────────────────────────── */
+
+.assessment-summary-en {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.assessment-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.assessment-patient-group {
+    font-size: 0.82rem;
+    color: var(--text-muted, #888);
+    margin-top: 2px;
+    padding-left: 8px;
+    border-left: 2px solid var(--border-color, #ddd);
+}
+
+.indication-filter-note {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.indication-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted, #888);
+    margin-top: 2px;
+}
