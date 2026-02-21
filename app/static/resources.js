@@ -2782,6 +2782,356 @@ const COUNTRIES = [
 <p class="tips-note"><strong>Note:</strong> Vietnam's pharmaceutical sector is undergoing major reform. The Amended Pharmaceutical Law (Law 44/2024, effective July 2025) and new Decree 163/2025 introduce significant changes to pricing, registration, and foreign investment rules. Always verify circulars are current.</p>
         `,
     },
+    // ── New WIP countries (top-70 markets) ────────────────────────────
+    {
+        code: "GT",
+        name: "Guatemala",
+        flag: "🇬🇹",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "DRSA (Dirección de Regulación, Vigilancia y Control de la Salud) under MSPAS (Ministry of Health) handles the Registro Sanitario. Products approved by FDA, EMA, INVIMA (Colombia), or ANMAT (Argentina) may qualify for an abridged review.",
+                links: [
+                    { label: "DRSA — Registro Sanitario", url: "https://www.drsa.gob.gt/" },
+                    { label: "MSPAS — Ministry of Health Guatemala", url: "https://www.mspas.gob.gt/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "IGSS (Instituto Guatemalteco de Seguridad Social) covers formal-sector workers (~18% of population). The MoH hospital network provides medicines from a limited national formulary to the broader uninsured population. Most pharmaceutical spending is out-of-pocket.",
+                links: [
+                    { label: "IGSS — Guatemalan Social Security Institute", url: "https://www.igssgt.org/" },
+                ],
+            },
+        ],
+        notes: "Guatemala is a lower-middle income country. DRSA registration is required before market entry. The private pharmacy channel dominates. Spanish is the regulatory language.",
+    },
+    {
+        code: "IN",
+        name: "India",
+        flag: "🇮🇳",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "CDSCO (Central Drugs Standard Control Organisation) under the Ministry of Health & Family Welfare handles drug registration, headed by the Drug Controller General of India (DCGI). New chemical entities require CDSCO approval, which can be granted in parallel with EMA/FDA approval (Section 26B waiver pathway).",
+                links: [
+                    { label: "CDSCO — Central Drugs Standard Control Organisation", url: "https://cdsco.gov.in/opencms/opencms/en/Home/" },
+                    { label: "SUGAM — Online Drug Registration Portal", url: "https://sugam.cdsco.gov.in/login" },
+                    { label: "CDSCO — Approved Drugs Search", url: "https://cdsco.gov.in/opencms/opencms/en/Drugs/ApprovedDrugs/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "NPPA (National Pharmaceutical Pricing Authority) regulates prices under the Drug Price Control Order (DPCO 2013). Medicines on the National List of Essential Medicines (NLEM) have ceiling prices set by NPPA using a market-based average approach. Non-NLEM medicines can increase by max 10%/year.",
+                links: [
+                    { label: "NPPA — National Pharmaceutical Pricing Authority", url: "https://nppa.gov.in/" },
+                    { label: "NPPA — Ceiling Prices & SRP List", url: "https://nppa.gov.in/ceiling_prices.html" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Multiple schemes co-exist: CGHS (central government employees), PMJAY/Ayushman Bharat (~500 million low-income beneficiaries, hospitalisation focus), ESI (formal private sector), and state-level schemes. HTAIn (under ICMR) conducts HTA for national priority medicines.",
+                links: [
+                    { label: "CGHS — Central Government Health Scheme", url: "https://cghs.gov.in/" },
+                    { label: "PMJAY — Ayushman Bharat", url: "https://pmjay.gov.in/" },
+                    { label: "HTAIn — HTA in India (ICMR)", url: "https://htain.icmr.org.in/" },
+                ],
+            },
+        ],
+        notes: "India is one of the world's largest pharmaceutical markets by volume, with major generic manufacturing. Out-of-pocket expenditure exceeds 50% of total health spending. Jan Aushadhi Kendras provide generic medicines at reduced prices. State-level procurement policies can differ significantly from central standards.",
+    },
+    {
+        code: "JO",
+        name: "Jordan",
+        flag: "🇯🇴",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "JFDA (Jordan Food and Drug Administration) handles drug registration. Jordan accepts dossiers from reference agencies (FDA, EMA, TGA) to support an abridged pathway. Jordan is a key pharmaceutical hub and re-export market for the wider MENA region.",
+                links: [
+                    { label: "JFDA — Jordan Food and Drug Administration", url: "https://www.jfda.jo/" },
+                    { label: "JFDA — Drug Registration", url: "https://www.jfda.jo/page/1/224" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Key payers: Civil Insurance Programme (CIP) for civil servants, Royal Medical Services (RMS) for military, and MoH facilities for the broader population. Jordan uses international reference pricing for price-setting. JFDA maintains a publicly available drug price list.",
+                links: [
+                    { label: "Ministry of Health — Jordan", url: "https://www.moh.gov.jo/" },
+                    { label: "JFDA — Drug Price List", url: "https://www.jfda.jo/page/1/58" },
+                ],
+            },
+        ],
+        notes: "Jordan is an important regional hub — many MENA market launches use Jordan registration as a reference or stepping stone. The pharmaceutical sector is well-developed with local generic manufacturers. Arabic and English are both used in regulatory documents.",
+    },
+    {
+        code: "KZ",
+        name: "Kazakhstan",
+        flag: "🇰🇿",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "Drug registration is handled by the National Centre for Expertise of Medicines, Medical Devices and Medical Equipment (NCE). Kazakhstan is a member of the Eurasian Economic Union (EAEU) — products can be registered under the EAEU unified procedure and recognised across member states (Russia, Belarus, Armenia, Kyrgyzstan).",
+                links: [
+                    { label: "NCE — National Centre for Expertise", url: "https://www.nce.kz/" },
+                    { label: "EAEU — Eurasian Medicines Registry", url: "https://portal.eaeunion.org/sites/odata/_layouts/15/portal.front/registry/registryreader.aspx#!ru-RU/RegistryReader/view/MEDICINES" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Kazakhstan introduced mandatory social health insurance (MSHI) in 2020. The State Guaranteed Benefits Package (SGBP) covers essential medicines. Centralized procurement is managed through the Single Distributor (SK-Pharmacy). The National Formulary includes reimbursable medicines.",
+                links: [
+                    { label: "Ministry of Healthcare Kazakhstan", url: "https://www.gov.kz/memleket/entities/dsm" },
+                    { label: "SK-Pharmacy — Single Distributor", url: "https://www.sk-ph.kz/en" },
+                ],
+            },
+        ],
+        notes: "Kazakhstan is the largest economy in Central Asia. Regulatory language is Kazakh and Russian. EAEU membership enables regional registration. The government prioritizes domestic pharmaceutical production, which can affect market access for imported products.",
+    },
+    {
+        code: "KW",
+        name: "Kuwait",
+        flag: "🇰🇼",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "Drug registration is handled by the Ministry of Health (MoH) Kuwait, Pharmaceutical Affairs Department. Kuwait participates in the Gulf Health Council (GCC) Drug Registration System, enabling shared registration across GCC member states.",
+                links: [
+                    { label: "Kuwait Ministry of Health", url: "https://www.moh.gov.kw/" },
+                    { label: "GCC Health Council — Drug Registration", url: "https://www.ghc.gulf-health-council.org/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Healthcare is provided free to Kuwaiti nationals through the MoH. Expatriates (majority of the ~4.7M population) use employer-provided or private insurance, or pay out-of-pocket. Medicines are procured centrally by the MoH through national tenders for public hospital formularies.",
+                links: [
+                    { label: "MoH Kuwait — Pharmaceutical Affairs", url: "https://www.moh.gov.kw/en/Pages/pharmaceuticals.aspx" },
+                ],
+            },
+        ],
+        notes: "Kuwait has a small but high-income population. The GCC unified registration pathway allows a single dossier to cover all six GCC states (Kuwait, Saudi Arabia, UAE, Qatar, Bahrain, Oman). Procurement is primarily through MoH tenders for the public sector.",
+    },
+    {
+        code: "MY",
+        name: "Malaysia",
+        flag: "🇲🇾",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "NPRA (National Pharmaceutical Regulatory Agency, under Ministry of Health) handles drug registration via the QUEST3+ online portal. Products approved by reference agencies (EMA, FDA, TGA, HSA) may qualify for an abridged or verification pathway with reduced data requirements.",
+                links: [
+                    { label: "NPRA — National Pharmaceutical Regulatory Agency", url: "https://www.npra.gov.my/" },
+                    { label: "QUEST3+ — Drug Registration Portal", url: "https://quest3.bpfk.gov.my/" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                body: "MaHTAS (Malaysian Health Technology Assessment Section) under the Ministry of Health conducts HTA evaluations and publishes Health Technology Assessment Reports and Decision Briefs. MaHTAS reports inform the MoH formulary and procurement decisions for the public health system.",
+                links: [
+                    { label: "MaHTAS — HTA Reports & Decision Briefs", url: "https://www.moh.gov.my/index.php/pages/view/173" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Malaysia has a dual public-private system. The MoH formulary (Senarai Ubat) covers medicines for public hospitals, procured through centralized tenders. Private sector drug prices are unregulated. National health financing reform (\"ReSPEKT\" scheme) has been proposed but not yet implemented.",
+                links: [
+                    { label: "MoH Malaysia — Drug Formulary (Senarai Ubat)", url: "https://www.moh.gov.my/index.php/pages/view/46" },
+                ],
+            },
+        ],
+        notes: "Malaysia is one of Southeast Asia's most developed pharmaceutical markets. Public sector access requires MoH formulary listing via MaHTAS review. Bahasa Malaysia and English are both used in regulatory documents.",
+    },
+    {
+        code: "MA",
+        name: "Morocco",
+        flag: "🇲🇦",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "DIMED (Division du Médicament et de la Pharmacie, under the Ministry of Health and Social Protection) handles the visa pharmaceutique (marketing authorization). Morocco references EMA, FDA, or other authority approvals as part of the dossier evaluation.",
+                links: [
+                    { label: "Ministry of Health — Morocco", url: "https://www.sante.gov.ma/" },
+                    { label: "DIMED — Pharmaceutical Division", url: "https://www.sante.gov.ma/Pages/Medicaments.aspx" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Morocco's AMO (Assurance Maladie Obligatoire) is the compulsory health insurance framework. CNOPS covers public-sector employees; CNSS covers private-sector workers. RAMED covered the indigent population (now being restructured into AMO-Tadamon). Drug reimbursement is based on a positive list established by the Ministry of Health.",
+                links: [
+                    { label: "CNOPS — Caisse Nationale des Organismes de Prévoyance Sociale", url: "https://www.cnops.org.ma/" },
+                    { label: "CNSS — Caisse Nationale de Sécurité Sociale", url: "https://www.cnss.ma/" },
+                ],
+            },
+        ],
+        notes: "Morocco is the largest pharmaceutical market in francophone Africa. Drug pricing is regulated by the Ministry of Health via a decree-based ceiling price system using international reference pricing. French and Arabic are the regulatory languages.",
+    },
+    {
+        code: "NZ",
+        name: "New Zealand",
+        flag: "🇳🇿",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "Medsafe (NZ Medicines and Medical Devices Safety Authority) handles medicine consent. Products approved by EMA, FDA, TGA, or Health Canada may use the consent-based pathway. New Zealand and Australia have a joint trans-Tasman regulatory framework (ANZTPA) for some products.",
+                links: [
+                    { label: "Medsafe — Medicine Search", url: "https://www.medsafe.govt.nz/regulatory/DbSearch.asp" },
+                    { label: "Medsafe — New Zealand Medicines Regulatory Authority", url: "https://www.medsafe.govt.nz/" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA & Reimbursement (PHARMAC)",
+                body: "PHARMAC (Pharmaceutical Management Agency) is one of the world's most influential HTA and formulary management bodies. It manages the NZUL (NZ Pharmaceutical Schedule) with a strict cost-containment mandate. The PTAC (Pharmacology and Therapeutics Advisory Committee) provides clinical recommendations. The effective WTP threshold is informally estimated at NZD 20,000–60,000 per QALY — among the world's lowest.",
+                links: [
+                    { label: "PHARMAC — Pharmaceutical Schedule", url: "https://schedule.pharmac.govt.nz/" },
+                    { label: "PHARMAC — Funding Decisions", url: "https://www.pharmac.govt.nz/medicine-funding-and-supply/medicine-funding/funding-decisions/" },
+                    { label: "PHARMAC — PTAC Minutes & Reports", url: "https://www.pharmac.govt.nz/medicine-funding-and-supply/medicine-funding/evidence-assessment/minutes-and-reports/" },
+                ],
+            },
+        ],
+        notes: "New Zealand has one of the most restrictive drug reimbursement environments globally. A positive PHARMAC listing is required for meaningful patient access — out-of-pocket costs for non-listed medicines are prohibitive. The PHARMAC model is frequently cited as a reference for HTA-driven cost control.",
+    },
+    {
+        code: "NG",
+        name: "Nigeria",
+        flag: "🇳🇬",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "NAFDAC (National Agency for Food and Drug Administration and Control) handles drug registration in Nigeria. Products must be registered before importation, manufacture, advertisement, or sale. NAFDAC accepts eCTD-compatible dossiers and expedites review of products approved by EMA, FDA, or WHO prequalified.",
+                links: [
+                    { label: "NAFDAC — National Agency for Food and Drug Administration", url: "https://www.nafdac.gov.ng/" },
+                    { label: "NAFDAC — Product Registration Portal", url: "https://prodportal.nafdac.gov.ng/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "NHIA (National Health Insurance Authority, formerly NHIS) administers health insurance. The Basic Health Care Provision Fund (BHCPF) extends primary care coverage. Formal health insurance covers only ~5% of Nigeria's population of ~220 million, with the majority of pharmaceutical spending out-of-pocket.",
+                links: [
+                    { label: "NHIA — National Health Insurance Authority", url: "https://www.nhia.gov.ng/" },
+                ],
+            },
+        ],
+        notes: "Nigeria is Africa's largest economy. The pharmaceutical market is dominated by generics and is highly price-sensitive. Distribution is complex, with informal channels significant outside major cities. Cold-chain reliability and counterfeit medicines are key market challenges.",
+    },
+    {
+        code: "PK",
+        name: "Pakistan",
+        flag: "🇵🇰",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "DRAP (Drug Regulatory Authority of Pakistan) handles drug registration via its ePortal. Pakistan references FDA, EMA, and WHO prequalification for expedited registration of essential and priority medicines. Clinical trial waiver provisions exist for products with recognized reference approvals.",
+                links: [
+                    { label: "DRAP — Drug Regulatory Authority of Pakistan", url: "https://www.dra.gov.pk/" },
+                    { label: "DRAP — ePortal (Online Registration)", url: "https://eportal.dra.gov.pk/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "DRAP's Drug Pricing Committee sets the Maximum Retail Price (MRP) for registered drugs using a cost-plus methodology. Manufacturers must apply for price approval and cannot sell above the approved MRP. Price increases require DRAP approval.",
+                links: [
+                    { label: "DRAP — Drug Prices", url: "https://www.dra.gov.pk/drug-pricing/" },
+                ],
+            },
+        ],
+        notes: "Pakistan has a population of ~240 million and a large generic pharmaceutical market. Over 70% of health spending is out-of-pocket. The Sehat Sahulat Programme provides hospital-focused coverage for the poorest. Formal drug reimbursement infrastructure is limited. Urdu is the regulatory language.",
+    },
+    {
+        code: "ZA",
+        name: "South Africa",
+        flag: "🇿🇦",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "SAHPRA (South African Health Products Regulatory Authority, successor to the MCC) handles medicine registration. Expedited pathways exist for products approved by reference agencies (FDA, EMA, TGA, Health Canada, WHO). SAHPRA has been working to reduce its historical application backlog.",
+                links: [
+                    { label: "SAHPRA — Product Search", url: "https://www.sahpra.org.za/find-a-product/" },
+                    { label: "SAHPRA — South African Health Products Regulatory Authority", url: "https://www.sahpra.org.za/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "The SEP (Single Exit Price) system governs drug pricing. All medicines must be sold at the manufacturer's single published price — no tiered pricing is permitted. SEP adjustments are allowed annually based on a formula. Dispensing fees are set separately by regulation.",
+                links: [
+                    { label: "NDoH — SEP Database (Single Exit Price)", url: "https://www.health.gov.za/sep/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "South Africa has a dual public-private system. The public sector (80%+ of population) uses the Essential Drugs Programme (EDP) formulary. The private sector is covered by ~80 medical aid schemes regulated by the Council for Medical Schemes. The NHI Act (signed 2023) aims for universal coverage but full implementation will take many years.",
+                links: [
+                    { label: "NDoH — National Department of Health", url: "https://www.health.gov.za/" },
+                    { label: "Council for Medical Schemes", url: "https://www.medicalschemes.co.za/" },
+                    { label: "NHI — National Health Insurance NDoH", url: "https://www.health.gov.za/nhi/" },
+                ],
+            },
+        ],
+        notes: "South Africa is the largest pharmaceutical market in sub-Saharan Africa and a regional regulatory reference point. SAHPRA registration timelines have historically been long (2–5+ years), but reform is ongoing. The SEP database is the authoritative price reference.",
+    },
+    {
+        code: "UA",
+        name: "Ukraine",
+        flag: "🇺🇦",
+        wip: true,
+        sections: [
+            {
+                id: "marketing",
+                title: "Market Authorization",
+                body: "The State Expert Centre (DEC) of the Ministry of Health of Ukraine handles drug registration. Ukraine uses a reference-based registration procedure — products approved by EMA, FDA, or other recognised agencies can use an accelerated pathway. Ukraine is an EU candidate and harmonising its pharmaceutical regulatory framework.",
+                links: [
+                    { label: "State Expert Centre — DEC (MoH Ukraine)", url: "https://www.dec.gov.ua/en" },
+                    { label: "DEC — State Drug Registry Search", url: "https://www.dec.gov.ua/reg_info/list-for-medicines/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "The Affordable Medicines Programme (AMP) provides reimbursement for selected therapeutic groups (cardiovascular, diabetes, asthma) at pharmacies via electronic prescription. The NHSU (National Health Service of Ukraine) manages healthcare financing. The Government-guaranteed benefits package covers primary care and hospital-based essential medicines.",
+                links: [
+                    { label: "Ministry of Health — Ukraine", url: "https://moz.gov.ua/en/" },
+                    { label: "NHSU — National Health Service of Ukraine", url: "https://nszu.gov.ua/en" },
+                    { label: "Affordable Medicines Programme", url: "https://moz.gov.ua/affordable-medicines" },
+                ],
+            },
+        ],
+        notes: "Ukraine is undergoing significant healthcare reform (since 2016). The ongoing conflict since 2022 has significantly disrupted the pharmaceutical market. As an EU candidate, Ukraine is aligning its pharmaceutical regulations with EU standards. Verify current market access conditions with local partners.",
+    },
 ];
 
 // ── DOM Elements ──────────────────────────────────────────────────────
@@ -2803,6 +3153,7 @@ countryCount.textContent = COUNTRIES.length;
 // Build all cards once; filter by toggling .hidden
 countryGrid.innerHTML = COUNTRIES.map(c => `
     <button class="country-flag-card" data-code="${esc(c.code)}" aria-label="${esc(c.name)}">
+        ${c.wip ? `<span class="wip-badge" title="Work in progress — initial data only">WIP</span>` : ""}
         <span class="fi fi-${c.code.toLowerCase()} flag-icon" aria-hidden="true"></span>
         <span class="flag-label">${esc(c.name)}</span>
     </button>
@@ -2857,8 +3208,17 @@ function openDetail(country, activeBtn) {
 
     let html = "";
 
+    if (country.wip) {
+        html += `
+            <div class="resource-wip-notice">
+                <span>⚠</span>
+                <span><strong>Work in progress</strong> — This country page contains initial data only. Links and coverage will be expanded in future updates.</span>
+            </div>
+        `;
+    }
+
     if (sections.length === 0 && !country.notes && !country.tips) {
-        html = `<p class="resource-empty">No resources listed for this country yet.</p>`;
+        html += `<p class="resource-empty">No resources listed for this country yet.</p>`;
     }
 
     html += sections.map(s => {

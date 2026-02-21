@@ -1146,6 +1146,47 @@ button:disabled {
     font-style: normal;
 }
 
+/* ── Global Resources — WIP badge (flag grid cards) ─────────────── */
+
+.country-flag-card {
+    position: relative;
+}
+
+.wip-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #fef3cd;
+    color: #856404;
+    border: 1px solid #f0c040;
+    border-radius: 4px;
+    padding: 1px 5px;
+    line-height: 1.4;
+}
+
+/* ── Global Resources — WIP notice (detail panel) ────────────────── */
+
+.resource-wip-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fef9e7;
+    border: 1px solid #f0c040;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: #856404;
+    margin-bottom: 16px;
+}
+
+.resource-wip-notice strong {
+    font-weight: 700;
+}
+
 /* ── Global Resources — empty state ──────────────────────────────── */
 
 .resource-empty {
