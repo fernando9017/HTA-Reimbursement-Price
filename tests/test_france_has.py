@@ -1,5 +1,9 @@
 """Tests for the France HAS adapter using sample data."""
 
+import json
+import tempfile
+from pathlib import Path
+
 import pytest
 
 from app.services.hta_agencies.france_has import FranceHAS, _format_date
@@ -192,3 +196,53 @@ def test_format_date():
     assert _format_date("2017-05-24") == "2017-05-24"
     assert _format_date("") == ""
     assert _format_date("invalid") == "invalid"
+
+
+# ── File-based loading tests ──────────────────────────────────────────
+
+def test_save_and_load_roundtrip(has_service):
+    """save_to_file → load_from_file produces equivalent data for France HAS."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "FR.json"
+        has_service.save_to_file(data_file)
+        assert data_file.exists()
+
+        fresh = FranceHAS()
+        assert not fresh.is_loaded
+        result = fresh.load_from_file(data_file)
+        assert result is True
+        assert fresh.is_loaded
+        assert len(fresh._medicines) == len(has_service._medicines)
+        assert dict(fresh._smr) == dict(has_service._smr)
+        assert dict(fresh._asmr) == dict(has_service._asmr)
+        assert fresh._ct_links == has_service._ct_links
+
+
+def test_load_from_file_bad_file_returns_false():
+    """load_from_file on a missing file returns False."""
+    service = FranceHAS()
+    assert service.load_from_file(Path("/nonexistent/FR.json")) is False
+    assert not service.is_loaded
+
+
+def test_load_from_file_invalid_envelope_returns_false():
+    """load_from_file with wrong envelope structure returns False."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "FR.json"
+        data_file.write_text(json.dumps({"data": ["not", "a", "dict"]}))
+        service = FranceHAS()
+        assert service.load_from_file(data_file) is False
+
+
+def test_save_creates_envelope_metadata(has_service):
+    """JSON file written by save_to_file contains expected envelope fields."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "FR.json"
+        has_service.save_to_file(data_file)
+        payload = json.loads(data_file.read_text())
+        assert payload["country"] == "FR"
+        assert payload["agency"] == "HAS"
+        assert "updated_at" in payload
+        assert "record_count" in payload
+        assert isinstance(payload["data"], dict)
+        assert "medicines" in payload["data"]

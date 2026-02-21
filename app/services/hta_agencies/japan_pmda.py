@@ -12,6 +12,7 @@ No authentication required.
 
 import logging
 import re
+from pathlib import Path
 
 import httpx
 
@@ -259,6 +260,30 @@ class JapanPMDA(HTAAgency):
                 return iso_date.group(1)
 
         return ""
+
+    # ── File-based caching ────────────────────────────────────────────
+
+    def load_from_file(self, data_file: Path) -> bool:
+        payload = self._read_json_file(data_file)
+        if not payload or not isinstance(payload.get("data"), list):
+            return False
+        self._drug_list = payload["data"]
+        self._loaded = bool(self._drug_list)
+        if self._loaded:
+            logger.info(
+                "%s loaded %d drug entries from %s",
+                self.agency_abbreviation, len(self._drug_list), data_file,
+            )
+        return self._loaded
+
+    def save_to_file(self, data_file: Path) -> None:
+        if not self._loaded:
+            return
+        self._write_json_file(data_file, self._make_envelope(self._drug_list))
+        logger.info(
+            "%s saved %d drug entries to %s",
+            self.agency_abbreviation, len(self._drug_list), data_file,
+        )
 
 
 def _clean_html_text(text: str) -> str:

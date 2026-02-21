@@ -1,5 +1,9 @@
 """Tests for the Germany G-BA adapter using sample XML data."""
 
+import json
+import tempfile
+from pathlib import Path
+
 import pytest
 
 from app.services.hta_agencies.germany_gba import GermanyGBA, BENEFIT_TRANSLATIONS, EVIDENCE_TRANSLATIONS
@@ -357,3 +361,57 @@ async def test_search_itovebi_by_product_name(gba_service):
     })
     results = await gba_service.search_assessments("nomatch", product_name="Itovebi")
     assert len(results) >= 1
+
+
+# ── File-based loading tests ──────────────────────────────────────────
+
+def test_save_and_load_roundtrip(gba_service):
+    """save_to_file → load_from_file produces same decisions."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "DE.json"
+        gba_service.save_to_file(data_file)
+        assert data_file.exists()
+
+        fresh = GermanyGBA()
+        assert not fresh.is_loaded
+        result = fresh.load_from_file(data_file)
+        assert result is True
+        assert fresh.is_loaded
+        assert len(fresh._decisions) == len(gba_service._decisions)
+
+
+def test_load_from_file_bad_file_returns_false():
+    """load_from_file on a missing file returns False and leaves service unloaded."""
+    service = GermanyGBA()
+    result = service.load_from_file(Path("/nonexistent/DE.json"))
+    assert result is False
+    assert not service.is_loaded
+
+
+def test_load_from_file_invalid_envelope_returns_false():
+    """load_from_file with wrong envelope structure returns False."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "DE.json"
+        data_file.write_text(json.dumps({"data": "not-a-list"}))
+        service = GermanyGBA()
+        assert service.load_from_file(data_file) is False
+        assert not service.is_loaded
+
+
+def test_save_to_file_no_op_when_not_loaded():
+    """save_to_file does nothing when data has not been loaded."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "DE.json"
+        GermanyGBA().save_to_file(data_file)
+        assert not data_file.exists()
+
+
+def test_save_creates_parent_directories(gba_service):
+    """save_to_file creates missing parent directories."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "subdir" / "DE.json"
+        gba_service.save_to_file(data_file)
+        assert data_file.exists()
+        payload = json.loads(data_file.read_text())
+        assert payload["agency"] == "G-BA"
+        assert isinstance(payload["data"], list)

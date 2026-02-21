@@ -30,6 +30,9 @@ from app.services.hta_agencies.uk_nice import UKNICE
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
 
+# Directory for bundled / cached HTA data files (one JSON per country code)
+DATA_DIR = Path(__file__).parent.parent / "data"
+
 # ── Services ──────────────────────────────────────────────────────────
 
 ema_service = EMAService()
@@ -133,9 +136,14 @@ async def lifespan(app: FastAPI):
         logger.exception("Failed to load EMA data — search will be unavailable until retry")
 
     for code, agency in hta_agencies.items():
+        data_file = DATA_DIR / f"{code}.json"
         try:
-            await agency.load_data()
-            logger.info("%s (%s) data loaded", agency.agency_abbreviation, code)
+            if agency.load_from_file(data_file):
+                logger.info("%s (%s) loaded from local cache", agency.agency_abbreviation, code)
+            else:
+                await agency.load_data()
+                agency.save_to_file(data_file)
+                logger.info("%s (%s) data fetched and cached", agency.agency_abbreviation, code)
         except Exception:
             logger.exception("Failed to load %s data", agency.agency_abbreviation)
 
@@ -249,8 +257,10 @@ async def reload_data():
         errors.append(f"EMA: {e}")
 
     for code, agency in hta_agencies.items():
+        data_file = DATA_DIR / f"{code}.json"
         try:
             await agency.load_data()
+            agency.save_to_file(data_file)
         except Exception as e:
             errors.append(f"{agency.agency_abbreviation}: {e}")
 
