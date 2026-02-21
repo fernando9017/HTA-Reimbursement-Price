@@ -913,6 +913,39 @@ const COUNTRIES = [
                 ],
             },
         ],
+        drugExample: {
+            drug: "Orserdu",
+            inn: "elacestrant",
+            indication: "ER+/HER2−, ESR1-mutated locally advanced or metastatic breast cancer, after ≥1 prior endocrine therapy line including a CDK 4/6 inhibitor",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "15 September 2023",
+                    detail: "EC approval granted for postmenopausal women and men with ER+/HER2−, ESR1-mutated locally advanced or metastatic breast cancer progressing after ≥1 prior endocrine therapy line including a CDK 4/6 inhibitor. Elacestrant is an oral SERD (selective estrogen receptor degrader) — the first approved oral SERD in this setting.",
+                    links: [
+                        { label: "EMA EPAR — Orserdu", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/orserdu" },
+                    ],
+                },
+                {
+                    title: "Dossier Submission & IQWiG Assessment",
+                    date: "Oct 2023 – Feb 2024",
+                    detail: 'Stemline Therapeutics submitted the benefit dossier on 31 October 2023 (AMNOG Day 0). IQWiG published its assessment on 1 February 2024 (procedure D-986 / IQWiG A23-104). The pivotal EMERALD trial (Phase III, N=478 in ESR1-mutated population) showed a clear PFS benefit — but G-BA does not accept PFS alone as a patient-relevant endpoint. IQWiG concluded <em>no suitable data</em> for either postmenopausal subgroup, primarily because the company submitted a post-hoc restricted population that excluded ~13% of ESR1-mutated patients, creating high risk of bias in the OS data.',
+                    links: [
+                        { label: "IQWiG assessment (A23-104)", url: "https://www.iqwig.de/en/projects/a23-104.html" },
+                        { label: "G-BA procedure page (D-986)", url: "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1007/" },
+                    ],
+                },
+                {
+                    title: "G-BA Beschluss — Split Verdict by Prior Treatment Line",
+                    date: "2 May 2024",
+                    detail: 'G-BA overruled IQWiG for one subgroup — a relatively rare outcome. Against a physician\'s-choice zVT (tamoxifen, anastrozole, letrozole, exemestane, fulvestrant, or everolimus+exemestane):<br><br><strong>Postmenopausal — 1 prior ET line (a1):</strong> <em>Kein Zusatznutzen.</em> The post-hoc exclusion affected a substantial share of patients in this subgroup → high risk of bias in OS → not accepted.<br><br><strong>Postmenopausal — 2 prior ET lines (a2):</strong> <em>Anhaltspunkt für beträchtlichen Zusatznutzen</em> (hint of considerable benefit). Only 1 patient excluded in this subgroup → negligible risk of bias → G-BA accepted the OS signal (~26 vs. ~16 months median OS).<br><br><strong>Men (b):</strong> <em>Kein Zusatznutzen</em> — too few men enrolled in EMERALD for a meaningful analysis.',
+                    links: [
+                        { label: "G-BA Beschluss D-986 (English PDF)", url: "https://www.g-ba.de/downloads/39-1464-6585/2024-05-02_AM-RL-XII_Elacestrant_D-986_EN.pdf" },
+                    ],
+                },
+            ],
+            takeaway: 'Orserdu\'s G-BA assessment illustrates two defining features of AMNOG: (1) <em>patient-relevant endpoints matter</em> — a clear PFS benefit was not enough without OS; and (2) <em>subgroup granularity</em> — the same drug received "no added benefit" and "hint of considerable benefit" within the same indication, split purely by number of prior therapy lines and evidence quality. The decisive factor was not the magnitude of the OS effect but whether the risk of bias in the data was acceptable.',
+        },
         tipsHtml: `
 <h4 class="tips-heading">Marketing Authorization</h4>
 <p>Most products are centrally authorised via the EMA. National authorisations (via BfArM or PEI) are uncommon for new innovative medicines.</p>
