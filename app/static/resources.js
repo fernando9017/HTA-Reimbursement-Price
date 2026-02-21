@@ -1327,6 +1327,7 @@ const COUNTRIES = [
                     detail: 'Current price: approximately <strong>¥199,462</strong> per 100 mg vial — less than half the launch price. Multiple rounds of market expansion repricing (市場拡大再算定) triggered by annual sales exceeding ¥150 billion as indications expanded across cancer types.',
                     links: [
                         { label: "KEGG Drug — Pembrolizumab", url: "https://www.kegg.jp/entry/D10574" },
+                        { label: "KEGG MEDICUS — Keytruda 100 mg (Japanese label + current price)", url: "https://www.kegg.jp/medicus-bin/japic_med?japic_code=00068708" },
                         { label: "Shirobon.net — Keytruda drug price", url: "https://shirobon.net/drugprice/4291435A2025/" },
                     ],
                 },
@@ -1355,6 +1356,7 @@ const COUNTRIES = [
 <ol>
     <li>Go to the MHLW Shingi site and search <code>[Japanese brand name] + 医薬品の薬価</code></li>
     <li>Locate the document titled <strong>新医薬品一覧表</strong> — this PDF details the pricing mechanism (類似薬効比較方式 = comparator method, or 原価計算方式 = cost calculation method) and the NHI price</li>
+    <li>For current NHI prices, <a href="https://www.kegg.jp/" target="_blank" rel="noopener">KEGG MEDICUS</a> is a convenient source — each Japanese drug page (e.g. <a href="https://www.kegg.jp/medicus-bin/japic_med?japic_code=00068708" target="_blank" rel="noopener">Keytruda 100 mg</a>) shows the current NHI price alongside the full Japanese label (添付文書). Search by brand name or INN on KEGG Drug (<a href="https://www.genome.jp/kegg/drug/" target="_blank" rel="noopener">genome.jp/kegg/drug</a>) to find the JAPIC code</li>
     <li>The NHI Drug Price List is revised every April — the latest list is published on the <a href="https://www.mhlw.go.jp/topics/2024/04/tp20240401-01.html" target="_blank" rel="noopener">MHLW website</a></li>
     <li>Premium pricing mechanisms:
         <ul>
