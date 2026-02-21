@@ -2177,10 +2177,11 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "Peru has free drug pricing in the private market \u2014 no government-mandated price controls for retail sales. The public sector uses centralised procurement through CENARES (Centro Nacional de Abastecimiento de Recursos Estrat\u00e9gicos en Salud). DIGEMID\u2019s Observatorio de Precios publishes reference pricing data for medicines.",
+                body: "Peru has no government price controls for retail sales \u2014 instead it relies on transparency. DIGEMID\u2019s Observatorio de Precios covers 16,000+ products across 30,000+ pharmacies nationwide, displaying prices from lowest to highest. Public procurement uses electronic reverse auctions via CENARES and the SEACE platform.",
                 links: [
-                    { label: "DIGEMID \u2014 Observatorio de Precios (price observatory)", url: "https://opm-digemid.minsa.gob.pe/" },
-                    { label: "CENARES (public procurement)", url: "https://www.cenares.minsa.gob.pe/" },
+                    { label: "Observatorio de Precios (16,000+ products)", url: "https://opm-digemid.minsa.gob.pe/" },
+                    { label: "CENARES (public procurement)", url: "https://www.gob.pe/cenares" },
+                    { label: "SEACE (electronic procurement platform)", url: "https://apps.osce.gob.pe/" },
                 ],
             },
             {
@@ -2188,10 +2189,10 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 body: "Peru has a segmented health system: SIS (Seguro Integral de Salud) covers low-income/uninsured populations, and EsSalud (social security) covers formal-sector employees. Both use the PNUME (Petitorio Nacional \u00danico de Medicamentos Esenciales) as the national formulary. FISSAL (Fondo Intangible Solidario de Salud) funds high-cost treatments for cancer, rare diseases, and other catastrophic conditions.",
                 links: [
-                    { label: "PNUME \u2014 National Essential Medicines List", url: "https://www.digemid.minsa.gob.pe/Main.asp?Seccion=767" },
+                    { label: "PNUME 2023 (national formulary, PDF)", url: "https://ietsi.essalud.gob.pe/wp-content/uploads/2024/08/Petitorio-Nacional-Unico-de-Medicamentos-Esenciales-PNUME_compressed.pdf" },
+                    { label: "EsSalud Petitorio Farmacol\u00f3gico", url: "https://ietsi.essalud.gob.pe/petitorio-farmacologico-essalud/" },
                     { label: "SIS (Seguro Integral de Salud)", url: "https://www.gob.pe/sis" },
-                    { label: "EsSalud (Social Security)", url: "http://www.essalud.gob.pe/" },
-                    { label: "FISSAL (High-cost treatment fund)", url: "https://www.fissal.gob.pe/" },
+                    { label: "FISSAL \u2014 Covered Diseases", url: "https://www.gob.pe/9491-que-enfermedades-tienen-cobertura-por-fissal" },
                 ],
             },
             {
@@ -2199,7 +2200,8 @@ const COUNTRIES = [
                 title: "Additional Resources",
                 links: [
                     { label: "MINSA (Ministry of Health)", url: "https://www.gob.pe/minsa" },
-                    { label: "IETSI \u2014 EsSalud HTA Unit", url: "https://ietsi.essalud.gob.pe/" },
+                    { label: "IETSI \u2014 HTA Evaluations", url: "https://ietsi.essalud.gob.pe/evaluacion-tecnologicas-sanitarias/" },
+                    { label: "PAHO/WHO \u2014 Peru Country Profile", url: "https://country-profile.bvsalud.org/profile/PER/" },
                 ],
             },
         ],
@@ -2212,16 +2214,16 @@ const COUNTRIES = [
 
 <h4 class="tips-heading">Pricing &amp; Procurement</h4>
 <ol>
-    <li><strong>No retail price controls</strong> &mdash; private-market prices are freely set</li>
-    <li>The <a href="https://opm-digemid.minsa.gob.pe/" target="_blank" rel="noopener">Observatorio de Precios</a> (DIGEMID) publishes comparative pricing data &mdash; useful for understanding market prices across retail pharmacies and the public sector</li>
-    <li>Public procurement is centralised through <a href="https://www.cenares.minsa.gob.pe/" target="_blank" rel="noopener">CENARES</a>, which manages strategic purchasing for the public health system</li>
+    <li><strong>No retail price controls</strong> &mdash; Peru relies on transparency instead. Pharmacies must display comparative prices ordered lowest to highest using INN names</li>
+    <li>The <a href="https://opm-digemid.minsa.gob.pe/" target="_blank" rel="noopener">Observatorio de Precios</a> covers <strong>16,000+ products across 30,000+ pharmacies</strong> nationwide &mdash; search by medication name, filter by location, and compare prices. Peru is one of only 7 countries worldwide with such an observatory (WHO MeTA project)</li>
+    <li>Public procurement uses <strong>electronic reverse auctions</strong> via <a href="https://apps.osce.gob.pe/" target="_blank" rel="noopener">SEACE</a>, generating savings exceeding S/ 385 million over five years</li>
 </ol>
 
 <h4 class="tips-heading">Reimbursement</h4>
 <ol>
-    <li>The <strong>PNUME</strong> (National Essential Medicines List) is the basis for public-sector drug availability across both SIS and EsSalud</li>
-    <li><strong>FISSAL</strong> covers high-cost treatments for catastrophic diseases (oncology, rare diseases, transplants) for SIS beneficiaries</li>
-    <li>EsSalud&rsquo;s <a href="https://ietsi.essalud.gob.pe/" target="_blank" rel="noopener">IETSI</a> (Instituto de Evaluaci&oacute;n de Tecnolog&iacute;as en Salud e Investigaci&oacute;n) conducts HTA evaluations for EsSalud formulary decisions</li>
+    <li>The <strong>PNUME</strong> (updated 2023) is mandatory for all public-sector establishments. EsSalud also maintains its own <a href="https://ietsi.essalud.gob.pe/petitorio-farmacologico-essalud/" target="_blank" rel="noopener">Petitorio Farmacol&oacute;gico</a> (based on PNUME but with additional medicines evaluated by IETSI)</li>
+    <li><strong>FISSAL</strong> covers the 7 most frequent cancers, chronic renal insufficiency (dialysis/transplant), 546 rare/orphan diseases, and bone marrow/renal/liver transplants for SIS beneficiaries</li>
+    <li>Peru has <strong>two INAHTA-member HTA bodies</strong>: <a href="https://ietsi.essalud.gob.pe/evaluacion-tecnologicas-sanitarias/" target="_blank" rel="noopener">IETSI</a> (for EsSalud, 407 HTAs since 2014) and DIGEMID&rsquo;s ETS-URM team (for MINSA/PNUME updates)</li>
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "petitorio nacional," "observatorio de precios."</p>
         `,
