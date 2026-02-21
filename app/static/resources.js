@@ -3471,32 +3471,6 @@ function openDetail(country, activeBtn) {
         `;
     }).join("");
 
-    if (country.drugExample) {
-        const ex = country.drugExample;
-        html += `
-            <div class="resource-callout resource-callout--example">
-                <span class="resource-callout__label">Worked Example</span>
-                <div class="drug-example-header">
-                    <span class="drug-example-drug">${esc(ex.drug)} <small>(${esc(ex.inn)}${ex.localName ? ` / ${esc(ex.localName)}` : ""})</small></span>
-                </div>
-                <p class="drug-example-indication">Indication: ${esc(ex.indication)}</p>
-                <ol class="drug-example-timeline">
-                    ${ex.steps.map((step, i) => `
-                        <li class="drug-example-step">
-                            <span class="drug-example-marker">${i + 1}</span>
-                            <div class="drug-example-step-content">
-                                <div class="drug-example-step-title">${esc(step.title)}</div>
-                                <div class="drug-example-step-detail">${step.detail}${step.links && step.links.length > 0 ? "<br>" + step.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} &rarr;</a>`).join(" &middot; ") : ""}</div>
-                                <div class="drug-example-step-meta">${esc(step.date)}</div>
-                            </div>
-                        </li>
-                    `).join("")}
-                </ol>
-                ${ex.takeaway ? `<div class="drug-example-takeaway"><strong>Key takeaway:</strong> ${ex.takeaway}</div>` : ""}
-            </div>
-        `;
-    }
-
     if (country.notes) {
         html += `
             <div class="resource-callout resource-callout--note">
@@ -3521,6 +3495,32 @@ function openDetail(country, activeBtn) {
             <div class="resource-callout resource-callout--tip">
                 <span class="resource-callout__label">Research Tips</span>
                 ${tipsContent}
+            </div>
+        `;
+    }
+
+    if (country.drugExample) {
+        const ex = country.drugExample;
+        html += `
+            <div class="resource-callout resource-callout--example">
+                <span class="resource-callout__label">Worked Example</span>
+                <div class="drug-example-header">
+                    <span class="drug-example-drug">${esc(ex.drug)} <small>(${esc(ex.inn)}${ex.localName ? ` / ${esc(ex.localName)}` : ""})</small></span>
+                </div>
+                <p class="drug-example-indication">Indication: ${esc(ex.indication)}</p>
+                <ol class="drug-example-timeline">
+                    ${ex.steps.map((step, i) => `
+                        <li class="drug-example-step">
+                            <span class="drug-example-marker">${i + 1}</span>
+                            <div class="drug-example-step-content">
+                                <div class="drug-example-step-title">${esc(step.title)}</div>
+                                <div class="drug-example-step-detail">${step.detail}${step.links && step.links.length > 0 ? "<br>" + step.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} &rarr;</a>`).join(" &middot; ") : ""}</div>
+                                <div class="drug-example-step-meta">${esc(step.date)}</div>
+                            </div>
+                        </li>
+                    `).join("")}
+                </ol>
+                ${ex.takeaway ? `<div class="drug-example-takeaway"><strong>Key takeaway:</strong> ${ex.takeaway}</div>` : ""}
             </div>
         `;
     }
