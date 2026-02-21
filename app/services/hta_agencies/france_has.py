@@ -18,6 +18,44 @@ from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
 
+_SMR_EN: dict[str, str] = {
+    "Important": "Major clinical benefit",
+    "Modéré": "Moderate clinical benefit",
+    "Faible": "Minor clinical benefit",
+    "Insuffisant": "Insufficient clinical benefit",
+}
+
+_ASMR_EN: dict[str, str] = {
+    "I": "Major therapeutic improvement",
+    "II": "Important therapeutic improvement",
+    "III": "Moderate therapeutic improvement",
+    "IV": "Minor therapeutic improvement",
+    "V": "No therapeutic improvement",
+}
+
+_MOTIF_EN: dict[str, str] = {
+    "Inscription": "Initial registration",
+    "Renouvellement": "Renewal",
+    "Extension d'indication": "Indication extension",
+    "Modification": "Modification",
+    "Réévaluation": "Re-evaluation",
+}
+
+
+def _build_summary_en(smr_value: str, asmr_value: str, motif: str) -> str:
+    """Compose a concise English summary from French HAS rating codes."""
+    parts: list[str] = []
+    if smr_value:
+        label = _SMR_EN.get(smr_value, smr_value)
+        parts.append(f"SMR: {label}")
+    if asmr_value:
+        label = _ASMR_EN.get(asmr_value, f"ASMR {asmr_value}")
+        parts.append(f"ASMR {asmr_value}: {label}")
+    if motif:
+        reason = _MOTIF_EN.get(motif, motif)
+        parts.append(f"Evaluation purpose: {reason}")
+    return " | ".join(parts)
+
 
 class FranceHAS(HTAAgency):
     """HAS (Haute Autorité de Santé) — France's HTA agency."""
@@ -154,7 +192,17 @@ class FranceHAS(HTAAgency):
                     dossier_assessments[key]["asmr_value"] = asmr["value"]
                     dossier_assessments[key]["asmr_description"] = asmr["label"]
 
-        results = [AssessmentResult(**data) for data in dossier_assessments.values()]
+        results = [
+            AssessmentResult(
+                **data,
+                summary_en=_build_summary_en(
+                    data.get("smr_value", ""),
+                    data.get("asmr_value", ""),
+                    data.get("evaluation_reason", ""),
+                ),
+            )
+            for data in dossier_assessments.values()
+        ]
         # Sort by opinion date descending (most recent first)
         results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results

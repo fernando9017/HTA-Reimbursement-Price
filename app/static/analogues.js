@@ -161,7 +161,6 @@ function renderAnalogueResults(data) {
                     <th>MAH</th>
                     <th>Therapeutic Area</th>
                     <th>Auth. Date</th>
-                    <th>Prevalence</th>
                     <th>Attributes</th>
                 </tr>
             </thead>
@@ -191,10 +190,6 @@ function renderAnalogueRow(med) {
         ? `<a href="${esc(med.url)}" target="_blank" rel="noopener">${esc(med.name)}</a>`
         : esc(med.name);
 
-    const prevalenceTag = med.prevalence_category
-        ? `<span class="tag tag-prevalence-${med.prevalence_category}">${esc(med.prevalence_category)}</span>`
-        : "";
-
     return `
         <tr>
             <td class="col-name">${nameCell}</td>
@@ -202,7 +197,6 @@ function renderAnalogueRow(med) {
             <td class="col-mah">${esc(med.marketing_authorisation_holder)}</td>
             <td class="col-area">${esc(med.therapeutic_area)}</td>
             <td class="col-date">${esc(med.authorisation_date)}</td>
-            <td>${prevalenceTag}</td>
             <td class="col-tags">${tags.join(" ")}</td>
         </tr>
     `;
