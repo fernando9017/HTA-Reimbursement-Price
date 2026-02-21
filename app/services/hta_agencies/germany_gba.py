@@ -118,7 +118,12 @@ class GermanyGBA(HTAAgency):
         active_substance: str,
         product_name: str | None = None,
     ) -> list[AssessmentResult]:
-        """Find G-BA benefit assessments matching the given active substance."""
+        """Find G-BA benefit assessments matching the given active substance.
+
+        Matches against substance names, trade names, **and** the indication
+        text (AWG) to catch cases where a drug name appears only in the
+        indication description.
+        """
         if not self._loaded:
             return []
 
@@ -136,12 +141,17 @@ class GermanyGBA(HTAAgency):
                     substance_match = True
                     break
 
-            # Match trade name
+            # Match trade name (against both product_name param and indication text)
             if product_lower:
                 for hn in dec.get("trade_names", []):
                     if product_lower in hn.lower() or hn.lower() in product_lower:
                         product_match = True
                         break
+                # Also match product name in the indication text (AWG)
+                if not product_match:
+                    indication_lower = dec.get("indication", "").lower()
+                    if product_lower in indication_lower:
+                        product_match = True
 
             if not substance_match and not product_match:
                 continue
@@ -162,13 +172,17 @@ class GermanyGBA(HTAAgency):
 
             trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
 
+            patient_group = dec.get("patient_group", "")
+            comparator_val = dec.get("comparator", "")
+
             # Build concise English summary
             summary_parts: list[str] = []
+            if patient_group:
+                summary_parts.append(f"Population: {patient_group}")
             if benefit_desc:
                 summary_parts.append(f"Added benefit: {benefit_desc}")
             if evidence_desc:
                 summary_parts.append(f"Evidence: {evidence_desc}")
-            comparator_val = dec.get("comparator", "")
             if comparator_val:
                 summary_parts.append(f"vs. {comparator_val}")
             summary_en = " | ".join(summary_parts)
@@ -184,7 +198,7 @@ class GermanyGBA(HTAAgency):
                     benefit_rating_description=benefit_desc,
                     evidence_level=evidence_desc,
                     comparator=comparator_val,
-                    patient_group=dec.get("patient_group", ""),
+                    patient_group=patient_group,
                     summary_en=summary_en,
                 )
             )

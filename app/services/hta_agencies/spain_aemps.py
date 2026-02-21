@@ -99,7 +99,12 @@ class SpainAEMPS(HTAAgency):
         active_substance: str,
         product_name: str | None = None,
     ) -> list[AssessmentResult]:
-        """Find AEMPS IPTs matching the given substance or product."""
+        """Find AEMPS IPTs matching the given substance or product.
+
+        Searches across the IPT title **and** the URL slug, because some IPT
+        URLs embed the drug name even when the display title does not
+        (e.g. ``ipt-44-2022-bavencio.pdf``).
+        """
         if not self._loaded:
             return []
 
@@ -109,9 +114,15 @@ class SpainAEMPS(HTAAgency):
         results = []
         for ipt in self._ipt_list:
             title_lower = ipt.get("title", "").lower()
+            url_lower = ipt.get("url", "").lower()
 
-            substance_match = substance_lower in title_lower
-            product_match = product_lower and product_lower in title_lower
+            # Search in both the title and the URL slug
+            substance_match = (
+                substance_lower in title_lower or substance_lower in url_lower
+            )
+            product_match = product_lower and (
+                product_lower in title_lower or product_lower in url_lower
+            )
 
             if not substance_match and not product_match:
                 continue
@@ -119,14 +130,23 @@ class SpainAEMPS(HTAAgency):
             positioning = ipt.get("positioning", "")
             pos_display = _normalize_positioning(positioning)
 
+            # Build concise English summary
+            summary_parts: list[str] = []
+            if pos_display:
+                summary_parts.append(f"Positioning: {pos_display}")
+            ref = ipt.get("reference", "")
+            if ref:
+                summary_parts.append(ref)
+
             results.append(
                 AssessmentResult(
                     product_name=product_name or active_substance,
                     evaluation_reason=ipt.get("title", ""),
                     opinion_date=ipt.get("published_date", ""),
                     assessment_url=ipt.get("url", ""),
-                    ipt_reference=ipt.get("reference", ""),
+                    ipt_reference=ref,
                     therapeutic_positioning=pos_display,
+                    summary_en=" | ".join(summary_parts),
                 )
             )
 

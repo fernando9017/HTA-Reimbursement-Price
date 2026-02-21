@@ -94,25 +94,72 @@ class UKNICE(HTAAgency):
         active_substance: str,
         product_name: str | None = None,
     ) -> list[AssessmentResult]:
-        """Find NICE Technology Appraisals matching the given substance or product."""
+        """Find NICE Technology Appraisals matching the given substance or product.
+
+        When matches are found but the recommendation is missing from the
+        listing data, this method makes one extra HTTP call per matched
+        guidance to fetch the individual guidance page and extract the
+        recommendation directly.
+        """
         if not self._loaded:
             return []
 
         substance_lower = active_substance.lower().strip()
         product_lower = product_name.lower().strip() if product_name else ""
 
-        results = []
+        matched: list[dict] = []
         for g in self._guidance_list:
             title_lower = g.get("title", "").lower()
 
             substance_match = substance_lower in title_lower
             product_match = product_lower and product_lower in title_lower
 
-            if not substance_match and not product_match:
-                continue
+            if substance_match or product_match:
+                matched.append(g)
 
+        if not matched:
+            return []
+
+        # For any matched guidance missing its recommendation, fetch the
+        # individual guidance page to extract it.  Cap at 5 fetches to
+        # avoid excessive network calls.
+        needs_fetch = [g for g in matched if not g.get("recommendation")]
+        if needs_fetch:
+            async with httpx.AsyncClient(
+                timeout=REQUEST_TIMEOUT,
+                follow_redirects=True,
+                headers={
+                    "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
+                    "Accept": "text/html",
+                },
+            ) as client:
+                for g in needs_fetch[:5]:
+                    url = g.get("url", "")
+                    if not url:
+                        continue
+                    try:
+                        resp = await client.get(url)
+                        resp.raise_for_status()
+                        rec, date = _extract_from_guidance_page(resp.text)
+                        if rec:
+                            g["recommendation"] = rec
+                        if date and not g.get("published_date"):
+                            g["published_date"] = date
+                    except Exception:
+                        logger.debug("Failed to fetch NICE guidance page %s", url)
+
+        results = []
+        for g in matched:
             recommendation = g.get("recommendation", "")
             rec_display = _normalize_recommendation(recommendation)
+
+            # Build a concise English summary
+            summary_parts: list[str] = []
+            if rec_display:
+                summary_parts.append(f"NICE {g.get('guidance_type', 'TA')}: {rec_display}")
+            ref = g.get("reference", "")
+            if ref:
+                summary_parts.append(ref)
 
             results.append(
                 AssessmentResult(
@@ -121,8 +168,9 @@ class UKNICE(HTAAgency):
                     opinion_date=g.get("published_date", ""),
                     assessment_url=g.get("url", ""),
                     nice_recommendation=rec_display,
-                    guidance_reference=g.get("reference", ""),
+                    guidance_reference=ref,
                     guidance_type=g.get("guidance_type", ""),
+                    summary_en=" | ".join(summary_parts),
                 )
             )
 
@@ -343,6 +391,70 @@ def _parse_date_text(day: str, month_name: str, year: str) -> str:
     }
     month = months.get(month_name.lower(), "01")
     return f"{year}-{month}-{int(day):02d}"
+
+
+def _extract_from_guidance_page(html: str) -> tuple[str, str]:
+    """Extract recommendation and date from an individual NICE guidance page.
+
+    Individual guidance pages (e.g. /guidance/ta788) contain structured
+    information including recommendation status in well-defined sections,
+    which is much more reliable than trying to extract from listing pages.
+
+    Returns (recommendation, published_date) — either may be empty.
+    """
+    recommendation = ""
+    published_date = ""
+
+    lower = html.lower()
+
+    # --- Recommendation ---
+    # Pattern 1: Look for recommendation keywords in structured sections
+    # NICE pages typically have a section like:
+    #   "This guidance recommends..." or "Recommended for use..."
+    #   or a badge/label with the recommendation status.
+
+    # Check for "not recommended" before "recommended" to avoid false match
+    rec_patterns = [
+        (r"not\s+recommended", "not recommended"),
+        (r"recommended\s+for\s+use\s+in\s+the\s+nhs", "recommended"),
+        (r"recommended\s+with\s+(?:restrictions|managed\s+access)", "recommended with restrictions"),
+        (r"recommended\s+as\s+an\s+option", "recommended"),
+        (r"terminated\s+appraisal", "terminated"),
+        (r"only\s+in\s+research", "only in research"),
+        (r"optimised", "optimised"),
+    ]
+
+    # First try in metadata / structured markup
+    # NICE pages often have: <span class="...">Recommended</span> or similar
+    meta_section = ""
+    # Look for recommendation in first 20k chars (header/summary area)
+    meta_section = lower[:20000]
+
+    for pattern, value in rec_patterns:
+        if re.search(pattern, meta_section):
+            recommendation = value
+            break
+
+    # If not found in meta, try the full page but with stricter context
+    if not recommendation:
+        # Look for "is recommended" / "is not recommended" patterns
+        if re.search(r"\bis\s+not\s+recommended\b", lower):
+            recommendation = "not recommended"
+        elif re.search(r"\bis\s+recommended\b", lower):
+            recommendation = "recommended"
+
+    # --- Published date ---
+    date_match = re.search(
+        r'(\d{1,2})\s+(January|February|March|April|May|June|July|'
+        r'August|September|October|November|December)\s+(\d{4})',
+        html,
+    )
+    if date_match:
+        published_date = _parse_date_text(
+            date_match.group(1), date_match.group(2), date_match.group(3),
+        )
+
+    return recommendation, published_date
 
 
 def _normalize_recommendation(raw: str) -> str:
