@@ -1187,6 +1187,139 @@ button:disabled {
     font-weight: 700;
 }
 
+/* ── Global Resources — Drug Example callout ─────────────────────── */
+
+.resource-callout--example {
+    background: #eef3f8;
+    border-color: var(--primary-light);
+}
+
+.resource-callout--example .resource-callout__label {
+    color: var(--primary);
+}
+
+.resource-callout--example .drug-example-header {
+    margin: 10px 0 4px;
+}
+
+.resource-callout--example .drug-example-drug {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.resource-callout--example .drug-example-drug small {
+    font-weight: 400;
+    color: var(--text-light);
+    font-size: 0.82rem;
+}
+
+.resource-callout--example .drug-example-indication {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    margin: 2px 0 14px;
+    font-style: italic;
+}
+
+.drug-example-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.drug-example-step {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 0 12px;
+    padding-bottom: 16px;
+    position: relative;
+}
+
+.drug-example-step:last-child {
+    padding-bottom: 0;
+}
+
+/* Vertical connector line */
+.drug-example-step::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 24px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+
+.drug-example-step:last-child::before {
+    display: none;
+}
+
+/* Circle marker */
+.drug-example-marker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.drug-example-step-content {
+    min-width: 0;
+}
+
+.drug-example-step-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 24px;
+}
+
+.drug-example-step-detail {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--text);
+    margin-top: 2px;
+}
+
+.drug-example-step-detail a {
+    color: var(--primary-light);
+    text-decoration: underline;
+    text-decoration-color: rgba(41, 128, 185, 0.35);
+}
+
+.drug-example-step-detail a:hover {
+    text-decoration-color: var(--primary-light);
+}
+
+.drug-example-step-meta {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.drug-example-takeaway {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.drug-example-takeaway strong {
+    color: var(--primary);
+}
+
 /* ── Global Resources — empty state ──────────────────────────────── */
 
 .resource-empty {

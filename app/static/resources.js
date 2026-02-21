@@ -1299,6 +1299,46 @@ const COUNTRIES = [
                 ],
             },
         ],
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            localName: "キイトルーダ",
+            indication: "Curatively unresectable melanoma (根治切除不能な悪性黒色腫)",
+            steps: [
+                {
+                    title: "Marketing Authorization (PMDA)",
+                    date: "28 September 2016",
+                    detail: 'First approved by MHLW for unresectable melanoma. Orphan drug designation granted September 2014. PMDA review based on KEYNOTE-001, -002 and -006 studies.',
+                    links: [
+                        { label: "PMDA review report (審議結果報告書)", url: "https://www.pmda.go.jp/drugs/2016/P20161025002/170050000_22800AMX00696000_A100_2.pdf" },
+                    ],
+                },
+                {
+                    title: "NHI Drug Price Listing (薬価収載)",
+                    date: "15 February 2017",
+                    detail: 'Priced using Similar Efficacy Comparison Method I (類似薬効比較方式I) with Opdivo (nivolumab) as comparator. Initial NHI price: <strong>¥410,541</strong> per 100 mg vial. Utility premium (有用性加算) was requested but denied.',
+                    links: [
+                        { label: "MHLW Chuikyo pricing decisions (中医協総会)", url: "https://www.mhlw.go.jp/stf/shingi/shingi-chuo_128154.html" },
+                    ],
+                },
+                {
+                    title: "Current NHI Price",
+                    date: "Latest revision",
+                    detail: 'Current price: approximately <strong>¥199,462</strong> per 100 mg vial — less than half the launch price. Multiple rounds of market expansion repricing (市場拡大再算定) triggered by annual sales exceeding ¥150 billion as indications expanded across cancer types.',
+                    links: [
+                        { label: "KEGG Drug — Pembrolizumab", url: "https://www.kegg.jp/entry/D10574" },
+                        { label: "Shirobon.net — Keytruda drug price", url: "https://shirobon.net/drugprice/4291435A2025/" },
+                    ],
+                },
+                {
+                    title: "Reimbursement",
+                    date: "Automatic on NHI listing",
+                    detail: 'In Japan, all drugs with an NHI price listing are reimbursed. When a new indication is approved, the existing NHI price automatically covers the new use — <strong>no separate reimbursement application is needed</strong>. Keytruda is now approved across 13+ cancer types in Japan, all reimbursed under the same NHI listing. Average lag from approval to NHI listing is ~60 days.',
+                    links: [],
+                },
+            ],
+            takeaway: 'In Japan, pricing <em>is</em> the access gate. Once a drug receives an NHI price, it is reimbursed for all approved indications. However, market expansion repricing means that commercial success across multiple indications leads to mandatory price cuts — Keytruda\'s price has fallen over 50% since launch.',
+        },
         tipsHtml: `
 <h4 class="tips-heading">Marketing Authorization (PMDA)</h4>
 <p>Japan has its own national regulatory pathway via PMDA. There is no mutual recognition with EMA or FDA — a separate Japanese clinical data package (often including Japanese bridging studies) is typically required.</p>
@@ -3430,6 +3470,32 @@ function openDetail(country, activeBtn) {
             </div>
         `;
     }).join("");
+
+    if (country.drugExample) {
+        const ex = country.drugExample;
+        html += `
+            <div class="resource-callout resource-callout--example">
+                <span class="resource-callout__label">Worked Example</span>
+                <div class="drug-example-header">
+                    <span class="drug-example-drug">${esc(ex.drug)} <small>(${esc(ex.inn)}${ex.localName ? ` / ${esc(ex.localName)}` : ""})</small></span>
+                </div>
+                <p class="drug-example-indication">Indication: ${esc(ex.indication)}</p>
+                <ol class="drug-example-timeline">
+                    ${ex.steps.map((step, i) => `
+                        <li class="drug-example-step">
+                            <span class="drug-example-marker">${i + 1}</span>
+                            <div class="drug-example-step-content">
+                                <div class="drug-example-step-title">${esc(step.title)}</div>
+                                <div class="drug-example-step-detail">${step.detail}${step.links && step.links.length > 0 ? "<br>" + step.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} &rarr;</a>`).join(" &middot; ") : ""}</div>
+                                <div class="drug-example-step-meta">${esc(step.date)}</div>
+                            </div>
+                        </li>
+                    `).join("")}
+                </ol>
+                ${ex.takeaway ? `<div class="drug-example-takeaway"><strong>Key takeaway:</strong> ${ex.takeaway}</div>` : ""}
+            </div>
+        `;
+    }
 
     if (country.notes) {
         html += `
