@@ -15,6 +15,19 @@ const EMA_LINK = {
     url: "https://www.ema.europa.eu/en/human-regulatory-overview/marketing-authorisation/centralised-procedure",
 };
 
+// ── Worked Example Priority List ─────────────────────────────────────
+// Countries are enhanced in batches of 10 with detailed drugExample
+// timelines (Bavencio/avelumab in mUC used as the common case study).
+//
+// Batch 1 (done): DE (Orserdu), JP (Keytruda) — original examples
+// Batch 2 (done): GB, FR, IT, ES, CA, AU, BR, KR, NL, BE
+// Batch 3 (next): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU
+// Batch 4:        CZ, RO, GR, IL, MX, TW, SG, TH, AR, CL
+// Batch 5:        HK, TR, SA, AE, EG, CO, CN, ID, PH, VN
+// Batch 6:        DZ, LB, PE, QA, OM, RU, HR, BG, SK, SI
+// Batch 7:        EE, LV, LT, LU, MT, CY, IS, ME, PR, KR(update)
+// (WIP countries deferred until primary data is complete)
+
 // ── Country data (alphabetical) ───────────────────────────────────────
 // ema: true  → country is an EU/EEA member; EMA link is auto-appended
 //              to the Market Authorization section when rendering.
@@ -217,6 +230,45 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> PBS prices are public but may include confidential rebates (Deeds of Agreement) between the manufacturer and government. The published DPMQ is the maximum price — actual acquisition costs may be lower.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "TGA Registration (ARTG)",
+                    date: "2020–2021",
+                    detail: 'Avelumab was registered on the ARTG (Australian Register of Therapeutic Goods) by the TGA for the UC maintenance indication. Australia participated in <strong>Project Orbis</strong> alongside the FDA, Health Canada, and Swissmedic for coordinated oncology review. The TGA approval leveraged the same JAVELIN Bladder 100 data package.',
+                    links: [
+                        { label: "TGA — ARTG Search", url: "https://www.tga.gov.au/resources/artg" },
+                    ],
+                },
+                {
+                    title: "PBAC Recommendation",
+                    date: "March 2022",
+                    detail: 'PBAC met in March 2022 and <strong>recommended</strong> avelumab for PBS listing for locally advanced (Stage III) or metastatic (Stage IV) urothelial carcinoma maintenance. The recommendation was based on the JAVELIN Bladder 100 OS benefit. A Public Summary Document (PSD) was published detailing the clinical evidence, economic evaluation (cost per QALY), and budget impact. A confidential Deed of Agreement with price concessions was part of the listing terms.',
+                    links: [
+                        { label: "PBS — Avelumab Public Summary Document", url: "https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings/psd/public-summary-documents-by-product" },
+                    ],
+                },
+                {
+                    title: "PBS Listing",
+                    date: "1 October 2022",
+                    detail: 'Avelumab was listed on the PBS effective 1 October 2022 as an <strong>Authority Required (STREAMLINED)</strong> benefit — prescribers must confirm the patient meets clinical criteria but do not need to call Services Australia. The PBS listing covers patients with locally advanced (Stage III) or metastatic (Stage IV) urothelial carcinoma whose disease has not progressed on first-line platinum-based chemotherapy. The PBS item codes include multiple vial sizes.',
+                    links: [
+                        { label: "PBS — Avelumab listing", url: "https://www.pbs.gov.au/medicine/item/11671g-11679q-11685b-11695m" },
+                        { label: "PBS Medicine Status — Avelumab", url: "https://www.pbs.gov.au/medicinestatus/document/825.html" },
+                    ],
+                },
+                {
+                    title: "Restriction Update",
+                    date: "1 April 2024",
+                    detail: 'PBS updated the avelumab listing: the "grandfather" restriction was removed, and the listing was streamlined. Prescriptions continue to require Authority (STREAMLINED) approval. The published DPMQ is the maximum price — confidential rebates under the Deed of Agreement reduce the actual acquisition cost to government.',
+                    links: [],
+                },
+            ],
+            takeaway: 'Bavencio in Australia shows the PBAC → PBS pathway in action. The ~8-month gap between PBAC recommendation (March 2022) and PBS listing (October 2022) reflects the pricing negotiation with PBPA. Australia\'s participation in Project Orbis accelerated TGA registration, but PBAC assessment and price negotiation remained sequential. The Authority Required (STREAMLINED) restriction balances access with appropriate use.',
+        },
     },
     {
         code: "AT",
@@ -353,6 +405,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Clinical reference:</strong> The <a href="https://www.cbip.be/fr/chapters" target="_blank" rel="noopener">CBIP/BCFI R&eacute;pertoire</a> is the standard annotated drug directory used by Belgian prescribers &mdash; organized into 20 therapeutic chapters with commentary on positioning, pricing, and reimbursement.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Traitement d'entretien en première ligne du carcinome urothélial localement avancé ou métastatique sans progression après chimiothérapie à base de platine",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC. As an EU member, Belgium automatically recognises the EMA centralised authorisation. The product was registered in the Medicines Database (medicinesdatabase.be) and assigned an FPS Economy maximum ex-factory price.',
+                    links: [
+                        { label: "Medicines Database — Belgium", url: "https://medicinesdatabase.be" },
+                    ],
+                },
+                {
+                    title: "CRM/CTG Reimbursement Evaluation",
+                    date: "2021–2022",
+                    detail: 'The manufacturer submitted a reimbursement dossier to NIHDI (RIZIV/INAMI). The CRM/CTG (Drug Reimbursement Committee) evaluated the clinical evidence within the standard <strong>180-day procedure</strong>. Given the high cost and the oncology indication, an <strong>Article 81 Managed Entry Agreement (MEA)</strong> was anticipated. The CRM/CTG classified the therapeutic added value and proposed reimbursement terms including Chapter IV prior authorisation requirements.',
+                    links: [
+                        { label: "RIZIV/INAMI — CTG Assessment Reports", url: "https://www.riziv.fgov.be/nl/webtoepassingen/geneesmiddelen-terugbetaling-ministeriele-beslissingen-en-ctg-beoordelingsrapporten" },
+                    ],
+                },
+                {
+                    title: "Chapter IV Reimbursement & Article 81 Convention",
+                    date: "2022",
+                    detail: 'Bavencio for UC maintenance was reimbursed under <strong>Chapter IV</strong> — requiring prior authorisation from the patient\'s health insurance fund (mutualité/ziekenfonds). The prescribing oncologist prepares a request confirming the patient meets criteria (locally advanced/metastatic UC, no progression after platinum-based chemo, adequate performance status). An <strong>Article 81 convention</strong> (managed entry agreement) was agreed between NIHDI and the manufacturer — this is a temporary 3-year reimbursement agreement with confidential financial terms (likely a price-volume or outcome-based arrangement). Approximately 30% of Belgium\'s medicines budget operates under Article 81 conventions.',
+                    links: [
+                        { label: "RIZIV/INAMI — Chapter IV/VIII Forms", url: "https://webappsa.riziv-inami.fgov.be/ssp/RequestForms" },
+                        { label: "RIZIV/INAMI — Reimbursable Drug Search", url: "https://webappsa.riziv-inami.fgov.be/SSPWebApplicationPublic/fr/Public/ProductSearch" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Belgium demonstrates the Chapter IV + Article 81 pathway typical for expensive oncology drugs. The prior authorisation requirement under Chapter IV ensures appropriate use, while the Article 81 managed entry agreement manages budget uncertainty. Belgium\'s 180-day CRM/CTG procedure is among the faster HTA timelines in Europe, but the Article 81 negotiation adds additional time. BeNeLuxA joint procurement was not applied to this specific product, though Belgium increasingly uses this mechanism for high-cost medicines.',
+        },
     },
     {
         code: "BR",
@@ -409,6 +494,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> The CONITEC website is in Portuguese only. Use Google Translate for navigation. For the most comprehensive search, use <code>site:gov.br/conitec [product name]</code> on Google.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumabe",
+            indication: "Tratamento de manutenção de primeira linha do carcinoma urotelial localmente avançado ou metastático sem progressão após quimioterapia à base de platina",
+            steps: [
+                {
+                    title: "ANVISA Registration",
+                    date: "28 December 2020",
+                    detail: 'ANVISA approved the new indication for avelumab (Bavencio) in maintenance treatment of locally advanced or metastatic urothelial carcinoma. Published in the Diário Oficial da União. Brazil participates in <strong>Project Orbis</strong> — the FDA-led international oncology regulatory collaboration — which helped accelerate the review timeline. The approval referenced JAVELIN Bladder 100 data: median OS 21.4 vs 14.3 months.',
+                    links: [
+                        { label: "ANVISA — Bavencio new indication", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/novos-medicamentos-e-indicacoes/bavencio-avelumabe-nova-indicacao" },
+                    ],
+                },
+                {
+                    title: "CMED Maximum Price Setting",
+                    date: "2021",
+                    detail: 'CMED (Câmara de Regulação do Mercado de Medicamentos) established the maximum consumer price (PMC — Preço Máximo ao Consumidor) for Bavencio using Brazil\'s regulated pricing formula, which incorporates international reference pricing and local market factors. CMED prices vary by state due to different ICMS (state sales tax) rates — the official price list includes separate columns for each state.',
+                    links: [
+                        { label: "CMED — Drug Prices", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
+                    ],
+                },
+                {
+                    title: "SUS Access — CONITEC Evaluation Pending",
+                    date: "As of 2025",
+                    detail: 'Avelumab for UC maintenance has <strong>not yet been incorporated into SUS</strong> (Sistema Único de Saúde) — Brazil\'s public health system covering ~75% of the population. CONITEC (Comissão Nacional de Incorporação de Tecnologias no SUS) has not published a formal recommendation for this indication. Without CONITEC incorporation, the drug is available only in the private sector or through individual judicial actions (judicialização). Brazil has a significant problem with judicialização — patients suing the government to obtain access to drugs not covered by SUS, which accounts for a substantial share of public pharmaceutical spending.',
+                    links: [
+                        { label: "CONITEC — Recommendations", url: "https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/recomendacoes-da-conitec" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Brazil highlights the gap between regulatory approval and public access. ANVISA approved the drug in December 2020 (via Project Orbis), but as of 2025, CONITEC has not incorporated it into SUS. This means the majority of Brazilian patients cannot access maintenance avelumab through the public system. Private insurance or judicial orders remain the only routes — illustrating Brazil\'s dual-track access reality and the critical role of CONITEC incorporation in determining population-level access.',
+        },
     },
     {
         code: "BG",
@@ -508,6 +625,44 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> Canada's access pathway from approval to reimbursement typically takes 12–18 months (Health Canada → CADTH → pCPA → provincial listing). Track the stage of each product to understand the access timeline.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "Health Canada Approval",
+                    date: "11 December 2020",
+                    detail: 'Health Canada approved avelumab for first-line maintenance treatment of UC. Canada participated in <strong>Project Orbis</strong> — the FDA-led international oncology regulatory collaboration — enabling coordinated review with FDA, TGA (Australia), and Swissmedic. Health Canada approval came ~5 months after the FDA (June 2020). The Summary Basis of Decision reviewed the JAVELIN Bladder 100 trial data.',
+                    links: [
+                        { label: "Health Canada — DPD Bavencio", url: "https://health-products.canada.ca/dpd-bdpp/" },
+                    ],
+                },
+                {
+                    title: "CADTH/pCODR Reimbursement Review",
+                    date: "29 April 2021",
+                    detail: 'The pCODR Expert Review Committee (pERC) issued a positive recommendation: <strong>"Reimburse with clinical criteria and/or conditions"</strong>. Key conditions included alignment with the JAVELIN Bladder 100 eligibility criteria (ECOG 0–1, no progression after 4–6 cycles of platinum-based chemo). INESSS (Québec) also issued a positive recommendation concurrently. The CADTH Clinical Review Report provided a detailed critique of the OS, PFS, and quality-of-life evidence.',
+                    links: [
+                        { label: "CADTH — Avelumab for UC (review details)", url: "https://www.cadth.ca/avelumab-bavencio-urothelial-carcinoma-details" },
+                    ],
+                },
+                {
+                    title: "pCPA Price Negotiation",
+                    date: "2021–2022",
+                    detail: 'Following the positive CADTH recommendation, the pan-Canadian Pharmaceutical Alliance (pCPA) entered price negotiations with the manufacturer (EMD Serono / Pfizer). pCPA negotiations are confidential — the negotiated price is not publicly disclosed. Upon conclusion, each province/territory independently decides whether to list the drug on its public formulary.',
+                    links: [
+                        { label: "pCPA — Negotiations", url: "https://www.pcpa.ca/" },
+                    ],
+                },
+                {
+                    title: "Provincial Formulary Listings",
+                    date: "2022 onwards (variable)",
+                    detail: 'Provincial drug plans listed avelumab progressively. In Canada, a positive CADTH recommendation and completed pCPA negotiation do <strong>not</strong> guarantee listing — each province makes independent formulary decisions. Larger provinces (Ontario, BC, Alberta, Québec) typically list first; smaller provinces may follow months later. Access remains variable across the country.',
+                    links: [],
+                },
+            ],
+            takeaway: 'Bavencio in Canada illustrates the multi-step access pathway: Health Canada approval (Dec 2020) → CADTH/pCODR recommendation (Apr 2021) → pCPA negotiation → provincial listing (2022+). The ~18-month journey from regulatory approval to widespread provincial access highlights the structural delay inherent in Canada\'s decentralised payer system. Project Orbis accelerated the regulatory step but had no impact on HTA or pricing timelines.',
+        },
     },
     {
         code: "CL",
@@ -1140,6 +1295,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> The BDPM database is searchable in French only. Use Google Translate or search by INN (international nonproprietary name) which is typically in English/Latin.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Traitement d'entretien en première ligne du carcinome urothélial localement avancé ou métastatique sans progression après chimiothérapie à base de platine",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. Based on JAVELIN Bladder 100 (Phase III, N=700): median OS 21.4 vs 14.3 months (HR 0.69). Avelumab was already authorised in the EU for Merkel cell carcinoma since 2017.',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "HAS — Commission de la Transparence Opinion",
+                    date: "March 2021",
+                    detail: 'The CT evaluated Bavencio for the UC maintenance indication. Key outcomes:<br><br><strong>SMR: Important</strong> — clinical benefit recognised as sufficient for reimbursement.<br><strong>ASMR: III (moderate improvement)</strong> — HAS considered the OS benefit of ~7 months over BSC a moderate therapeutic advance. The cost-effectiveness ratio was estimated at <strong>€188,451/QALY</strong> vs. best supportive care over a 10-year horizon — well above typical French thresholds, with an estimated +167% increase in health insurance spending for this indication. The population cible (target population) was estimated at approximately 2,500 patients/year.',
+                    links: [
+                        { label: "HAS Avis CT — Bavencio (carcinome urothélial)", url: "https://www.has-sante.fr/jcms/p_3243896/fr/bavencio-carcinome-urothelial-avelumab" },
+                    ],
+                },
+                {
+                    title: "CEPS Price Negotiation & Reimbursement",
+                    date: "2021–2022",
+                    detail: 'Following the SMR Important / ASMR III rating, CEPS negotiated the reimbursement price. Bavencio was classified as a hospital-only product on the <strong>Liste en sus</strong> — reimbursed on top of the DRG tariff for hospital oncology. The reimbursement rate is <strong>100%</strong> (Affection de Longue Durée — ALD for cancer). The product was available via Accès Précoce (early access) prior to formal reimbursement.',
+                    links: [
+                        { label: "BDPM — Bavencio", url: "https://base-donnees-publique.medicaments.gouv.fr/extrait.php?specid=68504882" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in France illustrates the ASMR-driven pricing mechanism: an ASMR III (moderate improvement) rating secured a price premium over BSC, despite a high ICER. France does not apply a rigid cost-per-QALY threshold like NICE — instead, ASMR and population cible drive the negotiation. The Liste en sus pathway ensures hospital funding without budget impact on individual establishments.',
+        },
     },
     {
         code: "DE",
@@ -1565,6 +1752,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> For the latest reimbursement and pricing decisions, always check <a href="https://trovanorme.aifa.gov.it/#/" target="_blank" rel="noopener">TrovaNormeFarmaco</a> first — it is the most current source. For product-level pricing data (ex-factory and public prices), use <a href="https://www.aifa.gov.it/en/trova-farmaco" target="_blank" rel="noopener">Trova Farmaco</a>. AIFA has an English-language version of its main website (use the /en/ prefix), but TrovaNormeFarmaco is in Italian only — use Google Translate.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Trattamento di mantenimento in prima linea del carcinoma uroteliale localmente avanzato o metastatico senza progressione dopo chemioterapia a base di platino",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC based on JAVELIN Bladder 100. Median OS: 21.4 vs 14.3 months (HR 0.69). As an EMA centralised authorisation, the Italian MA was automatic.',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Classe C(nn) — Automatic Temporary Classification",
+                    date: "~March 2021",
+                    detail: 'Within 60 days of the EC decision, AIFA automatically classified Bavencio (new indication) as <strong>Classe C(nn)</strong> — "Classe C non negoziata". This means the product was available in Italy at the manufacturer\'s price, with no SSN reimbursement, while AIFA pricing negotiations were underway. For oncology drugs with strong clinical evidence, the Fondo AIFA for innovative oncology medicines can provide interim funding.',
+                    links: [
+                        { label: "AIFA — Classe C(nn) Explained", url: "https://www.aifa.gov.it/en/negoziazione-e-rimborsabilit%C3%A0" },
+                    ],
+                },
+                {
+                    title: "AIFA Reimbursement — Gazzetta Ufficiale Publication",
+                    date: "18 March 2022",
+                    detail: 'AIFA completed CTS evaluation and CPR price negotiation. Bavencio for UC maintenance was published in the <strong>Gazzetta Ufficiale n.65</strong> (effective 19 March 2022), classified as fully reimbursed by SSN. The drug was funded through the <strong>National Fund for Innovative Oncology Drugs</strong> (Fondo farmaci oncologici innovativi, Law 232/2016) — this fund provides dedicated budget outside normal hospital pharmaceutical ceilings. AIFA\'s Registro di Monitoraggio was activated to track patient eligibility and outcomes.',
+                    links: [
+                        { label: "AIFA — Registro Bavencio", url: "https://www.aifa.gov.it/en/-/attivazione-web-e-pubblicazione-schede-di-monitoraggio-registro-bavencio" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Italy demonstrates the C(nn) → full reimbursement pathway typical for EMA-authorised oncology drugs. The 14-month gap from EC decision to GU publication illustrates Italy\'s negotiation timeline. Classification under the Fondo farmaci oncologici innovativi bypasses hospital budget constraints — a key mechanism for ensuring access to innovative cancer drugs. The mandatory Registro di Monitoraggio enables outcome tracking and managed entry agreement enforcement.',
+        },
     },
     {
         code: "JP",
@@ -2058,6 +2277,47 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Clinical reference:</strong> The <a href="https://www.farmacotherapeutischkompas.nl/" target="_blank" rel="noopener">Farmacotherapeutisch Kompas</a> is the standard prescribing reference used by Dutch physicians — essential for understanding local treatment guidelines and formulary positioning.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Eerstelijns onderhoudsbehandeling van lokaal gevorderd of gemetastaseerd urotheelcarcinoom zonder progressie na platinabevattende chemotherapie",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC. As an EMA centralised authorisation, the Dutch MA via CBG-MEB was automatic. The product was immediately visible in the Geneesmiddeleninformatiebank (GIB).',
+                    links: [
+                        { label: "GIB — Bavencio", url: "https://www.geneesmiddeleninformatiebank.nl/" },
+                    ],
+                },
+                {
+                    title: "Sluis (Lock) Procedure — Entry",
+                    date: "Early 2021",
+                    detail: 'Bavencio for UC maintenance entered the <strong>sluis (lock) procedure</strong> — the Dutch mechanism for expensive hospital medicines. During the sluis period, the medicine is <strong>excluded from the basic insurance package</strong> and cannot be reimbursed. The manufacturer submitted a dossier to Zorginstituut Nederland for assessment. The sluis was triggered because the expected annual budget impact exceeded the EUR 20M threshold.',
+                    links: [
+                        { label: "Zorginstituut — Sluis overview", url: "https://www.zorginstituutnederland.nl/over-ons/programmas-en-samenwerkingsverbanden/horizonscan-geneesmiddelen/sluis-voor-dure-geneesmiddelen/overzicht-geneesmiddelen-in-de-sluis" },
+                    ],
+                },
+                {
+                    title: "Zorginstituut Package Advice",
+                    date: "21 July 2021",
+                    detail: 'Zorginstituut Nederland published its package advice (<em>pakketadvies</em>): <strong>conditional positive recommendation</strong>. The assessment concluded avelumab provides significant clinical benefit — an average life extension of approximately 7 months compared to best supportive care. However, the assessment recommended inclusion in the basic healthcare package conditional on a <strong>minimum 30% price reduction</strong> negotiated with the manufacturer. The cost-effectiveness was assessed against the Dutch WTP threshold (up to EUR 80,000/QALY for high-severity conditions).',
+                    links: [
+                        { label: "Zorginstituut — Pakketadvies Bavencio (English)", url: "https://english.zorginstituutnederland.nl/publications/reports/2021/07/21/package-advice-on-avelumab-bavencio" },
+                        { label: "Zorginstituut — Pakketadvies Bavencio (Dutch)", url: "https://www.zorginstituutnederland.nl/publicaties/adviezen/2021/07/21/pakketadvies-avelumab-bavencio-bij-de-behandeling-van-blaaskanker" },
+                    ],
+                },
+                {
+                    title: "Price Negotiation & Reimbursement",
+                    date: "2021–2022",
+                    detail: 'The Minister of Health negotiated the price with the manufacturer. Upon reaching agreement (with the required minimum 30% discount), avelumab was released from the sluis and included in the basic healthcare package (<em>basispakket</em>). The negotiated price is confidential. Dutch patients with UC maintenance can now access avelumab through hospital pharmacies with no additional out-of-pocket cost beyond the standard deductible (eigen risico, EUR 385/year in 2024).',
+                    links: [
+                        { label: "Farmatec — Sluis processing dashboard", url: "https://www.farmatec.nl/prijsvorming/dashboard-doorlooptijden-geneesmiddelen" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in the Netherlands illustrates the sluis (lock) procedure — the Dutch gatekeeper for expensive hospital medicines. During the sluis, patients have <em>no reimbursed access</em>, creating a significant access delay. The Zorginstituut assessment openly published the required minimum price discount (30%), a transparency measure unusual in Europe. The sluis process took approximately 12 months from EMA approval to reimbursed access — faster than some comparable systems.',
+        },
     },
     {
         code: "NO",
@@ -2853,6 +3113,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> The Korean reimbursement process (from MFDS approval to HIRA listing) typically takes 12–18 months. The pathway is: MFDS approval → HIRA economic evaluation → DREC recommendation → price negotiation → NHI listing.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            localName: "바벤시오",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "MFDS Marketing Authorization",
+                    date: "August 2021",
+                    detail: 'MFDS (Ministry of Food and Drug Safety / 식품의약품안전처) approved avelumab for the UC maintenance indication in South Korea. MFDS operates an independent regulatory pathway — no mutual recognition with EMA or FDA. The Korean review examined the JAVELIN Bladder 100 data with attention to the Korean patient subgroup.',
+                    links: [
+                        { label: "MFDS — nedrug.mfds.go.kr", url: "https://nedrug.mfds.go.kr/index" },
+                    ],
+                },
+                {
+                    title: "HIRA Economic Evaluation & DREC Review",
+                    date: "2021–2023",
+                    detail: 'After MFDS approval, the manufacturer (Merck Healthcare / 한국 머크) submitted the reimbursement dossier to HIRA. The Drug Reimbursement Evaluation Committee (DREC / 약제급여평가위원회) assessed the clinical evidence, cost-effectiveness, and budget impact. The evaluation process took approximately 2 years — reflecting the complexity of oncology immunotherapy assessments and price negotiations in Korea.',
+                    links: [
+                        { label: "HIRA — Insurance Coverage Criteria", url: "https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" },
+                    ],
+                },
+                {
+                    title: "NHI Reimbursement Listing",
+                    date: "August 2023",
+                    detail: 'Avelumab received National Health Insurance (NHI / 건강보험) coverage for first-line maintenance UC. This made Bavencio the <strong>first and only reimbursed maintenance immunotherapy</strong> for first-line urothelial carcinoma in South Korea. Within one year of listing, avelumab became the standard of care for this indication in Korean clinical practice. An Expanded Access Program (EAP) ran from September 2021 to June 2023, providing early access to approximately 100 patients with median PFS of 7.9 months in real-world use.',
+                    links: [
+                        { label: "KoreaBioMed — Bavencio NHI Coverage", url: "https://www.koreabiomed.com/news/articleView.html?idxno=21678" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in South Korea illustrates the typical 24-month timeline from MFDS approval to NHI listing (August 2021 → August 2023). The Expanded Access Program bridged the gap, providing real-world evidence that ultimately supported the reimbursement case. Korea\'s single-payer NHI system means that once listed, access is nationwide — unlike decentralised systems (Canada, Spain) where regional variation persists.',
+        },
     },
     {
         code: "ES",
@@ -2925,6 +3218,45 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> For a quick reimbursement status check, search the product in CIMA — the "Condiciones de prescripción y dispensación" section shows whether it is SNS-reimbursed and the dispensing conditions (hospital, prescription required, etc.).</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Tratamiento de mantenimiento en primera línea del carcinoma urotelial localmente avanzado o metastásico sin progresión tras quimioterapia basada en platino",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC. As an EMA centralised authorisation, the Spanish MA via AEMPS was automatic. The product was searchable in CIMA from this date.',
+                    links: [
+                        { label: "CIMA — Bavencio", url: "https://cima.aemps.es/cima/publico/home.html" },
+                    ],
+                },
+                {
+                    title: "IPT — Informe de Posicionamiento Terapéutico",
+                    date: "2022 (IPT 44/2022)",
+                    detail: 'AEMPS published <strong>IPT 44/2022</strong> evaluating avelumab for first-line maintenance UC. The report reviewed JAVELIN Bladder 100 data: PFS benefit of 1.7 months in the overall population (3.7 vs 2.0 months, HR 0.62) and 3.6 months in PD-L1+ tumours (5.7 vs 2.1 months, HR 0.56). The ORR was 9.7% vs 1.4% with BSC alone. The IPT concluded with a <strong>favourable positioning</strong> — prerequisite for CIPM pricing and reimbursement negotiation.',
+                    links: [
+                        { label: "IPT 44/2022 — Bavencio UC maintenance (PDF)", url: "https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/docs/2022/IPT_44-2022-Bavencio.pdf" },
+                        { label: "AEMPS — IPT Bavencio (web page)", url: "https://www.aemps.gob.es/informa/informes-de-posicionamiento-terapeutico/informe-de-posicionamiento-terapeutico-de-avelumab-bavencio-en-el-tratamiento-de-mantenimiento-en-primera-linea-de-carcinoma-urotelial-localmente-avanzado-o-metastasico/?lang=en" },
+                    ],
+                },
+                {
+                    title: "CIPM Pricing & National SNS Reimbursement",
+                    date: "2022",
+                    detail: 'Following the favourable IPT, CIPM (Comisión Interministerial de Precios de los Medicamentos) negotiated the price. Bavencio was included in SNS reimbursement as a hospital-dispensed medicine (Uso Hospitalario). CIPM pricing decisions and rationale are not publicly disclosed in Spain — only the reimbursement status is visible in CIMA.',
+                    links: [
+                        { label: "CIMA — Reimbursement status lookup", url: "https://cima.aemps.es/cima/publico/home.html" },
+                    ],
+                },
+                {
+                    title: "Regional Access Variation",
+                    date: "Ongoing",
+                    detail: 'Despite national CIPM reimbursement, access varies across Spain\'s 17 Autonomous Communities (CCAAs). Each CCAA\'s Pharmacy & Therapeutics committee may impose additional restrictions or delays. In practice, hospital oncology commissions in larger CCAAs (Madrid, Catalonia, Andalusia) adopted avelumab relatively quickly, while smaller regions showed longer lag times. Real-world evidence from the SOGUG-AVELUMAB RWD study (22 Spanish centres) confirmed the effectiveness of maintenance avelumab in routine practice.',
+                    links: [],
+                },
+            ],
+            takeaway: 'Bavencio in Spain illustrates the three-step pathway: AEMPS/IPT positioning → CIPM pricing (opaque) → regional CCAA adoption (variable). The IPT is the key access gate — without a favourable positioning, CIPM will not negotiate. Spain\'s decentralised healthcare system means national reimbursement does not equal uniform access across regions, making CCAA-level analysis essential for market access planning.',
+        },
     },
     {
         code: "SE",
@@ -3325,6 +3657,46 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Patient Access Schemes (PAS) are confidential commercial agreements between the manufacturer and NHS England. The "list price" in the BNF may not reflect the actual acquisition cost. NICE appraisals note when a PAS is in place but do not disclose the discount.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma (UC) that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "EMA Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'European Commission granted the Type II variation extending Bavencio\'s indication to first-line maintenance treatment of locally advanced or metastatic urothelial carcinoma in adults whose disease has not progressed with platinum-based chemotherapy. Based on the Phase III JAVELIN Bladder 100 trial (N=700): median OS 21.4 months vs 14.3 months with best supportive care (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "MHRA UK Approval",
+                    date: "21 January 2021",
+                    detail: 'MHRA approved the extension of indication for avelumab in first-line maintenance urothelial carcinoma, aligning with the EMA timeline (approved slightly ahead of the EC decision). The MHRA approval covered the same JAVELIN Bladder 100 data package.',
+                    links: [
+                        { label: "MHRA Products — Bavencio", url: "https://products.mhra.gov.uk/" },
+                    ],
+                },
+                {
+                    title: "NICE Technology Appraisal — Initial Rejection & Appeal",
+                    date: "May 2021 – May 2022",
+                    detail: 'NICE initially issued a negative recommendation in May 2021, concluding that the cost-effectiveness estimates were too uncertain. The manufacturer (Merck/Pfizer) <strong>appealed the decision</strong> — a relatively rare step. The appeal was upheld, and NICE reversed its decision. The final guidance <strong>TA788</strong> was published on <strong>11 May 2022</strong>, recommending avelumab with conditions: treatment must stop at 5 years of uninterrupted therapy or earlier if disease progresses. A confidential Patient Access Scheme (PAS) discount was agreed with NHS England.',
+                    links: [
+                        { label: "NICE TA788 — Avelumab for maintenance treatment of UC", url: "https://www.nice.org.uk/guidance/ta788" },
+                    ],
+                },
+                {
+                    title: "NHS England Funding & Access",
+                    date: "From August 2022",
+                    detail: 'Following TA788, NHS England was legally required to fund avelumab within 90 days. Avelumab became available through NHS hospitals as a maintenance immunotherapy — the first and only approved maintenance treatment in first-line urothelial carcinoma in the UK. The BNF list price is approximately £1,170 per 200 mg vial, but the actual acquisition cost is lower due to the confidential PAS.',
+                    links: [
+                        { label: "BNF — Avelumab", url: "https://bnf.nice.org.uk/drugs/avelumab/" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio\'s UK journey illustrates how the NICE appeals process can reverse an initial negative recommendation — a rare but important mechanism. The 16-month delay from MHRA approval (Jan 2021) to NICE recommendation (May 2022) highlights the gap between regulatory approval and reimbursed access in the UK. The confidential PAS discount was critical to achieving an acceptable ICER within the £20,000–£30,000/QALY threshold.',
+        },
     },
     {
         code: "VN",
