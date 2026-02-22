@@ -68,27 +68,51 @@ class SpainAEMPS(HTAAgency):
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={
-                "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
-                "Accept": "text/html",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             },
         ) as client:
-            for page in range(1, AEMPS_MAX_PAGES + 1):
-                try:
-                    url = AEMPS_IPT_LISTING_URL
-                    params = {"pg": str(page)} if page > 1 else {}
-                    resp = await client.get(url, params=params)
-                    resp.raise_for_status()
-                    html = resp.text
-                except Exception:
-                    logger.warning("Failed to fetch AEMPS IPT listing page %d", page)
-                    break
+            # Try main listing URL and alternative (Ministry of Health portal)
+            listing_urls = [
+                AEMPS_IPT_LISTING_URL,
+                "https://www.sanidad.gob.es/areas/farmacia/infoMedicamentos/IPT/home.htm",
+            ]
+            for listing_url in listing_urls:
+                for page in range(1, AEMPS_MAX_PAGES + 1):
+                    try:
+                        params = {"pg": str(page)} if page > 1 else {}
+                        resp = await client.get(listing_url, params=params)
+                        resp.raise_for_status()
+                        html = resp.text
+                    except Exception:
+                        logger.warning(
+                            "Failed to fetch AEMPS IPT listing page %d from %s",
+                            page, listing_url,
+                        )
+                        break
 
-                items = self._parse_listing_page(html)
-                if not items:
-                    break
+                    items = self._parse_listing_page(html)
+                    if not items:
+                        break
 
-                all_items.extend(items)
-                logger.debug("AEMPS IPT page %d: %d items", page, len(items))
+                    all_items.extend(items)
+                    logger.debug("AEMPS IPT page %d: %d items", page, len(items))
+
+                if all_items:
+                    break  # Got data from this URL, no need to try alternatives
+
+        if not all_items:
+            raise RuntimeError(
+                "AEMPS data fetch returned 0 IPT entries — "
+                "the website structure may have changed or the pages "
+                "could not be fetched. Check "
+                "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
+                "informes-de-posicionamiento-terapeutico/"
+            )
 
         self._ipt_list = all_items
         self._loaded = True
@@ -159,17 +183,21 @@ class SpainAEMPS(HTAAgency):
     def _parse_listing_page(self, html: str) -> list[dict]:
         """Parse an AEMPS IPT listing page HTML.
 
-        IPTs appear as links to PDF documents, typically structured as:
+        IPTs appear as links to PDF documents or individual detail pages,
+        typically structured as:
           <a href="...ipt-XX-YYYY...pdf">Drug name - indication</a>
+        or WordPress-style detail pages:
+          <a href="...informes-de-posicionamiento-terapeutico/informe-de-...">
         or in list/table structures with IPT references and dates.
         """
         items: list[dict] = []
         seen_refs: set[str] = set()
+        seen_urls: set[str] = set()
 
         # Pattern 1: Links to IPT PDFs or detail pages
-        # Match href containing "ipt" with title text
+        # Match href containing "ipt" or "posicionamiento" with title text
         ipt_links = re.findall(
-            r'href="([^"]*(?:ipt|IPT|posicionamiento)[^"]*)"[^>]*>\s*'
+            r'href="([^"]*(?:ipt|IPT|posicionamiento|informe)[^"]*)"[^>]*>\s*'
             r'(.*?)\s*</a>',
             html, re.IGNORECASE | re.DOTALL,
         )
@@ -177,6 +205,11 @@ class SpainAEMPS(HTAAgency):
         for url, title_raw in ipt_links:
             title = _clean_html_text(title_raw)
             if not title or len(title) < 5:
+                continue
+
+            # Skip navigation / generic links that don't contain drug-related content
+            title_lower = title.lower()
+            if title_lower in ("informes de posicionamiento terapéutico", "ipt", "inicio"):
                 continue
 
             # Extract IPT reference from URL or title
@@ -189,6 +222,11 @@ class SpainAEMPS(HTAAgency):
             # Build full URL if relative
             if url and not url.startswith("http"):
                 url = AEMPS_BASE_URL + (url if url.startswith("/") else "/" + url)
+
+            # De-duplicate by URL (some pages list same IPT via both PDF and HTML links)
+            if url in seen_urls:
+                continue
+            seen_urls.add(url)
 
             # Try to extract date from nearby context
             date = self._extract_date_near(html, title_raw)

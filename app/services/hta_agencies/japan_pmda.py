@@ -72,59 +72,79 @@ class JapanPMDA(HTAAgency):
         """Fetch KEGG drug list and JAPIC mappings to build the NHI pricing index."""
         drug_to_japic: dict[str, str] = {}
 
+        # KEGG official docs use http://, but try https:// first as it may also work.
+        # Fall back to http:// if https:// fails.
+        kegg_bases = [KEGG_API_BASE]
+        if KEGG_API_BASE.startswith("https://"):
+            kegg_bases.append(KEGG_API_BASE.replace("https://", "http://", 1))
+        elif KEGG_API_BASE.startswith("http://"):
+            kegg_bases = [KEGG_API_BASE.replace("http://", "https://", 1), KEGG_API_BASE]
+
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
         ) as client:
             # Step 1: JAPIC → KEGG drug ID mapping (one call gives all NHI-priced drugs)
-            try:
-                resp = await client.get(f"{KEGG_API_BASE}/conv/drug/japic")
-                resp.raise_for_status()
-                for line in resp.text.splitlines():
-                    if "\t" not in line:
-                        continue
-                    japic_part, drug_part = line.split("\t", 1)
-                    japic_code = japic_part.strip().removeprefix("japic:")
-                    drug_id = drug_part.strip()  # "dr:D11678"
-                    drug_to_japic[drug_id] = japic_code
-                logger.info("KEGG JAPIC conv: %d NHI-priced drugs", len(drug_to_japic))
-            except Exception as exc:
-                logger.warning("KEGG JAPIC conv fetch failed: %s", exc)
+            for base in kegg_bases:
+                try:
+                    resp = await client.get(f"{base}/conv/drug/japic")
+                    resp.raise_for_status()
+                    for line in resp.text.splitlines():
+                        if "\t" not in line:
+                            continue
+                        japic_part, drug_part = line.split("\t", 1)
+                        japic_code = japic_part.strip().removeprefix("japic:")
+                        drug_id = drug_part.strip()  # "dr:D11678"
+                        drug_to_japic[drug_id] = japic_code
+                    logger.info("KEGG JAPIC conv: %d NHI-priced drugs (from %s)", len(drug_to_japic), base)
+                    break
+                except Exception as exc:
+                    logger.warning("KEGG JAPIC conv fetch failed from %s: %s", base, exc)
 
             # Step 2: Drug ID → name(s)
             items: list[dict] = []
-            try:
-                resp = await client.get(f"{KEGG_API_BASE}/list/drug")
-                resp.raise_for_status()
-                for line in resp.text.splitlines():
-                    if "\t" not in line:
-                        continue
-                    id_part, names_raw = line.split("\t", 1)
-                    kegg_id = id_part.strip()  # "dr:D11678"
+            for base in kegg_bases:
+                try:
+                    resp = await client.get(f"{base}/list/drug")
+                    resp.raise_for_status()
+                    for line in resp.text.splitlines():
+                        if "\t" not in line:
+                            continue
+                        id_part, names_raw = line.split("\t", 1)
+                        kegg_id = id_part.strip()  # "dr:D11678"
 
-                    # Semicolon-separated names; brand names carry "(TN)"
-                    raw_parts = [n.strip() for n in names_raw.split(";")]
-                    names_display: list[str] = []
-                    names_lower: list[str] = []
-                    for part in raw_parts:
-                        clean = re.sub(r"\s*\(TN\)\s*", "", part).strip()
-                        if clean:
-                            names_display.append(clean)
-                            names_lower.append(clean.lower())
+                        # Semicolon-separated names; brand names carry "(TN)"
+                        raw_parts = [n.strip() for n in names_raw.split(";")]
+                        names_display: list[str] = []
+                        names_lower: list[str] = []
+                        for part in raw_parts:
+                            clean = re.sub(r"\s*\(TN\)\s*", "", part).strip()
+                            if clean:
+                                names_display.append(clean)
+                                names_lower.append(clean.lower())
 
-                    japic_code = drug_to_japic.get(kegg_id, "")
-                    items.append({
-                        "kegg_id": kegg_id,
-                        "names_lower": names_lower,
-                        "names_display": names_display,
-                        "japic_code": japic_code,
-                        "japic_url": f"{KEGG_JAPIC_BASE_URL}{japic_code}" if japic_code else "",
-                    })
-            except Exception as exc:
-                logger.warning("KEGG drug list fetch failed: %s", exc)
+                        japic_code = drug_to_japic.get(kegg_id, "")
+                        items.append({
+                            "kegg_id": kegg_id,
+                            "names_lower": names_lower,
+                            "names_display": names_display,
+                            "japic_code": japic_code,
+                            "japic_url": f"{KEGG_JAPIC_BASE_URL}{japic_code}" if japic_code else "",
+                        })
+                    logger.info("KEGG drug list: %d drugs (from %s)", len(items), base)
+                    break
+                except Exception as exc:
+                    logger.warning("KEGG drug list fetch failed from %s: %s", base, exc)
 
             self._drug_list = items
+
+        if not self._drug_list:
+            raise RuntimeError(
+                "KEGG data fetch returned 0 drugs — the KEGG REST API may be "
+                "unavailable or the endpoints have changed. Check "
+                "https://rest.kegg.jp and https://www.kegg.jp/kegg/rest/"
+            )
 
         self._loaded = True
         reimbursed = sum(1 for d in self._drug_list if d["japic_code"])

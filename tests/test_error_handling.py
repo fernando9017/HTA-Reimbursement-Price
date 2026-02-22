@@ -609,21 +609,25 @@ class TestJapanPMDAErrors:
 
     @pytest.mark.asyncio
     async def test_load_data_kegg_conv_failure(self):
-        """If KEGG conv API fails, loading should still succeed (graceful degradation)."""
+        """If KEGG conv API fails on both bases, loading should still succeed if list works."""
         agency = JapanPMDA()
 
         mock_client = AsyncMock()
-        # Step 1 (conv) fails
-        conv_response = MagicMock()
-        conv_response.raise_for_status.side_effect = httpx.HTTPStatusError(
+        # Step 1 (conv) fails on both https and http base URLs
+        conv_response1 = MagicMock()
+        conv_response1.raise_for_status.side_effect = httpx.HTTPStatusError(
             "Service Unavailable", request=MagicMock(), response=MagicMock(status_code=503),
         )
-        # Step 2 (list) succeeds with one drug
+        conv_response2 = MagicMock()
+        conv_response2.raise_for_status.side_effect = httpx.HTTPStatusError(
+            "Service Unavailable", request=MagicMock(), response=MagicMock(status_code=503),
+        )
+        # Step 2 (list) succeeds on first base URL with one drug
         list_response = MagicMock()
         list_response.raise_for_status = MagicMock()
         list_response.text = "dr:D00001\tpembrolizumab (TN); Keytruda (TN)"
 
-        mock_client.get = AsyncMock(side_effect=[conv_response, list_response])
+        mock_client.get = AsyncMock(side_effect=[conv_response1, conv_response2, list_response])
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=False)
 
@@ -637,27 +641,29 @@ class TestJapanPMDAErrors:
 
     @pytest.mark.asyncio
     async def test_load_data_kegg_list_failure(self):
-        """If KEGG list API fails, loading should still succeed with empty drug list."""
+        """If KEGG list API fails on all bases, loading should raise RuntimeError."""
         agency = JapanPMDA()
 
         mock_client = AsyncMock()
-        # Step 1 (conv) succeeds
+        # Step 1 (conv) succeeds on first base
         conv_response = MagicMock()
         conv_response.raise_for_status = MagicMock()
         conv_response.text = "japic:J12345\tdr:D00001"
-        # Step 2 (list) fails
-        list_response = MagicMock()
-        list_response.raise_for_status.side_effect = httpx.ReadTimeout("timeout")
+        # Step 2 (list) fails on both bases
+        list_response1 = MagicMock()
+        list_response1.raise_for_status.side_effect = httpx.ReadTimeout("timeout")
+        list_response2 = MagicMock()
+        list_response2.raise_for_status.side_effect = httpx.ReadTimeout("timeout")
 
-        mock_client.get = AsyncMock(side_effect=[conv_response, list_response])
+        mock_client.get = AsyncMock(side_effect=[conv_response, list_response1, list_response2])
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=False)
 
         with patch("app.services.hta_agencies.japan_pmda.httpx.AsyncClient", return_value=mock_client):
-            await agency.load_data()
+            with pytest.raises(RuntimeError, match="KEGG data fetch returned 0 drugs"):
+                await agency.load_data()
 
-        assert agency.is_loaded is True
-        assert len(agency._drug_list) == 0
+        assert agency.is_loaded is False
 
     @pytest.mark.asyncio
     async def test_get_indication_kegg_failure(self):

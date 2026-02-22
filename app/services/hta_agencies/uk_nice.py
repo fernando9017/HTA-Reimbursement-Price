@@ -77,13 +77,25 @@ class UKNICE(HTAAgency):
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
             headers={
-                "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
-                "Accept": "text/html",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             },
         ) as client:
             for programme_type in NICE_PROGRAMME_TYPES:
                 guidance = await self._fetch_guidance_listing(client, programme_type)
                 all_guidance.extend(guidance)
+
+        if not all_guidance:
+            raise RuntimeError(
+                "NICE data fetch returned 0 guidance entries — "
+                "the website structure may have changed or the pages "
+                "could not be fetched. Check "
+                "https://www.nice.org.uk/guidance/published"
+            )
 
         self._guidance_list = all_guidance
         self._loaded = True
@@ -259,6 +271,7 @@ class UKNICE(HTAAgency):
 
         # Pattern 2: Structured list items with data attributes or class names
         # Matches: <h3 class="..."><a href="/guidance/ta123">Title</a></h3>
+        # Also handles multi-line link text, e.g. with <span> inside <a>
         if not items:
             pattern = re.compile(
                 r'<a\s+href="(/guidance/(ta|hst)(\d+))"[^>]*>\s*'
@@ -290,7 +303,66 @@ class UKNICE(HTAAgency):
                     "recommendation": recommendation,
                 })
 
+        # Pattern 3: JSON-LD or embedded JSON data (modern NICE pages may
+        # embed structured data that includes guidance references)
+        if not items:
+            json_pattern = re.compile(
+                r'"/guidance/(ta|hst)(\d+)"',
+                re.IGNORECASE,
+            )
+            for match in json_pattern.finditer(html):
+                gtype = match.group(1)
+                number = match.group(2)
+                ref = f"{gtype.upper()}{number}"
+                if ref in seen_refs:
+                    continue
+                seen_refs.add(ref)
+
+                path = f"/guidance/{gtype.lower()}{number}"
+                url = NICE_BASE_URL + path
+
+                # Try to find a title near this reference in the JSON/HTML
+                title = self._extract_title_near(html, path)
+                date = self._extract_date_near(html, path)
+                recommendation = self._extract_recommendation_near(html, path)
+
+                items.append({
+                    "reference": ref,
+                    "title": title or ref,
+                    "url": url,
+                    "published_date": date,
+                    "guidance_type": programme_type,
+                    "recommendation": recommendation,
+                })
+
         return items
+
+    def _extract_title_near(self, html: str, path: str) -> str:
+        """Try to find a title near a guidance path reference."""
+        escaped_path = re.escape(path)
+        match = re.search(escaped_path, html)
+        if match:
+            # Look in the surrounding context for title-like text
+            start = max(0, match.start() - 200)
+            context = html[start:match.end() + 500]
+
+            # Look for title attribute or nearby text content
+            title_match = re.search(
+                r'title="([^"]+)"',
+                context,
+            )
+            if title_match:
+                return _clean_html_text(title_match.group(1))
+
+            # Look for text after the closing tag of the element containing the href
+            text_match = re.search(
+                r'>([^<]{10,})</(?:a|h\d|span|div)',
+                context[context.index(path):] if path in context else context,
+            )
+            if text_match:
+                return _clean_html_text(text_match.group(1))
+
+        return ""
 
     def _extract_date_near(self, html: str, path: str) -> str:
         """Try to find a published date near a guidance link in the HTML."""

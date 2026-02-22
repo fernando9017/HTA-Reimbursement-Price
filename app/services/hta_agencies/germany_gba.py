@@ -220,34 +220,55 @@ class GermanyGBA(HTAAgency):
         # Try to scrape the current XML link from the AIS page.
         # The G-BA site may render links with single or double quotes, and
         # the href may be relative or absolute.
-        try:
-            response = await client.get(GBA_AIS_PAGE_URL)
-            response.raise_for_status()
-            html = response.text
-            # Match href/src/data-href attributes pointing to the AIS XML
-            for match in re.finditer(
-                r"""(?:href|src|data-href|data-url)=['"]((?:[^'"]*/)"""
-                r"""G-BA_Beschluss_Info[^'"]*\.xml)['"]""",
-                html,
-                re.IGNORECASE,
-            ):
-                url = match.group(1)
-                if not url.startswith("http"):
-                    url = "https://www.g-ba.de" + (
-                        url if url.startswith("/") else "/" + url
-                    )
-                urls.append(url)
-
-            # Also scan for any .xml links that contain "Beschluss" (broader)
-            if not urls:
+        ais_page_urls = [
+            GBA_AIS_PAGE_URL,
+            "https://www.g-ba.de/themen/arzneimittel/arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/",
+        ]
+        for ais_page_url in ais_page_urls:
+            try:
+                response = await client.get(ais_page_url)
+                response.raise_for_status()
+                html = response.text
+                # Match href/src/data-href attributes pointing to the AIS XML
                 for match in re.finditer(
-                    r"""href=['"](/[^'"]*Beschluss[^'"]*\.xml)['"]""",
+                    r"""(?:href|src|data-href|data-url)=['"]((?:[^'"]*/)"""
+                    r"""G-BA_Beschluss_Info[^'"]*\.xml)['"]""",
                     html,
                     re.IGNORECASE,
                 ):
-                    urls.append("https://www.g-ba.de" + match.group(1))
-        except Exception:
-            logger.warning("Could not fetch AIS page to find XML URL, will try fallbacks")
+                    url = match.group(1)
+                    if not url.startswith("http"):
+                        url = "https://www.g-ba.de" + (
+                            url if url.startswith("/") else "/" + url
+                        )
+                    urls.append(url)
+
+                # Also scan for any .xml links that contain "Beschluss" (broader)
+                if not urls:
+                    for match in re.finditer(
+                        r"""href=['"](/[^'"]*Beschluss[^'"]*\.xml)['"]""",
+                        html,
+                        re.IGNORECASE,
+                    ):
+                        urls.append("https://www.g-ba.de" + match.group(1))
+
+                # Also scan for any generic .xml download links
+                if not urls:
+                    for match in re.finditer(
+                        r"""href=['"](/[^'"]*\.xml)['"]""",
+                        html,
+                        re.IGNORECASE,
+                    ):
+                        xml_path = match.group(1)
+                        if "ais" in xml_path.lower() or "beschluss" in xml_path.lower():
+                            urls.append("https://www.g-ba.de" + xml_path)
+
+                if urls:
+                    break
+            except Exception:
+                logger.warning(
+                    "Could not fetch AIS page %s to find XML URL", ais_page_url,
+                )
 
         # Fallback: known and guessed download path patterns.
         # The G-BA periodically changes the numeric folder segment in the URL,
@@ -258,6 +279,9 @@ class GermanyGBA(HTAAgency):
             "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/fileadmin/downloads/ais/G-BA_Beschluss_Info.xml",
+            # Additional patterns observed in G-BA URL structure
+            "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.xml",
+            "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.xml",
         ])
 
         # De-duplicate while preserving order
