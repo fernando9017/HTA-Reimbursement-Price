@@ -123,6 +123,9 @@ async def _build_hta_cross_reference() -> None:
     logger.info("HTA cross-reference built for %d substances", len(summaries))
 
 
+MAX_AGENCY_RETRIES = 2
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load all data sources on startup."""
@@ -146,15 +149,47 @@ async def lifespan(app: FastAPI):
 
     for code, agency in hta_agencies.items():
         data_file = DATA_DIR / f"{code}.json"
-        try:
-            if agency.load_from_file(data_file):
-                logger.info("%s (%s) loaded from local cache", agency.agency_abbreviation, code)
-            else:
+
+        # 1) Try loading from local cache first
+        if agency.load_from_file(data_file):
+            logger.info("%s (%s) loaded from local cache", agency.agency_abbreviation, code)
+            continue
+
+        # 2) Fetch from remote with retry
+        fetched = False
+        for attempt in range(1, MAX_AGENCY_RETRIES + 1):
+            try:
                 await agency.load_data()
-                agency.save_to_file(data_file)
-                logger.info("%s (%s) data fetched and cached", agency.agency_abbreviation, code)
-        except Exception:
-            logger.exception("Failed to load %s data", agency.agency_abbreviation)
+                # Only save to cache if we actually have data
+                if agency.is_loaded:
+                    agency.save_to_file(data_file)
+                    logger.info(
+                        "%s (%s) data fetched and cached (attempt %d)",
+                        agency.agency_abbreviation, code, attempt,
+                    )
+                fetched = True
+                break
+            except Exception:
+                logger.warning(
+                    "Attempt %d/%d to load %s data failed",
+                    attempt, MAX_AGENCY_RETRIES, agency.agency_abbreviation,
+                    exc_info=True,
+                )
+
+        # 3) If remote fetch failed, try cache as fallback (file might have been
+        #    written by a previous successful run even if load_from_file returned
+        #    False above due to the data being stale or empty).
+        if not fetched and not agency.is_loaded:
+            if agency.load_from_file(data_file):
+                logger.info(
+                    "%s (%s) loaded from cache after remote failure",
+                    agency.agency_abbreviation, code,
+                )
+            else:
+                logger.error(
+                    "%s (%s) data unavailable — remote fetch failed and no valid cache",
+                    agency.agency_abbreviation, code,
+                )
 
     # Build HTA cross-reference for analogue module
     try:
@@ -271,7 +306,9 @@ async def reload_data():
         data_file = DATA_DIR / f"{code}.json"
         try:
             await agency.load_data()
-            agency.save_to_file(data_file)
+            # Only save to cache if we actually have data
+            if agency.is_loaded:
+                agency.save_to_file(data_file)
         except Exception as e:
             errors.append(f"{agency.agency_abbreviation}: {e}")
 
