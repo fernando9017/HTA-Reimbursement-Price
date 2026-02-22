@@ -21,7 +21,7 @@ const EMA_LINK = {
 //
 // Batch 1 (done): DE (Orserdu), JP (Keytruda) — original examples
 // Batch 2 (done): GB, FR, IT, ES, CA, AU, BR, KR, NL, BE
-// Batch 3 (next): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU
+// Batch 3 (done): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU
 // Batch 4:        CZ, RO, GR, IL, MX, TW, SG, TH, AR, CL
 // Batch 5:        HK, TR, SA, AE, EG, CO, CN, ID, PH, VN
 // Batch 6:        DZ, LB, PE, QA, OM, RU, HR, BG, SK, SI
@@ -310,6 +310,38 @@ const COUNTRIES = [
     <li>Drug prices are published by SV-Dachverband; the EKO search also shows the current Kassenpreis alongside reimbursement conditions</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Erstlinien-Erhaltungstherapie des lokal fortgeschrittenen oder metastasierten Urothelkarzinoms ohne Progression nach platinbasierter Chemotherapie",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation extending Bavencio\'s indication to first-line maintenance treatment of urothelial carcinoma. As an EU member, Austria is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Hospital Funding (Spitalsfinanzierung / LKF)",
+                    date: "2021",
+                    detail: 'In Austria, IV-administered oncology drugs like avelumab are typically funded through <strong>hospital budgets</strong> (Spitalsfinanzierung) under the LKF (Leistungsorientierte Krankenanstaltenfinanzierung — performance-based hospital financing) system, rather than through the outpatient EKO (Erstattungskodex). This means avelumab is available through hospital outpatient oncology clinics without requiring a specific EKO listing. Austrian medical publications confirm avelumab as standard of care for first-line maintenance UC, consistent with ESMO and EAU guidelines.',
+                    links: [
+                        { label: "Sozialversicherung — EKO Search", url: "https://www.sozialversicherung.at/oeko/views/index.xhtml" },
+                    ],
+                },
+                {
+                    title: "Clinical Adoption & Guidelines",
+                    date: "From April 2021",
+                    detail: 'Austrian oncologists adopted avelumab for UC maintenance following a medical webinar in April 2021 coinciding with the EU approval, organised with international and national experts. Austria\'s hospital-based funding model means access was relatively quick after EC approval — individual hospitals could incorporate avelumab into their oncology formularies without a separate national reimbursement listing. Austria also participates in the <strong>BeNeLuxA</strong> initiative for joint price negotiations on expensive medicines.',
+                    links: [
+                        { label: "BASG — ASPREGISTER", url: "https://aspregister.basg.gv.at/aspregister/faces/aspregister.jspx" },
+                    ],
+                },
+            ],
+            takeaway: 'Austria illustrates a hospital-funding pathway where IV oncology drugs bypass the standard outpatient EKO reimbursement list. This model can provide faster access than countries requiring explicit positive-list inclusion, but makes it harder to verify reimbursement status from public databases — you won\'t find avelumab in the EKO. Instead, check with the treating hospital or look for clinical adoption evidence in Austrian medical publications.',
+        },
     },
     {
         code: "BE",
@@ -1057,6 +1089,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Statistics:</strong> <a href="https://medstat.dk/en" target="_blank" rel="noopener">Medstat.dk</a> provides free, public aggregate data on all medicine sales in Denmark since 1996 (primary care) and 1997 (hospitals), searchable by ATC code, region, age, and sex.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Førstelinjevedligeholdelsesbehandling af lokalt fremskreden eller metastatisk urotelialt karcinom uden progression efter platinabaseret kemoterapi",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Denmark is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Medicinrådet Recommendation",
+                    date: "23 June 2021",
+                    detail: 'Medicinrådet (Danish Medicines Council) <strong>recommended avelumab as possible standard treatment</strong> (anbefalet som mulig standardbehandling) for maintenance therapy in patients with advanced urothelial carcinoma. The assessment took 113 days (16 weeks). The Council concluded that avelumab extends survival with tolerable side effects that do not impair quality of life, and that the relationship between clinical benefit and healthcare costs was <strong>reasonable</strong> at the Amgros-negotiated (confidential) price. The recommendation covers patients in good general condition (ECOG PS 0–1) whose disease has not progressed after platinum-based chemotherapy. Medicinrådet explicitly <strong>did not recommend</strong> avelumab for patients who cannot tolerate cisplatin and receive first-line immunotherapy instead.',
+                    links: [
+                        { label: "Medicinrådet — Avelumab for urotelialt carcinom", url: "https://medicinraadet.dk/anbefalinger-og-vejledninger/laegemidler-og-indikationsudvidelser/a/avelumab-bavencio-urotelialt-carcinom" },
+                    ],
+                },
+                {
+                    title: "Hospital Procurement via Amgros",
+                    date: "From July 2021",
+                    detail: 'Following the positive Medicinrådet recommendation, avelumab became available through Danish public hospitals procured by Amgros. As a hospital-administered IV drug, avelumab bypasses the community pharmacy reimbursement system (MedicinPriser/DKMA). The Amgros-negotiated price is <strong>confidential</strong> — public list prices do not reflect the actual acquisition cost. Compliance with Medicinrådet recommendations across Danish regions is typically very high.',
+                    links: [
+                        { label: "Amgros — Hospital Procurement", url: "https://amgros.dk/en/" },
+                    ],
+                },
+            ],
+            takeaway: 'Denmark\'s Medicinrådet pathway for hospital drugs is one of the fastest in Europe: just 5 months from EC approval (January 2021) to recommendation (June 2021), with a 113-day assessment timeline. The parallel process — Amgros negotiating price while Medicinrådet assesses clinical value — accelerates access. Unlike NICE, Medicinrådet does not publish a cost-per-QALY threshold; instead, it assesses whether clinical benefit is "proportionate to cost" at the negotiated price.',
+        },
     },
     {
         code: "EG",
@@ -1217,6 +1281,39 @@ const COUNTRIES = [
     <li>To check if a specific drug has Hila approval, search the <a href="https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" target="_blank" rel="noopener">Hila list of reimbursable medicines</a> or use the <a href="https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" target="_blank" rel="noopener">Kela drug search</a></li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Paikallisesti edenneen tai etäpesäkkeisen uroteelikarsinooman ensilinjan ylläpitohoito potilailla, joiden tauti ei ole edennyt platinapohjaisen kemoterapian jälkeen",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Finland is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "PALKO (COHERE Finland) Recommendation",
+                    date: "1 September 2021",
+                    detail: 'Palveluvalikoima­neuvosto PALKO (COHERE Finland — Council for Choices in Health Care) issued its final recommendation on 1 September 2021, following a draft recommendation approved on 17 June 2021 and public consultation until 4 August 2021. PALKO concluded that avelumab <strong>belongs in the publicly funded service basket</strong> for first-line maintenance UC, conditional on a <strong>sufficient price reduction</strong> between the marketing authorization holder and purchaser. The ICER was approximately <strong>€96,000/QALY</strong> at list price, with additional costs of ~€60,000/patient vs. BSC. The average OS benefit was ~7 months for this poor-prognosis group.',
+                    links: [
+                        { label: "PALKO — Avelumab recommendation announcement", url: "https://palveluvalikoima.fi/-/avelumabi-uroteelikarsinooman-ensilinjan-hoidosssa-suositusluonnos-kommentoitavana" },
+                        { label: "Suomen Syöpäpotilaat — PALKO recommendation", url: "https://www.syopapotilaat.fi/ajankohtaista/verkkouutiset/palveluvalikoimaneuvosto-hyvaksyi-suosituksen-avelumabi-uroteelikarsinooman-ensilinjan-hoidossa/" },
+                    ],
+                },
+                {
+                    title: "Hospital Sector Funding",
+                    date: "From late 2021",
+                    detail: 'As a hospital-administered IV infusion, avelumab is funded through <strong>hospital district budgets</strong> — it does NOT appear in the Kela/Hila outpatient reimbursement system. Finnish hospital districts (now wellbeing services counties since 2023) procure oncology drugs directly, negotiating prices with manufacturers. Access and pricing may vary between regions depending on local procurement decisions and budget constraints.',
+                    links: [
+                        { label: "FIMEA — HTA Assessments", url: "https://fimea.fi/laakehoidon-arviointi/arviointijulkaisut" },
+                    ],
+                },
+            ],
+            takeaway: 'Finland\'s dual-track system is clearly visible here: PALKO (not Hila/Kela) assessed avelumab because it\'s a hospital drug. PALKO\'s conditional recommendation (requiring a price reduction from list price) reflects Finland\'s approach to balancing access with cost-effectiveness. The €96,000/QALY ICER at list price exceeded acceptable thresholds, making confidential price negotiations essential. Users researching hospital oncology drugs in Finland should look at PALKO recommendations, not the Kela/Hila system.',
+        },
     },
     {
         code: "FR",
@@ -1533,6 +1630,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> NEAK and OGYEI interfaces are in Hungarian. Key terms: "t&aacute;mogat&aacute;s" (support/reimbursement), "hum&aacute;n gy&oacute;gyszer" (human medicine), "fizet&eacute;si ar&aacute;ny" (payment ratio). INN names are searchable in Latin characters.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Első vonalbeli fenntartó kezelés helyileg előrehaladott vagy metasztatikus urothelialis carcinomában, platinaalapú kemoterápia után progressziómentes betegeknél",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Hungary is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Named-Patient Based Reimbursement (NPBR / Egyedi Méltányosság)",
+                    date: "Late 2022",
+                    detail: 'Avelumab was accepted into Hungary\'s <strong>Named-Patient Based Reimbursement (NPBR)</strong> program (egyedi méltányosság) for first-line maintenance UC in late 2022. This is the primary pathway for innovative oncology drugs in Hungary — NEAK approves individual patient applications on a case-by-case basis, providing 100% reimbursement for eligible patients. The NPBR pathway is used when drugs are not yet included on the standard normative reimbursement list. OGYEI (National Institute of Pharmacy and Nutrition) handles the regulatory and HTA evaluation, while NEAK manages reimbursement decisions.',
+                    links: [
+                        { label: "OGYEI — Drug Database", url: "https://ogyei.gov.hu/drug_database" },
+                        { label: "NEAK — Individual Reimbursement", url: "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/gyogyszer_segedeszkoz_gyogyfuro_tamogatas/egyedi_tamogatas" },
+                    ],
+                },
+                {
+                    title: "Clinical Adoption",
+                    date: "From 2023",
+                    detail: 'Following NPBR acceptance, Hungarian oncologists adopted avelumab as the standard maintenance therapy for first-line UC, consistent with ESMO and EAU guidelines. A nationwide real-world study identified 2,523 patients with metastatic UC in Hungary, with 86% receiving first-line platinum-based chemotherapy — the eligible population for avelumab maintenance. Access requires an individual NEAK application by the treating physician at an authorised hospital department.',
+                    links: [
+                        { label: "PMC — Real-world mUC treatment patterns in Hungary", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10611888/" },
+                    ],
+                },
+            ],
+            takeaway: 'Hungary illustrates the NPBR (egyedi méltányosság) pathway — a case-by-case individual reimbursement mechanism used for innovative drugs not yet on the standard normative list. The ~22-month gap from EC approval (January 2021) to NPBR acceptance (late 2022) is typical for Central-Eastern European markets. Unlike the standard normative or kiemelt reimbursement routes, NPBR requires individual physician applications to NEAK, which can create administrative barriers but ensures 100% coverage for approved patients.',
+        },
     },
     {
         code: "IS",
@@ -1627,6 +1757,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Access timeline:</strong> From EMA approval to Irish reimbursement typically takes 12&ndash;18 months (EMA &rarr; NCPE &rarr; HSE commercial negotiation &rarr; listing). Track status on <a href="https://www.ncpe.ie/drugs/" target="_blank" rel="noopener">ncpe.ie</a>.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Ireland is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "NCPE Health Technology Assessment (HTA ID: 21001)",
+                    date: "December 2021",
+                    detail: 'The NCPE completed its full HTA for avelumab (HTA ID: 21001) with final data submitted by the applicant in November 2021. The NCPE recommended that the HSE should consider <strong>not funding</strong> avelumab at the submitted price, concluding that cost-effectiveness could not be demonstrated. The submitted price was €896.63 per 200 mg vial (cost per cycle: €4,214 including VAT; annual cost: ~€106,246/patient). There were no other licensed first-line maintenance treatments for this population in Ireland — BSC was the standard of care.',
+                    links: [
+                        { label: "NCPE — Avelumab HTA ID: 21001", url: "https://www.ncpe.ie/avelumab-bavencio-1l-maintenance-urothelial-carcinoma-hta-id-21001/" },
+                    ],
+                },
+                {
+                    title: "HSE Reimbursement Decision",
+                    date: "September 2022",
+                    detail: 'Despite the NCPE\'s negative cost-effectiveness recommendation, the HSE <strong>approved reimbursement</strong> of avelumab following confidential price negotiations in September 2022. Avelumab is funded under the <strong>High-Tech Arrangements</strong> — the pathway for biologics and oncology drugs dispensed through hospital pharmacies. The confidential discount was essential to achieving an acceptable cost-effectiveness profile.',
+                    links: [
+                        { label: "NCPE — Drug Evaluations", url: "https://www.ncpe.ie/drugs/" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Ireland shows how a negative NCPE recommendation does not necessarily mean no access. The HSE can approve reimbursement after confidential price negotiations, even when the NCPE finds the submitted price is not cost-effective. The 20-month gap from EC approval (January 2021) to HSE reimbursement (September 2022) reflects the sequential nature of NCPE assessment → HSE negotiation → final decision. The High-Tech Arrangements pathway is the standard route for hospital-dispensed oncology drugs in Ireland.',
+        },
     },
     {
         code: "IL",
@@ -2382,6 +2544,38 @@ const COUNTRIES = [
     <li>Generic substitution is mandatory at pharmacies unless the physician marks "do not substitute" (and the patient pays the difference)</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Førstelinjevedlikeholdsbehandling av lokalavansert eller metastatisk urotelialt karsinom uten progresjon etter platinabasert kjemoterapi",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EEA member, Norway is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Legemiddelverket — Single Technology Assessment (STA)",
+                    date: "August 2021",
+                    detail: 'Statens legemiddelverk (Norwegian Medicines Agency) conducted a hurtig metodevurdering (rapid health technology assessment) with a cost-utility analysis for avelumab as monotherapy for first-line maintenance UC. The assessment was commissioned by Bestillerforum RHF on 26 October 2020. The STA report was cleared by Bestillerforum on <strong>10 August 2021</strong> and sent to the four regional health authorities for preparation of the Beslutningsforum case.',
+                    links: [
+                        { label: "Nye Metoder — Avelumab (Bavencio)", url: "https://www.nyemetoder.no/metoder/avelumab-bavencio-indikasjon-iii" },
+                    ],
+                },
+                {
+                    title: "Beslutningsforum Decision — Approved",
+                    date: "30 August 2021",
+                    detail: 'Beslutningsforum for nye metoder (Decision Forum for New Methods) met on 30 August 2021 and decided: <strong>avelumab (Bavencio) is introduced</strong> as monotherapy for first-line maintenance treatment of adults with locally advanced or metastatic urothelial carcinoma who have not progressed after platinum-based chemotherapy. The decision was conditional on the price being equal to or lower than the price forming the basis for the decision. Treatment could commence from <strong>15 September 2021</strong> when the negotiated price took effect. Avelumab is funded through hospital specialist health service budgets — not the blue prescription (blå resept) system.',
+                    links: [
+                        { label: "Nye Metoder — Beslutningsforum 30.08.2021 documents", url: "https://www.nyemetoder.no/4a4ac2/siteassets/documents/beslutninger/beslutningsforum-30.08.2021---offentlige-sakspapirer.pdf" },
+                    ],
+                },
+            ],
+            takeaway: 'Norway\'s Nye Metoder system achieved approval in just 7 months from EC authorisation. The pathway — Bestillerforum commission → Legemiddelverket STA → Beslutningsforum decision — is sequential but efficient. As a hospital-administered drug, avelumab is funded by the specialist health services, not the community pharmacy blue prescription system. The Beslutningsforum decision is binding for all Norwegian public hospitals through the four regional health authorities.',
+        },
     },
     {
         code: "OM",
@@ -2575,6 +2769,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> For current reimbursement status, the third-party portal <a href="https://www.lekinfo24.pl" target="_blank" rel="noopener">Lekinfo24.pl</a> aggregates ministerial announcements into a searchable format &mdash; useful for quick look-ups between quarterly updates. Always verify against the official announcement for binding information.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Leczenie podtrzymujące pierwszej linii miejscowo zaawansowanego lub przerzutowego raka urotelialnego bez progresji po chemioterapii opartej na platynie",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Poland is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "AOTMiT Assessment & Recommendation",
+                    date: "2022",
+                    detail: 'AOTMiT (Agency for Health Technology Assessment and Tariff System) issued <strong>Recommendation No. 12/2022</strong> for Bavencio (avelumabum). The AOTMiT President\'s recommendation was <strong>positive</strong>, supporting reimbursement of avelumab as first-line maintenance monotherapy for locally advanced or metastatic UC. The assessment was based on the JAVELIN Bladder 100 OS data and a cost-effectiveness analysis against best supportive care.',
+                    links: [
+                        { label: "AOTMiT — Bavencio Recommendation", url: "https://www.aotm.gov.pl/aktualnosci/najnowsze/rekomendacja-prezesa-bavencio-avelumabum/" },
+                    ],
+                },
+                {
+                    title: "NFZ Drug Program B.141 Listing",
+                    date: "2022–present",
+                    detail: 'Avelumab is reimbursed by the NFZ (National Health Fund) under <strong>drug program B.141</strong> ("Leczenie pacjentów z rakiem urotelialnym" — Treatment of patients with urothelial cancer). Drug programs in Poland are the primary pathway for expensive oncology medicines — they specify eligible indications, entry/exclusion criteria, required diagnostics, dosing, and monitoring. Prescribing is limited to authorised hospital departments. Patients receive the drug <strong>free of charge</strong> within the program. The target population is estimated at 3,000–4,000 eligible patients annually.',
+                    links: [
+                        { label: "Ministry of Health — Reimbursed Medicines List", url: "https://www.gov.pl/web/zdrowie/leki-refundowane" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Poland illustrates the programy lekowe (drug program) pathway — the standard route for expensive oncology drugs. Unlike pharmacy-dispensed medicines, drug programs provide 100% coverage but with strict clinical criteria and hospital-only prescribing. The AOTMiT positive recommendation (No. 12/2022) was followed by inclusion in drug program B.141, giving eligible UC patients free access through authorised centres.',
+        },
     },
     {
         code: "PT",
@@ -2674,6 +2900,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Key legislation:</strong> Decreto-Lei 97/2015 (SiNATS master law), Portaria 195-D/2015 (reimbursement tiers), Portaria 394/2025/1 (2026 reference countries and price revision rules). All available at <a href="https://dre.pt/" target="_blank" rel="noopener">Di&aacute;rio da Rep&uacute;blica</a>.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Tratamento de manutenção em primeira linha do carcinoma urotelial localmente avançado ou metastático sem progressão após quimioterapia à base de platina",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Portugal is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "INFARMED — Pharmacotherapeutic & Economic Assessment",
+                    date: "March 2021",
+                    detail: 'INFARMED\'s DATS (staff experts) and CATS (advisory committee) assessed avelumab under the SiNATS framework (Decreto-Lei 97/2015). The pharmacotherapeutic assessment report was dated <strong>21 March 2021</strong>. DATS concluded that avelumab demonstrated <strong>moderate added therapeutic value</strong> (valor terapêutico acrescentado moderado) versus best supportive care. However, the economic assessment by CE-CATS concluded that avelumab was <strong>not cost-effective</strong> at list price in the Portuguese context, with strong uncertainty regarding economic value. CE-CATS recommended that public funding should be conditional on a <strong>substantial price reduction</strong>.',
+                    links: [
+                        { label: "INFARMED — Bavencio Assessment Report (C. Urotelial)", url: "https://www.infarmed.pt/documents/15786/3368817/Relat%C3%B3rio+de+avalia%C3%A7%C3%A3o+de+financiamento+p%C3%BAblico+de+Bavencio+(Avelumab)+-+C.+Urotelial,+manuten%C3%A7%C3%A3o3/1b3554bf-dd71-53bc-310b-b8d07aa02a4c" },
+                    ],
+                },
+                {
+                    title: "Hospital Contract (Avaliação Prévia Hospitalar)",
+                    date: "2021–2022",
+                    detail: 'Following the HTA assessment, INFARMED entered into a hospital contract with the marketing authorization holder under Article 6 of Decreto-Lei 97/2015. This <strong>avaliação prévia hospitalar</strong> (prior hospital evaluation) pathway sets a maximum acquisition price and typically includes risk-sharing clauses. Avelumab is available through SNS (Serviço Nacional de Saúde) hospitals — as a hospital drug, it is 100% publicly funded and does not use the standard outpatient reimbursement tiers (A/B/C/D). Pricing terms are confidential.',
+                    links: [
+                        { label: "INFARMED — HTA Reports", url: "https://www.infarmed.pt/web/infarmed/relatorios-de-avaliacao-de-financiamento-publico" },
+                    ],
+                },
+            ],
+            takeaway: 'Portugal illustrates INFARMED\'s unique triple role — regulator, HTA body, and price setter — in action. The split between the pharmacotherapeutic finding ("moderate added value") and the economic finding ("not cost-effective at list price") is typical for expensive oncology drugs. The avaliação prévia hospitalar pathway, with confidential pricing and risk-sharing, is the standard route for hospital-administered drugs. Note that hospital drugs bypass Portugal\'s tiered outpatient reimbursement system entirely.',
+        },
     },
     {
         code: "PR",
@@ -3307,6 +3565,38 @@ const COUNTRIES = [
     <li>For the official list of all authorised medicines, search <a href="https://www.lakemedelsverket.se/sv/sok-lakemedelsfakta?activeTab=1" target="_blank" rel="noopener">L&auml;kemedelsverket&rsquo;s product database</a> (primarily in Swedish)</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'European Commission approved the Type II variation extending Bavencio\'s indication to first-line maintenance urothelial carcinoma in adults. Based on the JAVELIN Bladder 100 trial: median OS 21.4 vs 14.3 months (HR 0.69). As an EU member, Sweden is covered by the centralised procedure.',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "NT-rådet Recommendation",
+                    date: "March 2021",
+                    detail: 'The NT-rådet (New Therapies Council) assessed avelumab for first-line maintenance treatment of locally advanced or metastatic urothelial carcinoma. Because Bavencio is a hospital-administered IV infusion, it was assessed through the NT-rådet pathway rather than TLV. NT-rådet <strong>recommended Bavencio</strong> as cost-effective with high reliability, based on a cost-minimisation analysis using the negotiated (confidential) price. The evidence was rated <strong>ESMO Category 1A</strong> — the highest level of clinical evidence.',
+                    links: [
+                        { label: "NT-rådet — Bavencio recommendation", url: "https://janusinfo.se/nationelltordnatintroduktion/nyheter/nyheter/ntradetsrekommendationer.5.72866553160e98b552857b7.html" },
+                    ],
+                },
+                {
+                    title: "Regional Funding & Clinical Use",
+                    date: "From April 2021",
+                    detail: 'Following the NT-rådet recommendation, Sweden\'s 21 regions were expected to fund avelumab through their hospital budgets. NT-rådet recommendations are not legally binding but have very high compliance (~95%). Avelumab became the standard of care for first-line maintenance UC in Sweden — the fastest major EU country to grant reimbursed access (approximately 2 months after EC approval).',
+                    links: [
+                        { label: "FASS — Bavencio", url: "https://www.fass.se/LIF/product?nplId=20170614000016" },
+                    ],
+                },
+            ],
+            takeaway: 'Sweden demonstrates one of the fastest EU access timelines: just ~2 months from EC approval (January 2021) to NT-rådet recommendation (March 2021). The NT-rådet pathway for hospital drugs bypasses TLV, using cost-minimisation analysis with confidential prices. The high ESMO evidence rating and clear OS benefit made this a straightforward assessment, highlighting how strong clinical evidence accelerates the Nordic HTA process.',
+        },
     },
     {
         code: "CH",
@@ -3355,6 +3645,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> Switzerland has among the highest drug prices in Europe. The SL database is available in German, French, and Italian. For English navigation, use the German version with Google Translate — it handles Swiss pharmaceutical terms well.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "Swissmedic Authorization",
+                    date: "2021",
+                    detail: 'Swissmedic approved the extension of indication for avelumab (Bavencio) to include first-line maintenance treatment of urothelial carcinoma. Swissmedic operates independently from EMA — Switzerland is not part of the EU — but leveraged the same JAVELIN Bladder 100 data package. Bavencio had been authorised in Switzerland since 5 September 2017 for Merkel cell carcinoma. Switzerland participated in <strong>Project Orbis</strong> alongside FDA, Health Canada, and TGA for coordinated oncology review.',
+                    links: [
+                        { label: "SwissmedicInfo — Bavencio", url: "https://www.swissmedicinfo.ch/" },
+                    ],
+                },
+                {
+                    title: "BAG — Spezialitätenliste (SL) Listing",
+                    date: "2021",
+                    detail: 'The BAG (Federal Office of Public Health) listed avelumab on the <strong>Spezialitätenliste (SL)</strong> for the UC maintenance indication, making it reimbursable under Swiss mandatory health insurance (OKP/LAMal). The SL listing includes a <strong>Limitatio</strong> restricting reimbursement to the approved indication. The price was set using the standard Swiss methodology: therapeutic cross-comparison (TQV) with comparable treatments in Switzerland, and international reference pricing (APV) against 9 countries (AT, BE, DK, FI, FR, DE, NL, SE, UK).',
+                    links: [
+                        { label: "Spezialitätenliste — Search", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" },
+                    ],
+                },
+                {
+                    title: "Pricing & Reimbursement Details",
+                    date: "Current",
+                    detail: 'Bavencio is listed at approximately CHF 797–917 per vial (200 mg/10 mL) on the SL. It is classified as <strong>Liste A</strong> with a normal 10% co-payment (Selbstbehalt). The BAG requires products on the SL to meet criteria of efficacy, appropriateness, and cost-effectiveness (wirksam, zweckmässig und wirtschaftlich — WZW). Mandatory 3-yearly price reviews may adjust the price based on updated reference country data.',
+                    links: [
+                        { label: "Compendium.ch — Bavencio", url: "https://compendium.ch/product/1362833-bavencio-inf-konz-200-mg-10ml" },
+                    ],
+                },
+            ],
+            takeaway: 'Switzerland\'s pathway illustrates how a non-EU country with its own regulatory agency (Swissmedic) can still achieve timely access. The SL listing with Limitatio ensures reimbursement is targeted to the approved indication. Switzerland\'s dual pricing methodology (TQV + APV) and participation in Project Orbis demonstrate how international collaboration accelerates oncology access even outside the EU framework.',
+        },
     },
     {
         code: "TH",
