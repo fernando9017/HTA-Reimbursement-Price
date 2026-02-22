@@ -427,6 +427,13 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
+    // Spain Bifimed (SNS reimbursement) badge
+    const bifimedBadge = a.bifimed_reimbursed
+        ? `<span class="badge ${a.bifimed_reimbursed === "Yes" ? "badge-reimbursed" : "badge-not-reimbursed"}">
+            <span class="label">SNS:</span> ${a.bifimed_reimbursed === "Yes" ? "Reimbursed" : "Not reimbursed"}
+           </span>`
+        : "";
+
     // Japan (MHLW) NHI reimbursement status badge
     const isReimbursed = a.pmda_review_type === "Reimbursed (NHI)";
     const pmdaBadge = a.pmda_review_type
@@ -442,17 +449,24 @@ function renderSingleAssessment(a) {
     const isJapan = !!a.pmda_review_type;
     let linkHtml = "";
     if (isJapan) {
-        const keggLink = a.assessment_url
-            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">Current price on KEGG JAPIC &rarr;</a>`
+        const pmdaLink = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">PMDA review report &rarr;</a>`
             : "";
         const mhlwLink = a.japan_mhlw_url
-            ? `<a class="assessment-link" href="${esc(a.japan_mhlw_url)}" target="_blank" rel="noopener">MHLW pricing decisions &rarr;</a>`
+            ? `<a class="assessment-link" href="${esc(a.japan_mhlw_url)}" target="_blank" rel="noopener">MHLW price-setting PDF &rarr;</a>`
             : "";
-        linkHtml = [keggLink, mhlwLink].filter(Boolean).join(" ");
+        linkHtml = [pmdaLink, mhlwLink].filter(Boolean).join(" ");
+    } else if (isSpain) {
+        const iptLink = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">View IPT on AEMPS &rarr;</a>`
+            : "";
+        const bifimedLink = a.bifimed_url
+            ? `<a class="assessment-link" href="${esc(a.bifimed_url)}" target="_blank" rel="noopener">Bifimed (SNS reimbursement) &rarr;</a>`
+            : "";
+        linkHtml = [iptLink, bifimedLink].filter(Boolean).join(" ");
     } else {
         const linkText = isNICE ? "View on NICE"
             : isGermany ? "View on G-BA"
-            : isSpain ? "View IPT on AEMPS"
             : "View full assessment on HAS";
         linkHtml = a.assessment_url
             ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">${linkText} &rarr;</a>`
@@ -502,6 +516,7 @@ function renderSingleAssessment(a) {
                 ${guidanceRefBadge}
                 ${iptBadge}
                 ${iptRefBadge}
+                ${bifimedBadge}
                 ${pmdaBadge}
             </div>
             ${smrDesc}

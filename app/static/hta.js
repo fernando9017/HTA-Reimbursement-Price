@@ -322,9 +322,17 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
+    // Spain Bifimed (SNS reimbursement) badge
+    const bifimedBadge = a.bifimed_reimbursed
+        ? `<span class="badge ${a.bifimed_reimbursed === "Yes" ? "badge-reimbursed" : "badge-not-reimbursed"}">
+            <span class="label">SNS:</span> ${a.bifimed_reimbursed === "Yes" ? "Reimbursed" : "Not reimbursed"}
+           </span>`
+        : "";
+
+    const isReimbursed = a.pmda_review_type === "Reimbursed (NHI)";
     const pmdaBadge = a.pmda_review_type
-        ? `<span class="badge badge-pmda">
-            <span class="label">PMDA:</span> ${esc(a.pmda_review_type)}
+        ? `<span class="badge ${isReimbursed ? "badge-reimbursed" : "badge-not-reimbursed"}">
+            <span class="label">NHI:</span> ${esc(a.pmda_review_type)}
            </span>`
         : "";
 
@@ -332,16 +340,33 @@ function renderSingleAssessment(a) {
     const isNICE = !!a.nice_recommendation || !!a.guidance_reference;
     const isSpain = !!a.therapeutic_positioning || !!a.ipt_reference;
     const isJapan = !!a.pmda_review_type;
-    const linkText = isNICE ? "View on NICE"
-        : isGermany ? "View on G-BA"
-        : isSpain ? "View IPT on AEMPS"
-        : isJapan ? "View on PMDA"
-        : "View full assessment on HAS";
-    const link = a.assessment_url
-        ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
-            ${linkText} &rarr;
-           </a>`
-        : "";
+    let link = "";
+    if (isJapan) {
+        const pmdaLink = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">PMDA review report &rarr;</a>`
+            : "";
+        const mhlwLink = a.japan_mhlw_url
+            ? `<a class="assessment-link" href="${esc(a.japan_mhlw_url)}" target="_blank" rel="noopener">MHLW price-setting PDF &rarr;</a>`
+            : "";
+        link = [pmdaLink, mhlwLink].filter(Boolean).join(" ");
+    } else if (isSpain) {
+        const iptLink = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">View IPT on AEMPS &rarr;</a>`
+            : "";
+        const bifimedLink = a.bifimed_url
+            ? `<a class="assessment-link" href="${esc(a.bifimed_url)}" target="_blank" rel="noopener">Bifimed (SNS reimbursement) &rarr;</a>`
+            : "";
+        link = [iptLink, bifimedLink].filter(Boolean).join(" ");
+    } else {
+        const linkText = isNICE ? "View on NICE"
+            : isGermany ? "View on G-BA"
+            : "View full assessment on HAS";
+        link = a.assessment_url
+            ? `<a class="assessment-link" href="${esc(a.assessment_url)}" target="_blank" rel="noopener">
+                ${linkText} &rarr;
+               </a>`
+            : "";
+    }
 
     const smrDesc = a.smr_description
         ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
@@ -385,6 +410,7 @@ function renderSingleAssessment(a) {
                 ${guidanceRefBadge}
                 ${iptBadge}
                 ${iptRefBadge}
+                ${bifimedBadge}
                 ${pmdaBadge}
             </div>
             ${smrDesc}

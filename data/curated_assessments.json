@@ -1,0 +1,160 @@
+{
+  "_meta": {
+    "description": "Curated HTA assessment data for drugs where live scraping is unreliable. Entries here supplement (not replace) live-scraped data. When an adapter returns no results for a substance+country, these entries are used as fallback.",
+    "last_updated": "2025-05-01",
+    "format": "Keyed by lowercase active substance (INN). Each substance maps country codes to a list of AssessmentResult-compatible objects.",
+    "per_country_fields": {
+      "GB": "assessment_url (NICE guidance), nice_recommendation, guidance_reference",
+      "DE": "assessment_url (G-BA procedure), benefit_rating, evidence_level, comparator, patient_group",
+      "FR": "assessment_url (HAS CT opinion), smr_value, asmr_value",
+      "ES": "assessment_url (IPT PDF), ipt_reference, therapeutic_positioning, bifimed_reimbursed, bifimed_url",
+      "JP": "assessment_url (PMDA review), pmda_review_type, japan_mhlw_url (price-setting PDF)"
+    }
+  },
+  "avelumab": {
+    "GB": [
+      {
+        "product_name": "Bavencio",
+        "evaluation_reason": "Avelumab for maintenance treatment of locally advanced or metastatic urothelial carcinoma after platinum-based chemotherapy",
+        "opinion_date": "2022-03-23",
+        "assessment_url": "https://www.nice.org.uk/guidance/ta788",
+        "nice_recommendation": "Recommended",
+        "guidance_reference": "TA788",
+        "guidance_type": "Technology appraisal guidance",
+        "summary_en": "NICE Technology appraisal guidance: Recommended | TA788"
+      },
+      {
+        "product_name": "Bavencio",
+        "evaluation_reason": "Avelumab with axitinib for untreated advanced renal cell carcinoma",
+        "opinion_date": "2020-06-24",
+        "assessment_url": "https://www.nice.org.uk/guidance/ta645",
+        "nice_recommendation": "Recommended",
+        "guidance_reference": "TA645",
+        "guidance_type": "Technology appraisal guidance",
+        "summary_en": "NICE Technology appraisal guidance: Recommended | TA645"
+      }
+    ],
+    "DE": [
+      {
+        "product_name": "Bavencio",
+        "dossier_code": "2021-10-21-D-658",
+        "evaluation_reason": "Lokal fortgeschrittenes oder metastasiertes Urothelkarzinom: Erstlinien-Erhaltungstherapie bei Erwachsenen, deren Erkrankung nach platinhaltiger Chemotherapie nicht fortgeschritten ist",
+        "opinion_date": "2021-10-21",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/658/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Beobachtendes Abwarten (best supportive care)",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom, deren Erkrankung nach einer platinhaltigen Chemotherapie nicht fortgeschritten ist",
+        "summary_en": "Population: Adults with locally advanced or metastatic urothelial carcinoma (1L maintenance after platinum chemo) | Added benefit: Non-quantifiable added benefit (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Best supportive care"
+      },
+      {
+        "product_name": "Bavencio",
+        "dossier_code": "2019-08-15-D-432",
+        "evaluation_reason": "Nierenzellkarzinom: Erstlinientherapie des fortgeschrittenen Nierenzellkarzinoms in Kombination mit Axitinib",
+        "opinion_date": "2020-04-02",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/432/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Sunitinib",
+        "patient_group": "Erwachsene mit fortgeschrittenem Nierenzellkarzinom (RCC) ohne vorherige systemische Therapie",
+        "summary_en": "Population: Adults with advanced RCC (1L, in combination with axitinib) | Added benefit: Non-quantifiable added benefit (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Sunitinib"
+      },
+      {
+        "product_name": "Bavencio",
+        "dossier_code": "2017-09-21-D-303",
+        "evaluation_reason": "Merkelzellkarzinom: Behandlung von Erwachsenen mit metastasiertem Merkelzellkarzinom",
+        "opinion_date": "2018-03-01",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/303/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Patientenindividuelle Therapie nach Maßgabe des Arztes",
+        "patient_group": "Erwachsene mit metastasiertem Merkelzellkarzinom",
+        "summary_en": "Population: Adults with metastatic Merkel cell carcinoma | Added benefit: Non-quantifiable added benefit (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Physician's choice"
+      }
+    ],
+    "ES": [
+      {
+        "product_name": "Bavencio",
+        "evaluation_reason": "Avelumab (Bavencio) en el tratamiento de mantenimiento del carcinoma urotelial localmente avanzado o metastásico",
+        "opinion_date": "2022-07-15",
+        "assessment_url": "https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/docs/IPT-avelumab-Bavencio-carcinoma-urotelial.pdf",
+        "ipt_reference": "IPT-44/2022",
+        "therapeutic_positioning": "Favorable",
+        "bifimed_reimbursed": "Yes",
+        "bifimed_url": "https://www.sanidad.gob.es/profesionales/farmacia/pdf/home.htm",
+        "summary_en": "IPT: Favorable positioning | IPT-44/2022 | SNS reimbursed (Bifimed)"
+      },
+      {
+        "product_name": "Bavencio",
+        "evaluation_reason": "Avelumab (Bavencio) en combinación con axitinib para el carcinoma de células renales avanzado",
+        "opinion_date": "2020-12-10",
+        "assessment_url": "https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/docs/IPT-avelumab-axitinib-Bavencio-carcinoma-renal.pdf",
+        "ipt_reference": "IPT-31/2020",
+        "therapeutic_positioning": "Favorable",
+        "bifimed_reimbursed": "Yes",
+        "bifimed_url": "https://www.sanidad.gob.es/profesionales/farmacia/pdf/home.htm",
+        "summary_en": "IPT: Favorable positioning | IPT-31/2020 | SNS reimbursed (Bifimed)"
+      }
+    ],
+    "JP": [
+      {
+        "product_name": "Bavencio (バベンチオ)",
+        "evaluation_reason": "Merkel cell carcinoma — treatment of unresectable Merkel cell carcinoma",
+        "opinion_date": "2017-09-27",
+        "assessment_url": "https://www.pmda.go.jp/drugs/2017/P20170927001/index.html",
+        "pmda_review_type": "Reimbursed (NHI)",
+        "japan_mhlw_url": "https://www.mhlw.go.jp/topics/2017/11/dl/tp20171129-01_01.pdf",
+        "summary_en": "PMDA approved (Sep 2017). NHI price listed Nov 2017. Indication: Unresectable Merkel cell carcinoma."
+      },
+      {
+        "product_name": "Bavencio (バベンチオ)",
+        "evaluation_reason": "Renal cell carcinoma — first-line treatment in combination with axitinib for advanced renal cell carcinoma",
+        "opinion_date": "2019-12-20",
+        "assessment_url": "https://www.pmda.go.jp/drugs/2019/P20191220001/index.html",
+        "pmda_review_type": "Reimbursed (NHI)",
+        "japan_mhlw_url": "https://www.mhlw.go.jp/topics/2020/04/tp20200422-01_01.pdf",
+        "summary_en": "PMDA approved (Dec 2019). NHI price listed Feb 2020. Indication: Advanced renal cell carcinoma (1L, with axitinib)."
+      },
+      {
+        "product_name": "Bavencio (バベンチオ)",
+        "evaluation_reason": "Urothelial carcinoma — maintenance treatment of locally advanced or metastatic urothelial carcinoma after platinum-based chemotherapy",
+        "opinion_date": "2021-08-23",
+        "assessment_url": "https://www.pmda.go.jp/drugs/2021/P20210823001/index.html",
+        "pmda_review_type": "Reimbursed (NHI)",
+        "japan_mhlw_url": "https://www.mhlw.go.jp/topics/2021/11/tp20211124-01_01.pdf",
+        "summary_en": "PMDA approved (Aug 2021). NHI price listed Nov 2021. Indication: Locally advanced or metastatic urothelial carcinoma (1L maintenance after platinum chemo)."
+      }
+    ],
+    "FR": [
+      {
+        "product_name": "Bavencio",
+        "cis_code": "69415034",
+        "dossier_code": "CT-18500",
+        "evaluation_reason": "Inscription — traitement d'entretien en monothérapie du carcinome urothélial localement avancé ou métastatique",
+        "opinion_date": "2022-04-06",
+        "assessment_url": "https://www.has-sante.fr/jcms/p_3330073/fr/bavencio-avelumab-carcinome-urothelial",
+        "smr_value": "Important",
+        "smr_description": "Le service médical rendu par BAVENCIO est important dans le traitement d'entretien du carcinome urothélial localement avancé ou métastatique.",
+        "asmr_value": "IV",
+        "asmr_description": "BAVENCIO apporte une amélioration du service médical rendu mineure (ASMR IV) dans la stratégie thérapeutique du traitement d'entretien du carcinome urothélial.",
+        "summary_en": "SMR: Important | ASMR IV (minor improvement) | Urothelial carcinoma maintenance monotherapy"
+      },
+      {
+        "product_name": "Bavencio",
+        "cis_code": "69415034",
+        "dossier_code": "CT-17400",
+        "evaluation_reason": "Inscription — traitement en association avec axitinib du carcinome à cellules rénales avancé",
+        "opinion_date": "2020-07-08",
+        "assessment_url": "https://www.has-sante.fr/jcms/p_3192370/fr/bavencio-avelumab-carcinome-a-cellules-renales",
+        "smr_value": "Important",
+        "smr_description": "Le service médical rendu par BAVENCIO en association avec axitinib est important dans le traitement du carcinome à cellules rénales avancé.",
+        "asmr_value": "III",
+        "asmr_description": "BAVENCIO en association avec axitinib apporte une amélioration du service médical rendu modérée (ASMR III) dans le carcinome à cellules rénales avancé.",
+        "summary_en": "SMR: Important | ASMR III (moderate improvement) | Advanced renal cell carcinoma (with axitinib)"
+      }
+    ]
+  }
+}
