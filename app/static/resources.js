@@ -17,13 +17,26 @@ const EMA_LINK = {
 
 // ── Worked Example Priority List ─────────────────────────────────────
 // Countries are enhanced in batches of 10 with detailed drugExample
-// timelines (Bavencio/avelumab in mUC used as the common case study).
+// timelines showing the full market access journey for a real drug.
+//
+// Data sourcing methodology:
+//   - Regulatory approvals: EMA EPAR, national agency databases (SÚKL, COFEPRIS,
+//     TFDA, BPOM, etc.), press releases, and regulatory news sources
+//   - HTA assessments: National HTA body publications (HITAP, ACE, IETS, CDE Taiwan),
+//     ISPOR conference abstracts, published cost-effectiveness analyses
+//   - Reimbursement decisions: National reimbursement list databases (NRDL, NHI, NLEM,
+//     Fornas, CNAS, EOPYY, SGK SUT), government gazette announcements
+//   - Pricing: SISMED (Colombia), NHSA (China), public procurement portals (CompraNet,
+//     e-Katalog, NUPCO), published market reports
+//   - Timelines cross-referenced against EMA EPAR milestones, WHO/WIPO/WTO reports,
+//     and published academic literature on market access timelines
+//   - All dates and decisions verified against at least 2 independent sources where possible
 //
 // Batch 1 (done): DE (Orserdu), JP (Keytruda) — original examples
-// Batch 2 (done): GB, FR, IT, ES, CA, AU, BR, KR, NL, BE
-// Batch 3 (done): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU
-// Batch 4:        CZ, RO, GR, IL, MX, TW, SG, TH, AR, CL
-// Batch 5:        HK, TR, SA, AE, EG, CO, CN, ID, PH, VN
+// Batch 2 (done): GB, FR, IT, ES, CA, AU, BR, KR, NL, BE — Bavencio (avelumab) mUC
+// Batch 3 (done): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU — Bavencio (avelumab) mUC
+// Batch 4 (done): CZ, RO, GR, IL, MX, TW, SG, TH, AR, CL — Keytruda (pembrolizumab)
+// Batch 5 (done): HK, TR, SA, AE, EG, CO, CN, ID, PH, VN — Keytruda (pembrolizumab)
 // Batch 6:        DZ, LB, PE, QA, OM, RU, HR, BG, SK, SI
 // Batch 7:        EE, LV, LT, LU, MT, CY, IS, ME, PR, KR(update)
 // (WIP countries deferred until primary data is complete)
@@ -167,6 +180,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "vademecum," "registro sanitario," "programa m&eacute;dico obligatorio," "obras sociales."</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced or metastatic melanoma (initial indication) and multiple subsequent oncology indications",
+            steps: [
+                {
+                    title: "ANMAT Registration",
+                    date: "2016",
+                    detail: 'ANMAT (Administraci\u00f3n Nacional de Medicamentos, Alimentos y Tecnolog\u00eda M\u00e9dica) approved pembrolizumab for advanced melanoma, approximately 2 years after US FDA approval. Argentina accepts dossiers referencing stringent regulatory authority approvals, which can accelerate review timelines. Subsequent indication expansions covered NSCLC, head & neck SCC, classical Hodgkin lymphoma, and urothelial carcinoma.',
+                    links: [
+                        { label: "ANMAT \u2014 Vademecum Nacional", url: "https://www.argentina.gob.ar/anmat/regulados/medicamentos/vademecum" },
+                    ],
+                },
+                {
+                    title: "PMO Coverage & SUR System",
+                    date: "From 2016",
+                    detail: 'Under Argentina\u2019s PMO (Programa M\u00e9dico Obligatorio), high-cost oncology medicines like pembrolizumab are typically channelled through the <strong>SUR system</strong> (Sistema \u00danico de Reintegraciones) managed by the Superintendencia de Servicios de Salud. Obras Sociales and Prepagas that provide pembrolizumab can seek partial reimbursement via the SUR. PAMI (covering ~5 million retirees) has its own formulary and negotiates prices directly with MSD.',
+                    links: [
+                        { label: "Superintendencia de Servicios de Salud", url: "https://www.argentina.gob.ar/sssalud" },
+                    ],
+                },
+                {
+                    title: "Pricing & Market Dynamics",
+                    date: "Ongoing",
+                    detail: 'Argentina has <strong>no formal statutory price controls</strong> for most medicines. Pembrolizumab pricing is influenced by voluntary government-industry agreements, periodic inflation adjustments, and individual payer negotiations. Reference prices are published by Kairos/Alfa Beta (private sources). High inflation makes pricing dynamic \u2014 prices are frequently adjusted. The fragmented payer landscape (Obras Sociales, PAMI, Prepagas, provincial systems) means each institution negotiates separately.',
+                    links: [
+                        { label: "Kairos \u2014 Manual Farmac\u00e9utico", url: "https://www.kairosweb.com/" },
+                    ],
+                },
+            ],
+            takeaway: 'Argentina illustrates a fragmented multi-payer system where access depends on which institution covers the patient: Obras Sociales (via SUR reimbursement), PAMI (direct formulary), or Prepagas (private insurance). There is no single national reimbursement decision \u2014 each payer evaluates and negotiates independently. The SUR system provides a partial safety net for high-cost drugs, but coverage and co-payment levels vary significantly across the ~300 Obras Sociales.',
+        },
     },
     {
         code: "AU",
@@ -763,6 +808,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key search terms: "registro sanitario," "garant&iacute;as expl&iacute;citas en salud," "ley Ricarte Soto."</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial indication); NSCLC and other oncology indications subsequently added",
+            steps: [
+                {
+                    title: "ISP Registration",
+                    date: "2016",
+                    detail: 'ISP (Instituto de Salud P\u00fablica) registered pembrolizumab for advanced melanoma, followed by subsequent indication expansions including NSCLC, head & neck SCC, and classical Hodgkin lymphoma. Chile accepts dossiers referencing ICH-aligned regulatory authorities, and ISP has been progressively streamlining review times for priority oncology drugs.',
+                    links: [
+                        { label: "ISP \u2014 Drug Registry (Registro de Productos Farmac\u00e9uticos)", url: "https://registrosanitario.ispch.gob.cl/" },
+                    ],
+                },
+                {
+                    title: "Ley Ricarte Soto Coverage",
+                    date: "From 2019",
+                    detail: 'Chile\u2019s <strong>Ley Ricarte Soto</strong> (Law 20.850, 2015) provides public funding for high-cost diagnoses and treatments. Pembrolizumab was included under the Ley Ricarte Soto programme for specific indications including advanced melanoma. Coverage is diagnosis-specific and requires patients to meet defined clinical criteria. The programme is funded by a dedicated public fund and covers treatments regardless of the patient\u2019s insurance affiliation (FONASA or Isapre).',
+                    links: [
+                        { label: "MINSAL \u2014 Ley Ricarte Soto", url: "https://www.minsal.cl/leyricartesoto/" },
+                    ],
+                },
+                {
+                    title: "FONASA & CENABAST Procurement",
+                    date: "Ongoing",
+                    detail: 'For indications covered under Ley Ricarte Soto, <strong>CENABAST</strong> (Central de Abastecimiento del SNS) handles centralised procurement and price negotiation. For indications not covered by Ricarte Soto, access depends on institutional procurement by FONASA hospitals or private Isapre coverage. GES/AUGE guarantees cover specific cancers (e.g., breast, colorectal) but immunotherapy coverage varies by indication and protocol updates. Chile\u2019s ETESA (Evaluaci\u00f3n de Tecnolog\u00edas Sanitarias) conducts HTA evaluations that inform coverage decisions.',
+                    links: [
+                        { label: "CENABAST \u2014 Procurement Portal", url: "https://www.cenabast.cl/" },
+                        { label: "FONASA", url: "https://www.fonasa.cl/" },
+                    ],
+                },
+            ],
+            takeaway: 'Chile\u2019s Ley Ricarte Soto represents a landmark high-cost drugs law that provides universal access to specified expensive treatments regardless of insurance type. For Keytruda, coverage under Ricarte Soto is indication-specific \u2014 not all approved indications are covered. For non-covered indications, access depends on institutional procurement or private insurance. CENABAST\u2019s centralised procurement achieves significant price reductions through consolidated purchasing power.',
+        },
     },
     {
         code: "CN",
@@ -828,6 +906,39 @@ const COUNTRIES = [
     <li>Reimbursement rates vary by scheme, hospital tier, and province (typically 50&ndash;90%). NRDL Category A drugs are reimbursed at the standard rate; Category B requires co-payment</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            localName: "\u53ef\u745e\u8fbe",
+            indication: "Unresectable or metastatic melanoma after failure of one prior systemic therapy (initial Chinese indication)",
+            steps: [
+                {
+                    title: "NMPA Priority Review Approval",
+                    date: "July 2018",
+                    detail: 'NMPA (formerly CNDA) granted approval for pembrolizumab for second-line advanced melanoma following priority review \u2014 an industry-leading turnaround for imported cancer medicine in China. The approval was based on the Phase 1b KEYNOTE-151 study in 103 Chinese patients. Keytruda was the first anti-PD-1 therapy approved for advanced melanoma in China. Subsequent approvals expanded to NSCLC, esophageal cancer, and 10+ other tumour types.',
+                    links: [
+                        { label: "NMPA \u2014 Drug Database", url: "https://www.nmpa.gov.cn/datasearch/search-info.html" },
+                    ],
+                },
+                {
+                    title: "Launch Pricing & Patient Assistance",
+                    date: "September 2018",
+                    detail: 'MSD launched Keytruda at <strong>CNY 17,918 per 100 mg vial</strong> (~USD 2,613), approximately 50% of the US list price. A <strong>Patient Assistance Programme (PAP)</strong> offered "buy 3, get 3 free" \u2014 effectively halving the annual cost further. By 2021, the PAP updated to "buy 2, get 2 free" with annual cost ~CNY 70,000 (~USD 9,600). Municipal schemes like Shenzhen offered 70% reimbursement up to CNY 150,000/year.',
+                    links: [
+                        { label: "Caixin \u2014 MSD Keytruda China Pricing", url: "https://www.caixinglobal.com/2018-09-19/merck-slashes-key-cancer-drug-price-for-china-101327751.html" },
+                    ],
+                },
+                {
+                    title: "NRDL Negotiations \u2014 Consistently Excluded",
+                    date: "2019\u20132025 (6 consecutive rounds)",
+                    detail: 'Keytruda has been <strong>excluded from the NRDL for 6 consecutive years</strong> (2019\u20132025). NHSA demands 60\u201380%+ price cuts for listing; MSD declined due to international reference pricing (IRP) concerns \u2014 deep China discounts would trigger price reductions in 12+ reference countries globally. Meanwhile, 4+ domestic PD-1 inhibitors (sintilimab, tislelizumab, camrelizumab, toripalimab) achieved NRDL listing at annual costs of CNY 40,000\u201370,000 \u2014 a fraction of Keytruda\u2019s price. Despite NRDL exclusion, Keytruda achieved ~CNY 3 billion annual sales in China through private pay, commercial insurance, and PAPs.',
+                    links: [
+                        { label: "NHSA \u2014 Drug Catalog Query", url: "https://code.nhsa.gov.cn/" },
+                    ],
+                },
+            ],
+            takeaway: 'China\u2019s Keytruda story is a landmark case study in the tension between global pricing and local reimbursement. MSD chose commercial viability (private pay + PAP) over NRDL listing that would require 60\u201380% price cuts with global IRP ripple effects. The strategy initially succeeded (~CNY 3B/year sales without public reimbursement), but domestic PD-1 competition at 1/4 the price is eroding market share. China demonstrates that commercial success without national reimbursement is possible but unsustainable against local competition.',
+        },
     },
     {
         code: "CO",
@@ -895,6 +1006,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "plan de beneficios en salud," "precio m&aacute;ximo de venta," "presupuestos m&aacute;ximos."</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Melanoma avanzado (initial INVIMA registration); subsequently expanded to 10+ oncology indications",
+            steps: [
+                {
+                    title: "INVIMA Registration",
+                    date: "2017",
+                    detail: 'INVIMA granted registration for pembrolizumab (INVIMA 2017MBT-0017599) for advanced melanoma. Notably, INVIMA initially <strong>rejected</strong> MSD\u2019s original application because the submitted data was based on the US FDA accelerated approval (Phase II) data package \u2014 Colombia does not have an equivalent abbreviated approval route. After MSD filed an appeal with supplementary data, approval was granted. Four additional oncology indications were added during 2020\u20132022.',
+                    links: [
+                        { label: "INVIMA \u2014 Drug Registry", url: "https://www.invima.gov.co/consultas-registros-sanitarios" },
+                    ],
+                },
+                {
+                    title: "PBS Status & No-PBS Access via MIPRES / Tutela",
+                    date: "Ongoing",
+                    detail: 'Pembrolizumab is <strong>NOT included</strong> in the PBS (Plan de Beneficios en Salud). Access is through the <strong>No-PBS pathway</strong>: physicians prescribe via MIPRES (digital platform), and the EPS (health insurer) must deliver within 5 days. If the EPS fails, patients can invoke the constitutional <strong>tutela</strong> mechanism \u2014 a court order compelling treatment access. This rights-based pathway is uniquely Colombian. Since 2020, costs are managed through <strong>Presupuestos M\u00e1ximos</strong> (annual ceiling budgets from ADRES to EPS) rather than individual reimbursement claims.',
+                    links: [
+                        { label: "MIPRES (prescription platform)", url: "https://mipres.sispro.gov.co/" },
+                        { label: "ADRES", url: "https://www.adres.gov.co/" },
+                    ],
+                },
+                {
+                    title: "Pricing \u2014 SISMED & Price Controls",
+                    date: "Ongoing",
+                    detail: 'Pembrolizumab pricing is regulated through SISMED (Sistema de Informaci\u00f3n de Precios de Medicamentos). Colombia uses external reference pricing (ERP against 19 countries, Circular 18 de 2024) to set maximum sale prices (PMV). The CNPMDM can place specific molecules under <strong>Control Directo</strong> with a regulated ceiling price. Reference price: ~COP 10,850,000 per 100 mg vial. Cost-effectiveness analyses at the Colombian WTP threshold (COP ~69M/QALY) have shown pembrolizumab to be cost-effective for some indications (e.g., first-line HNSCC).',
+                    links: [
+                        { label: "SISMED \u2014 Drug Price Database", url: "https://www.sispro.gov.co/central-medicamentos/Pages/Consulta-precio-SISMED.aspx" },
+                    ],
+                },
+            ],
+            takeaway: 'Colombia demonstrates a uniquely rights-based access system: the constitutional tutela mechanism ensures patients can compel coverage for non-PBS drugs, making it more patient-protective than most emerging markets. The 2020 shift from individual recobros to ceiling budgets (presupuestos m\u00e1ximos) transferred financial risk to EPS entities. INVIMA\u2019s initial rejection based on the US accelerated approval data package highlights how regulatory pathways can diverge between reference markets and local requirements.',
+        },
     },
     {
         code: "HR",
@@ -994,6 +1138,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> The S&Uacute;KL interface is primarily in Czech. The product search accepts INN (Latin characters) and brand names. Use Google Translate for the result fields &mdash; key terms: "hrazen" (reimbursed), "cena" (price), "indika&ccaron;n&iacute; omezen&iacute;" (indication restriction).</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (first indication); subsequently expanded to NSCLC, urothelial carcinoma, and other oncology indications",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "17 July 2015",
+                    detail: 'EC granted marketing authorization for Keytruda for advanced (unresectable or metastatic) melanoma in adults. As an EU member, Czech Republic is covered by the centralised procedure. Subsequent Type II variations extended indications to NSCLC (2016), urothelial carcinoma (2017), and many other tumour types.',
+                    links: [
+                        { label: "EMA EPAR \u2014 Keytruda", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda" },
+                    ],
+                },
+                {
+                    title: "S\u00daKL HTA Assessment & Reimbursement",
+                    date: "2017\u20132018",
+                    detail: 'S\u00daKL conducted an internal HTA assessment and issued a reimbursement decision. Pembrolizumab was listed with <strong>IND codes</strong> (indika\u010dn\u00ed omezen\u00ed) restricting reimbursement to specific indications and clinical criteria: advanced melanoma (monotherapy, after prior ipilimumab or BRAF inhibitor), and subsequently NSCLC with PD-L1 TPS \u226550%. Each new indication required a separate S\u00daKL reimbursement procedure with corresponding IND code.',
+                    links: [
+                        { label: "S\u00daKL \u2014 Drug Register & Reimbursement Search", url: "https://www.sukl.cz/modules/medication/search.php" },
+                    ],
+                },
+                {
+                    title: "Price Regulation & Updates",
+                    date: "Ongoing",
+                    detail: 'S\u00daKL sets both the maximum ex-factory price (using external reference pricing against a basket of EU countries) and the reimbursement amount. The database shows both the regulated price and the reimbursement conditions in one place. As new indications are added, each goes through a separate administrative procedure. Czech Republic typically achieves reimbursement within 12\u201318 months of EC approval for priority oncology drugs, faster than some CEE peers.',
+                    links: [
+                        { label: "S\u00daKL \u2014 Reimbursed Drugs and Prices", url: "https://www.sukl.cz/modules/medication/search.php" },
+                    ],
+                },
+            ],
+            takeaway: 'Czech Republic demonstrates a unified regulatory-reimbursement system where S\u00daKL handles both drug registration and reimbursement in one institution. The IND code system (indika\u010dn\u00ed omezen\u00ed) ensures reimbursement is tightly linked to specific indications and patient criteria \u2014 a product may be reimbursed for one indication but not another. This contrasts with countries where a single reimbursement decision covers all approved indications.',
+        },
     },
     {
         code: "DK",
@@ -1190,6 +1366,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> EDA website is available in English and Arabic. The drug registry search interface supports English queries. Pricing circulars are primarily in Arabic.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial EDA registration); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "EDA Registration",
+                    date: "2017\u20132018",
+                    detail: 'The EDA (Egyptian Drug Authority, formerly NODCAR) registered pembrolizumab for advanced melanoma and NSCLC. Egypt has its own national regulatory pathway, though it has streamlined procedures for products approved by reference agencies (FDA, EMA, MHRA). Registration timelines for innovative oncology drugs typically run 12\u201324 months. EDA registration is a prerequisite for both public and private market availability.',
+                    links: [
+                        { label: "EDA \u2014 Drug Registry Search", url: "https://www.edaegypt.gov.eg/en/services/drug-registration/drug-search/" },
+                    ],
+                },
+                {
+                    title: "Pricing \u2014 Supreme Pricing Committee",
+                    date: "2018",
+                    detail: 'The <strong>Supreme Pricing Committee</strong> sets drug prices in Egypt based on external reference pricing and cost-plus calculations. Egypt uses one of the lowest pricing benchmarks globally \u2014 innovative drug prices are typically 50\u201370% below US/EU levels. The price is set in EGP (Egyptian Pound), and currency devaluations (three major devaluations 2022\u20132024, from ~EGP 16/USD to ~EGP 48/USD) have made Egypt\u2019s prices among the lowest globally in USD terms, creating supply-chain challenges as manufacturers face below-cost pricing.',
+                    links: [
+                        { label: "EDA \u2014 Official Website", url: "https://www.edaegypt.gov.eg/en/" },
+                    ],
+                },
+                {
+                    title: "Public Hospital Procurement & UHIA",
+                    date: "Ongoing",
+                    detail: 'Access to pembrolizumab in Egypt\u2019s public sector is primarily through <strong>MOH hospital procurement</strong> and the <strong>National Cancer Institute (NCI Cairo)</strong>. The <strong>UHIA</strong> (Universal Health Insurance Authority), established under the 2018 law, is gradually expanding coverage (Phase 1 covering 6 governorates as of 2024), with innovative medicines requiring an HTA dossier for UHIA formulary listing. Egypt is collaborating with <strong>NICE (UK)</strong> on developing its national HTA framework. Until UHIA rollout is complete, most patients access pembrolizumab through public hospital allocation (limited), private-sector purchase (expensive), or charity/NGO support.',
+                    links: [
+                        { label: "UHIA (Universal Health Insurance Authority)", url: "https://uhia.gov.eg/" },
+                    ],
+                },
+            ],
+            takeaway: 'Egypt illustrates the challenge of pharmaceutical access during major economic transitions: multiple EGP devaluations have made drug pricing untenable for many manufacturers, creating supply concerns. The UHIA rollout promises systematic HTA-based formulary management, but full national coverage is years away. Access to pembrolizumab remains fragmented between public hospital allocation (limited by budget), private sector (expensive for most Egyptians), and emerging UHIA coverage (geographically limited).',
+        },
     },
     {
         code: "EE",
@@ -1557,6 +1765,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> EOF and EOPYY interfaces are primarily in Greek (using the Greek alphabet). Drug names (INN) can be searched in Latin characters. Use Google Translate to navigate &mdash; it handles Greek pharmaceutical terminology well.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial EMA indication); subsequently NSCLC, Hodgkin lymphoma, urothelial carcinoma, and other oncology indications",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "17 July 2015",
+                    detail: 'EC granted centralised marketing authorization for Keytruda for advanced melanoma. Greece, as an EU member, is covered automatically. Subsequent variations extended to NSCLC (2016), classical Hodgkin lymphoma, urothelial carcinoma, and other indications.',
+                    links: [
+                        { label: "EMA EPAR \u2014 Keytruda", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda" },
+                    ],
+                },
+                {
+                    title: "EOPYY Positive List & Prior Authorization",
+                    date: "2016\u20132017",
+                    detail: 'Pembrolizumab was included on the EOPYY positive reimbursement list for advanced melanoma, followed by subsequent indications. Oncology drugs in Greece typically require <strong>prior authorization (\u03b5\u03b3\u03ba\u03c1\u03af\u03c3\u03b5\u03b9\u03c2)</strong> through the e-DAP electronic prescription system. The prescribing oncologist must submit a request documenting that the patient meets the approved clinical criteria. Greece\u2019s HTA committee (established 2018) evaluates new indications, though many oncology drugs were listed prior to formal HTA implementation.',
+                    links: [
+                        { label: "EOPYY \u2014 Drug Reimbursement", url: "https://www.eopyy.gov.gr/" },
+                    ],
+                },
+                {
+                    title: "Rebate & Clawback System",
+                    date: "Ongoing",
+                    detail: 'Greece operates a comprehensive <strong>rebate and clawback system</strong> on pharmaceutical expenditure. Manufacturers face mandatory rebates on EOPYY-reimbursed sales, plus clawback payments when total pharmaceutical spending exceeds budgeted ceilings. For high-cost oncology drugs like pembrolizumab, MSD would typically pay: (1) a mandatory rebate based on price band, (2) a volume-based clawback if the EOPYY drug budget is exceeded, and (3) potentially additional rebates under risk-sharing or managed entry agreements. These mechanisms can recover 20\u201340% of gross sales revenue.',
+                    links: [
+                        { label: "EOF \u2014 National Organisation for Medicines", url: "https://www.eof.gr/web/guest/home" },
+                    ],
+                },
+            ],
+            takeaway: 'Greece illustrates a system where reimbursement access is relatively fast (positive list inclusion within 1\u20132 years of EC approval for oncology), but commercial viability is challenged by the extensive rebate and clawback system. The prior authorization requirement through e-DAP ensures that prescribing is restricted to approved indications and patient populations. Greece\u2019s pharmaceutical market is shaped by austerity-era cost containment measures that remain in effect.',
+        },
     },
     {
         code: "HK",
@@ -1594,6 +1834,38 @@ const COUNTRIES = [
     <li>Products approved by EMA or FDA are <strong>not</strong> automatically valid in Hong Kong &mdash; a separate HK application is required</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial registration); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "Drug Office Registration",
+                    date: "2016\u20132017",
+                    detail: 'The Department of Health Drug Office registered pembrolizumab for advanced melanoma and NSCLC. Hong Kong requires a separate registration application even for products approved by EMA or FDA. The "1+" mechanism (from November 2023) now allows faster registration referencing one international agency, but Keytruda\u2019s initial registration predated this reform.',
+                    links: [
+                        { label: "Drug Office \u2014 Registration Database", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" },
+                    ],
+                },
+                {
+                    title: "Hospital Authority Drug Formulary",
+                    date: "2017\u20132018",
+                    detail: 'The <strong>Hospital Authority (HA)</strong> Drug Advisory Committee evaluated pembrolizumab for inclusion in the HA Drug Formulary. The HA formulary classifies drugs into: <strong>General</strong> (standard drugs), <strong>Special</strong> (restricted to specific clinical conditions), and <strong>Self-financed Items (SFI)</strong> (patient pays full cost). Pembrolizumab was initially classified as a <strong>Self-financed Item</strong> for most indications, meaning patients bore the full cost. Some indications were later reclassified to <strong>Special Drug</strong> status with HA subsidy.',
+                    links: [
+                        { label: "HA Drug Formulary", url: "https://www.ha.org.hk/hadf/en-us/Updated-HA-Drug-Formulary.html" },
+                    ],
+                },
+                {
+                    title: "Samaritan Fund & Community Care Fund",
+                    date: "From 2018",
+                    detail: 'For patients who cannot afford self-financed drugs, Hong Kong operates two safety nets: the <strong>Samaritan Fund</strong> (for drugs on the HA formulary\u2019s safety net programme) and the <strong>Community Care Fund</strong> (CCF, for drugs not yet on the Samaritan Fund programme). Pembrolizumab was covered under the CCF for specific indications, providing means-tested subsidies for eligible patients. The financial assessment considers household income and assets, with patients below certain thresholds receiving full or partial subsidies.',
+                    links: [
+                        { label: "HA \u2014 Samaritan Fund", url: "https://www.ha.org.hk/visitor/ha_visitor_text_index.asp?Content_ID=10116" },
+                    ],
+                },
+            ],
+            takeaway: 'Hong Kong\u2019s HA Drug Formulary system creates a tiered access model: "General" drugs are fully subsidised, "Special" drugs require clinical justification, and "Self-financed Items" require patient payment. For expensive oncology drugs like pembrolizumab, the Samaritan Fund and Community Care Fund provide means-tested safety nets. The pathway from registration to subsidised access can be lengthy, with drugs often starting as self-financed before moving to subsidised categories as evidence and budget allow.',
+        },
     },
     {
         code: "HU",
@@ -1714,6 +1986,38 @@ const COUNTRIES = [
                 links: [{ label: "FORNAS — National Drug Formulary", url: "https://e-fornas.kemkes.go.id/daftar_obat.php" }],
             },
         ],
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Multiple oncology indications (melanoma, NSCLC, Hodgkin lymphoma, urothelial carcinoma, renal cell carcinoma)",
+            steps: [
+                {
+                    title: "BPOM Registration",
+                    date: "August 2024",
+                    detail: 'BPOM (Badan Pengawas Obat dan Makanan) registered pembrolizumab in August 2024 \u2014 approximately <strong>10 years after the initial US FDA approval</strong>, making Indonesia one of the latest major markets globally. Multiple indications were registered simultaneously including melanoma, NSCLC, classical Hodgkin lymphoma, MSI-H/dMMR colorectal cancer, and renal cell carcinoma (with axitinib). The late registration reflects Indonesia\u2019s complex regulatory environment and BPOM\u2019s stringent requirements.',
+                    links: [
+                        { label: "BPOM \u2014 Drug Registry", url: "https://cekbpom.pom.go.id/search_home_produk" },
+                    ],
+                },
+                {
+                    title: "Fornas & JKN/BPJS Coverage",
+                    date: "Not listed (as of February 2025)",
+                    detail: 'Pembrolizumab is <strong>NOT included</strong> in Indonesia\u2019s National Formulary (Fornas, KMK No. HK.01.07/MENKES/1818/2024, containing 677 active substances). Without Fornas listing, the drug is not covered under JKN (Jaminan Kesehatan Nasional) national health insurance managed by BPJS Kesehatan, which covers >220 million Indonesians. The InaHTAC (Indonesia HTA Committee) evaluates drugs for Fornas inclusion using cost-effectiveness and affordability criteria. At global prices, pembrolizumab far exceeds Indonesia\u2019s affordability benchmarks.',
+                    links: [
+                        { label: "E-Fornas Portal", url: "https://e-fornas.kemkes.go.id/daftar_obat.php" },
+                    ],
+                },
+                {
+                    title: "Access & Domestic Competition",
+                    date: "2024 onwards",
+                    detail: 'Patient access to pembrolizumab in Indonesia is currently limited to <strong>out-of-pocket payment</strong> or hospital-level formulary inclusion at private hospitals. In December 2023, BPOM approved serplulimab (a domestically distributed PD-1 inhibitor by Kalbe/KGbio), launched in March 2024 as a potentially lower-cost alternative. Indonesia\u2019s e-Katalog (government procurement system managed by LKPP) has not yet listed pembrolizumab pricing.',
+                    links: [
+                        { label: "E-Katalog \u2014 Government Procurement", url: "https://e-katalog.lkpp.go.id/" },
+                    ],
+                },
+            ],
+            takeaway: 'Indonesia represents the most extreme regulatory lag among major markets: 10 years from US FDA approval to BPOM registration. Even after registration, Fornas/JKN coverage is absent, limiting access to private-pay patients. The arrival of lower-cost domestic PD-1 competitors (serplulimab) may accelerate formulary discussions. Indonesia\u2019s case illustrates how regulatory delays compound with affordability barriers to create a decade-long access gap for innovative oncology drugs.',
+        },
     },
     {
         code: "IE",
@@ -1826,6 +2130,38 @@ const COUNTRIES = [
             },
         ],
         tips: `The Health Basket (סל הבריאות) is updated annually by the Health Basket Committee, which reviews new technologies and drugs for inclusion. The committee's decisions are published each year — search for the latest year's page on gov.il.\n\nDrug prices are regulated by the MOH. The Open Data portal provides downloadable Excel files of all prescription drug prices.\n\nThe Israeli Drug Registry is available in Hebrew only — use Google Translate or search by INN in English characters.`,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial basket inclusion); subsequently expanded to multiple oncology indications",
+            steps: [
+                {
+                    title: "MOH Drug Registration",
+                    date: "2015",
+                    detail: 'Israel\u2019s Ministry of Health registered pembrolizumab following EMA and FDA approvals. Israel has its own national regulatory pathway \u2014 products approved by EMA or FDA are not automatically valid but benefit from expedited review. MSD Israel submitted the registration dossier referencing the EMA centralised procedure data.',
+                    links: [
+                        { label: "MOH \u2014 Drug Registry", url: "https://data.gov.il/dataset/drug" },
+                    ],
+                },
+                {
+                    title: "Health Basket Committee \u2014 Melanoma Inclusion",
+                    date: "January 2016 (2016 Basket Update)",
+                    detail: 'The <strong>Health Basket Committee</strong> (\u05d5\u05e2\u05d3\u05ea \u05e1\u05dc \u05d4\u05d1\u05e8\u05d9\u05d0\u05d5\u05ea) included pembrolizumab for advanced melanoma in the 2016 annual basket update. The committee operates on an annual cycle: pharmaceutical companies submit applications in the spring, an expert advisory committee evaluates clinical evidence and cost-effectiveness over the summer, and the committee announces its final decisions in January of the following year. The committee works within a fixed annual budget (typically NIS 300\u2013500 million for all new technologies). Pembrolizumab\u2019s melanoma inclusion was considered a priority given the significant unmet need.',
+                    links: [
+                        { label: "MOH \u2014 Health Basket Updates", url: "https://www.gov.il/he/departments/topics/sal-habriut" },
+                    ],
+                },
+                {
+                    title: "Kupot Cholim Implementation & Subsequent Indications",
+                    date: "2016 onwards",
+                    detail: 'Once included in the Health Basket, all four <strong>kupot cholim</strong> (health funds: Clalit, Maccabi, Meuhedet, Leumit) are legally required to provide pembrolizumab to eligible patients. Subsequent basket updates added NSCLC (2017), Hodgkin lymphoma, urothelial carcinoma, and head & neck SCC in later years. Each new indication competes for the limited annual basket budget. Israel\u2019s pharmaceutical expenditure is among the lowest in OECD countries, which constrains the pace of new indication additions.',
+                    links: [
+                        { label: "Clalit Health Services", url: "https://www.clalit.co.il/" },
+                    ],
+                },
+            ],
+            takeaway: 'Israel\u2019s annual Health Basket update cycle is a distinctive feature: unlike continuous HTA processes in most European countries, Israel makes a single batch of inclusion decisions each January, working within a fixed budget envelope. This creates an annual competition among technologies for limited funds. Once a drug is in the basket, access is universal across all four health funds. The fixed-budget constraint means that even cost-effective drugs may be deferred if the annual allocation is exhausted by higher-priority technologies.',
+        },
     },
     {
         code: "IT",
@@ -2314,6 +2650,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory and procurement materials are in Spanish. CompraNet and COFEPRIS portals are Spanish-only. Google Translate handles Mexican regulatory Spanish adequately for navigation.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Melanoma avanzado (initial indication); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "COFEPRIS Registration",
+                    date: "2015\u20132016",
+                    detail: 'COFEPRIS (Comisi\u00f3n Federal para la Protecci\u00f3n contra Riesgos Sanitarios) granted marketing authorization for pembrolizumab for advanced melanoma. Mexico has implemented expedited review pathways for priority oncology drugs, and COFEPRIS references FDA and EMA approvals to accelerate its evaluation. Subsequent indication expansions covered NSCLC, head & neck SCC, Hodgkin lymphoma, and other tumour types.',
+                    links: [
+                        { label: "COFEPRIS \u2014 Drug Registry", url: "https://www.gob.mx/cofepris" },
+                    ],
+                },
+                {
+                    title: "Cuadro B\u00e1sico y Cat\u00e1logo de Medicamentos (CBM) Listing",
+                    date: "2017\u20132018",
+                    detail: 'The <strong>CSG</strong> (Consejo de Salubridad General) evaluated pembrolizumab for inclusion in the Cuadro B\u00e1sico y Cat\u00e1logo de Medicamentos (CBM) \u2014 the master formulary that all public institutions (IMSS, ISSSTE, IMSS-Bienestar) must reference. Inclusion in the CBM is a prerequisite for public-sector procurement. The CSG evaluation considers clinical evidence, cost-effectiveness, and budget impact. Pembrolizumab was listed for specific oncology indications with defined clinical criteria.',
+                    links: [
+                        { label: "CSG \u2014 Cuadro B\u00e1sico de Medicamentos", url: "http://www.csg.gob.mx/contenidos/priorizacion/cuadro-basico/med/catalogos.html" },
+                    ],
+                },
+                {
+                    title: "IMSS / ISSSTE Procurement",
+                    date: "From 2018",
+                    detail: 'Once listed on the CBM, public institutions procure pembrolizumab through consolidated tenders. <strong>IMSS</strong> (covering ~60% of the insured population) is the largest single buyer. Procurement is via CompraNet/UNOPS (international procurement was used 2020\u20132023, now transitioning to the IMSS-Bienestar model). Public tender prices are typically 30\u201350% below list prices due to volume-based negotiation. The private market (~50% of pharmaceutical spend) operates at different prices without reference pricing constraints.',
+                    links: [
+                        { label: "CompraNet \u2014 Government Procurement", url: "https://compranet.hacienda.gob.mx/web/login.html" },
+                        { label: "IMSS", url: "https://www.imss.gob.mx/" },
+                    ],
+                },
+            ],
+            takeaway: 'Mexico\u2019s pathway demonstrates the CSG-CBM gatekeeping function: without CBM listing, a drug cannot be procured by any public institution. IMSS\u2019s purchasing power as the largest single buyer drives significant price reductions. The ~50% private market segment operates independently with different pricing. Mexico\u2019s ongoing healthcare restructuring (from Seguro Popular to INSABI to IMSS-Bienestar) has created procurement disruptions that can affect drug availability even after CBM listing.',
+        },
     },
     {
         code: "ME",
@@ -2731,6 +3100,38 @@ const COUNTRIES = [
                 links: [{ label: "PhilHealth", url: "https://www.philhealth.gov.ph/about_us/" }],
             },
         ],
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma and NSCLC (initial Philippine FDA registration)",
+            steps: [
+                {
+                    title: "Philippine FDA Registration",
+                    date: "February 2016",
+                    detail: 'FDA Philippines registered pembrolizumab for advanced melanoma and advanced NSCLC \u2014 approximately 17 months after the initial US FDA approval, making the Philippines relatively early among emerging markets. Initial availability was at Philippine General Hospital, Asian Hospital, National Kidney and Transplant Institute, and two centres in Cebu.',
+                    links: [
+                        { label: "FDA Philippines \u2014 Drug Verification", url: "https://verification.fda.gov.ph/drug_productslist.php" },
+                    ],
+                },
+                {
+                    title: "PhilHealth Coverage Gap",
+                    date: "Ongoing \u2014 NOT covered",
+                    detail: 'PhilHealth (Philippine Health Insurance Corporation) provides <strong>Z Benefits packages</strong> for specific cancers (childhood ALL, breast, prostate, cervical, colon, rectal cancers), but these generally cover surgery, chemotherapy, and radiation \u2014 <strong>not immunotherapy</strong>. Pembrolizumab is NOT specifically covered under any PhilHealth Z Benefits package. At ~PHP 256,000 per 100 mg vial (~USD 4,400), treatment is prohibitively expensive for most Filipino patients. PhilHealth coverage had no significant impact on avoiding financial catastrophe for cancer patients (PESO study).',
+                    links: [
+                        { label: "PhilHealth \u2014 Z Benefits", url: "https://www.philhealth.gov.ph/partners/providers/institutional/zbenefits/" },
+                    ],
+                },
+                {
+                    title: "Alternative Access Routes",
+                    date: "Ongoing",
+                    detail: 'Access to pembrolizumab in the Philippines relies on fragmented assistance programmes: <strong>DOH Medical Assistance Programme (MAP)</strong>, <strong>Malasakit Centers</strong> (one-stop hospital financial assistance combining PhilHealth, PCSO, DSWD, and DOH), <strong>PCSO IMAP</strong> (Individual Medical Assistance Programme via charity sweepstakes), and legislative/congressional assistance. These are not systematic coverage mechanisms but rather case-by-case financial support. The UHC Act (2019) and NICCA (National Integrated Cancer Control Act) aim to improve cancer care but have not yet expanded immunotherapy coverage.',
+                    links: [
+                        { label: "PhilHealth", url: "https://www.philhealth.gov.ph/about_us/" },
+                    ],
+                },
+            ],
+            takeaway: 'The Philippines illustrates a 10-year gap between regulatory approval (2016) and meaningful public coverage (still absent in 2026). Despite being one of the earliest emerging markets to register Keytruda, PhilHealth\u2019s Z Benefits packages do not cover immunotherapy. Patient access relies on a patchwork of charity and government assistance programmes (DOH MAP, PCSO, Malasakit Centers) rather than systematic insurance coverage. This makes the Philippines a case study in how regulatory approval without reimbursement creates a hollow market.',
+        },
     },
     {
         code: "PL",
@@ -3142,6 +3543,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> ANM and CNAS interfaces are in Romanian. Google Translate handles Romanian well. Key terms: "autorizat" (authorised), "rambursat" (reimbursed), "pre\u021b" (price), "substan\u021b\u0103 activ\u0103" (active substance).</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Melanom avansat (initial indication); subsequently NSCLC, Hodgkin lymphoma, and other oncology indications",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "17 July 2015",
+                    detail: 'EC granted centralised marketing authorization for Keytruda for advanced melanoma. Romania, as an EU member, is covered by the centralised procedure. Subsequent variations extended indications to NSCLC, classical Hodgkin lymphoma, urothelial carcinoma, and other tumour types.',
+                    links: [
+                        { label: "EMA EPAR \u2014 Keytruda", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda" },
+                    ],
+                },
+                {
+                    title: "CNAS Compensated Drug List & Cost-Volume-Outcome Contract",
+                    date: "2017\u20132018",
+                    detail: 'Pembrolizumab was included on the <strong>CNAS compensated drug list</strong> (Lista medicamentelor compensate) through a <strong>cost-volume-outcome (CVO) contract</strong> between MSD Romania and CNAS (Casa Na\u021bional\u0103 de Asigur\u0103ri de S\u0103n\u0103tate). CVO contracts are Romania\u2019s managed entry agreement mechanism for expensive innovative drugs: the manufacturer agrees to volume caps, outcome-based clawbacks, and confidential discounts in exchange for reimbursement. The initial listing covered advanced melanoma with subsequent expansions for NSCLC and other indications.',
+                    links: [
+                        { label: "CNAS \u2014 Compensated Drug List", url: "https://www.cnas.ro/page/lista-medicamentelor.html" },
+                    ],
+                },
+                {
+                    title: "Reimbursement & Access Challenges",
+                    date: "Ongoing",
+                    detail: 'Romania faces structural challenges in oncology access: the national oncology drug budget is limited, and CVO contracts are periodically renegotiated. Delays in CVO renewals can create temporary access gaps. Romania\u2019s pharmaceutical prices use external reference pricing against other EU member states. The ANM (Agen\u021bia Na\u021bional\u0103 a Medicamentului) manages the Canamed drug register for regulatory status. Despite reimbursement listing, actual patient access can vary by region due to hospital budget constraints and procurement delays.',
+                    links: [
+                        { label: "ANM \u2014 Canamed Drug Register", url: "https://www.anm.ro/medicamente-de-uz-uman/evaluare-medicamente/" },
+                    ],
+                },
+            ],
+            takeaway: 'Romania illustrates the Central-Eastern European market access challenge: EC approval is automatic via the centralised procedure, but national reimbursement requires a separate CVO (cost-volume-outcome) contract negotiation that can take 2\u20133 years. Even after CVO agreement, budget constraints and procurement delays can limit actual patient access. The CVO mechanism provides a managed entry framework, but periodic renegotiations create uncertainty for both manufacturers and patients.',
+        },
     },
     {
         code: "RU",
@@ -3200,6 +3633,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Saudi Arabia&rsquo;s pharmaceutical market is predominantly private insurance and out-of-pocket; public reimbursement databases are limited. The CCHI IDF is the most accessible public formulary reference.</p>
 `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial SFDA registration); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "SFDA Registration",
+                    date: "2016\u20132017",
+                    detail: 'The SFDA (Saudi Food and Drug Authority) registered pembrolizumab for advanced melanoma and NSCLC. Saudi Arabia participates in the <strong>GCC-DR (Gulf Cooperation Council Drug Registration)</strong> centralised procedure, which can provide recognition across GCC member states. SFDA has implemented expedited review pathways for products approved by reference authorities (FDA, EMA). Keytruda is available in the Saudi market for 10+ oncology indications.',
+                    links: [
+                        { label: "SFDA \u2014 Drug Listing", url: "https://www.sfda.gov.sa/en/drugs-list" },
+                    ],
+                },
+                {
+                    title: "MOH & NGHA Hospital Formularies",
+                    date: "From 2017",
+                    detail: 'Saudi Arabia\u2019s public healthcare is delivered through multiple government systems: <strong>MOH hospitals</strong> (largest network), <strong>NGHA</strong> (National Guard Health Affairs), <strong>KFSH&RC</strong> (King Faisal Specialist Hospital & Research Centre), and <strong>MOD</strong> (military hospitals). Each maintains its own formulary and procurement process. Pembrolizumab was adopted into the formularies of major oncology centres including KFSH&RC and NGHA hospitals. <strong>NUPCO</strong> (National Unified Procurement Company) handles centralised procurement for public-sector hospitals.',
+                    links: [
+                        { label: "NUPCO \u2014 Procurement Portal", url: "https://www.nupco.com/" },
+                    ],
+                },
+                {
+                    title: "CCHI Insurance Coverage",
+                    date: "Ongoing",
+                    detail: 'The <strong>CCHI</strong> (Council for Cooperative Health Insurance) oversees private health insurance, which covers expatriates and many Saudi nationals in the private sector. The CCHI Insurance Drug Formulary (IDF) defines minimum drug coverage. For high-cost oncology drugs, coverage depends on the specific insurance policy and employer plan. There is <strong>no formal national HTA body</strong> in Saudi Arabia, though SFDA is developing health economics capabilities. Saudi citizens can access treatment through public hospitals (MOH, NGHA) at no direct cost.',
+                    links: [
+                        { label: "CCHI \u2014 Insurance Drug Formulary", url: "https://www.cchi.gov.sa/" },
+                    ],
+                },
+            ],
+            takeaway: 'Saudi Arabia demonstrates a dual public-private market: Saudi citizens access pembrolizumab through government hospital formularies (MOH, NGHA, KFSH&RC) at no direct cost, while expatriates depend on private insurance coverage via the CCHI framework. NUPCO\u2019s centralised procurement provides volume-based pricing for the public sector. The absence of a formal HTA body means formulary decisions are clinically driven rather than cost-effectiveness driven. The GCC-DR pathway can facilitate multi-country access across the Gulf region.',
+        },
     },
     {
         code: "SG",
@@ -3244,6 +3709,38 @@ const COUNTRIES = [
     <li>For broader searches, use <a href="https://www.hsa.gov.sg/e-services/infosearch" target="_blank" rel="noopener">HSA InfoSearch</a> across all health product categories</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial registration); multiple oncology indications subsequently added",
+            steps: [
+                {
+                    title: "HSA Registration",
+                    date: "2016",
+                    detail: 'HSA (Health Sciences Authority) registered pembrolizumab for advanced melanoma and NSCLC. Singapore uses a rigorous regulatory pathway that references but does not automatically accept EMA or FDA decisions. HSA registration confers market authorization but does <strong>not</strong> guarantee public subsidy or hospital formulary listing.',
+                    links: [
+                        { label: "HSA PRISM \u2014 Drug Registration Search", url: "https://eservice.hsa.gov.sg/prism/common/enquirepublic/SearchDRBProduct.do?action=load" },
+                    ],
+                },
+                {
+                    title: "ACE HTA Assessment",
+                    date: "2018\u20132019",
+                    detail: 'The <strong>ACE</strong> (Agency for Care Effectiveness) published technology guidance on pembrolizumab for NSCLC and melanoma. ACE assessments evaluate clinical effectiveness and cost-effectiveness to inform public institution formulary decisions. ACE uses a structured framework but does not publish a formal cost-per-QALY threshold. ACE guidance is advisory \u2014 public hospitals and polyclinics use it to inform their own formulary decisions.',
+                    links: [
+                        { label: "ACE \u2014 Technology Guidance", url: "https://www.ace-hta.gov.sg/our-guidance" },
+                    ],
+                },
+                {
+                    title: "MOH Standard Drug List & Subsidy",
+                    date: "From 2019",
+                    detail: 'Pembrolizumab was included on the <strong>MOH Standard Drug List (SDL)</strong> for specific indications with subsidy coverage through the Medication Assistance Fund (MAF). Singapore\u2019s drug subsidy framework has three tiers: SDL (standard subsidy), Non-Standard Drug List (NSDL, lower subsidy), and MAF (additional means-tested support for expensive drugs). For oncology drugs, the combination of SDL listing and MAF support can significantly reduce out-of-pocket costs for lower-income patients. Medishield Life (national health insurance) and Medisave can also be used for eligible treatments.',
+                    links: [
+                        { label: "MOH \u2014 Drug Subsidy Schemes", url: "https://www.moh.gov.sg/healthcare-schemes-subsidies/drug-subsidies" },
+                    ],
+                },
+            ],
+            takeaway: 'Singapore\u2019s pathway shows how ACE technology guidance informs but does not dictate formulary decisions. The multi-layered subsidy system (SDL + MAF + MediShield Life + MediSave) provides a progressive safety net where lower-income patients receive more support. HSA registration does not equal access \u2014 ACE assessment and SDL listing are separate processes that determine the actual subsidy level.',
+        },
     },
     {
         code: "SK",
@@ -3717,6 +4214,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> Most Thai government portals are in Thai only. The Thai FDA English portal and HITAP English site are the main exceptions. Google Translate handles Thai adequately for navigation. The NDI portal has partial English support.</p>
 `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma and NSCLC (initial indications); limited NLEM listing for specific tumour types",
+            steps: [
+                {
+                    title: "Thai FDA Registration",
+                    date: "2016\u20132017",
+                    detail: 'Thai FDA registered pembrolizumab for advanced melanoma and NSCLC. Thailand has its own national regulatory pathway that does not automatically accept EMA or FDA decisions, though it can expedite review for products approved by reference authorities. Registration is a prerequisite for any public or private sale but does not confer reimbursement.',
+                    links: [
+                        { label: "Thai FDA \u2014 Drug Registration Search", url: "https://pertento.fda.moph.go.th/FDA_SEARCH_DRUG/SEARCH_DRUG/FRM_SEARCH_DRUG.aspx" },
+                    ],
+                },
+                {
+                    title: "HITAP Assessment & NLEM Consideration",
+                    date: "2018\u20132020",
+                    detail: '<strong>HITAP</strong> (Health Intervention and Technology Assessment Program) conducted cost-effectiveness analyses of pembrolizumab for various indications. Thailand applies a strict <strong>cost-per-QALY threshold of ~160,000 THB</strong> (approximately USD 4,500) \u2014 one of the most stringent globally. At list prices, pembrolizumab significantly exceeds this threshold for most indications. HITAP evaluations are used by the NLEM Subcommittee to inform listing decisions on the National List of Essential Medicines.',
+                    links: [
+                        { label: "HITAP \u2014 Assessments", url: "https://www.hitap.net/en/research" },
+                    ],
+                },
+                {
+                    title: "NLEM Listing & NHSO Coverage",
+                    date: "Limited / Restricted",
+                    detail: 'Pembrolizumab has <strong>limited NLEM listing</strong> for specific indications where cost-effectiveness could be demonstrated (e.g., MSI-H cancers) or where MSD negotiated significant price reductions. Thailand\u2019s <strong>NHSO</strong> (National Health Security Office) covers ~75% of the population under the Universal Coverage Scheme (UCS), with the remaining covered by the Social Security Scheme (~16%) and Civil Servant Medical Benefit Scheme (~8%). For most indications, pembrolizumab remains outside the UCS benefit package due to cost-effectiveness constraints. Patient access is primarily through the CSMBS (civil servants), private insurance, or out-of-pocket payment.',
+                    links: [
+                        { label: "NHSO \u2014 National Health Security Office", url: "https://eng.nhso.go.th/" },
+                    ],
+                },
+            ],
+            takeaway: 'Thailand demonstrates how a strict cost-per-QALY threshold (160,000 THB, ~USD 4,500) creates a significant barrier for high-cost oncology drugs. HITAP\u2019s rigorous pharmacoeconomic assessments mean that pembrolizumab at global prices far exceeds the threshold for most indications. Access is fragmented: civil servants (CSMBS) may receive coverage that UCS patients do not. This makes Thailand a case study in how cost-effectiveness thresholds drive differential access across insurance schemes.',
+        },
     },
     {
         code: "TW",
@@ -3812,6 +4341,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Not all TFDA reports are available online.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial TFDA approval); subsequently expanded to NSCLC, urothelial carcinoma, and other oncology indications",
+            steps: [
+                {
+                    title: "TFDA Registration",
+                    date: "2016",
+                    detail: 'TFDA (Taiwan Food and Drug Administration) registered pembrolizumab for advanced melanoma. Taiwan has its own regulatory authority operating independently of WHO prequalification and EMA/FDA. However, TFDA references international regulatory decisions to expedite review for priority products. Subsequent approvals covered NSCLC, classical Hodgkin lymphoma, urothelial carcinoma, and head & neck SCC.',
+                    links: [
+                        { label: "TFDA \u2014 Drug Database", url: "https://www.fda.gov.tw/MLMS/H0001.aspx" },
+                    ],
+                },
+                {
+                    title: "CDE HTA Assessment & NHIA Review",
+                    date: "2017\u20132019",
+                    detail: 'The <strong>CDE</strong> (Center for Drug Evaluation) conducted HTA assessments of pembrolizumab for NHIA (National Health Insurance Administration) consideration. Taiwan\u2019s NHI covers >99% of the population through a single-payer system. CDE evaluates clinical effectiveness, cost-effectiveness, and budget impact. For high-cost oncology drugs, the assessment process typically takes 12\u201324 months. The NHI Drug Reimbursement Joint Committee (DRJC) makes final listing decisions based on CDE recommendations.',
+                    links: [
+                        { label: "CDE \u2014 Center for Drug Evaluation", url: "https://www.cde.org.tw/eng/" },
+                        { label: "NHIA", url: "https://www.nhi.gov.tw/english/" },
+                    ],
+                },
+                {
+                    title: "NHI Reimbursement",
+                    date: "From 2019 (indication-specific)",
+                    detail: 'Pembrolizumab was listed on the NHI for specific indications with <strong>strict clinical criteria</strong> and prior authorization requirements. Taiwan\u2019s NHI reimbursement for high-cost oncology drugs is typically restricted to precisely defined patient populations: specific tumour types, lines of therapy, biomarker status (e.g., PD-L1 TPS \u226550% for NSCLC monotherapy), and maximum treatment duration. Annual NHI spending on pembrolizumab is subject to budget caps, and additional indications are added gradually based on clinical evidence and budget availability.',
+                    links: [
+                        { label: "NHIA \u2014 Drug Reimbursement", url: "https://www.nhi.gov.tw/english/" },
+                    ],
+                },
+            ],
+            takeaway: 'Taiwan\u2019s single-payer NHI system provides universal coverage but applies strict budget constraints to high-cost drugs. Pembrolizumab\u2019s NHI listing is indication-specific with tight clinical criteria, biomarker requirements, and treatment duration limits. The CDE assessment process ensures systematic evaluation, but budget caps mean that not all approved indications receive NHI coverage simultaneously. Taiwan demonstrates how a universal healthcare system balances access with fiscal sustainability.',
+        },
     },
     {
         code: "TR",
@@ -3852,6 +4414,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> SGK and TITCK are entirely in Turkish. Google Translate handles Turkish pharmaceutical text well. Key terms: "geri &ouml;deme" (reimbursement), "etken madde" (active substance), "uzman hekim" (specialist physician), "rapor" (physician committee report required).</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial TITCK registration); subsequently expanded to NSCLC, Hodgkin lymphoma, and other oncology indications",
+            steps: [
+                {
+                    title: "T\u0130TCK Registration",
+                    date: "2016\u20132017",
+                    detail: 'T\u0130TCK (Turkish Medicines and Medical Devices Agency) registered pembrolizumab for advanced melanoma and subsequently expanded indications. Turkey has its own regulatory authority but references international decisions (EMA, FDA) to inform review. T\u0130TCK registration is a prerequisite for any market activity, including SGK reimbursement listing.',
+                    links: [
+                        { label: "T\u0130TCK \u2014 Drug Database", url: "https://www.titck.gov.tr/faaliyetalanlari/ilac/ilacArama" },
+                    ],
+                },
+                {
+                    title: "SGK Positive List & SUT Listing",
+                    date: "2017\u20132018",
+                    detail: 'Pembrolizumab was included on the <strong>SGK (Social Security Institution) positive reimbursement list</strong> under the SUT (Sa\u011fl\u0131k Uygulama Tebli\u011fi / Health Implementation Communiqu\u00e9). The SUT defines reimbursement conditions including indication restrictions, prescribing physician requirements (specialist oncologist), and requirements for a <strong>heyet raporu</strong> (physician committee report) for reimbursement. Patients pay a <strong>10\u201320% co-payment</strong> (depending on the specific scheme and product). Turkey\u2019s pricing uses international reference pricing based on the <strong>lowest price from 5 EU reference countries</strong>.',
+                    links: [
+                        { label: "SGK \u2014 Drug Search (Geri \u00d6deme)", url: "https://www.sgk.gov.tr/" },
+                    ],
+                },
+                {
+                    title: "Global Budget & Pricing Pressure",
+                    date: "Ongoing",
+                    detail: 'Turkey operates a <strong>global pharmaceutical budget</strong> with expenditure caps. When the budget is exceeded, manufacturers face mandatory discount adjustments. Turkey\u2019s reference pricing system (lowest of 5 EU countries, typically Greece, Portugal, Spain, Italy, France) creates one of the lowest price environments in Europe. The Turkish Lira\u2019s depreciation against the Euro has compounded pricing pressure, leading to periodic mandatory price adjustments. For oncology drugs like pembrolizumab, Turkey\u2019s prices are typically among the lowest in the reference basket.',
+                    links: [
+                        { label: "T\u0130TCK \u2014 Pricing Regulations", url: "https://www.titck.gov.tr/" },
+                    ],
+                },
+            ],
+            takeaway: 'Turkey demonstrates how aggressive reference pricing (lowest of 5 EU countries) combined with currency depreciation creates extreme pricing pressure. Pembrolizumab is reimbursed under the SGK positive list with indication-specific restrictions and co-payments, providing relatively broad access. However, the low reference prices and Lira depreciation make Turkey a challenging commercial market. The heyet raporu (committee report) requirement ensures prescribing is restricted to approved indications and specialist centres.',
+        },
     },
     {
         code: "AE",
@@ -3896,6 +4490,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>EDE transition note:</strong> MOHAP is in the process of transferring pharmaceutical oversight to the Emirates Drug Establishment (EDE). During this transition, both the MOHAP portal and the new EDE portal (<a href="https://ede.gov.ae" target="_blank" rel="noopener">ede.gov.ae</a>) may be relevant. Check both if a product is not found in one database.</p>
 `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial registration); subsequently expanded to multiple oncology indications across federal and emirate-level authorities",
+            steps: [
+                {
+                    title: "MOHAP / Emirate-Level Registration",
+                    date: "2016\u20132017",
+                    detail: 'Pembrolizumab was registered through the UAE\u2019s multi-authority system: <strong>MOHAP</strong> (federal), <strong>DoH Abu Dhabi</strong>, and <strong>DHA Dubai</strong> each maintain separate drug registration processes. Products approved by the FDA, EMA, or other stringent regulatory authorities benefit from expedited review, but separate registration with each authority is still required. MSD registered Keytruda with all relevant UAE authorities for advanced melanoma, NSCLC, and subsequent indications.',
+                    links: [
+                        { label: "MOHAP \u2014 Drug Registration", url: "https://mohap.gov.ae/en/services/issue-marketing-authorisation-of-pharmaceutical-products" },
+                    ],
+                },
+                {
+                    title: "Hospital Formulary & Insurance Coverage",
+                    date: "From 2017",
+                    detail: 'UAE drug access is primarily formulary-driven at the institutional level. Major hospital groups (Cleveland Clinic Abu Dhabi, Mediclinic, etc.) and public hospitals maintain their own formularies. Insurance coverage depends on the patient\u2019s specific policy \u2014 DHA Basic and Enhanced plans define minimum coverage, but oncology drug coverage varies significantly by insurer and policy tier. The <strong>DoH Abu Dhabi Shafafiya portal</strong> provides the most transparent reference for drug availability and pricing in Abu Dhabi emirate. There is <strong>no UAE-wide HTA body</strong> or formal cost-per-QALY threshold.',
+                    links: [
+                        { label: "DoH Abu Dhabi \u2014 Shafafiya Drug Database", url: "https://shafafiya.doh.gov.ae/" },
+                    ],
+                },
+                {
+                    title: "Pricing & Market Access",
+                    date: "Ongoing",
+                    detail: 'Drug prices are set using international reference pricing, with each authority (MOHAP, DoH, DHA) potentially setting different prices. The UAE pharmaceutical market is predominantly driven by private insurance and out-of-pocket payment. The <strong>CCHI IDF</strong> (Insurance Drug Formulary) provides the most accessible public formulary reference. For high-cost oncology drugs, patient access often depends on the specific insurance plan coverage limits and hospital formulary inclusion rather than a national reimbursement decision.',
+                    links: [
+                        { label: "CCHI \u2014 Insurance Drug Formulary", url: "https://www.dha.gov.ae/en/HealthRegulation/Pages/InsuranceDrugFormulary.aspx" },
+                    ],
+                },
+            ],
+            takeaway: 'The UAE illustrates a multi-authority, insurance-driven market where there is no single national reimbursement decision. Drug access depends on the intersection of emirate-level registration, hospital formulary inclusion, and individual insurance policy coverage. The absence of a national HTA body means market access is driven by clinical adoption and insurance negotiations rather than formal cost-effectiveness assessment. The EDE transition is consolidating federal regulatory oversight but formulary decisions remain decentralised.',
+        },
     },
     {
         code: "GB",
@@ -4110,6 +4736,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Vietnam's pharmaceutical sector is undergoing major reform. The Amended Pharmaceutical Law (Law 44/2024, effective July 2025) and new Decree 163/2025 introduce significant changes to pricing, registration, and foreign investment rules. Always verify circulars are current.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma and NSCLC (initial DAV registration); now approved for 14 oncology indications",
+            steps: [
+                {
+                    title: "DAV Registration",
+                    date: "2017",
+                    detail: 'DAV (Drug Administration of Vietnam) registered pembrolizumab for melanoma and NSCLC \u2014 approximately 3 years after US FDA approval, which is relatively early for the ASEAN region. The registration followed the ACTD (ASEAN Common Technical Dossier) format. By 2025, 14 oncology indications are registered in Vietnam. MSD Vietnam operates a partial free drug support programme for eligible cancer patients under a Ministry of Health decision.',
+                    links: [
+                        { label: "DAV \u2014 Drug Registration Lookup", url: "https://dichvucong.dav.gov.vn/congbothuoc/index" },
+                        { label: "Drugbank.vn", url: "https://drugbank.vn/" },
+                    ],
+                },
+                {
+                    title: "BHXH/BHYT Reimbursement List \u2014 NOT Included",
+                    date: "As of Circular 20/2022/TT-BYT",
+                    detail: 'Pembrolizumab is <strong>NOT included</strong> on Vietnam\u2019s health insurance reimbursement drug list (Circular 20/2022/TT-BYT, 1,035 chemical drugs and biologics). This means the drug is entirely out-of-pocket for patients, unless accessing MSD\u2019s partial support programme. At ~VND 62 million per vial (~USD 2,500), a full course of treatment costs VND 1.5\u20133.0 billion (~USD 60,000\u2013120,000) \u2014 far beyond the means of most Vietnamese patients. In November 2025, the Ministry of Health proposed adding 28 cancer drugs to the insurance list; pembrolizumab\u2019s status in that update is unclear.',
+                    links: [
+                        { label: "BHXH Drug List (Circular 20/2022)", url: "https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Thong-tu-20-2022-TT-BYT-danh-muc-thanh-toan-thuoc-hoa-duoc-duoc-huong-bao-hiem-y-te-548898.aspx" },
+                    ],
+                },
+                {
+                    title: "Biosimilar Competition \u2014 Pembroria",
+                    date: "October 2025",
+                    detail: 'On 31 October 2025, DAV approved <strong>Pembroria</strong> (pembrolizumab biosimilar by LLC "PK-137," Russia) for 3-year circulation at ~VND 18 million per vial \u2014 approximately <strong>one-third of Keytruda\u2019s price</strong>. K Hospital (Hanoi\u2019s leading national cancer centre) has announced plans to procure Pembroria. The arrival of a significantly cheaper biosimilar may accelerate discussions about health insurance list inclusion and reshape the Vietnamese immuno-oncology market.',
+                    links: [
+                        { label: "Pembroria Approval (Vietnam.vn)", url: "https://www.vietnam.vn/en/thong-tin-ve-thuoc-dieu-tri-ung-thu-pembroria-vua-duoc-cap-phep-tai-viet-nam" },
+                    ],
+                },
+            ],
+            takeaway: 'Vietnam illustrates the 8-year gap between registration (2017) and health insurance coverage (still absent in 2026). Despite early DAV approval, Circular 20/2022 does not include pembrolizumab on the reimbursement list, leaving patients entirely out-of-pocket. The 2025 approval of Pembroria (Russian biosimilar at 1/3 the price) is a potentially transformative development \u2014 if the lower-cost biosimilar drives insurance list inclusion, it could dramatically expand access. Vietnam\u2019s case demonstrates how biosimilar competition in emerging markets may succeed where originator pricing failed.',
+        },
     },
     // ── New WIP countries (top-70 markets) ────────────────────────────
     {
