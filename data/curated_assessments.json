@@ -2,7 +2,14 @@
   "_meta": {
     "description": "Curated HTA assessment data for drugs where live scraping is unreliable. Entries here supplement (not replace) live-scraped data. When an adapter returns no results for a substance+country, these entries are used as fallback.",
     "last_updated": "2025-05-01",
-    "format": "Keyed by lowercase active substance (INN). Each substance maps country codes to a list of AssessmentResult-compatible objects."
+    "format": "Keyed by lowercase active substance (INN). Each substance maps country codes to a list of AssessmentResult-compatible objects.",
+    "per_country_fields": {
+      "GB": "assessment_url (NICE guidance), nice_recommendation, guidance_reference",
+      "DE": "assessment_url (G-BA procedure), benefit_rating, evidence_level, comparator, patient_group",
+      "FR": "assessment_url (HAS CT opinion), smr_value, asmr_value",
+      "ES": "assessment_url (IPT PDF), ipt_reference, therapeutic_positioning, bifimed_reimbursed, bifimed_url",
+      "JP": "assessment_url (PMDA review), pmda_review_type, japan_mhlw_url (price-setting PDF)"
+    }
   },
   "avelumab": {
     "GB": [
@@ -76,7 +83,9 @@
         "assessment_url": "https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/docs/IPT-avelumab-Bavencio-carcinoma-urotelial.pdf",
         "ipt_reference": "IPT-44/2022",
         "therapeutic_positioning": "Favorable",
-        "summary_en": "Positioning: Favorable | IPT-44/2022"
+        "bifimed_reimbursed": "Yes",
+        "bifimed_url": "https://www.sanidad.gob.es/profesionales/farmacia/pdf/home.htm",
+        "summary_en": "IPT: Favorable positioning | IPT-44/2022 | SNS reimbursed (Bifimed)"
       },
       {
         "product_name": "Bavencio",
@@ -85,7 +94,9 @@
         "assessment_url": "https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/docs/IPT-avelumab-axitinib-Bavencio-carcinoma-renal.pdf",
         "ipt_reference": "IPT-31/2020",
         "therapeutic_positioning": "Favorable",
-        "summary_en": "Positioning: Favorable | IPT-31/2020"
+        "bifimed_reimbursed": "Yes",
+        "bifimed_url": "https://www.sanidad.gob.es/profesionales/farmacia/pdf/home.htm",
+        "summary_en": "IPT: Favorable positioning | IPT-31/2020 | SNS reimbursed (Bifimed)"
       }
     ],
     "JP": [
@@ -95,8 +106,8 @@
         "opinion_date": "2017-09-27",
         "assessment_url": "https://www.pmda.go.jp/drugs/2017/P20170927001/index.html",
         "pmda_review_type": "Reimbursed (NHI)",
-        "japan_mhlw_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/newpage_00037.html",
-        "summary_en": "PMDA approved (2017). NHI-listed. Indication: Unresectable Merkel cell carcinoma."
+        "japan_mhlw_url": "https://www.mhlw.go.jp/topics/2017/11/dl/tp20171129-01_01.pdf",
+        "summary_en": "PMDA approved (Sep 2017). NHI price listed Nov 2017. Indication: Unresectable Merkel cell carcinoma."
       },
       {
         "product_name": "Bavencio (バベンチオ)",
@@ -104,8 +115,8 @@
         "opinion_date": "2019-12-20",
         "assessment_url": "https://www.pmda.go.jp/drugs/2019/P20191220001/index.html",
         "pmda_review_type": "Reimbursed (NHI)",
-        "japan_mhlw_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/newpage_00037.html",
-        "summary_en": "PMDA approved (2019). NHI-listed. Indication: Advanced renal cell carcinoma (1L, with axitinib)."
+        "japan_mhlw_url": "https://www.mhlw.go.jp/topics/2020/04/tp20200422-01_01.pdf",
+        "summary_en": "PMDA approved (Dec 2019). NHI price listed Feb 2020. Indication: Advanced renal cell carcinoma (1L, with axitinib)."
       },
       {
         "product_name": "Bavencio (バベンチオ)",
@@ -113,8 +124,8 @@
         "opinion_date": "2021-08-23",
         "assessment_url": "https://www.pmda.go.jp/drugs/2021/P20210823001/index.html",
         "pmda_review_type": "Reimbursed (NHI)",
-        "japan_mhlw_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/newpage_00037.html",
-        "summary_en": "PMDA approved (2021). NHI-listed. Indication: Locally advanced or metastatic urothelial carcinoma (1L maintenance after platinum chemo)."
+        "japan_mhlw_url": "https://www.mhlw.go.jp/topics/2021/11/tp20211124-01_01.pdf",
+        "summary_en": "PMDA approved (Aug 2021). NHI price listed Nov 2021. Indication: Locally advanced or metastatic urothelial carcinoma (1L maintenance after platinum chemo)."
       }
     ],
     "FR": [

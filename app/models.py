@@ -56,9 +56,11 @@ class AssessmentResult(BaseModel):
     # Spain (AEMPS)
     ipt_reference: str = ""
     therapeutic_positioning: str = ""
+    bifimed_reimbursed: str = ""    # SNS reimbursement status: "Yes", "No", or ""
+    bifimed_url: str = ""           # URL to the Bifimed (SNS financing database) entry
     # Japan (MHLW / KEGG JAPIC)
     pmda_review_type: str = ""      # reimbursement status: "Reimbursed (NHI)" or "Not in NHI price list"
-    japan_mhlw_url: str = ""        # MHLW quarterly pricing notifications page
+    japan_mhlw_url: str = ""        # MHLW price-setting notification PDF or page URL
     # Translated summary (all countries)
     summary_en: str = ""
 
