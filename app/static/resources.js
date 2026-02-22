@@ -15,6 +15,32 @@ const EMA_LINK = {
     url: "https://www.ema.europa.eu/en/human-regulatory-overview/marketing-authorisation/centralised-procedure",
 };
 
+// ── Worked Example Priority List ─────────────────────────────────────
+// Countries are enhanced in batches of 10 with detailed drugExample
+// timelines showing the full market access journey for a real drug.
+//
+// Data sourcing methodology:
+//   - Regulatory approvals: EMA EPAR, national agency databases (SÚKL, COFEPRIS,
+//     TFDA, BPOM, etc.), press releases, and regulatory news sources
+//   - HTA assessments: National HTA body publications (HITAP, ACE, IETS, CDE Taiwan),
+//     ISPOR conference abstracts, published cost-effectiveness analyses
+//   - Reimbursement decisions: National reimbursement list databases (NRDL, NHI, NLEM,
+//     Fornas, CNAS, EOPYY, SGK SUT), government gazette announcements
+//   - Pricing: SISMED (Colombia), NHSA (China), public procurement portals (CompraNet,
+//     e-Katalog, NUPCO), published market reports
+//   - Timelines cross-referenced against EMA EPAR milestones, WHO/WIPO/WTO reports,
+//     and published academic literature on market access timelines
+//   - All dates and decisions verified against at least 2 independent sources where possible
+//
+// Batch 1 (done): DE (Orserdu), JP (Keytruda) — original examples
+// Batch 2 (done): GB, FR, IT, ES, CA, AU, BR, KR, NL, BE — Bavencio (avelumab) mUC
+// Batch 3 (done): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU — Bavencio (avelumab) mUC
+// Batch 4 (done): CZ, RO, GR, IL, MX, TW, SG, TH, AR, CL — Keytruda (pembrolizumab)
+// Batch 5 (done): HK, TR, SA, AE, EG, CO, CN, ID, PH, VN — Keytruda (pembrolizumab)
+// Batch 6:        DZ, LB, PE, QA, OM, RU, HR, BG, SK, SI
+// Batch 7:        EE, LV, LT, LU, MT, CY, IS, ME, PR, KR(update)
+// (WIP countries deferred until primary data is complete)
+
 // ── Country data (alphabetical) ───────────────────────────────────────
 // ema: true  → country is an EU/EEA member; EMA link is auto-appended
 //              to the Market Authorization section when rendering.
@@ -154,6 +180,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "vademecum," "registro sanitario," "programa m&eacute;dico obligatorio," "obras sociales."</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced or metastatic melanoma (initial indication) and multiple subsequent oncology indications",
+            steps: [
+                {
+                    title: "ANMAT Registration",
+                    date: "2016",
+                    detail: 'ANMAT (Administraci\u00f3n Nacional de Medicamentos, Alimentos y Tecnolog\u00eda M\u00e9dica) approved pembrolizumab for advanced melanoma, approximately 2 years after US FDA approval. Argentina accepts dossiers referencing stringent regulatory authority approvals, which can accelerate review timelines. Subsequent indication expansions covered NSCLC, head & neck SCC, classical Hodgkin lymphoma, and urothelial carcinoma.',
+                    links: [
+                        { label: "ANMAT \u2014 Vademecum Nacional", url: "https://www.argentina.gob.ar/anmat/regulados/medicamentos/vademecum" },
+                    ],
+                },
+                {
+                    title: "PMO Coverage & SUR System",
+                    date: "From 2016",
+                    detail: 'Under Argentina\u2019s PMO (Programa M\u00e9dico Obligatorio), high-cost oncology medicines like pembrolizumab are typically channelled through the <strong>SUR system</strong> (Sistema \u00danico de Reintegraciones) managed by the Superintendencia de Servicios de Salud. Obras Sociales and Prepagas that provide pembrolizumab can seek partial reimbursement via the SUR. PAMI (covering ~5 million retirees) has its own formulary and negotiates prices directly with MSD.',
+                    links: [
+                        { label: "Superintendencia de Servicios de Salud", url: "https://www.argentina.gob.ar/sssalud" },
+                    ],
+                },
+                {
+                    title: "Pricing & Market Dynamics",
+                    date: "Ongoing",
+                    detail: 'Argentina has <strong>no formal statutory price controls</strong> for most medicines. Pembrolizumab pricing is influenced by voluntary government-industry agreements, periodic inflation adjustments, and individual payer negotiations. Reference prices are published by Kairos/Alfa Beta (private sources). High inflation makes pricing dynamic \u2014 prices are frequently adjusted. The fragmented payer landscape (Obras Sociales, PAMI, Prepagas, provincial systems) means each institution negotiates separately.',
+                    links: [
+                        { label: "Kairos \u2014 Manual Farmac\u00e9utico", url: "https://www.kairosweb.com/" },
+                    ],
+                },
+            ],
+            takeaway: 'Argentina illustrates a fragmented multi-payer system where access depends on which institution covers the patient: Obras Sociales (via SUR reimbursement), PAMI (direct formulary), or Prepagas (private insurance). There is no single national reimbursement decision \u2014 each payer evaluates and negotiates independently. The SUR system provides a partial safety net for high-cost drugs, but coverage and co-payment levels vary significantly across the ~300 Obras Sociales.',
+        },
     },
     {
         code: "AU",
@@ -217,6 +275,45 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> PBS prices are public but may include confidential rebates (Deeds of Agreement) between the manufacturer and government. The published DPMQ is the maximum price — actual acquisition costs may be lower.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "TGA Registration (ARTG)",
+                    date: "2020–2021",
+                    detail: 'Avelumab was registered on the ARTG (Australian Register of Therapeutic Goods) by the TGA for the UC maintenance indication. Australia participated in <strong>Project Orbis</strong> alongside the FDA, Health Canada, and Swissmedic for coordinated oncology review. The TGA approval leveraged the same JAVELIN Bladder 100 data package.',
+                    links: [
+                        { label: "TGA — ARTG Search", url: "https://www.tga.gov.au/resources/artg" },
+                    ],
+                },
+                {
+                    title: "PBAC Recommendation",
+                    date: "March 2022",
+                    detail: 'PBAC met in March 2022 and <strong>recommended</strong> avelumab for PBS listing for locally advanced (Stage III) or metastatic (Stage IV) urothelial carcinoma maintenance. The recommendation was based on the JAVELIN Bladder 100 OS benefit. A Public Summary Document (PSD) was published detailing the clinical evidence, economic evaluation (cost per QALY), and budget impact. A confidential Deed of Agreement with price concessions was part of the listing terms.',
+                    links: [
+                        { label: "PBS — Avelumab Public Summary Document", url: "https://www.pbs.gov.au/info/industry/listing/elements/pbac-meetings/psd/public-summary-documents-by-product" },
+                    ],
+                },
+                {
+                    title: "PBS Listing",
+                    date: "1 October 2022",
+                    detail: 'Avelumab was listed on the PBS effective 1 October 2022 as an <strong>Authority Required (STREAMLINED)</strong> benefit — prescribers must confirm the patient meets clinical criteria but do not need to call Services Australia. The PBS listing covers patients with locally advanced (Stage III) or metastatic (Stage IV) urothelial carcinoma whose disease has not progressed on first-line platinum-based chemotherapy. The PBS item codes include multiple vial sizes.',
+                    links: [
+                        { label: "PBS — Avelumab listing", url: "https://www.pbs.gov.au/medicine/item/11671g-11679q-11685b-11695m" },
+                        { label: "PBS Medicine Status — Avelumab", url: "https://www.pbs.gov.au/medicinestatus/document/825.html" },
+                    ],
+                },
+                {
+                    title: "Restriction Update",
+                    date: "1 April 2024",
+                    detail: 'PBS updated the avelumab listing: the "grandfather" restriction was removed, and the listing was streamlined. Prescriptions continue to require Authority (STREAMLINED) approval. The published DPMQ is the maximum price — confidential rebates under the Deed of Agreement reduce the actual acquisition cost to government.',
+                    links: [],
+                },
+            ],
+            takeaway: 'Bavencio in Australia shows the PBAC → PBS pathway in action. The ~8-month gap between PBAC recommendation (March 2022) and PBS listing (October 2022) reflects the pricing negotiation with PBPA. Australia\'s participation in Project Orbis accelerated TGA registration, but PBAC assessment and price negotiation remained sequential. The Authority Required (STREAMLINED) restriction balances access with appropriate use.',
+        },
     },
     {
         code: "AT",
@@ -258,6 +355,38 @@ const COUNTRIES = [
     <li>Drug prices are published by SV-Dachverband; the EKO search also shows the current Kassenpreis alongside reimbursement conditions</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Erstlinien-Erhaltungstherapie des lokal fortgeschrittenen oder metastasierten Urothelkarzinoms ohne Progression nach platinbasierter Chemotherapie",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation extending Bavencio\'s indication to first-line maintenance treatment of urothelial carcinoma. As an EU member, Austria is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Hospital Funding (Spitalsfinanzierung / LKF)",
+                    date: "2021",
+                    detail: 'In Austria, IV-administered oncology drugs like avelumab are typically funded through <strong>hospital budgets</strong> (Spitalsfinanzierung) under the LKF (Leistungsorientierte Krankenanstaltenfinanzierung — performance-based hospital financing) system, rather than through the outpatient EKO (Erstattungskodex). This means avelumab is available through hospital outpatient oncology clinics without requiring a specific EKO listing. Austrian medical publications confirm avelumab as standard of care for first-line maintenance UC, consistent with ESMO and EAU guidelines.',
+                    links: [
+                        { label: "Sozialversicherung — EKO Search", url: "https://www.sozialversicherung.at/oeko/views/index.xhtml" },
+                    ],
+                },
+                {
+                    title: "Clinical Adoption & Guidelines",
+                    date: "From April 2021",
+                    detail: 'Austrian oncologists adopted avelumab for UC maintenance following a medical webinar in April 2021 coinciding with the EU approval, organised with international and national experts. Austria\'s hospital-based funding model means access was relatively quick after EC approval — individual hospitals could incorporate avelumab into their oncology formularies without a separate national reimbursement listing. Austria also participates in the <strong>BeNeLuxA</strong> initiative for joint price negotiations on expensive medicines.',
+                    links: [
+                        { label: "BASG — ASPREGISTER", url: "https://aspregister.basg.gv.at/aspregister/faces/aspregister.jspx" },
+                    ],
+                },
+            ],
+            takeaway: 'Austria illustrates a hospital-funding pathway where IV oncology drugs bypass the standard outpatient EKO reimbursement list. This model can provide faster access than countries requiring explicit positive-list inclusion, but makes it harder to verify reimbursement status from public databases — you won\'t find avelumab in the EKO. Instead, check with the treating hospital or look for clinical adoption evidence in Austrian medical publications.',
+        },
     },
     {
         code: "BE",
@@ -353,6 +482,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Clinical reference:</strong> The <a href="https://www.cbip.be/fr/chapters" target="_blank" rel="noopener">CBIP/BCFI R&eacute;pertoire</a> is the standard annotated drug directory used by Belgian prescribers &mdash; organized into 20 therapeutic chapters with commentary on positioning, pricing, and reimbursement.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Traitement d'entretien en première ligne du carcinome urothélial localement avancé ou métastatique sans progression après chimiothérapie à base de platine",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC. As an EU member, Belgium automatically recognises the EMA centralised authorisation. The product was registered in the Medicines Database (medicinesdatabase.be) and assigned an FPS Economy maximum ex-factory price.',
+                    links: [
+                        { label: "Medicines Database — Belgium", url: "https://medicinesdatabase.be" },
+                    ],
+                },
+                {
+                    title: "CRM/CTG Reimbursement Evaluation",
+                    date: "2021–2022",
+                    detail: 'The manufacturer submitted a reimbursement dossier to NIHDI (RIZIV/INAMI). The CRM/CTG (Drug Reimbursement Committee) evaluated the clinical evidence within the standard <strong>180-day procedure</strong>. Given the high cost and the oncology indication, an <strong>Article 81 Managed Entry Agreement (MEA)</strong> was anticipated. The CRM/CTG classified the therapeutic added value and proposed reimbursement terms including Chapter IV prior authorisation requirements.',
+                    links: [
+                        { label: "RIZIV/INAMI — CTG Assessment Reports", url: "https://www.riziv.fgov.be/nl/webtoepassingen/geneesmiddelen-terugbetaling-ministeriele-beslissingen-en-ctg-beoordelingsrapporten" },
+                    ],
+                },
+                {
+                    title: "Chapter IV Reimbursement & Article 81 Convention",
+                    date: "2022",
+                    detail: 'Bavencio for UC maintenance was reimbursed under <strong>Chapter IV</strong> — requiring prior authorisation from the patient\'s health insurance fund (mutualité/ziekenfonds). The prescribing oncologist prepares a request confirming the patient meets criteria (locally advanced/metastatic UC, no progression after platinum-based chemo, adequate performance status). An <strong>Article 81 convention</strong> (managed entry agreement) was agreed between NIHDI and the manufacturer — this is a temporary 3-year reimbursement agreement with confidential financial terms (likely a price-volume or outcome-based arrangement). Approximately 30% of Belgium\'s medicines budget operates under Article 81 conventions.',
+                    links: [
+                        { label: "RIZIV/INAMI — Chapter IV/VIII Forms", url: "https://webappsa.riziv-inami.fgov.be/ssp/RequestForms" },
+                        { label: "RIZIV/INAMI — Reimbursable Drug Search", url: "https://webappsa.riziv-inami.fgov.be/SSPWebApplicationPublic/fr/Public/ProductSearch" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Belgium demonstrates the Chapter IV + Article 81 pathway typical for expensive oncology drugs. The prior authorisation requirement under Chapter IV ensures appropriate use, while the Article 81 managed entry agreement manages budget uncertainty. Belgium\'s 180-day CRM/CTG procedure is among the faster HTA timelines in Europe, but the Article 81 negotiation adds additional time. BeNeLuxA joint procurement was not applied to this specific product, though Belgium increasingly uses this mechanism for high-cost medicines.',
+        },
     },
     {
         code: "BR",
@@ -409,6 +571,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> The CONITEC website is in Portuguese only. Use Google Translate for navigation. For the most comprehensive search, use <code>site:gov.br/conitec [product name]</code> on Google.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumabe",
+            indication: "Tratamento de manutenção de primeira linha do carcinoma urotelial localmente avançado ou metastático sem progressão após quimioterapia à base de platina",
+            steps: [
+                {
+                    title: "ANVISA Registration",
+                    date: "28 December 2020",
+                    detail: 'ANVISA approved the new indication for avelumab (Bavencio) in maintenance treatment of locally advanced or metastatic urothelial carcinoma. Published in the Diário Oficial da União. Brazil participates in <strong>Project Orbis</strong> — the FDA-led international oncology regulatory collaboration — which helped accelerate the review timeline. The approval referenced JAVELIN Bladder 100 data: median OS 21.4 vs 14.3 months.',
+                    links: [
+                        { label: "ANVISA — Bavencio new indication", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/novos-medicamentos-e-indicacoes/bavencio-avelumabe-nova-indicacao" },
+                    ],
+                },
+                {
+                    title: "CMED Maximum Price Setting",
+                    date: "2021",
+                    detail: 'CMED (Câmara de Regulação do Mercado de Medicamentos) established the maximum consumer price (PMC — Preço Máximo ao Consumidor) for Bavencio using Brazil\'s regulated pricing formula, which incorporates international reference pricing and local market factors. CMED prices vary by state due to different ICMS (state sales tax) rates — the official price list includes separate columns for each state.',
+                    links: [
+                        { label: "CMED — Drug Prices", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
+                    ],
+                },
+                {
+                    title: "SUS Access — CONITEC Evaluation Pending",
+                    date: "As of 2025",
+                    detail: 'Avelumab for UC maintenance has <strong>not yet been incorporated into SUS</strong> (Sistema Único de Saúde) — Brazil\'s public health system covering ~75% of the population. CONITEC (Comissão Nacional de Incorporação de Tecnologias no SUS) has not published a formal recommendation for this indication. Without CONITEC incorporation, the drug is available only in the private sector or through individual judicial actions (judicialização). Brazil has a significant problem with judicialização — patients suing the government to obtain access to drugs not covered by SUS, which accounts for a substantial share of public pharmaceutical spending.',
+                    links: [
+                        { label: "CONITEC — Recommendations", url: "https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/recomendacoes-da-conitec" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Brazil highlights the gap between regulatory approval and public access. ANVISA approved the drug in December 2020 (via Project Orbis), but as of 2025, CONITEC has not incorporated it into SUS. This means the majority of Brazilian patients cannot access maintenance avelumab through the public system. Private insurance or judicial orders remain the only routes — illustrating Brazil\'s dual-track access reality and the critical role of CONITEC incorporation in determining population-level access.',
+        },
     },
     {
         code: "BG",
@@ -508,6 +702,44 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> Canada's access pathway from approval to reimbursement typically takes 12–18 months (Health Canada → CADTH → pCPA → provincial listing). Track the stage of each product to understand the access timeline.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "Health Canada Approval",
+                    date: "11 December 2020",
+                    detail: 'Health Canada approved avelumab for first-line maintenance treatment of UC. Canada participated in <strong>Project Orbis</strong> — the FDA-led international oncology regulatory collaboration — enabling coordinated review with FDA, TGA (Australia), and Swissmedic. Health Canada approval came ~5 months after the FDA (June 2020). The Summary Basis of Decision reviewed the JAVELIN Bladder 100 trial data.',
+                    links: [
+                        { label: "Health Canada — DPD Bavencio", url: "https://health-products.canada.ca/dpd-bdpp/" },
+                    ],
+                },
+                {
+                    title: "CADTH/pCODR Reimbursement Review",
+                    date: "29 April 2021",
+                    detail: 'The pCODR Expert Review Committee (pERC) issued a positive recommendation: <strong>"Reimburse with clinical criteria and/or conditions"</strong>. Key conditions included alignment with the JAVELIN Bladder 100 eligibility criteria (ECOG 0–1, no progression after 4–6 cycles of platinum-based chemo). INESSS (Québec) also issued a positive recommendation concurrently. The CADTH Clinical Review Report provided a detailed critique of the OS, PFS, and quality-of-life evidence.',
+                    links: [
+                        { label: "CADTH — Avelumab for UC (review details)", url: "https://www.cadth.ca/avelumab-bavencio-urothelial-carcinoma-details" },
+                    ],
+                },
+                {
+                    title: "pCPA Price Negotiation",
+                    date: "2021–2022",
+                    detail: 'Following the positive CADTH recommendation, the pan-Canadian Pharmaceutical Alliance (pCPA) entered price negotiations with the manufacturer (EMD Serono / Pfizer). pCPA negotiations are confidential — the negotiated price is not publicly disclosed. Upon conclusion, each province/territory independently decides whether to list the drug on its public formulary.',
+                    links: [
+                        { label: "pCPA — Negotiations", url: "https://www.pcpa.ca/" },
+                    ],
+                },
+                {
+                    title: "Provincial Formulary Listings",
+                    date: "2022 onwards (variable)",
+                    detail: 'Provincial drug plans listed avelumab progressively. In Canada, a positive CADTH recommendation and completed pCPA negotiation do <strong>not</strong> guarantee listing — each province makes independent formulary decisions. Larger provinces (Ontario, BC, Alberta, Québec) typically list first; smaller provinces may follow months later. Access remains variable across the country.',
+                    links: [],
+                },
+            ],
+            takeaway: 'Bavencio in Canada illustrates the multi-step access pathway: Health Canada approval (Dec 2020) → CADTH/pCODR recommendation (Apr 2021) → pCPA negotiation → provincial listing (2022+). The ~18-month journey from regulatory approval to widespread provincial access highlights the structural delay inherent in Canada\'s decentralised payer system. Project Orbis accelerated the regulatory step but had no impact on HTA or pricing timelines.',
+        },
     },
     {
         code: "CL",
@@ -576,6 +808,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key search terms: "registro sanitario," "garant&iacute;as expl&iacute;citas en salud," "ley Ricarte Soto."</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial indication); NSCLC and other oncology indications subsequently added",
+            steps: [
+                {
+                    title: "ISP Registration",
+                    date: "2016",
+                    detail: 'ISP (Instituto de Salud P\u00fablica) registered pembrolizumab for advanced melanoma, followed by subsequent indication expansions including NSCLC, head & neck SCC, and classical Hodgkin lymphoma. Chile accepts dossiers referencing ICH-aligned regulatory authorities, and ISP has been progressively streamlining review times for priority oncology drugs.',
+                    links: [
+                        { label: "ISP \u2014 Drug Registry (Registro de Productos Farmac\u00e9uticos)", url: "https://registrosanitario.ispch.gob.cl/" },
+                    ],
+                },
+                {
+                    title: "Ley Ricarte Soto Coverage",
+                    date: "From 2019",
+                    detail: 'Chile\u2019s <strong>Ley Ricarte Soto</strong> (Law 20.850, 2015) provides public funding for high-cost diagnoses and treatments. Pembrolizumab was included under the Ley Ricarte Soto programme for specific indications including advanced melanoma. Coverage is diagnosis-specific and requires patients to meet defined clinical criteria. The programme is funded by a dedicated public fund and covers treatments regardless of the patient\u2019s insurance affiliation (FONASA or Isapre).',
+                    links: [
+                        { label: "MINSAL \u2014 Ley Ricarte Soto", url: "https://www.minsal.cl/leyricartesoto/" },
+                    ],
+                },
+                {
+                    title: "FONASA & CENABAST Procurement",
+                    date: "Ongoing",
+                    detail: 'For indications covered under Ley Ricarte Soto, <strong>CENABAST</strong> (Central de Abastecimiento del SNS) handles centralised procurement and price negotiation. For indications not covered by Ricarte Soto, access depends on institutional procurement by FONASA hospitals or private Isapre coverage. GES/AUGE guarantees cover specific cancers (e.g., breast, colorectal) but immunotherapy coverage varies by indication and protocol updates. Chile\u2019s ETESA (Evaluaci\u00f3n de Tecnolog\u00edas Sanitarias) conducts HTA evaluations that inform coverage decisions.',
+                    links: [
+                        { label: "CENABAST \u2014 Procurement Portal", url: "https://www.cenabast.cl/" },
+                        { label: "FONASA", url: "https://www.fonasa.cl/" },
+                    ],
+                },
+            ],
+            takeaway: 'Chile\u2019s Ley Ricarte Soto represents a landmark high-cost drugs law that provides universal access to specified expensive treatments regardless of insurance type. For Keytruda, coverage under Ricarte Soto is indication-specific \u2014 not all approved indications are covered. For non-covered indications, access depends on institutional procurement or private insurance. CENABAST\u2019s centralised procurement achieves significant price reductions through consolidated purchasing power.',
+        },
     },
     {
         code: "CN",
@@ -641,6 +906,39 @@ const COUNTRIES = [
     <li>Reimbursement rates vary by scheme, hospital tier, and province (typically 50&ndash;90%). NRDL Category A drugs are reimbursed at the standard rate; Category B requires co-payment</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            localName: "\u53ef\u745e\u8fbe",
+            indication: "Unresectable or metastatic melanoma after failure of one prior systemic therapy (initial Chinese indication)",
+            steps: [
+                {
+                    title: "NMPA Priority Review Approval",
+                    date: "July 2018",
+                    detail: 'NMPA (formerly CNDA) granted approval for pembrolizumab for second-line advanced melanoma following priority review \u2014 an industry-leading turnaround for imported cancer medicine in China. The approval was based on the Phase 1b KEYNOTE-151 study in 103 Chinese patients. Keytruda was the first anti-PD-1 therapy approved for advanced melanoma in China. Subsequent approvals expanded to NSCLC, esophageal cancer, and 10+ other tumour types.',
+                    links: [
+                        { label: "NMPA \u2014 Drug Database", url: "https://www.nmpa.gov.cn/datasearch/search-info.html" },
+                    ],
+                },
+                {
+                    title: "Launch Pricing & Patient Assistance",
+                    date: "September 2018",
+                    detail: 'MSD launched Keytruda at <strong>CNY 17,918 per 100 mg vial</strong> (~USD 2,613), approximately 50% of the US list price. A <strong>Patient Assistance Programme (PAP)</strong> offered "buy 3, get 3 free" \u2014 effectively halving the annual cost further. By 2021, the PAP updated to "buy 2, get 2 free" with annual cost ~CNY 70,000 (~USD 9,600). Municipal schemes like Shenzhen offered 70% reimbursement up to CNY 150,000/year.',
+                    links: [
+                        { label: "Caixin \u2014 MSD Keytruda China Pricing", url: "https://www.caixinglobal.com/2018-09-19/merck-slashes-key-cancer-drug-price-for-china-101327751.html" },
+                    ],
+                },
+                {
+                    title: "NRDL Negotiations \u2014 Consistently Excluded",
+                    date: "2019\u20132025 (6 consecutive rounds)",
+                    detail: 'Keytruda has been <strong>excluded from the NRDL for 6 consecutive years</strong> (2019\u20132025). NHSA demands 60\u201380%+ price cuts for listing; MSD declined due to international reference pricing (IRP) concerns \u2014 deep China discounts would trigger price reductions in 12+ reference countries globally. Meanwhile, 4+ domestic PD-1 inhibitors (sintilimab, tislelizumab, camrelizumab, toripalimab) achieved NRDL listing at annual costs of CNY 40,000\u201370,000 \u2014 a fraction of Keytruda\u2019s price. Despite NRDL exclusion, Keytruda achieved ~CNY 3 billion annual sales in China through private pay, commercial insurance, and PAPs.',
+                    links: [
+                        { label: "NHSA \u2014 Drug Catalog Query", url: "https://code.nhsa.gov.cn/" },
+                    ],
+                },
+            ],
+            takeaway: 'China\u2019s Keytruda story is a landmark case study in the tension between global pricing and local reimbursement. MSD chose commercial viability (private pay + PAP) over NRDL listing that would require 60\u201380% price cuts with global IRP ripple effects. The strategy initially succeeded (~CNY 3B/year sales without public reimbursement), but domestic PD-1 competition at 1/4 the price is eroding market share. China demonstrates that commercial success without national reimbursement is possible but unsustainable against local competition.',
+        },
     },
     {
         code: "CO",
@@ -708,6 +1006,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory documents are in Spanish. Key terms: "registro sanitario," "plan de beneficios en salud," "precio m&aacute;ximo de venta," "presupuestos m&aacute;ximos."</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Melanoma avanzado (initial INVIMA registration); subsequently expanded to 10+ oncology indications",
+            steps: [
+                {
+                    title: "INVIMA Registration",
+                    date: "2017",
+                    detail: 'INVIMA granted registration for pembrolizumab (INVIMA 2017MBT-0017599) for advanced melanoma. Notably, INVIMA initially <strong>rejected</strong> MSD\u2019s original application because the submitted data was based on the US FDA accelerated approval (Phase II) data package \u2014 Colombia does not have an equivalent abbreviated approval route. After MSD filed an appeal with supplementary data, approval was granted. Four additional oncology indications were added during 2020\u20132022.',
+                    links: [
+                        { label: "INVIMA \u2014 Drug Registry", url: "https://www.invima.gov.co/consultas-registros-sanitarios" },
+                    ],
+                },
+                {
+                    title: "PBS Status & No-PBS Access via MIPRES / Tutela",
+                    date: "Ongoing",
+                    detail: 'Pembrolizumab is <strong>NOT included</strong> in the PBS (Plan de Beneficios en Salud). Access is through the <strong>No-PBS pathway</strong>: physicians prescribe via MIPRES (digital platform), and the EPS (health insurer) must deliver within 5 days. If the EPS fails, patients can invoke the constitutional <strong>tutela</strong> mechanism \u2014 a court order compelling treatment access. This rights-based pathway is uniquely Colombian. Since 2020, costs are managed through <strong>Presupuestos M\u00e1ximos</strong> (annual ceiling budgets from ADRES to EPS) rather than individual reimbursement claims.',
+                    links: [
+                        { label: "MIPRES (prescription platform)", url: "https://mipres.sispro.gov.co/" },
+                        { label: "ADRES", url: "https://www.adres.gov.co/" },
+                    ],
+                },
+                {
+                    title: "Pricing \u2014 SISMED & Price Controls",
+                    date: "Ongoing",
+                    detail: 'Pembrolizumab pricing is regulated through SISMED (Sistema de Informaci\u00f3n de Precios de Medicamentos). Colombia uses external reference pricing (ERP against 19 countries, Circular 18 de 2024) to set maximum sale prices (PMV). The CNPMDM can place specific molecules under <strong>Control Directo</strong> with a regulated ceiling price. Reference price: ~COP 10,850,000 per 100 mg vial. Cost-effectiveness analyses at the Colombian WTP threshold (COP ~69M/QALY) have shown pembrolizumab to be cost-effective for some indications (e.g., first-line HNSCC).',
+                    links: [
+                        { label: "SISMED \u2014 Drug Price Database", url: "https://www.sispro.gov.co/central-medicamentos/Pages/Consulta-precio-SISMED.aspx" },
+                    ],
+                },
+            ],
+            takeaway: 'Colombia demonstrates a uniquely rights-based access system: the constitutional tutela mechanism ensures patients can compel coverage for non-PBS drugs, making it more patient-protective than most emerging markets. The 2020 shift from individual recobros to ceiling budgets (presupuestos m\u00e1ximos) transferred financial risk to EPS entities. INVIMA\u2019s initial rejection based on the US accelerated approval data package highlights how regulatory pathways can diverge between reference markets and local requirements.',
+        },
     },
     {
         code: "HR",
@@ -807,6 +1138,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> The S&Uacute;KL interface is primarily in Czech. The product search accepts INN (Latin characters) and brand names. Use Google Translate for the result fields &mdash; key terms: "hrazen" (reimbursed), "cena" (price), "indika&ccaron;n&iacute; omezen&iacute;" (indication restriction).</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (first indication); subsequently expanded to NSCLC, urothelial carcinoma, and other oncology indications",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "17 July 2015",
+                    detail: 'EC granted marketing authorization for Keytruda for advanced (unresectable or metastatic) melanoma in adults. As an EU member, Czech Republic is covered by the centralised procedure. Subsequent Type II variations extended indications to NSCLC (2016), urothelial carcinoma (2017), and many other tumour types.',
+                    links: [
+                        { label: "EMA EPAR \u2014 Keytruda", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda" },
+                    ],
+                },
+                {
+                    title: "S\u00daKL HTA Assessment & Reimbursement",
+                    date: "2017\u20132018",
+                    detail: 'S\u00daKL conducted an internal HTA assessment and issued a reimbursement decision. Pembrolizumab was listed with <strong>IND codes</strong> (indika\u010dn\u00ed omezen\u00ed) restricting reimbursement to specific indications and clinical criteria: advanced melanoma (monotherapy, after prior ipilimumab or BRAF inhibitor), and subsequently NSCLC with PD-L1 TPS \u226550%. Each new indication required a separate S\u00daKL reimbursement procedure with corresponding IND code.',
+                    links: [
+                        { label: "S\u00daKL \u2014 Drug Register & Reimbursement Search", url: "https://www.sukl.cz/modules/medication/search.php" },
+                    ],
+                },
+                {
+                    title: "Price Regulation & Updates",
+                    date: "Ongoing",
+                    detail: 'S\u00daKL sets both the maximum ex-factory price (using external reference pricing against a basket of EU countries) and the reimbursement amount. The database shows both the regulated price and the reimbursement conditions in one place. As new indications are added, each goes through a separate administrative procedure. Czech Republic typically achieves reimbursement within 12\u201318 months of EC approval for priority oncology drugs, faster than some CEE peers.',
+                    links: [
+                        { label: "S\u00daKL \u2014 Reimbursed Drugs and Prices", url: "https://www.sukl.cz/modules/medication/search.php" },
+                    ],
+                },
+            ],
+            takeaway: 'Czech Republic demonstrates a unified regulatory-reimbursement system where S\u00daKL handles both drug registration and reimbursement in one institution. The IND code system (indika\u010dn\u00ed omezen\u00ed) ensures reimbursement is tightly linked to specific indications and patient criteria \u2014 a product may be reimbursed for one indication but not another. This contrasts with countries where a single reimbursement decision covers all approved indications.',
+        },
     },
     {
         code: "DK",
@@ -902,6 +1265,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Statistics:</strong> <a href="https://medstat.dk/en" target="_blank" rel="noopener">Medstat.dk</a> provides free, public aggregate data on all medicine sales in Denmark since 1996 (primary care) and 1997 (hospitals), searchable by ATC code, region, age, and sex.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Førstelinjevedligeholdelsesbehandling af lokalt fremskreden eller metastatisk urotelialt karcinom uden progression efter platinabaseret kemoterapi",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Denmark is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Medicinrådet Recommendation",
+                    date: "23 June 2021",
+                    detail: 'Medicinrådet (Danish Medicines Council) <strong>recommended avelumab as possible standard treatment</strong> (anbefalet som mulig standardbehandling) for maintenance therapy in patients with advanced urothelial carcinoma. The assessment took 113 days (16 weeks). The Council concluded that avelumab extends survival with tolerable side effects that do not impair quality of life, and that the relationship between clinical benefit and healthcare costs was <strong>reasonable</strong> at the Amgros-negotiated (confidential) price. The recommendation covers patients in good general condition (ECOG PS 0–1) whose disease has not progressed after platinum-based chemotherapy. Medicinrådet explicitly <strong>did not recommend</strong> avelumab for patients who cannot tolerate cisplatin and receive first-line immunotherapy instead.',
+                    links: [
+                        { label: "Medicinrådet — Avelumab for urotelialt carcinom", url: "https://medicinraadet.dk/anbefalinger-og-vejledninger/laegemidler-og-indikationsudvidelser/a/avelumab-bavencio-urotelialt-carcinom" },
+                    ],
+                },
+                {
+                    title: "Hospital Procurement via Amgros",
+                    date: "From July 2021",
+                    detail: 'Following the positive Medicinrådet recommendation, avelumab became available through Danish public hospitals procured by Amgros. As a hospital-administered IV drug, avelumab bypasses the community pharmacy reimbursement system (MedicinPriser/DKMA). The Amgros-negotiated price is <strong>confidential</strong> — public list prices do not reflect the actual acquisition cost. Compliance with Medicinrådet recommendations across Danish regions is typically very high.',
+                    links: [
+                        { label: "Amgros — Hospital Procurement", url: "https://amgros.dk/en/" },
+                    ],
+                },
+            ],
+            takeaway: 'Denmark\'s Medicinrådet pathway for hospital drugs is one of the fastest in Europe: just 5 months from EC approval (January 2021) to recommendation (June 2021), with a 113-day assessment timeline. The parallel process — Amgros negotiating price while Medicinrådet assesses clinical value — accelerates access. Unlike NICE, Medicinrådet does not publish a cost-per-QALY threshold; instead, it assesses whether clinical benefit is "proportionate to cost" at the negotiated price.',
+        },
     },
     {
         code: "EG",
@@ -971,6 +1366,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> EDA website is available in English and Arabic. The drug registry search interface supports English queries. Pricing circulars are primarily in Arabic.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial EDA registration); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "EDA Registration",
+                    date: "2017\u20132018",
+                    detail: 'The EDA (Egyptian Drug Authority, formerly NODCAR) registered pembrolizumab for advanced melanoma and NSCLC. Egypt has its own national regulatory pathway, though it has streamlined procedures for products approved by reference agencies (FDA, EMA, MHRA). Registration timelines for innovative oncology drugs typically run 12\u201324 months. EDA registration is a prerequisite for both public and private market availability.',
+                    links: [
+                        { label: "EDA \u2014 Drug Registry Search", url: "https://www.edaegypt.gov.eg/en/services/drug-registration/drug-search/" },
+                    ],
+                },
+                {
+                    title: "Pricing \u2014 Supreme Pricing Committee",
+                    date: "2018",
+                    detail: 'The <strong>Supreme Pricing Committee</strong> sets drug prices in Egypt based on external reference pricing and cost-plus calculations. Egypt uses one of the lowest pricing benchmarks globally \u2014 innovative drug prices are typically 50\u201370% below US/EU levels. The price is set in EGP (Egyptian Pound), and currency devaluations (three major devaluations 2022\u20132024, from ~EGP 16/USD to ~EGP 48/USD) have made Egypt\u2019s prices among the lowest globally in USD terms, creating supply-chain challenges as manufacturers face below-cost pricing.',
+                    links: [
+                        { label: "EDA \u2014 Official Website", url: "https://www.edaegypt.gov.eg/en/" },
+                    ],
+                },
+                {
+                    title: "Public Hospital Procurement & UHIA",
+                    date: "Ongoing",
+                    detail: 'Access to pembrolizumab in Egypt\u2019s public sector is primarily through <strong>MOH hospital procurement</strong> and the <strong>National Cancer Institute (NCI Cairo)</strong>. The <strong>UHIA</strong> (Universal Health Insurance Authority), established under the 2018 law, is gradually expanding coverage (Phase 1 covering 6 governorates as of 2024), with innovative medicines requiring an HTA dossier for UHIA formulary listing. Egypt is collaborating with <strong>NICE (UK)</strong> on developing its national HTA framework. Until UHIA rollout is complete, most patients access pembrolizumab through public hospital allocation (limited), private-sector purchase (expensive), or charity/NGO support.',
+                    links: [
+                        { label: "UHIA (Universal Health Insurance Authority)", url: "https://uhia.gov.eg/" },
+                    ],
+                },
+            ],
+            takeaway: 'Egypt illustrates the challenge of pharmaceutical access during major economic transitions: multiple EGP devaluations have made drug pricing untenable for many manufacturers, creating supply concerns. The UHIA rollout promises systematic HTA-based formulary management, but full national coverage is years away. Access to pembrolizumab remains fragmented between public hospital allocation (limited by budget), private sector (expensive for most Egyptians), and emerging UHIA coverage (geographically limited).',
+        },
     },
     {
         code: "EE",
@@ -1062,6 +1489,39 @@ const COUNTRIES = [
     <li>To check if a specific drug has Hila approval, search the <a href="https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" target="_blank" rel="noopener">Hila list of reimbursable medicines</a> or use the <a href="https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" target="_blank" rel="noopener">Kela drug search</a></li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Paikallisesti edenneen tai etäpesäkkeisen uroteelikarsinooman ensilinjan ylläpitohoito potilailla, joiden tauti ei ole edennyt platinapohjaisen kemoterapian jälkeen",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Finland is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "PALKO (COHERE Finland) Recommendation",
+                    date: "1 September 2021",
+                    detail: 'Palveluvalikoima­neuvosto PALKO (COHERE Finland — Council for Choices in Health Care) issued its final recommendation on 1 September 2021, following a draft recommendation approved on 17 June 2021 and public consultation until 4 August 2021. PALKO concluded that avelumab <strong>belongs in the publicly funded service basket</strong> for first-line maintenance UC, conditional on a <strong>sufficient price reduction</strong> between the marketing authorization holder and purchaser. The ICER was approximately <strong>€96,000/QALY</strong> at list price, with additional costs of ~€60,000/patient vs. BSC. The average OS benefit was ~7 months for this poor-prognosis group.',
+                    links: [
+                        { label: "PALKO — Avelumab recommendation announcement", url: "https://palveluvalikoima.fi/-/avelumabi-uroteelikarsinooman-ensilinjan-hoidosssa-suositusluonnos-kommentoitavana" },
+                        { label: "Suomen Syöpäpotilaat — PALKO recommendation", url: "https://www.syopapotilaat.fi/ajankohtaista/verkkouutiset/palveluvalikoimaneuvosto-hyvaksyi-suosituksen-avelumabi-uroteelikarsinooman-ensilinjan-hoidossa/" },
+                    ],
+                },
+                {
+                    title: "Hospital Sector Funding",
+                    date: "From late 2021",
+                    detail: 'As a hospital-administered IV infusion, avelumab is funded through <strong>hospital district budgets</strong> — it does NOT appear in the Kela/Hila outpatient reimbursement system. Finnish hospital districts (now wellbeing services counties since 2023) procure oncology drugs directly, negotiating prices with manufacturers. Access and pricing may vary between regions depending on local procurement decisions and budget constraints.',
+                    links: [
+                        { label: "FIMEA — HTA Assessments", url: "https://fimea.fi/laakehoidon-arviointi/arviointijulkaisut" },
+                    ],
+                },
+            ],
+            takeaway: 'Finland\'s dual-track system is clearly visible here: PALKO (not Hila/Kela) assessed avelumab because it\'s a hospital drug. PALKO\'s conditional recommendation (requiring a price reduction from list price) reflects Finland\'s approach to balancing access with cost-effectiveness. The €96,000/QALY ICER at list price exceeded acceptable thresholds, making confidential price negotiations essential. Users researching hospital oncology drugs in Finland should look at PALKO recommendations, not the Kela/Hila system.',
+        },
     },
     {
         code: "FR",
@@ -1140,6 +1600,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> The BDPM database is searchable in French only. Use Google Translate or search by INN (international nonproprietary name) which is typically in English/Latin.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Traitement d'entretien en première ligne du carcinome urothélial localement avancé ou métastatique sans progression après chimiothérapie à base de platine",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. Based on JAVELIN Bladder 100 (Phase III, N=700): median OS 21.4 vs 14.3 months (HR 0.69). Avelumab was already authorised in the EU for Merkel cell carcinoma since 2017.',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "HAS — Commission de la Transparence Opinion",
+                    date: "March 2021",
+                    detail: 'The CT evaluated Bavencio for the UC maintenance indication. Key outcomes:<br><br><strong>SMR: Important</strong> — clinical benefit recognised as sufficient for reimbursement.<br><strong>ASMR: III (moderate improvement)</strong> — HAS considered the OS benefit of ~7 months over BSC a moderate therapeutic advance. The cost-effectiveness ratio was estimated at <strong>€188,451/QALY</strong> vs. best supportive care over a 10-year horizon — well above typical French thresholds, with an estimated +167% increase in health insurance spending for this indication. The population cible (target population) was estimated at approximately 2,500 patients/year.',
+                    links: [
+                        { label: "HAS Avis CT — Bavencio (carcinome urothélial)", url: "https://www.has-sante.fr/jcms/p_3243896/fr/bavencio-carcinome-urothelial-avelumab" },
+                    ],
+                },
+                {
+                    title: "CEPS Price Negotiation & Reimbursement",
+                    date: "2021–2022",
+                    detail: 'Following the SMR Important / ASMR III rating, CEPS negotiated the reimbursement price. Bavencio was classified as a hospital-only product on the <strong>Liste en sus</strong> — reimbursed on top of the DRG tariff for hospital oncology. The reimbursement rate is <strong>100%</strong> (Affection de Longue Durée — ALD for cancer). The product was available via Accès Précoce (early access) prior to formal reimbursement.',
+                    links: [
+                        { label: "BDPM — Bavencio", url: "https://base-donnees-publique.medicaments.gouv.fr/extrait.php?specid=68504882" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in France illustrates the ASMR-driven pricing mechanism: an ASMR III (moderate improvement) rating secured a price premium over BSC, despite a high ICER. France does not apply a rigid cost-per-QALY threshold like NICE — instead, ASMR and population cible drive the negotiation. The Liste en sus pathway ensures hospital funding without budget impact on individual establishments.',
+        },
     },
     {
         code: "DE",
@@ -1273,6 +1765,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> EOF and EOPYY interfaces are primarily in Greek (using the Greek alphabet). Drug names (INN) can be searched in Latin characters. Use Google Translate to navigate &mdash; it handles Greek pharmaceutical terminology well.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial EMA indication); subsequently NSCLC, Hodgkin lymphoma, urothelial carcinoma, and other oncology indications",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "17 July 2015",
+                    detail: 'EC granted centralised marketing authorization for Keytruda for advanced melanoma. Greece, as an EU member, is covered automatically. Subsequent variations extended to NSCLC (2016), classical Hodgkin lymphoma, urothelial carcinoma, and other indications.',
+                    links: [
+                        { label: "EMA EPAR \u2014 Keytruda", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda" },
+                    ],
+                },
+                {
+                    title: "EOPYY Positive List & Prior Authorization",
+                    date: "2016\u20132017",
+                    detail: 'Pembrolizumab was included on the EOPYY positive reimbursement list for advanced melanoma, followed by subsequent indications. Oncology drugs in Greece typically require <strong>prior authorization (\u03b5\u03b3\u03ba\u03c1\u03af\u03c3\u03b5\u03b9\u03c2)</strong> through the e-DAP electronic prescription system. The prescribing oncologist must submit a request documenting that the patient meets the approved clinical criteria. Greece\u2019s HTA committee (established 2018) evaluates new indications, though many oncology drugs were listed prior to formal HTA implementation.',
+                    links: [
+                        { label: "EOPYY \u2014 Drug Reimbursement", url: "https://www.eopyy.gov.gr/" },
+                    ],
+                },
+                {
+                    title: "Rebate & Clawback System",
+                    date: "Ongoing",
+                    detail: 'Greece operates a comprehensive <strong>rebate and clawback system</strong> on pharmaceutical expenditure. Manufacturers face mandatory rebates on EOPYY-reimbursed sales, plus clawback payments when total pharmaceutical spending exceeds budgeted ceilings. For high-cost oncology drugs like pembrolizumab, MSD would typically pay: (1) a mandatory rebate based on price band, (2) a volume-based clawback if the EOPYY drug budget is exceeded, and (3) potentially additional rebates under risk-sharing or managed entry agreements. These mechanisms can recover 20\u201340% of gross sales revenue.',
+                    links: [
+                        { label: "EOF \u2014 National Organisation for Medicines", url: "https://www.eof.gr/web/guest/home" },
+                    ],
+                },
+            ],
+            takeaway: 'Greece illustrates a system where reimbursement access is relatively fast (positive list inclusion within 1\u20132 years of EC approval for oncology), but commercial viability is challenged by the extensive rebate and clawback system. The prior authorization requirement through e-DAP ensures that prescribing is restricted to approved indications and patient populations. Greece\u2019s pharmaceutical market is shaped by austerity-era cost containment measures that remain in effect.',
+        },
     },
     {
         code: "HK",
@@ -1310,6 +1834,38 @@ const COUNTRIES = [
     <li>Products approved by EMA or FDA are <strong>not</strong> automatically valid in Hong Kong &mdash; a separate HK application is required</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial registration); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "Drug Office Registration",
+                    date: "2016\u20132017",
+                    detail: 'The Department of Health Drug Office registered pembrolizumab for advanced melanoma and NSCLC. Hong Kong requires a separate registration application even for products approved by EMA or FDA. The "1+" mechanism (from November 2023) now allows faster registration referencing one international agency, but Keytruda\u2019s initial registration predated this reform.',
+                    links: [
+                        { label: "Drug Office \u2014 Registration Database", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" },
+                    ],
+                },
+                {
+                    title: "Hospital Authority Drug Formulary",
+                    date: "2017\u20132018",
+                    detail: 'The <strong>Hospital Authority (HA)</strong> Drug Advisory Committee evaluated pembrolizumab for inclusion in the HA Drug Formulary. The HA formulary classifies drugs into: <strong>General</strong> (standard drugs), <strong>Special</strong> (restricted to specific clinical conditions), and <strong>Self-financed Items (SFI)</strong> (patient pays full cost). Pembrolizumab was initially classified as a <strong>Self-financed Item</strong> for most indications, meaning patients bore the full cost. Some indications were later reclassified to <strong>Special Drug</strong> status with HA subsidy.',
+                    links: [
+                        { label: "HA Drug Formulary", url: "https://www.ha.org.hk/hadf/en-us/Updated-HA-Drug-Formulary.html" },
+                    ],
+                },
+                {
+                    title: "Samaritan Fund & Community Care Fund",
+                    date: "From 2018",
+                    detail: 'For patients who cannot afford self-financed drugs, Hong Kong operates two safety nets: the <strong>Samaritan Fund</strong> (for drugs on the HA formulary\u2019s safety net programme) and the <strong>Community Care Fund</strong> (CCF, for drugs not yet on the Samaritan Fund programme). Pembrolizumab was covered under the CCF for specific indications, providing means-tested subsidies for eligible patients. The financial assessment considers household income and assets, with patients below certain thresholds receiving full or partial subsidies.',
+                    links: [
+                        { label: "HA \u2014 Samaritan Fund", url: "https://www.ha.org.hk/visitor/ha_visitor_text_index.asp?Content_ID=10116" },
+                    ],
+                },
+            ],
+            takeaway: 'Hong Kong\u2019s HA Drug Formulary system creates a tiered access model: "General" drugs are fully subsidised, "Special" drugs require clinical justification, and "Self-financed Items" require patient payment. For expensive oncology drugs like pembrolizumab, the Samaritan Fund and Community Care Fund provide means-tested safety nets. The pathway from registration to subsidised access can be lengthy, with drugs often starting as self-financed before moving to subsidised categories as evidence and budget allow.',
+        },
     },
     {
         code: "HU",
@@ -1346,6 +1902,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> NEAK and OGYEI interfaces are in Hungarian. Key terms: "t&aacute;mogat&aacute;s" (support/reimbursement), "hum&aacute;n gy&oacute;gyszer" (human medicine), "fizet&eacute;si ar&aacute;ny" (payment ratio). INN names are searchable in Latin characters.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Első vonalbeli fenntartó kezelés helyileg előrehaladott vagy metasztatikus urothelialis carcinomában, platinaalapú kemoterápia után progressziómentes betegeknél",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Hungary is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Named-Patient Based Reimbursement (NPBR / Egyedi Méltányosság)",
+                    date: "Late 2022",
+                    detail: 'Avelumab was accepted into Hungary\'s <strong>Named-Patient Based Reimbursement (NPBR)</strong> program (egyedi méltányosság) for first-line maintenance UC in late 2022. This is the primary pathway for innovative oncology drugs in Hungary — NEAK approves individual patient applications on a case-by-case basis, providing 100% reimbursement for eligible patients. The NPBR pathway is used when drugs are not yet included on the standard normative reimbursement list. OGYEI (National Institute of Pharmacy and Nutrition) handles the regulatory and HTA evaluation, while NEAK manages reimbursement decisions.',
+                    links: [
+                        { label: "OGYEI — Drug Database", url: "https://ogyei.gov.hu/drug_database" },
+                        { label: "NEAK — Individual Reimbursement", url: "https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon/gyogyszer_segedeszkoz_gyogyfuro_tamogatas/egyedi_tamogatas" },
+                    ],
+                },
+                {
+                    title: "Clinical Adoption",
+                    date: "From 2023",
+                    detail: 'Following NPBR acceptance, Hungarian oncologists adopted avelumab as the standard maintenance therapy for first-line UC, consistent with ESMO and EAU guidelines. A nationwide real-world study identified 2,523 patients with metastatic UC in Hungary, with 86% receiving first-line platinum-based chemotherapy — the eligible population for avelumab maintenance. Access requires an individual NEAK application by the treating physician at an authorised hospital department.',
+                    links: [
+                        { label: "PMC — Real-world mUC treatment patterns in Hungary", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10611888/" },
+                    ],
+                },
+            ],
+            takeaway: 'Hungary illustrates the NPBR (egyedi méltányosság) pathway — a case-by-case individual reimbursement mechanism used for innovative drugs not yet on the standard normative list. The ~22-month gap from EC approval (January 2021) to NPBR acceptance (late 2022) is typical for Central-Eastern European markets. Unlike the standard normative or kiemelt reimbursement routes, NPBR requires individual physician applications to NEAK, which can create administrative barriers but ensures 100% coverage for approved patients.',
+        },
     },
     {
         code: "IS",
@@ -1397,6 +1986,38 @@ const COUNTRIES = [
                 links: [{ label: "FORNAS — National Drug Formulary", url: "https://e-fornas.kemkes.go.id/daftar_obat.php" }],
             },
         ],
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Multiple oncology indications (melanoma, NSCLC, Hodgkin lymphoma, urothelial carcinoma, renal cell carcinoma)",
+            steps: [
+                {
+                    title: "BPOM Registration",
+                    date: "August 2024",
+                    detail: 'BPOM (Badan Pengawas Obat dan Makanan) registered pembrolizumab in August 2024 \u2014 approximately <strong>10 years after the initial US FDA approval</strong>, making Indonesia one of the latest major markets globally. Multiple indications were registered simultaneously including melanoma, NSCLC, classical Hodgkin lymphoma, MSI-H/dMMR colorectal cancer, and renal cell carcinoma (with axitinib). The late registration reflects Indonesia\u2019s complex regulatory environment and BPOM\u2019s stringent requirements.',
+                    links: [
+                        { label: "BPOM \u2014 Drug Registry", url: "https://cekbpom.pom.go.id/search_home_produk" },
+                    ],
+                },
+                {
+                    title: "Fornas & JKN/BPJS Coverage",
+                    date: "Not listed (as of February 2025)",
+                    detail: 'Pembrolizumab is <strong>NOT included</strong> in Indonesia\u2019s National Formulary (Fornas, KMK No. HK.01.07/MENKES/1818/2024, containing 677 active substances). Without Fornas listing, the drug is not covered under JKN (Jaminan Kesehatan Nasional) national health insurance managed by BPJS Kesehatan, which covers >220 million Indonesians. The InaHTAC (Indonesia HTA Committee) evaluates drugs for Fornas inclusion using cost-effectiveness and affordability criteria. At global prices, pembrolizumab far exceeds Indonesia\u2019s affordability benchmarks.',
+                    links: [
+                        { label: "E-Fornas Portal", url: "https://e-fornas.kemkes.go.id/daftar_obat.php" },
+                    ],
+                },
+                {
+                    title: "Access & Domestic Competition",
+                    date: "2024 onwards",
+                    detail: 'Patient access to pembrolizumab in Indonesia is currently limited to <strong>out-of-pocket payment</strong> or hospital-level formulary inclusion at private hospitals. In December 2023, BPOM approved serplulimab (a domestically distributed PD-1 inhibitor by Kalbe/KGbio), launched in March 2024 as a potentially lower-cost alternative. Indonesia\u2019s e-Katalog (government procurement system managed by LKPP) has not yet listed pembrolizumab pricing.',
+                    links: [
+                        { label: "E-Katalog \u2014 Government Procurement", url: "https://e-katalog.lkpp.go.id/" },
+                    ],
+                },
+            ],
+            takeaway: 'Indonesia represents the most extreme regulatory lag among major markets: 10 years from US FDA approval to BPOM registration. Even after registration, Fornas/JKN coverage is absent, limiting access to private-pay patients. The arrival of lower-cost domestic PD-1 competitors (serplulimab) may accelerate formulary discussions. Indonesia\u2019s case illustrates how regulatory delays compound with affordability barriers to create a decade-long access gap for innovative oncology drugs.',
+        },
     },
     {
         code: "IE",
@@ -1440,6 +2061,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Access timeline:</strong> From EMA approval to Irish reimbursement typically takes 12&ndash;18 months (EMA &rarr; NCPE &rarr; HSE commercial negotiation &rarr; listing). Track status on <a href="https://www.ncpe.ie/drugs/" target="_blank" rel="noopener">ncpe.ie</a>.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Ireland is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "NCPE Health Technology Assessment (HTA ID: 21001)",
+                    date: "December 2021",
+                    detail: 'The NCPE completed its full HTA for avelumab (HTA ID: 21001) with final data submitted by the applicant in November 2021. The NCPE recommended that the HSE should consider <strong>not funding</strong> avelumab at the submitted price, concluding that cost-effectiveness could not be demonstrated. The submitted price was €896.63 per 200 mg vial (cost per cycle: €4,214 including VAT; annual cost: ~€106,246/patient). There were no other licensed first-line maintenance treatments for this population in Ireland — BSC was the standard of care.',
+                    links: [
+                        { label: "NCPE — Avelumab HTA ID: 21001", url: "https://www.ncpe.ie/avelumab-bavencio-1l-maintenance-urothelial-carcinoma-hta-id-21001/" },
+                    ],
+                },
+                {
+                    title: "HSE Reimbursement Decision",
+                    date: "September 2022",
+                    detail: 'Despite the NCPE\'s negative cost-effectiveness recommendation, the HSE <strong>approved reimbursement</strong> of avelumab following confidential price negotiations in September 2022. Avelumab is funded under the <strong>High-Tech Arrangements</strong> — the pathway for biologics and oncology drugs dispensed through hospital pharmacies. The confidential discount was essential to achieving an acceptable cost-effectiveness profile.',
+                    links: [
+                        { label: "NCPE — Drug Evaluations", url: "https://www.ncpe.ie/drugs/" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Ireland shows how a negative NCPE recommendation does not necessarily mean no access. The HSE can approve reimbursement after confidential price negotiations, even when the NCPE finds the submitted price is not cost-effective. The 20-month gap from EC approval (January 2021) to HSE reimbursement (September 2022) reflects the sequential nature of NCPE assessment → HSE negotiation → final decision. The High-Tech Arrangements pathway is the standard route for hospital-dispensed oncology drugs in Ireland.',
+        },
     },
     {
         code: "IL",
@@ -1477,6 +2130,38 @@ const COUNTRIES = [
             },
         ],
         tips: `The Health Basket (סל הבריאות) is updated annually by the Health Basket Committee, which reviews new technologies and drugs for inclusion. The committee's decisions are published each year — search for the latest year's page on gov.il.\n\nDrug prices are regulated by the MOH. The Open Data portal provides downloadable Excel files of all prescription drug prices.\n\nThe Israeli Drug Registry is available in Hebrew only — use Google Translate or search by INN in English characters.`,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial basket inclusion); subsequently expanded to multiple oncology indications",
+            steps: [
+                {
+                    title: "MOH Drug Registration",
+                    date: "2015",
+                    detail: 'Israel\u2019s Ministry of Health registered pembrolizumab following EMA and FDA approvals. Israel has its own national regulatory pathway \u2014 products approved by EMA or FDA are not automatically valid but benefit from expedited review. MSD Israel submitted the registration dossier referencing the EMA centralised procedure data.',
+                    links: [
+                        { label: "MOH \u2014 Drug Registry", url: "https://data.gov.il/dataset/drug" },
+                    ],
+                },
+                {
+                    title: "Health Basket Committee \u2014 Melanoma Inclusion",
+                    date: "January 2016 (2016 Basket Update)",
+                    detail: 'The <strong>Health Basket Committee</strong> (\u05d5\u05e2\u05d3\u05ea \u05e1\u05dc \u05d4\u05d1\u05e8\u05d9\u05d0\u05d5\u05ea) included pembrolizumab for advanced melanoma in the 2016 annual basket update. The committee operates on an annual cycle: pharmaceutical companies submit applications in the spring, an expert advisory committee evaluates clinical evidence and cost-effectiveness over the summer, and the committee announces its final decisions in January of the following year. The committee works within a fixed annual budget (typically NIS 300\u2013500 million for all new technologies). Pembrolizumab\u2019s melanoma inclusion was considered a priority given the significant unmet need.',
+                    links: [
+                        { label: "MOH \u2014 Health Basket Updates", url: "https://www.gov.il/he/departments/topics/sal-habriut" },
+                    ],
+                },
+                {
+                    title: "Kupot Cholim Implementation & Subsequent Indications",
+                    date: "2016 onwards",
+                    detail: 'Once included in the Health Basket, all four <strong>kupot cholim</strong> (health funds: Clalit, Maccabi, Meuhedet, Leumit) are legally required to provide pembrolizumab to eligible patients. Subsequent basket updates added NSCLC (2017), Hodgkin lymphoma, urothelial carcinoma, and head & neck SCC in later years. Each new indication competes for the limited annual basket budget. Israel\u2019s pharmaceutical expenditure is among the lowest in OECD countries, which constrains the pace of new indication additions.',
+                    links: [
+                        { label: "Clalit Health Services", url: "https://www.clalit.co.il/" },
+                    ],
+                },
+            ],
+            takeaway: 'Israel\u2019s annual Health Basket update cycle is a distinctive feature: unlike continuous HTA processes in most European countries, Israel makes a single batch of inclusion decisions each January, working within a fixed budget envelope. This creates an annual competition among technologies for limited funds. Once a drug is in the basket, access is universal across all four health funds. The fixed-budget constraint means that even cost-effective drugs may be deferred if the annual allocation is exhausted by higher-priority technologies.',
+        },
     },
     {
         code: "IT",
@@ -1565,6 +2250,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> For the latest reimbursement and pricing decisions, always check <a href="https://trovanorme.aifa.gov.it/#/" target="_blank" rel="noopener">TrovaNormeFarmaco</a> first — it is the most current source. For product-level pricing data (ex-factory and public prices), use <a href="https://www.aifa.gov.it/en/trova-farmaco" target="_blank" rel="noopener">Trova Farmaco</a>. AIFA has an English-language version of its main website (use the /en/ prefix), but TrovaNormeFarmaco is in Italian only — use Google Translate.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Trattamento di mantenimento in prima linea del carcinoma uroteliale localmente avanzato o metastatico senza progressione dopo chemioterapia a base di platino",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC based on JAVELIN Bladder 100. Median OS: 21.4 vs 14.3 months (HR 0.69). As an EMA centralised authorisation, the Italian MA was automatic.',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Classe C(nn) — Automatic Temporary Classification",
+                    date: "~March 2021",
+                    detail: 'Within 60 days of the EC decision, AIFA automatically classified Bavencio (new indication) as <strong>Classe C(nn)</strong> — "Classe C non negoziata". This means the product was available in Italy at the manufacturer\'s price, with no SSN reimbursement, while AIFA pricing negotiations were underway. For oncology drugs with strong clinical evidence, the Fondo AIFA for innovative oncology medicines can provide interim funding.',
+                    links: [
+                        { label: "AIFA — Classe C(nn) Explained", url: "https://www.aifa.gov.it/en/negoziazione-e-rimborsabilit%C3%A0" },
+                    ],
+                },
+                {
+                    title: "AIFA Reimbursement — Gazzetta Ufficiale Publication",
+                    date: "18 March 2022",
+                    detail: 'AIFA completed CTS evaluation and CPR price negotiation. Bavencio for UC maintenance was published in the <strong>Gazzetta Ufficiale n.65</strong> (effective 19 March 2022), classified as fully reimbursed by SSN. The drug was funded through the <strong>National Fund for Innovative Oncology Drugs</strong> (Fondo farmaci oncologici innovativi, Law 232/2016) — this fund provides dedicated budget outside normal hospital pharmaceutical ceilings. AIFA\'s Registro di Monitoraggio was activated to track patient eligibility and outcomes.',
+                    links: [
+                        { label: "AIFA — Registro Bavencio", url: "https://www.aifa.gov.it/en/-/attivazione-web-e-pubblicazione-schede-di-monitoraggio-registro-bavencio" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Italy demonstrates the C(nn) → full reimbursement pathway typical for EMA-authorised oncology drugs. The 14-month gap from EC decision to GU publication illustrates Italy\'s negotiation timeline. Classification under the Fondo farmaci oncologici innovativi bypasses hospital budget constraints — a key mechanism for ensuring access to innovative cancer drugs. The mandatory Registro di Monitoraggio enables outcome tracking and managed entry agreement enforcement.',
+        },
     },
     {
         code: "JP",
@@ -1933,6 +2650,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> All regulatory and procurement materials are in Spanish. CompraNet and COFEPRIS portals are Spanish-only. Google Translate handles Mexican regulatory Spanish adequately for navigation.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Melanoma avanzado (initial indication); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "COFEPRIS Registration",
+                    date: "2015\u20132016",
+                    detail: 'COFEPRIS (Comisi\u00f3n Federal para la Protecci\u00f3n contra Riesgos Sanitarios) granted marketing authorization for pembrolizumab for advanced melanoma. Mexico has implemented expedited review pathways for priority oncology drugs, and COFEPRIS references FDA and EMA approvals to accelerate its evaluation. Subsequent indication expansions covered NSCLC, head & neck SCC, Hodgkin lymphoma, and other tumour types.',
+                    links: [
+                        { label: "COFEPRIS \u2014 Drug Registry", url: "https://www.gob.mx/cofepris" },
+                    ],
+                },
+                {
+                    title: "Cuadro B\u00e1sico y Cat\u00e1logo de Medicamentos (CBM) Listing",
+                    date: "2017\u20132018",
+                    detail: 'The <strong>CSG</strong> (Consejo de Salubridad General) evaluated pembrolizumab for inclusion in the Cuadro B\u00e1sico y Cat\u00e1logo de Medicamentos (CBM) \u2014 the master formulary that all public institutions (IMSS, ISSSTE, IMSS-Bienestar) must reference. Inclusion in the CBM is a prerequisite for public-sector procurement. The CSG evaluation considers clinical evidence, cost-effectiveness, and budget impact. Pembrolizumab was listed for specific oncology indications with defined clinical criteria.',
+                    links: [
+                        { label: "CSG \u2014 Cuadro B\u00e1sico de Medicamentos", url: "http://www.csg.gob.mx/contenidos/priorizacion/cuadro-basico/med/catalogos.html" },
+                    ],
+                },
+                {
+                    title: "IMSS / ISSSTE Procurement",
+                    date: "From 2018",
+                    detail: 'Once listed on the CBM, public institutions procure pembrolizumab through consolidated tenders. <strong>IMSS</strong> (covering ~60% of the insured population) is the largest single buyer. Procurement is via CompraNet/UNOPS (international procurement was used 2020\u20132023, now transitioning to the IMSS-Bienestar model). Public tender prices are typically 30\u201350% below list prices due to volume-based negotiation. The private market (~50% of pharmaceutical spend) operates at different prices without reference pricing constraints.',
+                    links: [
+                        { label: "CompraNet \u2014 Government Procurement", url: "https://compranet.hacienda.gob.mx/web/login.html" },
+                        { label: "IMSS", url: "https://www.imss.gob.mx/" },
+                    ],
+                },
+            ],
+            takeaway: 'Mexico\u2019s pathway demonstrates the CSG-CBM gatekeeping function: without CBM listing, a drug cannot be procured by any public institution. IMSS\u2019s purchasing power as the largest single buyer drives significant price reductions. The ~50% private market segment operates independently with different pricing. Mexico\u2019s ongoing healthcare restructuring (from Seguro Popular to INSABI to IMSS-Bienestar) has created procurement disruptions that can affect drug availability even after CBM listing.',
+        },
     },
     {
         code: "ME",
@@ -2058,6 +2808,47 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Clinical reference:</strong> The <a href="https://www.farmacotherapeutischkompas.nl/" target="_blank" rel="noopener">Farmacotherapeutisch Kompas</a> is the standard prescribing reference used by Dutch physicians — essential for understanding local treatment guidelines and formulary positioning.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Eerstelijns onderhoudsbehandeling van lokaal gevorderd of gemetastaseerd urotheelcarcinoom zonder progressie na platinabevattende chemotherapie",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC. As an EMA centralised authorisation, the Dutch MA via CBG-MEB was automatic. The product was immediately visible in the Geneesmiddeleninformatiebank (GIB).',
+                    links: [
+                        { label: "GIB — Bavencio", url: "https://www.geneesmiddeleninformatiebank.nl/" },
+                    ],
+                },
+                {
+                    title: "Sluis (Lock) Procedure — Entry",
+                    date: "Early 2021",
+                    detail: 'Bavencio for UC maintenance entered the <strong>sluis (lock) procedure</strong> — the Dutch mechanism for expensive hospital medicines. During the sluis period, the medicine is <strong>excluded from the basic insurance package</strong> and cannot be reimbursed. The manufacturer submitted a dossier to Zorginstituut Nederland for assessment. The sluis was triggered because the expected annual budget impact exceeded the EUR 20M threshold.',
+                    links: [
+                        { label: "Zorginstituut — Sluis overview", url: "https://www.zorginstituutnederland.nl/over-ons/programmas-en-samenwerkingsverbanden/horizonscan-geneesmiddelen/sluis-voor-dure-geneesmiddelen/overzicht-geneesmiddelen-in-de-sluis" },
+                    ],
+                },
+                {
+                    title: "Zorginstituut Package Advice",
+                    date: "21 July 2021",
+                    detail: 'Zorginstituut Nederland published its package advice (<em>pakketadvies</em>): <strong>conditional positive recommendation</strong>. The assessment concluded avelumab provides significant clinical benefit — an average life extension of approximately 7 months compared to best supportive care. However, the assessment recommended inclusion in the basic healthcare package conditional on a <strong>minimum 30% price reduction</strong> negotiated with the manufacturer. The cost-effectiveness was assessed against the Dutch WTP threshold (up to EUR 80,000/QALY for high-severity conditions).',
+                    links: [
+                        { label: "Zorginstituut — Pakketadvies Bavencio (English)", url: "https://english.zorginstituutnederland.nl/publications/reports/2021/07/21/package-advice-on-avelumab-bavencio" },
+                        { label: "Zorginstituut — Pakketadvies Bavencio (Dutch)", url: "https://www.zorginstituutnederland.nl/publicaties/adviezen/2021/07/21/pakketadvies-avelumab-bavencio-bij-de-behandeling-van-blaaskanker" },
+                    ],
+                },
+                {
+                    title: "Price Negotiation & Reimbursement",
+                    date: "2021–2022",
+                    detail: 'The Minister of Health negotiated the price with the manufacturer. Upon reaching agreement (with the required minimum 30% discount), avelumab was released from the sluis and included in the basic healthcare package (<em>basispakket</em>). The negotiated price is confidential. Dutch patients with UC maintenance can now access avelumab through hospital pharmacies with no additional out-of-pocket cost beyond the standard deductible (eigen risico, EUR 385/year in 2024).',
+                    links: [
+                        { label: "Farmatec — Sluis processing dashboard", url: "https://www.farmatec.nl/prijsvorming/dashboard-doorlooptijden-geneesmiddelen" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in the Netherlands illustrates the sluis (lock) procedure — the Dutch gatekeeper for expensive hospital medicines. During the sluis, patients have <em>no reimbursed access</em>, creating a significant access delay. The Zorginstituut assessment openly published the required minimum price discount (30%), a transparency measure unusual in Europe. The sluis process took approximately 12 months from EMA approval to reimbursed access — faster than some comparable systems.',
+        },
     },
     {
         code: "NO",
@@ -2122,6 +2913,38 @@ const COUNTRIES = [
     <li>Generic substitution is mandatory at pharmacies unless the physician marks "do not substitute" (and the patient pays the difference)</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Førstelinjevedlikeholdsbehandling av lokalavansert eller metastatisk urotelialt karsinom uten progresjon etter platinabasert kjemoterapi",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EEA member, Norway is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "Legemiddelverket — Single Technology Assessment (STA)",
+                    date: "August 2021",
+                    detail: 'Statens legemiddelverk (Norwegian Medicines Agency) conducted a hurtig metodevurdering (rapid health technology assessment) with a cost-utility analysis for avelumab as monotherapy for first-line maintenance UC. The assessment was commissioned by Bestillerforum RHF on 26 October 2020. The STA report was cleared by Bestillerforum on <strong>10 August 2021</strong> and sent to the four regional health authorities for preparation of the Beslutningsforum case.',
+                    links: [
+                        { label: "Nye Metoder — Avelumab (Bavencio)", url: "https://www.nyemetoder.no/metoder/avelumab-bavencio-indikasjon-iii" },
+                    ],
+                },
+                {
+                    title: "Beslutningsforum Decision — Approved",
+                    date: "30 August 2021",
+                    detail: 'Beslutningsforum for nye metoder (Decision Forum for New Methods) met on 30 August 2021 and decided: <strong>avelumab (Bavencio) is introduced</strong> as monotherapy for first-line maintenance treatment of adults with locally advanced or metastatic urothelial carcinoma who have not progressed after platinum-based chemotherapy. The decision was conditional on the price being equal to or lower than the price forming the basis for the decision. Treatment could commence from <strong>15 September 2021</strong> when the negotiated price took effect. Avelumab is funded through hospital specialist health service budgets — not the blue prescription (blå resept) system.',
+                    links: [
+                        { label: "Nye Metoder — Beslutningsforum 30.08.2021 documents", url: "https://www.nyemetoder.no/4a4ac2/siteassets/documents/beslutninger/beslutningsforum-30.08.2021---offentlige-sakspapirer.pdf" },
+                    ],
+                },
+            ],
+            takeaway: 'Norway\'s Nye Metoder system achieved approval in just 7 months from EC authorisation. The pathway — Bestillerforum commission → Legemiddelverket STA → Beslutningsforum decision — is sequential but efficient. As a hospital-administered drug, avelumab is funded by the specialist health services, not the community pharmacy blue prescription system. The Beslutningsforum decision is binding for all Norwegian public hospitals through the four regional health authorities.',
+        },
     },
     {
         code: "OM",
@@ -2277,6 +3100,38 @@ const COUNTRIES = [
                 links: [{ label: "PhilHealth", url: "https://www.philhealth.gov.ph/about_us/" }],
             },
         ],
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma and NSCLC (initial Philippine FDA registration)",
+            steps: [
+                {
+                    title: "Philippine FDA Registration",
+                    date: "February 2016",
+                    detail: 'FDA Philippines registered pembrolizumab for advanced melanoma and advanced NSCLC \u2014 approximately 17 months after the initial US FDA approval, making the Philippines relatively early among emerging markets. Initial availability was at Philippine General Hospital, Asian Hospital, National Kidney and Transplant Institute, and two centres in Cebu.',
+                    links: [
+                        { label: "FDA Philippines \u2014 Drug Verification", url: "https://verification.fda.gov.ph/drug_productslist.php" },
+                    ],
+                },
+                {
+                    title: "PhilHealth Coverage Gap",
+                    date: "Ongoing \u2014 NOT covered",
+                    detail: 'PhilHealth (Philippine Health Insurance Corporation) provides <strong>Z Benefits packages</strong> for specific cancers (childhood ALL, breast, prostate, cervical, colon, rectal cancers), but these generally cover surgery, chemotherapy, and radiation \u2014 <strong>not immunotherapy</strong>. Pembrolizumab is NOT specifically covered under any PhilHealth Z Benefits package. At ~PHP 256,000 per 100 mg vial (~USD 4,400), treatment is prohibitively expensive for most Filipino patients. PhilHealth coverage had no significant impact on avoiding financial catastrophe for cancer patients (PESO study).',
+                    links: [
+                        { label: "PhilHealth \u2014 Z Benefits", url: "https://www.philhealth.gov.ph/partners/providers/institutional/zbenefits/" },
+                    ],
+                },
+                {
+                    title: "Alternative Access Routes",
+                    date: "Ongoing",
+                    detail: 'Access to pembrolizumab in the Philippines relies on fragmented assistance programmes: <strong>DOH Medical Assistance Programme (MAP)</strong>, <strong>Malasakit Centers</strong> (one-stop hospital financial assistance combining PhilHealth, PCSO, DSWD, and DOH), <strong>PCSO IMAP</strong> (Individual Medical Assistance Programme via charity sweepstakes), and legislative/congressional assistance. These are not systematic coverage mechanisms but rather case-by-case financial support. The UHC Act (2019) and NICCA (National Integrated Cancer Control Act) aim to improve cancer care but have not yet expanded immunotherapy coverage.',
+                    links: [
+                        { label: "PhilHealth", url: "https://www.philhealth.gov.ph/about_us/" },
+                    ],
+                },
+            ],
+            takeaway: 'The Philippines illustrates a 10-year gap between regulatory approval (2016) and meaningful public coverage (still absent in 2026). Despite being one of the earliest emerging markets to register Keytruda, PhilHealth\u2019s Z Benefits packages do not cover immunotherapy. Patient access relies on a patchwork of charity and government assistance programmes (DOH MAP, PCSO, Malasakit Centers) rather than systematic insurance coverage. This makes the Philippines a case study in how regulatory approval without reimbursement creates a hollow market.',
+        },
     },
     {
         code: "PL",
@@ -2315,6 +3170,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> For current reimbursement status, the third-party portal <a href="https://www.lekinfo24.pl" target="_blank" rel="noopener">Lekinfo24.pl</a> aggregates ministerial announcements into a searchable format &mdash; useful for quick look-ups between quarterly updates. Always verify against the official announcement for binding information.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Leczenie podtrzymujące pierwszej linii miejscowo zaawansowanego lub przerzutowego raka urotelialnego bez progresji po chemioterapii opartej na platynie",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Poland is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "AOTMiT Assessment & Recommendation",
+                    date: "2022",
+                    detail: 'AOTMiT (Agency for Health Technology Assessment and Tariff System) issued <strong>Recommendation No. 12/2022</strong> for Bavencio (avelumabum). The AOTMiT President\'s recommendation was <strong>positive</strong>, supporting reimbursement of avelumab as first-line maintenance monotherapy for locally advanced or metastatic UC. The assessment was based on the JAVELIN Bladder 100 OS data and a cost-effectiveness analysis against best supportive care.',
+                    links: [
+                        { label: "AOTMiT — Bavencio Recommendation", url: "https://www.aotm.gov.pl/aktualnosci/najnowsze/rekomendacja-prezesa-bavencio-avelumabum/" },
+                    ],
+                },
+                {
+                    title: "NFZ Drug Program B.141 Listing",
+                    date: "2022–present",
+                    detail: 'Avelumab is reimbursed by the NFZ (National Health Fund) under <strong>drug program B.141</strong> ("Leczenie pacjentów z rakiem urotelialnym" — Treatment of patients with urothelial cancer). Drug programs in Poland are the primary pathway for expensive oncology medicines — they specify eligible indications, entry/exclusion criteria, required diagnostics, dosing, and monitoring. Prescribing is limited to authorised hospital departments. Patients receive the drug <strong>free of charge</strong> within the program. The target population is estimated at 3,000–4,000 eligible patients annually.',
+                    links: [
+                        { label: "Ministry of Health — Reimbursed Medicines List", url: "https://www.gov.pl/web/zdrowie/leki-refundowane" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in Poland illustrates the programy lekowe (drug program) pathway — the standard route for expensive oncology drugs. Unlike pharmacy-dispensed medicines, drug programs provide 100% coverage but with strict clinical criteria and hospital-only prescribing. The AOTMiT positive recommendation (No. 12/2022) was followed by inclusion in drug program B.141, giving eligible UC patients free access through authorised centres.',
+        },
     },
     {
         code: "PT",
@@ -2414,6 +3301,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Key legislation:</strong> Decreto-Lei 97/2015 (SiNATS master law), Portaria 195-D/2015 (reimbursement tiers), Portaria 394/2025/1 (2026 reference countries and price revision rules). All available at <a href="https://dre.pt/" target="_blank" rel="noopener">Di&aacute;rio da Rep&uacute;blica</a>.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Tratamento de manutenção em primeira linha do carcinoma urotelial localmente avançado ou metastático sem progressão após quimioterapia à base de platina",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'EC approved the Type II variation for Bavencio in first-line maintenance urothelial carcinoma. As an EU member, Portugal is covered by the centralised procedure. Based on JAVELIN Bladder 100: median OS 21.4 vs 14.3 months (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "INFARMED — Pharmacotherapeutic & Economic Assessment",
+                    date: "March 2021",
+                    detail: 'INFARMED\'s DATS (staff experts) and CATS (advisory committee) assessed avelumab under the SiNATS framework (Decreto-Lei 97/2015). The pharmacotherapeutic assessment report was dated <strong>21 March 2021</strong>. DATS concluded that avelumab demonstrated <strong>moderate added therapeutic value</strong> (valor terapêutico acrescentado moderado) versus best supportive care. However, the economic assessment by CE-CATS concluded that avelumab was <strong>not cost-effective</strong> at list price in the Portuguese context, with strong uncertainty regarding economic value. CE-CATS recommended that public funding should be conditional on a <strong>substantial price reduction</strong>.',
+                    links: [
+                        { label: "INFARMED — Bavencio Assessment Report (C. Urotelial)", url: "https://www.infarmed.pt/documents/15786/3368817/Relat%C3%B3rio+de+avalia%C3%A7%C3%A3o+de+financiamento+p%C3%BAblico+de+Bavencio+(Avelumab)+-+C.+Urotelial,+manuten%C3%A7%C3%A3o3/1b3554bf-dd71-53bc-310b-b8d07aa02a4c" },
+                    ],
+                },
+                {
+                    title: "Hospital Contract (Avaliação Prévia Hospitalar)",
+                    date: "2021–2022",
+                    detail: 'Following the HTA assessment, INFARMED entered into a hospital contract with the marketing authorization holder under Article 6 of Decreto-Lei 97/2015. This <strong>avaliação prévia hospitalar</strong> (prior hospital evaluation) pathway sets a maximum acquisition price and typically includes risk-sharing clauses. Avelumab is available through SNS (Serviço Nacional de Saúde) hospitals — as a hospital drug, it is 100% publicly funded and does not use the standard outpatient reimbursement tiers (A/B/C/D). Pricing terms are confidential.',
+                    links: [
+                        { label: "INFARMED — HTA Reports", url: "https://www.infarmed.pt/web/infarmed/relatorios-de-avaliacao-de-financiamento-publico" },
+                    ],
+                },
+            ],
+            takeaway: 'Portugal illustrates INFARMED\'s unique triple role — regulator, HTA body, and price setter — in action. The split between the pharmacotherapeutic finding ("moderate added value") and the economic finding ("not cost-effective at list price") is typical for expensive oncology drugs. The avaliação prévia hospitalar pathway, with confidential pricing and risk-sharing, is the standard route for hospital-administered drugs. Note that hospital drugs bypass Portugal\'s tiered outpatient reimbursement system entirely.',
+        },
     },
     {
         code: "PR",
@@ -2624,6 +3543,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> ANM and CNAS interfaces are in Romanian. Google Translate handles Romanian well. Key terms: "autorizat" (authorised), "rambursat" (reimbursed), "pre\u021b" (price), "substan\u021b\u0103 activ\u0103" (active substance).</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Melanom avansat (initial indication); subsequently NSCLC, Hodgkin lymphoma, and other oncology indications",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "17 July 2015",
+                    detail: 'EC granted centralised marketing authorization for Keytruda for advanced melanoma. Romania, as an EU member, is covered by the centralised procedure. Subsequent variations extended indications to NSCLC, classical Hodgkin lymphoma, urothelial carcinoma, and other tumour types.',
+                    links: [
+                        { label: "EMA EPAR \u2014 Keytruda", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/keytruda" },
+                    ],
+                },
+                {
+                    title: "CNAS Compensated Drug List & Cost-Volume-Outcome Contract",
+                    date: "2017\u20132018",
+                    detail: 'Pembrolizumab was included on the <strong>CNAS compensated drug list</strong> (Lista medicamentelor compensate) through a <strong>cost-volume-outcome (CVO) contract</strong> between MSD Romania and CNAS (Casa Na\u021bional\u0103 de Asigur\u0103ri de S\u0103n\u0103tate). CVO contracts are Romania\u2019s managed entry agreement mechanism for expensive innovative drugs: the manufacturer agrees to volume caps, outcome-based clawbacks, and confidential discounts in exchange for reimbursement. The initial listing covered advanced melanoma with subsequent expansions for NSCLC and other indications.',
+                    links: [
+                        { label: "CNAS \u2014 Compensated Drug List", url: "https://www.cnas.ro/page/lista-medicamentelor.html" },
+                    ],
+                },
+                {
+                    title: "Reimbursement & Access Challenges",
+                    date: "Ongoing",
+                    detail: 'Romania faces structural challenges in oncology access: the national oncology drug budget is limited, and CVO contracts are periodically renegotiated. Delays in CVO renewals can create temporary access gaps. Romania\u2019s pharmaceutical prices use external reference pricing against other EU member states. The ANM (Agen\u021bia Na\u021bional\u0103 a Medicamentului) manages the Canamed drug register for regulatory status. Despite reimbursement listing, actual patient access can vary by region due to hospital budget constraints and procurement delays.',
+                    links: [
+                        { label: "ANM \u2014 Canamed Drug Register", url: "https://www.anm.ro/medicamente-de-uz-uman/evaluare-medicamente/" },
+                    ],
+                },
+            ],
+            takeaway: 'Romania illustrates the Central-Eastern European market access challenge: EC approval is automatic via the centralised procedure, but national reimbursement requires a separate CVO (cost-volume-outcome) contract negotiation that can take 2\u20133 years. Even after CVO agreement, budget constraints and procurement delays can limit actual patient access. The CVO mechanism provides a managed entry framework, but periodic renegotiations create uncertainty for both manufacturers and patients.',
+        },
     },
     {
         code: "RU",
@@ -2682,6 +3633,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Saudi Arabia&rsquo;s pharmaceutical market is predominantly private insurance and out-of-pocket; public reimbursement databases are limited. The CCHI IDF is the most accessible public formulary reference.</p>
 `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial SFDA registration); subsequently expanded to NSCLC and other oncology indications",
+            steps: [
+                {
+                    title: "SFDA Registration",
+                    date: "2016\u20132017",
+                    detail: 'The SFDA (Saudi Food and Drug Authority) registered pembrolizumab for advanced melanoma and NSCLC. Saudi Arabia participates in the <strong>GCC-DR (Gulf Cooperation Council Drug Registration)</strong> centralised procedure, which can provide recognition across GCC member states. SFDA has implemented expedited review pathways for products approved by reference authorities (FDA, EMA). Keytruda is available in the Saudi market for 10+ oncology indications.',
+                    links: [
+                        { label: "SFDA \u2014 Drug Listing", url: "https://www.sfda.gov.sa/en/drugs-list" },
+                    ],
+                },
+                {
+                    title: "MOH & NGHA Hospital Formularies",
+                    date: "From 2017",
+                    detail: 'Saudi Arabia\u2019s public healthcare is delivered through multiple government systems: <strong>MOH hospitals</strong> (largest network), <strong>NGHA</strong> (National Guard Health Affairs), <strong>KFSH&RC</strong> (King Faisal Specialist Hospital & Research Centre), and <strong>MOD</strong> (military hospitals). Each maintains its own formulary and procurement process. Pembrolizumab was adopted into the formularies of major oncology centres including KFSH&RC and NGHA hospitals. <strong>NUPCO</strong> (National Unified Procurement Company) handles centralised procurement for public-sector hospitals.',
+                    links: [
+                        { label: "NUPCO \u2014 Procurement Portal", url: "https://www.nupco.com/" },
+                    ],
+                },
+                {
+                    title: "CCHI Insurance Coverage",
+                    date: "Ongoing",
+                    detail: 'The <strong>CCHI</strong> (Council for Cooperative Health Insurance) oversees private health insurance, which covers expatriates and many Saudi nationals in the private sector. The CCHI Insurance Drug Formulary (IDF) defines minimum drug coverage. For high-cost oncology drugs, coverage depends on the specific insurance policy and employer plan. There is <strong>no formal national HTA body</strong> in Saudi Arabia, though SFDA is developing health economics capabilities. Saudi citizens can access treatment through public hospitals (MOH, NGHA) at no direct cost.',
+                    links: [
+                        { label: "CCHI \u2014 Insurance Drug Formulary", url: "https://www.cchi.gov.sa/" },
+                    ],
+                },
+            ],
+            takeaway: 'Saudi Arabia demonstrates a dual public-private market: Saudi citizens access pembrolizumab through government hospital formularies (MOH, NGHA, KFSH&RC) at no direct cost, while expatriates depend on private insurance coverage via the CCHI framework. NUPCO\u2019s centralised procurement provides volume-based pricing for the public sector. The absence of a formal HTA body means formulary decisions are clinically driven rather than cost-effectiveness driven. The GCC-DR pathway can facilitate multi-country access across the Gulf region.',
+        },
     },
     {
         code: "SG",
@@ -2726,6 +3709,38 @@ const COUNTRIES = [
     <li>For broader searches, use <a href="https://www.hsa.gov.sg/e-services/infosearch" target="_blank" rel="noopener">HSA InfoSearch</a> across all health product categories</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial registration); multiple oncology indications subsequently added",
+            steps: [
+                {
+                    title: "HSA Registration",
+                    date: "2016",
+                    detail: 'HSA (Health Sciences Authority) registered pembrolizumab for advanced melanoma and NSCLC. Singapore uses a rigorous regulatory pathway that references but does not automatically accept EMA or FDA decisions. HSA registration confers market authorization but does <strong>not</strong> guarantee public subsidy or hospital formulary listing.',
+                    links: [
+                        { label: "HSA PRISM \u2014 Drug Registration Search", url: "https://eservice.hsa.gov.sg/prism/common/enquirepublic/SearchDRBProduct.do?action=load" },
+                    ],
+                },
+                {
+                    title: "ACE HTA Assessment",
+                    date: "2018\u20132019",
+                    detail: 'The <strong>ACE</strong> (Agency for Care Effectiveness) published technology guidance on pembrolizumab for NSCLC and melanoma. ACE assessments evaluate clinical effectiveness and cost-effectiveness to inform public institution formulary decisions. ACE uses a structured framework but does not publish a formal cost-per-QALY threshold. ACE guidance is advisory \u2014 public hospitals and polyclinics use it to inform their own formulary decisions.',
+                    links: [
+                        { label: "ACE \u2014 Technology Guidance", url: "https://www.ace-hta.gov.sg/our-guidance" },
+                    ],
+                },
+                {
+                    title: "MOH Standard Drug List & Subsidy",
+                    date: "From 2019",
+                    detail: 'Pembrolizumab was included on the <strong>MOH Standard Drug List (SDL)</strong> for specific indications with subsidy coverage through the Medication Assistance Fund (MAF). Singapore\u2019s drug subsidy framework has three tiers: SDL (standard subsidy), Non-Standard Drug List (NSDL, lower subsidy), and MAF (additional means-tested support for expensive drugs). For oncology drugs, the combination of SDL listing and MAF support can significantly reduce out-of-pocket costs for lower-income patients. Medishield Life (national health insurance) and Medisave can also be used for eligible treatments.',
+                    links: [
+                        { label: "MOH \u2014 Drug Subsidy Schemes", url: "https://www.moh.gov.sg/healthcare-schemes-subsidies/drug-subsidies" },
+                    ],
+                },
+            ],
+            takeaway: 'Singapore\u2019s pathway shows how ACE technology guidance informs but does not dictate formulary decisions. The multi-layered subsidy system (SDL + MAF + MediShield Life + MediSave) provides a progressive safety net where lower-income patients receive more support. HSA registration does not equal access \u2014 ACE assessment and SDL listing are separate processes that determine the actual subsidy level.',
+        },
     },
     {
         code: "SK",
@@ -2853,6 +3868,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> The Korean reimbursement process (from MFDS approval to HIRA listing) typically takes 12–18 months. The pathway is: MFDS approval → HIRA economic evaluation → DREC recommendation → price negotiation → NHI listing.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            localName: "바벤시오",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "MFDS Marketing Authorization",
+                    date: "August 2021",
+                    detail: 'MFDS (Ministry of Food and Drug Safety / 식품의약품안전처) approved avelumab for the UC maintenance indication in South Korea. MFDS operates an independent regulatory pathway — no mutual recognition with EMA or FDA. The Korean review examined the JAVELIN Bladder 100 data with attention to the Korean patient subgroup.',
+                    links: [
+                        { label: "MFDS — nedrug.mfds.go.kr", url: "https://nedrug.mfds.go.kr/index" },
+                    ],
+                },
+                {
+                    title: "HIRA Economic Evaluation & DREC Review",
+                    date: "2021–2023",
+                    detail: 'After MFDS approval, the manufacturer (Merck Healthcare / 한국 머크) submitted the reimbursement dossier to HIRA. The Drug Reimbursement Evaluation Committee (DREC / 약제급여평가위원회) assessed the clinical evidence, cost-effectiveness, and budget impact. The evaluation process took approximately 2 years — reflecting the complexity of oncology immunotherapy assessments and price negotiations in Korea.',
+                    links: [
+                        { label: "HIRA — Insurance Coverage Criteria", url: "https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" },
+                    ],
+                },
+                {
+                    title: "NHI Reimbursement Listing",
+                    date: "August 2023",
+                    detail: 'Avelumab received National Health Insurance (NHI / 건강보험) coverage for first-line maintenance UC. This made Bavencio the <strong>first and only reimbursed maintenance immunotherapy</strong> for first-line urothelial carcinoma in South Korea. Within one year of listing, avelumab became the standard of care for this indication in Korean clinical practice. An Expanded Access Program (EAP) ran from September 2021 to June 2023, providing early access to approximately 100 patients with median PFS of 7.9 months in real-world use.',
+                    links: [
+                        { label: "KoreaBioMed — Bavencio NHI Coverage", url: "https://www.koreabiomed.com/news/articleView.html?idxno=21678" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio in South Korea illustrates the typical 24-month timeline from MFDS approval to NHI listing (August 2021 → August 2023). The Expanded Access Program bridged the gap, providing real-world evidence that ultimately supported the reimbursement case. Korea\'s single-payer NHI system means that once listed, access is nationwide — unlike decentralised systems (Canada, Spain) where regional variation persists.',
+        },
     },
     {
         code: "ES",
@@ -2925,6 +3973,45 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> For a quick reimbursement status check, search the product in CIMA — the "Condiciones de prescripción y dispensación" section shows whether it is SNS-reimbursed and the dispensing conditions (hospital, prescription required, etc.).</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "Tratamiento de mantenimiento en primera línea del carcinoma urotelial localmente avanzado o metastásico sin progresión tras quimioterapia basada en platino",
+            steps: [
+                {
+                    title: "Marketing Authorization (EMA/EC)",
+                    date: "25 January 2021",
+                    detail: 'EC approved Bavencio for first-line maintenance UC. As an EMA centralised authorisation, the Spanish MA via AEMPS was automatic. The product was searchable in CIMA from this date.',
+                    links: [
+                        { label: "CIMA — Bavencio", url: "https://cima.aemps.es/cima/publico/home.html" },
+                    ],
+                },
+                {
+                    title: "IPT — Informe de Posicionamiento Terapéutico",
+                    date: "2022 (IPT 44/2022)",
+                    detail: 'AEMPS published <strong>IPT 44/2022</strong> evaluating avelumab for first-line maintenance UC. The report reviewed JAVELIN Bladder 100 data: PFS benefit of 1.7 months in the overall population (3.7 vs 2.0 months, HR 0.62) and 3.6 months in PD-L1+ tumours (5.7 vs 2.1 months, HR 0.56). The ORR was 9.7% vs 1.4% with BSC alone. The IPT concluded with a <strong>favourable positioning</strong> — prerequisite for CIPM pricing and reimbursement negotiation.',
+                    links: [
+                        { label: "IPT 44/2022 — Bavencio UC maintenance (PDF)", url: "https://www.aemps.gob.es/medicamentosUsoHumano/informesPublicos/docs/2022/IPT_44-2022-Bavencio.pdf" },
+                        { label: "AEMPS — IPT Bavencio (web page)", url: "https://www.aemps.gob.es/informa/informes-de-posicionamiento-terapeutico/informe-de-posicionamiento-terapeutico-de-avelumab-bavencio-en-el-tratamiento-de-mantenimiento-en-primera-linea-de-carcinoma-urotelial-localmente-avanzado-o-metastasico/?lang=en" },
+                    ],
+                },
+                {
+                    title: "CIPM Pricing & National SNS Reimbursement",
+                    date: "2022",
+                    detail: 'Following the favourable IPT, CIPM (Comisión Interministerial de Precios de los Medicamentos) negotiated the price. Bavencio was included in SNS reimbursement as a hospital-dispensed medicine (Uso Hospitalario). CIPM pricing decisions and rationale are not publicly disclosed in Spain — only the reimbursement status is visible in CIMA.',
+                    links: [
+                        { label: "CIMA — Reimbursement status lookup", url: "https://cima.aemps.es/cima/publico/home.html" },
+                    ],
+                },
+                {
+                    title: "Regional Access Variation",
+                    date: "Ongoing",
+                    detail: 'Despite national CIPM reimbursement, access varies across Spain\'s 17 Autonomous Communities (CCAAs). Each CCAA\'s Pharmacy & Therapeutics committee may impose additional restrictions or delays. In practice, hospital oncology commissions in larger CCAAs (Madrid, Catalonia, Andalusia) adopted avelumab relatively quickly, while smaller regions showed longer lag times. Real-world evidence from the SOGUG-AVELUMAB RWD study (22 Spanish centres) confirmed the effectiveness of maintenance avelumab in routine practice.',
+                    links: [],
+                },
+            ],
+            takeaway: 'Bavencio in Spain illustrates the three-step pathway: AEMPS/IPT positioning → CIPM pricing (opaque) → regional CCAA adoption (variable). The IPT is the key access gate — without a favourable positioning, CIPM will not negotiate. Spain\'s decentralised healthcare system means national reimbursement does not equal uniform access across regions, making CCAA-level analysis essential for market access planning.',
+        },
     },
     {
         code: "SE",
@@ -2975,6 +4062,38 @@ const COUNTRIES = [
     <li>For the official list of all authorised medicines, search <a href="https://www.lakemedelsverket.se/sv/sok-lakemedelsfakta?activeTab=1" target="_blank" rel="noopener">L&auml;kemedelsverket&rsquo;s product database</a> (primarily in Swedish)</li>
 </ol>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "EMA / EC Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'European Commission approved the Type II variation extending Bavencio\'s indication to first-line maintenance urothelial carcinoma in adults. Based on the JAVELIN Bladder 100 trial: median OS 21.4 vs 14.3 months (HR 0.69). As an EU member, Sweden is covered by the centralised procedure.',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "NT-rådet Recommendation",
+                    date: "March 2021",
+                    detail: 'The NT-rådet (New Therapies Council) assessed avelumab for first-line maintenance treatment of locally advanced or metastatic urothelial carcinoma. Because Bavencio is a hospital-administered IV infusion, it was assessed through the NT-rådet pathway rather than TLV. NT-rådet <strong>recommended Bavencio</strong> as cost-effective with high reliability, based on a cost-minimisation analysis using the negotiated (confidential) price. The evidence was rated <strong>ESMO Category 1A</strong> — the highest level of clinical evidence.',
+                    links: [
+                        { label: "NT-rådet — Bavencio recommendation", url: "https://janusinfo.se/nationelltordnatintroduktion/nyheter/nyheter/ntradetsrekommendationer.5.72866553160e98b552857b7.html" },
+                    ],
+                },
+                {
+                    title: "Regional Funding & Clinical Use",
+                    date: "From April 2021",
+                    detail: 'Following the NT-rådet recommendation, Sweden\'s 21 regions were expected to fund avelumab through their hospital budgets. NT-rådet recommendations are not legally binding but have very high compliance (~95%). Avelumab became the standard of care for first-line maintenance UC in Sweden — the fastest major EU country to grant reimbursed access (approximately 2 months after EC approval).',
+                    links: [
+                        { label: "FASS — Bavencio", url: "https://www.fass.se/LIF/product?nplId=20170614000016" },
+                    ],
+                },
+            ],
+            takeaway: 'Sweden demonstrates one of the fastest EU access timelines: just ~2 months from EC approval (January 2021) to NT-rådet recommendation (March 2021). The NT-rådet pathway for hospital drugs bypasses TLV, using cost-minimisation analysis with confidential prices. The high ESMO evidence rating and clear OS benefit made this a straightforward assessment, highlighting how strong clinical evidence accelerates the Nordic HTA process.',
+        },
     },
     {
         code: "CH",
@@ -3023,6 +4142,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Tip:</strong> Switzerland has among the highest drug prices in Europe. The SL database is available in German, French, and Italian. For English navigation, use the German version with Google Translate — it handles Swiss pharmaceutical terms well.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "Swissmedic Authorization",
+                    date: "2021",
+                    detail: 'Swissmedic approved the extension of indication for avelumab (Bavencio) to include first-line maintenance treatment of urothelial carcinoma. Swissmedic operates independently from EMA — Switzerland is not part of the EU — but leveraged the same JAVELIN Bladder 100 data package. Bavencio had been authorised in Switzerland since 5 September 2017 for Merkel cell carcinoma. Switzerland participated in <strong>Project Orbis</strong> alongside FDA, Health Canada, and TGA for coordinated oncology review.',
+                    links: [
+                        { label: "SwissmedicInfo — Bavencio", url: "https://www.swissmedicinfo.ch/" },
+                    ],
+                },
+                {
+                    title: "BAG — Spezialitätenliste (SL) Listing",
+                    date: "2021",
+                    detail: 'The BAG (Federal Office of Public Health) listed avelumab on the <strong>Spezialitätenliste (SL)</strong> for the UC maintenance indication, making it reimbursable under Swiss mandatory health insurance (OKP/LAMal). The SL listing includes a <strong>Limitatio</strong> restricting reimbursement to the approved indication. The price was set using the standard Swiss methodology: therapeutic cross-comparison (TQV) with comparable treatments in Switzerland, and international reference pricing (APV) against 9 countries (AT, BE, DK, FI, FR, DE, NL, SE, UK).',
+                    links: [
+                        { label: "Spezialitätenliste — Search", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" },
+                    ],
+                },
+                {
+                    title: "Pricing & Reimbursement Details",
+                    date: "Current",
+                    detail: 'Bavencio is listed at approximately CHF 797–917 per vial (200 mg/10 mL) on the SL. It is classified as <strong>Liste A</strong> with a normal 10% co-payment (Selbstbehalt). The BAG requires products on the SL to meet criteria of efficacy, appropriateness, and cost-effectiveness (wirksam, zweckmässig und wirtschaftlich — WZW). Mandatory 3-yearly price reviews may adjust the price based on updated reference country data.',
+                    links: [
+                        { label: "Compendium.ch — Bavencio", url: "https://compendium.ch/product/1362833-bavencio-inf-konz-200-mg-10ml" },
+                    ],
+                },
+            ],
+            takeaway: 'Switzerland\'s pathway illustrates how a non-EU country with its own regulatory agency (Swissmedic) can still achieve timely access. The SL listing with Limitatio ensures reimbursement is targeted to the approved indication. Switzerland\'s dual pricing methodology (TQV + APV) and participation in Project Orbis demonstrate how international collaboration accelerates oncology access even outside the EU framework.',
+        },
     },
     {
         code: "TH",
@@ -3063,6 +4214,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> Most Thai government portals are in Thai only. The Thai FDA English portal and HITAP English site are the main exceptions. Google Translate handles Thai adequately for navigation. The NDI portal has partial English support.</p>
 `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma and NSCLC (initial indications); limited NLEM listing for specific tumour types",
+            steps: [
+                {
+                    title: "Thai FDA Registration",
+                    date: "2016\u20132017",
+                    detail: 'Thai FDA registered pembrolizumab for advanced melanoma and NSCLC. Thailand has its own national regulatory pathway that does not automatically accept EMA or FDA decisions, though it can expedite review for products approved by reference authorities. Registration is a prerequisite for any public or private sale but does not confer reimbursement.',
+                    links: [
+                        { label: "Thai FDA \u2014 Drug Registration Search", url: "https://pertento.fda.moph.go.th/FDA_SEARCH_DRUG/SEARCH_DRUG/FRM_SEARCH_DRUG.aspx" },
+                    ],
+                },
+                {
+                    title: "HITAP Assessment & NLEM Consideration",
+                    date: "2018\u20132020",
+                    detail: '<strong>HITAP</strong> (Health Intervention and Technology Assessment Program) conducted cost-effectiveness analyses of pembrolizumab for various indications. Thailand applies a strict <strong>cost-per-QALY threshold of ~160,000 THB</strong> (approximately USD 4,500) \u2014 one of the most stringent globally. At list prices, pembrolizumab significantly exceeds this threshold for most indications. HITAP evaluations are used by the NLEM Subcommittee to inform listing decisions on the National List of Essential Medicines.',
+                    links: [
+                        { label: "HITAP \u2014 Assessments", url: "https://www.hitap.net/en/research" },
+                    ],
+                },
+                {
+                    title: "NLEM Listing & NHSO Coverage",
+                    date: "Limited / Restricted",
+                    detail: 'Pembrolizumab has <strong>limited NLEM listing</strong> for specific indications where cost-effectiveness could be demonstrated (e.g., MSI-H cancers) or where MSD negotiated significant price reductions. Thailand\u2019s <strong>NHSO</strong> (National Health Security Office) covers ~75% of the population under the Universal Coverage Scheme (UCS), with the remaining covered by the Social Security Scheme (~16%) and Civil Servant Medical Benefit Scheme (~8%). For most indications, pembrolizumab remains outside the UCS benefit package due to cost-effectiveness constraints. Patient access is primarily through the CSMBS (civil servants), private insurance, or out-of-pocket payment.',
+                    links: [
+                        { label: "NHSO \u2014 National Health Security Office", url: "https://eng.nhso.go.th/" },
+                    ],
+                },
+            ],
+            takeaway: 'Thailand demonstrates how a strict cost-per-QALY threshold (160,000 THB, ~USD 4,500) creates a significant barrier for high-cost oncology drugs. HITAP\u2019s rigorous pharmacoeconomic assessments mean that pembrolizumab at global prices far exceeds the threshold for most indications. Access is fragmented: civil servants (CSMBS) may receive coverage that UCS patients do not. This makes Thailand a case study in how cost-effectiveness thresholds drive differential access across insurance schemes.',
+        },
     },
     {
         code: "TW",
@@ -3158,6 +4341,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Not all TFDA reports are available online.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial TFDA approval); subsequently expanded to NSCLC, urothelial carcinoma, and other oncology indications",
+            steps: [
+                {
+                    title: "TFDA Registration",
+                    date: "2016",
+                    detail: 'TFDA (Taiwan Food and Drug Administration) registered pembrolizumab for advanced melanoma. Taiwan has its own regulatory authority operating independently of WHO prequalification and EMA/FDA. However, TFDA references international regulatory decisions to expedite review for priority products. Subsequent approvals covered NSCLC, classical Hodgkin lymphoma, urothelial carcinoma, and head & neck SCC.',
+                    links: [
+                        { label: "TFDA \u2014 Drug Database", url: "https://www.fda.gov.tw/MLMS/H0001.aspx" },
+                    ],
+                },
+                {
+                    title: "CDE HTA Assessment & NHIA Review",
+                    date: "2017\u20132019",
+                    detail: 'The <strong>CDE</strong> (Center for Drug Evaluation) conducted HTA assessments of pembrolizumab for NHIA (National Health Insurance Administration) consideration. Taiwan\u2019s NHI covers >99% of the population through a single-payer system. CDE evaluates clinical effectiveness, cost-effectiveness, and budget impact. For high-cost oncology drugs, the assessment process typically takes 12\u201324 months. The NHI Drug Reimbursement Joint Committee (DRJC) makes final listing decisions based on CDE recommendations.',
+                    links: [
+                        { label: "CDE \u2014 Center for Drug Evaluation", url: "https://www.cde.org.tw/eng/" },
+                        { label: "NHIA", url: "https://www.nhi.gov.tw/english/" },
+                    ],
+                },
+                {
+                    title: "NHI Reimbursement",
+                    date: "From 2019 (indication-specific)",
+                    detail: 'Pembrolizumab was listed on the NHI for specific indications with <strong>strict clinical criteria</strong> and prior authorization requirements. Taiwan\u2019s NHI reimbursement for high-cost oncology drugs is typically restricted to precisely defined patient populations: specific tumour types, lines of therapy, biomarker status (e.g., PD-L1 TPS \u226550% for NSCLC monotherapy), and maximum treatment duration. Annual NHI spending on pembrolizumab is subject to budget caps, and additional indications are added gradually based on clinical evidence and budget availability.',
+                    links: [
+                        { label: "NHIA \u2014 Drug Reimbursement", url: "https://www.nhi.gov.tw/english/" },
+                    ],
+                },
+            ],
+            takeaway: 'Taiwan\u2019s single-payer NHI system provides universal coverage but applies strict budget constraints to high-cost drugs. Pembrolizumab\u2019s NHI listing is indication-specific with tight clinical criteria, biomarker requirements, and treatment duration limits. The CDE assessment process ensures systematic evaluation, but budget caps mean that not all approved indications receive NHI coverage simultaneously. Taiwan demonstrates how a universal healthcare system balances access with fiscal sustainability.',
+        },
     },
     {
         code: "TR",
@@ -3198,6 +4414,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Language note:</strong> SGK and TITCK are entirely in Turkish. Google Translate handles Turkish pharmaceutical text well. Key terms: "geri &ouml;deme" (reimbursement), "etken madde" (active substance), "uzman hekim" (specialist physician), "rapor" (physician committee report required).</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial TITCK registration); subsequently expanded to NSCLC, Hodgkin lymphoma, and other oncology indications",
+            steps: [
+                {
+                    title: "T\u0130TCK Registration",
+                    date: "2016\u20132017",
+                    detail: 'T\u0130TCK (Turkish Medicines and Medical Devices Agency) registered pembrolizumab for advanced melanoma and subsequently expanded indications. Turkey has its own regulatory authority but references international decisions (EMA, FDA) to inform review. T\u0130TCK registration is a prerequisite for any market activity, including SGK reimbursement listing.',
+                    links: [
+                        { label: "T\u0130TCK \u2014 Drug Database", url: "https://www.titck.gov.tr/faaliyetalanlari/ilac/ilacArama" },
+                    ],
+                },
+                {
+                    title: "SGK Positive List & SUT Listing",
+                    date: "2017\u20132018",
+                    detail: 'Pembrolizumab was included on the <strong>SGK (Social Security Institution) positive reimbursement list</strong> under the SUT (Sa\u011fl\u0131k Uygulama Tebli\u011fi / Health Implementation Communiqu\u00e9). The SUT defines reimbursement conditions including indication restrictions, prescribing physician requirements (specialist oncologist), and requirements for a <strong>heyet raporu</strong> (physician committee report) for reimbursement. Patients pay a <strong>10\u201320% co-payment</strong> (depending on the specific scheme and product). Turkey\u2019s pricing uses international reference pricing based on the <strong>lowest price from 5 EU reference countries</strong>.',
+                    links: [
+                        { label: "SGK \u2014 Drug Search (Geri \u00d6deme)", url: "https://www.sgk.gov.tr/" },
+                    ],
+                },
+                {
+                    title: "Global Budget & Pricing Pressure",
+                    date: "Ongoing",
+                    detail: 'Turkey operates a <strong>global pharmaceutical budget</strong> with expenditure caps. When the budget is exceeded, manufacturers face mandatory discount adjustments. Turkey\u2019s reference pricing system (lowest of 5 EU countries, typically Greece, Portugal, Spain, Italy, France) creates one of the lowest price environments in Europe. The Turkish Lira\u2019s depreciation against the Euro has compounded pricing pressure, leading to periodic mandatory price adjustments. For oncology drugs like pembrolizumab, Turkey\u2019s prices are typically among the lowest in the reference basket.',
+                    links: [
+                        { label: "T\u0130TCK \u2014 Pricing Regulations", url: "https://www.titck.gov.tr/" },
+                    ],
+                },
+            ],
+            takeaway: 'Turkey demonstrates how aggressive reference pricing (lowest of 5 EU countries) combined with currency depreciation creates extreme pricing pressure. Pembrolizumab is reimbursed under the SGK positive list with indication-specific restrictions and co-payments, providing relatively broad access. However, the low reference prices and Lira depreciation make Turkey a challenging commercial market. The heyet raporu (committee report) requirement ensures prescribing is restricted to approved indications and specialist centres.',
+        },
     },
     {
         code: "AE",
@@ -3242,6 +4490,38 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>EDE transition note:</strong> MOHAP is in the process of transferring pharmaceutical oversight to the Emirates Drug Establishment (EDE). During this transition, both the MOHAP portal and the new EDE portal (<a href="https://ede.gov.ae" target="_blank" rel="noopener">ede.gov.ae</a>) may be relevant. Check both if a product is not found in one database.</p>
 `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma (initial registration); subsequently expanded to multiple oncology indications across federal and emirate-level authorities",
+            steps: [
+                {
+                    title: "MOHAP / Emirate-Level Registration",
+                    date: "2016\u20132017",
+                    detail: 'Pembrolizumab was registered through the UAE\u2019s multi-authority system: <strong>MOHAP</strong> (federal), <strong>DoH Abu Dhabi</strong>, and <strong>DHA Dubai</strong> each maintain separate drug registration processes. Products approved by the FDA, EMA, or other stringent regulatory authorities benefit from expedited review, but separate registration with each authority is still required. MSD registered Keytruda with all relevant UAE authorities for advanced melanoma, NSCLC, and subsequent indications.',
+                    links: [
+                        { label: "MOHAP \u2014 Drug Registration", url: "https://mohap.gov.ae/en/services/issue-marketing-authorisation-of-pharmaceutical-products" },
+                    ],
+                },
+                {
+                    title: "Hospital Formulary & Insurance Coverage",
+                    date: "From 2017",
+                    detail: 'UAE drug access is primarily formulary-driven at the institutional level. Major hospital groups (Cleveland Clinic Abu Dhabi, Mediclinic, etc.) and public hospitals maintain their own formularies. Insurance coverage depends on the patient\u2019s specific policy \u2014 DHA Basic and Enhanced plans define minimum coverage, but oncology drug coverage varies significantly by insurer and policy tier. The <strong>DoH Abu Dhabi Shafafiya portal</strong> provides the most transparent reference for drug availability and pricing in Abu Dhabi emirate. There is <strong>no UAE-wide HTA body</strong> or formal cost-per-QALY threshold.',
+                    links: [
+                        { label: "DoH Abu Dhabi \u2014 Shafafiya Drug Database", url: "https://shafafiya.doh.gov.ae/" },
+                    ],
+                },
+                {
+                    title: "Pricing & Market Access",
+                    date: "Ongoing",
+                    detail: 'Drug prices are set using international reference pricing, with each authority (MOHAP, DoH, DHA) potentially setting different prices. The UAE pharmaceutical market is predominantly driven by private insurance and out-of-pocket payment. The <strong>CCHI IDF</strong> (Insurance Drug Formulary) provides the most accessible public formulary reference. For high-cost oncology drugs, patient access often depends on the specific insurance plan coverage limits and hospital formulary inclusion rather than a national reimbursement decision.',
+                    links: [
+                        { label: "CCHI \u2014 Insurance Drug Formulary", url: "https://www.dha.gov.ae/en/HealthRegulation/Pages/InsuranceDrugFormulary.aspx" },
+                    ],
+                },
+            ],
+            takeaway: 'The UAE illustrates a multi-authority, insurance-driven market where there is no single national reimbursement decision. Drug access depends on the intersection of emirate-level registration, hospital formulary inclusion, and individual insurance policy coverage. The absence of a national HTA body means market access is driven by clinical adoption and insurance negotiations rather than formal cost-effectiveness assessment. The EDE transition is consolidating federal regulatory oversight but formulary decisions remain decentralised.',
+        },
     },
     {
         code: "GB",
@@ -3325,6 +4605,46 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Patient Access Schemes (PAS) are confidential commercial agreements between the manufacturer and NHS England. The "list price" in the BNF may not reflect the actual acquisition cost. NICE appraisals note when a PAS is in place but do not disclose the discount.</p>
         `,
+        drugExample: {
+            drug: "Bavencio",
+            inn: "avelumab",
+            indication: "First-line maintenance treatment of locally advanced or metastatic urothelial carcinoma (UC) that has not progressed after platinum-based chemotherapy",
+            steps: [
+                {
+                    title: "EMA Marketing Authorization",
+                    date: "25 January 2021",
+                    detail: 'European Commission granted the Type II variation extending Bavencio\'s indication to first-line maintenance treatment of locally advanced or metastatic urothelial carcinoma in adults whose disease has not progressed with platinum-based chemotherapy. Based on the Phase III JAVELIN Bladder 100 trial (N=700): median OS 21.4 months vs 14.3 months with best supportive care (HR 0.69).',
+                    links: [
+                        { label: "EMA EPAR — Bavencio", url: "https://www.ema.europa.eu/en/medicines/human/EPAR/bavencio" },
+                    ],
+                },
+                {
+                    title: "MHRA UK Approval",
+                    date: "21 January 2021",
+                    detail: 'MHRA approved the extension of indication for avelumab in first-line maintenance urothelial carcinoma, aligning with the EMA timeline (approved slightly ahead of the EC decision). The MHRA approval covered the same JAVELIN Bladder 100 data package.',
+                    links: [
+                        { label: "MHRA Products — Bavencio", url: "https://products.mhra.gov.uk/" },
+                    ],
+                },
+                {
+                    title: "NICE Technology Appraisal — Initial Rejection & Appeal",
+                    date: "May 2021 – May 2022",
+                    detail: 'NICE initially issued a negative recommendation in May 2021, concluding that the cost-effectiveness estimates were too uncertain. The manufacturer (Merck/Pfizer) <strong>appealed the decision</strong> — a relatively rare step. The appeal was upheld, and NICE reversed its decision. The final guidance <strong>TA788</strong> was published on <strong>11 May 2022</strong>, recommending avelumab with conditions: treatment must stop at 5 years of uninterrupted therapy or earlier if disease progresses. A confidential Patient Access Scheme (PAS) discount was agreed with NHS England.',
+                    links: [
+                        { label: "NICE TA788 — Avelumab for maintenance treatment of UC", url: "https://www.nice.org.uk/guidance/ta788" },
+                    ],
+                },
+                {
+                    title: "NHS England Funding & Access",
+                    date: "From August 2022",
+                    detail: 'Following TA788, NHS England was legally required to fund avelumab within 90 days. Avelumab became available through NHS hospitals as a maintenance immunotherapy — the first and only approved maintenance treatment in first-line urothelial carcinoma in the UK. The BNF list price is approximately £1,170 per 200 mg vial, but the actual acquisition cost is lower due to the confidential PAS.',
+                    links: [
+                        { label: "BNF — Avelumab", url: "https://bnf.nice.org.uk/drugs/avelumab/" },
+                    ],
+                },
+            ],
+            takeaway: 'Bavencio\'s UK journey illustrates how the NICE appeals process can reverse an initial negative recommendation — a rare but important mechanism. The 16-month delay from MHRA approval (Jan 2021) to NICE recommendation (May 2022) highlights the gap between regulatory approval and reimbursed access in the UK. The confidential PAS discount was critical to achieving an acceptable ICER within the £20,000–£30,000/QALY threshold.',
+        },
     },
     {
         code: "VN",
@@ -3416,6 +4736,39 @@ const COUNTRIES = [
 </ol>
 <p class="tips-note"><strong>Note:</strong> Vietnam's pharmaceutical sector is undergoing major reform. The Amended Pharmaceutical Law (Law 44/2024, effective July 2025) and new Decree 163/2025 introduce significant changes to pricing, registration, and foreign investment rules. Always verify circulars are current.</p>
         `,
+        drugExample: {
+            drug: "Keytruda",
+            inn: "pembrolizumab",
+            indication: "Advanced melanoma and NSCLC (initial DAV registration); now approved for 14 oncology indications",
+            steps: [
+                {
+                    title: "DAV Registration",
+                    date: "2017",
+                    detail: 'DAV (Drug Administration of Vietnam) registered pembrolizumab for melanoma and NSCLC \u2014 approximately 3 years after US FDA approval, which is relatively early for the ASEAN region. The registration followed the ACTD (ASEAN Common Technical Dossier) format. By 2025, 14 oncology indications are registered in Vietnam. MSD Vietnam operates a partial free drug support programme for eligible cancer patients under a Ministry of Health decision.',
+                    links: [
+                        { label: "DAV \u2014 Drug Registration Lookup", url: "https://dichvucong.dav.gov.vn/congbothuoc/index" },
+                        { label: "Drugbank.vn", url: "https://drugbank.vn/" },
+                    ],
+                },
+                {
+                    title: "BHXH/BHYT Reimbursement List \u2014 NOT Included",
+                    date: "As of Circular 20/2022/TT-BYT",
+                    detail: 'Pembrolizumab is <strong>NOT included</strong> on Vietnam\u2019s health insurance reimbursement drug list (Circular 20/2022/TT-BYT, 1,035 chemical drugs and biologics). This means the drug is entirely out-of-pocket for patients, unless accessing MSD\u2019s partial support programme. At ~VND 62 million per vial (~USD 2,500), a full course of treatment costs VND 1.5\u20133.0 billion (~USD 60,000\u2013120,000) \u2014 far beyond the means of most Vietnamese patients. In November 2025, the Ministry of Health proposed adding 28 cancer drugs to the insurance list; pembrolizumab\u2019s status in that update is unclear.',
+                    links: [
+                        { label: "BHXH Drug List (Circular 20/2022)", url: "https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Thong-tu-20-2022-TT-BYT-danh-muc-thanh-toan-thuoc-hoa-duoc-duoc-huong-bao-hiem-y-te-548898.aspx" },
+                    ],
+                },
+                {
+                    title: "Biosimilar Competition \u2014 Pembroria",
+                    date: "October 2025",
+                    detail: 'On 31 October 2025, DAV approved <strong>Pembroria</strong> (pembrolizumab biosimilar by LLC "PK-137," Russia) for 3-year circulation at ~VND 18 million per vial \u2014 approximately <strong>one-third of Keytruda\u2019s price</strong>. K Hospital (Hanoi\u2019s leading national cancer centre) has announced plans to procure Pembroria. The arrival of a significantly cheaper biosimilar may accelerate discussions about health insurance list inclusion and reshape the Vietnamese immuno-oncology market.',
+                    links: [
+                        { label: "Pembroria Approval (Vietnam.vn)", url: "https://www.vietnam.vn/en/thong-tin-ve-thuoc-dieu-tri-ung-thu-pembroria-vua-duoc-cap-phep-tai-viet-nam" },
+                    ],
+                },
+            ],
+            takeaway: 'Vietnam illustrates the 8-year gap between registration (2017) and health insurance coverage (still absent in 2026). Despite early DAV approval, Circular 20/2022 does not include pembrolizumab on the reimbursement list, leaving patients entirely out-of-pocket. The 2025 approval of Pembroria (Russian biosimilar at 1/3 the price) is a potentially transformative development \u2014 if the lower-cost biosimilar drives insurance list inclusion, it could dramatically expand access. Vietnam\u2019s case demonstrates how biosimilar competition in emerging markets may succeed where originator pricing failed.',
+        },
     },
     // ── New WIP countries (top-70 markets) ────────────────────────────
     {
