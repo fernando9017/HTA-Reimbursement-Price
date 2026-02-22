@@ -1,5 +1,6 @@
 """FastAPI application for VAP Global Resources — Value, Access & Pricing."""
 
+import json
 import logging
 import re
 from contextlib import asynccontextmanager
@@ -32,6 +33,7 @@ logger = logging.getLogger(__name__)
 
 # Directory for bundled / cached HTA data files (one JSON per country code)
 DATA_DIR = Path(__file__).parent.parent / "data"
+CURATED_FILE = DATA_DIR / "curated_assessments.json"
 
 # ── Services ──────────────────────────────────────────────────────────
 
@@ -46,6 +48,66 @@ hta_agencies: dict[str, HTAAgency] = {
     "ES": SpainAEMPS(),
     "JP": JapanPMDA(),
 }
+
+# Curated assessment data — verified HTA outcomes that supplement live-scraped
+# data.  Keyed by (lowercase substance, country_code) → list of AssessmentResult.
+# Loaded from data/curated_assessments.json at startup.
+_curated_assessments: dict[tuple[str, str], list[AssessmentResult]] = {}
+
+
+def load_curated_assessments(filepath: Path = CURATED_FILE) -> int:
+    """Load curated assessment data from a JSON file.
+
+    Returns the number of substance+country entries loaded.
+    """
+    _curated_assessments.clear()
+    try:
+        with open(filepath, encoding="utf-8") as fh:
+            raw = json.load(fh)
+    except FileNotFoundError:
+        logger.warning("Curated assessments file not found: %s", filepath)
+        return 0
+    except Exception:
+        logger.warning("Failed to read curated assessments from %s", filepath, exc_info=True)
+        return 0
+
+    count = 0
+    for substance, countries in raw.items():
+        if substance.startswith("_"):
+            continue  # skip metadata keys like "_meta"
+        substance_lower = substance.lower().strip()
+        if not isinstance(countries, dict):
+            continue
+        for country_code, entries in countries.items():
+            if not isinstance(entries, list):
+                continue
+            results = []
+            for entry in entries:
+                try:
+                    results.append(AssessmentResult(**entry))
+                except Exception:
+                    logger.warning(
+                        "Invalid curated entry for %s/%s: %s",
+                        substance, country_code, entry,
+                    )
+            if results:
+                _curated_assessments[(substance_lower, country_code.upper())] = results
+                count += 1
+
+    logger.info("Loaded %d curated assessment entries from %s", count, filepath)
+    return count
+
+
+def get_curated_assessments(substance: str, country_code: str) -> list[AssessmentResult]:
+    """Return curated assessments for a substance+country, or empty list."""
+    return _curated_assessments.get((substance.lower().strip(), country_code.upper()), [])
+
+
+def _unique_key(a: AssessmentResult) -> str:
+    """Generate a deduplication key for an assessment result."""
+    # Use guidance/dossier reference + date as the key
+    ref = a.guidance_reference or a.dossier_code or a.ipt_reference or a.cis_code or ""
+    return f"{ref}|{a.opinion_date}|{a.assessment_url}".lower()
 
 
 async def _build_hta_cross_reference() -> None:
@@ -191,6 +253,9 @@ async def lifespan(app: FastAPI):
                     agency.agency_abbreviation, code,
                 )
 
+    # Load curated assessment data (supplements live-scraped data)
+    load_curated_assessments()
+
     # Build HTA cross-reference for analogue module
     try:
         await _build_hta_cross_reference()
@@ -264,17 +329,35 @@ async def get_assessments(
     product: str = Query("", description="Optional product/brand name"),
     indication: str = Query("", description="Selected indication text to filter results"),
 ):
-    """Look up HTA assessments for a substance in the specified country."""
+    """Look up HTA assessments for a substance in the specified country.
+
+    Live-scraped data from the adapter is supplemented with curated
+    assessment data when the adapter returns no results or misses known
+    entries.  Curated data acts as a reliable fallback for drugs where
+    live scraping is unreliable.
+    """
     code = country_code.upper()
     agency = hta_agencies.get(code)
     if agency is None:
         available = ", ".join(hta_agencies.keys())
         raise HTTPException(404, f"Country '{code}' not available. Options: {available}")
 
-    if not agency.is_loaded:
-        raise HTTPException(503, f"{agency.agency_abbreviation} data is still loading.")
+    # Try live-scraped data first (skip if agency data never loaded)
+    assessments: list[AssessmentResult] = []
+    if agency.is_loaded:
+        assessments = await agency.search_assessments(substance, product_name=product or None)
 
-    assessments = await agency.search_assessments(substance, product_name=product or None)
+    # Supplement with curated data: add curated entries whose keys
+    # don't already appear in the live results.
+    curated = get_curated_assessments(substance, code)
+    if curated:
+        existing_keys = {_unique_key(a) for a in assessments}
+        for entry in curated:
+            if _unique_key(entry) not in existing_keys:
+                assessments.append(entry)
+
+    if not assessments and not agency.is_loaded:
+        raise HTTPException(503, f"{agency.agency_abbreviation} data is still loading.")
 
     # Filter by selected indication if provided
     if indication.strip():
@@ -311,6 +394,9 @@ async def reload_data():
                 agency.save_to_file(data_file)
         except Exception as e:
             errors.append(f"{agency.agency_abbreviation}: {e}")
+
+    # Reload curated data
+    load_curated_assessments()
 
     # Rebuild HTA cross-reference
     try:

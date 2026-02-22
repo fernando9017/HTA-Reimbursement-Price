@@ -3,6 +3,10 @@
 Uses FastAPI TestClient with mocked services to avoid network calls.
 """
 
+import json
+import tempfile
+from pathlib import Path
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -595,3 +599,324 @@ class TestIndicationFiltering:
         # If no assessment matches >= 20%, return all (fallback)
         result = _filter_by_indication(assessments, "completely different topic xylophone")
         assert len(result) == 1
+
+
+# ===================================================================
+# Curated assessment data overlay
+# ===================================================================
+
+class TestCuratedAssessments:
+    """Tests for loading and merging curated HTA assessment data."""
+
+    def test_load_curated_assessments_from_file(self):
+        from app.main import load_curated_assessments, get_curated_assessments, _curated_assessments
+        data = {
+            "avelumab": {
+                "GB": [
+                    {
+                        "product_name": "Bavencio",
+                        "evaluation_reason": "Avelumab for maintenance urothelial carcinoma",
+                        "opinion_date": "2022-03-23",
+                        "assessment_url": "https://www.nice.org.uk/guidance/ta788",
+                        "nice_recommendation": "Recommended",
+                        "guidance_reference": "TA788",
+                        "guidance_type": "Technology appraisal guidance",
+                        "summary_en": "NICE TA: Recommended | TA788",
+                    }
+                ],
+            },
+        }
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(data, f)
+            f.flush()
+            count = load_curated_assessments(Path(f.name))
+
+        assert count == 1
+        results = get_curated_assessments("avelumab", "GB")
+        assert len(results) == 1
+        assert results[0].guidance_reference == "TA788"
+        assert results[0].nice_recommendation == "Recommended"
+
+        # Cleanup
+        _curated_assessments.clear()
+
+    def test_load_curated_assessments_skips_meta_keys(self):
+        from app.main import load_curated_assessments, _curated_assessments
+        data = {
+            "_meta": {"description": "metadata", "last_updated": "2025-01-01"},
+            "avelumab": {
+                "DE": [
+                    {
+                        "product_name": "Bavencio",
+                        "evaluation_reason": "Urothelkarzinom",
+                        "opinion_date": "2021-10-21",
+                        "benefit_rating": "nicht quantifizierbar",
+                    }
+                ],
+            },
+        }
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(data, f)
+            f.flush()
+            count = load_curated_assessments(Path(f.name))
+
+        assert count == 1  # Only avelumab/DE, not _meta
+        _curated_assessments.clear()
+
+    def test_load_curated_assessments_missing_file(self):
+        from app.main import load_curated_assessments
+        count = load_curated_assessments(Path("/nonexistent/curated.json"))
+        assert count == 0
+
+    def test_get_curated_assessments_case_insensitive(self):
+        from app.main import load_curated_assessments, get_curated_assessments, _curated_assessments
+        data = {
+            "avelumab": {
+                "GB": [
+                    {
+                        "product_name": "Bavencio",
+                        "evaluation_reason": "Test",
+                        "opinion_date": "2022-03-23",
+                    }
+                ],
+            },
+        }
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(data, f)
+            f.flush()
+            load_curated_assessments(Path(f.name))
+
+        # Substance and country code lookups should be case-insensitive
+        assert len(get_curated_assessments("Avelumab", "GB")) == 1
+        assert len(get_curated_assessments("AVELUMAB", "gb")) == 1
+        assert len(get_curated_assessments("avelumab", "GB")) == 1
+        assert len(get_curated_assessments("unknowndrug", "GB")) == 0
+
+        _curated_assessments.clear()
+
+    def test_unique_key_deduplication(self):
+        from app.main import _unique_key
+        a = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Test",
+            opinion_date="2022-03-23",
+            guidance_reference="TA788",
+            assessment_url="https://www.nice.org.uk/guidance/ta788",
+        )
+        b = AssessmentResult(
+            product_name="Bavencio (different name)",
+            evaluation_reason="Different reason",
+            opinion_date="2022-03-23",
+            guidance_reference="TA788",
+            assessment_url="https://www.nice.org.uk/guidance/ta788",
+        )
+        # Same reference + date + URL → same key
+        assert _unique_key(a) == _unique_key(b)
+
+        c = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Test",
+            opinion_date="2020-06-24",
+            guidance_reference="TA645",
+            assessment_url="https://www.nice.org.uk/guidance/ta645",
+        )
+        # Different reference → different key
+        assert _unique_key(a) != _unique_key(c)
+
+    def test_load_actual_curated_file(self):
+        """Verify the shipped curated_assessments.json file loads correctly."""
+        from app.main import load_curated_assessments, get_curated_assessments, _curated_assessments
+
+        curated_file = Path(__file__).parent.parent / "data" / "curated_assessments.json"
+        if not curated_file.exists():
+            pytest.skip("curated_assessments.json not present")
+
+        count = load_curated_assessments(curated_file)
+        assert count > 0
+
+        # Bavencio should have entries for all 5 countries
+        for code in ("GB", "DE", "ES", "JP", "FR"):
+            results = get_curated_assessments("avelumab", code)
+            assert len(results) >= 1, f"No curated data for avelumab/{code}"
+
+        # Spot-check UK NICE data
+        gb_results = get_curated_assessments("avelumab", "GB")
+        refs = {r.guidance_reference for r in gb_results}
+        assert "TA788" in refs, "Expected TA788 in UK curated data"
+
+        # Spot-check Germany G-BA data
+        de_results = get_curated_assessments("avelumab", "DE")
+        assert any("Urothelkarzinom" in r.evaluation_reason for r in de_results)
+
+        # Spot-check Spain AEMPS data
+        es_results = get_curated_assessments("avelumab", "ES")
+        assert any(r.ipt_reference for r in es_results)
+
+        # Spot-check Japan data
+        jp_results = get_curated_assessments("avelumab", "JP")
+        assert any("Reimbursed" in r.pmda_review_type for r in jp_results)
+
+        # Spot-check France HAS data
+        fr_results = get_curated_assessments("avelumab", "FR")
+        assert any(r.smr_value for r in fr_results)
+
+        _curated_assessments.clear()
+
+
+class TestCuratedDataMerging:
+    """Tests for curated data being merged into API responses."""
+
+    @patch("app.main.get_curated_assessments")
+    @patch("app.main.hta_agencies")
+    def test_curated_supplements_empty_live_results(self, mock_agencies, mock_curated, client):
+        """When live adapter returns nothing, curated data fills the gap."""
+        mock_agency = MagicMock()
+        mock_agency.is_loaded = True
+        mock_agency.country_name = "United Kingdom"
+        mock_agency.agency_abbreviation = "NICE"
+        mock_agency.search_assessments = AsyncMock(return_value=[])
+        mock_agencies.get.return_value = mock_agency
+
+        curated_entry = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Avelumab for maintenance urothelial carcinoma",
+            opinion_date="2022-03-23",
+            assessment_url="https://www.nice.org.uk/guidance/ta788",
+            nice_recommendation="Recommended",
+            guidance_reference="TA788",
+        )
+        mock_curated.return_value = [curated_entry]
+
+        resp = client.get("/api/assessments/GB", params={"substance": "avelumab"})
+
+        assert resp.status_code == 200
+        data = resp.json()
+        assert len(data["assessments"]) == 1
+        assert data["assessments"][0]["guidance_reference"] == "TA788"
+        assert data["assessments"][0]["nice_recommendation"] == "Recommended"
+
+    @patch("app.main.get_curated_assessments")
+    @patch("app.main.hta_agencies")
+    def test_curated_does_not_duplicate_live_results(self, mock_agencies, mock_curated, client):
+        """When live adapter returns the same entry as curated, no duplicate."""
+        live_entry = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Avelumab for maintenance urothelial carcinoma",
+            opinion_date="2022-03-23",
+            assessment_url="https://www.nice.org.uk/guidance/ta788",
+            nice_recommendation="Recommended",
+            guidance_reference="TA788",
+        )
+        mock_agency = MagicMock()
+        mock_agency.is_loaded = True
+        mock_agency.country_name = "United Kingdom"
+        mock_agency.agency_abbreviation = "NICE"
+        mock_agency.search_assessments = AsyncMock(return_value=[live_entry])
+        mock_agencies.get.return_value = mock_agency
+
+        curated_entry = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Same guidance, curated version",
+            opinion_date="2022-03-23",
+            assessment_url="https://www.nice.org.uk/guidance/ta788",
+            nice_recommendation="Recommended",
+            guidance_reference="TA788",
+        )
+        mock_curated.return_value = [curated_entry]
+
+        resp = client.get("/api/assessments/GB", params={"substance": "avelumab"})
+
+        assert resp.status_code == 200
+        data = resp.json()
+        # Should only have 1 entry (the live one), not 2
+        assert len(data["assessments"]) == 1
+
+    @patch("app.main.get_curated_assessments")
+    @patch("app.main.hta_agencies")
+    def test_curated_adds_missing_entries(self, mock_agencies, mock_curated, client):
+        """Curated data adds entries that live adapter missed."""
+        live_entry = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Avelumab for maintenance urothelial carcinoma",
+            opinion_date="2022-03-23",
+            assessment_url="https://www.nice.org.uk/guidance/ta788",
+            nice_recommendation="Recommended",
+            guidance_reference="TA788",
+        )
+        mock_agency = MagicMock()
+        mock_agency.is_loaded = True
+        mock_agency.country_name = "United Kingdom"
+        mock_agency.agency_abbreviation = "NICE"
+        mock_agency.search_assessments = AsyncMock(return_value=[live_entry])
+        mock_agencies.get.return_value = mock_agency
+
+        # Curated data has an additional TA that live scraping missed
+        curated_entries = [
+            AssessmentResult(
+                product_name="Bavencio",
+                evaluation_reason="Same as live",
+                opinion_date="2022-03-23",
+                assessment_url="https://www.nice.org.uk/guidance/ta788",
+                guidance_reference="TA788",
+            ),
+            AssessmentResult(
+                product_name="Bavencio",
+                evaluation_reason="Avelumab with axitinib for renal cell carcinoma",
+                opinion_date="2020-06-24",
+                assessment_url="https://www.nice.org.uk/guidance/ta645",
+                nice_recommendation="Recommended",
+                guidance_reference="TA645",
+            ),
+        ]
+        mock_curated.return_value = curated_entries
+
+        resp = client.get("/api/assessments/GB", params={"substance": "avelumab"})
+
+        assert resp.status_code == 200
+        data = resp.json()
+        # Should have 2: live TA788 + curated TA645
+        assert len(data["assessments"]) == 2
+        refs = {a["guidance_reference"] for a in data["assessments"]}
+        assert "TA788" in refs
+        assert "TA645" in refs
+
+    @patch("app.main.get_curated_assessments")
+    @patch("app.main.hta_agencies")
+    def test_curated_fallback_when_agency_not_loaded(self, mock_agencies, mock_curated, client):
+        """When agency data hasn't loaded, curated data still works."""
+        mock_agency = MagicMock()
+        mock_agency.is_loaded = False
+        mock_agency.country_name = "Japan"
+        mock_agency.agency_abbreviation = "MHLW"
+        mock_agencies.get.return_value = mock_agency
+
+        curated_entry = AssessmentResult(
+            product_name="Bavencio",
+            evaluation_reason="Merkel cell carcinoma",
+            opinion_date="2017-09-27",
+            pmda_review_type="Reimbursed (NHI)",
+        )
+        mock_curated.return_value = [curated_entry]
+
+        resp = client.get("/api/assessments/JP", params={"substance": "avelumab"})
+
+        # Should return 200 with curated data, not 503
+        assert resp.status_code == 200
+        data = resp.json()
+        assert len(data["assessments"]) == 1
+        assert data["assessments"][0]["pmda_review_type"] == "Reimbursed (NHI)"
+
+    @patch("app.main.get_curated_assessments")
+    @patch("app.main.hta_agencies")
+    def test_503_only_when_no_data_at_all(self, mock_agencies, mock_curated, client):
+        """503 only when agency not loaded AND no curated data."""
+        mock_agency = MagicMock()
+        mock_agency.is_loaded = False
+        mock_agency.agency_abbreviation = "MHLW"
+        mock_agencies.get.return_value = mock_agency
+
+        mock_curated.return_value = []  # No curated data either
+
+        resp = client.get("/api/assessments/JP", params={"substance": "unknowndrug"})
+
+        assert resp.status_code == 503
