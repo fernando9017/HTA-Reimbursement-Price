@@ -15,6 +15,41 @@ const EMA_LINK = {
     url: "https://www.ema.europa.eu/en/human-regulatory-overview/marketing-authorisation/centralised-procedure",
 };
 
+// ── Region mapping (country code → region) ──────────────────────────────
+
+const REGION_MAP = {
+    // Europe
+    DZ: "Africa",      AR: "Americas",    AU: "Asia-Pacific",
+    AT: "Europe",      BE: "Europe",      BR: "Americas",
+    BG: "Europe",      CA: "Americas",    CL: "Americas",
+    CN: "Asia-Pacific", CO: "Americas",   HR: "Europe",
+    CY: "Europe",      CZ: "Europe",     DK: "Europe",
+    EG: "Africa",      EE: "Europe",     FI: "Europe",
+    FR: "Europe",      DE: "Europe",     GR: "Europe",
+    HK: "Asia-Pacific", HU: "Europe",    IS: "Europe",
+    ID: "Asia-Pacific", IE: "Europe",    IL: "Middle East",
+    IT: "Europe",      JP: "Asia-Pacific", LV: "Europe",
+    LB: "Middle East", LT: "Europe",     LU: "Europe",
+    MT: "Europe",      MX: "Americas",   ME: "Europe",
+    NL: "Europe",      NO: "Europe",     OM: "Middle East",
+    PE: "Americas",    PH: "Asia-Pacific", PL: "Europe",
+    PT: "Europe",      PR: "Americas",   QA: "Middle East",
+    RO: "Europe",      RU: "Europe",     SA: "Middle East",
+    SG: "Asia-Pacific", SK: "Europe",    SI: "Europe",
+    KR: "Asia-Pacific", ES: "Europe",    SE: "Europe",
+    CH: "Europe",      TH: "Asia-Pacific", TW: "Asia-Pacific",
+    TR: "Europe",      AE: "Middle East", GB: "Europe",
+    VN: "Asia-Pacific", GT: "Americas",  IN: "Asia-Pacific",
+    JO: "Middle East", KZ: "Asia-Pacific", KW: "Middle East",
+    MY: "Asia-Pacific", MA: "Africa",    NZ: "Asia-Pacific",
+    NG: "Africa",      PK: "Asia-Pacific", ZA: "Africa",
+    UA: "Europe",      BD: "Asia-Pacific", CR: "Americas",
+    EC: "Americas",    KE: "Africa",     RS: "Europe",
+};
+
+// Ordered list of regions for display
+const REGION_ORDER = ["Americas", "Europe", "Asia-Pacific", "Middle East", "Africa"];
+
 // ── Worked Example Priority List ─────────────────────────────────────
 // Countries are enhanced in batches of 10 with detailed drugExample
 // timelines showing the full market access journey for a real drug.
@@ -5259,6 +5294,8 @@ const COUNTRIES = [
 // ── DOM Elements ──────────────────────────────────────────────────────
 
 const countryGrid    = document.getElementById("country-grid");
+const countryRegions = document.getElementById("country-regions");
+const countryMap     = document.getElementById("country-map");
 const countrySearch  = document.getElementById("country-search");
 const noResults      = document.getElementById("country-no-results");
 const countryCount   = document.getElementById("country-count");
@@ -5268,39 +5305,315 @@ const detailName     = document.getElementById("detail-country-name");
 const detailSections = document.getElementById("detail-sections");
 const detailClose    = document.getElementById("detail-close");
 
+const displayAllBtn     = document.getElementById("display-all-btn");
+const displayRegionsBtn = document.getElementById("display-regions-btn");
+const displayMapBtn     = document.getElementById("display-map-btn");
+
+let currentDisplayMode = "all"; // "all" | "regions" | "map"
+
+// ── Helper: build a country card button ──────────────────────────────
+
+function buildCountryCard(c) {
+    const btn = document.createElement("button");
+    btn.className = "country-flag-card";
+    btn.dataset.code = c.code;
+    btn.setAttribute("aria-label", c.name);
+    btn.innerHTML =
+        (c.wip ? `<span class="wip-badge" title="Work in progress — initial data only">WIP</span>` : "") +
+        `<span class="fi fi-${c.code.toLowerCase()} flag-icon" aria-hidden="true"></span>` +
+        `<span class="flag-label">${esc(c.name)}</span>`;
+    btn.addEventListener("click", () => {
+        const country = COUNTRIES.find(co => co.code === btn.dataset.code);
+        if (country) openDetail(country, btn);
+    });
+    return btn;
+}
+
 // ── Initialise ────────────────────────────────────────────────────────
 
 countryCount.textContent = COUNTRIES.length;
 
-// Build all cards once; filter by toggling .hidden
-countryGrid.innerHTML = COUNTRIES.map(c => `
-    <button class="country-flag-card" data-code="${esc(c.code)}" aria-label="${esc(c.name)}">
-        ${c.wip ? `<span class="wip-badge" title="Work in progress — initial data only">WIP</span>` : ""}
-        <span class="fi fi-${c.code.toLowerCase()} flag-icon" aria-hidden="true"></span>
-        <span class="flag-label">${esc(c.name)}</span>
-    </button>
-`).join("");
+// Build the flat grid (Display All)
+COUNTRIES.forEach(c => countryGrid.appendChild(buildCountryCard(c)));
 
-countryGrid.querySelectorAll(".country-flag-card").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const country = COUNTRIES.find(c => c.code === btn.dataset.code);
-        if (country) openDetail(country, btn);
+// Build the regions view
+function buildRegionsView() {
+    countryRegions.innerHTML = "";
+    REGION_ORDER.forEach(region => {
+        const regionCountries = COUNTRIES.filter(c => REGION_MAP[c.code] === region);
+        if (regionCountries.length === 0) return;
+
+        const group = document.createElement("div");
+        group.className = "region-group";
+        group.dataset.region = region;
+
+        const header = document.createElement("div");
+        header.className = "region-header";
+        header.innerHTML = `<h3 class="region-title">${esc(region)}</h3><span class="region-count">${regionCountries.length}</span>`;
+        group.appendChild(header);
+
+        const grid = document.createElement("div");
+        grid.className = "country-flag-grid";
+        regionCountries.forEach(c => grid.appendChild(buildCountryCard(c)));
+        group.appendChild(grid);
+
+        countryRegions.appendChild(group);
     });
-});
+
+    // Catch any countries not in the map
+    const unmapped = COUNTRIES.filter(c => !REGION_MAP[c.code]);
+    if (unmapped.length > 0) {
+        const group = document.createElement("div");
+        group.className = "region-group";
+        group.dataset.region = "Other";
+        group.innerHTML = `<div class="region-header"><h3 class="region-title">Other</h3><span class="region-count">${unmapped.length}</span></div>`;
+        const grid = document.createElement("div");
+        grid.className = "country-flag-grid";
+        unmapped.forEach(c => grid.appendChild(buildCountryCard(c)));
+        group.appendChild(grid);
+        countryRegions.appendChild(group);
+    }
+}
+buildRegionsView();
+
+// Build the interactive map view
+let mapInitialised = false;
+
+function buildMapView() {
+    if (mapInitialised) return;
+    mapInitialised = true;
+
+    // SVG world map with clickable country paths
+    // We use a simplified approach: an inline SVG map with tooltip-style interaction.
+    // Country codes are mapped to SVG path IDs.
+
+    const mapContainer = document.createElement("div");
+    mapContainer.className = "map-container";
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "map-tooltip hidden";
+    tooltip.id = "map-tooltip";
+
+    // Build a legend
+    const legend = document.createElement("div");
+    legend.className = "map-legend";
+    legend.innerHTML = `
+        <span class="map-legend-item"><span class="map-legend-dot map-legend-available"></span> Available</span>
+        <span class="map-legend-item"><span class="map-legend-dot map-legend-wip"></span> WIP</span>
+        <span class="map-legend-item"><span class="map-legend-dot map-legend-unavailable"></span> Not covered</span>
+    `;
+
+    mapContainer.appendChild(legend);
+
+    // We'll use an SVG world map. Since we can't embed a massive SVG inline,
+    // we'll use a simpler approach: a styled container with positioned dots for each country.
+    const mapSvgWrapper = document.createElement("div");
+    mapSvgWrapper.className = "map-svg-wrapper";
+
+    // Country approximate positions (lat/lng mapped to % of container)
+    // Using Mercator-like projection: x = (lng + 180) / 360 * 100, y = (90 - lat) / 180 * 100
+    const COUNTRY_POSITIONS = {
+        DZ: { lat: 28.0, lng: 3.0 },
+        AR: { lat: -34.0, lng: -64.0 },
+        AU: { lat: -25.0, lng: 134.0 },
+        AT: { lat: 47.5, lng: 14.5 },
+        BE: { lat: 50.8, lng: 4.4 },
+        BR: { lat: -14.0, lng: -51.0 },
+        BG: { lat: 42.7, lng: 25.5 },
+        CA: { lat: 56.0, lng: -106.0 },
+        CL: { lat: -35.0, lng: -71.0 },
+        CN: { lat: 35.0, lng: 105.0 },
+        CO: { lat: 4.0, lng: -72.0 },
+        HR: { lat: 45.1, lng: 15.2 },
+        CY: { lat: 35.1, lng: 33.4 },
+        CZ: { lat: 49.8, lng: 15.5 },
+        DK: { lat: 56.0, lng: 9.5 },
+        EG: { lat: 26.8, lng: 30.8 },
+        EE: { lat: 58.6, lng: 25.0 },
+        FI: { lat: 64.0, lng: 26.0 },
+        FR: { lat: 46.2, lng: 2.2 },
+        DE: { lat: 51.2, lng: 10.5 },
+        GR: { lat: 39.1, lng: 21.8 },
+        HK: { lat: 22.3, lng: 114.2 },
+        HU: { lat: 47.2, lng: 19.5 },
+        IS: { lat: 65.0, lng: -19.0 },
+        ID: { lat: -5.0, lng: 120.0 },
+        IE: { lat: 53.4, lng: -8.2 },
+        IL: { lat: 31.0, lng: 34.8 },
+        IT: { lat: 41.9, lng: 12.6 },
+        JP: { lat: 36.2, lng: 138.3 },
+        LV: { lat: 56.9, lng: 24.1 },
+        LB: { lat: 33.9, lng: 35.9 },
+        LT: { lat: 55.2, lng: 24.0 },
+        LU: { lat: 49.8, lng: 6.1 },
+        MT: { lat: 35.9, lng: 14.5 },
+        MX: { lat: 23.6, lng: -102.5 },
+        ME: { lat: 42.7, lng: 19.4 },
+        NL: { lat: 52.1, lng: 5.3 },
+        NO: { lat: 60.5, lng: 8.5 },
+        OM: { lat: 21.5, lng: 56.0 },
+        PE: { lat: -10.0, lng: -76.0 },
+        PH: { lat: 12.9, lng: 121.8 },
+        PL: { lat: 51.9, lng: 19.1 },
+        PT: { lat: 39.4, lng: -8.2 },
+        PR: { lat: 18.2, lng: -66.5 },
+        QA: { lat: 25.3, lng: 51.2 },
+        RO: { lat: 45.9, lng: 25.0 },
+        RU: { lat: 61.5, lng: 105.0 },
+        SA: { lat: 24.0, lng: 45.0 },
+        SG: { lat: 1.4, lng: 103.8 },
+        SK: { lat: 48.7, lng: 19.7 },
+        SI: { lat: 46.2, lng: 14.8 },
+        KR: { lat: 35.9, lng: 127.8 },
+        ES: { lat: 40.5, lng: -3.7 },
+        SE: { lat: 60.1, lng: 18.6 },
+        CH: { lat: 46.8, lng: 8.2 },
+        TH: { lat: 15.9, lng: 101.0 },
+        TW: { lat: 23.5, lng: 121.0 },
+        TR: { lat: 39.0, lng: 35.2 },
+        AE: { lat: 24.0, lng: 54.0 },
+        GB: { lat: 55.4, lng: -3.4 },
+        VN: { lat: 14.1, lng: 108.3 },
+        GT: { lat: 15.8, lng: -90.2 },
+        IN: { lat: 20.6, lng: 78.9 },
+        JO: { lat: 30.6, lng: 36.2 },
+        KZ: { lat: 48.0, lng: 67.0 },
+        KW: { lat: 29.3, lng: 47.5 },
+        MY: { lat: 4.2, lng: 101.9 },
+        MA: { lat: 32.0, lng: -5.0 },
+        NZ: { lat: -41.0, lng: 174.9 },
+        NG: { lat: 9.1, lng: 8.7 },
+        PK: { lat: 30.4, lng: 69.3 },
+        ZA: { lat: -29.0, lng: 24.0 },
+        UA: { lat: 48.4, lng: 31.2 },
+        BD: { lat: 23.7, lng: 90.4 },
+        CR: { lat: 10.0, lng: -84.0 },
+        EC: { lat: -1.8, lng: -78.2 },
+        KE: { lat: -0.0, lng: 37.9 },
+        RS: { lat: 44.0, lng: 21.0 },
+    };
+
+    // Convert lat/lng to x/y percentages (simple equirectangular)
+    function toXY(lat, lng) {
+        const x = ((lng + 180) / 360) * 100;
+        const y = ((90 - lat) / 180) * 100;
+        return { x, y };
+    }
+
+    // Build a set of available country codes for quick lookup
+    const availableCodes = new Set(COUNTRIES.map(c => c.code));
+    const wipCodes = new Set(COUNTRIES.filter(c => c.wip).map(c => c.code));
+
+    // Create dots for each country
+    COUNTRIES.forEach(c => {
+        const pos = COUNTRY_POSITIONS[c.code];
+        if (!pos) return;
+
+        const { x, y } = toXY(pos.lat, pos.lng);
+        const dot = document.createElement("button");
+        dot.className = "map-dot" + (c.wip ? " map-dot-wip" : "");
+        dot.style.left = x + "%";
+        dot.style.top = y + "%";
+        dot.dataset.code = c.code;
+        dot.dataset.name = c.name;
+        dot.setAttribute("aria-label", c.name);
+
+        dot.addEventListener("mouseenter", (e) => {
+            tooltip.textContent = c.name;
+            tooltip.classList.remove("hidden");
+            const rect = mapSvgWrapper.getBoundingClientRect();
+            tooltip.style.left = (e.clientX - rect.left + 10) + "px";
+            tooltip.style.top = (e.clientY - rect.top - 28) + "px";
+        });
+        dot.addEventListener("mouseleave", () => {
+            tooltip.classList.add("hidden");
+        });
+        dot.addEventListener("click", () => {
+            const country = COUNTRIES.find(co => co.code === c.code);
+            if (country) openDetail(country, dot);
+        });
+
+        mapSvgWrapper.appendChild(dot);
+    });
+
+    mapSvgWrapper.appendChild(tooltip);
+    mapContainer.appendChild(mapSvgWrapper);
+    countryMap.appendChild(mapContainer);
+}
+
+// ── Display mode switching ────────────────────────────────────────────
+
+function setDisplayMode(mode) {
+    currentDisplayMode = mode;
+
+    // Toggle button states
+    [displayAllBtn, displayRegionsBtn, displayMapBtn].forEach(btn => {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-pressed", "false");
+    });
+    const activeBtn = mode === "all" ? displayAllBtn : mode === "regions" ? displayRegionsBtn : displayMapBtn;
+    activeBtn.classList.add("active");
+    activeBtn.setAttribute("aria-pressed", "true");
+
+    // Toggle containers
+    countryGrid.classList.toggle("hidden", mode !== "all");
+    countryRegions.classList.toggle("hidden", mode !== "regions");
+    countryMap.classList.toggle("hidden", mode !== "map");
+
+    // Lazy-build the map
+    if (mode === "map") buildMapView();
+
+    // Re-apply search filter
+    applyFilter();
+}
+
+displayAllBtn.addEventListener("click", () => setDisplayMode("all"));
+displayRegionsBtn.addEventListener("click", () => setDisplayMode("regions"));
+displayMapBtn.addEventListener("click", () => setDisplayMode("map"));
 
 // ── Country filter ────────────────────────────────────────────────────
 
-countrySearch.addEventListener("input", () => {
+function applyFilter() {
     const q = countrySearch.value.trim().toLowerCase();
     let visible = 0;
-    countryGrid.querySelectorAll(".country-flag-card").forEach(btn => {
-        const name = btn.querySelector(".flag-label").textContent.toLowerCase();
-        const show = !q || name.includes(q);
-        btn.classList.toggle("hidden", !show);
-        if (show) visible++;
-    });
+
+    if (currentDisplayMode === "all") {
+        countryGrid.querySelectorAll(".country-flag-card").forEach(btn => {
+            const name = btn.querySelector(".flag-label").textContent.toLowerCase();
+            const show = !q || name.includes(q);
+            btn.classList.toggle("hidden", !show);
+            if (show) visible++;
+        });
+    } else if (currentDisplayMode === "regions") {
+        countryRegions.querySelectorAll(".region-group").forEach(group => {
+            let groupVisible = 0;
+            group.querySelectorAll(".country-flag-card").forEach(btn => {
+                const name = btn.querySelector(".flag-label").textContent.toLowerCase();
+                const show = !q || name.includes(q);
+                btn.classList.toggle("hidden", !show);
+                if (show) groupVisible++;
+            });
+            group.classList.toggle("hidden", groupVisible === 0);
+            // Update count badge
+            const countBadge = group.querySelector(".region-count");
+            if (countBadge) {
+                countBadge.textContent = q ? groupVisible : COUNTRIES.filter(c => REGION_MAP[c.code] === group.dataset.region).length;
+            }
+            visible += groupVisible;
+        });
+    } else if (currentDisplayMode === "map") {
+        countryMap.querySelectorAll(".map-dot").forEach(dot => {
+            const name = dot.dataset.name.toLowerCase();
+            const show = !q || name.includes(q);
+            dot.classList.toggle("hidden", !show);
+            if (show) visible++;
+        });
+    }
+
     noResults.classList.toggle("hidden", visible > 0);
-});
+}
+
+countrySearch.addEventListener("input", applyFilter);
 
 // ── Detail panel ──────────────────────────────────────────────────────
 

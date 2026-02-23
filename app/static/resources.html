@@ -32,11 +32,33 @@
         <section class="card">
             <h2>Select a Country</h2>
             <p class="resource-intro">Click a country to view key resources on marketing authorisation, HTA assessment, reimbursement, and patient access. Covers <strong id="country-count"></strong> countries.</p>
-            <div class="resource-search-row">
-                <input type="text" id="country-search" class="resource-search-input" placeholder="Filter countries…" autocomplete="off" aria-label="Filter countries">
+            <div class="resource-toolbar">
+                <div class="resource-search-row">
+                    <input type="text" id="country-search" class="resource-search-input" placeholder="Filter countries…" autocomplete="off" aria-label="Filter countries">
+                </div>
+                <div class="display-toggle" role="radiogroup" aria-label="Display mode">
+                    <button class="display-toggle-btn active" id="display-all-btn" aria-pressed="true" title="Display all countries">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+                        <span>Display All</span>
+                    </button>
+                    <button class="display-toggle-btn" id="display-regions-btn" aria-pressed="false" title="Display by regions">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="1" width="14" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="7" width="12" height="2.5" rx="0.5" fill="currentColor" opacity="0.3"/><rect x="3" y="10.5" width="12" height="2.5" rx="0.5" fill="currentColor" opacity="0.3"/><rect x="3" y="13" width="8" height="2.5" rx="0.5" fill="currentColor" opacity="0.3"/></svg>
+                        <span>By Regions</span>
+                    </button>
+                    <button class="display-toggle-btn" id="display-map-btn" aria-pressed="false" title="Display on map">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 3l4.5-1.5L10.5 3 15 1.5v10.5l-4.5 1.5L5.5 12 1 13.5V3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><line x1="5.5" y1="1.5" x2="5.5" y2="12" stroke="currentColor" stroke-width="1.3"/><line x1="10.5" y1="3" x2="10.5" y2="13.5" stroke="currentColor" stroke-width="1.3"/></svg>
+                        <span>Map</span>
+                    </button>
+                </div>
             </div>
             <div class="country-flag-grid" id="country-grid">
                 <!-- Populated by resources.js -->
+            </div>
+            <div class="country-regions hidden" id="country-regions">
+                <!-- Populated by resources.js when "By Regions" is active -->
+            </div>
+            <div class="country-map hidden" id="country-map">
+                <!-- Populated by resources.js when "Map" is active -->
             </div>
             <p class="country-no-results hidden" id="country-no-results">No countries match your filter.</p>
         </section>

@@ -996,10 +996,62 @@ button:disabled {
     margin-bottom: 16px;
 }
 
+/* ── Global Resources — toolbar (search + display toggle) ────────── */
+
+.resource-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.display-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.display-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-light);
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.display-toggle-btn:hover {
+    color: var(--text);
+    background: var(--card-bg);
+}
+
+.display-toggle-btn.active {
+    color: var(--primary);
+    background: var(--card-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+}
+
+.display-toggle-btn svg {
+    flex-shrink: 0;
+}
+
 /* ── Global Resources — country search filter ────────────────────── */
 
 .resource-search-row {
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .resource-search-input {
@@ -1075,6 +1127,153 @@ button:disabled {
     font-weight: 600;
     color: var(--text);
     text-align: center;
+}
+
+/* ── Global Resources — region groups ─────────────────────────────── */
+
+.country-regions {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.region-group {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.region-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+}
+
+.region-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: white;
+}
+
+.region-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 13px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.region-group .country-flag-grid {
+    padding: 16px;
+    background: var(--card-bg);
+}
+
+/* ── Global Resources — interactive map ──────────────────────────── */
+
+.map-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.map-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    flex-wrap: wrap;
+}
+
+.map-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.map-legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.map-legend-available {
+    background: var(--primary-light);
+}
+
+.map-legend-wip {
+    background: #f0c040;
+}
+
+.map-legend-unavailable {
+    background: var(--border);
+}
+
+.map-svg-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 50%; /* 2:1 aspect ratio for world map */
+    background: #eef3f8;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    /* background grid for visual reference */
+    background-image:
+        linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 10% 10%;
+}
+
+.map-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    border: 2px solid var(--card-bg);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    padding: 0;
+}
+
+.map-dot:hover {
+    transform: scale(1.5);
+    box-shadow: 0 2px 8px rgba(41, 128, 185, 0.4);
+    z-index: 10;
+}
+
+.map-dot.map-dot-wip {
+    background: #f0c040;
+}
+
+.map-tooltip {
+    position: absolute;
+    background: var(--text);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 20;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Global Resources — detail panel ────────────────────────────── */
@@ -1518,6 +1717,19 @@ footer a:hover {
     .home-grid {
         grid-template-columns: 1fr;
         gap: 16px;
+    }
+    .resource-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .display-toggle {
+        justify-content: center;
+    }
+    .resource-search-row {
+        width: 100%;
+    }
+    .resource-search-input {
+        max-width: 100% !important;
     }
 }
 
