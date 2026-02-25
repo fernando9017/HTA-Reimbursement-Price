@@ -78,6 +78,7 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 72000,
         "unit_price": 28745.50,
         "total_amount": 2069676000.0,
+        "max_reference_price": 32500.00,
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
@@ -93,6 +94,7 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 98000,
         "unit_price": 26890.00,
         "total_amount": 2635220000.0,
+        "max_reference_price": 30000.00,
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
@@ -114,6 +116,7 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 32000,
         "unit_price": 26890.00,
         "total_amount": 860480000.0,
+        "max_reference_price": 30000.00,
         "institution": "ISSSTE",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
@@ -129,6 +132,7 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 115000,
         "unit_price": 198.50,
         "total_amount": 22827500.0,
+        "max_reference_price": 250.00,
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "generico",
@@ -144,6 +148,7 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 200000,
         "unit_price": 2890.00,
         "total_amount": 578000000.0,
+        "max_reference_price": 3500.00,
         "institution": "IMSS",
         "therapeutic_group": "Inmunología y Reumatología",
         "source_type": "biotecnologico",
@@ -169,6 +174,7 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 0,
         "unit_price": 0.0,
         "total_amount": 0.0,
+        "max_reference_price": 18500.00,
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
@@ -186,11 +192,49 @@ SAMPLE_ADJUDICACIONES = [
         "units_awarded": 0,
         "unit_price": 0.0,
         "total_amount": 0.0,
+        "max_reference_price": 17800.00,
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
         "negotiation_type": "mesa_patente",
         "negotiation_notes": "Price disagreement persists. Eisai declined to participate.",
+    },
+    # ── 2027-2028 en_proceso records ──
+    {
+        "clave": "010.000.6317.00",
+        "description": "PEMBROLIZUMAB 100 mg",
+        "active_substance": "pembrolizumab",
+        "cycle": "2027-2028",
+        "status": "en_proceso",
+        "supplier": "",
+        "units_requested": 120000,
+        "units_awarded": 0,
+        "unit_price": 0.0,
+        "total_amount": 0.0,
+        "max_reference_price": 28500.00,
+        "institution": "IMSS",
+        "therapeutic_group": "Oncología",
+        "source_type": "patente",
+        "negotiation_type": "mesa_patente",
+        "negotiation_notes": "Negotiations ongoing. Expected to close Q2 2027.",
+    },
+    {
+        "clave": "010.000.5820.00",
+        "description": "ADALIMUMAB 40 mg",
+        "active_substance": "adalimumab",
+        "cycle": "2027-2028",
+        "status": "en_proceso",
+        "supplier": "",
+        "units_requested": 220000,
+        "units_awarded": 0,
+        "unit_price": 0.0,
+        "total_amount": 0.0,
+        "max_reference_price": 3200.00,
+        "institution": "IMSS",
+        "therapeutic_group": "Inmunología y Reumatología",
+        "source_type": "biotecnologico",
+        "negotiation_type": "licitacion_publica",
+        "negotiation_notes": "Open tender for biosimilars. Multiple bidders expected.",
     },
 ]
 
@@ -264,8 +308,9 @@ def test_search_no_results(service):
 def test_search_enriches_latest_data(service):
     result = service.search_claves(query="pembrolizumab")
     c = result.results[0]
-    assert c.latest_cycle == "2025-2026"
-    assert c.latest_status == "adjudicada"
+    assert c.latest_cycle == "2027-2028"
+    assert c.latest_status == "en_proceso"
+    # Latest awarded price comes from 2025-2026
     assert c.latest_unit_price == 26890.00
     assert "IMSS" in c.institutions
     assert "ISSSTE" in c.institutions
@@ -289,7 +334,7 @@ def test_search_cnis_only(service):
 
 def test_adjudicaciones_all(service):
     result = service.search_adjudicaciones()
-    assert result.total == 7
+    assert result.total == 9  # 7 original + 2 en_proceso for 2027-2028
 
 
 def test_adjudicaciones_by_cycle(service):
@@ -315,7 +360,7 @@ def test_adjudicaciones_by_institution(service):
 
 def test_adjudicaciones_by_substance(service):
     result = service.search_adjudicaciones(substance="adalimumab")
-    assert result.total == 1
+    assert result.total == 2  # 2025-2026 adjudicada + 2027-2028 en_proceso
 
 
 def test_adjudicaciones_summary(service):
@@ -347,7 +392,7 @@ def test_price_history_exists(service):
     assert result is not None
     assert result.clave == "010.000.6317.00"
     assert result.active_substance == "pembrolizumab"
-    assert len(result.entries) == 3  # 1 in 2023-2024 + 2 in 2025-2026
+    assert len(result.entries) == 4  # 1 in 2023-2024 + 2 in 2025-2026 + 1 en_proceso 2027-2028
 
 
 def test_price_history_not_found(service):
@@ -370,7 +415,7 @@ def test_price_history_sorted(service):
 def test_price_history_desierta(service):
     result = service.get_price_history("010.000.6430.00")
     assert result is not None
-    assert len(result.entries) == 2
+    assert len(result.entries) == 2  # desierta in 2023-2024 and 2025-2026
     # Both are desierta, price_change should be 0
     assert result.price_change_pct == 0.0
 
@@ -399,10 +444,12 @@ def test_filter_options(service):
     opts = service.get_filter_options()
     assert "2023-2024" in opts.cycles
     assert "2025-2026" in opts.cycles
+    assert "2027-2028" in opts.cycles
     assert "Oncología" in opts.therapeutic_groups
     assert "IMSS" in opts.institutions
     assert "adjudicada" in opts.statuses
     assert "desierta" in opts.statuses
+    assert "en_proceso" in opts.statuses
     assert "patente" in opts.source_types
     assert "generico" in opts.source_types
 
@@ -457,7 +504,7 @@ def test_clave_detail_molecule_info(service):
 
 def test_clave_detail_adjudicaciones(service):
     detail = service.get_clave_detail("010.000.6317.00")
-    assert len(detail.adjudicaciones) == 3  # 2023-2024 IMSS + 2025-2026 IMSS + ISSSTE
+    assert len(detail.adjudicaciones) == 4  # 2023-2024 IMSS + 2025-2026 IMSS + ISSSTE + 2027-2028 IMSS
     institutions = {a.institution for a in detail.adjudicaciones}
     assert "IMSS" in institutions
     assert "ISSSTE" in institutions
@@ -466,7 +513,7 @@ def test_clave_detail_adjudicaciones(service):
 def test_clave_detail_price_history(service):
     detail = service.get_clave_detail("010.000.6317.00")
     assert detail.price_history is not None
-    assert len(detail.price_history.entries) == 3
+    assert len(detail.price_history.entries) == 4  # includes 2027-2028 en_proceso
     assert detail.price_history.price_change_pct < 0  # price dropped
 
 
@@ -567,8 +614,8 @@ def test_adjudicacion_negotiation_notes(service):
 
 def test_adjudicacion_competitor_bids_in_search(service):
     result = service.search_adjudicaciones(substance="adalimumab")
-    assert result.total == 1
-    adj = result.results[0]
+    assert result.total == 2  # 2025-2026 + 2027-2028
+    adj = result.results[0]  # First is 2025-2026 with bids
     assert len(adj.competitor_bids) == 3
 
 
@@ -592,3 +639,73 @@ def test_search_includes_molecule_info(service):
     assert c.mechanism_of_action == "Anti-PD-1 monoclonal antibody"
     assert c.patent_holder == "Merck Sharp & Dohme (MSD)"
     assert c.patent_expiry == "2028-10"
+
+
+# ── Maximum reference price tests ─────────────────────────────────────
+
+
+def test_adjudicacion_max_reference_price(service):
+    result = service.search_adjudicaciones(substance="pembrolizumab", cycle="2025-2026")
+    for r in result.results:
+        assert r.max_reference_price == 30000.00
+
+
+def test_price_history_includes_reference_price(service):
+    result = service.get_price_history("010.000.6317.00")
+    # All entries should have a reference price
+    for e in result.entries:
+        assert e.max_reference_price > 0
+
+
+def test_clave_detail_reference_price(service):
+    detail = service.get_clave_detail("010.000.5820.00")
+    # Adalimumab adjudicaciones should include reference prices
+    for a in detail.adjudicaciones:
+        assert a.max_reference_price > 0
+
+
+def test_reference_price_desierta(service):
+    """Even desierta records should have a reference price (BIRMEX ceiling)."""
+    result = service.search_adjudicaciones(status="desierta")
+    for r in result.results:
+        assert r.max_reference_price > 0
+
+
+# ── 2027-2028 cycle tests ─────────────────────────────────────────────
+
+
+def test_2027_2028_cycle_exists(service):
+    result = service.search_adjudicaciones(cycle="2027-2028")
+    assert result.total == 2  # pembrolizumab + adalimumab
+    for r in result.results:
+        assert r.status == "en_proceso"
+
+
+def test_2027_2028_en_proceso_no_awards(service):
+    result = service.search_adjudicaciones(cycle="2027-2028")
+    for r in result.results:
+        assert r.units_awarded == 0
+        assert r.unit_price == 0.0
+        assert r.supplier == ""
+
+
+def test_2027_2028_has_reference_price(service):
+    result = service.search_adjudicaciones(cycle="2027-2028")
+    for r in result.results:
+        assert r.max_reference_price > 0
+
+
+def test_2027_2028_has_negotiation_notes(service):
+    result = service.search_adjudicaciones(cycle="2027-2028")
+    for r in result.results:
+        assert r.negotiation_notes  # all en_proceso should have notes
+
+
+def test_institution_breakdown_includes_en_proceso(service):
+    breakdown = service.get_institution_breakdown(cycle="2027-2028")
+    assert len(breakdown) >= 1
+    imss = [b for b in breakdown if b.institution == "IMSS"][0]
+    assert imss.total_claves == 2
+    # en_proceso does not count as adjudicada or desierta
+    assert imss.adjudicadas == 0
+    assert imss.desiertas == 0

@@ -1969,6 +1969,48 @@ button:disabled {
     border-top: 1px dashed var(--border);
 }
 
+/* ── Mexico — Reference Price ────────────────────────────────────── */
+
+.mx-ref-price {
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.mx-ref-savings {
+    font-size: 0.82rem;
+    color: #27ae60;
+    font-weight: 600;
+}
+
+/* ── Mexico — Group Drill-down ───────────────────────────────────── */
+
+.mx-group-link {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+}
+
+.mx-group-row:hover .mx-group-link {
+    color: var(--primary-light);
+    text-decoration-style: solid;
+}
+
+.mx-group-drilldown {
+    margin-top: 12px;
+    padding: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.mx-group-drilldown-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 10px 0;
+}
+
 /* ── Mexico — Institution Cards ────────────────────────────────── */
 
 .mx-inst-card {
