@@ -1254,6 +1254,18 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "early_access",
+                title: "Early Access Programs",
+                body: "Denmark\u2019s early access system is based on compassionate use permits (udleveringstilladelser), governed by Section 29(1) of the Danish Medicines Act (L\u00e6gemiddelloven). The DKMA can authorize the sale or dispensing of medicines not marketed in Denmark when no adequate alternative is available. Two types exist: individual permits (enkelt udleveringstilladelse) for a single patient, and general permits (generel udleveringstilladelse) for a patient group at a hospital department or practice. Permits are valid for up to 5 years. Urgent cases can be fast-tracked. Only physicians, dentists, or veterinarians may apply.",
+                links: [
+                    { label: "DKMA \u2014 Compassionate Use Permits (English)", url: "https://laegemiddelstyrelsen.dk/en/licensing/compassionate-use-permits/" },
+                    { label: "DKMA \u2014 Udleveringstilladelser (Danish, with application forms)", url: "https://laegemiddelstyrelsen.dk/da/godkendelse/udleveringstilladelser/mennesker/" },
+                    { label: "DKMA \u2014 Application Guide (vejledning til ans\u00f8gningsskema)", url: "https://laegemiddelstyrelsen.dk/da/godkendelse/udleveringstilladelser/mennesker/vejledning-til-ansoegningsskema-om-human-enkelt-og-human-generel-udleveringstilladelse" },
+                    { label: "EMA \u2014 EU Compassionate Use Framework", url: "https://www.ema.europa.eu/en/human-regulatory-overview/research-development/compassionate-use" },
+                    { label: "Virk.dk \u2014 Online Application for Individual Permit", url: "https://virk.dk/myndigheder/stat/DKMA/selvbetjening/Ansoegning_om_human_enkelt_udleveringstilladelse/" },
+                ],
+            },
+            {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
@@ -1298,6 +1310,24 @@ const COUNTRIES = [
     <li>Generics/biosimilars: Amgros runs EU tenders (typically 1-year cycles, April&ndash;March). In 2024, hospital purchases totaled DKK 10.2 billion with 49% savings vs. list prices</li>
     <li>Quarterly <a href="https://www.amgros.dk/viden-og-analyser/rapporteringer/markedsovervaagning/" target="_blank" rel="noopener">Market Surveillance reports</a> track spending, volumes, and compliance with Medicinr&aring;det recommendations</li>
 </ol>
+<h4 class="tips-heading">Early Access &mdash; Compassionate Use Permits (Udleveringstilladelser)</h4>
+<p>Denmark provides access to non-marketed medicines through <strong>compassionate use permits</strong> (udleveringstilladelser), regulated under Section 29(1) of the Danish Medicines Act (L&aelig;gemiddelloven). The system is permit-based and administered by the DKMA.</p>
+<ol>
+    <li><strong>Two permit types:</strong>
+        <ul>
+            <li><strong>Enkelt udleveringstilladelse</strong> (individual permit) &mdash; for a single named patient. The treating physician applies to DKMA specifying the indication and why marketed alternatives are inadequate</li>
+            <li><strong>Generel udleveringstilladelse</strong> (general permit) &mdash; for a group of patients at a hospital department or practice. Covers a specific product for a defined patient population</li>
+        </ul>
+    </li>
+    <li><strong>Key requirements:</strong> the medicine must be manufactured by a pharmaceutical company (magistral/pharmacy-compounded products have a separate route); there must be no adequate marketed alternative in Denmark; and sufficient therapeutic justification must be documented</li>
+    <li><strong>Application process:</strong> physicians, dentists, or veterinarians submit applications to DKMA (email: <code>udleveringstilladelser@dkma.dk</code>). Individual permits can also be submitted via <a href="https://virk.dk/myndigheder/stat/DKMA/selvbetjening/Ansoegning_om_human_enkelt_udleveringstilladelse/" target="_blank" rel="noopener">Virk.dk</a>. The application must state the indication, justify why no marketed alternative suffices, and describe previous treatment</li>
+    <li><strong>Urgent cases:</strong> DKMA can fast-track individual applications when the patient has an urgent need for treatment. Contact DKMA directly for expedited processing</li>
+    <li><strong>Validity:</strong> permits are valid for up to <strong>5 years</strong>. A new application is required for renewal. Once approved, the physician notifies the pharmacy with a copy of the permit plus the prescription</li>
+    <li><strong>National permits:</strong> DKMA also issues <strong>nationale udleveringstilladelser</strong> (national supply authorizations) for medicines needed due to supply shortages of marketed products &mdash; these are published on <a href="https://www.sundhed.dk/sundhedsfaglig/information-til-praksis/syddanmark/almen-praksis/patientbehandling/laegemidler/udleveringstilladelser-og-restordre/nationale-udleveringstilladelser/" target="_blank" rel="noopener">Sundhed.dk</a></li>
+</ol>
+<p class="tips-note"><strong>EU framework:</strong> Denmark&rsquo;s system operates within the broader EU compassionate use framework (Article 83, Regulation (EC) No 726/2004). The EMA&rsquo;s CHMP can issue recommendations for compassionate use of centrally authorized products, but implementation is national. Denmark requires the product to typically be <strong>authorized abroad</strong> or undergoing MA application/clinical trials.</p>
+<p class="tips-note"><strong>2024&ndash;2026 updates:</strong> DKMA updated documentation requirements for wholesale distributors handling medicines under supply authorization (2024). From 1 January 2026, private individuals may legally import medicines for personal use from any country (excluding antibiotics, doping substances, and euphoriant substances) &mdash; this supplements but does not replace the compassionate use permit system.</p>
+
 <p class="tips-note"><strong>Statistics:</strong> <a href="https://medstat.dk/en" target="_blank" rel="noopener">Medstat.dk</a> provides free, public aggregate data on all medicine sales in Denmark since 1996 (primary care) and 1997 (hospitals), searchable by ATC code, region, age, and sex.</p>
         `,
         drugExample: {
