@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mexico Pharma Procurement — VAP Global Resources</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VAP Global Resources</h1>
+            <p class="subtitle">Value, Access &amp; Pricing — Mexico Pharma Procurement Intelligence</p>
+        </div>
+    </header>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Home</a>
+            <span class="page-title">Mexico Pharma Procurement</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Tab navigation -->
+        <div class="mexico-tabs" id="tabs">
+            <button class="mexico-tab active" data-tab="search">Clave Search</button>
+            <button class="mexico-tab" data-tab="adjudicaciones">Award Tracker</button>
+            <button class="mexico-tab" data-tab="opportunities">Opportunities</button>
+        </div>
+
+        <!-- ── Tab 1: Clave Search & Intelligence ── -->
+        <section id="tab-search" class="card mexico-tab-content">
+            <h2>Clave Search &amp; Intelligence</h2>
+            <p class="filter-description">Search Mexico's consolidated procurement claves by active substance, ATC code, therapeutic group, or product description.</p>
+
+            <div class="search-box">
+                <input type="text" id="clave-query" placeholder="e.g. pembrolizumab, L01FF, oncologia..." autocomplete="off">
+                <button id="btn-search-claves">Search</button>
+            </div>
+
+            <div class="filter-grid" style="margin-top: 16px;">
+                <div class="filter-group">
+                    <label for="filter-therapeutic-group">Therapeutic Group</label>
+                    <select id="filter-therapeutic-group">
+                        <option value="">All groups</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-source-type">Source Type</label>
+                    <select id="filter-source-type">
+                        <option value="">All types</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="clave-status" class="status-msg hidden"></div>
+            <div id="clave-results"></div>
+        </section>
+
+        <!-- ── Tab 2: Award Tracker (Adjudicaciones) ── -->
+        <section id="tab-adjudicaciones" class="card mexico-tab-content hidden">
+            <h2>Award Tracker (Adjudicaciones)</h2>
+            <p class="filter-description">Track procurement awards across cycles. Filter by status, institution, therapeutic group, or substance to analyze the Mexican public market.</p>
+
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="adj-cycle">Procurement Cycle</label>
+                    <select id="adj-cycle">
+                        <option value="">All cycles</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="adj-status">Status</label>
+                    <select id="adj-status">
+                        <option value="">All statuses</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="adj-institution">Institution</label>
+                    <select id="adj-institution">
+                        <option value="">All institutions</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="adj-therapeutic">Therapeutic Group</label>
+                    <select id="adj-therapeutic">
+                        <option value="">All groups</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="adj-source">Source Type</label>
+                    <select id="adj-source">
+                        <option value="">All types</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="adj-substance">Active Substance</label>
+                    <input type="text" id="adj-substance" placeholder="e.g. nivolumab">
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button id="btn-search-adj">Search Awards</button>
+                <button id="btn-reset-adj" class="btn-secondary">Reset</button>
+            </div>
+
+            <div id="adj-status-msg" class="status-msg hidden"></div>
+
+            <!-- Summary cards -->
+            <div id="adj-summary" class="hidden"></div>
+
+            <!-- Results table -->
+            <div id="adj-results"></div>
+        </section>
+
+        <!-- ── Tab 3: Opportunities (Desiertas) ── -->
+        <section id="tab-opportunities" class="card mexico-tab-content hidden">
+            <h2>Market Opportunities</h2>
+            <p class="filter-description">Claves declared <strong>desierta</strong> (unadjudicated) represent unmet public health demand and potential market entry opportunities for pharmaceutical companies.</p>
+
+            <div id="opp-status" class="status-msg hidden"></div>
+            <div id="opp-results"></div>
+        </section>
+
+        <!-- ── Price History Detail (shown on clave click) ── -->
+        <section id="price-detail" class="card hidden" style="margin-bottom: 24px;">
+            <h2 id="price-detail-title">Price History</h2>
+            <div id="price-detail-content"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Data sources:
+            <a href="https://compraconsolidada.salud.gob.mx" target="_blank" rel="noopener">Compra Consolidada</a> &middot;
+            <a href="https://adjudicaciones.salud.gob.mx" target="_blank" rel="noopener">Adjudicaciones SSa</a> &middot;
+            <a href="https://www.gob.mx/csg" target="_blank" rel="noopener">CNIS</a></p>
+            <p>&copy; 2026 Fernando Rosas. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/shared.js"></script>
+    <script src="/static/mexico.js"></script>
+</body>
+</html>

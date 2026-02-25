@@ -99,7 +99,7 @@ header h1 {
 
 .home-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
     margin-top: 40px;
     margin-bottom: 40px;
@@ -1662,6 +1662,208 @@ button:disabled {
     padding: 12px 0;
 }
 
+/* ── Mexico Pharma Procurement — Tabs ─────────────────────────────── */
+
+.mexico-tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.mexico-tab {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-light);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mexico-tab:hover {
+    color: var(--text);
+    background: var(--bg);
+}
+
+.mexico-tab.active {
+    color: var(--primary);
+    background: var(--bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Mexico — Status badges ──────────────────────────────────────── */
+
+.mx-status-awarded {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.mx-status-desierta {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+.mx-status-process {
+    background: #fef5e7;
+    color: var(--smr-moderate);
+}
+
+.mx-status-cancelled {
+    background: #f8f9fb;
+    color: var(--text-light);
+}
+
+/* ── Mexico — Source type badges ─────────────────────────────────── */
+
+.mx-source-patent {
+    background: #f4ecf7;
+    color: #7d3c98;
+}
+
+.mx-source-sole {
+    background: #fef9e7;
+    color: #b7950b;
+}
+
+.mx-source-generic {
+    background: #eaf2f8;
+    color: var(--primary);
+}
+
+.mx-source-bio {
+    background: #e8f6f3;
+    color: var(--accent);
+}
+
+/* ── Mexico — Summary cards ──────────────────────────────────────── */
+
+.mx-summary-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+}
+
+.mx-summary-card {
+    flex: 1;
+    min-width: 140px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+}
+
+.mx-summary-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.mx-summary-label {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.mx-summary-awarded .mx-summary-value {
+    color: var(--smr-important);
+}
+
+.mx-summary-desierta .mx-summary-value {
+    color: var(--smr-insufficient);
+}
+
+/* ── Mexico — Price history ──────────────────────────────────────── */
+
+.mx-price-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.mx-price-change {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.mx-price-down {
+    background: #eaf7ef;
+    color: var(--smr-important);
+}
+
+.mx-price-up {
+    background: #fdedec;
+    color: var(--smr-insufficient);
+}
+
+/* ── Mexico — Bar chart ──────────────────────────────────────────── */
+
+.mx-price-chart {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.mx-chart-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.mx-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.mx-bar-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    min-width: 80px;
+    text-align: right;
+}
+
+.mx-bar-track {
+    flex: 1;
+    height: 24px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.mx-bar-fill {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.mx-bar-value {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    min-width: 100px;
+    text-align: right;
+}
+
 /* ── Utility ──────────────────────────────────────────────────────── */
 
 .hidden {
@@ -1717,6 +1919,12 @@ footer a:hover {
     .home-grid {
         grid-template-columns: 1fr;
         gap: 16px;
+    }
+    .mexico-tabs {
+        flex-direction: column;
+    }
+    .mx-summary-grid {
+        flex-direction: column;
     }
     .resource-toolbar {
         flex-direction: column;

@@ -11,17 +11,24 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.models import (
+    AdjudicacionResult,
     AnalogueResponse,
     AnalogueResult,
     AssessmentResponse,
     AssessmentResult,
+    ClaveResult,
     CountryInfo,
     FilterOptions,
     MedicineResult,
+    MexicoAdjudicacionResponse,
+    MexicoProcurementFilters,
+    MexicoSearchResponse,
+    PriceHistoryResult,
 )  # ATCPrefix imported via FilterOptions
 from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
+from app.services.mexico_procurement import MexicoProcurementService
 from app.services.hta_agencies.france_has import FranceHAS
 from app.services.hta_agencies.germany_gba import GermanyGBA
 from app.services.hta_agencies.japan_pmda import JapanPMDA
@@ -39,6 +46,7 @@ CURATED_FILE = DATA_DIR / "curated_assessments.json"
 
 ema_service = EMAService()
 analogue_service = AnalogueService()
+mexico_service = MexicoProcurementService()
 
 # Registry of HTA agency adapters — add new countries here
 hta_agencies: dict[str, HTAAgency] = {
@@ -256,6 +264,13 @@ async def lifespan(app: FastAPI):
     # Load curated assessment data (supplements live-scraped data)
     load_curated_assessments()
 
+    # Load Mexico procurement data
+    mexico_file = DATA_DIR / "mexico_procurement.json"
+    if mexico_service.load_from_file(mexico_file):
+        logger.info("Mexico procurement data loaded: %d claves", mexico_service.clave_count)
+    else:
+        logger.warning("Mexico procurement data not available")
+
     # Build HTA cross-reference for analogue module
     try:
         await _build_hta_cross_reference()
@@ -302,6 +317,12 @@ async def analogues_page():
 async def resources_page():
     """Serve the Global Secondary Resources module page."""
     return FileResponse(str(STATIC_DIR / "resources.html"))
+
+
+@app.get("/mexico")
+async def mexico_page():
+    """Serve the Mexico Pharma Procurement module page."""
+    return FileResponse(str(STATIC_DIR / "mexico.html"))
 
 
 @app.get("/api/search", response_model=list[MedicineResult])
@@ -418,6 +439,8 @@ async def status():
         "ema_loaded": ema_service.is_loaded,
         "ema_count": ema_service.medicine_count,
         "analogue_loaded": analogue_service.is_loaded,
+        "mexico_loaded": mexico_service.is_loaded,
+        "mexico_clave_count": mexico_service.clave_count,
         "agencies": {
             code: {
                 "name": agency.agency_abbreviation,
@@ -567,3 +590,81 @@ async def search_analogues(
         total=len(results),
         results=[AnalogueResult(**r) for r in results],
     )
+
+
+# ── Mexico Pharma Procurement Routes ──────────────────────────────
+
+
+@app.get("/api/mexico/filters", response_model=MexicoProcurementFilters)
+async def mexico_filters():
+    """Return available filter options for the Mexico procurement module."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.get_filter_options()
+
+
+@app.get("/api/mexico/search", response_model=MexicoSearchResponse)
+async def mexico_search_claves(
+    q: str = Query("", description="Search by substance, description, or clave code"),
+    therapeutic_group: str = Query("", description="Filter by therapeutic group"),
+    source_type: str = Query("", description="Filter by source type: patente, generico, biotecnologico, fuente_unica"),
+    atc_code: str = Query("", description="ATC code prefix filter"),
+    cnis_only: bool = Query(False, description="Only show CNIS-listed claves"),
+    limit: int = Query(100, ge=1, le=500),
+):
+    """Search Mexico procurement claves by substance, ATC, or description."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.search_claves(
+        query=q,
+        therapeutic_group=therapeutic_group,
+        source_type=source_type,
+        atc_code=atc_code,
+        cnis_only=cnis_only,
+        limit=limit,
+    )
+
+
+@app.get("/api/mexico/adjudicaciones", response_model=MexicoAdjudicacionResponse)
+async def mexico_adjudicaciones(
+    cycle: str = Query("", description="Procurement cycle, e.g. '2025-2026'"),
+    status: str = Query("", description="Award status: adjudicada, desierta, etc."),
+    institution: str = Query("", description="Requesting institution (IMSS, ISSSTE, etc.)"),
+    therapeutic_group: str = Query("", description="Therapeutic group filter"),
+    source_type: str = Query("", description="Source type filter"),
+    substance: str = Query("", description="Active substance (partial match)"),
+    limit: int = Query(200, ge=1, le=500),
+):
+    """Search procurement awards (adjudicaciones) with filters."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.search_adjudicaciones(
+        cycle=cycle,
+        status=status,
+        institution=institution,
+        therapeutic_group=therapeutic_group,
+        source_type=source_type,
+        substance=substance,
+        limit=limit,
+    )
+
+
+@app.get("/api/mexico/prices/{clave}", response_model=PriceHistoryResult)
+async def mexico_price_history(clave: str):
+    """Get price history for a specific clave across procurement cycles."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    result = mexico_service.get_price_history(clave)
+    if result is None:
+        raise HTTPException(404, f"Clave '{clave}' not found")
+    return result
+
+
+@app.get("/api/mexico/opportunities", response_model=list[AdjudicacionResult])
+async def mexico_opportunities(
+    limit: int = Query(50, ge=1, le=200),
+):
+    """Find market opportunities: unadjudicated claves with unmet demand."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.get_opportunities(limit=limit)
