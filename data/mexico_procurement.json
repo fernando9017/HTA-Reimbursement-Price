@@ -18,7 +18,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "1657SSA2014"
+      "cofepris_registry": "1657SSA2014",
+      "indication": "Melanoma, NSCLC, head and neck carcinoma, urothelial carcinoma, MSI-H/dMMR solid tumors, gastric carcinoma, cervical cancer, hepatocellular carcinoma, Merkel cell carcinoma, renal cell carcinoma, endometrial carcinoma",
+      "mechanism_of_action": "Anti-PD-1 monoclonal antibody (immune checkpoint inhibitor). Blocks PD-1/PD-L1 interaction to restore T-cell anti-tumor immunity.",
+      "patent_holder": "Merck Sharp & Dohme (MSD)",
+      "patent_expiry": "2028-10"
     },
     {
       "clave": "010.000.6245.00",
@@ -28,7 +32,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "1799SSA2015"
+      "cofepris_registry": "1799SSA2015",
+      "indication": "Melanoma, NSCLC, renal cell carcinoma, Hodgkin lymphoma, head and neck carcinoma, urothelial carcinoma, hepatocellular carcinoma, colorectal cancer (MSI-H/dMMR), esophageal carcinoma, mesothelioma",
+      "mechanism_of_action": "Anti-PD-1 monoclonal antibody (immune checkpoint inhibitor). Binds PD-1 receptor to block tumor immune evasion.",
+      "patent_holder": "Bristol-Myers Squibb",
+      "patent_expiry": "2027-12"
     },
     {
       "clave": "010.000.6246.00",
@@ -38,7 +46,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "1799SSA2015"
+      "cofepris_registry": "1799SSA2015",
+      "indication": "Melanoma, NSCLC, renal cell carcinoma, Hodgkin lymphoma, head and neck carcinoma, urothelial carcinoma, hepatocellular carcinoma, colorectal cancer (MSI-H/dMMR), esophageal carcinoma, mesothelioma",
+      "mechanism_of_action": "Anti-PD-1 monoclonal antibody (immune checkpoint inhibitor). Binds PD-1 receptor to block tumor immune evasion.",
+      "patent_holder": "Bristol-Myers Squibb",
+      "patent_expiry": "2027-12"
     },
     {
       "clave": "010.000.5870.00",
@@ -48,7 +60,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "biotecnologico",
       "cnis_listed": true,
-      "cofepris_registry": "0363SSA2000"
+      "cofepris_registry": "0363SSA2000",
+      "indication": "HER2-positive breast cancer (early and metastatic), HER2-positive metastatic gastric or gastroesophageal junction adenocarcinoma",
+      "mechanism_of_action": "Anti-HER2 humanized monoclonal antibody. Binds HER2 extracellular domain to inhibit tumor cell proliferation and mediate ADCC.",
+      "patent_holder": "Roche/Genentech (originator; biosimilars available)",
+      "patent_expiry": "2019-06"
     },
     {
       "clave": "010.000.5480.00",
@@ -58,7 +74,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "generico",
       "cnis_listed": true,
-      "cofepris_registry": "0217SSA2002"
+      "cofepris_registry": "0217SSA2002",
+      "indication": "Philadelphia chromosome-positive CML, KIT-positive GIST, ALL (Ph+), myelodysplastic/myeloproliferative diseases, dermatofibrosarcoma protuberans",
+      "mechanism_of_action": "BCR-ABL tyrosine kinase inhibitor. Selectively inhibits BCR-ABL, c-KIT, and PDGFR kinase activity.",
+      "patent_holder": "Novartis (originator; generics available)",
+      "patent_expiry": "2016-01"
     },
     {
       "clave": "010.000.6060.00",
@@ -68,7 +88,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "biotecnologico",
       "cnis_listed": true,
-      "cofepris_registry": "0530SSA2005"
+      "cofepris_registry": "0530SSA2005",
+      "indication": "Metastatic colorectal cancer, NSCLC, renal cell carcinoma, glioblastoma, cervical cancer, ovarian/fallopian tube/peritoneal cancer, hepatocellular carcinoma",
+      "mechanism_of_action": "Anti-VEGF humanized monoclonal antibody. Binds VEGF-A to inhibit tumor angiogenesis.",
+      "patent_holder": "Roche/Genentech (originator; biosimilars available)",
+      "patent_expiry": "2019-07"
     },
     {
       "clave": "010.000.4502.00",
@@ -78,7 +102,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "biotecnologico",
       "cnis_listed": true,
-      "cofepris_registry": "0389SSA2000"
+      "cofepris_registry": "0389SSA2000",
+      "indication": "Non-Hodgkin lymphoma (CD20+), CLL, rheumatoid arthritis, granulomatosis with polyangiitis, microscopic polyangiitis, pemphigus vulgaris",
+      "mechanism_of_action": "Anti-CD20 chimeric monoclonal antibody. Induces B-cell depletion via complement-dependent cytotoxicity and ADCC.",
+      "patent_holder": "Roche/Genentech (originator; biosimilars available)",
+      "patent_expiry": "2018-11"
     },
     {
       "clave": "010.000.5820.00",
@@ -88,7 +116,11 @@
       "therapeutic_group": "Inmunología y Reumatología",
       "source_type": "biotecnologico",
       "cnis_listed": true,
-      "cofepris_registry": "0721SSA2007"
+      "cofepris_registry": "0721SSA2007",
+      "indication": "Rheumatoid arthritis, psoriatic arthritis, ankylosing spondylitis, Crohn disease, ulcerative colitis, plaque psoriasis, hidradenitis suppurativa, juvenile idiopathic arthritis, uveitis",
+      "mechanism_of_action": "Anti-TNF-alpha human monoclonal antibody. Binds soluble and membrane-bound TNF-alpha to reduce inflammation.",
+      "patent_holder": "AbbVie (originator; biosimilars available)",
+      "patent_expiry": "2023-01"
     },
     {
       "clave": "010.000.4504.00",
@@ -98,7 +130,11 @@
       "therapeutic_group": "Inmunología y Reumatología",
       "source_type": "biotecnologico",
       "cnis_listed": true,
-      "cofepris_registry": "0451SSA2001"
+      "cofepris_registry": "0451SSA2001",
+      "indication": "Rheumatoid arthritis, Crohn disease, ulcerative colitis, ankylosing spondylitis, psoriatic arthritis, plaque psoriasis",
+      "mechanism_of_action": "Anti-TNF-alpha chimeric monoclonal antibody. Neutralizes TNF-alpha to reduce inflammatory cascade.",
+      "patent_holder": "Janssen/J&J (originator; biosimilars available)",
+      "patent_expiry": "2018-09"
     },
     {
       "clave": "010.000.4357.00",
@@ -108,7 +144,11 @@
       "therapeutic_group": "Endocrinología",
       "source_type": "biotecnologico",
       "cnis_listed": true,
-      "cofepris_registry": "0198SSA2003"
+      "cofepris_registry": "0198SSA2003",
+      "indication": "Type 1 and type 2 diabetes mellitus requiring basal insulin therapy",
+      "mechanism_of_action": "Long-acting insulin analogue. Forms microprecipitates at injection site for slow, peakless absorption over 24 hours.",
+      "patent_holder": "Sanofi (originator; biosimilars available)",
+      "patent_expiry": "2020-02"
     },
     {
       "clave": "010.000.6375.00",
@@ -118,7 +158,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2015SSA2017"
+      "cofepris_registry": "2015SSA2017",
+      "indication": "NSCLC, SCLC, urothelial carcinoma, hepatocellular carcinoma, melanoma (in combination), triple-negative breast cancer (PD-L1+)",
+      "mechanism_of_action": "Anti-PD-L1 humanized monoclonal antibody (immune checkpoint inhibitor). Blocks PD-L1/PD-1 and PD-L1/B7.1 interactions.",
+      "patent_holder": "Roche/Genentech",
+      "patent_expiry": "2031-03"
     },
     {
       "clave": "010.000.6376.00",
@@ -128,7 +172,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2078SSA2018"
+      "cofepris_registry": "2078SSA2018",
+      "indication": "Unresectable stage III NSCLC (after chemoradiation), extensive-stage SCLC, biliary tract cancer, hepatocellular carcinoma, endometrial carcinoma",
+      "mechanism_of_action": "Anti-PD-L1 human monoclonal antibody (immune checkpoint inhibitor). Blocks PD-L1 binding to PD-1 and CD80.",
+      "patent_holder": "AstraZeneca",
+      "patent_expiry": "2030-08"
     },
     {
       "clave": "010.000.2172.00",
@@ -138,7 +186,11 @@
       "therapeutic_group": "Hematología",
       "source_type": "fuente_unica",
       "cnis_listed": true,
-      "cofepris_registry": "0056SSA1995"
+      "cofepris_registry": "0056SSA1995",
+      "indication": "Hemophilia A: treatment and prophylaxis of bleeding episodes, perioperative management",
+      "mechanism_of_action": "Plasma-derived coagulation Factor VIII replacement. Restores Factor VIII activity to enable normal hemostasis in the coagulation cascade.",
+      "patent_holder": "Takeda (Shire; plasma-derived, limited sourcing)",
+      "patent_expiry": ""
     },
     {
       "clave": "010.000.4507.00",
@@ -148,7 +200,11 @@
       "therapeutic_group": "Hematología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2201SSA2019"
+      "cofepris_registry": "2201SSA2019",
+      "indication": "Hemophilia A: routine prophylaxis to prevent or reduce bleeding episodes, with or without Factor VIII inhibitors",
+      "mechanism_of_action": "Bispecific monoclonal antibody mimicking Factor VIIIa. Bridges activated Factor IX and Factor X to restore hemostasis without requiring Factor VIII.",
+      "patent_holder": "Roche/Chugai",
+      "patent_expiry": "2033-06"
     },
     {
       "clave": "010.000.4380.00",
@@ -158,7 +214,11 @@
       "therapeutic_group": "Infectología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "1987SSA2017"
+      "cofepris_registry": "1987SSA2017",
+      "indication": "Chronic hepatitis C virus infection (genotypes 1-6), including patients with compensated or decompensated cirrhosis",
+      "mechanism_of_action": "Pangenotypic DAA combination: sofosbuvir (NS5B polymerase inhibitor) + velpatasvir (NS5A inhibitor). Inhibits HCV replication.",
+      "patent_holder": "Gilead Sciences",
+      "patent_expiry": "2029-02"
     },
     {
       "clave": "010.000.4389.00",
@@ -168,7 +228,11 @@
       "therapeutic_group": "Infectología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "1654SSA2015"
+      "cofepris_registry": "1654SSA2015",
+      "indication": "HIV-1 infection in adults and adolescents (complete single-tablet regimen)",
+      "mechanism_of_action": "Fixed-dose triple combination: dolutegravir (INSTI) + abacavir (NRTI) + lamivudine (NRTI). Inhibits HIV integrase and reverse transcriptase.",
+      "patent_holder": "ViiV Healthcare (GSK/Pfizer/Shionogi)",
+      "patent_expiry": "2027-10"
     },
     {
       "clave": "010.000.2105.00",
@@ -178,7 +242,11 @@
       "therapeutic_group": "Endocrinología",
       "source_type": "generico",
       "cnis_listed": true,
-      "cofepris_registry": "0004SSA1990"
+      "cofepris_registry": "0004SSA1990",
+      "indication": "Type 2 diabetes mellitus, first-line pharmacotherapy",
+      "mechanism_of_action": "Biguanide antihyperglycemic. Decreases hepatic glucose production, reduces intestinal absorption of glucose, and improves insulin sensitivity.",
+      "patent_holder": "(Generic; off-patent since 1994)",
+      "patent_expiry": ""
     },
     {
       "clave": "010.000.6420.00",
@@ -188,7 +256,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2120SSA2018"
+      "cofepris_registry": "2120SSA2018",
+      "indication": "EGFR-mutated (T790M+) NSCLC (2nd line after EGFR TKI), first-line EGFR ex19del/L858R NSCLC, adjuvant NSCLC after resection",
+      "mechanism_of_action": "Third-generation EGFR tyrosine kinase inhibitor. Selectively targets EGFR T790M resistance mutation and sensitizing mutations (ex19del, L858R).",
+      "patent_holder": "AstraZeneca",
+      "patent_expiry": "2032-04"
     },
     {
       "clave": "010.000.6425.00",
@@ -198,7 +270,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2145SSA2018"
+      "cofepris_registry": "2145SSA2018",
+      "indication": "BRCA-mutated ovarian cancer (maintenance), BRCA-mutated metastatic breast cancer, BRCA-mutated metastatic pancreatic cancer, HRR-mutated metastatic castration-resistant prostate cancer",
+      "mechanism_of_action": "PARP inhibitor (poly ADP-ribose polymerase). Blocks PARP-mediated DNA repair in BRCA-deficient cells, leading to synthetic lethality.",
+      "patent_holder": "AstraZeneca",
+      "patent_expiry": "2028-01"
     },
     {
       "clave": "010.000.6430.00",
@@ -208,7 +284,11 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2098SSA2018"
+      "cofepris_registry": "2098SSA2018",
+      "indication": "Differentiated thyroid carcinoma (radioiodine-refractory), hepatocellular carcinoma (first-line with pembrolizumab), renal cell carcinoma (with pembrolizumab/everolimus), endometrial carcinoma (with pembrolizumab)",
+      "mechanism_of_action": "Multi-kinase inhibitor targeting VEGFR1-3, FGFR1-4, PDGFRα, RET, and KIT. Inhibits tumor angiogenesis and proliferation.",
+      "patent_holder": "Eisai",
+      "patent_expiry": "2027-07"
     },
     {
       "clave": "010.000.6500.00",
@@ -218,7 +298,11 @@
       "therapeutic_group": "Neurología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2200SSA2019"
+      "cofepris_registry": "2200SSA2019",
+      "indication": "Spinal muscular atrophy (SMA) types 1, 2, and 3 in pediatric and adult patients",
+      "mechanism_of_action": "Antisense oligonucleotide (ASO). Modifies SMN2 pre-mRNA splicing to increase production of full-length SMN protein via intrathecal administration.",
+      "patent_holder": "Biogen",
+      "patent_expiry": "2033-12"
     },
     {
       "clave": "010.000.6505.00",
@@ -228,7 +312,11 @@
       "therapeutic_group": "Neurología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2350SSA2021"
+      "cofepris_registry": "2350SSA2021",
+      "indication": "Spinal muscular atrophy (SMA) in patients 2 months and older with types 1, 2, or 3, or 1-4 copies of SMN2",
+      "mechanism_of_action": "SMN2 mRNA splicing modifier (small molecule). Increases full-length SMN protein by modifying SMN2 pre-mRNA splicing — oral administration.",
+      "patent_holder": "Roche/Genentech/PTC Therapeutics",
+      "patent_expiry": "2035-08"
     },
     {
       "clave": "010.000.6510.00",
@@ -238,7 +326,11 @@
       "therapeutic_group": "Dermatología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2310SSA2020"
+      "cofepris_registry": "2310SSA2020",
+      "indication": "Moderate-to-severe atopic dermatitis, moderate-to-severe asthma (eosinophilic/OCS-dependent), chronic rhinosinusitis with nasal polyps, eosinophilic esophagitis, prurigo nodularis",
+      "mechanism_of_action": "Anti-IL-4Rα monoclonal antibody. Inhibits IL-4 and IL-13 signaling, key drivers of type 2 inflammation.",
+      "patent_holder": "Sanofi/Regeneron",
+      "patent_expiry": "2031-06"
     },
     {
       "clave": "010.000.6550.00",
@@ -248,7 +340,11 @@
       "therapeutic_group": "Cardiología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "2050SSA2017"
+      "cofepris_registry": "2050SSA2017",
+      "indication": "Chronic heart failure with reduced ejection fraction (HFrEF), NYHA class II-IV",
+      "mechanism_of_action": "ARNI (Angiotensin Receptor-Neprilysin Inhibitor). Sacubitril inhibits neprilysin to enhance natriuretic peptides; valsartan blocks AT1 receptor.",
+      "patent_holder": "Novartis",
+      "patent_expiry": "2026-11"
     },
     {
       "clave": "010.000.6555.00",
@@ -258,7 +354,11 @@
       "therapeutic_group": "Endocrinología",
       "source_type": "patente",
       "cnis_listed": true,
-      "cofepris_registry": "1890SSA2016"
+      "cofepris_registry": "1890SSA2016",
+      "indication": "Type 2 diabetes mellitus, heart failure (HFrEF and HFpEF), chronic kidney disease",
+      "mechanism_of_action": "SGLT2 inhibitor. Reduces renal glucose reabsorption, providing glycosuria-mediated glycemic control plus cardiorenal protective effects.",
+      "patent_holder": "AstraZeneca",
+      "patent_expiry": "2025-10"
     }
   ],
   "adjudicaciones": [
@@ -271,7 +371,7 @@
       "supplier": "MSD México",
       "units_requested": 85000,
       "units_awarded": 72000,
-      "unit_price": 28745.50,
+      "unit_price": 28745.5,
       "total_amount": 2069676000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -286,11 +386,21 @@
       "supplier": "MSD México",
       "units_requested": 110000,
       "units_awarded": 98000,
-      "unit_price": 26890.00,
+      "unit_price": 26890.0,
       "total_amount": 2635220000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "MSD negotiated a 6.5% price reduction from previous cycle (28,745.50 to 26,890.00 MXN) in exchange for a 15% volume increase commitment. BIRMEX led negotiations with MSD citing international reference pricing from Brazil and Colombia.",
+      "competitor_bids": [
+        {
+          "supplier": "MSD Mexico",
+          "unit_price_offered": 26890.0,
+          "outcome": "awarded",
+          "reason": "Sole patent holder, negotiated price accepted"
+        }
+      ]
     },
     {
       "clave": "010.000.6317.00",
@@ -301,7 +411,7 @@
       "supplier": "MSD México",
       "units_requested": 35000,
       "units_awarded": 32000,
-      "unit_price": 26890.00,
+      "unit_price": 26890.0,
       "total_amount": 860480000.0,
       "institution": "ISSSTE",
       "therapeutic_group": "Oncología",
@@ -331,11 +441,21 @@
       "supplier": "Bristol-Myers Squibb de México",
       "units_requested": 78000,
       "units_awarded": 70000,
-      "unit_price": 17100.00,
+      "unit_price": 17100.0,
       "total_amount": 1197000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "BMS offered a 6.2% price reduction from 2023-2024 cycle. Negotiations referenced pembrolizumab pricing as a comparator in immuno-oncology class.",
+      "competitor_bids": [
+        {
+          "supplier": "Bristol-Myers Squibb de Mexico",
+          "unit_price_offered": 17100.0,
+          "outcome": "awarded",
+          "reason": "Sole patent holder for nivolumab 100mg"
+        }
+      ]
     },
     {
       "clave": "010.000.6246.00",
@@ -346,7 +466,7 @@
       "supplier": "Bristol-Myers Squibb de México",
       "units_requested": 40000,
       "units_awarded": 36000,
-      "unit_price": 7520.00,
+      "unit_price": 7520.0,
       "total_amount": 270720000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -361,7 +481,7 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 50000,
       "units_awarded": 48000,
-      "unit_price": 8950.00,
+      "unit_price": 8950.0,
       "total_amount": 429600000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -376,11 +496,33 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 55000,
       "units_awarded": 52000,
-      "unit_price": 7200.00,
+      "unit_price": 7200.0,
       "total_amount": 374400000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Biosimilar competition drove a 19.6% price reduction. Three biosimilar manufacturers participated. PiSA won on lowest price with equivalent quality dossier.",
+      "competitor_bids": [
+        {
+          "supplier": "Laboratorios PiSA",
+          "unit_price_offered": 7200.0,
+          "outcome": "awarded",
+          "reason": "Lowest compliant bid with COFEPRIS-approved biosimilar"
+        },
+        {
+          "supplier": "Probiomed",
+          "unit_price_offered": 7850.0,
+          "outcome": "second_place",
+          "reason": "Second lowest bid, COFEPRIS-approved biosimilar"
+        },
+        {
+          "supplier": "Roche Mexico",
+          "unit_price_offered": 9100.0,
+          "outcome": "rejected",
+          "reason": "Originator price exceeded budget threshold"
+        }
+      ]
     },
     {
       "clave": "010.000.5480.00",
@@ -391,7 +533,7 @@
       "supplier": "Laboratorios AMSA",
       "units_requested": 120000,
       "units_awarded": 120000,
-      "unit_price": 245.80,
+      "unit_price": 245.8,
       "total_amount": 29496000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -406,7 +548,7 @@
       "supplier": "Laboratorios AMSA",
       "units_requested": 115000,
       "units_awarded": 115000,
-      "unit_price": 198.50,
+      "unit_price": 198.5,
       "total_amount": 22827500.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -421,7 +563,7 @@
       "supplier": "Roche México",
       "units_requested": 45000,
       "units_awarded": 38000,
-      "unit_price": 8490.00,
+      "unit_price": 8490.0,
       "total_amount": 322620000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -436,11 +578,33 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 52000,
       "units_awarded": 48000,
-      "unit_price": 5980.00,
+      "unit_price": 5980.0,
       "total_amount": 287040000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Supplier switch from Roche (originator) to PiSA biosimilar yielded a 29.6% cost reduction. Biosimilar interchangeability assessment required by COFEPRIS.",
+      "competitor_bids": [
+        {
+          "supplier": "Laboratorios PiSA",
+          "unit_price_offered": 5980.0,
+          "outcome": "awarded",
+          "reason": "Lowest compliant bid, COFEPRIS biocomparability"
+        },
+        {
+          "supplier": "Roche Mexico",
+          "unit_price_offered": 7980.0,
+          "outcome": "second_place",
+          "reason": "Originator reference, higher price"
+        },
+        {
+          "supplier": "Probiomed",
+          "unit_price_offered": 6450.0,
+          "outcome": "rejected",
+          "reason": "Did not meet full technical requirements"
+        }
+      ]
     },
     {
       "clave": "010.000.4502.00",
@@ -451,7 +615,7 @@
       "supplier": "Roche México",
       "units_requested": 30000,
       "units_awarded": 28000,
-      "unit_price": 12350.00,
+      "unit_price": 12350.0,
       "total_amount": 345800000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -466,11 +630,33 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 35000,
       "units_awarded": 33000,
-      "unit_price": 6890.00,
+      "unit_price": 6890.0,
       "total_amount": 227370000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Major cost savings via biosimilar entry. PiSA biosimilar rituximab awarded at 44.2% below 2023-2024 originator price.",
+      "competitor_bids": [
+        {
+          "supplier": "Laboratorios PiSA",
+          "unit_price_offered": 6890.0,
+          "outcome": "awarded",
+          "reason": "Lowest compliant biosimilar bid"
+        },
+        {
+          "supplier": "Roche Mexico",
+          "unit_price_offered": 11800.0,
+          "outcome": "rejected",
+          "reason": "Price exceeded maximum reference price"
+        },
+        {
+          "supplier": "Probiomed",
+          "unit_price_offered": 7200.0,
+          "outcome": "second_place",
+          "reason": "Second lowest bid"
+        }
+      ]
     },
     {
       "clave": "010.000.5820.00",
@@ -481,7 +667,7 @@
       "supplier": "AbbVie México",
       "units_requested": 200000,
       "units_awarded": 185000,
-      "unit_price": 5430.00,
+      "unit_price": 5430.0,
       "total_amount": 1004550000.0,
       "institution": "IMSS",
       "therapeutic_group": "Inmunología y Reumatología",
@@ -496,11 +682,39 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 210000,
       "units_awarded": 200000,
-      "unit_price": 2890.00,
+      "unit_price": 2890.0,
       "total_amount": 578000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Inmunología y Reumatología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Biosimilar adalimumab market now well established in Mexico. PiSA won with a 46.8% price reduction vs the 2023-2024 AbbVie originator price. Four bidders participated.",
+      "competitor_bids": [
+        {
+          "supplier": "Laboratorios PiSA",
+          "unit_price_offered": 2890.0,
+          "outcome": "awarded",
+          "reason": "Lowest compliant bid, established biosimilar"
+        },
+        {
+          "supplier": "Probiomed",
+          "unit_price_offered": 3100.0,
+          "outcome": "second_place",
+          "reason": "Competitive bid, COFEPRIS-approved biosimilar"
+        },
+        {
+          "supplier": "AbbVie Mexico",
+          "unit_price_offered": 4200.0,
+          "outcome": "rejected",
+          "reason": "Originator price not competitive against biosimilar market"
+        },
+        {
+          "supplier": "Laboratorios Liomont",
+          "unit_price_offered": 3350.0,
+          "outcome": "rejected",
+          "reason": "Third lowest bid, exceeded budget allocation"
+        }
+      ]
     },
     {
       "clave": "010.000.4504.00",
@@ -511,7 +725,7 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 85000,
       "units_awarded": 80000,
-      "unit_price": 3450.00,
+      "unit_price": 3450.0,
       "total_amount": 276000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Inmunología y Reumatología",
@@ -526,7 +740,7 @@
       "supplier": "Sanofi-Aventis de México",
       "units_requested": 2500000,
       "units_awarded": 2300000,
-      "unit_price": 680.00,
+      "unit_price": 680.0,
       "total_amount": 1564000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
@@ -541,11 +755,27 @@
       "supplier": "Laboratorios PiSA",
       "units_requested": 2800000,
       "units_awarded": 2600000,
-      "unit_price": 520.00,
+      "unit_price": 520.0,
       "total_amount": 1352000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Insulin glargine biosimilar competition. PiSA awarded with a 23.5% reduction from Sanofi originator price. High-volume contract (2.8M units) critical for IMSS diabetes program.",
+      "competitor_bids": [
+        {
+          "supplier": "Laboratorios PiSA",
+          "unit_price_offered": 520.0,
+          "outcome": "awarded",
+          "reason": "Lowest compliant bid, biosimilar insulin"
+        },
+        {
+          "supplier": "Sanofi-Aventis de Mexico",
+          "unit_price_offered": 650.0,
+          "outcome": "second_place",
+          "reason": "Originator insulin, higher price"
+        }
+      ]
     },
     {
       "clave": "010.000.6375.00",
@@ -560,7 +790,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Roche did not submit a competitive offer for atezolizumab. Budget constraints and lack of agreement on volume commitments led to desierta declaration."
     },
     {
       "clave": "010.000.6375.00",
@@ -571,7 +803,7 @@
       "supplier": "Roche México",
       "units_requested": 32000,
       "units_awarded": 28000,
-      "unit_price": 32450.00,
+      "unit_price": 32450.0,
       "total_amount": 908600000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -590,7 +822,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "AstraZeneca and BIRMEX could not agree on pricing. First procurement attempt for durvalumab resulted in desierta due to price above reference threshold."
     },
     {
       "clave": "010.000.6376.00",
@@ -601,7 +835,7 @@
       "supplier": "AstraZeneca de México",
       "units_requested": 22000,
       "units_awarded": 18000,
-      "unit_price": 27800.00,
+      "unit_price": 27800.0,
       "total_amount": 500400000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
@@ -616,7 +850,7 @@
       "supplier": "Takeda México",
       "units_requested": 150000,
       "units_awarded": 130000,
-      "unit_price": 2850.00,
+      "unit_price": 2850.0,
       "total_amount": 370500000.0,
       "institution": "IMSS",
       "therapeutic_group": "Hematología",
@@ -631,7 +865,7 @@
       "supplier": "Takeda México",
       "units_requested": 160000,
       "units_awarded": 145000,
-      "unit_price": 2690.00,
+      "unit_price": 2690.0,
       "total_amount": 390050000.0,
       "institution": "IMSS",
       "therapeutic_group": "Hematología",
@@ -650,7 +884,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Hematología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Roche/Chugai pricing for emicizumab exceeded budget allocation. Patient access through exceptional procurement mechanism instead."
     },
     {
       "clave": "010.000.4507.00",
@@ -661,11 +897,21 @@
       "supplier": "Roche México",
       "units_requested": 12000,
       "units_awarded": 10000,
-      "unit_price": 42500.00,
+      "unit_price": 42500.0,
       "total_amount": 425000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Hematología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Emicizumab previously desierta in 2023-2024. Roche agreed to supply with a phased price reduction commitment over 3 cycles. Patient access program included for hemophilia A patients with inhibitors.",
+      "competitor_bids": [
+        {
+          "supplier": "Roche Mexico",
+          "unit_price_offered": 42500.0,
+          "outcome": "awarded",
+          "reason": "Sole manufacturer of bispecific hemophilia therapy"
+        }
+      ]
     },
     {
       "clave": "010.000.4380.00",
@@ -676,7 +922,7 @@
       "supplier": "Gilead Sciences México",
       "units_requested": 95000,
       "units_awarded": 90000,
-      "unit_price": 4800.00,
+      "unit_price": 4800.0,
       "total_amount": 432000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Infectología",
@@ -691,7 +937,7 @@
       "supplier": "ViiV Healthcare México",
       "units_requested": 180000,
       "units_awarded": 170000,
-      "unit_price": 3200.00,
+      "unit_price": 3200.0,
       "total_amount": 544000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Infectología",
@@ -706,7 +952,7 @@
       "supplier": "ViiV Healthcare México",
       "units_requested": 195000,
       "units_awarded": 185000,
-      "unit_price": 2980.00,
+      "unit_price": 2980.0,
       "total_amount": 551300000.0,
       "institution": "IMSS",
       "therapeutic_group": "Infectología",
@@ -755,7 +1001,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "AstraZeneca initial price offer exceeded the BIRMEX maximum reference price by 35%. No agreement reached; desierta declared."
     },
     {
       "clave": "010.000.6420.00",
@@ -766,11 +1014,21 @@
       "supplier": "AstraZeneca de México",
       "units_requested": 20000,
       "units_awarded": 16000,
-      "unit_price": 58900.00,
+      "unit_price": 58900.0,
       "total_amount": 942400000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "AstraZeneca agreed to supply osimertinib after it was declared desierta in 2023-2024 due to price disagreement. New agreement includes a patient access program for compassionate use cases beyond procurement volume.",
+      "competitor_bids": [
+        {
+          "supplier": "AstraZeneca de Mexico",
+          "unit_price_offered": 58900.0,
+          "outcome": "awarded",
+          "reason": "Sole patent holder, price agreed after extended negotiation"
+        }
+      ]
     },
     {
       "clave": "010.000.6425.00",
@@ -785,7 +1043,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "First procurement attempt for olaparib. AstraZeneca price offer deemed too high by negotiation committee. No alternative suppliers available."
     },
     {
       "clave": "010.000.6425.00",
@@ -796,11 +1056,21 @@
       "supplier": "AstraZeneca de México",
       "units_requested": 14000,
       "units_awarded": 11000,
-      "unit_price": 24500.00,
+      "unit_price": 24500.0,
       "total_amount": 269500000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Olaparib was desierta in 2023-2024. AstraZeneca agreed to participate in 2025-2026 with a risk-sharing scheme — partial rebate if real-world PFS data falls below trial benchmarks.",
+      "competitor_bids": [
+        {
+          "supplier": "AstraZeneca de Mexico",
+          "unit_price_offered": 24500.0,
+          "outcome": "awarded",
+          "reason": "Sole patent holder, outcome-based agreement reached"
+        }
+      ]
     },
     {
       "clave": "010.000.6430.00",
@@ -815,7 +1085,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Eisai did not submit a price offer. The company considered the maximum reference price set by BIRMEX to be below their floor price. Procurement declared desierta."
     },
     {
       "clave": "010.000.6430.00",
@@ -830,7 +1102,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Eisai did not submit a price offer. The company considered the maximum reference price set by BIRMEX to be below their floor price. Procurement declared desierta."
     },
     {
       "clave": "010.000.6500.00",
@@ -841,7 +1115,7 @@
       "supplier": "Biogen México",
       "units_requested": 1200,
       "units_awarded": 1000,
-      "unit_price": 1250000.00,
+      "unit_price": 1250000.0,
       "total_amount": 1250000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Neurología",
@@ -856,11 +1130,21 @@
       "supplier": "Biogen México",
       "units_requested": 1500,
       "units_awarded": 1200,
-      "unit_price": 1180000.00,
+      "unit_price": 1180000.0,
       "total_amount": 1416000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Neurología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Biogen negotiated a 5.6% price reduction for nusinersen. Government negotiators referenced risdiplam (oral SMA therapy) as a competitor, pressuring intrathecal ASO pricing. Biogen agreed to volume-based tiered pricing.",
+      "competitor_bids": [
+        {
+          "supplier": "Biogen Mexico",
+          "unit_price_offered": 1180000.0,
+          "outcome": "awarded",
+          "reason": "Sole intrathecal SMA therapy, negotiated reduction"
+        }
+      ]
     },
     {
       "clave": "010.000.6505.00",
@@ -871,11 +1155,21 @@
       "supplier": "Roche México",
       "units_requested": 2000,
       "units_awarded": 1800,
-      "unit_price": 185000.00,
+      "unit_price": 185000.0,
       "total_amount": 333000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Neurología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "First procurement cycle for risdiplam in Mexico. Roche positioned oral SMA therapy as a complement to nusinersen. Price set through international reference pricing benchmarking with Argentina and Colombia.",
+      "competitor_bids": [
+        {
+          "supplier": "Roche Mexico",
+          "unit_price_offered": 185000.0,
+          "outcome": "awarded",
+          "reason": "Sole manufacturer, first-cycle procurement"
+        }
+      ]
     },
     {
       "clave": "010.000.6510.00",
@@ -890,7 +1184,9 @@
       "total_amount": 0.0,
       "institution": "IMSS",
       "therapeutic_group": "Dermatología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Sanofi/Regeneron price offer for dupilumab not accepted. BIRMEX reference price based on international benchmarks was below Sanofi floor price."
     },
     {
       "clave": "010.000.6510.00",
@@ -901,11 +1197,21 @@
       "supplier": "Sanofi-Aventis de México",
       "units_requested": 35000,
       "units_awarded": 30000,
-      "unit_price": 12800.00,
+      "unit_price": 12800.0,
       "total_amount": 384000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Dermatología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Dupilumab declared desierta in 2023-2024 due to unresolved price negotiations. Sanofi agreed to a managed entry agreement with real-world evidence collection for 2025-2026.",
+      "competitor_bids": [
+        {
+          "supplier": "Sanofi-Aventis de Mexico",
+          "unit_price_offered": 12800.0,
+          "outcome": "awarded",
+          "reason": "Sole manufacturer, managed entry agreement"
+        }
+      ]
     },
     {
       "clave": "010.000.6550.00",
@@ -916,7 +1222,7 @@
       "supplier": "Novartis Farmacéutica México",
       "units_requested": 500000,
       "units_awarded": 480000,
-      "unit_price": 198.50,
+      "unit_price": 198.5,
       "total_amount": 95280000.0,
       "institution": "IMSS",
       "therapeutic_group": "Cardiología",
@@ -931,7 +1237,7 @@
       "supplier": "Novartis Farmacéutica México",
       "units_requested": 600000,
       "units_awarded": 570000,
-      "unit_price": 175.00,
+      "unit_price": 175.0,
       "total_amount": 99750000.0,
       "institution": "IMSS",
       "therapeutic_group": "Cardiología",
@@ -946,7 +1252,7 @@
       "supplier": "AstraZeneca de México",
       "units_requested": 3000000,
       "units_awarded": 2800000,
-      "unit_price": 42.50,
+      "unit_price": 42.5,
       "total_amount": 119000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
@@ -961,11 +1267,191 @@
       "supplier": "AstraZeneca de México",
       "units_requested": 3500000,
       "units_awarded": 3300000,
-      "unit_price": 38.90,
+      "unit_price": 38.9,
       "total_amount": 128370000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
       "source_type": "patente"
+    },
+    {
+      "clave": "010.000.6317.00",
+      "description": "PEMBROLIZUMAB 100 mg",
+      "active_substance": "pembrolizumab",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "MSD Mexico",
+      "units_requested": 8000,
+      "units_awarded": 7000,
+      "unit_price": 26890.0,
+      "total_amount": 188230000.0,
+      "institution": "PEMEX",
+      "therapeutic_group": "Oncologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Same price as IMSS consolidated negotiation.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.6245.00",
+      "description": "NIVOLUMAB 100 mg",
+      "active_substance": "nivolumab",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "Bristol-Myers Squibb de Mexico",
+      "units_requested": 18000,
+      "units_awarded": 15000,
+      "unit_price": 17100.0,
+      "total_amount": 256500000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Oncologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Consolidated price aligned with IMSS negotiation.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.5820.00",
+      "description": "ADALIMUMAB 40 mg",
+      "active_substance": "adalimumab",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "Laboratorios PiSA",
+      "units_requested": 60000,
+      "units_awarded": 55000,
+      "unit_price": 2890.0,
+      "total_amount": 158950000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Inmunologia y Reumatologia",
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "ISSSTE joined consolidated procurement at same biosimilar price.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.4357.00",
+      "description": "INSULINA GLARGINA 100 UI/mL",
+      "active_substance": "insulina glargina",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "Laboratorios PiSA",
+      "units_requested": 900000,
+      "units_awarded": 820000,
+      "unit_price": 520.0,
+      "total_amount": 426400000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Endocrinologia",
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "ISSSTE volume consolidated with IMSS procurement.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.2105.00",
+      "description": "METFORMINA 850 mg",
+      "active_substance": "metformina",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "Laboratorios AMSA",
+      "units_requested": 5000000,
+      "units_awarded": 5000000,
+      "unit_price": 1.72,
+      "total_amount": 8600000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Endocrinologia",
+      "source_type": "generico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.4389.00",
+      "description": "DOLUTEGRAVIR/ABACAVIR/LAMIVUDINA",
+      "active_substance": "dolutegravir/abacavir/lamivudina",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "ViiV Healthcare Mexico",
+      "units_requested": 45000,
+      "units_awarded": 42000,
+      "unit_price": 2980.0,
+      "total_amount": 125160000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Infectologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Consolidated ARV procurement price.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.6555.00",
+      "description": "DAPAGLIFLOZINA 10 mg",
+      "active_substance": "dapagliflozina",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "AstraZeneca de Mexico",
+      "units_requested": 800000,
+      "units_awarded": 750000,
+      "unit_price": 38.9,
+      "total_amount": 29175000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Endocrinologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Consolidated price with IMSS.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.6550.00",
+      "description": "SACUBITRILO/VALSARTAN 97/103 mg",
+      "active_substance": "sacubitrilo/valsartan",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "Novartis Farmaceutica Mexico",
+      "units_requested": 150000,
+      "units_awarded": 140000,
+      "unit_price": 175.0,
+      "total_amount": 24500000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Cardiologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Consolidated price across institutions.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.4380.00",
+      "description": "SOFOSBUVIR/VELPATASVIR 400/100 mg",
+      "active_substance": "sofosbuvir/velpatasvir",
+      "cycle": "2025-2026",
+      "status": "adjudicada",
+      "supplier": "Gilead Sciences Mexico",
+      "units_requested": 25000,
+      "units_awarded": 22000,
+      "unit_price": 4800.0,
+      "total_amount": 105600000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Infectologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Hepatitis C elimination program — consolidated procurement.",
+      "competitor_bids": []
+    },
+    {
+      "clave": "010.000.6430.00",
+      "description": "LENVATINIB 10 mg",
+      "active_substance": "lenvatinib",
+      "cycle": "2025-2026",
+      "status": "desierta",
+      "supplier": "",
+      "units_requested": 3000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Oncologia",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Eisai declined to participate — price disagreement persists across both IMSS and ISSSTE.",
+      "competitor_bids": []
     }
   ]
 }

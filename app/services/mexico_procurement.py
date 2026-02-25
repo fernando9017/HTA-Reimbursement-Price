@@ -11,7 +11,10 @@ from pathlib import Path
 
 from app.models import (
     AdjudicacionResult,
+    ClaveDetailResult,
     ClaveResult,
+    CompetitorBid,
+    InstitutionSummary,
     MexicoAdjudicacionResponse,
     MexicoProcurementFilters,
     MexicoSearchResponse,
@@ -147,6 +150,10 @@ class MexicoProcurementService:
                 latest_status=latest_status,
                 latest_unit_price=latest_price,
                 institutions=institutions,
+                indication=c.get("indication", ""),
+                mechanism_of_action=c.get("mechanism_of_action", ""),
+                patent_holder=c.get("patent_holder", ""),
+                patent_expiry=c.get("patent_expiry", ""),
             ))
 
             if len(results) >= limit:
@@ -185,21 +192,7 @@ class MexicoProcurementService:
             if sub_q and sub_q not in a.get("active_substance", "").lower():
                 continue
 
-            results.append(AdjudicacionResult(
-                clave=a["clave"],
-                description=a.get("description", ""),
-                active_substance=a.get("active_substance", ""),
-                cycle=a.get("cycle", ""),
-                status=a.get("status", ""),
-                supplier=a.get("supplier", ""),
-                units_requested=a.get("units_requested", 0),
-                units_awarded=a.get("units_awarded", 0),
-                unit_price=a.get("unit_price", 0.0),
-                total_amount=a.get("total_amount", 0.0),
-                institution=a.get("institution", ""),
-                therapeutic_group=a.get("therapeutic_group", ""),
-                source_type=a.get("source_type", ""),
-            ))
+            results.append(self._build_adjudicacion(a))
 
             if len(results) >= limit:
                 break
@@ -242,6 +235,7 @@ class MexicoProcurementService:
                     supplier=a.get("supplier", ""),
                     units_awarded=a.get("units_awarded", 0),
                     status=a.get("status", ""),
+                    institution=a.get("institution", ""),
                 ))
 
         # Sort by cycle chronologically
@@ -303,27 +297,189 @@ class MexicoProcurementService:
 
         for a in self._adjudicaciones:
             if a.get("status", "").lower() == "desierta":
-                desiertas.append(AdjudicacionResult(
-                    clave=a["clave"],
-                    description=a.get("description", ""),
-                    active_substance=a.get("active_substance", ""),
-                    cycle=a.get("cycle", ""),
-                    status="desierta",
-                    supplier="",
-                    units_requested=a.get("units_requested", 0),
-                    units_awarded=0,
-                    unit_price=0.0,
-                    total_amount=0.0,
-                    institution=a.get("institution", ""),
-                    therapeutic_group=a.get("therapeutic_group", ""),
-                    source_type=a.get("source_type", ""),
-                ))
+                desiertas.append(self._build_adjudicacion(a))
 
         # Sort by most recent cycle first, then by highest demand
         desiertas.sort(key=lambda d: (d.cycle, d.units_requested), reverse=True)
         return desiertas[:limit]
 
+    # ── Clave detail ──────────────────────────────────────────────────
+
+    def get_clave_detail(self, clave: str) -> ClaveDetailResult | None:
+        """Get a full intelligence profile for a single clave.
+
+        Includes molecule info, all adjudicaciones, price history,
+        and other claves with the same active substance (competitor landscape).
+        """
+        clave_data = None
+        for c in self._claves:
+            if c["clave"] == clave:
+                clave_data = c
+                break
+
+        if clave_data is None:
+            return None
+
+        substance = clave_data.get("active_substance", "").lower()
+
+        # All adjudicaciones for this clave
+        adj_list = [
+            self._build_adjudicacion(a)
+            for a in self._adjudicaciones
+            if a["clave"] == clave
+        ]
+        adj_list.sort(key=lambda a: (a.cycle, a.institution))
+
+        # Price history
+        price_hist = self.get_price_history(clave)
+
+        # Same-substance claves (competitor landscape)
+        same_substance: list[ClaveResult] = []
+        for c in self._claves:
+            if c["clave"] != clave and c.get("active_substance", "").lower() == substance:
+                lat_cyc, lat_st, lat_pr = self._latest_adjudicacion(c["clave"])
+                same_substance.append(ClaveResult(
+                    clave=c["clave"],
+                    description=c.get("description", ""),
+                    active_substance=c.get("active_substance", ""),
+                    atc_code=c.get("atc_code", ""),
+                    therapeutic_group=c.get("therapeutic_group", ""),
+                    source_type=c.get("source_type", ""),
+                    cnis_listed=c.get("cnis_listed", False),
+                    cofepris_registry=c.get("cofepris_registry", ""),
+                    latest_cycle=lat_cyc,
+                    latest_status=lat_st,
+                    latest_unit_price=lat_pr,
+                    institutions=self._clave_institutions(c["clave"]),
+                ))
+
+        return ClaveDetailResult(
+            clave=clave,
+            description=clave_data.get("description", ""),
+            active_substance=clave_data.get("active_substance", ""),
+            atc_code=clave_data.get("atc_code", ""),
+            therapeutic_group=clave_data.get("therapeutic_group", ""),
+            source_type=clave_data.get("source_type", ""),
+            cnis_listed=clave_data.get("cnis_listed", False),
+            cofepris_registry=clave_data.get("cofepris_registry", ""),
+            indication=clave_data.get("indication", ""),
+            mechanism_of_action=clave_data.get("mechanism_of_action", ""),
+            patent_holder=clave_data.get("patent_holder", ""),
+            patent_expiry=clave_data.get("patent_expiry", ""),
+            adjudicaciones=adj_list,
+            price_history=price_hist,
+            same_substance_claves=same_substance,
+        )
+
+    # ── Institution breakdown ─────────────────────────────────────────
+
+    def get_institution_breakdown(self, cycle: str = "") -> list[InstitutionSummary]:
+        """Aggregate procurement stats per institution.
+
+        Groups adjudicaciones by institution and computes spend, fulfillment,
+        top therapeutic areas, and top suppliers for each.
+        """
+        # Group by institution
+        inst_data: dict[str, list[dict]] = {}
+        for a in self._adjudicaciones:
+            if cycle and a.get("cycle", "") != cycle:
+                continue
+            inst = a.get("institution", "Unknown")
+            inst_data.setdefault(inst, []).append(a)
+
+        results: list[InstitutionSummary] = []
+        for inst, records in sorted(inst_data.items()):
+            total_spend = 0.0
+            total_req = 0
+            total_awarded = 0
+            adj_count = 0
+            des_count = 0
+            claves_set: set[str] = set()
+            group_spend: dict[str, float] = {}
+            group_claves: dict[str, set] = {}
+            supplier_spend: dict[str, float] = {}
+            supplier_claves: dict[str, set] = {}
+
+            for r in records:
+                claves_set.add(r["clave"])
+                total_spend += r.get("total_amount", 0)
+                total_req += r.get("units_requested", 0)
+                total_awarded += r.get("units_awarded", 0)
+                if r.get("status", "").lower() == "adjudicada":
+                    adj_count += 1
+                elif r.get("status", "").lower() == "desierta":
+                    des_count += 1
+
+                grp = r.get("therapeutic_group", "Other")
+                group_spend[grp] = group_spend.get(grp, 0) + r.get("total_amount", 0)
+                group_claves.setdefault(grp, set()).add(r["clave"])
+
+                sup = r.get("supplier", "")
+                if sup:
+                    supplier_spend[sup] = supplier_spend.get(sup, 0) + r.get("total_amount", 0)
+                    supplier_claves.setdefault(sup, set()).add(r["clave"])
+
+            fulfillment = 0.0
+            if total_req > 0:
+                fulfillment = round((total_awarded / total_req) * 100, 1)
+
+            top_groups = sorted(
+                [{"group": g, "spend": round(s, 2), "claves": len(group_claves.get(g, set()))}
+                 for g, s in group_spend.items()],
+                key=lambda x: x["spend"],
+                reverse=True,
+            )[:5]
+
+            top_suppliers = sorted(
+                [{"supplier": s, "spend": round(sp, 2), "claves": len(supplier_claves.get(s, set()))}
+                 for s, sp in supplier_spend.items()],
+                key=lambda x: x["spend"],
+                reverse=True,
+            )[:5]
+
+            results.append(InstitutionSummary(
+                institution=inst,
+                total_claves=len(claves_set),
+                total_spend_mxn=round(total_spend, 2),
+                total_units_requested=total_req,
+                total_units_awarded=total_awarded,
+                fulfillment_rate_pct=fulfillment,
+                adjudicadas=adj_count,
+                desiertas=des_count,
+                top_therapeutic_groups=top_groups,
+                top_suppliers=top_suppliers,
+            ))
+
+        # Sort by total spend descending
+        results.sort(key=lambda r: r.total_spend_mxn, reverse=True)
+        return results
+
     # ── Internal helpers ──────────────────────────────────────────────
+
+    def _build_adjudicacion(self, a: dict) -> AdjudicacionResult:
+        """Build an AdjudicacionResult from a raw dict, including negotiation context."""
+        bids = [
+            CompetitorBid(**b)
+            for b in a.get("competitor_bids", [])
+        ]
+        return AdjudicacionResult(
+            clave=a["clave"],
+            description=a.get("description", ""),
+            active_substance=a.get("active_substance", ""),
+            cycle=a.get("cycle", ""),
+            status=a.get("status", ""),
+            supplier=a.get("supplier", ""),
+            units_requested=a.get("units_requested", 0),
+            units_awarded=a.get("units_awarded", 0),
+            unit_price=a.get("unit_price", 0.0),
+            total_amount=a.get("total_amount", 0.0),
+            institution=a.get("institution", ""),
+            therapeutic_group=a.get("therapeutic_group", ""),
+            source_type=a.get("source_type", ""),
+            negotiation_type=a.get("negotiation_type", ""),
+            negotiation_notes=a.get("negotiation_notes", ""),
+            competitor_bids=bids,
+        )
 
     def _latest_adjudicacion(self, clave: str) -> tuple[str, str, float]:
         """Find the latest cycle, status, and price for a clave."""

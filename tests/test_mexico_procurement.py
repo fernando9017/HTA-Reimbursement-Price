@@ -17,6 +17,10 @@ SAMPLE_CLAVES = [
         "source_type": "patente",
         "cnis_listed": True,
         "cofepris_registry": "1657SSA2014",
+        "indication": "Melanoma, NSCLC, head and neck carcinoma",
+        "mechanism_of_action": "Anti-PD-1 monoclonal antibody",
+        "patent_holder": "Merck Sharp & Dohme (MSD)",
+        "patent_expiry": "2028-10",
     },
     {
         "clave": "010.000.5480.00",
@@ -27,6 +31,10 @@ SAMPLE_CLAVES = [
         "source_type": "generico",
         "cnis_listed": True,
         "cofepris_registry": "0217SSA2002",
+        "indication": "CML, KIT-positive GIST",
+        "mechanism_of_action": "BCR-ABL tyrosine kinase inhibitor",
+        "patent_holder": "Novartis (generic)",
+        "patent_expiry": "2016-01",
     },
     {
         "clave": "010.000.5820.00",
@@ -37,6 +45,10 @@ SAMPLE_CLAVES = [
         "source_type": "biotecnologico",
         "cnis_listed": True,
         "cofepris_registry": "0721SSA2007",
+        "indication": "Rheumatoid arthritis, psoriatic arthritis, Crohn disease",
+        "mechanism_of_action": "Anti-TNF-alpha monoclonal antibody",
+        "patent_holder": "AbbVie (biosimilars available)",
+        "patent_expiry": "2023-01",
     },
     {
         "clave": "010.000.6430.00",
@@ -47,6 +59,10 @@ SAMPLE_CLAVES = [
         "source_type": "patente",
         "cnis_listed": False,
         "cofepris_registry": "2098SSA2018",
+        "indication": "Thyroid carcinoma, hepatocellular carcinoma",
+        "mechanism_of_action": "Multi-kinase inhibitor",
+        "patent_holder": "Eisai",
+        "patent_expiry": "2027-07",
     },
 ]
 
@@ -80,6 +96,12 @@ SAMPLE_ADJUDICACIONES = [
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
+        "negotiation_type": "mesa_patente",
+        "negotiation_notes": "MSD negotiated a 6.5% price reduction from previous cycle.",
+        "competitor_bids": [
+            {"supplier": "MSD México", "unit_price_offered": 26890.00,
+             "outcome": "awarded", "reason": "Sole patent holder"},
+        ],
     },
     {
         "clave": "010.000.6317.00",
@@ -125,6 +147,16 @@ SAMPLE_ADJUDICACIONES = [
         "institution": "IMSS",
         "therapeutic_group": "Inmunología y Reumatología",
         "source_type": "biotecnologico",
+        "negotiation_type": "licitacion_publica",
+        "negotiation_notes": "Biosimilar competition drove a 46.8% price reduction vs originator.",
+        "competitor_bids": [
+            {"supplier": "Laboratorios PiSA", "unit_price_offered": 2890.00,
+             "outcome": "awarded", "reason": "Lowest compliant biosimilar bid"},
+            {"supplier": "Probiomed", "unit_price_offered": 3100.00,
+             "outcome": "second_place", "reason": "Second lowest bid"},
+            {"supplier": "AbbVie México", "unit_price_offered": 4200.00,
+             "outcome": "rejected", "reason": "Originator price not competitive"},
+        ],
     },
     {
         "clave": "010.000.6430.00",
@@ -140,6 +172,8 @@ SAMPLE_ADJUDICACIONES = [
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
+        "negotiation_type": "mesa_patente",
+        "negotiation_notes": "Eisai did not submit a price offer below reference threshold.",
     },
     {
         "clave": "010.000.6430.00",
@@ -155,6 +189,8 @@ SAMPLE_ADJUDICACIONES = [
         "institution": "IMSS",
         "therapeutic_group": "Oncología",
         "source_type": "patente",
+        "negotiation_type": "mesa_patente",
+        "negotiation_notes": "Price disagreement persists. Eisai declined to participate.",
     },
 ]
 
@@ -392,3 +428,167 @@ def test_load_from_real_data_file():
         assert result is True
         assert svc.is_loaded is True
         assert svc.clave_count > 0
+
+
+# ── Clave detail tests ──────────────────────────────────────────────
+
+
+def test_clave_detail_found(service):
+    detail = service.get_clave_detail("010.000.6317.00")
+    assert detail is not None
+    assert detail.clave == "010.000.6317.00"
+    assert detail.active_substance == "pembrolizumab"
+    assert detail.therapeutic_group == "Oncología"
+    assert detail.source_type == "patente"
+
+
+def test_clave_detail_not_found(service):
+    detail = service.get_clave_detail("999.999.9999.99")
+    assert detail is None
+
+
+def test_clave_detail_molecule_info(service):
+    detail = service.get_clave_detail("010.000.6317.00")
+    assert detail.indication == "Melanoma, NSCLC, head and neck carcinoma"
+    assert detail.mechanism_of_action == "Anti-PD-1 monoclonal antibody"
+    assert detail.patent_holder == "Merck Sharp & Dohme (MSD)"
+    assert detail.patent_expiry == "2028-10"
+
+
+def test_clave_detail_adjudicaciones(service):
+    detail = service.get_clave_detail("010.000.6317.00")
+    assert len(detail.adjudicaciones) == 3  # 2023-2024 IMSS + 2025-2026 IMSS + ISSSTE
+    institutions = {a.institution for a in detail.adjudicaciones}
+    assert "IMSS" in institutions
+    assert "ISSSTE" in institutions
+
+
+def test_clave_detail_price_history(service):
+    detail = service.get_clave_detail("010.000.6317.00")
+    assert detail.price_history is not None
+    assert len(detail.price_history.entries) == 3
+    assert detail.price_history.price_change_pct < 0  # price dropped
+
+
+def test_clave_detail_negotiation_context(service):
+    detail = service.get_clave_detail("010.000.6317.00")
+    # The 2025-2026 IMSS record has negotiation context
+    imss_2025 = [a for a in detail.adjudicaciones
+                 if a.cycle == "2025-2026" and a.institution == "IMSS"]
+    assert len(imss_2025) == 1
+    assert imss_2025[0].negotiation_type == "mesa_patente"
+    assert "6.5%" in imss_2025[0].negotiation_notes
+
+
+def test_clave_detail_competitor_bids(service):
+    detail = service.get_clave_detail("010.000.5820.00")
+    # Adalimumab 2025-2026 has competitor bids
+    adj = detail.adjudicaciones[0]
+    assert len(adj.competitor_bids) == 3
+    awarded = [b for b in adj.competitor_bids if b.outcome == "awarded"]
+    assert len(awarded) == 1
+    assert awarded[0].supplier == "Laboratorios PiSA"
+    rejected = [b for b in adj.competitor_bids if b.outcome == "rejected"]
+    assert len(rejected) == 1
+    assert rejected[0].supplier == "AbbVie México"
+
+
+def test_clave_detail_same_substance_empty(service):
+    """Only one clave per substance in sample data, so same_substance should be empty."""
+    detail = service.get_clave_detail("010.000.6317.00")
+    assert detail.same_substance_claves == []
+
+
+# ── Institution breakdown tests ─────────────────────────────────────
+
+
+def test_institution_breakdown_all(service):
+    breakdown = service.get_institution_breakdown()
+    assert len(breakdown) == 2  # IMSS and ISSSTE
+    inst_names = {b.institution for b in breakdown}
+    assert "IMSS" in inst_names
+    assert "ISSSTE" in inst_names
+
+
+def test_institution_breakdown_by_cycle(service):
+    breakdown = service.get_institution_breakdown(cycle="2025-2026")
+    assert len(breakdown) >= 1
+    # IMSS should be the largest by spend
+    assert breakdown[0].institution == "IMSS"
+    assert breakdown[0].total_spend_mxn > 0
+
+
+def test_institution_breakdown_imss_stats(service):
+    breakdown = service.get_institution_breakdown()
+    imss = [b for b in breakdown if b.institution == "IMSS"][0]
+    assert imss.total_claves >= 3
+    assert imss.adjudicadas >= 3
+    assert imss.desiertas >= 1
+    assert imss.fulfillment_rate_pct > 0
+    assert imss.total_spend_mxn > 0
+
+
+def test_institution_breakdown_top_groups(service):
+    breakdown = service.get_institution_breakdown()
+    imss = [b for b in breakdown if b.institution == "IMSS"][0]
+    assert len(imss.top_therapeutic_groups) >= 1
+    # Oncología should be a top group
+    group_names = {g["group"] for g in imss.top_therapeutic_groups}
+    assert "Oncología" in group_names
+
+
+def test_institution_breakdown_top_suppliers(service):
+    breakdown = service.get_institution_breakdown()
+    imss = [b for b in breakdown if b.institution == "IMSS"][0]
+    assert len(imss.top_suppliers) >= 1
+
+
+def test_institution_breakdown_empty_cycle(service):
+    breakdown = service.get_institution_breakdown(cycle="2099-2100")
+    assert len(breakdown) == 0
+
+
+# ── Negotiation context tests ───────────────────────────────────────
+
+
+def test_adjudicacion_negotiation_type(service):
+    result = service.search_adjudicaciones(substance="pembrolizumab", cycle="2025-2026")
+    # At least the IMSS record has negotiation_type
+    types = {r.negotiation_type for r in result.results if r.negotiation_type}
+    assert "mesa_patente" in types
+
+
+def test_adjudicacion_negotiation_notes(service):
+    result = service.search_adjudicaciones(status="desierta")
+    # Desierta lenvatinib records have notes
+    for r in result.results:
+        assert r.negotiation_notes  # all desierta in sample have notes
+
+
+def test_adjudicacion_competitor_bids_in_search(service):
+    result = service.search_adjudicaciones(substance="adalimumab")
+    assert result.total == 1
+    adj = result.results[0]
+    assert len(adj.competitor_bids) == 3
+
+
+# ── Price history with institution ──────────────────────────────────
+
+
+def test_price_history_institution_field(service):
+    result = service.get_price_history("010.000.6317.00")
+    institutions = {e.institution for e in result.entries}
+    assert "IMSS" in institutions
+    assert "ISSSTE" in institutions
+
+
+# ── Molecule info in search results ─────────────────────────────────
+
+
+def test_search_includes_molecule_info(service):
+    result = service.search_claves(query="pembrolizumab")
+    c = result.results[0]
+    assert c.indication == "Melanoma, NSCLC, head and neck carcinoma"
+    assert c.mechanism_of_action == "Anti-PD-1 monoclonal antibody"
+    assert c.patent_holder == "Merck Sharp & Dohme (MSD)"
+    assert c.patent_expiry == "2028-10"
