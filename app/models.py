@@ -166,3 +166,89 @@ class AnalogueResponse(BaseModel):
 
     total: int
     results: list[AnalogueResult]
+
+
+# ── Mexico Pharma Procurement models ───────────────────────────────
+
+
+class ClaveResult(BaseModel):
+    """A product code (clave) in Mexico's consolidated procurement system."""
+
+    clave: str                          # e.g., "010.000.6317.00"
+    description: str                    # Full product description / presentation
+    active_substance: str               # INN (International Nonproprietary Name)
+    atc_code: str = ""
+    therapeutic_group: str = ""
+    source_type: str = ""               # "patente", "fuente_unica", "generico", "biotecnologico"
+    cnis_listed: bool = False           # Listed in Compendio Nacional de Insumos para la Salud
+    cofepris_registry: str = ""         # COFEPRIS sanitary registry number
+    latest_cycle: str = ""              # Most recent procurement cycle
+    latest_status: str = ""             # Status in most recent cycle
+    latest_unit_price: float = 0.0      # Most recent award price per unit (MXN)
+    institutions: list[str] = []        # Institutions that demand this clave
+
+
+class AdjudicacionResult(BaseModel):
+    """A procurement award for a clave in a specific cycle."""
+
+    clave: str
+    description: str
+    active_substance: str
+    cycle: str                          # e.g., "2025-2026"
+    status: str                         # "adjudicada", "desierta", "en_proceso", "cancelada"
+    supplier: str = ""
+    units_requested: int = 0
+    units_awarded: int = 0
+    unit_price: float = 0.0             # MXN per unit
+    total_amount: float = 0.0           # MXN total
+    institution: str = ""               # Requesting institution (IMSS, ISSSTE, etc.)
+    therapeutic_group: str = ""
+    source_type: str = ""
+
+
+class PriceHistoryEntry(BaseModel):
+    """A single price point for a clave in a procurement cycle."""
+
+    cycle: str
+    unit_price: float
+    currency: str = "MXN"
+    supplier: str = ""
+    units_awarded: int = 0
+    status: str = ""
+
+
+class PriceHistoryResult(BaseModel):
+    """Full price history for a specific clave."""
+
+    clave: str
+    description: str
+    active_substance: str
+    source_type: str = ""
+    entries: list[PriceHistoryEntry]
+    price_change_pct: float = 0.0       # % change from earliest to latest cycle
+
+
+class MexicoSearchResponse(BaseModel):
+    """Response for Mexico procurement clave search."""
+
+    total: int
+    results: list[ClaveResult]
+
+
+class MexicoAdjudicacionResponse(BaseModel):
+    """Response for adjudicaciones query."""
+
+    total: int
+    cycle: str
+    summary: dict = {}                  # Aggregate stats: adjudicadas, desiertas, etc.
+    results: list[AdjudicacionResult]
+
+
+class MexicoProcurementFilters(BaseModel):
+    """Available filter options for Mexico procurement module."""
+
+    cycles: list[str]
+    therapeutic_groups: list[str]
+    institutions: list[str]
+    source_types: list[str]
+    statuses: list[str]
