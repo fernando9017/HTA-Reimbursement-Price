@@ -1256,13 +1256,16 @@ const COUNTRIES = [
             {
                 id: "early_access",
                 title: "Early Access Programs",
-                body: "Denmark\u2019s early access system is based on compassionate use permits (udleveringstilladelser), governed by Section 29(1) of the Danish Medicines Act (L\u00e6gemiddelloven). The DKMA can authorize the sale or dispensing of medicines not marketed in Denmark when no adequate alternative is available. Two types exist: individual permits (enkelt udleveringstilladelse) for a single patient, and general permits (generel udleveringstilladelse) for a patient group at a hospital department or practice. Permits are valid for up to 5 years. Urgent cases can be fast-tracked. Only physicians, dentists, or veterinarians may apply.",
+                body: "Denmark has multiple pathways for early access to medicines. The primary system is compassionate use permits (udleveringstilladelser), governed by Section 29 of the Danish Medicines Act (L\u00e6gemiddelloven). The DKMA processes ~9,000 applications per year. Two permit types exist: individual (enkelt udleveringstilladelse) for a single patient, and general (generel udleveringstilladelse) for a patient group. Since January 2024, Section 29(2) also allows DKMA to proactively authorize non-marketed medicines during supply shortages without a doctor\u2019s application. Additionally, the Expert Advisory Panel (Sundhedsstyrelsen, Health Act Section 89) advises on experimental treatment for patients with life-threatening diseases, and Individuel ibrugtagning allows hospital physicians to request access to EMA-approved medicines not yet recommended by Medicinr\u00e5det.",
                 links: [
                     { label: "DKMA \u2014 Compassionate Use Permits (English)", url: "https://laegemiddelstyrelsen.dk/en/licensing/compassionate-use-permits/" },
                     { label: "DKMA \u2014 Udleveringstilladelser (Danish, with application forms)", url: "https://laegemiddelstyrelsen.dk/da/godkendelse/udleveringstilladelser/mennesker/" },
                     { label: "DKMA \u2014 Application Guide (vejledning til ans\u00f8gningsskema)", url: "https://laegemiddelstyrelsen.dk/da/godkendelse/udleveringstilladelser/mennesker/vejledning-til-ansoegningsskema-om-human-enkelt-og-human-generel-udleveringstilladelse" },
+                    { label: "DKMA \u2014 Foreign Medicines under Section 29(2) (supply shortages)", url: "https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/udenlandske-laegemidler-som-kan-udleveres-efter-laegemiddellovens-29,-stk-2/" },
+                    { label: "Sundhedsstyrelsen \u2014 Expert Panel for Experimental Treatment", url: "https://www.sst.dk/udgivelser/2025/raadgivning-om-eksperimentel-behandling-af-mennesker-med-livstruende-sygdom-i-2024" },
                     { label: "EMA \u2014 EU Compassionate Use Framework", url: "https://www.ema.europa.eu/en/human-regulatory-overview/research-development/compassionate-use" },
                     { label: "Virk.dk \u2014 Online Application for Individual Permit", url: "https://virk.dk/myndigheder/stat/DKMA/selvbetjening/Ansoegning_om_human_enkelt_udleveringstilladelse/" },
+                    { label: "L\u00e6gemiddelloven Section 29 (legal text)", url: "https://www.elov.dk/laegemiddelloven/paragraf/29/" },
                 ],
             },
             {
@@ -1311,7 +1314,7 @@ const COUNTRIES = [
     <li>Quarterly <a href="https://www.amgros.dk/viden-og-analyser/rapporteringer/markedsovervaagning/" target="_blank" rel="noopener">Market Surveillance reports</a> track spending, volumes, and compliance with Medicinr&aring;det recommendations</li>
 </ol>
 <h4 class="tips-heading">Early Access &mdash; Compassionate Use Permits (Udleveringstilladelser)</h4>
-<p>Denmark provides access to non-marketed medicines through <strong>compassionate use permits</strong> (udleveringstilladelser), regulated under Section 29(1) of the Danish Medicines Act (L&aelig;gemiddelloven). The system is permit-based and administered by the DKMA.</p>
+<p>Denmark provides access to non-marketed medicines through <strong>compassionate use permits</strong> (udleveringstilladelser), regulated under <a href="https://www.elov.dk/laegemiddelloven/paragraf/29/" target="_blank" rel="noopener">Section 29 of the Danish Medicines Act</a> (L&aelig;gemiddelloven). The DKMA processes approximately <strong>9,000 applications per year</strong>.</p>
 <ol>
     <li><strong>Two permit types:</strong>
         <ul>
@@ -1319,14 +1322,35 @@ const COUNTRIES = [
             <li><strong>Generel udleveringstilladelse</strong> (general permit) &mdash; for a group of patients at a hospital department or practice. Covers a specific product for a defined patient population</li>
         </ul>
     </li>
-    <li><strong>Key requirements:</strong> the medicine must be manufactured by a pharmaceutical company (magistral/pharmacy-compounded products have a separate route); there must be no adequate marketed alternative in Denmark; and sufficient therapeutic justification must be documented</li>
-    <li><strong>Application process:</strong> physicians, dentists, or veterinarians submit applications to DKMA (email: <code>udleveringstilladelser@dkma.dk</code>). Individual permits can also be submitted via <a href="https://virk.dk/myndigheder/stat/DKMA/selvbetjening/Ansoegning_om_human_enkelt_udleveringstilladelse/" target="_blank" rel="noopener">Virk.dk</a>. The application must state the indication, justify why no marketed alternative suffices, and describe previous treatment</li>
-    <li><strong>Urgent cases:</strong> DKMA can fast-track individual applications when the patient has an urgent need for treatment. Contact DKMA directly for expedited processing</li>
-    <li><strong>Validity:</strong> permits are valid for up to <strong>5 years</strong>. A new application is required for renewal. Once approved, the physician notifies the pharmacy with a copy of the permit plus the prescription</li>
-    <li><strong>National permits:</strong> DKMA also issues <strong>nationale udleveringstilladelser</strong> (national supply authorizations) for medicines needed due to supply shortages of marketed products &mdash; these are published on <a href="https://www.sundhed.dk/sundhedsfaglig/information-til-praksis/syddanmark/almen-praksis/patientbehandling/laegemidler/udleveringstilladelser-og-restordre/nationale-udleveringstilladelser/" target="_blank" rel="noopener">Sundhed.dk</a></li>
+    <li><strong>Key requirements:</strong> the medicine must be manufactured by a pharmaceutical company (magistral/pharmacy-compounded products have a separate route); there must be no adequate marketed alternative in Denmark; the product is typically authorized abroad; and sufficient therapeutic justification must be documented</li>
+    <li><strong>Application process:</strong> physicians, dentists, or veterinarians submit applications to DKMA (email: <code>udleveringstilladelser@dkma.dk</code>). Individual permits can also be submitted digitally via <a href="https://virk.dk/myndigheder/stat/DKMA/selvbetjening/Ansoegning_om_human_enkelt_udleveringstilladelse/" target="_blank" rel="noopener">Virk.dk</a> using NemLog-In. The application must state the indication, justify why no marketed alternative suffices, and describe previous treatment</li>
+    <li><strong>Urgent cases (HASTER):</strong> mark the application <strong>&ldquo;HASTER&rdquo;</strong> after the applicant&rsquo;s name &mdash; DKMA commits to a <strong>response within 24 hours</strong> (weekdays) for urgent individual permits</li>
+    <li><strong>Validity:</strong> permits are valid for up to <strong>5 years</strong>. A new application is required for renewal (submit one month before expiry). The permit <strong>lapses</strong> if the medicine or a similar one becomes marketed in Denmark. Once approved, the physician notifies the pharmacy with a copy of the permit plus the prescription</li>
+    <li><strong>Section 29(2) &mdash; supply shortages (new since Jan 2024):</strong> DKMA can now proactively authorize non-marketed foreign medicines <strong>without a doctor&rsquo;s application</strong> during supply disruptions. The <a href="https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/udenlandske-laegemidler-som-kan-udleveres-efter-laegemiddellovens-29,-stk-2/" target="_blank" rel="noopener">list of authorized foreign medicines</a> is regularly updated</li>
+    <li><strong>National permits:</strong> DKMA also issues <strong>nationale udleveringstilladelser</strong> (national supply authorizations) for medicines needed due to supply shortages &mdash; published on <a href="https://www.sundhed.dk/sundhedsfaglig/information-til-praksis/syddanmark/almen-praksis/patientbehandling/laegemidler/udleveringstilladelser-og-restordre/nationale-udleveringstilladelser/" target="_blank" rel="noopener">Sundhed.dk</a></li>
+    <li><strong>Physician obligations:</strong> prescribers have an <strong>enhanced information duty</strong> (sk&aelig;rpet informationspligt) and must report <strong>all</strong> suspected adverse reactions to the Danish Health Authority &mdash; stricter than normal post-marketing requirements</li>
 </ol>
-<p class="tips-note"><strong>EU framework:</strong> Denmark&rsquo;s system operates within the broader EU compassionate use framework (Article 83, Regulation (EC) No 726/2004). The EMA&rsquo;s CHMP can issue recommendations for compassionate use of centrally authorized products, but implementation is national. Denmark requires the product to typically be <strong>authorized abroad</strong> or undergoing MA application/clinical trials.</p>
-<p class="tips-note"><strong>2024&ndash;2026 updates:</strong> DKMA updated documentation requirements for wholesale distributors handling medicines under supply authorization (2024). From 1 January 2026, private individuals may legally import medicines for personal use from any country (excluding antibiotics, doping substances, and euphoriant substances) &mdash; this supplements but does not replace the compassionate use permit system.</p>
+
+<h4 class="tips-heading">Early Access &mdash; Expert Advisory Panel (Eksperimentel Behandling)</h4>
+<p>A separate early access pathway exists under <a href="https://danskelove.dk/sundhedsloven/89" target="_blank" rel="noopener">Section 89 of the Danish Health Act</a> (Sundhedsloven), administered by Sundhedsstyrelsen (Danish Health Authority):</p>
+<ol>
+    <li><strong>Target patients:</strong> those with <strong>life-threatening diseases</strong> (primarily cancer) who have exhausted standard-of-care options. Treating physicians refer patients to the Panel</li>
+    <li><strong>Panel function:</strong> the Expert Advisory Panel (Ekspertpanelet) reviews each case and advises on experimental treatment options, clinical trial participation, or referral for treatment abroad</li>
+    <li><strong>Infrastructure:</strong> supported by <strong>6 Experimental Cancer Treatment Units</strong> at major Danish hospitals (Rigshospitalet, Herlev, Odense, Vejle, Aarhus, Aalborg)</li>
+    <li>The Panel evaluated <strong>11,034 cases from 9,603 cancer patients</strong> between 2003&ndash;2023. Volume has declined as previously experimental treatments became standard of care</li>
+</ol>
+
+<h4 class="tips-heading">Early Access &mdash; Individuel Ibrugtagning (Hospital Medicines)</h4>
+<p>A hospital-level pathway managed by Danske Regioner (Danish Regions) for EMA-approved medicines not yet assessed or not recommended by Medicinr&aring;det:</p>
+<ol>
+    <li>Hospital physicians apply to their <strong>regional medicine committee</strong> for access to specific products for individual patients</li>
+    <li>In 2023, Danish regions received ~<strong>400 applications</strong> for individuel ibrugtagning; 62% were approved or partially approved</li>
+    <li>Since April 2024, <a href="https://www.regioner.dk/media/01opkwev/faelles-principper-for-individuel-vurdering-af-laegemidler-som-ikke-har-vaeret-behandlet-i-medicinraadet.pdf" target="_blank" rel="noopener">new Danske Regioner principles</a> urge regions to await Medicinr&aring;det&rsquo;s assessment before approving individuel ibrugtagning</li>
+    <li>Physicians retain the legal right to deviate from Medicinr&aring;det recommendations when medically necessary for individual patients</li>
+</ol>
+
+<p class="tips-note"><strong>EU framework:</strong> Denmark&rsquo;s system operates within the broader EU compassionate use framework (Article 83, Regulation (EC) No 726/2004). The EMA&rsquo;s CHMP can issue recommendations for compassionate use of centrally authorized products, but implementation is national. Denmark is among the <strong>18 of 28 EU member states</strong> with fully nationalized compassionate use regulations. Notably, in Denmark managed access must be stated in the <strong>MIA for Human Medicinal Products</strong> (not the IMP MIA as in most other EU countries).</p>
+<p class="tips-note"><strong>2024&ndash;2026 updates:</strong> Section 29(2) supply shortage pathway added (Jan 2024). Danske Regioner issued new individuel ibrugtagning principles (Apr 2024). DKMA updated documentation requirements for wholesale distributors (Nov 2024). From 1 January 2026, private individuals may legally import medicines for personal use from any country (excluding antibiotics, doping substances, and euphoriant substances).</p>
 
 <p class="tips-note"><strong>Statistics:</strong> <a href="https://medstat.dk/en" target="_blank" rel="noopener">Medstat.dk</a> provides free, public aggregate data on all medicine sales in Denmark since 1996 (primary care) and 1997 (hospitals), searchable by ATC code, region, age, and sex.</p>
         `,
