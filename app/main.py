@@ -16,9 +16,11 @@ from app.models import (
     AnalogueResult,
     AssessmentResponse,
     AssessmentResult,
+    ClaveDetailResult,
     ClaveResult,
     CountryInfo,
     FilterOptions,
+    InstitutionSummary,
     MedicineResult,
     MexicoAdjudicacionResponse,
     MexicoProcurementFilters,
@@ -668,3 +670,24 @@ async def mexico_opportunities(
     if not mexico_service.is_loaded:
         raise HTTPException(503, "Mexico procurement data is still loading.")
     return mexico_service.get_opportunities(limit=limit)
+
+
+@app.get("/api/mexico/claves/{clave}", response_model=ClaveDetailResult)
+async def mexico_clave_detail(clave: str):
+    """Get full intelligence profile for a clave: molecule info, all awards, competitors."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    result = mexico_service.get_clave_detail(clave)
+    if result is None:
+        raise HTTPException(404, f"Clave '{clave}' not found")
+    return result
+
+
+@app.get("/api/mexico/institutions", response_model=list[InstitutionSummary])
+async def mexico_institutions(
+    cycle: str = Query("", description="Filter by procurement cycle"),
+):
+    """Get aggregated procurement breakdown per institution."""
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.get_institution_breakdown(cycle=cycle)

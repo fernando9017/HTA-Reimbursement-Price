@@ -26,13 +26,14 @@
         <div class="mexico-tabs" id="tabs">
             <button class="mexico-tab active" data-tab="search">Clave Search</button>
             <button class="mexico-tab" data-tab="adjudicaciones">Award Tracker</button>
+            <button class="mexico-tab" data-tab="institutions">By Institution</button>
             <button class="mexico-tab" data-tab="opportunities">Opportunities</button>
         </div>
 
         <!-- ── Tab 1: Clave Search & Intelligence ── -->
         <section id="tab-search" class="card mexico-tab-content">
             <h2>Clave Search &amp; Intelligence</h2>
-            <p class="filter-description">Search Mexico's consolidated procurement claves by active substance, ATC code, therapeutic group, or product description.</p>
+            <p class="filter-description">Search Mexico's consolidated procurement claves by active substance, ATC code, therapeutic group, or product description. Click any row for the full molecule &amp; procurement profile.</p>
 
             <div class="search-box">
                 <input type="text" id="clave-query" placeholder="e.g. pembrolizumab, L01FF, oncologia..." autocomplete="off">
@@ -114,7 +115,28 @@
             <div id="adj-results"></div>
         </section>
 
-        <!-- ── Tab 3: Opportunities (Desiertas) ── -->
+        <!-- ── Tab 3: Institution Breakdown ── -->
+        <section id="tab-institutions" class="card mexico-tab-content hidden">
+            <h2>Procurement by Institution</h2>
+            <p class="filter-description">Aggregated procurement intelligence per public health institution. See spend distribution, fulfillment rates, top therapeutic areas, and leading suppliers.</p>
+
+            <div class="filter-grid" style="margin-bottom:12px">
+                <div class="filter-group">
+                    <label for="inst-cycle">Procurement Cycle</label>
+                    <select id="inst-cycle">
+                        <option value="">All cycles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions" style="margin-bottom:12px">
+                <button id="btn-load-inst">Load Breakdown</button>
+            </div>
+
+            <div id="inst-status" class="status-msg hidden"></div>
+            <div id="inst-results"></div>
+        </section>
+
+        <!-- ── Tab 4: Opportunities (Desiertas) ── -->
         <section id="tab-opportunities" class="card mexico-tab-content hidden">
             <h2>Market Opportunities</h2>
             <p class="filter-description">Claves declared <strong>desierta</strong> (unadjudicated) represent unmet public health demand and potential market entry opportunities for pharmaceutical companies.</p>
@@ -123,10 +145,13 @@
             <div id="opp-results"></div>
         </section>
 
-        <!-- ── Price History Detail (shown on clave click) ── -->
-        <section id="price-detail" class="card hidden" style="margin-bottom: 24px;">
-            <h2 id="price-detail-title">Price History</h2>
-            <div id="price-detail-content"></div>
+        <!-- ── Clave Detail Panel (shown on clave click) ── -->
+        <section id="clave-detail" class="card hidden" style="margin-bottom: 24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <h2 id="clave-detail-title">Clave Detail</h2>
+                <button class="btn-secondary btn-close" id="btn-close-detail">Close</button>
+            </div>
+            <div id="clave-detail-content"></div>
         </section>
     </main>
 

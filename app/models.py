@@ -186,6 +186,20 @@ class ClaveResult(BaseModel):
     latest_status: str = ""             # Status in most recent cycle
     latest_unit_price: float = 0.0      # Most recent award price per unit (MXN)
     institutions: list[str] = []        # Institutions that demand this clave
+    # Molecule intelligence
+    indication: str = ""                # Approved therapeutic indication(s)
+    mechanism_of_action: str = ""       # MOA / pharmacological class
+    patent_holder: str = ""             # Originator / patent holder company
+    patent_expiry: str = ""             # Expected patent expiry date
+
+
+class CompetitorBid(BaseModel):
+    """A competing bid submitted for a clave during the procurement process."""
+
+    supplier: str
+    unit_price_offered: float = 0.0     # MXN
+    outcome: str = ""                   # "awarded", "rejected", "second_place", "withdrawn"
+    reason: str = ""                    # Why rejected / not selected
 
 
 class AdjudicacionResult(BaseModel):
@@ -204,6 +218,10 @@ class AdjudicacionResult(BaseModel):
     institution: str = ""               # Requesting institution (IMSS, ISSSTE, etc.)
     therapeutic_group: str = ""
     source_type: str = ""
+    # Negotiation context
+    negotiation_type: str = ""          # "mesa_patente", "licitacion_publica", "adjudicacion_directa"
+    negotiation_notes: str = ""         # Notes from the negotiation process
+    competitor_bids: list[CompetitorBid] = []  # Competing offers submitted
 
 
 class PriceHistoryEntry(BaseModel):
@@ -215,6 +233,7 @@ class PriceHistoryEntry(BaseModel):
     supplier: str = ""
     units_awarded: int = 0
     status: str = ""
+    institution: str = ""
 
 
 class PriceHistoryResult(BaseModel):
@@ -226,6 +245,45 @@ class PriceHistoryResult(BaseModel):
     source_type: str = ""
     entries: list[PriceHistoryEntry]
     price_change_pct: float = 0.0       # % change from earliest to latest cycle
+
+
+class ClaveDetailResult(BaseModel):
+    """Full intelligence profile for a single clave."""
+
+    clave: str
+    description: str
+    active_substance: str
+    atc_code: str = ""
+    therapeutic_group: str = ""
+    source_type: str = ""
+    cnis_listed: bool = False
+    cofepris_registry: str = ""
+    # Molecule intelligence
+    indication: str = ""
+    mechanism_of_action: str = ""
+    patent_holder: str = ""
+    patent_expiry: str = ""
+    # All adjudicaciones across cycles and institutions
+    adjudicaciones: list[AdjudicacionResult] = []
+    # Price history
+    price_history: PriceHistoryResult | None = None
+    # Competitor landscape: other claves with the same active substance
+    same_substance_claves: list[ClaveResult] = []
+
+
+class InstitutionSummary(BaseModel):
+    """Aggregated procurement stats for one institution."""
+
+    institution: str
+    total_claves: int = 0
+    total_spend_mxn: float = 0.0
+    total_units_requested: int = 0
+    total_units_awarded: int = 0
+    fulfillment_rate_pct: float = 0.0
+    adjudicadas: int = 0
+    desiertas: int = 0
+    top_therapeutic_groups: list[dict] = []   # [{group, spend, claves}]
+    top_suppliers: list[dict] = []            # [{supplier, spend, claves}]
 
 
 class MexicoSearchResponse(BaseModel):
