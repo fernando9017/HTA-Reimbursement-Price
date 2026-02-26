@@ -728,17 +728,19 @@ def full_service():
 
 
 def test_full_data_clave_count(full_service):
-    assert full_service.clave_count >= 45
+    assert full_service.clave_count >= 77
 
 
 def test_full_data_therapeutic_coverage(full_service):
-    """All 14 therapeutic groups should be represented."""
+    """All 19 therapeutic groups should be represented."""
     opts = full_service.get_filter_options()
     expected_groups = [
         "Oncología", "Inmunología y Reumatología", "Endocrinología",
         "Hematología", "Infectología", "Neurología", "Dermatología",
         "Cardiología", "Oftalmología", "Trasplantes", "Neumología",
         "Psiquiatría", "Gastroenterología", "Enfermedades Raras",
+        "Antibióticos", "Dolor y Anestesia", "Esclerosis Múltiple",
+        "Nefrología", "Vacunas",
     ]
     for group in expected_groups:
         assert group in opts.therapeutic_groups, f"Missing group: {group}"
@@ -831,8 +833,127 @@ def test_full_data_biosimilar_competition(full_service):
 
 def test_full_data_all_have_reference_prices(full_service):
     """Every adjudicacion in the dataset should have a max_reference_price."""
-    result = full_service.search_adjudicaciones(limit=500)
+    result = full_service.search_adjudicaciones(limit=600)
     for r in result.results:
         assert r.max_reference_price > 0, (
             f"{r.clave} ({r.cycle}, {r.institution}) missing reference price"
         )
+
+
+# ── New therapeutic area tests ────────────────────────────────────────
+
+
+def test_full_data_nephrology(full_service):
+    """Nephrology drugs (EPO, darbepoetin) should be present."""
+    result = full_service.search_claves(therapeutic_group="Nefrología")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "eritropoyetina alfa" in substances
+    assert "darbepoetina alfa" in substances
+
+
+def test_full_data_antibiotics(full_service):
+    """Hospital antibiotics should be present."""
+    result = full_service.search_claves(therapeutic_group="Antibióticos")
+    assert result.total >= 4
+    substances = {r.active_substance for r in result.results}
+    assert "meropenem" in substances
+    assert "vancomicina" in substances
+    assert "ceftriaxona" in substances
+    assert "piperacilina/tazobactam" in substances
+
+
+def test_full_data_multiple_sclerosis(full_service):
+    """MS drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Esclerosis Múltiple")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "ocrelizumab" in substances
+    assert "fingolimod" in substances
+
+
+def test_full_data_vaccines(full_service):
+    """Influenza and pneumococcal vaccines should be present."""
+    result = full_service.search_claves(therapeutic_group="Vacunas")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "vacuna influenza" in substances
+    assert "vacuna neumococo conjugada" in substances
+
+
+def test_full_data_pain_anesthesia(full_service):
+    """Pain and anesthesia drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Dolor y Anestesia")
+    assert result.total >= 3
+    substances = {r.active_substance for r in result.results}
+    assert "pregabalina" in substances
+    assert "tramadol" in substances
+    assert "propofol" in substances
+
+
+def test_full_data_cardiovascular_high_volume(full_service):
+    """High-volume cardiovascular generics should be included."""
+    result = full_service.search_claves(therapeutic_group="Cardiología")
+    assert result.total >= 6
+    substances = {r.active_substance for r in result.results}
+    assert "atorvastatina" in substances
+    assert "losartán" in substances
+    assert "amlodipino" in substances
+    assert "enoxaparina" in substances
+
+
+def test_full_data_oncology_expanded(full_service):
+    """Oncology should include the expanded drug list."""
+    result = full_service.search_claves(therapeutic_group="Oncología")
+    assert result.total >= 20
+    substances = {r.active_substance for r in result.results}
+    for drug in ["enzalutamida", "abiraterona", "palbociclib", "daratumumab", "cetuximab"]:
+        assert drug in substances, f"Missing oncology drug: {drug}"
+
+
+def test_full_data_hematology_support(full_service):
+    """Hematology support drugs (filgrastim, immunoglobulin, albumin)."""
+    result = full_service.search_claves(therapeutic_group="Hematología")
+    assert result.total >= 5
+    substances = {r.active_substance for r in result.results}
+    assert "filgrastim" in substances
+    assert "inmunoglobulina humana" in substances
+    assert "albúmina humana" in substances
+
+
+def test_full_data_immunology_expanded(full_service):
+    """Immunology should include tocilizumab and secukinumab."""
+    result = full_service.search_claves(therapeutic_group="Inmunología y Reumatología")
+    assert result.total >= 4
+    substances = {r.active_substance for r in result.results}
+    assert "tocilizumab" in substances
+    assert "secukinumab" in substances
+
+
+def test_full_data_endocrinology_expanded(full_service):
+    """Endocrinology should include levothyroxine and empagliflozin."""
+    result = full_service.search_claves(therapeutic_group="Endocrinología")
+    assert result.total >= 7
+    substances = {r.active_substance for r in result.results}
+    assert "levotiroxina" in substances
+    assert "empagliflozina" in substances
+
+
+def test_full_data_infectology_tb(full_service):
+    """TB fixed-dose combination should be in Infectología."""
+    result = full_service.search_claves(therapeutic_group="Infectología")
+    assert result.total >= 5
+    substances = {r.active_substance for r in result.results}
+    assert "isoniazida/rifampicina/pirazinamida/etambutol" in substances
+
+
+def test_full_data_adjudicacion_count(full_service):
+    """Total adjudicaciones should match the expanded dataset."""
+    result = full_service.search_adjudicaciones(limit=600)
+    assert result.total >= 560
+
+
+def test_full_data_19_therapeutic_groups(full_service):
+    """Verify exactly 19 therapeutic groups exist."""
+    opts = full_service.get_filter_options()
+    assert len(opts.therapeutic_groups) >= 19
