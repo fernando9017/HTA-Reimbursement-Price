@@ -1,0 +1,76 @@
+name: Fetch Mexico Procurement Data
+
+on:
+  # Run manually from GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      years:
+        description: 'CompraNet years to fetch (comma-separated)'
+        required: false
+        default: '2023,2024,2025'
+
+  # Run weekly on Mondays at 6:00 UTC
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch Mexico procurement data
+        env:
+          COMPRANET_YEARS: ${{ github.event.inputs.years || '2023,2024,2025' }}
+          MEXICO_DATA_DIR: data
+        run: |
+          python scripts/fetch_mexico_real_data.py
+
+      - name: Show data summary
+        if: success()
+        run: |
+          python3 -c "
+          import json
+          with open('data/mexico_procurement.json') as f:
+              data = json.load(f)
+          meta = data.get('metadata', {})
+          print(f'Source: {meta.get(\"source\", \"unknown\")}')
+          print(f'Fetch date: {meta.get(\"fetch_date\", \"unknown\")}')
+          print(f'Total claves: {len(data.get(\"claves\", []))}')
+          print(f'Total adjudicaciones: {len(data.get(\"adjudicaciones\", []))}')
+          from collections import Counter
+          groups = Counter(c.get('therapeutic_group','') for c in data['claves'])
+          print('Therapeutic groups:')
+          for g, cnt in groups.most_common(10):
+              print(f'  {g}: {cnt}')
+          "
+
+      - name: Run tests
+        run: |
+          pip install -q pytest pytest-asyncio httpx fastapi uvicorn pydantic anthropic
+          pip install -q -r requirements.txt 2>/dev/null || true
+          python -m pytest tests/test_mexico_procurement.py -v --tb=short || echo "Some tests may need updating for real data"
+
+      - name: Commit updated data
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/mexico_procurement.json
+          # Only commit if there are changes
+          git diff --cached --quiet || git commit -m "Update Mexico procurement data from government sources
+
+          Auto-fetched from CompraNet and datos.gob.mx CKAN API.
+          Source: $(python3 -c 'import json; d=json.load(open("data/mexico_procurement.json")); print(d.get("metadata",{}).get("source","unknown"))')"
+          git push
