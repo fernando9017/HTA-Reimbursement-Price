@@ -90,6 +90,19 @@ DATAMX_CATALOG_URL = "https://datamx.io/api/3/action/package_show?id=catalogo-in
 # IMSS direct medication catalog
 IMSS_CATALOG_URL = "http://www.imss.gob.mx/profesionales-salud/cuadros-basicos/medicamentos"
 
+# ── Non-gob.mx alternative sources (for when .gob.mx is blocked) ──────
+# QuienEsQuien.wiki (PODER NGO) — CompraNet re-published in OCDS format
+# API docs: https://qqwapi-elastic.readthedocs.io/
+QQWIKI_API_BASE = "https://api.quienesquien.wiki/v3"
+# OCP Data Registry — Mexico OCDS data (JSON/CSV)
+OCP_MEXICO_URL = "https://data.open-contracting.org/en/publication/33"
+# AmeriGEOSS — Hospital pharma acquisitions CSV (HGGEA 2018-2019)
+AMERIGEOSS_PHARMA_URL = "https://data.amerigeoss.org/ne/dataset/medicamentos-y-productos-farmaceuticos-adquiridos-por-el-hospital-de-hggea"
+# GovTransparency.eu — Mexico procurement with risk indicators
+GOVTRANSPARENCY_URL = "https://www.govtransparency.eu/global-public-procurement-dataset-selected-low-and-middle-income-country-datasets/"
+# Proyecto Salud Mexico (UNOPS) — adjudication lists with unit prices
+PROYECTO_SALUD_URL = "https://proyectosaludmexico.org/en/transparency"
+
 # Health-sector institutions for CompraNet filtering
 HEALTH_INSTITUTIONS = {
     "IMSS", "ISSSTE", "SSA", "INSABI", "BIRMEX", "UNOPS",
@@ -417,6 +430,120 @@ def fetch_ckan_catalog() -> list[dict]:
     return catalog_items
 
 
+# ── Alternative Non-gob.mx Sources ─────────────────────────────────────
+
+def fetch_alternative_sources() -> tuple[list[dict], list[dict]]:
+    """Try non-gob.mx sources as fallback when government portals are unreachable.
+
+    Returns (catalog_items, procurement_records) from:
+    1. QuienEsQuien.wiki API — OCDS procurement data
+    2. AmeriGEOSS — Hospital pharma acquisitions
+    3. Open Contracting Partnership Data Registry
+    """
+    catalog_items = []
+    procurement_records = []
+
+    # 1. Try QuienEsQuien.wiki API for OCDS procurement data
+    logger.info("Trying QuienEsQuien.wiki API...")
+    # Search for IMSS pharmaceutical contracts
+    qqw_url = (
+        f"{QQWIKI_API_BASE}/contracts?"
+        "buyer_id=imss&"
+        "tender_procurementMethodDetails=Licitación Pública&"
+        "limit=500"
+    )
+    raw = fetch_url(qqw_url, timeout=30)
+    if raw:
+        try:
+            data = json.loads(raw)
+            contracts = data if isinstance(data, list) else data.get("data", [])
+            logger.info("  QQW API returned %d contracts", len(contracts))
+            for c in contracts:
+                record = {
+                    "year": str(c.get("period", {}).get("startDate", ""))[:4] or "2024",
+                    "clave": "",
+                    "description": c.get("description", "") or c.get("title", ""),
+                    "institution": c.get("buyer", {}).get("name", "") if isinstance(c.get("buyer"), dict) else "IMSS",
+                    "supplier": c.get("suppliers", [{}])[0].get("name", "") if c.get("suppliers") else "",
+                    "total_amount": c.get("value", {}).get("amount", 0) if isinstance(c.get("value"), dict) else 0,
+                    "status": "adjudicada",
+                    "date": c.get("dateSigned", ""),
+                }
+                if is_pharmaceutical(record["description"]):
+                    procurement_records.append(record)
+        except (json.JSONDecodeError, KeyError, TypeError) as e:
+            logger.warning("  QQW API error: %s", e)
+    else:
+        logger.info("  QQW API not reachable")
+
+    # 2. Try AmeriGEOSS hospital pharma data (CKAN-based)
+    logger.info("Trying AmeriGEOSS HGGEA pharma dataset...")
+    ameri_url = "https://data.amerigeoss.org/api/3/action/package_show?id=medicamentos-y-productos-farmaceuticos-adquiridos-por-el-hospital-de-hggea"
+    raw = fetch_url(ameri_url, timeout=30)
+    if raw:
+        try:
+            meta = json.loads(raw)
+            if meta.get("success"):
+                for res in meta.get("result", {}).get("resources", []):
+                    if res.get("format", "").upper() == "CSV":
+                        csv_url = res.get("url", "")
+                        logger.info("  Downloading AmeriGEOSS CSV: %s", csv_url[:80])
+                        csv_raw = fetch_url(csv_url, timeout=60)
+                        if csv_raw:
+                            text = csv_raw.decode("utf-8", errors="replace")
+                            reader = csv.DictReader(io.StringIO(text))
+                            for row in reader:
+                                catalog_items.append(dict(row))
+                            logger.info("  Parsed %d rows from AmeriGEOSS", len(catalog_items))
+        except (json.JSONDecodeError, KeyError) as e:
+            logger.warning("  AmeriGEOSS error: %s", e)
+    else:
+        logger.info("  AmeriGEOSS not reachable")
+
+    # 3. Try Open Contracting Partnership Data Registry
+    logger.info("Trying OCP Data Registry for Mexico...")
+    ocp_url = "https://data.open-contracting.org/api/v1/publications/33/"
+    raw = fetch_url(ocp_url, timeout=30)
+    if raw:
+        try:
+            data = json.loads(raw)
+            download_urls = data.get("download_urls", {})
+            csv_url = download_urls.get("csv", "")
+            if csv_url:
+                logger.info("  OCP CSV download: %s", csv_url[:80])
+                # Note: these can be very large, only fetch first portion
+                csv_raw = fetch_url(csv_url, timeout=120)
+                if csv_raw:
+                    text = csv_raw.decode("utf-8", errors="replace")
+                    reader = csv.DictReader(io.StringIO(text))
+                    count = 0
+                    for row in reader:
+                        if count >= 50000:  # Safety limit
+                            break
+                        desc = row.get("tender/description", "") or row.get("description", "")
+                        if is_pharmaceutical(desc):
+                            procurement_records.append({
+                                "year": str(row.get("tender/tenderPeriod/startDate", ""))[:4] or "2024",
+                                "clave": extract_clave(desc) or "",
+                                "description": desc[:200],
+                                "institution": row.get("buyer/name", ""),
+                                "supplier": row.get("awards/0/suppliers/0/name", ""),
+                                "total_amount": float(row.get("awards/0/value/amount", 0) or 0),
+                                "status": "adjudicada",
+                                "date": row.get("awards/0/date", ""),
+                            })
+                        count += 1
+                    logger.info("  OCP: scanned %d rows, %d pharma", count, len(procurement_records))
+        except (json.JSONDecodeError, KeyError, ValueError) as e:
+            logger.warning("  OCP error: %s", e)
+    else:
+        logger.info("  OCP Data Registry not reachable")
+
+    logger.info("Alternative sources: %d catalog items, %d procurement records",
+                len(catalog_items), len(procurement_records))
+    return catalog_items, procurement_records
+
+
 # ── Data Merging ───────────────────────────────────────────────────────
 
 def build_procurement_json(
@@ -536,7 +663,7 @@ def build_procurement_json(
         "claves": sorted_claves,
         "adjudicaciones": adjudicaciones,
         "metadata": {
-            "source": "CompraNet + datos.gob.mx CKAN API",
+            "source": "CompraNet + datos.gob.mx CKAN API + QuienEsQuien.wiki + AmeriGEOSS + OCP",
             "compranet_years": COMPRANET_YEARS,
             "fetch_date": time.strftime("%Y-%m-%d"),
             "total_claves": len(sorted_claves),
@@ -551,17 +678,34 @@ def main():
     logger.info("=" * 60)
 
     # Step 1: Fetch CompraNet data
-    logger.info("\n[1/3] Fetching CompraNet bulk CSV data...")
+    logger.info("\n[1/4] Fetching CompraNet bulk CSV data...")
     compranet = fetch_compranet(COMPRANET_YEARS)
     logger.info("CompraNet: %d pharmaceutical records found", len(compranet))
 
     # Step 2: Fetch CKAN catalog
-    logger.info("\n[2/3] Fetching IMSS Catálogo Institucional de Insumos...")
+    logger.info("\n[2/4] Fetching IMSS Catálogo Institucional de Insumos...")
     catalog = fetch_ckan_catalog()
     logger.info("CKAN catalog: %d items found", len(catalog))
 
-    # Step 3: Merge and write
-    logger.info("\n[3/3] Merging data and writing output...")
+    # Step 3: Try alternative non-gob.mx sources if primary sources yielded nothing
+    if not compranet and not catalog:
+        logger.info("\n[3/4] Primary sources failed — trying alternative sources...")
+        alt_catalog, alt_procurement = fetch_alternative_sources()
+        catalog.extend(alt_catalog)
+        compranet.extend(alt_procurement)
+        logger.info("Alternative sources: %d catalog, %d procurement", len(alt_catalog), len(alt_procurement))
+    else:
+        logger.info("\n[3/4] Primary sources succeeded — trying alternatives for enrichment...")
+        alt_catalog, alt_procurement = fetch_alternative_sources()
+        if alt_catalog:
+            catalog.extend(alt_catalog)
+            logger.info("  Added %d items from alternative catalog sources", len(alt_catalog))
+        if alt_procurement:
+            compranet.extend(alt_procurement)
+            logger.info("  Added %d records from alternative procurement sources", len(alt_procurement))
+
+    # Step 4: Merge and write
+    logger.info("\n[4/4] Merging data and writing output...")
     result = build_procurement_json(compranet, catalog)
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
