@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Germany G-BA HTA Deep-Dive — VAP Global Resources</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VAP Global Resources</h1>
+            <p class="subtitle">Value, Access &amp; Pricing — Germany G-BA AMNOG Benefit Assessment Intelligence</p>
+        </div>
+    </header>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Home</a>
+            <span class="page-title"><span class="country-flag">&#x1F1E9;&#x1F1EA;</span> Germany G-BA — HTA Deep-Dive</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Tab navigation -->
+        <div class="mexico-tabs" id="tabs">
+            <button class="mexico-tab active" data-tab="browse">Drug Browser</button>
+            <button class="mexico-tab" data-tab="detail">Assessment Detail</button>
+        </div>
+
+        <!-- ── Tab 1: Drug Browser ── -->
+        <section id="tab-browse" class="card mexico-tab-content">
+            <h2>G-BA Assessed Drugs</h2>
+            <p class="filter-description">Browse all drugs assessed under the AMNOG early benefit assessment process. Shows only <strong>current</strong> assessments (superseded re-assessments are filtered out). Click any drug to view the full assessment profile with per-subpopulation outcomes.</p>
+
+            <div class="search-box">
+                <input type="text" id="gba-query" placeholder="e.g. pembrolizumab, Keytruda, melanoma..." autocomplete="off">
+                <button id="btn-search-gba">Search</button>
+            </div>
+
+            <div class="filter-grid" style="margin-top: 16px;">
+                <div class="filter-group">
+                    <label for="gba-benefit-filter">Benefit Rating</label>
+                    <select id="gba-benefit-filter">
+                        <option value="">All ratings</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="gba-browse-status" class="status-msg hidden"></div>
+            <div id="gba-browse-results"></div>
+        </section>
+
+        <!-- ── Tab 2: Assessment Detail (shown on drug click) ── -->
+        <section id="tab-detail" class="card mexico-tab-content hidden">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <h2 id="gba-detail-title">Assessment Detail</h2>
+                <button class="btn-secondary btn-close" id="btn-back-browse">Back to Browser</button>
+            </div>
+            <div id="gba-detail-content"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Data sources:
+            <a href="https://www.g-ba.de" target="_blank" rel="noopener">Gemeinsamer Bundesausschuss (G-BA)</a> &middot;
+            <a href="https://www.g-ba.de/themen/arzneimittel/arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/" target="_blank" rel="noopener">G-BA AIS</a></p>
+            <p>&copy; 2026 Fernando Rosas. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/shared.js"></script>
+    <script src="/static/germany.js"></script>
+</body>
+</html>
