@@ -5437,10 +5437,6 @@ function buildMapView() {
     if (mapInitialised) return;
     mapInitialised = true;
 
-    // SVG world map with clickable country paths
-    // We use a simplified approach: an inline SVG map with tooltip-style interaction.
-    // Country codes are mapped to SVG path IDs.
-
     const mapContainer = document.createElement("div");
     mapContainer.className = "map-container";
 
@@ -5459,10 +5455,26 @@ function buildMapView() {
 
     mapContainer.appendChild(legend);
 
-    // We'll use an SVG world map. Since we can't embed a massive SVG inline,
-    // we'll use a simpler approach: a styled container with positioned dots for each country.
     const mapSvgWrapper = document.createElement("div");
     mapSvgWrapper.className = "map-svg-wrapper";
+
+    // ── Render SVG world map outline ────────────────────────────
+    if (typeof WORLD_MAP_PATHS !== "undefined" && WORLD_MAP_PATHS.length > 0) {
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("viewBox", "0 0 1000 500");
+        svg.setAttribute("preserveAspectRatio", "none");
+        svg.classList.add("map-landmass-svg");
+
+        for (const region of WORLD_MAP_PATHS) {
+            const path = document.createElementNS(svgNS, "path");
+            path.setAttribute("d", region.d);
+            path.classList.add("map-landmass-path");
+            svg.appendChild(path);
+        }
+
+        mapSvgWrapper.appendChild(svg);
+    }
 
     // Country approximate positions (lat/lng mapped to % of container)
     // Using Mercator-like projection: x = (lng + 180) / 360 * 100, y = (90 - lat) / 180 * 100
