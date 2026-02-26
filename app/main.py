@@ -2,6 +2,7 @@
 
 import json
 import logging
+import os
 import re
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -458,6 +459,7 @@ async def status():
         "analogue_loaded": analogue_service.is_loaded,
         "mexico_loaded": mexico_service.is_loaded,
         "mexico_clave_count": mexico_service.clave_count,
+        "ai_analysis_available": bool(os.environ.get("ANTHROPIC_API_KEY", "")),
         "agencies": {
             code: {
                 "name": agency.agency_abbreviation,

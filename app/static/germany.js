@@ -9,17 +9,30 @@
 // ── State ────────────────────────────────────────────────────────────
 
 let gbaFilters = null;
+let aiAnalysisAvailable = false;
 
 // ── Init ─────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", async () => {
     setupGBATabs();
-    await loadGBAFilters();
+    await Promise.all([loadGBAFilters(), checkAIAvailability()]);
     setupGBASearch();
     setupGBADetail();
     // Auto-load all drugs on page load
     searchGBADrugs();
 });
+
+async function checkAIAvailability() {
+    try {
+        const res = await fetch("/api/status");
+        if (res.ok) {
+            const data = await res.json();
+            aiAnalysisAvailable = !!data.ai_analysis_available;
+        }
+    } catch (e) {
+        // AI analysis stays disabled
+    }
+}
 
 // ── Tabs ─────────────────────────────────────────────────────────────
 
@@ -286,13 +299,13 @@ function renderGBADrugDetail(profile, container) {
         if (a.assessment_url) {
             html += `<a href="${esc(a.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">G-BA Assessment &rarr;</a>`;
         }
-        if (a.decision_id) {
+        if (a.decision_id && aiAnalysisAvailable) {
             html += `<button class="gba-ai-btn" data-decision-id="${esc(a.decision_id)}">Analyze with AI</button>`;
         }
         html += '</div>';
 
         // AI analysis container (initially hidden)
-        if (a.decision_id) {
+        if (a.decision_id && aiAnalysisAvailable) {
             html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(a.decision_id)}"></div>`;
         }
 
