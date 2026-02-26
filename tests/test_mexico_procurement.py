@@ -834,9 +834,14 @@ def test_full_data_biosimilar_competition(full_service):
 
 
 def test_full_data_all_have_reference_prices(full_service):
-    """Every adjudicacion in the dataset should have a max_reference_price."""
-    result = full_service.search_adjudicaciones(limit=1500)
+    """Every awarded adjudicacion should have a max_reference_price.
+
+    Desierta (unadjudicated) items are excluded since no transaction occurs.
+    """
+    result = full_service.search_adjudicaciones(limit=3500)
     for r in result.results:
+        if r.status.lower() == "desierta":
+            continue
         assert r.max_reference_price > 0, (
             f"{r.clave} ({r.cycle}, {r.institution}) missing reference price"
         )
