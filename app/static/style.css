@@ -508,6 +508,22 @@ button:disabled {
     color: var(--text);
     font-weight: 400;
     font-size: 0.82rem;
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.4;
+}
+
+/* G-BA: orphan drug benefit deemed proven */
+.badge-benefit.orphan-proven {
+    background: #eaf7ef;
+    color: var(--smr-important);
+    border: 1px dashed var(--smr-important);
+}
+
+/* G-BA: benefit not proven (insufficient evidence) */
+.badge-benefit.not-proven {
+    background: #fef3e2;
+    color: #b7791f;
 }
 
 /* UK (NICE) badges */
