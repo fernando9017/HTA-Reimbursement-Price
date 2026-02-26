@@ -98,6 +98,7 @@ class GermanyHTAService:
                 latest_date=profile["latest_date"],
                 assessment_count=len(profile["current_decisions"]),
                 indications=profile["indications"],
+                indications_en=profile["indications_en"],
                 best_benefit=best,
                 best_benefit_en=BENEFIT_TRANSLATIONS.get(best, best),
             ))
@@ -247,6 +248,7 @@ class GermanyHTAService:
 
             trade_names: list[str] = []
             indications: list[str] = []
+            indications_en: list[str] = []
             benefit_ratings: list[str] = []
             latest_date = ""
 
@@ -262,6 +264,7 @@ class GermanyHTAService:
                 ind = dec.get("indication", "")
                 if ind and ind not in seen_indications:
                     indications.append(ind)
+                    indications_en.append(dec.get("indication_en", ""))
                     seen_indications.add(ind)
 
                 br = dec.get("benefit_rating", "")
@@ -275,6 +278,7 @@ class GermanyHTAService:
             profiles[substance] = {
                 "trade_names": trade_names,
                 "indications": indications,
+                "indications_en": indications_en,
                 "benefit_ratings": benefit_ratings,
                 "latest_date": latest_date,
                 "current_decisions": current,
@@ -338,11 +342,13 @@ class GermanyHTAService:
         if patient_group:
             subpopulations.append(GBASubpopulation(
                 patient_group=patient_group,
+                patient_group_en=dec.get("patient_group_en", ""),
                 benefit_rating=raw_benefit,
                 benefit_rating_en=benefit_en,
                 evidence_level=raw_evidence,
                 evidence_level_en=evidence_en,
                 comparator=comparator,
+                comparator_en=dec.get("comparator_en", ""),
             ))
 
         return GBAAssessmentDetail(
@@ -350,6 +356,7 @@ class GermanyHTAService:
             trade_name=trade_name,
             active_substance=substance,
             indication=dec.get("indication", ""),
+            indication_en=dec.get("indication_en", ""),
             decision_date=dec.get("decision_date", ""),
             assessment_url=assessment_url,
             subpopulations=subpopulations,

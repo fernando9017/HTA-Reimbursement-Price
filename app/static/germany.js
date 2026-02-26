@@ -9,17 +9,30 @@
 // ── State ────────────────────────────────────────────────────────────
 
 let gbaFilters = null;
+let aiAnalysisAvailable = false;
 
 // ── Init ─────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", async () => {
     setupGBATabs();
-    await loadGBAFilters();
+    await Promise.all([loadGBAFilters(), checkAIAvailability()]);
     setupGBASearch();
     setupGBADetail();
     // Auto-load all drugs on page load
     searchGBADrugs();
 });
+
+async function checkAIAvailability() {
+    try {
+        const res = await fetch("/api/status");
+        if (res.ok) {
+            const data = await res.json();
+            aiAnalysisAvailable = !!data.ai_analysis_available;
+        }
+    } catch (e) {
+        // AI analysis stays disabled
+    }
+}
 
 // ── Tabs ─────────────────────────────────────────────────────────────
 
@@ -155,7 +168,7 @@ function renderGBADrugList(drugs, container) {
         html += `<tr class="gba-drug-row" data-substance="${esc(d.active_substance)}" style="cursor:pointer">`;
         html += `<td class="col-name"><strong>${esc(d.active_substance)}</strong></td>`;
         html += `<td>${d.trade_names.map(n => esc(n)).join(", ") || "—"}</td>`;
-        html += `<td class="col-indication">${d.indications.map(i => esc(i)).join("; ") || "—"}</td>`;
+        html += `<td class="col-indication">${(d.indications_en || d.indications).map(i => esc(i)).join("; ") || "—"}</td>`;
         html += `<td style="text-align:center">${d.assessment_count}</td>`;
         html += `<td><span class="tag ${benefitClass}">${esc(d.best_benefit_en || d.best_benefit || "—")}</span></td>`;
         html += `<td style="white-space:nowrap">${esc(d.latest_date)}</td>`;
@@ -224,7 +237,7 @@ function renderGBADrugDetail(profile, container) {
 
         // Assessment header with indication
         html += '<div class="gba-assessment-header">';
-        html += `<div class="gba-assessment-indication">${esc(a.indication)}</div>`;
+        html += `<div class="gba-assessment-indication">${esc(a.indication_en || a.indication)}</div>`;
         html += `<div class="gba-assessment-date">${esc(a.decision_date)}</div>`;
         html += '</div>';
 
@@ -235,7 +248,7 @@ function renderGBADrugDetail(profile, container) {
 
                 // Patient group
                 if (sub.patient_group) {
-                    html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group)}</div>`;
+                    html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group_en || sub.patient_group)}</div>`;
                 }
 
                 // Outcome row
@@ -261,7 +274,7 @@ function renderGBADrugDetail(profile, container) {
                 if (sub.comparator) {
                     html += '<div class="gba-outcome-item">';
                     html += '<div class="gba-outcome-label">COMPARATOR</div>';
-                    html += `<div class="gba-outcome-value">${esc(sub.comparator)}</div>`;
+                    html += `<div class="gba-outcome-value">${esc(sub.comparator_en || sub.comparator)}</div>`;
                     html += '</div>';
                 }
 
@@ -286,13 +299,13 @@ function renderGBADrugDetail(profile, container) {
         if (a.assessment_url) {
             html += `<a href="${esc(a.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">G-BA Assessment &rarr;</a>`;
         }
-        if (a.decision_id) {
+        if (a.decision_id && aiAnalysisAvailable) {
             html += `<button class="gba-ai-btn" data-decision-id="${esc(a.decision_id)}">Analyze with AI</button>`;
         }
         html += '</div>';
 
         // AI analysis container (initially hidden)
-        if (a.decision_id) {
+        if (a.decision_id && aiAnalysisAvailable) {
             html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(a.decision_id)}"></div>`;
         }
 
