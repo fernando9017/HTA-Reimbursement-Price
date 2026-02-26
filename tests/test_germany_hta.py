@@ -349,3 +349,43 @@ def test_best_benefit_logic(service):
     assert service._best_benefit(["gering", "erheblich"]) == "erheblich"
     assert service._best_benefit(["kein Zusatznutzen"]) == "kein Zusatznutzen"
     assert service._best_benefit([]) == ""
+
+
+# ── find_assessment_by_id tests ───────────────────────────────────
+
+
+def test_find_assessment_by_id(service):
+    """Should return structured data for a known decision_id."""
+    data = service.find_assessment_by_id("2023-05-10-D-800")
+    assert data is not None
+    assert data["decision_id"] == "2023-05-10-D-800"
+    assert data["active_substance"] == "Pembrolizumab"
+    assert data["trade_name"] == "Keytruda"
+    assert "Melanom" in data["indication"]
+    assert len(data["subpopulations"]) >= 1
+    sub = data["subpopulations"][0]
+    assert sub["benefit_rating"] == "erheblich"
+    assert sub["evidence_level"] == "Beleg"
+    assert sub["comparator"] == "Nivolumab"
+
+
+def test_find_assessment_by_id_nsclc(service):
+    """Should find the NSCLC assessment for Pembrolizumab."""
+    data = service.find_assessment_by_id("2021-09-01-D-600")
+    assert data is not None
+    assert data["active_substance"] == "Pembrolizumab"
+    assert "NSCLC" in data["indication"]
+    assert data["subpopulations"][0]["comparator"] == "Platin-basierte Chemotherapie"
+
+
+def test_find_assessment_by_id_not_found(service):
+    """Should return None for unknown decision_id."""
+    assert service.find_assessment_by_id("9999-99-99-D-000") is None
+
+
+def test_find_assessment_by_id_semaglutid(service):
+    """Should find Semaglutid assessment."""
+    data = service.find_assessment_by_id("2019-03-01-D-400")
+    assert data is not None
+    assert data["active_substance"] == "Semaglutid"
+    assert data["assessment_url"] != ""

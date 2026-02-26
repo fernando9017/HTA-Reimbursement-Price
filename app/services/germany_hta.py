@@ -167,6 +167,64 @@ class GermanyHTAService:
             substances=sorted(substances),
         )
 
+    # ── Assessment lookup for AI analysis ─────────────────────────────
+
+    def find_assessment_by_id(self, decision_id: str) -> dict | None:
+        """Find an assessment by its decision_id and return data for AI analysis.
+
+        Returns a dict with keys needed by the AI analysis service,
+        or None if the decision is not found.
+        """
+        for dec in self.decisions:
+            if dec.get("decision_id") == decision_id:
+                detail = self._build_assessment_detail(dec)
+                return {
+                    "decision_id": detail.decision_id,
+                    "trade_name": detail.trade_name,
+                    "active_substance": detail.active_substance,
+                    "indication": detail.indication,
+                    "decision_date": detail.decision_date,
+                    "assessment_url": detail.assessment_url,
+                    "subpopulations": [
+                        {
+                            "patient_group": sub.patient_group,
+                            "benefit_rating": sub.benefit_rating,
+                            "evidence_level": sub.evidence_level,
+                            "comparator": sub.comparator,
+                        }
+                        for sub in detail.subpopulations
+                    ],
+                }
+
+        # Decision_id might belong to a grouped assessment; search all
+        # decisions matching the same decision_id prefix (same Beschluss)
+        # and aggregate subpopulations.
+        matching = [d for d in self.decisions if d.get("decision_id") == decision_id]
+        if not matching:
+            return None
+
+        first = self._build_assessment_detail(matching[0])
+        subpops = []
+        for dec in matching:
+            detail = self._build_assessment_detail(dec)
+            for sub in detail.subpopulations:
+                subpops.append({
+                    "patient_group": sub.patient_group,
+                    "benefit_rating": sub.benefit_rating,
+                    "evidence_level": sub.evidence_level,
+                    "comparator": sub.comparator,
+                })
+
+        return {
+            "decision_id": first.decision_id,
+            "trade_name": first.trade_name,
+            "active_substance": first.active_substance,
+            "indication": first.indication,
+            "decision_date": first.decision_date,
+            "assessment_url": first.assessment_url,
+            "subpopulations": subpops,
+        }
+
     # ── Internal helpers ──────────────────────────────────────────────
 
     def _build_substance_profiles(self) -> dict[str, dict]:
