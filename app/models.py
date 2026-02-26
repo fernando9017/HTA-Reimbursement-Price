@@ -417,3 +417,33 @@ class GBAFilterOptions(BaseModel):
 
     benefit_ratings: list[str]
     substances: list[str]
+
+
+class GBASubpopAnalysis(BaseModel):
+    """AI-generated analysis for one subpopulation within an assessment."""
+
+    patient_group: str = ""
+    line_of_therapy: str = ""
+    indication_detail: str = ""         # Refined indication context
+    outcome_en: str = ""                # English benefit outcome
+    comparator: str = ""
+    positive_arguments: list[str] = []  # Key arguments supporting the benefit
+    negative_arguments: list[str] = []  # Key arguments against / limitations
+    key_trials: list[str] = []          # Clinical trials referenced
+
+
+class GBAAssessmentAnalysis(BaseModel):
+    """AI-generated structured analysis of a G-BA assessment."""
+
+    decision_id: str = ""
+    trade_name: str = ""
+    active_substance: str = ""
+    indication: str = ""
+    decision_date: str = ""
+    assessment_url: str = ""
+    subpopulation_analyses: list[GBASubpopAnalysis] = []
+    overall_summary: str = ""           # 2-3 sentence summary
+    clinical_context: str = ""          # Disease context / unmet need
+    market_implications: str = ""       # Pricing / market access implications
+    ai_model: str = ""                  # Which model generated the analysis
+    cached: bool = False                # Whether result came from cache

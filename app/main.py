@@ -20,6 +20,7 @@ from app.models import (
     ClaveResult,
     CountryInfo,
     FilterOptions,
+    GBAAssessmentAnalysis,
     GBADrugProfile,
     GBAFilterOptions,
     GBASearchResponse,
@@ -333,12 +334,6 @@ async def resources_page():
 async def mexico_page():
     """Serve the Mexico Pharma Procurement module page."""
     return FileResponse(str(STATIC_DIR / "mexico.html"))
-
-
-@app.get("/germany")
-async def germany_page():
-    """Serve the Germany HTA Deep-Dive module page."""
-    return FileResponse(str(STATIC_DIR / "germany.html"))
 
 
 @app.get("/germany")
@@ -775,3 +770,39 @@ async def germany_drug_profile(substance: str):
     if profile is None:
         raise HTTPException(404, f"No G-BA assessments found for '{substance}'.")
     return profile
+
+
+@app.get("/api/germany/analyze/{decision_id}", response_model=GBAAssessmentAnalysis)
+async def germany_analyze_assessment(decision_id: str):
+    """Generate an AI-powered analysis for a specific G-BA assessment.
+
+    Uses Claude Haiku to produce structured insights: line of therapy,
+    positive/negative arguments, clinical context, and market implications.
+    Results are cached to minimise API costs.
+    """
+    if not germany_hta_service.is_loaded:
+        raise HTTPException(503, "G-BA data is still loading.")
+
+    # Find the assessment by decision_id
+    profile_data = germany_hta_service.find_assessment_by_id(decision_id)
+    if profile_data is None:
+        raise HTTPException(404, f"Assessment '{decision_id}' not found.")
+
+    from app.services.ai_analysis import analyze_assessment
+
+    try:
+        analysis = await analyze_assessment(
+            decision_id=profile_data["decision_id"],
+            trade_name=profile_data["trade_name"],
+            active_substance=profile_data["active_substance"],
+            indication=profile_data["indication"],
+            decision_date=profile_data["decision_date"],
+            assessment_url=profile_data["assessment_url"],
+            subpopulations=profile_data["subpopulations"],
+        )
+        return analysis
+    except RuntimeError as e:
+        raise HTTPException(503, str(e))
+    except Exception as e:
+        logger.error("AI analysis failed for %s: %s", decision_id, e)
+        raise HTTPException(500, "AI analysis failed. Please try again later.")

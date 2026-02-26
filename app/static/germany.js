@@ -281,15 +281,171 @@ function renderGBADrugDetail(profile, container) {
             html += '</div>';
         }
 
-        // Source link
+        // Action bar: source link + AI analysis button
+        html += '<div class="gba-action-bar">';
         if (a.assessment_url) {
-            html += '<div class="gba-source-link">';
-            html += `<a href="${esc(a.assessment_url)}" target="_blank" rel="noopener">G-BA Assessment &rarr;</a>`;
-            html += '</div>';
+            html += `<a href="${esc(a.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">G-BA Assessment &rarr;</a>`;
+        }
+        if (a.decision_id) {
+            html += `<button class="gba-ai-btn" data-decision-id="${esc(a.decision_id)}">Analyze with AI</button>`;
+        }
+        html += '</div>';
+
+        // AI analysis container (initially hidden)
+        if (a.decision_id) {
+            html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(a.decision_id)}"></div>`;
         }
 
         html += '</div>'; // assessment-card
     }
 
+    container.innerHTML = html;
+
+    // Bind AI analysis buttons
+    container.querySelectorAll(".gba-ai-btn").forEach(btn => {
+        btn.addEventListener("click", () => loadAIAnalysis(btn.dataset.decisionId));
+    });
+}
+
+// ── AI Analysis ─────────────────────────────────────────────────────
+
+async function loadAIAnalysis(decisionId) {
+    const container = document.getElementById("ai-analysis-" + decisionId);
+    if (!container) return;
+
+    // Toggle: if already visible and loaded, just hide
+    if (!container.classList.contains("hidden") && !container.querySelector(".loading")) {
+        container.classList.add("hidden");
+        return;
+    }
+
+    container.classList.remove("hidden");
+    container.innerHTML = '<p class="status-msg loading">Generating AI analysis... This may take a few seconds.</p>';
+
+    // Update button text
+    const btn = document.querySelector(`[data-decision-id="${decisionId}"]`);
+    if (btn) btn.textContent = "Analyzing...";
+
+    try {
+        const res = await fetch("/api/germany/analyze/" + encodeURIComponent(decisionId));
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || "Analysis failed");
+        }
+        const data = await res.json();
+        renderAIAnalysis(data, container);
+        if (btn) btn.textContent = data.cached ? "AI Analysis (cached)" : "AI Analysis";
+    } catch (e) {
+        container.innerHTML = `<p class="status-msg error">${esc(e.message)}</p>`;
+        if (btn) btn.textContent = "Analyze with AI";
+    }
+}
+
+function renderAIAnalysis(analysis, container) {
+    let html = '<div class="gba-ai-card">';
+    html += '<div class="gba-ai-header">';
+    html += '<span class="gba-ai-title">AI-Powered Assessment Analysis</span>';
+    html += `<span class="gba-ai-model">Model: ${esc(analysis.ai_model)}${analysis.cached ? " (cached)" : ""}</span>`;
+    html += '</div>';
+
+    // Overall summary
+    if (analysis.overall_summary) {
+        html += '<div class="gba-ai-section">';
+        html += '<div class="gba-ai-section-label">SUMMARY</div>';
+        html += `<div class="gba-ai-section-text">${esc(analysis.overall_summary)}</div>`;
+        html += '</div>';
+    }
+
+    // Clinical context
+    if (analysis.clinical_context) {
+        html += '<div class="gba-ai-section">';
+        html += '<div class="gba-ai-section-label">CLINICAL CONTEXT</div>';
+        html += `<div class="gba-ai-section-text">${esc(analysis.clinical_context)}</div>`;
+        html += '</div>';
+    }
+
+    // Subpopulation analyses
+    if (analysis.subpopulation_analyses && analysis.subpopulation_analyses.length > 0) {
+        for (const sub of analysis.subpopulation_analyses) {
+            html += '<div class="gba-ai-subpop">';
+
+            // Header row: patient group + line of therapy
+            html += '<div class="gba-ai-subpop-header">';
+            if (sub.patient_group) {
+                html += `<div class="gba-ai-subpop-group">${esc(sub.patient_group)}</div>`;
+            }
+            if (sub.line_of_therapy) {
+                html += `<span class="gba-ai-lot-badge">${esc(sub.line_of_therapy)}</span>`;
+            }
+            html += '</div>';
+
+            // Outcome grid
+            html += '<div class="gba-ai-outcome-row">';
+            if (sub.outcome_en) {
+                html += '<div class="gba-ai-field">';
+                html += '<div class="gba-ai-field-label">OUTCOME</div>';
+                html += `<div class="gba-ai-field-value">${esc(sub.outcome_en)}</div>`;
+                html += '</div>';
+            }
+            if (sub.comparator) {
+                html += '<div class="gba-ai-field">';
+                html += '<div class="gba-ai-field-label">COMPARATOR</div>';
+                html += `<div class="gba-ai-field-value">${esc(sub.comparator)}</div>`;
+                html += '</div>';
+            }
+            if (sub.indication_detail) {
+                html += '<div class="gba-ai-field">';
+                html += '<div class="gba-ai-field-label">INDICATION</div>';
+                html += `<div class="gba-ai-field-value">${esc(sub.indication_detail)}</div>`;
+                html += '</div>';
+            }
+            html += '</div>';
+
+            // Arguments
+            html += '<div class="gba-ai-args-row">';
+
+            if (sub.positive_arguments && sub.positive_arguments.length > 0) {
+                html += '<div class="gba-ai-args gba-ai-args-pos">';
+                html += '<div class="gba-ai-args-label">POSITIVE ARGUMENTS</div>';
+                html += '<ul>';
+                for (const arg of sub.positive_arguments) {
+                    html += `<li>${esc(arg)}</li>`;
+                }
+                html += '</ul></div>';
+            }
+
+            if (sub.negative_arguments && sub.negative_arguments.length > 0) {
+                html += '<div class="gba-ai-args gba-ai-args-neg">';
+                html += '<div class="gba-ai-args-label">NEGATIVE ARGUMENTS</div>';
+                html += '<ul>';
+                for (const arg of sub.negative_arguments) {
+                    html += `<li>${esc(arg)}</li>`;
+                }
+                html += '</ul></div>';
+            }
+
+            html += '</div>'; // args-row
+
+            // Key trials
+            if (sub.key_trials && sub.key_trials.length > 0) {
+                html += '<div class="gba-ai-trials">';
+                html += '<span class="gba-ai-field-label">KEY TRIALS: </span>';
+                html += sub.key_trials.map(t => `<span class="gba-ai-trial-badge">${esc(t)}</span>`).join(" ");
+                html += '</div>';
+            }
+
+            html += '</div>'; // ai-subpop
+        }
+    }
+
+    // Market implications
+    if (analysis.market_implications) {
+        html += '<div class="gba-ai-section gba-ai-market">';
+        html += '<div class="gba-ai-section-label">MARKET IMPLICATIONS</div>';
+        html += `<div class="gba-ai-section-text">${esc(analysis.market_implications)}</div>`;
+        html += '</div>';
+    }
+
+    html += '</div>'; // ai-card
     container.innerHTML = html;
 }
