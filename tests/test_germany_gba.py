@@ -1,4 +1,9 @@
-"""Tests for the Germany G-BA adapter using sample XML data."""
+"""Tests for the Germany G-BA adapter using sample XML data.
+
+The sample XML matches the real AIS format (BE_COLLECTION > BE > ZUL +
+PAT_GR_INFO_COLLECTION > ID_PAT_GR) where most values are in "value"
+attributes rather than text content.
+"""
 
 import json
 import tempfile
@@ -9,85 +14,112 @@ import pytest
 from app.services.hta_agencies.germany_gba import GermanyGBA, BENEFIT_TRANSLATIONS, EVIDENCE_TRANSLATIONS
 
 
+# ── Sample XML matching the real AIS format ──────────────────────────
+
 SAMPLE_XML = """\
 <?xml version="1.0" encoding="UTF-8"?>
-<G-BA_Beschluss_Info>
-  <Beschluss>
-    <ID_BE_AKZ>2020-01-15-D-500</ID_BE_AKZ>
-    <DAT_BESCHLUSS>2020-06-18</DAT_BESCHLUSS>
-    <AWG>Melanom: Behandlung des nicht resezierbaren oder metastasierten Melanoms bei Erwachsenen</AWG>
-    <REG_NB>Beschluss_reg</REG_NB>
-    <WS_BEW>
-      <NAME_WS>Pembrolizumab</NAME_WS>
-      <ATC>L01FF02</ATC>
-    </WS_BEW>
-    <HN>
-      <NAME_HN ID_HN="1">Keytruda</NAME_HN>
-    </HN>
-    <PAT_GR>
-      <ID_PAT_GR>a</ID_PAT_GR>
-      <BEZ_PAT_GR>Erwachsene mit nicht resezierbarem oder metastasiertem Melanom ohne BRAF-V600-Mutation</BEZ_PAT_GR>
-      <ZN_W>beträchtlich</ZN_W>
-      <AUSSAGESICHERHEIT>Hinweis</AUSSAGESICHERHEIT>
-      <VGL_TH>
-        <NAME_VGL_TH>Ipilimumab</NAME_VGL_TH>
-      </VGL_TH>
-    </PAT_GR>
-    <PAT_GR>
-      <ID_PAT_GR>b</ID_PAT_GR>
-      <BEZ_PAT_GR>Erwachsene mit nicht resezierbarem oder metastasiertem Melanom mit BRAF-V600-Mutation</BEZ_PAT_GR>
-      <ZN_W>nicht quantifizierbar</ZN_W>
-      <AUSSAGESICHERHEIT>Anhaltspunkt</AUSSAGESICHERHEIT>
-      <VGL_TH>
-        <NAME_VGL_TH>Vemurafenib</NAME_VGL_TH>
-      </VGL_TH>
-    </PAT_GR>
-  </Beschluss>
-  <Beschluss>
-    <ID_BE_AKZ>2019-03-01-D-400</ID_BE_AKZ>
-    <DAT_BESCHLUSS>2019-09-05</DAT_BESCHLUSS>
-    <AWG>Typ-2-Diabetes mellitus</AWG>
-    <REG_NB>Beschluss_reg</REG_NB>
-    <WS_BEW>
-      <NAME_WS>Semaglutid</NAME_WS>
-      <ATC>A10BJ06</ATC>
-    </WS_BEW>
-    <HN>
-      <NAME_HN ID_HN="1">Ozempic</NAME_HN>
-    </HN>
-    <PAT_GR>
-      <ID_PAT_GR>a</ID_PAT_GR>
-      <BEZ_PAT_GR>Monotherapie bei Erwachsenen mit Typ-2-Diabetes</BEZ_PAT_GR>
-      <ZN_W>gering</ZN_W>
-      <AUSSAGESICHERHEIT>Beleg</AUSSAGESICHERHEIT>
-      <VGL_TH>
-        <NAME_VGL_TH>Metformin</NAME_VGL_TH>
-      </VGL_TH>
-    </PAT_GR>
-  </Beschluss>
-  <Beschluss>
-    <ID_BE_AKZ>2021-07-01-D-650</ID_BE_AKZ>
-    <DAT_BESCHLUSS>2021-12-02</DAT_BESCHLUSS>
-    <AWG>Nicht-kleinzelliges Lungenkarzinom (NSCLC)</AWG>
-    <REG_NB>Beschluss_reg</REG_NB>
-    <WS_BEW>
-      <NAME_WS>Nivolumab</NAME_WS>
-      <ATC>L01FF01</ATC>
-    </WS_BEW>
-    <HN>
-      <NAME_HN ID_HN="1">Opdivo</NAME_HN>
-    </HN>
-    <PAT_GR>
-      <ID_PAT_GR>a</ID_PAT_GR>
-      <BEZ_PAT_GR>Erwachsene mit fortgeschrittenem NSCLC nach Chemotherapie</BEZ_PAT_GR>
-      <ZN_W>kein Zusatznutzen</ZN_W>
-      <AUSSAGESICHERHEIT>Beleg</AUSSAGESICHERHEIT>
-      <VGL_TH>
-        <NAME_VGL_TH>Docetaxel</NAME_VGL_TH>
-      </VGL_TH>
-    </PAT_GR>
-  </Beschluss>
-</G-BA_Beschluss_Info>
+<BE_COLLECTION generated="2024-01-01T00:00:00">
+  <BE>
+    <UES_BE value="G-BA Beschluss §35a SGB V"/>
+    <ID_BE value="500"/>
+    <ID_BE_AKZ value="2020-01-15-D-500"/>
+    <ZUL>
+      <ID_HN value="100"/>
+      <NAME_HN value="Keytruda"/>
+      <AWG><![CDATA[<div>Melanom: Behandlung des nicht resezierbaren oder metastasierten Melanoms bei Erwachsenen</div>]]></AWG>
+      <SOND_ZUL_ORPHAN value="0"/>
+    </ZUL>
+    <URL_TEXT value="Zur Nutzenbewertung"/>
+    <URL value="https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"/>
+    <REG_NB value="Beschluss_reg"/>
+    <PAT_GR_INFO_COLLECTION>
+      <ID_PAT_GR value="1">
+        <WS_BEW>
+          <NAME_WS_BEW value="Pembrolizumab"/>
+        </WS_BEW>
+        <DATUM_BE_VOM value="2020-06-18"/>
+        <AWG_BESCHLUSS value="Melanom: Behandlung des nicht resezierbaren oder metastasierten Melanoms bei Erwachsenen"/>
+        <NAME_PAT_GR><![CDATA[<div>Erwachsene mit nicht resezierbarem oder metastasiertem Melanom ohne BRAF-V600-Mutation</div>]]></NAME_PAT_GR>
+        <ZN_W value="beträchtlich"/>
+        <ZN_A value="Hinweis"/>
+        <ZN_TEXT><![CDATA[<div>Ein beträchtlicher Zusatznutzen ist belegt.</div>]]></ZN_TEXT>
+        <ZVT_BEST>
+          <UES_ZVT value="zVT"/>
+          <NAME_ZVT_BEST value="Ipilimumab"/>
+        </ZVT_BEST>
+      </ID_PAT_GR>
+      <ID_PAT_GR value="2">
+        <WS_BEW>
+          <NAME_WS_BEW value="Pembrolizumab"/>
+        </WS_BEW>
+        <DATUM_BE_VOM value="2020-06-18"/>
+        <AWG_BESCHLUSS value="Melanom: Behandlung des nicht resezierbaren oder metastasierten Melanoms bei Erwachsenen"/>
+        <NAME_PAT_GR><![CDATA[<div>Erwachsene mit nicht resezierbarem oder metastasiertem Melanom mit BRAF-V600-Mutation</div>]]></NAME_PAT_GR>
+        <ZN_W value="nicht quantifizierbar"/>
+        <ZN_A value="Anhaltspunkt"/>
+        <ZN_TEXT><![CDATA[<div>Ein nicht quantifizierbarer Zusatznutzen.</div>]]></ZN_TEXT>
+        <ZVT_BEST>
+          <UES_ZVT value="zVT"/>
+          <NAME_ZVT_BEST value="Vemurafenib"/>
+        </ZVT_BEST>
+      </ID_PAT_GR>
+    </PAT_GR_INFO_COLLECTION>
+  </BE>
+  <BE>
+    <UES_BE value="G-BA Beschluss §35a SGB V"/>
+    <ID_BE value="400"/>
+    <ID_BE_AKZ value="2019-03-01-D-400"/>
+    <ZUL>
+      <ID_HN value="200"/>
+      <NAME_HN value="Ozempic"/>
+      <AWG><![CDATA[<div>Typ-2-Diabetes mellitus</div>]]></AWG>
+      <SOND_ZUL_ORPHAN value="0"/>
+    </ZUL>
+    <URL value="https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/400/"/>
+    <REG_NB value="Beschluss_reg"/>
+    <PAT_GR_INFO_COLLECTION>
+      <ID_PAT_GR value="3">
+        <WS_BEW>
+          <NAME_WS_BEW value="Semaglutid"/>
+        </WS_BEW>
+        <DATUM_BE_VOM value="2019-09-05"/>
+        <NAME_PAT_GR><![CDATA[<div>Monotherapie bei Erwachsenen mit Typ-2-Diabetes</div>]]></NAME_PAT_GR>
+        <ZN_W value="gering"/>
+        <ZN_A value="Beleg"/>
+        <ZVT_BEST>
+          <NAME_ZVT_BEST value="Metformin"/>
+        </ZVT_BEST>
+      </ID_PAT_GR>
+    </PAT_GR_INFO_COLLECTION>
+  </BE>
+  <BE>
+    <UES_BE value="G-BA Beschluss §35a SGB V"/>
+    <ID_BE value="650"/>
+    <ID_BE_AKZ value="2021-07-01-D-650"/>
+    <ZUL>
+      <ID_HN value="300"/>
+      <NAME_HN value="Opdivo"/>
+      <AWG><![CDATA[<div>Nicht-kleinzelliges Lungenkarzinom (NSCLC)</div>]]></AWG>
+      <SOND_ZUL_ORPHAN value="0"/>
+    </ZUL>
+    <URL value="https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/650/"/>
+    <REG_NB value="Beschluss_reg"/>
+    <PAT_GR_INFO_COLLECTION>
+      <ID_PAT_GR value="4">
+        <WS_BEW>
+          <NAME_WS_BEW value="Nivolumab"/>
+        </WS_BEW>
+        <DATUM_BE_VOM value="2021-12-02"/>
+        <NAME_PAT_GR><![CDATA[<div>Erwachsene mit fortgeschrittenem NSCLC nach Chemotherapie</div>]]></NAME_PAT_GR>
+        <ZN_W value="kein Zusatznutzen"/>
+        <ZN_A value="Beleg"/>
+        <ZVT_BEST>
+          <NAME_ZVT_BEST value="Docetaxel"/>
+        </ZVT_BEST>
+      </ID_PAT_GR>
+    </PAT_GR_INFO_COLLECTION>
+  </BE>
+</BE_COLLECTION>
 """.encode("utf-8")
 
 
@@ -145,6 +177,32 @@ def test_parse_xml_comparators(gba_service):
     assert "Ipilimumab" in comparators
     assert "Metformin" in comparators
     assert "Docetaxel" in comparators
+
+
+def test_parse_xml_decision_dates(gba_service):
+    """Decision dates should be extracted from patient group level."""
+    dates = {d["decision_date"] for d in gba_service._decisions if d["decision_date"]}
+    assert "2020-06-18" in dates
+    assert "2019-09-05" in dates
+    assert "2021-12-02" in dates
+
+
+def test_parse_xml_urls(gba_service):
+    """Direct URLs from XML should be preserved."""
+    urls = {d["url"] for d in gba_service._decisions if d.get("url")}
+    assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/" in urls
+    assert "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/400/" in urls
+
+
+def test_parse_xml_patient_groups_stripped(gba_service):
+    """Patient group descriptions should have HTML tags stripped."""
+    groups = {d["patient_group"] for d in gba_service._decisions if d.get("patient_group")}
+    # Should not contain <div> tags
+    for g in groups:
+        assert "<div>" not in g
+        assert "</div>" not in g
+    # Content should be preserved
+    assert any("BRAF" in g for g in groups)
 
 
 @pytest.mark.asyncio
@@ -205,6 +263,13 @@ async def test_search_returns_indication(gba_service):
 
 
 @pytest.mark.asyncio
+async def test_search_returns_assessment_url(gba_service):
+    """Search results should include the direct URL from the XML."""
+    results = await gba_service.search_assessments("Pembrolizumab")
+    assert any("nutzenbewertung/500" in r.assessment_url for r in results)
+
+
+@pytest.mark.asyncio
 async def test_search_sorted_most_recent_first(gba_service):
     results = await gba_service.search_assessments("Pembrolizumab")
     dates = [r.opinion_date for r in results]
@@ -245,8 +310,6 @@ def test_country_info():
     assert info.code == "DE"
     assert info.name == "Germany"
     assert info.agency == "G-BA"
-    # Before data is loaded the flag must be False so the frontend can
-    # show a "data unavailable" indicator instead of a 503 error.
     assert info.is_loaded is False
 
 
@@ -289,43 +352,65 @@ def test_parse_invalid_xml():
     assert result == []
 
 
-def test_procedure_id_extracted_from_trailing_number():
-    """The procedure URL should use the trailing sequential number, not the year.
+def test_strip_html():
+    service = GermanyGBA()
+    assert service._strip_html("<div>Hello <b>World</b></div>") == "Hello World"
+    assert service._strip_html("") == ""
+    assert service._strip_html("no tags") == "no tags"
 
-    Regression test: previously re.search(r'(\\d{2,})', '2024-01-15-D-1234')
-    would match '2024' (the year) instead of '1234' (the actual procedure ID).
-    The fixed pattern looks for a '-D-<digits>' suffix first, then falls back
-    to the last numeric segment.
-    """
+
+def test_get_text_value_attr():
+    """_get_text should read value attributes (real AIS format)."""
+    service = GermanyGBA()
+    xml = ET.fromstring('<parent><NAME_HN value="Keytruda"/></parent>')
+    assert service._get_text(xml, ["NAME_HN"]) == "Keytruda"
+
+
+def test_get_text_text_content():
+    """_get_text should fall back to text content (legacy format)."""
+    service = GermanyGBA()
+    xml = ET.fromstring('<parent><AWG>Melanom indication</AWG></parent>')
+    assert service._get_text(xml, ["AWG"]) == "Melanom indication"
+
+
+def test_procedure_id_extracted_from_trailing_number():
+    """The procedure URL should use the trailing sequential number, not the year."""
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>'
-        '<G-BA_Beschluss_Info>'
-        '<Beschluss>'
-        '<ID_BE_AKZ>2024-01-15-D-1234</ID_BE_AKZ>'
-        '<DAT_BESCHLUSS>2024-06-01</DAT_BESCHLUSS>'
-        '<AWG>Mammakarzinom</AWG>'
-        '<WS_BEW><NAME_WS>Inavolisib</NAME_WS></WS_BEW>'
-        '<HN><NAME_HN ID_HN="1">Itovebi</NAME_HN></HN>'
-        '<PAT_GR>'
-        '<ID_PAT_GR>a</ID_PAT_GR>'
-        '<BEZ_PAT_GR>HR-positive, HER2-negative Mammakarzinom</BEZ_PAT_GR>'
-        '<ZN_W>betr\u00e4chtlich</ZN_W>'
-        '<AUSSAGESICHERHEIT>Hinweis</AUSSAGESICHERHEIT>'
-        '</PAT_GR>'
-        '</Beschluss>'
-        '</G-BA_Beschluss_Info>'
+        '<BE_COLLECTION>'
+        '<BE>'
+        '<ID_BE_AKZ value="2024-01-15-D-1234"/>'
+        '<ZUL><NAME_HN value="Itovebi"/>'
+        '<AWG>Mammakarzinom</AWG></ZUL>'
+        '<URL value="https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1234/"/>'
+        '<PAT_GR_INFO_COLLECTION>'
+        '<ID_PAT_GR value="1">'
+        '<WS_BEW><NAME_WS_BEW value="Inavolisib"/></WS_BEW>'
+        '<DATUM_BE_VOM value="2024-06-01"/>'
+        '<NAME_PAT_GR>HR-positive, HER2-negative Mammakarzinom</NAME_PAT_GR>'
+        '<ZN_W value="betr\u00e4chtlich"/>'
+        '<ZN_A value="Hinweis"/>'
+        '<ZVT_BEST><NAME_ZVT_BEST value="Fulvestrant"/></ZVT_BEST>'
+        '</ID_PAT_GR>'
+        '</PAT_GR_INFO_COLLECTION>'
+        '</BE>'
+        '</BE_COLLECTION>'
     ).encode("utf-8")
     service = GermanyGBA()
     decisions = service._parse_xml(xml)
     assert len(decisions) == 1
-    # procedure_id must be "1234", not "2024"
     assert decisions[0]["procedure_id"] == "1234"
+    assert decisions[0]["substances"] == ["Inavolisib"]
+    assert decisions[0]["trade_names"] == ["Itovebi"]
+    assert decisions[0]["benefit_rating"] == "beträchtlich"
+    assert decisions[0]["evidence_level"] == "Hinweis"
+    assert decisions[0]["comparator"] == "Fulvestrant"
+    assert decisions[0]["decision_date"] == "2024-06-01"
 
 
 @pytest.mark.asyncio
 async def test_search_inavolisib(gba_service):
     """Confirm substance-name matching is case-insensitive."""
-    # Inject an inavolisib entry into the fixture service
     gba_service._decisions.append({
         "decision_id": "2024-01-15-D-1234",
         "procedure_id": "1234",
@@ -415,3 +500,7 @@ def test_save_creates_parent_directories(gba_service):
         payload = json.loads(data_file.read_text())
         assert payload["agency"] == "G-BA"
         assert isinstance(payload["data"], list)
+
+
+# Need to import ET for the unit tests
+import xml.etree.ElementTree as ET
