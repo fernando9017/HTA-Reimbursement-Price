@@ -10,12 +10,15 @@ package, so it works with any Python 3.7+ installation (no pip install needed).
 
 Usage:
     python3 scripts/fetch_gba_xml.py
+    python3 scripts/fetch_gba_xml.py --xml-file ~/Downloads/G-BA_Beschluss_Info.xml
+
+If automatic download fails, you can manually download the XML file:
+  1. Open https://ais.g-ba.de/ in your browser
+  2. Click the XML download link
+  3. Run: python3 scripts/fetch_gba_xml.py --xml-file ~/Downloads/G-BA_Beschluss_Info.xml
 
 The generated DE.json should be committed to the repository so the Render
 deployment can load G-BA data from the file cache on startup.
-
-The G-BA updates the AIS XML on the 1st and 15th of each month, so re-run
-this script periodically to keep the cache current.
 """
 
 import gzip
@@ -34,27 +37,32 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "DE.json"
 
-XML_URLS = [
-    # The URL that successfully downloaded (even if content needs decompressing)
-    "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.xml",
-    "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.xml",
-    # ZIP variants
-    "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.zip",
-    "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.zip",
-    # Other known patterns
+# Pages to scrape for the real XML download link
+AIS_PAGES = [
+    "https://ais.g-ba.de/",
+    "https://www.g-ba.de/themen/arzneimittel/"
+    "arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/",
+]
+
+# Direct download URLs to try (ordered by likelihood)
+DIRECT_URLS = [
     "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
     "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.zip",
     "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.xml",
+    "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.zip",
     "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
+    "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.zip",
     "https://www.g-ba.de/fileadmin/downloads/ais/G-BA_Beschluss_Info.xml",
 ]
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0.0.0 Safari/537.36"
+        "Chrome/122.0.0.0 Safari/537.36"
     ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
 }
 
 
@@ -269,13 +277,29 @@ def parse_xml(xml_content):
     return decisions
 
 
-# ── Decompression helpers ──────────────────────────────────────────────
+# ── Decompression / validation helpers ─────────────────────────────────
+
+
+def is_valid_xml_data(data):
+    """Check if data looks like XML (not PDF, HTML error page, etc.)."""
+    stripped = data.lstrip()
+    if stripped[:5] == b"%PDF-":
+        return False
+    if stripped[:5] in (b"<?xml", b"<G-BA", b"<g-ba", b"<Besc"):
+        return True
+    # Try to parse a small chunk to check
+    try:
+        ET.fromstring(data[:10000] + b"</root>")
+        return True
+    except ET.ParseError:
+        pass
+    return False
 
 
 def extract_xml_from_data(data):
     """Detect if data is ZIP/GZIP compressed and extract the XML content.
 
-    Returns the raw XML bytes ready for parsing.
+    Returns the raw XML bytes, or None if the data is not valid XML.
     """
     # Check for ZIP magic bytes (PK\x03\x04)
     if data[:4] == b"PK\x03\x04":
@@ -283,66 +307,106 @@ def extract_xml_from_data(data):
         with zipfile.ZipFile(io.BytesIO(data)) as zf:
             names = zf.namelist()
             print("  -> ZIP contains: %s" % ", ".join(names))
-            # Find the XML file inside
-            xml_name = None
             for name in names:
                 if name.lower().endswith(".xml"):
-                    xml_name = name
-                    break
-            if not xml_name and names:
-                xml_name = names[0]
-            if xml_name:
-                xml_data = zf.read(xml_name)
-                print("  -> Extracted %s ({:,} bytes)".format(len(xml_data)) % xml_name)
-                return xml_data
-            raise RuntimeError("No XML file found inside ZIP archive")
+                    xml_data = zf.read(name)
+                    print("  -> Extracted %s (%s bytes)" % (name, "{:,}".format(len(xml_data))))
+                    if is_valid_xml_data(xml_data):
+                        return xml_data
+            # Try first file as fallback
+            if names:
+                xml_data = zf.read(names[0])
+                if is_valid_xml_data(xml_data):
+                    return xml_data
+        print("  -> ZIP did not contain valid XML")
+        return None
 
     # Check for GZIP magic bytes (\x1f\x8b)
     if data[:2] == b"\x1f\x8b":
         print("  -> Detected GZIP, decompressing...")
         xml_data = gzip.decompress(data)
-        print("  -> Decompressed to {:,} bytes".format(len(xml_data)))
-        return xml_data
+        print("  -> Decompressed to %s bytes" % "{:,}".format(len(xml_data)))
+        if is_valid_xml_data(xml_data):
+            return xml_data
+        print("  -> Decompressed content is not valid XML")
+        return None
 
-    # Check if it starts with XML declaration or a tag
-    stripped = data.lstrip()
-    if stripped[:5] in (b"<?xml", b"<G-BA", b"<g-ba", b"<Besc"):
+    # Check for PDF
+    if data.lstrip()[:5] == b"%PDF-":
+        print("  -> Skipping: file is a PDF, not XML")
+        return None
+
+    # Check if it looks like XML
+    if is_valid_xml_data(data):
         return data
 
-    # Show first bytes for debugging
-    print("  -> WARNING: Unknown file format. First 100 bytes:")
-    print("     %s" % repr(data[:100]))
-    print("  -> Attempting to parse as XML anyway...")
-    return data
+    print("  -> WARNING: Unknown format. First 80 bytes: %s" % repr(data[:80]))
+    return None
 
 
 # ── Network fetching ───────────────────────────────────────────────────
 
 
-def fetch_xml():
-    """Download the G-BA AIS XML from the first working URL."""
-    ais_page_url = (
-        "https://www.g-ba.de/themen/arzneimittel/"
-        "arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/"
-    )
-    discovered_urls = []
-    try:
-        req = urllib.request.Request(ais_page_url, headers=HEADERS)
-        ctx = ssl.create_default_context()
-        with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
-            html = resp.read().decode("utf-8", errors="replace")
-        for match in re.finditer(
-            r"""href=['"](/[^'"]*G-BA_Beschluss_Info[^'"]*\.(?:xml|zip))['"]""",
-            html,
-            re.IGNORECASE,
-        ):
-            discovered_urls.append("https://www.g-ba.de" + match.group(1))
-        if discovered_urls:
-            print("Discovered %d XML URL(s) from AIS page" % len(discovered_urls))
-    except Exception as exc:
-        print("Could not scrape AIS page: %s" % exc)
+def download_url(url, timeout=60):
+    """Download a URL and return (data, content_type)."""
+    req = urllib.request.Request(url, headers=HEADERS)
+    ctx = ssl.create_default_context()
+    with urllib.request.urlopen(req, context=ctx, timeout=timeout) as resp:
+        data = resp.read()
+        content_type = resp.headers.get("Content-Type", "")
+        return data, content_type
 
-    all_urls = discovered_urls + XML_URLS
+
+def discover_xml_urls():
+    """Scrape the G-BA AIS pages to find the current XML download URL."""
+    discovered = []
+    for page_url in AIS_PAGES:
+        try:
+            print("Scraping: %s" % page_url)
+            data, _ = download_url(page_url, timeout=30)
+            html = data.decode("utf-8", errors="replace")
+
+            # Look for XML/ZIP download links
+            patterns = [
+                # Direct XML/ZIP file links
+                r"""href=['"]((?:https?://[^'"]*|/[^'"]*?)"""
+                r"""(?:Beschluss_Info|AIS)[^'"]*\.(?:xml|zip))['"]""",
+                # Any download link with "ais" in the path
+                r"""href=['"]((?:https?://[^'"]*|/[^'"]*?)"""
+                r"""ais[^'"]*\.(?:xml|zip))['"]""",
+                # Broader: any XML download link from g-ba.de
+                r"""href=['"](/downloads/[^'"]*\.(?:xml|zip))['"]""",
+            ]
+
+            for pattern in patterns:
+                for match in re.finditer(pattern, html, re.IGNORECASE):
+                    url = match.group(1)
+                    if not url.startswith("http"):
+                        # Make relative URL absolute
+                        if url.startswith("/"):
+                            url = "https://www.g-ba.de" + url
+                        else:
+                            url = page_url.rstrip("/") + "/" + url
+                    discovered.append(url)
+
+            if discovered:
+                print("  -> Found %d download link(s)" % len(discovered))
+                break
+            else:
+                print("  -> No download links found on this page")
+        except Exception as exc:
+            print("  -> Could not access: %s" % exc)
+
+    return discovered
+
+
+def fetch_xml():
+    """Download the G-BA AIS XML, trying discovered and known URLs."""
+    # Step 1: Try to discover the current URL from the AIS pages
+    discovered_urls = discover_xml_urls()
+
+    # Step 2: Combine with known direct URLs, deduplicating
+    all_urls = discovered_urls + DIRECT_URLS
     seen = set()
     unique_urls = []
     for u in all_urls:
@@ -350,28 +414,43 @@ def fetch_xml():
             seen.add(u)
             unique_urls.append(u)
 
-    last_error = None
+    # Step 3: Try each URL
     for url in unique_urls:
         try:
             print("Trying: %s" % url)
-            req = urllib.request.Request(url, headers=HEADERS)
-            ctx = ssl.create_default_context()
-            with urllib.request.urlopen(req, context=ctx, timeout=60) as resp:
-                data = resp.read()
-                content_type = resp.headers.get("Content-Type", "")
-                print("  -> Downloaded {:,} bytes (Content-Type: {})".format(
-                    len(data), content_type))
-                xml_data = extract_xml_from_data(data)
+            data, content_type = download_url(url)
+            print("  -> Downloaded %s bytes (Content-Type: %s)" % (
+                "{:,}".format(len(data)), content_type))
+
+            xml_data = extract_xml_from_data(data)
+            if xml_data is not None:
                 return xml_data
-        except RuntimeError:
-            raise
+            # If extraction returned None, this URL gave us a non-XML file
+            print("  -> Not valid XML data, trying next URL...")
         except Exception as exc:
             print("  -> Failed: %s" % exc)
-            last_error = exc
 
-    raise RuntimeError(
-        "Could not download G-BA XML from any URL. Last error: %s" % last_error
-    )
+    # All URLs failed
+    print("")
+    print("=" * 70)
+    print("AUTOMATIC DOWNLOAD FAILED")
+    print("=" * 70)
+    print("")
+    print("The G-BA may have changed their download URLs.")
+    print("")
+    print("MANUAL WORKAROUND:")
+    print("  1. Open this page in your browser:")
+    print("     https://ais.g-ba.de/")
+    print("")
+    print("  2. Download the XML file (look for 'XML' download button)")
+    print("     Save it to your Downloads folder")
+    print("")
+    print("  3. Run this script again with --xml-file:")
+    print("     python3 scripts/fetch_gba_xml.py --xml-file ~/Downloads/G-BA_Beschluss_Info.xml")
+    print("")
+    print("  (The file might be a .zip — that's fine, the script handles it)")
+    print("")
+    sys.exit(1)
 
 
 def main():
@@ -384,7 +463,7 @@ def main():
         "--xml-file",
         type=str,
         default=None,
-        help="Path to a local XML file instead of downloading",
+        help="Path to a local XML or ZIP file instead of downloading",
     )
     args = parser.parse_args()
 
@@ -395,8 +474,11 @@ def main():
             print("ERROR: File not found: %s" % p)
             sys.exit(1)
         raw = p.read_bytes()
-        print("Read {:,} bytes from {}".format(len(raw), p))
+        print("Read %s bytes from %s" % ("{:,}".format(len(raw)), p))
         xml_content = extract_xml_from_data(raw)
+        if xml_content is None:
+            print("ERROR: Could not extract valid XML from %s" % p)
+            sys.exit(1)
     else:
         xml_content = fetch_xml()
 
@@ -430,7 +512,7 @@ def main():
 
     print("")
     print("Written to %s" % OUTPUT_FILE)
-    print("File size: {:,} bytes".format(OUTPUT_FILE.stat().st_size))
+    print("File size: %s bytes" % "{:,}".format(OUTPUT_FILE.stat().st_size))
     print("")
     print("Done! Commit data/DE.json to include G-BA data in deployments.")
 
