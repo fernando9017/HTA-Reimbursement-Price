@@ -229,11 +229,15 @@ def parse_patient_group(pg_elem):
     if not patient_group:
         patient_group = get_text(pg_elem, ["ID_PAT_GR"])
 
-    # Benefit rating: ZN_W (value attr or text)
-    benefit = get_text(pg_elem, ["ZN_W", "ZUSATZNUTZEN"])
+    # Benefit extent: ZN_A = Ausmaß (benefit rating in real AIS XML)
+    benefit = get_text(pg_elem, ["ZN_A", "ZN_W", "ZUSATZNUTZEN"])
 
-    # Evidence level: ZN_A (value attr or text)
-    evidence = get_text(pg_elem, ["ZN_A", "AUSSAGESICHERHEIT"])
+    # Evidence certainty: ZN_W = Wahrscheinlichkeit (only 527/1658 have it)
+    evidence = get_text(pg_elem, ["AUSSAGESICHERHEIT"])
+    if not evidence:
+        zn_w = get_text(pg_elem, ["ZN_W"])
+        if zn_w in ("Beleg", "Hinweis", "Anhaltspunkt"):
+            evidence = zn_w
 
     # Comparator therapy
     comparator = ""

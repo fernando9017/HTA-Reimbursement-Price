@@ -40,8 +40,8 @@ SAMPLE_XML = """\
         <DATUM_BE_VOM value="2020-06-18"/>
         <AWG_BESCHLUSS value="Melanom: Behandlung des nicht resezierbaren oder metastasierten Melanoms bei Erwachsenen"/>
         <NAME_PAT_GR><![CDATA[<div>Erwachsene mit nicht resezierbarem oder metastasiertem Melanom ohne BRAF-V600-Mutation</div>]]></NAME_PAT_GR>
-        <ZN_W value="beträchtlich"/>
-        <ZN_A value="Hinweis"/>
+        <ZN_A value="beträchtlich"/>
+        <ZN_W value="Hinweis"/>
         <ZN_TEXT><![CDATA[<div>Ein beträchtlicher Zusatznutzen ist belegt.</div>]]></ZN_TEXT>
         <ZVT_BEST>
           <UES_ZVT value="zVT"/>
@@ -55,8 +55,8 @@ SAMPLE_XML = """\
         <DATUM_BE_VOM value="2020-06-18"/>
         <AWG_BESCHLUSS value="Melanom: Behandlung des nicht resezierbaren oder metastasierten Melanoms bei Erwachsenen"/>
         <NAME_PAT_GR><![CDATA[<div>Erwachsene mit nicht resezierbarem oder metastasiertem Melanom mit BRAF-V600-Mutation</div>]]></NAME_PAT_GR>
-        <ZN_W value="nicht quantifizierbar"/>
-        <ZN_A value="Anhaltspunkt"/>
+        <ZN_A value="nicht quantifizierbar"/>
+        <ZN_W value="Anhaltspunkt"/>
         <ZN_TEXT><![CDATA[<div>Ein nicht quantifizierbarer Zusatznutzen.</div>]]></ZN_TEXT>
         <ZVT_BEST>
           <UES_ZVT value="zVT"/>
@@ -84,8 +84,8 @@ SAMPLE_XML = """\
         </WS_BEW>
         <DATUM_BE_VOM value="2019-09-05"/>
         <NAME_PAT_GR><![CDATA[<div>Monotherapie bei Erwachsenen mit Typ-2-Diabetes</div>]]></NAME_PAT_GR>
-        <ZN_W value="gering"/>
-        <ZN_A value="Beleg"/>
+        <ZN_A value="gering"/>
+        <ZN_W value="Beleg"/>
         <ZVT_BEST>
           <NAME_ZVT_BEST value="Metformin"/>
         </ZVT_BEST>
@@ -111,8 +111,8 @@ SAMPLE_XML = """\
         </WS_BEW>
         <DATUM_BE_VOM value="2021-12-02"/>
         <NAME_PAT_GR><![CDATA[<div>Erwachsene mit fortgeschrittenem NSCLC nach Chemotherapie</div>]]></NAME_PAT_GR>
-        <ZN_W value="kein Zusatznutzen"/>
-        <ZN_A value="Beleg"/>
+        <ZN_A value="kein Zusatznutzen"/>
+        <ZN_W value="Beleg"/>
         <ZVT_BEST>
           <NAME_ZVT_BEST value="Docetaxel"/>
         </ZVT_BEST>
@@ -388,8 +388,8 @@ def test_procedure_id_extracted_from_trailing_number():
         '<WS_BEW><NAME_WS_BEW value="Inavolisib"/></WS_BEW>'
         '<DATUM_BE_VOM value="2024-06-01"/>'
         '<NAME_PAT_GR>HR-positive, HER2-negative Mammakarzinom</NAME_PAT_GR>'
-        '<ZN_W value="betr\u00e4chtlich"/>'
-        '<ZN_A value="Hinweis"/>'
+        '<ZN_A value="betr\u00e4chtlich"/>'
+        '<ZN_W value="Hinweis"/>'
         '<ZVT_BEST><NAME_ZVT_BEST value="Fulvestrant"/></ZVT_BEST>'
         '</ID_PAT_GR>'
         '</PAT_GR_INFO_COLLECTION>'
