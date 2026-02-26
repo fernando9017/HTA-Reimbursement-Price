@@ -2,11 +2,14 @@
 """Fetch the G-BA AIS XML and generate a cached DE.json file.
 
 Run this script from a machine that can reach g-ba.de (residential/office
-network — cloud servers are blocked).  It downloads the AIS XML, parses it
-using the same logic as the live adapter, and writes data/DE.json.
+network — cloud servers are blocked).  It downloads the AIS XML, parses it,
+and writes data/DE.json.
+
+This script is SELF-CONTAINED — it does not import anything from the app
+package, so it works with any Python 3.7+ installation (no pip install needed).
 
 Usage:
-    python scripts/fetch_gba_xml.py
+    python3 scripts/fetch_gba_xml.py
 
 The generated DE.json should be committed to the repository so the Render
 deployment can load G-BA data from the file cache on startup.
@@ -16,52 +19,259 @@ this script periodically to keep the cache current.
 """
 
 import json
+import re
+import ssl
 import sys
+import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
 
-# Allow imports from the project root
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-
-from app.services.hta_agencies.germany_gba import GermanyGBA
-
+DATA_DIR = ROOT / "data"
+OUTPUT_FILE = DATA_DIR / "DE.json"
 
 XML_URLS = [
     "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
     "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.xml",
     "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
     "https://www.g-ba.de/fileadmin/downloads/ais/G-BA_Beschluss_Info.xml",
+    "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.xml",
+    "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.xml",
 ]
 
-DATA_DIR = ROOT / "data"
-OUTPUT_FILE = DATA_DIR / "DE.json"
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    ),
+}
 
 
-def fetch_xml() -> bytes:
-    """Download the G-BA AIS XML from the first working URL."""
-    import urllib.request
-    import ssl
+# ── XML Parsing (self-contained, matches germany_gba.py logic) ────────
 
-    # Use a browser-like User-Agent to avoid being blocked
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/120.0.0.0 Safari/537.36"
-        ),
+
+def find_elements(parent, tag_names):
+    """Find child elements trying multiple possible tag names."""
+    for tag in tag_names:
+        if tag.startswith("."):
+            found = parent.findall(tag)
+        else:
+            found = list(parent.iter(tag))
+            if not found:
+                found = [c for c in parent if c.tag == tag]
+        if found:
+            return found
+    return []
+
+
+def get_text(parent, tag_names):
+    """Get text content from the first matching child element."""
+    for tag in tag_names:
+        el = parent.find(tag)
+        if el is not None and el.text:
+            return el.text.strip()
+        el = parent.find(".//" + tag)
+        if el is not None and el.text:
+            return el.text.strip()
+    for tag in tag_names:
+        val = parent.get(tag)
+        if val:
+            return val.strip()
+    return ""
+
+
+def normalize_date(raw):
+    """Normalize various date formats to YYYY-MM-DD."""
+    raw = raw.strip()
+    if not raw:
+        return ""
+    if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
+        return raw
+    if re.match(r"^\d{8}$", raw):
+        return "%s-%s-%s" % (raw[:4], raw[4:6], raw[6:8])
+    m = re.match(r"^(\d{2})\.(\d{2})\.(\d{4})$", raw)
+    if m:
+        return "%s-%s-%s" % (m.group(3), m.group(2), m.group(1))
+    return raw
+
+
+def extract_benefit(elem):
+    """Extract benefit rating and evidence level from an element."""
+    benefit = get_text(elem, [
+        "ZN_W", "Zn_W", "ZUSATZNUTZEN", "Zusatznutzen",
+        "AUSMASS", "Ausmass", "zn_w",
+    ])
+    evidence = get_text(elem, [
+        "AUSSAGESICHERHEIT", "Aussagesicherheit",
+        "aussagesicherheit", "WAHRSCHEINLICHKEIT",
+    ])
+    return {
+        "benefit_rating": benefit,
+        "evidence_level": evidence,
+        "comparator": "",
+        "patient_group": "",
     }
 
-    # Try the AIS page first to discover the current XML URL
+
+def parse_beschluss_base(elem):
+    """Extract top-level decision metadata."""
+    substances = []
+    trade_names = []
+
+    decision_id = get_text(elem, [
+        "ID_BE_AKZ", "id_be_akz", "AKZ", "akz",
+    ])
+
+    procedure_id = ""
+    if decision_id:
+        num_match = re.search(r"-[Dd]-(\d+)\s*$", decision_id)
+        if not num_match:
+            num_match = re.search(r"(\d+)\s*$", decision_id)
+        if num_match:
+            procedure_id = num_match.group(1)
+
+    decision_date = get_text(elem, [
+        "DAT_BESCHLUSS", "Dat_Beschluss", "DATUM", "datum",
+        "Beschluss_Datum", "beschluss_datum", "date",
+    ])
+    decision_date = normalize_date(decision_date)
+
+    ws_containers = find_elements(elem, [
+        "WS_BEW", "Ws_Bew", "WIRKSTOFF", "Wirkstoff",
+        ".//WS_BEW", ".//{*}WS_BEW",
+    ])
+    for ws in ws_containers:
+        name = get_text(ws, [
+            "NAME_WS", "Name_Ws", "BEZEICHNUNG", "name",
+        ])
+        if name:
+            substances.append(name)
+
+    if not substances:
+        ws_text = get_text(elem, [
+            "WIRKSTOFF", "Wirkstoff", "wirkstoff", "WS_BEW",
+        ])
+        if ws_text:
+            substances.append(ws_text)
+
+    hn_containers = find_elements(elem, [
+        "HN", "Hn", "HANDELSNAME", "Handelsname",
+        ".//HN", ".//{*}HN",
+    ])
+    for hn in hn_containers:
+        name = get_text(hn, ["NAME_HN", "Name_Hn", "name"])
+        if name:
+            trade_names.append(name)
+        elif hn.text and hn.text.strip():
+            trade_names.append(hn.text.strip())
+
+    if not trade_names:
+        hn_text = get_text(elem, [
+            "HANDELSNAME", "Handelsname", "handelsname",
+        ])
+        if hn_text:
+            trade_names.append(hn_text)
+
+    indication = get_text(elem, [
+        "AWG", "Awg", "ANWENDUNGSGEBIET", "Anwendungsgebiet",
+        "awg", "indication",
+    ])
+
+    return {
+        "decision_id": decision_id,
+        "procedure_id": procedure_id,
+        "substances": substances,
+        "trade_names": trade_names,
+        "indication": indication,
+        "decision_date": decision_date,
+    }
+
+
+def parse_patient_group(pg_elem):
+    """Extract patient-group-level benefit data."""
+    data = extract_benefit(pg_elem)
+
+    pg_id = get_text(pg_elem, [
+        "ID_PAT_GR", "Id_Pat_Gr", "PATGR_ID",
+    ])
+    pg_desc = get_text(pg_elem, [
+        "BEZ_PAT_GR", "Bez_Pat_Gr", "BEZEICHNUNG",
+        "PAT_GR_TEXT", "Pat_Gr_Text", "description",
+    ])
+    data["patient_group"] = pg_desc or pg_id
+
+    comparator = get_text(pg_elem, [
+        "VGL_TH", "Vgl_Th", "ZVT", "zVT", "VERGLEICHSTHERAPIE",
+    ])
+    if not comparator:
+        vgl_containers = find_elements(pg_elem, [
+            "VGL_TH", "Vgl_Th", ".//VGL_TH",
+        ])
+        for vgl in vgl_containers:
+            text = get_text(vgl, [
+                "NAME_VGL_TH", "Name_Vgl_Th", "WS_INFO", "name",
+            ])
+            if text:
+                comparator = text
+                break
+            elif vgl.text and vgl.text.strip():
+                comparator = vgl.text.strip()
+                break
+    data["comparator"] = comparator
+
+    return data
+
+
+def parse_xml(xml_content):
+    """Parse the G-BA AIS XML into a list of decision dicts."""
+    decisions = []
+    try:
+        root = ET.fromstring(xml_content)
+    except ET.ParseError as exc:
+        print("ERROR: Failed to parse XML: %s" % exc)
+        return decisions
+
+    beschluesse = find_elements(root, [
+        "Beschluss", "BESCHLUSS", "besluit",
+        ".//Beschluss", ".//{*}Beschluss",
+    ])
+
+    if not beschluesse:
+        beschluesse = list(root)
+
+    for beschluss in beschluesse:
+        base = parse_beschluss_base(beschluss)
+        patient_groups = find_elements(beschluss, [
+            "PAT_GR", "Pat_Gr", "PATGR", ".//PAT_GR", ".//{*}PAT_GR",
+        ])
+
+        if patient_groups:
+            for pg in patient_groups:
+                entry = dict(base)
+                entry.update(parse_patient_group(pg))
+                decisions.append(entry)
+        else:
+            entry = dict(base)
+            entry.update(extract_benefit(beschluss))
+            decisions.append(entry)
+
+    return decisions
+
+
+# ── Network fetching ───────────────────────────────────────────────────
+
+
+def fetch_xml():
+    """Download the G-BA AIS XML from the first working URL."""
     ais_page_url = (
         "https://www.g-ba.de/themen/arzneimittel/"
         "arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/"
     )
     discovered_urls = []
     try:
-        import re
-
-        req = urllib.request.Request(ais_page_url, headers=headers)
+        req = urllib.request.Request(ais_page_url, headers=HEADERS)
         ctx = ssl.create_default_context()
         with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
             html = resp.read().decode("utf-8", errors="replace")
@@ -72,12 +282,11 @@ def fetch_xml() -> bytes:
         ):
             discovered_urls.append("https://www.g-ba.de" + match.group(1))
         if discovered_urls:
-            print(f"Discovered {len(discovered_urls)} XML URL(s) from AIS page")
+            print("Discovered %d XML URL(s) from AIS page" % len(discovered_urls))
     except Exception as exc:
-        print(f"Could not scrape AIS page: {exc}")
+        print("Could not scrape AIS page: %s" % exc)
 
     all_urls = discovered_urls + XML_URLS
-    # De-duplicate while preserving order
     seen = set()
     unique_urls = []
     for u in all_urls:
@@ -88,30 +297,20 @@ def fetch_xml() -> bytes:
     last_error = None
     for url in unique_urls:
         try:
-            print(f"Trying: {url}")
-            req = urllib.request.Request(url, headers=headers)
+            print("Trying: %s" % url)
+            req = urllib.request.Request(url, headers=HEADERS)
             ctx = ssl.create_default_context()
             with urllib.request.urlopen(req, context=ctx, timeout=60) as resp:
                 data = resp.read()
-                print(f"  -> Downloaded {len(data):,} bytes")
+                print("  -> Downloaded {:,} bytes".format(len(data)))
                 return data
         except Exception as exc:
-            print(f"  -> Failed: {exc}")
+            print("  -> Failed: %s" % exc)
             last_error = exc
 
     raise RuntimeError(
-        f"Could not download G-BA XML from any URL. Last error: {last_error}"
+        "Could not download G-BA XML from any URL. Last error: %s" % last_error
     )
-
-
-def fetch_from_local_file(path: str) -> bytes:
-    """Read XML from a local file (alternative to downloading)."""
-    p = Path(path)
-    if not p.exists():
-        raise FileNotFoundError(f"File not found: {p}")
-    data = p.read_bytes()
-    print(f"Read {len(data):,} bytes from {p}")
-    return data
 
 
 def main():
@@ -130,28 +329,31 @@ def main():
 
     # Get XML content
     if args.xml_file:
-        xml_content = fetch_from_local_file(args.xml_file)
+        p = Path(args.xml_file)
+        if not p.exists():
+            print("ERROR: File not found: %s" % p)
+            sys.exit(1)
+        xml_content = p.read_bytes()
+        print("Read {:,} bytes from {}".format(len(xml_content), p))
     else:
         xml_content = fetch_xml()
 
-    # Parse using the same logic as the live adapter
-    service = GermanyGBA()
-    decisions = service._parse_xml(xml_content)
+    # Parse
+    decisions = parse_xml(xml_content)
 
     if not decisions:
         print("ERROR: No decisions parsed from XML. File may be invalid.")
         sys.exit(1)
 
-    print(f"Parsed {len(decisions)} decision entries")
+    print("Parsed %d decision entries" % len(decisions))
 
-    # Collect stats
     substances = set()
     for d in decisions:
         for s in d.get("substances", []):
             substances.add(s)
-    print(f"Unique substances: {len(substances)}")
+    print("Unique substances: %d" % len(substances))
 
-    # Write the cache file in the same format as save_to_file()
+    # Write the cache file
     payload = {
         "country": "DE",
         "agency": "G-BA",
@@ -164,9 +366,11 @@ def main():
     with open(OUTPUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
 
-    print(f"\nWritten to {OUTPUT_FILE}")
-    print(f"File size: {OUTPUT_FILE.stat().st_size:,} bytes")
-    print("\nDone! Commit data/DE.json to include G-BA data in deployments.")
+    print("")
+    print("Written to %s" % OUTPUT_FILE)
+    print("File size: {:,} bytes".format(OUTPUT_FILE.stat().st_size))
+    print("")
+    print("Done! Commit data/DE.json to include G-BA data in deployments.")
 
 
 if __name__ == "__main__":
