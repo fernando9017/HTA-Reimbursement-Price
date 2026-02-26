@@ -16,6 +16,7 @@ from app.models import (
     GBADrugListItem,
     GBADrugProfile,
     GBAFilterOptions,
+    GBAGroupedAssessment,
     GBASearchResponse,
     GBASubpopulation,
 )
@@ -118,6 +119,7 @@ class GermanyHTAService:
 
         Returns only current assessments (filters out older ones that were
         replaced by re-assessments for the same indication).
+        Includes both flat (per-subpopulation) and grouped (per-decision) views.
         """
         profiles = self._build_substance_profiles()
         substance_lower = substance.lower().strip()
@@ -135,18 +137,21 @@ class GermanyHTAService:
         profile = profiles[matched_key]
         current_decs = profile["current_decisions"]
 
+        # Flat view: one entry per subpopulation (existing behaviour)
         assessments: list[GBAAssessmentDetail] = []
         for dec in current_decs:
             assessments.append(self._build_assessment_detail(dec))
-
-        # Sort by decision date descending
         assessments.sort(key=lambda a: a.decision_date, reverse=True)
+
+        # Grouped view: merge subpopulations sharing the same decision_id
+        grouped = self._group_by_decision(current_decs)
 
         return GBADrugProfile(
             active_substance=matched_key,
             trade_names=profile["trade_names"],
             total_assessments=len(current_decs),
             current_assessments=assessments,
+            grouped_assessments=grouped,
         )
 
     # ── Filter options ────────────────────────────────────────────────
@@ -363,6 +368,70 @@ class GermanyHTAService:
             overall_benefit=raw_benefit,
             overall_benefit_en=benefit_en,
         )
+
+    def _group_by_decision(self, decisions: list[dict]) -> list[GBAGroupedAssessment]:
+        """Group decision dicts by decision_id into GBAGroupedAssessment objects.
+
+        Each G-BA decision (Beschluss) may cover multiple patient subpopulations
+        with different comparators and benefit ratings. This method merges them
+        into a single object per decision_id.
+        """
+        from collections import OrderedDict
+
+        groups: OrderedDict[str, list[dict]] = OrderedDict()
+        for dec in decisions:
+            did = dec.get("decision_id", "")
+            if did not in groups:
+                groups[did] = []
+            groups[did].append(dec)
+
+        result: list[GBAGroupedAssessment] = []
+        for decision_id, group_decs in groups.items():
+            first = group_decs[0]
+
+            # Build subpopulations from all decs in this group
+            subpops: list[GBASubpopulation] = []
+            benefit_ratings: list[str] = []
+            for dec in group_decs:
+                detail = self._build_assessment_detail(dec)
+                subpops.extend(detail.subpopulations)
+                br = dec.get("benefit_rating", "")
+                if br:
+                    benefit_ratings.append(br)
+
+            best = self._best_benefit(benefit_ratings)
+
+            procedure_id = first.get("procedure_id", "")
+            assessment_url = ""
+            if procedure_id:
+                assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
+
+            trade_names = first.get("trade_names", [])
+            trade_name = (
+                ", ".join(trade_names) if trade_names
+                else first.get("substances", [""])[0]
+            )
+            substance = (
+                first.get("substances", [""])[0]
+                if first.get("substances") else ""
+            )
+
+            result.append(GBAGroupedAssessment(
+                decision_id=decision_id,
+                trade_name=trade_name,
+                active_substance=substance,
+                indication=first.get("indication", ""),
+                indication_en=first.get("indication_en", ""),
+                decision_date=first.get("decision_date", ""),
+                assessment_url=assessment_url,
+                subpopulations=subpops,
+                subpopulation_count=len(subpops),
+                overall_benefit=best,
+                overall_benefit_en=BENEFIT_TRANSLATIONS.get(best, best),
+            ))
+
+        result.sort(key=lambda a: a.decision_date, reverse=True)
+        return result
 
     def _best_benefit(self, ratings: list[str]) -> str:
         """Return the best (most favorable) benefit rating from a list."""

@@ -383,17 +383,39 @@ class GBAAssessmentDetail(BaseModel):
     overall_benefit_en: str = ""
 
 
+class GBAGroupedAssessment(BaseModel):
+    """A G-BA assessment decision grouped by decision_id.
+
+    Contains all subpopulations belonging to the same G-BA decision,
+    giving a holistic view of the assessment rather than per-subpopulation.
+    """
+
+    decision_id: str = ""
+    trade_name: str
+    active_substance: str
+    indication: str
+    indication_en: str = ""
+    decision_date: str
+    assessment_url: str = ""
+    subpopulations: list[GBASubpopulation] = []
+    subpopulation_count: int = 0        # Number of distinct subpopulations
+    overall_benefit: str = ""           # Best benefit across all subpopulations
+    overall_benefit_en: str = ""
+
+
 class GBADrugProfile(BaseModel):
     """Complete G-BA assessment profile for one active substance.
 
     Shows only the most current assessment per indication, filtering
-    out superseded re-assessments.
+    out superseded re-assessments. Provides both flat (per-subpopulation)
+    and grouped (per-decision) views.
     """
 
     active_substance: str
     trade_names: list[str] = []
     total_assessments: int = 0
     current_assessments: list[GBAAssessmentDetail] = []
+    grouped_assessments: list[GBAGroupedAssessment] = []
 
 
 class GBADrugListItem(BaseModel):

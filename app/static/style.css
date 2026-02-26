@@ -2710,6 +2710,115 @@ footer a:hover {
     border: 1px solid #d4e6f1;
 }
 
+/* Detail sub-tabs (By Assessment / By Subpopulation) */
+.gba-detail-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.gba-detail-tab {
+    padding: 10px 22px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: -2px;
+}
+
+.gba-detail-tab:hover {
+    color: var(--primary);
+    background: rgba(74, 144, 226, 0.04);
+}
+
+.gba-detail-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.gba-detail-view.hidden {
+    display: none;
+}
+
+/* Grouped assessment card (By Assessment view) */
+.gba-grouped-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.gba-grouped-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #eef2f7 0%, #dfe6ed 100%);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gba-grouped-indication {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    min-width: 200px;
+}
+
+.gba-grouped-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.gba-grouped-date {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.gba-grouped-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--primary);
+    color: #fff;
+    white-space: nowrap;
+}
+
+.gba-grouped-subpops {
+    background: var(--card-bg);
+}
+
+.gba-grouped-subpop {
+    padding: 16px 18px;
+    border-bottom: 1px solid #eef0f3;
+}
+
+.gba-grouped-subpop:last-child {
+    border-bottom: none;
+}
+
+.gba-grouped-subpop-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
 @media (max-width: 600px) {
     .gba-outcome-grid {
         grid-template-columns: 1fr;
@@ -2723,5 +2832,9 @@ footer a:hover {
     }
     .gba-ai-outcome-row {
         grid-template-columns: 1fr;
+    }
+    .gba-grouped-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

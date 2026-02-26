@@ -193,6 +193,18 @@ function setupGBADetail() {
         document.querySelectorAll(".mexico-tab-content").forEach(s => s.classList.add("hidden"));
         document.getElementById("tab-browse").classList.remove("hidden");
     });
+
+    // Sub-tabs: By Assessment / By Subpopulation
+    document.querySelectorAll(".gba-detail-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".gba-detail-tab").forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            const view = tab.dataset.view;
+            document.querySelectorAll(".gba-detail-view").forEach(v => v.classList.add("hidden"));
+            const target = document.getElementById("gba-view-" + view);
+            if (target) target.classList.remove("hidden");
+        });
+    });
 }
 
 async function loadGBADrugDetail(substance) {
@@ -203,127 +215,216 @@ async function loadGBADrugDetail(substance) {
     document.getElementById("tab-detail").classList.remove("hidden");
 
     const title = document.getElementById("gba-detail-title");
-    const content = document.getElementById("gba-detail-content");
+    const headerEl = document.getElementById("gba-detail-header");
+    const assessmentView = document.getElementById("gba-view-assessment");
+    const subpopView = document.getElementById("gba-view-subpopulation");
 
     title.textContent = "Assessment Detail — " + substance;
-    content.innerHTML = '<p class="status-msg loading">Loading G-BA assessment profile...</p>';
+    headerEl.innerHTML = '';
+    assessmentView.innerHTML = '<p class="status-msg loading">Loading G-BA assessment profile...</p>';
+    subpopView.innerHTML = '';
+
+    // Reset sub-tabs to default (By Assessment)
+    document.querySelectorAll(".gba-detail-tab").forEach(t => t.classList.remove("active"));
+    document.querySelector('[data-view="assessment"]').classList.add("active");
+    document.querySelectorAll(".gba-detail-view").forEach(v => v.classList.add("hidden"));
+    assessmentView.classList.remove("hidden");
+
     document.getElementById("tab-detail").scrollIntoView({ behavior: "smooth", block: "start" });
 
     try {
         const res = await fetch("/api/germany/drugs/" + encodeURIComponent(substance));
         if (!res.ok) throw new Error("Not found");
         const data = await res.json();
-        renderGBADrugDetail(data, content);
+
+        // Render shared drug header
+        headerEl.innerHTML = renderGBADrugHeader(data);
+
+        // Render both views
+        renderGBAGroupedView(data, assessmentView);
+        renderGBASubpopView(data, subpopView);
     } catch (e) {
-        content.innerHTML = '<p class="status-msg error">Could not load assessment detail.</p>';
+        assessmentView.innerHTML = '<p class="status-msg error">Could not load assessment detail.</p>';
     }
 }
 
-function renderGBADrugDetail(profile, container) {
-    let html = '';
-
-    // ── Drug header ──
-    html += '<div class="gba-profile-header">';
+function renderGBADrugHeader(profile) {
+    let html = '<div class="gba-profile-header">';
     html += `<div class="gba-profile-substance">${esc(profile.active_substance)}</div>`;
     if (profile.trade_names.length > 0) {
         html += `<div class="gba-profile-trade">${profile.trade_names.map(n => esc(n)).join(", ")}</div>`;
     }
-    html += `<div class="gba-profile-meta">${profile.total_assessments} current assessment(s)</div>`;
+    const groupedCount = (profile.grouped_assessments || []).length;
+    const subpopCount = profile.total_assessments;
+    html += `<div class="gba-profile-meta">${groupedCount} assessment(s), ${subpopCount} subpopulation(s)</div>`;
     html += '</div>';
+    return html;
+}
 
-    // ── Each assessment ──
+// ── By Assessment view (grouped by decision_id) ───────────────────
+
+function renderGBAGroupedView(profile, container) {
+    const grouped = profile.grouped_assessments || [];
+    if (grouped.length === 0) {
+        container.innerHTML = '<p class="no-results">No assessments found.</p>';
+        return;
+    }
+
+    let html = '';
+    for (const g of grouped) {
+        const subCount = g.subpopulations ? g.subpopulations.length : 0;
+        html += '<div class="gba-grouped-card">';
+
+        // Grouped header
+        html += '<div class="gba-grouped-header">';
+        html += `<div class="gba-grouped-indication">${esc(g.indication_en || g.indication)}</div>`;
+        html += '<div class="gba-grouped-meta">';
+        if (subCount > 1) {
+            html += `<span class="gba-grouped-badge">${subCount} subpopulations</span>`;
+        }
+        html += `<span class="gba-grouped-date">${esc(g.decision_date)}</span>`;
+        html += '</div>';
+        html += '</div>';
+
+        // Subpopulations
+        html += '<div class="gba-grouped-subpops">';
+        if (g.subpopulations && subCount > 0) {
+            for (let i = 0; i < g.subpopulations.length; i++) {
+                const sub = g.subpopulations[i];
+                html += '<div class="gba-grouped-subpop">';
+
+                if (subCount > 1) {
+                    html += `<div class="gba-grouped-subpop-num">Subpopulation ${i + 1} of ${subCount}</div>`;
+                }
+
+                if (sub.patient_group) {
+                    html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group_en || sub.patient_group)}</div>`;
+                }
+
+                html += '<div class="gba-outcome-grid">';
+                html += renderOutcomeItem("OUTCOME", sub.benefit_rating_en || sub.benefit_rating, benefitBadgeClass(sub.benefit_rating));
+                if (sub.evidence_level || sub.evidence_level_en) {
+                    html += renderOutcomeItem("EVIDENCE", sub.evidence_level_en || sub.evidence_level, evidenceBadgeClass(sub.evidence_level));
+                }
+                if (sub.comparator) {
+                    html += renderOutcomeItem("COMPARATOR", sub.comparator_en || sub.comparator, "");
+                }
+                html += '</div>'; // outcome-grid
+                html += '</div>'; // grouped-subpop
+            }
+        } else {
+            // No subpopulation detail
+            const benefitClass = benefitBadgeClass(g.overall_benefit);
+            html += '<div class="gba-grouped-subpop">';
+            html += '<div class="gba-outcome-grid">';
+            html += renderOutcomeItem("OUTCOME", g.overall_benefit_en || g.overall_benefit || "—", benefitClass);
+            html += '</div></div>';
+        }
+        html += '</div>'; // grouped-subpops
+
+        // Action bar
+        html += '<div class="gba-action-bar">';
+        if (g.assessment_url) {
+            html += `<a href="${esc(g.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">G-BA Assessment &rarr;</a>`;
+        }
+        if (g.decision_id && aiAnalysisAvailable) {
+            html += `<button class="gba-ai-btn" data-decision-id="${esc(g.decision_id)}">Analyze with AI</button>`;
+        }
+        html += '</div>';
+
+        // AI analysis container
+        if (g.decision_id && aiAnalysisAvailable) {
+            html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(g.decision_id)}"></div>`;
+        }
+
+        html += '</div>'; // grouped-card
+    }
+
+    container.innerHTML = html;
+    container.querySelectorAll(".gba-ai-btn").forEach(btn => {
+        btn.addEventListener("click", () => loadAIAnalysis(btn.dataset.decisionId));
+    });
+}
+
+// ── By Subpopulation view (flat, one card per subpop) ─────────────
+
+function renderGBASubpopView(profile, container) {
+    let html = '';
     for (const a of profile.current_assessments) {
         html += '<div class="gba-assessment-card">';
 
-        // Assessment header with indication
         html += '<div class="gba-assessment-header">';
         html += `<div class="gba-assessment-indication">${esc(a.indication_en || a.indication)}</div>`;
         html += `<div class="gba-assessment-date">${esc(a.decision_date)}</div>`;
         html += '</div>';
 
-        // Subpopulation outcomes
         if (a.subpopulations && a.subpopulations.length > 0) {
             for (const sub of a.subpopulations) {
                 html += '<div class="gba-subpop">';
-
-                // Patient group
                 if (sub.patient_group) {
                     html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group_en || sub.patient_group)}</div>`;
                 }
-
-                // Outcome row
                 html += '<div class="gba-outcome-grid">';
-
-                // Benefit rating
-                const benefitClass = benefitBadgeClass(sub.benefit_rating);
-                html += '<div class="gba-outcome-item">';
-                html += '<div class="gba-outcome-label">OUTCOME</div>';
-                html += `<div class="gba-outcome-value ${benefitClass}">${esc(sub.benefit_rating_en || sub.benefit_rating || "—")}</div>`;
-                html += '</div>';
-
-                // Evidence level
+                html += renderOutcomeItem("OUTCOME", sub.benefit_rating_en || sub.benefit_rating || "—", benefitBadgeClass(sub.benefit_rating));
                 if (sub.evidence_level || sub.evidence_level_en) {
-                    const evidenceClass = evidenceBadgeClass(sub.evidence_level);
-                    html += '<div class="gba-outcome-item">';
-                    html += '<div class="gba-outcome-label">EVIDENCE</div>';
-                    html += `<div class="gba-outcome-value ${evidenceClass}">${esc(sub.evidence_level_en || sub.evidence_level)}</div>`;
-                    html += '</div>';
+                    html += renderOutcomeItem("EVIDENCE", sub.evidence_level_en || sub.evidence_level, evidenceBadgeClass(sub.evidence_level));
                 }
-
-                // Comparator
                 if (sub.comparator) {
-                    html += '<div class="gba-outcome-item">';
-                    html += '<div class="gba-outcome-label">COMPARATOR</div>';
-                    html += `<div class="gba-outcome-value">${esc(sub.comparator_en || sub.comparator)}</div>`;
-                    html += '</div>';
+                    html += renderOutcomeItem("COMPARATOR", sub.comparator_en || sub.comparator, "");
                 }
-
                 html += '</div>'; // outcome-grid
                 html += '</div>'; // subpop
             }
         } else {
-            // Single outcome (no subpopulations)
             const benefitClass = benefitBadgeClass(a.overall_benefit);
             html += '<div class="gba-subpop">';
             html += '<div class="gba-outcome-grid">';
-            html += '<div class="gba-outcome-item">';
-            html += '<div class="gba-outcome-label">OUTCOME</div>';
-            html += `<div class="gba-outcome-value ${benefitClass}">${esc(a.overall_benefit_en || a.overall_benefit || "—")}</div>`;
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
+            html += renderOutcomeItem("OUTCOME", a.overall_benefit_en || a.overall_benefit || "—", benefitClass);
+            html += '</div></div>';
         }
 
-        // Action bar: source link + AI analysis button
+        // Action bar
         html += '<div class="gba-action-bar">';
         if (a.assessment_url) {
             html += `<a href="${esc(a.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">G-BA Assessment &rarr;</a>`;
         }
         if (a.decision_id && aiAnalysisAvailable) {
-            html += `<button class="gba-ai-btn" data-decision-id="${esc(a.decision_id)}">Analyze with AI</button>`;
+            html += `<button class="gba-ai-btn" data-decision-id="${esc(a.decision_id)}" data-view="subpop">Analyze with AI</button>`;
         }
         html += '</div>';
 
-        // AI analysis container (initially hidden)
         if (a.decision_id && aiAnalysisAvailable) {
-            html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(a.decision_id)}"></div>`;
+            html += `<div class="gba-ai-analysis hidden" id="ai-analysis-subpop-${esc(a.decision_id)}"></div>`;
         }
 
         html += '</div>'; // assessment-card
     }
 
     container.innerHTML = html;
-
-    // Bind AI analysis buttons
     container.querySelectorAll(".gba-ai-btn").forEach(btn => {
-        btn.addEventListener("click", () => loadAIAnalysis(btn.dataset.decisionId));
+        btn.addEventListener("click", () => {
+            loadAIAnalysis(btn.dataset.decisionId, btn.dataset.view === "subpop" ? "subpop" : "");
+        });
     });
+}
+
+// ── Shared outcome item renderer ──────────────────────────────────
+
+function renderOutcomeItem(label, value, cssClass) {
+    let html = '<div class="gba-outcome-item">';
+    html += `<div class="gba-outcome-label">${label}</div>`;
+    html += `<div class="gba-outcome-value ${cssClass || ""}">${esc(value || "—")}</div>`;
+    html += '</div>';
+    return html;
 }
 
 // ── AI Analysis ─────────────────────────────────────────────────────
 
-async function loadAIAnalysis(decisionId) {
-    const container = document.getElementById("ai-analysis-" + decisionId);
+async function loadAIAnalysis(decisionId, viewPrefix) {
+    const containerId = viewPrefix
+        ? "ai-analysis-" + viewPrefix + "-" + decisionId
+        : "ai-analysis-" + decisionId;
+    const container = document.getElementById(containerId);
     if (!container) return;
 
     // Toggle: if already visible and loaded, just hide
@@ -335,8 +436,9 @@ async function loadAIAnalysis(decisionId) {
     container.classList.remove("hidden");
     container.innerHTML = '<p class="status-msg loading">Generating AI analysis... This may take a few seconds.</p>';
 
-    // Update button text
-    const btn = document.querySelector(`[data-decision-id="${decisionId}"]`);
+    // Update button text for the clicked button
+    const btn = container.previousElementSibling?.querySelector(`[data-decision-id="${decisionId}"]`)
+        || document.querySelector(`[data-decision-id="${decisionId}"]`);
     if (btn) btn.textContent = "Analyzing...";
 
     try {

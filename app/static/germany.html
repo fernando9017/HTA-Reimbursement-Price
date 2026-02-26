@@ -57,7 +57,14 @@
                 <h2 id="gba-detail-title">Assessment Detail</h2>
                 <button class="btn-secondary btn-close" id="btn-back-browse">Back to Browser</button>
             </div>
-            <div id="gba-detail-content"></div>
+            <div id="gba-detail-header"></div>
+            <!-- Sub-tabs: By Assessment / By Subpopulation -->
+            <div class="gba-detail-tabs" id="gba-detail-tabs">
+                <button class="gba-detail-tab active" data-view="assessment">By Assessment</button>
+                <button class="gba-detail-tab" data-view="subpopulation">By Subpopulation</button>
+            </div>
+            <div id="gba-view-assessment" class="gba-detail-view"></div>
+            <div id="gba-view-subpopulation" class="gba-detail-view hidden"></div>
         </section>
     </main>
 
