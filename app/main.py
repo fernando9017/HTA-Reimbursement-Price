@@ -26,6 +26,7 @@ from app.models import (
     MexicoProcurementFilters,
     MexicoSearchResponse,
     PriceHistoryResult,
+    PriceVarianceResponse,
 )  # ATCPrefix imported via FilterOptions
 from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
@@ -691,3 +692,25 @@ async def mexico_institutions(
     if not mexico_service.is_loaded:
         raise HTTPException(503, "Mexico procurement data is still loading.")
     return mexico_service.get_institution_breakdown(cycle=cycle)
+
+
+@app.get("/api/mexico/price-variance", response_model=PriceVarianceResponse)
+async def mexico_price_variance(
+    cycle: str = Query("", description="Procurement cycle, e.g. '2025-2026'"),
+    therapeutic_group: str = Query("", description="Therapeutic group filter"),
+    source_type: str = Query("", description="Source type filter"),
+    min_institutions: int = Query(2, ge=2, le=4, description="Min institutions to compare"),
+):
+    """Analyze cross-institutional price variance for the same drug.
+
+    Shows how prices for identical claves differ across IMSS, ISSSTE, PEMEX,
+    and IMSS-Bienestar, highlighting potential savings from price harmonization.
+    """
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.get_price_variance(
+        cycle=cycle,
+        therapeutic_group=therapeutic_group,
+        source_type=source_type,
+        min_institutions=min_institutions,
+    )

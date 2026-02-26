@@ -304,6 +304,43 @@ class MexicoAdjudicacionResponse(BaseModel):
     results: list[AdjudicacionResult]
 
 
+class InstitutionPrice(BaseModel):
+    """Price data for a single institution in a price variance comparison."""
+
+    institution: str
+    unit_price: float = 0.0
+    units_awarded: int = 0
+    supplier: str = ""
+    max_reference_price: float = 0.0
+
+
+class PriceVarianceItem(BaseModel):
+    """Cross-institutional price variance for a single clave in a cycle."""
+
+    clave: str
+    active_substance: str
+    therapeutic_group: str = ""
+    source_type: str = ""
+    cycle: str
+    institution_prices: list[InstitutionPrice]
+    min_price: float = 0.0
+    max_price: float = 0.0
+    variance_pct: float = 0.0           # (max - min) / min * 100
+    avg_price: float = 0.0
+    total_savings_potential: float = 0.0  # savings if all bought at min price
+
+
+class PriceVarianceResponse(BaseModel):
+    """Cross-institutional price variance analysis."""
+
+    cycle: str
+    total: int
+    items_with_variance: int            # claves where prices differ across institutions
+    avg_variance_pct: float = 0.0       # average variance across all multi-institution claves
+    total_savings_potential: float = 0.0
+    results: list[PriceVarianceItem]
+
+
 class MexicoProcurementFilters(BaseModel):
     """Available filter options for Mexico procurement module."""
 

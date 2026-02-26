@@ -2046,6 +2046,133 @@ button:disabled {
     margin-bottom: 8px;
 }
 
+/* ── Mexico — Price Variance ────────────────────────────────────── */
+
+.mx-var-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.mx-var-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f0f3f7;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mx-var-title {
+    font-size: 0.92rem;
+    color: var(--text);
+}
+
+.mx-var-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.mx-var-body {
+    padding: 14px 16px;
+}
+
+.mx-var-range {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.mx-var-min {
+    color: #27ae60;
+}
+
+.mx-var-avg {
+    color: var(--text-light);
+}
+
+.mx-var-max {
+    color: #e74c3c;
+}
+
+.mx-var-table {
+    font-size: 0.84rem;
+}
+
+.mx-var-best {
+    background: rgba(39, 174, 96, 0.06);
+}
+
+.mx-var-worst {
+    background: rgba(231, 76, 60, 0.06);
+}
+
+.mx-var-diff {
+    font-weight: 600;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.mx-var-diff.mx-var-best {
+    color: #27ae60;
+}
+
+.mx-var-diff.mx-var-worst {
+    color: #e74c3c;
+}
+
+.mx-var-high {
+    background: rgba(231, 76, 60, 0.12);
+    color: #c0392b;
+    font-weight: 700;
+}
+
+.mx-var-medium {
+    background: rgba(243, 156, 18, 0.12);
+    color: #d68910;
+    font-weight: 700;
+}
+
+.mx-var-low {
+    background: rgba(39, 174, 96, 0.12);
+    color: #1e8449;
+    font-weight: 700;
+}
+
+.mx-var-savings {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #eafaf1;
+    border-left: 3px solid #27ae60;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #1e8449;
+}
+
+.mx-clave-link {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+}
+
+.mx-clave-link:hover {
+    color: var(--primary-light);
+    text-decoration-style: solid;
+}
+
 /* ── Utility ──────────────────────────────────────────────────────── */
 
 .hidden {

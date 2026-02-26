@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setupAdjSearch();
     setupInstitutions();
     setupClaveDetail();
+    setupVariance();
     loadOpportunities();
 });
 
@@ -55,6 +56,9 @@ async function loadFilters() {
         populateSelect("adj-therapeutic", filters.therapeutic_groups);
         populateSelect("adj-source", filters.source_types, sourceTypeLabel);
         populateSelect("inst-cycle", filters.cycles);
+        populateSelect("var-cycle", filters.cycles);
+        populateSelect("var-therapeutic", filters.therapeutic_groups);
+        populateSelect("var-source", filters.source_types, sourceTypeLabel);
     } catch (e) {
         console.error("Failed to load Mexico filters:", e);
     }
@@ -727,5 +731,136 @@ function renderOpportunities(items, container) {
 
     container.querySelectorAll(".mx-clave-row").forEach(row => {
         row.addEventListener("click", () => loadClaveDetail(row.dataset.clave));
+    });
+}
+
+// ── Price Variance ──────────────────────────────────────────────────
+
+function setupVariance() {
+    document.getElementById("btn-search-variance").addEventListener("click", searchVariance);
+    document.getElementById("btn-reset-variance").addEventListener("click", () => {
+        ["var-cycle", "var-therapeutic", "var-source"].forEach(id => {
+            document.getElementById(id).value = "";
+        });
+        document.getElementById("var-min-inst").value = "2";
+        document.getElementById("var-results").innerHTML = "";
+        document.getElementById("var-summary").classList.add("hidden");
+        hideStatus(document.getElementById("var-status"));
+    });
+}
+
+async function searchVariance() {
+    const statusEl = document.getElementById("var-status");
+    const resultsEl = document.getElementById("var-results");
+    const summaryEl = document.getElementById("var-summary");
+
+    const params = new URLSearchParams();
+    const cycle = document.getElementById("var-cycle").value;
+    const therapeutic = document.getElementById("var-therapeutic").value;
+    const source = document.getElementById("var-source").value;
+    const minInst = document.getElementById("var-min-inst").value;
+
+    if (cycle) params.set("cycle", cycle);
+    if (therapeutic) params.set("therapeutic_group", therapeutic);
+    if (source) params.set("source_type", source);
+    if (minInst) params.set("min_institutions", minInst);
+
+    showStatus(statusEl, "Analyzing price variance...", "loading");
+    resultsEl.innerHTML = "";
+    summaryEl.classList.add("hidden");
+
+    try {
+        const res = await fetch("/api/mexico/price-variance?" + params);
+        if (!res.ok) throw new Error("Variance analysis failed");
+        const data = await res.json();
+        hideStatus(statusEl);
+
+        if (data.results.length === 0) {
+            resultsEl.innerHTML = '<p class="no-results">No claves with multi-institution pricing found for your criteria.</p>';
+            return;
+        }
+
+        renderVarianceSummary(data, summaryEl);
+        renderVarianceResults(data.results, resultsEl);
+    } catch (e) {
+        showStatus(statusEl, "Error: " + e.message, "error");
+    }
+}
+
+function renderVarianceSummary(data, container) {
+    let html = '<div class="mx-summary-grid">';
+    html += `<div class="mx-summary-card"><div class="mx-summary-value">${data.total}</div><div class="mx-summary-label">Multi-Institution Claves</div></div>`;
+    html += `<div class="mx-summary-card mx-summary-desierta"><div class="mx-summary-value">${data.items_with_variance}</div><div class="mx-summary-label">With Price Variance</div></div>`;
+    html += `<div class="mx-summary-card"><div class="mx-summary-value">${data.avg_variance_pct}%</div><div class="mx-summary-label">Avg. Variance</div></div>`;
+    html += `<div class="mx-summary-card mx-summary-awarded"><div class="mx-summary-value">${formatMXN(data.total_savings_potential)}</div><div class="mx-summary-label">Total Savings Potential</div></div>`;
+    html += '</div>';
+
+    container.innerHTML = html;
+    container.classList.remove("hidden");
+}
+
+function renderVarianceResults(items, container) {
+    let html = `<p class="results-summary">${items.length} clave(s) with cross-institutional pricing — sorted by variance</p>`;
+
+    for (const item of items) {
+        const srcClass = sourceTypeBadgeClass(item.source_type);
+        const varClass = item.variance_pct > 50 ? "mx-var-high" : item.variance_pct > 20 ? "mx-var-medium" : "mx-var-low";
+
+        html += '<div class="mx-var-card">';
+        html += '<div class="mx-var-header">';
+        html += `<div class="mx-var-title">`;
+        html += `<strong class="mx-clave-link" data-clave="${esc(item.clave)}" style="cursor:pointer">${esc(item.clave)}</strong>`;
+        html += ` &mdash; ${esc(item.active_substance)}`;
+        html += '</div>';
+        html += '<div class="mx-var-badges">';
+        html += `<span class="tag ${srcClass}">${esc(sourceTypeLabel(item.source_type))}</span>`;
+        if (item.therapeutic_group) html += `<span class="tag">${esc(item.therapeutic_group)}</span>`;
+        html += `<span class="tag ${varClass}">${item.variance_pct}% variance</span>`;
+        html += '</div>';
+        html += '</div>';
+
+        // Price range summary
+        html += '<div class="mx-var-body">';
+        html += '<div class="mx-var-range">';
+        html += `<span class="mx-var-min">Min: ${formatMXN(item.min_price)}</span>`;
+        html += `<span class="mx-var-avg">Avg: ${formatMXN(item.avg_price)}</span>`;
+        html += `<span class="mx-var-max">Max: ${formatMXN(item.max_price)}</span>`;
+        html += '</div>';
+
+        // Institution price comparison table
+        html += '<table class="analogue-table mx-var-table"><thead><tr>';
+        html += '<th>Institution</th><th>Supplier</th><th>Unit Price (MXN)</th>';
+        html += '<th>Ref. Price</th><th>Units Awarded</th><th>vs. Min</th>';
+        html += '</tr></thead><tbody>';
+
+        for (const ip of item.institution_prices) {
+            const diff = item.min_price > 0 ? ((ip.unit_price - item.min_price) / item.min_price * 100) : 0;
+            const diffClass = diff === 0 ? "mx-var-best" : diff > 30 ? "mx-var-worst" : "";
+            const diffLabel = diff === 0 ? "Best price" : "+" + diff.toFixed(1) + "%";
+
+            html += `<tr class="${diffClass}">`;
+            html += `<td><strong>${esc(ip.institution)}</strong></td>`;
+            html += `<td>${esc(ip.supplier) || "—"}</td>`;
+            html += `<td style="text-align:right;white-space:nowrap;font-weight:600">${formatMXN(ip.unit_price)}</td>`;
+            html += `<td style="text-align:right;white-space:nowrap;color:var(--text-light)">${formatMXN(ip.max_reference_price)}</td>`;
+            html += `<td style="text-align:right">${formatUnits(ip.units_awarded)}</td>`;
+            html += `<td class="mx-var-diff ${diffClass}">${diffLabel}</td>`;
+            html += '</tr>';
+        }
+
+        html += '</tbody></table>';
+
+        if (item.total_savings_potential > 0) {
+            html += `<div class="mx-var-savings">Potential savings if all institutions matched best price: <strong>${formatMXN(item.total_savings_potential)}</strong></div>`;
+        }
+
+        html += '</div></div>';
+    }
+
+    container.innerHTML = html;
+
+    // Bind clave link clicks
+    container.querySelectorAll(".mx-clave-link").forEach(el => {
+        el.addEventListener("click", () => loadClaveDetail(el.dataset.clave));
     });
 }
