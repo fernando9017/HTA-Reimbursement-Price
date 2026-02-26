@@ -67,6 +67,30 @@ HEADERS = {
 
 
 # ── XML Parsing (self-contained, matches germany_gba.py logic) ────────
+#
+# The real AIS XML structure (as of 2026) is:
+#   <BE_COLLECTION generated="...">
+#     <BE>
+#       <ID_BE_AKZ value="2020-01-15-D-500"/>
+#       <ZUL>
+#         <NAME_HN value="Keytruda"/>
+#         <AWG>indication text (HTML)</AWG>
+#       </ZUL>
+#       <URL value="https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"/>
+#       <PAT_GR_INFO_COLLECTION>
+#         <ID_PAT_GR value="1">
+#           <WS_BEW><NAME_WS_BEW value="Pembrolizumab"/></WS_BEW>
+#           <DATUM_BE_VOM value="2020-06-18"/>
+#           <NAME_PAT_GR>patient group (HTML)</NAME_PAT_GR>
+#           <ZN_W value="beträchtlich"/>
+#           <ZN_A value="Hinweis"/>
+#           <ZVT_BEST><NAME_ZVT_BEST value="Ipilimumab"/></ZVT_BEST>
+#         </ID_PAT_GR>
+#       </PAT_GR_INFO_COLLECTION>
+#     </BE>
+#   </BE_COLLECTION>
+#
+# Most values are in "value" attributes rather than text content.
 
 
 def find_elements(parent, tag_names):
@@ -84,19 +108,39 @@ def find_elements(parent, tag_names):
 
 
 def get_text(parent, tag_names):
-    """Get text content from the first matching child element."""
+    """Get text from the first matching child element.
+
+    Checks the element's 'value' attribute first (used by the real
+    AIS XML format), then falls back to text content, then checks
+    parent attributes as a last resort.
+    """
     for tag in tag_names:
         el = parent.find(tag)
-        if el is not None and el.text:
-            return el.text.strip()
+        if el is not None:
+            val = el.get("value", "")
+            if val:
+                return val.strip()
+            if el.text and el.text.strip():
+                return el.text.strip()
         el = parent.find(".//" + tag)
-        if el is not None and el.text:
-            return el.text.strip()
+        if el is not None:
+            val = el.get("value", "")
+            if val:
+                return val.strip()
+            if el.text and el.text.strip():
+                return el.text.strip()
     for tag in tag_names:
         val = parent.get(tag)
         if val:
             return val.strip()
     return ""
+
+
+def strip_html(text):
+    """Remove HTML tags from text."""
+    if not text:
+        return text
+    return re.sub(r"<[^>]+>", "", text).strip()
 
 
 def normalize_date(raw):
@@ -114,32 +158,9 @@ def normalize_date(raw):
     return raw
 
 
-def extract_benefit(elem):
-    """Extract benefit rating and evidence level from an element."""
-    benefit = get_text(elem, [
-        "ZN_W", "Zn_W", "ZUSATZNUTZEN", "Zusatznutzen",
-        "AUSMASS", "Ausmass", "zn_w",
-    ])
-    evidence = get_text(elem, [
-        "AUSSAGESICHERHEIT", "Aussagesicherheit",
-        "aussagesicherheit", "WAHRSCHEINLICHKEIT",
-    ])
-    return {
-        "benefit_rating": benefit,
-        "evidence_level": evidence,
-        "comparator": "",
-        "patient_group": "",
-    }
-
-
-def parse_beschluss_base(elem):
-    """Extract top-level decision metadata."""
-    substances = []
-    trade_names = []
-
-    decision_id = get_text(elem, [
-        "ID_BE_AKZ", "id_be_akz", "AKZ", "akz",
-    ])
+def parse_decision_base(elem):
+    """Extract top-level decision metadata from a BE element."""
+    decision_id = get_text(elem, ["ID_BE_AKZ"])
 
     procedure_id = ""
     if decision_id:
@@ -149,57 +170,33 @@ def parse_beschluss_base(elem):
         if num_match:
             procedure_id = num_match.group(1)
 
-    decision_date = get_text(elem, [
-        "DAT_BESCHLUSS", "Dat_Beschluss", "DATUM", "datum",
-        "Beschluss_Datum", "beschluss_datum", "date",
-    ])
+    # Direct assessment URL from XML
+    url = get_text(elem, ["URL"])
+
+    # Trade name: ZUL > NAME_HN (value attr)
+    trade_names = []
+    zul = elem.find("ZUL")
+    if zul is not None:
+        hn_name = get_text(zul, ["NAME_HN"])
+        if hn_name:
+            trade_names.append(hn_name)
+
+    # Indication: ZUL > AWG (text content with HTML)
+    indication = ""
+    if zul is not None:
+        indication = get_text(zul, ["AWG"])
+    if not indication:
+        indication = get_text(elem, ["AWG", "ANWENDUNGSGEBIET"])
+
+    # Decision date at base level (may be overridden per patient group)
+    decision_date = get_text(elem, ["DAT_BESCHLUSS"])
     decision_date = normalize_date(decision_date)
-
-    ws_containers = find_elements(elem, [
-        "WS_BEW", "Ws_Bew", "WIRKSTOFF", "Wirkstoff",
-        ".//WS_BEW", ".//{*}WS_BEW",
-    ])
-    for ws in ws_containers:
-        name = get_text(ws, [
-            "NAME_WS", "Name_Ws", "BEZEICHNUNG", "name",
-        ])
-        if name:
-            substances.append(name)
-
-    if not substances:
-        ws_text = get_text(elem, [
-            "WIRKSTOFF", "Wirkstoff", "wirkstoff", "WS_BEW",
-        ])
-        if ws_text:
-            substances.append(ws_text)
-
-    hn_containers = find_elements(elem, [
-        "HN", "Hn", "HANDELSNAME", "Handelsname",
-        ".//HN", ".//{*}HN",
-    ])
-    for hn in hn_containers:
-        name = get_text(hn, ["NAME_HN", "Name_Hn", "name"])
-        if name:
-            trade_names.append(name)
-        elif hn.text and hn.text.strip():
-            trade_names.append(hn.text.strip())
-
-    if not trade_names:
-        hn_text = get_text(elem, [
-            "HANDELSNAME", "Handelsname", "handelsname",
-        ])
-        if hn_text:
-            trade_names.append(hn_text)
-
-    indication = get_text(elem, [
-        "AWG", "Awg", "ANWENDUNGSGEBIET", "Anwendungsgebiet",
-        "awg", "indication",
-    ])
 
     return {
         "decision_id": decision_id,
         "procedure_id": procedure_id,
-        "substances": substances,
+        "url": url,
+        "substances": [],
         "trade_names": trade_names,
         "indication": indication,
         "decision_date": decision_date,
@@ -207,38 +204,64 @@ def parse_beschluss_base(elem):
 
 
 def parse_patient_group(pg_elem):
-    """Extract patient-group-level benefit data."""
-    data = extract_benefit(pg_elem)
+    """Extract patient-group-level data from an ID_PAT_GR element."""
+    # Substance: WS_BEW > NAME_WS_BEW (value attr)
+    substances = []
+    ws_bew = pg_elem.find("WS_BEW")
+    if ws_bew is not None:
+        name = get_text(ws_bew, ["NAME_WS_BEW", "NAME_WS"])
+        if name:
+            substances.append(name)
+    # Combination substance
+    ws_komb = pg_elem.find("WS_KOMB")
+    if ws_komb is not None:
+        name = get_text(ws_komb, ["NAME_WS_KOMB"])
+        if name:
+            substances.append(name)
 
-    pg_id = get_text(pg_elem, [
-        "ID_PAT_GR", "Id_Pat_Gr", "PATGR_ID",
-    ])
-    pg_desc = get_text(pg_elem, [
-        "BEZ_PAT_GR", "Bez_Pat_Gr", "BEZEICHNUNG",
-        "PAT_GR_TEXT", "Pat_Gr_Text", "description",
-    ])
-    data["patient_group"] = pg_desc or pg_id
+    # Decision date: DATUM_BE_VOM (value attr)
+    decision_date = get_text(pg_elem, ["DATUM_BE_VOM", "DAT_BESCHLUSS"])
+    decision_date = normalize_date(decision_date)
 
-    comparator = get_text(pg_elem, [
-        "VGL_TH", "Vgl_Th", "ZVT", "zVT", "VERGLEICHSTHERAPIE",
-    ])
+    # Patient group description (text content with HTML)
+    patient_group = get_text(pg_elem, ["NAME_PAT_GR", "BEZ_PAT_GR"])
+    patient_group = strip_html(patient_group)
+    if not patient_group:
+        patient_group = get_text(pg_elem, ["ID_PAT_GR"])
+
+    # Benefit rating: ZN_W (value attr or text)
+    benefit = get_text(pg_elem, ["ZN_W", "ZUSATZNUTZEN"])
+
+    # Evidence level: ZN_A (value attr or text)
+    evidence = get_text(pg_elem, ["ZN_A", "AUSSAGESICHERHEIT"])
+
+    # Comparator therapy
+    comparator = ""
+    zvt_best = pg_elem.find("ZVT_BEST")
+    if zvt_best is not None:
+        comparator = get_text(zvt_best, ["NAME_ZVT_BEST"])
     if not comparator:
-        vgl_containers = find_elements(pg_elem, [
-            "VGL_TH", "Vgl_Th", ".//VGL_TH",
-        ])
-        for vgl in vgl_containers:
-            text = get_text(vgl, [
-                "NAME_VGL_TH", "Name_Vgl_Th", "WS_INFO", "name",
-            ])
-            if text:
-                comparator = text
-                break
-            elif vgl.text and vgl.text.strip():
-                comparator = vgl.text.strip()
-                break
-    data["comparator"] = comparator
+        zvt_zn = pg_elem.find("ZVT_ZN")
+        if zvt_zn is not None:
+            comparator = get_text(zvt_zn, ["NAME_ZVT_ZN"])
 
-    return data
+    # Indication override at patient-group level
+    indication = get_text(pg_elem, ["AWG_BESCHLUSS"])
+
+    result = {
+        "patient_group": patient_group,
+        "benefit_rating": benefit,
+        "evidence_level": evidence,
+        "comparator": comparator,
+    }
+    if substances:
+        result["substances"] = substances
+    if decision_date:
+        result["decision_date"] = decision_date
+    if indication:
+        result["indication"] = indication
+
+    return result
 
 
 def parse_xml(xml_content):
@@ -250,28 +273,38 @@ def parse_xml(xml_content):
         print("ERROR: Failed to parse XML: %s" % exc)
         return decisions
 
-    beschluesse = find_elements(root, [
-        "Beschluss", "BESCHLUSS", "besluit",
-        ".//Beschluss", ".//{*}Beschluss",
-    ])
+    # Find decision elements: BE (real AIS) or Beschluss (legacy)
+    decision_elems = find_elements(root, ["BE", "Beschluss", "BESCHLUSS"])
+    if not decision_elems:
+        decision_elems = list(root)
 
-    if not beschluesse:
-        beschluesse = list(root)
+    for elem in decision_elems:
+        base = parse_decision_base(elem)
 
-    for beschluss in beschluesse:
-        base = parse_beschluss_base(beschluss)
-        patient_groups = find_elements(beschluss, [
-            "PAT_GR", "Pat_Gr", "PATGR", ".//PAT_GR", ".//{*}PAT_GR",
-        ])
+        # Find patient groups
+        patient_groups = []
+
+        # Real AIS format: PAT_GR_INFO_COLLECTION > ID_PAT_GR
+        collection = elem.find("PAT_GR_INFO_COLLECTION")
+        if collection is not None:
+            patient_groups = [c for c in collection if c.tag == "ID_PAT_GR"]
 
         if patient_groups:
             for pg in patient_groups:
                 entry = dict(base)
-                entry.update(parse_patient_group(pg))
+                pg_data = parse_patient_group(pg)
+                # Merge: non-empty patient group values override base
+                for k, v in pg_data.items():
+                    if v or k not in entry:
+                        entry[k] = v
                 decisions.append(entry)
         else:
+            # No patient groups — single entry
             entry = dict(base)
-            entry.update(extract_benefit(beschluss))
+            entry["benefit_rating"] = ""
+            entry["evidence_level"] = ""
+            entry["comparator"] = ""
+            entry["patient_group"] = ""
             decisions.append(entry)
 
     return decisions

@@ -9,6 +9,30 @@ benefit ratings (Zusatznutzen), evidence levels, and comparator therapies.
 
 No authentication required.  A permanent download URL can be requested
 from ais@g-ba.de.
+
+AIS XML structure (real format as of 2026):
+  <BE_COLLECTION generated="...">
+    <BE>
+      <ID_BE_AKZ value="2020-01-15-D-500"/>
+      <ZUL>
+        <NAME_HN value="Keytruda"/>
+        <AWG>indication text (HTML)</AWG>
+      </ZUL>
+      <URL value="https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"/>
+      <PAT_GR_INFO_COLLECTION>
+        <ID_PAT_GR value="1">
+          <WS_BEW><NAME_WS_BEW value="Pembrolizumab"/></WS_BEW>
+          <DATUM_BE_VOM value="2020-06-18"/>
+          <NAME_PAT_GR>patient group (HTML)</NAME_PAT_GR>
+          <ZN_W value="beträchtlich"/>
+          <ZN_A value="Hinweis"/>
+          <ZVT_BEST><NAME_ZVT_BEST value="Ipilimumab"/></ZVT_BEST>
+        </ID_PAT_GR>
+      </PAT_GR_INFO_COLLECTION>
+    </BE>
+  </BE_COLLECTION>
+
+Most values are in "value" attributes rather than text content.
 """
 
 import logging
@@ -92,7 +116,12 @@ class GermanyGBA(HTAAgency):
                     logger.info("Trying G-BA AIS XML from %s", url)
                     response = await client.get(url)
                     response.raise_for_status()
-                    xml_content = response.content
+                    data = response.content
+                    # Skip PDFs and other non-XML responses
+                    if data.lstrip()[:5] == b"%PDF-":
+                        logger.warning("G-BA URL returned PDF, skipping: %s", url)
+                        continue
+                    xml_content = data
                     break
                 except httpx.HTTPStatusError as exc:
                     logger.warning("G-BA XML URL returned %s: %s", exc.response.status_code, url)
@@ -156,11 +185,12 @@ class GermanyGBA(HTAAgency):
             if not substance_match and not product_match:
                 continue
 
-            # Build the assessment URL
-            procedure_id = dec.get("procedure_id", "")
-            assessment_url = ""
-            if procedure_id:
-                assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
+            # Build the assessment URL — prefer direct URL from XML
+            assessment_url = dec.get("url", "")
+            if not assessment_url:
+                procedure_id = dec.get("procedure_id", "")
+                if procedure_id:
+                    assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
 
             # Translate benefit rating
             raw_benefit = dec.get("benefit_rating", "")
@@ -191,7 +221,7 @@ class GermanyGBA(HTAAgency):
                 AssessmentResult(
                     product_name=trade_name,
                     dossier_code=dec.get("decision_id", ""),
-                    evaluation_reason=dec.get("indication", ""),
+                    evaluation_reason=self._strip_html(dec.get("indication", "")),
                     opinion_date=dec.get("decision_date", ""),
                     assessment_url=assessment_url,
                     benefit_rating=raw_benefit,
@@ -217,11 +247,9 @@ class GermanyGBA(HTAAgency):
         """
         urls: list[str] = []
 
-        # Try to scrape the current XML link from the AIS page.
-        # The G-BA site may render links with single or double quotes, and
-        # the href may be relative or absolute.
         ais_page_urls = [
             GBA_AIS_PAGE_URL,
+            "https://ais.g-ba.de/",
             "https://www.g-ba.de/themen/arzneimittel/arzneimittel-richtlinie-anlagen/nutzenbewertung-35a/ais/",
         ]
         for ais_page_url in ais_page_urls:
@@ -229,10 +257,9 @@ class GermanyGBA(HTAAgency):
                 response = await client.get(ais_page_url)
                 response.raise_for_status()
                 html = response.text
-                # Match href/src/data-href attributes pointing to the AIS XML
                 for match in re.finditer(
                     r"""(?:href|src|data-href|data-url)=['"]((?:[^'"]*/)"""
-                    r"""G-BA_Beschluss_Info[^'"]*\.xml)['"]""",
+                    r"""G-BA_Beschluss_Info[^'"]*\.(?:xml|zip))['"]""",
                     html,
                     re.IGNORECASE,
                 ):
@@ -243,7 +270,6 @@ class GermanyGBA(HTAAgency):
                         )
                     urls.append(url)
 
-                # Also scan for any .xml links that contain "Beschluss" (broader)
                 if not urls:
                     for match in re.finditer(
                         r"""href=['"](/[^'"]*Beschluss[^'"]*\.xml)['"]""",
@@ -252,7 +278,6 @@ class GermanyGBA(HTAAgency):
                     ):
                         urls.append("https://www.g-ba.de" + match.group(1))
 
-                # Also scan for any generic .xml download links
                 if not urls:
                     for match in re.finditer(
                         r"""href=['"](/[^'"]*\.xml)['"]""",
@@ -270,16 +295,11 @@ class GermanyGBA(HTAAgency):
                     "Could not fetch AIS page %s to find XML URL", ais_page_url,
                 )
 
-        # Fallback: known and guessed download path patterns.
-        # The G-BA periodically changes the numeric folder segment in the URL,
-        # so we list the most commonly observed patterns alongside a direct
-        # /downloads/ais/ path that works when the AIS page is unavailable.
         urls.extend([
             "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/fileadmin/downloads/ais/G-BA_Beschluss_Info.xml",
-            # Additional patterns observed in G-BA URL structure
             "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.xml",
             "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.xml",
         ])
@@ -296,67 +316,66 @@ class GermanyGBA(HTAAgency):
     def _parse_xml(self, xml_content: bytes) -> list[dict]:
         """Parse the G-BA AIS XML into a list of decision dicts.
 
-        The XML hierarchy is approximately:
-          G-BA_Beschluss_Info / Beschluss / PAT_GR (patient group)
+        Handles both the real AIS format (BE_COLLECTION > BE > ZUL +
+        PAT_GR_INFO_COLLECTION > ID_PAT_GR) and legacy test XML formats.
 
         Each patient group within a decision gets its own entry because
         benefit ratings can differ per patient group for the same drug.
         """
-        decisions = []
+        decisions: list[dict] = []
         try:
             root = ET.fromstring(xml_content)
         except ET.ParseError:
             logger.exception("Failed to parse G-BA XML")
             return decisions
 
-        # Try multiple possible root/child structures
-        beschluesse = self._find_elements(root, [
-            "Beschluss", "BESCHLUSS", "besluit",
-            ".//Beschluss", ".//{*}Beschluss",
+        # Find decision elements: BE (real AIS) or Beschluss (legacy)
+        decision_elems = self._find_elements(root, [
+            "BE", "Beschluss", "BESCHLUSS",
         ])
+        if not decision_elems:
+            decision_elems = list(root)
 
-        # If no Beschluss elements found, iterate direct children
-        if not beschluesse:
-            beschluesse = list(root)
+        for elem in decision_elems:
+            base = self._parse_decision_base(elem)
 
-        for beschluss in beschluesse:
-            base = self._parse_beschluss_base(beschluss)
-            patient_groups = self._find_elements(beschluss, [
-                "PAT_GR", "Pat_Gr", "PATGR", ".//PAT_GR", ".//{*}PAT_GR",
-            ])
+            # Find patient groups
+            patient_groups: list[ET.Element] = []
+
+            # Real AIS format: PAT_GR_INFO_COLLECTION > ID_PAT_GR
+            collection = elem.find("PAT_GR_INFO_COLLECTION")
+            if collection is not None:
+                patient_groups = [c for c in collection if c.tag == "ID_PAT_GR"]
+
+            # Legacy format: direct PAT_GR children
+            if not patient_groups:
+                patient_groups = self._find_elements(elem, [
+                    "PAT_GR", ".//PAT_GR",
+                ])
 
             if patient_groups:
                 for pg in patient_groups:
                     entry = dict(base)
-                    entry.update(self._parse_patient_group(pg))
+                    pg_data = self._parse_patient_group(pg)
+                    # Merge: non-empty patient group values override base
+                    for k, v in pg_data.items():
+                        if v or k not in entry:
+                            entry[k] = v
                     decisions.append(entry)
             else:
-                # No patient groups — treat the decision as a single entry
                 entry = dict(base)
-                entry.update(self._extract_benefit_from_element(beschluss))
+                entry.update(self._extract_benefit_from_element(elem))
                 decisions.append(entry)
 
         return decisions
 
-    def _parse_beschluss_base(self, elem: ET.Element) -> dict:
-        """Extract top-level decision metadata."""
-        substances = []
-        trade_names = []
-        decision_id = ""
+    def _parse_decision_base(self, elem: ET.Element) -> dict:
+        """Extract top-level decision metadata from a BE element."""
+        # Decision ID
+        decision_id = self._get_text(elem, ["ID_BE_AKZ"])
+
+        # Extract procedure number from decision ID for URL construction
         procedure_id = ""
-        indication = ""
-        decision_date = ""
-
-        # Decision ID (ID_BE_AKZ)
-        decision_id = self._get_text(elem, [
-            "ID_BE_AKZ", "id_be_akz", "AKZ", "akz",
-        ])
-
-        # Extract the procedure number from the decision ID.
-        # G-BA decision IDs follow the pattern "YYYY-MM-DD-D-<seq>" where
-        # <seq> is the sequential procedure number used in the assessment URL.
-        # Prefer a trailing "-D-<digits>" suffix; fall back to the last
-        # numeric segment so we don't accidentally pick up the year.
         if decision_id:
             num_match = re.search(r"-[Dd]-(\d+)\s*$", decision_id)
             if not num_match:
@@ -364,112 +383,138 @@ class GermanyGBA(HTAAgency):
             if num_match:
                 procedure_id = num_match.group(1)
 
-        # Decision date
-        decision_date = self._get_text(elem, [
-            "DAT_BESCHLUSS", "Dat_Beschluss", "DATUM", "datum",
-            "Beschluss_Datum", "beschluss_datum", "date",
-        ])
-        decision_date = self._normalize_date(decision_date)
+        # Direct assessment URL from XML
+        url = self._get_text(elem, ["URL"])
 
-        # Active substance (Wirkstoff)
-        ws_containers = self._find_elements(elem, [
-            "WS_BEW", "Ws_Bew", "WIRKSTOFF", "Wirkstoff",
-            ".//WS_BEW", ".//{*}WS_BEW",
-        ])
-        for ws in ws_containers:
-            name = self._get_text(ws, [
-                "NAME_WS", "Name_Ws", "BEZEICHNUNG", "name",
-            ])
-            if name:
-                substances.append(name)
+        # Trade names: in ZUL > NAME_HN (real) or HN > NAME_HN (legacy)
+        trade_names: list[str] = []
+        zul = elem.find("ZUL")
+        if zul is not None:
+            hn_name = self._get_text(zul, ["NAME_HN"])
+            if hn_name:
+                trade_names.append(hn_name)
 
-        # If no substance in containers, try direct text
-        if not substances:
-            ws_text = self._get_text(elem, [
-                "WIRKSTOFF", "Wirkstoff", "wirkstoff", "WS_BEW",
-            ])
-            if ws_text:
-                substances.append(ws_text)
-
-        # Trade names (Handelsname)
-        hn_containers = self._find_elements(elem, [
-            "HN", "Hn", "HANDELSNAME", "Handelsname",
-            ".//HN", ".//{*}HN",
-        ])
-        for hn in hn_containers:
-            name = self._get_text(hn, ["NAME_HN", "Name_Hn", "name"])
-            if name:
-                trade_names.append(name)
-            elif hn.text and hn.text.strip():
-                trade_names.append(hn.text.strip())
-
+        # Legacy format fallback: <HN><NAME_HN>text</NAME_HN></HN>
         if not trade_names:
-            hn_text = self._get_text(elem, [
-                "HANDELSNAME", "Handelsname", "handelsname",
-            ])
+            for hn in self._find_elements(elem, ["HN"]):
+                name = self._get_text(hn, ["NAME_HN"])
+                if name:
+                    trade_names.append(name)
+                elif hn.text and hn.text.strip():
+                    trade_names.append(hn.text.strip())
+        if not trade_names:
+            hn_text = self._get_text(elem, ["NAME_HN", "HANDELSNAME"])
             if hn_text:
                 trade_names.append(hn_text)
 
-        # Indication / therapeutic area (AWG)
-        indication = self._get_text(elem, [
-            "AWG", "Awg", "ANWENDUNGSGEBIET", "Anwendungsgebiet",
-            "awg", "indication",
-        ])
+        # Indication: ZUL > AWG (real, text content) or direct AWG (legacy)
+        indication = ""
+        if zul is not None:
+            indication = self._get_text(zul, ["AWG"])
+        if not indication:
+            indication = self._get_text(elem, ["AWG", "ANWENDUNGSGEBIET"])
+
+        # Substances: may be at decision level (legacy) or patient-group level (real)
+        substances: list[str] = []
+        for ws in self._find_elements(elem, ["WS_BEW"]):
+            # Legacy: <WS_BEW><NAME_WS>text</NAME_WS></WS_BEW>
+            name = self._get_text(ws, ["NAME_WS"])
+            if name:
+                substances.append(name)
+
+        # Decision date at base level (legacy format)
+        decision_date = self._get_text(elem, ["DAT_BESCHLUSS"])
+        decision_date = self._normalize_date(decision_date)
 
         return {
             "decision_id": decision_id,
             "procedure_id": procedure_id,
-            "substances": substances,
+            "url": url,
             "trade_names": trade_names,
             "indication": indication,
+            "substances": substances,
             "decision_date": decision_date,
         }
 
     def _parse_patient_group(self, pg_elem: ET.Element) -> dict:
-        """Extract patient-group-level benefit data."""
-        data = self._extract_benefit_from_element(pg_elem)
+        """Extract patient-group-level data from an ID_PAT_GR or PAT_GR element."""
+        # Substance: WS_BEW > NAME_WS_BEW (real) or NAME_WS (legacy)
+        substances: list[str] = []
+        ws_bew = pg_elem.find("WS_BEW")
+        if ws_bew is not None:
+            name = self._get_text(ws_bew, ["NAME_WS_BEW", "NAME_WS"])
+            if name:
+                substances.append(name)
+        # Combination substance
+        ws_komb = pg_elem.find("WS_KOMB")
+        if ws_komb is not None:
+            name = self._get_text(ws_komb, ["NAME_WS_KOMB"])
+            if name:
+                substances.append(name)
 
-        pg_id = self._get_text(pg_elem, [
-            "ID_PAT_GR", "Id_Pat_Gr", "PATGR_ID",
-        ])
-        pg_desc = self._get_text(pg_elem, [
-            "BEZ_PAT_GR", "Bez_Pat_Gr", "BEZEICHNUNG",
-            "PAT_GR_TEXT", "Pat_Gr_Text", "description",
-        ])
-        data["patient_group"] = pg_desc or pg_id
+        # Decision date: DATUM_BE_VOM (real, value attr) or DAT_BESCHLUSS (legacy)
+        decision_date = self._get_text(pg_elem, ["DATUM_BE_VOM", "DAT_BESCHLUSS"])
+        decision_date = self._normalize_date(decision_date)
 
-        # Comparator therapy (zVT / VGL_TH)
-        comparator = self._get_text(pg_elem, [
-            "VGL_TH", "Vgl_Th", "ZVT", "zVT", "VERGLEICHSTHERAPIE",
+        # Patient group description
+        patient_group = self._get_text(pg_elem, [
+            "NAME_PAT_GR", "BEZ_PAT_GR", "PAT_GR_TEXT",
         ])
+        patient_group = self._strip_html(patient_group)
+        # Fallback to the patient group ID
+        if not patient_group:
+            patient_group = self._get_text(pg_elem, ["ID_PAT_GR"])
+
+        # Benefit rating: ZN_W (real, value attr or text) or ZUSATZNUTZEN (legacy)
+        benefit = self._get_text(pg_elem, ["ZN_W", "ZUSATZNUTZEN"])
+
+        # Evidence level: ZN_A (real) or AUSSAGESICHERHEIT (legacy)
+        evidence = self._get_text(pg_elem, ["ZN_A", "AUSSAGESICHERHEIT"])
+
+        # Comparator therapy
+        comparator = ""
+        # Real format: ZVT_BEST > NAME_ZVT_BEST (value attr)
+        zvt_best = pg_elem.find("ZVT_BEST")
+        if zvt_best is not None:
+            comparator = self._get_text(zvt_best, ["NAME_ZVT_BEST"])
+        # Also try ZVT_ZN > NAME_ZVT_ZN
         if not comparator:
-            vgl_containers = self._find_elements(pg_elem, [
-                "VGL_TH", "Vgl_Th", ".//VGL_TH",
-            ])
-            for vgl in vgl_containers:
-                text = self._get_text(vgl, [
-                    "NAME_VGL_TH", "Name_Vgl_Th", "WS_INFO", "name",
-                ])
+            zvt_zn = pg_elem.find("ZVT_ZN")
+            if zvt_zn is not None:
+                comparator = self._get_text(zvt_zn, ["NAME_ZVT_ZN"])
+        # Legacy format: VGL_TH > NAME_VGL_TH (text content)
+        if not comparator:
+            for vgl in self._find_elements(pg_elem, ["VGL_TH"]):
+                text = self._get_text(vgl, ["NAME_VGL_TH", "WS_INFO"])
                 if text:
                     comparator = text
                     break
                 elif vgl.text and vgl.text.strip():
                     comparator = vgl.text.strip()
                     break
-        data["comparator"] = comparator
 
-        return data
+        # Indication override at patient-group level
+        indication = self._get_text(pg_elem, ["AWG_BESCHLUSS"])
+
+        result: dict = {
+            "patient_group": patient_group,
+            "benefit_rating": benefit,
+            "evidence_level": evidence,
+            "comparator": comparator,
+        }
+        if substances:
+            result["substances"] = substances
+        if decision_date:
+            result["decision_date"] = decision_date
+        if indication:
+            result["indication"] = indication
+
+        return result
 
     def _extract_benefit_from_element(self, elem: ET.Element) -> dict:
         """Extract benefit rating and evidence level from an element."""
-        benefit = self._get_text(elem, [
-            "ZN_W", "Zn_W", "ZUSATZNUTZEN", "Zusatznutzen",
-            "AUSMASS", "Ausmass", "zn_w",
-        ])
-        evidence = self._get_text(elem, [
-            "AUSSAGESICHERHEIT", "Aussagesicherheit",
-            "aussagesicherheit", "WAHRSCHEINLICHKEIT",
-        ])
+        benefit = self._get_text(elem, ["ZN_W", "ZUSATZNUTZEN"])
+        evidence = self._get_text(elem, ["ZN_A", "AUSSAGESICHERHEIT"])
         return {
             "benefit_rating": benefit,
             "evidence_level": evidence,
@@ -486,7 +531,6 @@ class GermanyGBA(HTAAgency):
                 found = parent.findall(tag)
             else:
                 found = list(parent.iter(tag))
-                # Also try as direct children
                 if not found:
                     found = [c for c in parent if c.tag == tag]
             if found:
@@ -494,34 +538,50 @@ class GermanyGBA(HTAAgency):
         return []
 
     def _get_text(self, parent: ET.Element, tag_names: list[str]) -> str:
-        """Get text content from the first matching child element."""
+        """Get text from the first matching child element.
+
+        Checks the element's ``value`` attribute first (used by the real
+        AIS XML format), then falls back to text content, then checks
+        parent attributes as a last resort.
+        """
         for tag in tag_names:
             el = parent.find(tag)
-            if el is not None and el.text:
-                return el.text.strip()
-            # Search anywhere in the subtree (handles varying nesting)
+            if el is not None:
+                val = el.get("value", "")
+                if val:
+                    return val.strip()
+                if el.text and el.text.strip():
+                    return el.text.strip()
+            # Search anywhere in the subtree
             el = parent.find(".//" + tag)
-            if el is not None and el.text:
-                return el.text.strip()
-        # Also check attributes
+            if el is not None:
+                val = el.get("value", "")
+                if val:
+                    return val.strip()
+                if el.text and el.text.strip():
+                    return el.text.strip()
+        # Check parent's own attributes as fallback
         for tag in tag_names:
             val = parent.get(tag)
             if val:
                 return val.strip()
         return ""
 
+    def _strip_html(self, text: str) -> str:
+        """Remove HTML tags from text."""
+        if not text:
+            return text
+        return re.sub(r"<[^>]+>", "", text).strip()
+
     def _normalize_date(self, raw: str) -> str:
         """Normalize various date formats to YYYY-MM-DD."""
         raw = raw.strip()
         if not raw:
             return ""
-        # Already YYYY-MM-DD
         if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
             return raw
-        # YYYYMMDD
         if re.match(r"^\d{8}$", raw):
             return f"{raw[:4]}-{raw[4:6]}-{raw[6:8]}"
-        # DD.MM.YYYY (German format)
         m = re.match(r"^(\d{2})\.(\d{2})\.(\d{4})$", raw)
         if m:
             return f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
