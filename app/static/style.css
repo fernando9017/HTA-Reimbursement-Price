@@ -2710,6 +2710,306 @@ footer a:hover {
     border: 1px solid #d4e6f1;
 }
 
+/* ── Clinical Evidence section ─────────────────────────────── */
+
+.gba-ce-section {
+    background: #f7f9fc;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.gba-ce-trial {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 10px;
+}
+
+.gba-ce-trial-header {
+    margin-bottom: 10px;
+}
+
+.gba-ce-trial-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.gba-ce-trial-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.gba-ce-nct-link {
+    display: inline-block;
+    padding: 1px 9px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: #eaf2f8;
+    border-radius: 10px;
+    border: 1px solid #d4e6f1;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.gba-ce-nct-link:hover {
+    background: #d4e6f1;
+    text-decoration: none;
+}
+
+.gba-ce-confidence {
+    display: inline-block;
+    padding: 1px 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 8px;
+    margin-left: auto;
+}
+
+.gba-ce-conf-high {
+    color: #27ae60;
+    background: #eafaf1;
+    border: 1px solid #a9dfbf;
+}
+
+.gba-ce-conf-mod {
+    color: #d68910;
+    background: #fef5e7;
+    border: 1px solid #f9e79f;
+}
+
+.gba-ce-conf-low {
+    color: #c0392b;
+    background: #fdedec;
+    border: 1px solid #f5b7b1;
+}
+
+.gba-ce-trial-design {
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
+.gba-ce-trial-comparator {
+    font-size: 0.84rem;
+    color: var(--text);
+    margin-top: 2px;
+}
+
+.gba-ce-endpoints {
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.gba-ce-ep-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.gba-ce-ep-table th {
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    padding: 6px 10px;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+}
+
+.gba-ce-ep-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #eef0f3;
+    color: var(--text);
+}
+
+.gba-ce-ep-name {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.gba-ce-ep-effect {
+    font-family: "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.80rem;
+    white-space: nowrap;
+}
+
+.gba-ce-na {
+    color: var(--text-light);
+}
+
+.gba-ce-sig {
+    display: inline-block;
+    padding: 1px 7px;
+    font-size: 0.70rem;
+    font-weight: 700;
+    border-radius: 6px;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.gba-ce-sig-yes {
+    color: #27ae60;
+    background: #eafaf1;
+}
+
+.gba-ce-sig-no {
+    color: #95a5a6;
+    background: #f2f3f4;
+}
+
+.gba-ce-additional {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f0f3f7;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    color: var(--text);
+}
+
+.gba-ce-additional-item {
+    margin-bottom: 4px;
+}
+
+.gba-ce-additional-item:last-child {
+    margin-bottom: 0;
+}
+
+.gba-ce-additional-label {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.gba-ce-limitations {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.gba-ce-limitations-label {
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Detail sub-tabs (By Assessment / By Subpopulation) */
+.gba-detail-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.gba-detail-tab {
+    padding: 10px 22px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: -2px;
+}
+
+.gba-detail-tab:hover {
+    color: var(--primary);
+    background: rgba(74, 144, 226, 0.04);
+}
+
+.gba-detail-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.gba-detail-view.hidden {
+    display: none;
+}
+
+/* Grouped assessment card (By Assessment view) */
+.gba-grouped-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.gba-grouped-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #eef2f7 0%, #dfe6ed 100%);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gba-grouped-indication {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    min-width: 200px;
+}
+
+.gba-grouped-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.gba-grouped-date {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.gba-grouped-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--primary);
+    color: #fff;
+    white-space: nowrap;
+}
+
+.gba-grouped-subpops {
+    background: var(--card-bg);
+}
+
+.gba-grouped-subpop {
+    padding: 16px 18px;
+    border-bottom: 1px solid #eef0f3;
+}
+
+.gba-grouped-subpop:last-child {
+    border-bottom: none;
+}
+
+.gba-grouped-subpop-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
 @media (max-width: 600px) {
     .gba-outcome-grid {
         grid-template-columns: 1fr;
@@ -2723,5 +3023,16 @@ footer a:hover {
     }
     .gba-ai-outcome-row {
         grid-template-columns: 1fr;
+    }
+    .gba-ce-ep-table {
+        font-size: 0.75rem;
+    }
+    .gba-ce-ep-table th,
+    .gba-ce-ep-table td {
+        padding: 4px 6px;
+    }
+    .gba-grouped-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
