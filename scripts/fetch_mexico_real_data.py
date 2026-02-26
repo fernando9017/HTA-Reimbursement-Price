@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
 """Fetch real Mexico pharmaceutical procurement data from government open data portals.
 
-This script downloads data from three official sources:
+This script downloads data from four official / open sources:
 
 1. **CompraNet** (upcp-compranet.hacienda.gob.mx)
    - Bulk CSV files with all government procurement contracts
-   - Filtered for pharmaceutical/medical supply entries
-   - URL pattern: .../datos_abiertos_contratos_expedientes/Contratos_CompraNet{YEAR}.csv
+   - Filtered for pharmaceutical / medical supply entries
+   - URL: .../datos_abiertos_contratos_expedientes/Contratos_CompraNet{YEAR}.csv
+   - CSV columns (38): SIGLAS, DEPENDENCIA, TITULO_EXPEDIENTE, TIPO_CONTRATACION,
+     IMPORTE_CONTRATO, COMPRA_CONSOLIDADA, PROVEEDOR_CONTRATISTA, etc.
 
-2. **datos.gob.mx CKAN API** (www.datos.gob.mx)
+2. **CompraNet OCDS bulk** (Google Drive mirrors from datatonanticorrupcion)
+   - Full procurement data in CSV/JSON, 1M+ records covering all federal contracting
+   - Must be filtered for health institutions (IMSS, ISSSTE, SSA)
+
+3. **datos.gob.mx CKAN API** (www.datos.gob.mx)
    - Catálogo Institucional de Insumos — IMSS quarterly catalog of medical supplies
    - Dataset ID: catalogo_institucional_insumos
    - Resource ID: 4d3d24bd-c896-48d9-9157-2cb8010e61a5
 
-3. **CNIS / Cuadro Básico** (www.gob.mx/csg)
-   - Official Compendio Nacional de Insumos para la Salud catalog
+4. **datos.gob.mx additional datasets**
+   - Medicamentos: datos.gob.mx/busca/dataset/medicamentos
+   - Entrada de Medicamentos: datos.gob.mx/dataset/entrada_medicamentos
+   - Abasto: datos.gob.mx/dataset/abasto_medicamentos_material_curacion
 
 The script merges data from these sources, deduplicates, and writes to
 data/mexico_procurement.json in the project format.
@@ -58,16 +66,36 @@ COMPRANET_URL_TEMPLATES = [
     "https://upcp-compranet.buengobierno.gob.mx/cnetassets/datos_abiertos_contratos_expedientes/Contratos_CompraNet{year}.csv",
 ]
 
+# CompraNet OCDS bulk data on Google Drive (from datatonanticorrupcion/07_compranet)
+# These contain 1M+ procurement records — must filter for health sector
+COMPRANET_GDRIVE_CSV = "https://drive.google.com/uc?export=download&id=1M67qqlSz49hbL_YClM6RE9a-UkvJXX_k"
+COMPRANET_GDRIVE_JSON = "https://drive.google.com/uc?export=download&id=1HzVMdv9bryEw6pg80RwmJd3Le31SY1TI"
+
 # datos.gob.mx CKAN API — Catálogo Institucional de Insumos
 CKAN_BASE = "https://www.datos.gob.mx/api/3/action"
 CKAN_CATALOG_DATASET = "catalogo_institucional_insumos"
 CKAN_CATALOG_RESOURCE = "4d3d24bd-c896-48d9-9157-2cb8010e61a5"
 
-# Alternative: datamx.io mirror
-DATAMX_CATALOG_URL = "https://datamx.io/es_AR/dataset/catalogo-institucional-de-insumos"
+# Additional CKAN datasets on datos.gob.mx
+CKAN_DATASETS = [
+    "catalogo_institucional_insumos",       # IMSS quarterly supply catalog
+    "medicamentos",                          # General medications dataset
+    "entrada_medicamentos",                  # Medication entry records (2019-2023)
+    "abasto_medicamentos_material_curacion", # Medication supply by unit
+]
+
+# Alternative: datamx.io mirror (CKAN-based, same API)
+DATAMX_CATALOG_URL = "https://datamx.io/api/3/action/package_show?id=catalogo-institucional-de-insumos"
 
 # IMSS direct medication catalog
 IMSS_CATALOG_URL = "http://www.imss.gob.mx/profesionales-salud/cuadros-basicos/medicamentos"
+
+# Health-sector institutions for CompraNet filtering
+HEALTH_INSTITUTIONS = {
+    "IMSS", "ISSSTE", "SSA", "INSABI", "BIRMEX", "UNOPS",
+    "IMSS-BIENESTAR", "PEMEX", "SEDENA", "SEMAR",
+    "CENAPRECE", "CONASIDA",
+}
 
 # User agent for requests
 USER_AGENT = (
@@ -224,20 +252,30 @@ def fetch_compranet(years: list[str]) -> list[dict]:
 
         for row in reader:
             total_count += 1
-            desc = row.get("TITULO_EXPEDIENTE", "") or row.get("DESCRIPCION_CONTRATACION", "") or ""
-            tipo_contratacion = row.get("TIPO_CONTRATACION", "") or ""
-            concepto = row.get("CONCEPTO_CONTRATACION", "") or ""
 
-            # Filter for pharmaceutical entries
-            combined_text = f"{desc} {tipo_contratacion} {concepto}"
-            if not is_pharmaceutical(combined_text):
+            # Real CompraNet CSV columns (38 fields):
+            # SIGLAS, DEPENDENCIA, TITULO_EXPEDIENTE, TIPO_CONTRATACION,
+            # TIPO_PROCEDIMIENTO, IMPORTE_CONTRATO, PROVEEDOR_CONTRATISTA,
+            # COMPRA_CONSOLIDADA, ESTATUS_CONTRATO, etc.
+            siglas = row.get("SIGLAS", "") or ""
+            desc = row.get("TITULO_EXPEDIENTE", "") or row.get("TITULO_CONTRATO", "") or ""
+            tipo_contratacion = row.get("TIPO_CONTRATACION", "") or ""
+            compra_consolidada = row.get("COMPRA_CONSOLIDADA", "") or ""
+
+            # Two-tier filter: health institution OR pharmaceutical keywords
+            is_health_inst = siglas.upper() in HEALTH_INSTITUTIONS
+            is_pharma_desc = is_pharmaceutical(f"{desc} {tipo_contratacion}")
+            is_adquisiciones = "adquisic" in tipo_contratacion.lower()
+
+            # Keep if: (health institution + adquisiciones) OR pharmaceutical description
+            if not ((is_health_inst and is_adquisiciones) or is_pharma_desc):
                 continue
 
             pharma_count += 1
 
             # Extract what we can
             clave = extract_clave(desc) or ""
-            institution = row.get("SIGLAS", "") or row.get("NOMBRE_UC", "") or ""
+            institution = siglas.strip()
             supplier = row.get("PROVEEDOR_CONTRATISTA", "") or ""
             amount_str = row.get("IMPORTE_CONTRATO", "0") or "0"
             try:
@@ -253,7 +291,7 @@ def fetch_compranet(years: list[str]) -> list[dict]:
             else:
                 status = "adjudicada"
 
-            fecha = row.get("FECHA_INICIO_CONTRATO", "") or row.get("PROC_F_PUBLICACION", "")
+            fecha = row.get("FECHA_INICIO", "") or row.get("PROC_F_PUBLICACION", "")
 
             record = {
                 "year": year.strip(),
@@ -277,62 +315,105 @@ def fetch_compranet(years: list[str]) -> list[dict]:
 # ── CKAN Catalog Data ──────────────────────────────────────────────────
 
 def fetch_ckan_catalog() -> list[dict]:
-    """Fetch the IMSS Catálogo Institucional de Insumos from datos.gob.mx CKAN API."""
-    logger.info("Fetching CKAN catalog dataset metadata...")
+    """Fetch medication catalog data from datos.gob.mx CKAN API.
 
-    # First try to get dataset info to find the latest resource URL
-    meta_url = f"{CKAN_BASE}/package_show?id={CKAN_CATALOG_DATASET}"
-    raw = fetch_url(meta_url, timeout=30)
-    resources = []
-
-    if raw:
-        try:
-            meta = json.loads(raw)
-            if meta.get("success"):
-                for res in meta.get("result", {}).get("resources", []):
-                    res_url = res.get("url", "")
-                    res_format = res.get("format", "").upper()
-                    res_name = res.get("name", "")
-                    logger.info("  Found resource: %s (%s) — %s", res_name, res_format, res_url[:80])
-                    if res_format in ("CSV", "XLS", "XLSX"):
-                        resources.append({"url": res_url, "format": res_format, "name": res_name})
-        except json.JSONDecodeError:
-            logger.warning("  Could not parse CKAN metadata response")
-
-    # Try DataStore API for direct data access
-    logger.info("Trying CKAN DataStore API...")
-    ds_url = f"{CKAN_BASE}/datastore_search?resource_id={CKAN_CATALOG_RESOURCE}&limit=5000"
-    raw = fetch_url(ds_url, timeout=60)
-
+    Tries multiple datasets and fallback sources:
+    1. datos.gob.mx CKAN API — multiple health/pharma datasets
+    2. datamx.io mirror (CKAN-compatible)
+    3. Direct CSV resource downloads
+    """
     catalog_items = []
-    if raw:
-        try:
-            ds = json.loads(raw)
-            if ds.get("success"):
-                records = ds.get("result", {}).get("records", [])
-                logger.info("  DataStore returned %d records", len(records))
-                for rec in records:
-                    catalog_items.append(rec)
-        except json.JSONDecodeError:
-            logger.warning("  Could not parse DataStore response")
 
-    # Try downloading CSV resources directly
-    for res in resources:
-        if not catalog_items:  # Only if DataStore didn't work
-            logger.info("  Downloading resource: %s", res["url"][:80])
-            res_raw = fetch_url(res["url"], timeout=120)
-            if res_raw:
-                try:
-                    text = res_raw.decode("utf-8")
-                except UnicodeDecodeError:
-                    text = res_raw.decode("latin-1")
+    # Try each CKAN dataset on datos.gob.mx
+    for dataset_id in CKAN_DATASETS:
+        logger.info("Fetching CKAN dataset: %s", dataset_id)
+        meta_url = f"{CKAN_BASE}/package_show?id={dataset_id}"
+        raw = fetch_url(meta_url, timeout=30)
+        resources = []
 
-                if res["format"] == "CSV":
-                    reader = csv.DictReader(io.StringIO(text))
-                    for row in reader:
-                        catalog_items.append(dict(row))
-                    logger.info("  Parsed %d rows from CSV", len(catalog_items))
+        if raw:
+            try:
+                meta = json.loads(raw)
+                if meta.get("success"):
+                    for res in meta.get("result", {}).get("resources", []):
+                        res_url = res.get("url", "")
+                        res_format = res.get("format", "").upper()
+                        res_name = res.get("name", "")
+                        logger.info("  Found resource: %s (%s) — %s", res_name, res_format, res_url[:80])
+                        if res_format in ("CSV", "XLS", "XLSX"):
+                            resources.append({"url": res_url, "format": res_format, "name": res_name})
+                        # Try DataStore for this resource
+                        res_id = res.get("id", "")
+                        if res_id:
+                            ds_url = f"{CKAN_BASE}/datastore_search?resource_id={res_id}&limit=10000"
+                            ds_raw = fetch_url(ds_url, timeout=60)
+                            if ds_raw:
+                                try:
+                                    ds = json.loads(ds_raw)
+                                    if ds.get("success"):
+                                        records = ds.get("result", {}).get("records", [])
+                                        if records:
+                                            logger.info("  DataStore returned %d records for %s", len(records), res_name)
+                                            catalog_items.extend(records)
+                                except json.JSONDecodeError:
+                                    pass
+            except json.JSONDecodeError:
+                logger.warning("  Could not parse CKAN metadata for %s", dataset_id)
 
+        # Download CSV resources directly if DataStore yielded nothing
+        for res in resources:
+            if not catalog_items:
+                logger.info("  Downloading resource: %s", res["url"][:80])
+                res_raw = fetch_url(res["url"], timeout=120)
+                if res_raw:
+                    try:
+                        text = res_raw.decode("utf-8")
+                    except UnicodeDecodeError:
+                        text = res_raw.decode("latin-1")
+                    if res["format"] == "CSV":
+                        reader = csv.DictReader(io.StringIO(text))
+                        for row in reader:
+                            catalog_items.append(dict(row))
+                        logger.info("  Parsed %d rows from CSV", len(catalog_items))
+
+    # Fallback: try known resource ID directly
+    if not catalog_items:
+        logger.info("Trying known DataStore resource ID...")
+        ds_url = f"{CKAN_BASE}/datastore_search?resource_id={CKAN_CATALOG_RESOURCE}&limit=10000"
+        raw = fetch_url(ds_url, timeout=60)
+        if raw:
+            try:
+                ds = json.loads(raw)
+                if ds.get("success"):
+                    records = ds.get("result", {}).get("records", [])
+                    logger.info("  DataStore returned %d records", len(records))
+                    catalog_items.extend(records)
+            except json.JSONDecodeError:
+                pass
+
+    # Fallback: try datamx.io mirror
+    if not catalog_items:
+        logger.info("Trying datamx.io mirror...")
+        raw = fetch_url(DATAMX_CATALOG_URL, timeout=30)
+        if raw:
+            try:
+                meta = json.loads(raw)
+                if meta.get("success"):
+                    for res in meta.get("result", {}).get("resources", []):
+                        res_url = res.get("url", "")
+                        if res.get("format", "").upper() == "CSV":
+                            logger.info("  Downloading datamx.io CSV: %s", res_url[:80])
+                            res_raw = fetch_url(res_url, timeout=120)
+                            if res_raw:
+                                text = res_raw.decode("utf-8", errors="replace")
+                                reader = csv.DictReader(io.StringIO(text))
+                                for row in reader:
+                                    catalog_items.append(dict(row))
+                                logger.info("  Parsed %d rows from datamx.io", len(catalog_items))
+            except json.JSONDecodeError:
+                pass
+
+    logger.info("Total catalog items collected: %d", len(catalog_items))
     return catalog_items
 
 
