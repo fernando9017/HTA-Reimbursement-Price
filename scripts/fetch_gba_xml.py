@@ -18,12 +18,15 @@ The G-BA updates the AIS XML on the 1st and 15th of each month, so re-run
 this script periodically to keep the cache current.
 """
 
+import gzip
+import io
 import json
 import re
 import ssl
 import sys
 import urllib.request
 import xml.etree.ElementTree as ET
+import zipfile
 from datetime import datetime
 from pathlib import Path
 
@@ -32,12 +35,18 @@ DATA_DIR = ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "DE.json"
 
 XML_URLS = [
+    # The URL that successfully downloaded (even if content needs decompressing)
+    "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.xml",
+    "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.xml",
+    # ZIP variants
+    "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.zip",
+    "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.zip",
+    # Other known patterns
     "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.xml",
+    "https://www.g-ba.de/downloads/ais/G-BA_Beschluss_Info.zip",
     "https://www.g-ba.de/downloads/ais-dateien/G-BA_Beschluss_Info.xml",
     "https://www.g-ba.de/fileadmin/ais/G-BA_Beschluss_Info.xml",
     "https://www.g-ba.de/fileadmin/downloads/ais/G-BA_Beschluss_Info.xml",
-    "https://www.g-ba.de/downloads/83-691-883/G-BA_Beschluss_Info.xml",
-    "https://www.g-ba.de/downloads/83-691/G-BA_Beschluss_Info.xml",
 ]
 
 HEADERS = {
@@ -260,6 +269,53 @@ def parse_xml(xml_content):
     return decisions
 
 
+# ── Decompression helpers ──────────────────────────────────────────────
+
+
+def extract_xml_from_data(data):
+    """Detect if data is ZIP/GZIP compressed and extract the XML content.
+
+    Returns the raw XML bytes ready for parsing.
+    """
+    # Check for ZIP magic bytes (PK\x03\x04)
+    if data[:4] == b"PK\x03\x04":
+        print("  -> Detected ZIP archive, extracting...")
+        with zipfile.ZipFile(io.BytesIO(data)) as zf:
+            names = zf.namelist()
+            print("  -> ZIP contains: %s" % ", ".join(names))
+            # Find the XML file inside
+            xml_name = None
+            for name in names:
+                if name.lower().endswith(".xml"):
+                    xml_name = name
+                    break
+            if not xml_name and names:
+                xml_name = names[0]
+            if xml_name:
+                xml_data = zf.read(xml_name)
+                print("  -> Extracted %s ({:,} bytes)".format(len(xml_data)) % xml_name)
+                return xml_data
+            raise RuntimeError("No XML file found inside ZIP archive")
+
+    # Check for GZIP magic bytes (\x1f\x8b)
+    if data[:2] == b"\x1f\x8b":
+        print("  -> Detected GZIP, decompressing...")
+        xml_data = gzip.decompress(data)
+        print("  -> Decompressed to {:,} bytes".format(len(xml_data)))
+        return xml_data
+
+    # Check if it starts with XML declaration or a tag
+    stripped = data.lstrip()
+    if stripped[:5] in (b"<?xml", b"<G-BA", b"<g-ba", b"<Besc"):
+        return data
+
+    # Show first bytes for debugging
+    print("  -> WARNING: Unknown file format. First 100 bytes:")
+    print("     %s" % repr(data[:100]))
+    print("  -> Attempting to parse as XML anyway...")
+    return data
+
+
 # ── Network fetching ───────────────────────────────────────────────────
 
 
@@ -276,7 +332,7 @@ def fetch_xml():
         with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
             html = resp.read().decode("utf-8", errors="replace")
         for match in re.finditer(
-            r"""href=['"](/[^'"]*G-BA_Beschluss_Info[^'"]*\.xml)['"]""",
+            r"""href=['"](/[^'"]*G-BA_Beschluss_Info[^'"]*\.(?:xml|zip))['"]""",
             html,
             re.IGNORECASE,
         ):
@@ -302,8 +358,13 @@ def fetch_xml():
             ctx = ssl.create_default_context()
             with urllib.request.urlopen(req, context=ctx, timeout=60) as resp:
                 data = resp.read()
-                print("  -> Downloaded {:,} bytes".format(len(data)))
-                return data
+                content_type = resp.headers.get("Content-Type", "")
+                print("  -> Downloaded {:,} bytes (Content-Type: {})".format(
+                    len(data), content_type))
+                xml_data = extract_xml_from_data(data)
+                return xml_data
+        except RuntimeError:
+            raise
         except Exception as exc:
             print("  -> Failed: %s" % exc)
             last_error = exc
@@ -333,8 +394,9 @@ def main():
         if not p.exists():
             print("ERROR: File not found: %s" % p)
             sys.exit(1)
-        xml_content = p.read_bytes()
-        print("Read {:,} bytes from {}".format(len(xml_content), p))
+        raw = p.read_bytes()
+        print("Read {:,} bytes from {}".format(len(raw), p))
+        xml_content = extract_xml_from_data(raw)
     else:
         xml_content = fetch_xml()
 
