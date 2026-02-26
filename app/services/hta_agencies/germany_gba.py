@@ -611,8 +611,25 @@ class GermanyGBA(HTAAgency):
     def save_to_file(self, data_file: Path) -> None:
         if not self._loaded:
             return
+        self._apply_translations()
         self._write_json_file(data_file, self._make_envelope(self._decisions))
         logger.info(
             "%s saved %d decisions to %s",
             self.agency_abbreviation, len(self._decisions), data_file,
         )
+
+    def _apply_translations(self) -> None:
+        """Add English translations for German text fields using the offline translator."""
+        try:
+            from app.services.de_translator import translate_de_text
+        except ImportError:
+            logger.warning("de_translator not available, skipping translations")
+            return
+
+        for dec in self._decisions:
+            if dec.get("indication") and not dec.get("indication_en"):
+                dec["indication_en"] = translate_de_text(dec["indication"])
+            if dec.get("patient_group") and not dec.get("patient_group_en"):
+                dec["patient_group_en"] = translate_de_text(dec["patient_group"])
+            if dec.get("comparator") and not dec.get("comparator_en"):
+                dec["comparator_en"] = translate_de_text(dec["comparator"])

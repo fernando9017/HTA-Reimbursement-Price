@@ -168,7 +168,7 @@ function renderGBADrugList(drugs, container) {
         html += `<tr class="gba-drug-row" data-substance="${esc(d.active_substance)}" style="cursor:pointer">`;
         html += `<td class="col-name"><strong>${esc(d.active_substance)}</strong></td>`;
         html += `<td>${d.trade_names.map(n => esc(n)).join(", ") || "—"}</td>`;
-        html += `<td class="col-indication">${d.indications.map(i => esc(i)).join("; ") || "—"}</td>`;
+        html += `<td class="col-indication">${(d.indications_en || d.indications).map(i => esc(i)).join("; ") || "—"}</td>`;
         html += `<td style="text-align:center">${d.assessment_count}</td>`;
         html += `<td><span class="tag ${benefitClass}">${esc(d.best_benefit_en || d.best_benefit || "—")}</span></td>`;
         html += `<td style="white-space:nowrap">${esc(d.latest_date)}</td>`;
@@ -237,7 +237,7 @@ function renderGBADrugDetail(profile, container) {
 
         // Assessment header with indication
         html += '<div class="gba-assessment-header">';
-        html += `<div class="gba-assessment-indication">${esc(a.indication)}</div>`;
+        html += `<div class="gba-assessment-indication">${esc(a.indication_en || a.indication)}</div>`;
         html += `<div class="gba-assessment-date">${esc(a.decision_date)}</div>`;
         html += '</div>';
 
@@ -248,7 +248,7 @@ function renderGBADrugDetail(profile, container) {
 
                 // Patient group
                 if (sub.patient_group) {
-                    html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group)}</div>`;
+                    html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group_en || sub.patient_group)}</div>`;
                 }
 
                 // Outcome row
@@ -274,7 +274,7 @@ function renderGBADrugDetail(profile, container) {
                 if (sub.comparator) {
                     html += '<div class="gba-outcome-item">';
                     html += '<div class="gba-outcome-label">COMPARATOR</div>';
-                    html += `<div class="gba-outcome-value">${esc(sub.comparator)}</div>`;
+                    html += `<div class="gba-outcome-value">${esc(sub.comparator_en || sub.comparator)}</div>`;
                     html += '</div>';
                 }
 

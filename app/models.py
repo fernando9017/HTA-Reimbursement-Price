@@ -358,11 +358,13 @@ class GBASubpopulation(BaseModel):
     """A single patient subpopulation within a G-BA assessment."""
 
     patient_group: str                  # Description of the patient subpopulation
+    patient_group_en: str = ""          # English translation
     benefit_rating: str = ""            # Raw German: erheblich, beträchtlich, etc.
     benefit_rating_en: str = ""         # English translation
     evidence_level: str = ""            # Raw German: Beleg, Hinweis, Anhaltspunkt
     evidence_level_en: str = ""         # English translation
     comparator: str = ""                # Appropriate comparator therapy (zVT)
+    comparator_en: str = ""             # English translation
 
 
 class GBAAssessmentDetail(BaseModel):
@@ -371,7 +373,8 @@ class GBAAssessmentDetail(BaseModel):
     decision_id: str = ""               # e.g. "2020-01-15-D-500"
     trade_name: str                     # Brand name(s): Keytruda, Opdivo, etc.
     active_substance: str               # INN
-    indication: str                     # Therapeutic indication (AWG)
+    indication: str                     # Therapeutic indication (AWG) — German
+    indication_en: str = ""             # English translation
     decision_date: str                  # YYYY-MM-DD
     assessment_url: str = ""            # Link to G-BA assessment page
     subpopulations: list[GBASubpopulation] = []
@@ -401,6 +404,7 @@ class GBADrugListItem(BaseModel):
     latest_date: str = ""
     assessment_count: int = 0
     indications: list[str] = []
+    indications_en: list[str] = []
     best_benefit: str = ""              # Best benefit rating across all current assessments
     best_benefit_en: str = ""
 
