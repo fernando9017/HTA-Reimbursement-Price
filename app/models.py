@@ -215,6 +215,7 @@ class AdjudicacionResult(BaseModel):
     units_awarded: int = 0
     unit_price: float = 0.0             # MXN per unit
     total_amount: float = 0.0           # MXN total
+    max_reference_price: float = 0.0    # BIRMEX maximum reference price (MXN per unit)
     institution: str = ""               # Requesting institution (IMSS, ISSSTE, etc.)
     therapeutic_group: str = ""
     source_type: str = ""
@@ -234,6 +235,7 @@ class PriceHistoryEntry(BaseModel):
     units_awarded: int = 0
     status: str = ""
     institution: str = ""
+    max_reference_price: float = 0.0    # BIRMEX ceiling price for this cycle
 
 
 class PriceHistoryResult(BaseModel):

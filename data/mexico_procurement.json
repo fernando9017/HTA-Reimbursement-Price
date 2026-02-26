@@ -375,7 +375,8 @@
       "total_amount": 2069676000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 32000.0
     },
     {
       "clave": "010.000.6317.00",
@@ -400,7 +401,8 @@
           "outcome": "awarded",
           "reason": "Sole patent holder, negotiated price accepted"
         }
-      ]
+      ],
+      "max_reference_price": 29500.0
     },
     {
       "clave": "010.000.6317.00",
@@ -415,7 +417,8 @@
       "total_amount": 860480000.0,
       "institution": "ISSSTE",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 29500.0
     },
     {
       "clave": "010.000.6245.00",
@@ -430,7 +433,8 @@
       "total_amount": 1002691250.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 21000.0
     },
     {
       "clave": "010.000.6245.00",
@@ -455,7 +459,8 @@
           "outcome": "awarded",
           "reason": "Sole patent holder for nivolumab 100mg"
         }
-      ]
+      ],
+      "max_reference_price": 19000.0
     },
     {
       "clave": "010.000.6246.00",
@@ -470,7 +475,8 @@
       "total_amount": 270720000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 19000.0
     },
     {
       "clave": "010.000.5870.00",
@@ -485,7 +491,8 @@
       "total_amount": 429600000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "max_reference_price": 10000.0
     },
     {
       "clave": "010.000.5870.00",
@@ -522,7 +529,8 @@
           "outcome": "rejected",
           "reason": "Originator price exceeded budget threshold"
         }
-      ]
+      ],
+      "max_reference_price": 8500.0
     },
     {
       "clave": "010.000.5480.00",
@@ -537,7 +545,8 @@
       "total_amount": 29496000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "generico"
+      "source_type": "generico",
+      "max_reference_price": 300.0
     },
     {
       "clave": "010.000.5480.00",
@@ -552,7 +561,8 @@
       "total_amount": 22827500.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "generico"
+      "source_type": "generico",
+      "max_reference_price": 250.0
     },
     {
       "clave": "010.000.6060.00",
@@ -567,7 +577,8 @@
       "total_amount": 322620000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "max_reference_price": 9500.0
     },
     {
       "clave": "010.000.6060.00",
@@ -604,7 +615,8 @@
           "outcome": "rejected",
           "reason": "Did not meet full technical requirements"
         }
-      ]
+      ],
+      "max_reference_price": 7000.0
     },
     {
       "clave": "010.000.4502.00",
@@ -619,7 +631,8 @@
       "total_amount": 345800000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "max_reference_price": 14000.0
     },
     {
       "clave": "010.000.4502.00",
@@ -656,7 +669,8 @@
           "outcome": "second_place",
           "reason": "Second lowest bid"
         }
-      ]
+      ],
+      "max_reference_price": 8000.0
     },
     {
       "clave": "010.000.5820.00",
@@ -671,7 +685,8 @@
       "total_amount": 1004550000.0,
       "institution": "IMSS",
       "therapeutic_group": "Inmunología y Reumatología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "max_reference_price": 6000.0
     },
     {
       "clave": "010.000.5820.00",
@@ -714,7 +729,8 @@
           "outcome": "rejected",
           "reason": "Third lowest bid, exceeded budget allocation"
         }
-      ]
+      ],
+      "max_reference_price": 3500.0
     },
     {
       "clave": "010.000.4504.00",
@@ -729,7 +745,8 @@
       "total_amount": 276000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Inmunología y Reumatología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "max_reference_price": 4000.0
     },
     {
       "clave": "010.000.4357.00",
@@ -744,7 +761,8 @@
       "total_amount": 1564000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
-      "source_type": "biotecnologico"
+      "source_type": "biotecnologico",
+      "max_reference_price": 750.0
     },
     {
       "clave": "010.000.4357.00",
@@ -775,7 +793,8 @@
           "outcome": "second_place",
           "reason": "Originator insulin, higher price"
         }
-      ]
+      ],
+      "max_reference_price": 600.0
     },
     {
       "clave": "010.000.6375.00",
@@ -792,7 +811,8 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "Roche did not submit a competitive offer for atezolizumab. Budget constraints and lack of agreement on volume commitments led to desierta declaration."
+      "negotiation_notes": "Roche did not submit a competitive offer for atezolizumab. Budget constraints and lack of agreement on volume commitments led to desierta declaration.",
+      "max_reference_price": 38000.0
     },
     {
       "clave": "010.000.6375.00",
@@ -807,7 +827,8 @@
       "total_amount": 908600000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 35000.0
     },
     {
       "clave": "010.000.6376.00",
@@ -824,7 +845,8 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "AstraZeneca and BIRMEX could not agree on pricing. First procurement attempt for durvalumab resulted in desierta due to price above reference threshold."
+      "negotiation_notes": "AstraZeneca and BIRMEX could not agree on pricing. First procurement attempt for durvalumab resulted in desierta due to price above reference threshold.",
+      "max_reference_price": 32000.0
     },
     {
       "clave": "010.000.6376.00",
@@ -839,7 +861,8 @@
       "total_amount": 500400000.0,
       "institution": "IMSS",
       "therapeutic_group": "Oncología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 30000.0
     },
     {
       "clave": "010.000.2172.00",
@@ -854,7 +877,8 @@
       "total_amount": 370500000.0,
       "institution": "IMSS",
       "therapeutic_group": "Hematología",
-      "source_type": "fuente_unica"
+      "source_type": "fuente_unica",
+      "max_reference_price": 3200.0
     },
     {
       "clave": "010.000.2172.00",
@@ -869,7 +893,8 @@
       "total_amount": 390050000.0,
       "institution": "IMSS",
       "therapeutic_group": "Hematología",
-      "source_type": "fuente_unica"
+      "source_type": "fuente_unica",
+      "max_reference_price": 3000.0
     },
     {
       "clave": "010.000.4507.00",
@@ -886,7 +911,8 @@
       "therapeutic_group": "Hematología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "Roche/Chugai pricing for emicizumab exceeded budget allocation. Patient access through exceptional procurement mechanism instead."
+      "negotiation_notes": "Roche/Chugai pricing for emicizumab exceeded budget allocation. Patient access through exceptional procurement mechanism instead.",
+      "max_reference_price": 38000.0
     },
     {
       "clave": "010.000.4507.00",
@@ -911,7 +937,8 @@
           "outcome": "awarded",
           "reason": "Sole manufacturer of bispecific hemophilia therapy"
         }
-      ]
+      ],
+      "max_reference_price": 45000.0
     },
     {
       "clave": "010.000.4380.00",
@@ -926,7 +953,8 @@
       "total_amount": 432000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Infectología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 5500.0
     },
     {
       "clave": "010.000.4389.00",
@@ -941,7 +969,8 @@
       "total_amount": 544000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Infectología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 3800.0
     },
     {
       "clave": "010.000.4389.00",
@@ -956,7 +985,8 @@
       "total_amount": 551300000.0,
       "institution": "IMSS",
       "therapeutic_group": "Infectología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 3500.0
     },
     {
       "clave": "010.000.2105.00",
@@ -971,7 +1001,8 @@
       "total_amount": 27750000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
-      "source_type": "generico"
+      "source_type": "generico",
+      "max_reference_price": 2.2
     },
     {
       "clave": "010.000.2105.00",
@@ -986,7 +1017,8 @@
       "total_amount": 27520000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
-      "source_type": "generico"
+      "source_type": "generico",
+      "max_reference_price": 2.0
     },
     {
       "clave": "010.000.6420.00",
@@ -1003,7 +1035,8 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "AstraZeneca initial price offer exceeded the BIRMEX maximum reference price by 35%. No agreement reached; desierta declared."
+      "negotiation_notes": "AstraZeneca initial price offer exceeded the BIRMEX maximum reference price by 35%. No agreement reached; desierta declared.",
+      "max_reference_price": 55000.0
     },
     {
       "clave": "010.000.6420.00",
@@ -1028,7 +1061,8 @@
           "outcome": "awarded",
           "reason": "Sole patent holder, price agreed after extended negotiation"
         }
-      ]
+      ],
+      "max_reference_price": 62000.0
     },
     {
       "clave": "010.000.6425.00",
@@ -1045,7 +1079,8 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "First procurement attempt for olaparib. AstraZeneca price offer deemed too high by negotiation committee. No alternative suppliers available."
+      "negotiation_notes": "First procurement attempt for olaparib. AstraZeneca price offer deemed too high by negotiation committee. No alternative suppliers available.",
+      "max_reference_price": 22000.0
     },
     {
       "clave": "010.000.6425.00",
@@ -1070,7 +1105,8 @@
           "outcome": "awarded",
           "reason": "Sole patent holder, outcome-based agreement reached"
         }
-      ]
+      ],
+      "max_reference_price": 26000.0
     },
     {
       "clave": "010.000.6430.00",
@@ -1087,7 +1123,8 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "Eisai did not submit a price offer. The company considered the maximum reference price set by BIRMEX to be below their floor price. Procurement declared desierta."
+      "negotiation_notes": "Eisai did not submit a price offer. The company considered the maximum reference price set by BIRMEX to be below their floor price. Procurement declared desierta.",
+      "max_reference_price": 35000.0
     },
     {
       "clave": "010.000.6430.00",
@@ -1104,7 +1141,8 @@
       "therapeutic_group": "Oncología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "Eisai did not submit a price offer. The company considered the maximum reference price set by BIRMEX to be below their floor price. Procurement declared desierta."
+      "negotiation_notes": "Eisai did not submit a price offer. The company considered the maximum reference price set by BIRMEX to be below their floor price. Procurement declared desierta.",
+      "max_reference_price": 33000.0
     },
     {
       "clave": "010.000.6500.00",
@@ -1119,7 +1157,8 @@
       "total_amount": 1250000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Neurología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 1400000.0
     },
     {
       "clave": "010.000.6500.00",
@@ -1144,7 +1183,8 @@
           "outcome": "awarded",
           "reason": "Sole intrathecal SMA therapy, negotiated reduction"
         }
-      ]
+      ],
+      "max_reference_price": 1300000.0
     },
     {
       "clave": "010.000.6505.00",
@@ -1169,7 +1209,8 @@
           "outcome": "awarded",
           "reason": "Sole manufacturer, first-cycle procurement"
         }
-      ]
+      ],
+      "max_reference_price": 200000.0
     },
     {
       "clave": "010.000.6510.00",
@@ -1186,7 +1227,8 @@
       "therapeutic_group": "Dermatología",
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
-      "negotiation_notes": "Sanofi/Regeneron price offer for dupilumab not accepted. BIRMEX reference price based on international benchmarks was below Sanofi floor price."
+      "negotiation_notes": "Sanofi/Regeneron price offer for dupilumab not accepted. BIRMEX reference price based on international benchmarks was below Sanofi floor price.",
+      "max_reference_price": 11000.0
     },
     {
       "clave": "010.000.6510.00",
@@ -1211,7 +1253,8 @@
           "outcome": "awarded",
           "reason": "Sole manufacturer, managed entry agreement"
         }
-      ]
+      ],
+      "max_reference_price": 14000.0
     },
     {
       "clave": "010.000.6550.00",
@@ -1226,7 +1269,8 @@
       "total_amount": 95280000.0,
       "institution": "IMSS",
       "therapeutic_group": "Cardiología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 220.0
     },
     {
       "clave": "010.000.6550.00",
@@ -1241,7 +1285,8 @@
       "total_amount": 99750000.0,
       "institution": "IMSS",
       "therapeutic_group": "Cardiología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 200.0
     },
     {
       "clave": "010.000.6555.00",
@@ -1256,7 +1301,8 @@
       "total_amount": 119000000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 48.0
     },
     {
       "clave": "010.000.6555.00",
@@ -1271,7 +1317,8 @@
       "total_amount": 128370000.0,
       "institution": "IMSS",
       "therapeutic_group": "Endocrinología",
-      "source_type": "patente"
+      "source_type": "patente",
+      "max_reference_price": 42.0
     },
     {
       "clave": "010.000.6317.00",
@@ -1289,7 +1336,8 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Same price as IMSS consolidated negotiation.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 29500.0
     },
     {
       "clave": "010.000.6245.00",
@@ -1307,7 +1355,8 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Consolidated price aligned with IMSS negotiation.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 19000.0
     },
     {
       "clave": "010.000.5820.00",
@@ -1325,7 +1374,8 @@
       "source_type": "biotecnologico",
       "negotiation_type": "licitacion_publica",
       "negotiation_notes": "ISSSTE joined consolidated procurement at same biosimilar price.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 3500.0
     },
     {
       "clave": "010.000.4357.00",
@@ -1343,7 +1393,8 @@
       "source_type": "biotecnologico",
       "negotiation_type": "licitacion_publica",
       "negotiation_notes": "ISSSTE volume consolidated with IMSS procurement.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 600.0
     },
     {
       "clave": "010.000.2105.00",
@@ -1361,7 +1412,8 @@
       "source_type": "generico",
       "negotiation_type": "licitacion_publica",
       "negotiation_notes": "",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 2.0
     },
     {
       "clave": "010.000.4389.00",
@@ -1379,7 +1431,8 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Consolidated ARV procurement price.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 3500.0
     },
     {
       "clave": "010.000.6555.00",
@@ -1397,7 +1450,8 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Consolidated price with IMSS.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 42.0
     },
     {
       "clave": "010.000.6550.00",
@@ -1415,7 +1469,8 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Consolidated price across institutions.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 200.0
     },
     {
       "clave": "010.000.4380.00",
@@ -1433,7 +1488,8 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Hepatitis C elimination program — consolidated procurement.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 5500.0
     },
     {
       "clave": "010.000.6430.00",
@@ -1451,7 +1507,498 @@
       "source_type": "patente",
       "negotiation_type": "mesa_patente",
       "negotiation_notes": "Eisai declined to participate — price disagreement persists across both IMSS and ISSSTE.",
-      "competitor_bids": []
+      "competitor_bids": [],
+      "max_reference_price": 33000.0
+    },
+    {
+      "clave": "010.000.6317.00",
+      "description": "PEMBROLIZUMAB 100 mg",
+      "active_substance": "pembrolizumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 125000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 27000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. BIRMEX reference price reduced 7.4% from 2025-2026 cycle using updated international benchmarks (Brazil, Colombia, Argentina)."
+    },
+    {
+      "clave": "010.000.6317.00",
+      "description": "PEMBROLIZUMAB 100 mg",
+      "active_substance": "pembrolizumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 40000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 27000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.6317.00",
+      "description": "PEMBROLIZUMAB 100 mg",
+      "active_substance": "pembrolizumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 10000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 27000.0,
+      "institution": "PEMEX",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.6245.00",
+      "description": "NIVOLUMAB 100 mg",
+      "active_substance": "nivolumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 85000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 17500.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. BMS patent approaching expiry (2027-12); BIRMEX anticipating biosimilar competition in 2028."
+    },
+    {
+      "clave": "010.000.6246.00",
+      "description": "NIVOLUMAB 40 mg",
+      "active_substance": "nivolumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 45000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 7800.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.5870.00",
+      "description": "TRASTUZUMAB 440 mg",
+      "active_substance": "trastuzumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 60000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 7500.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Tender open. Four biosimilar manufacturers expected to bid. Reference price reduced 12% from 2025-2026."
+    },
+    {
+      "clave": "010.000.5480.00",
+      "description": "IMATINIB 400 mg",
+      "active_substance": "imatinib",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 120000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 220.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "generico"
+    },
+    {
+      "clave": "010.000.6060.00",
+      "description": "BEVACIZUMAB 400 mg",
+      "active_substance": "bevacizumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 55000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 6200.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "biotecnologico"
+    },
+    {
+      "clave": "010.000.4502.00",
+      "description": "RITUXIMAB 500 mg",
+      "active_substance": "rituximab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 38000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 7000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "biotecnologico"
+    },
+    {
+      "clave": "010.000.5820.00",
+      "description": "ADALIMUMAB 40 mg",
+      "active_substance": "adalimumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 230000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 3000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Inmunología y Reumatología",
+      "source_type": "biotecnologico",
+      "negotiation_type": "licitacion_publica",
+      "negotiation_notes": "Tender open. Five biosimilar manufacturers expected. Reference price set to incentivize continued price competition."
+    },
+    {
+      "clave": "010.000.5820.00",
+      "description": "ADALIMUMAB 40 mg",
+      "active_substance": "adalimumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 65000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 3000.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Inmunología y Reumatología",
+      "source_type": "biotecnologico"
+    },
+    {
+      "clave": "010.000.4504.00",
+      "description": "INFLIXIMAB 100 mg",
+      "active_substance": "infliximab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 90000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 3500.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Inmunología y Reumatología",
+      "source_type": "biotecnologico"
+    },
+    {
+      "clave": "010.000.4357.00",
+      "description": "INSULINA GLARGINA 100 UI/mL",
+      "active_substance": "insulina glargina",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 3000000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 550.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Endocrinología",
+      "source_type": "biotecnologico"
+    },
+    {
+      "clave": "010.000.4357.00",
+      "description": "INSULINA GLARGINA 100 UI/mL",
+      "active_substance": "insulina glargina",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 950000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 550.0,
+      "institution": "ISSSTE",
+      "therapeutic_group": "Endocrinología",
+      "source_type": "biotecnologico"
+    },
+    {
+      "clave": "010.000.2105.00",
+      "description": "METFORMINA 850 mg",
+      "active_substance": "metformina",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 17000000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 1.8,
+      "institution": "IMSS",
+      "therapeutic_group": "Endocrinología",
+      "source_type": "generico"
+    },
+    {
+      "clave": "010.000.6420.00",
+      "description": "OSIMERTINIB 80 mg",
+      "active_substance": "osimertinib",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 22000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 58000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Reference price reduced 1.5% from 2025-2026. AstraZeneca expected to participate following successful 2025-2026 agreement."
+    },
+    {
+      "clave": "010.000.6425.00",
+      "description": "OLAPARIB 150 mg",
+      "active_substance": "olaparib",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 16000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 24000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Continuation of risk-sharing agreement from 2025-2026. Patent expiry approaching (2028-01) — generic competition expected soon."
+    },
+    {
+      "clave": "010.000.6430.00",
+      "description": "LENVATINIB 10 mg",
+      "active_substance": "lenvatinib",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 15000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 31000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. BIRMEX lowered reference price by 6.1% and expanded indication scope to include pembrolizumab combination regimens. Eisai engagement ongoing."
+    },
+    {
+      "clave": "010.000.6375.00",
+      "description": "ATEZOLIZUMAB 840 mg",
+      "active_substance": "atezolizumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 35000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 33000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.6376.00",
+      "description": "DURVALUMAB 500 mg",
+      "active_substance": "durvalumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 25000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 28000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Oncología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.6500.00",
+      "description": "NUSINERSEN 12 mg",
+      "active_substance": "nusinersen",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 1800,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 1200000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Neurología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Reference price benchmarked against risdiplam cost per patient. Volume-based tiered pricing expected to continue."
+    },
+    {
+      "clave": "010.000.6505.00",
+      "description": "RISDIPLAM 0.75 mg/mL",
+      "active_substance": "risdiplam",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 2500,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 190000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Neurología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.6510.00",
+      "description": "DUPILUMAB 300 mg",
+      "active_substance": "dupilumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 40000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 13000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Dermatología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Managed entry agreement from 2025-2026 being evaluated for continuation based on real-world evidence results."
+    },
+    {
+      "clave": "010.000.2172.00",
+      "description": "FACTOR VIII 500 UI",
+      "active_substance": "factor viii",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 170000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 2800.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Hematología",
+      "source_type": "fuente_unica"
+    },
+    {
+      "clave": "010.000.4507.00",
+      "description": "EMICIZUMAB 150 mg",
+      "active_substance": "emicizumab",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 14000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 43000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Hematología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Phased price reduction commitment from 2025-2026 agreement expected to yield 5% reduction."
+    },
+    {
+      "clave": "010.000.4380.00",
+      "description": "SOFOSBUVIR/VELPATASVIR 400/100 mg",
+      "active_substance": "sofosbuvir/velpatasvir",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 100000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 5000.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Infectología",
+      "source_type": "patente"
+    },
+    {
+      "clave": "010.000.4389.00",
+      "description": "DOLUTEGRAVIR/ABACAVIR/LAMIVUDINA",
+      "active_substance": "dolutegravir/abacavir/lamivudina",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 200000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 3200.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Infectología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Patent expiry approaching (2027-10). Generic manufacturers expressing interest for potential mid-cycle entry."
+    },
+    {
+      "clave": "010.000.6550.00",
+      "description": "SACUBITRILO/VALSARTÁN 97/103 mg",
+      "active_substance": "sacubitrilo/valsartan",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 700000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 180.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Cardiología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Patent expiry imminent (2026-11). Generic entry expected during this cycle — significant price reduction anticipated."
+    },
+    {
+      "clave": "010.000.6555.00",
+      "description": "DAPAGLIFLOZINA 10 mg",
+      "active_substance": "dapagliflozina",
+      "cycle": "2027-2028",
+      "status": "en_proceso",
+      "supplier": "",
+      "units_requested": 4000000,
+      "units_awarded": 0,
+      "unit_price": 0.0,
+      "total_amount": 0.0,
+      "max_reference_price": 38.0,
+      "institution": "IMSS",
+      "therapeutic_group": "Endocrinología",
+      "source_type": "patente",
+      "negotiation_type": "mesa_patente",
+      "negotiation_notes": "Tender open. Patent expired (2025-10). Generic manufacturers expected to enter — transition from patente to generico source type anticipated."
     }
   ]
 }

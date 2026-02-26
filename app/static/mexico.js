@@ -275,8 +275,11 @@ function renderClaveDetail(d, container) {
             html += `<div class="mx-price-change ${pctClass}">${arrow} ${Math.abs(d.price_history.price_change_pct)}% price change across cycles</div>`;
         }
 
+        const hasRefPrice = d.price_history.entries.some(e => e.max_reference_price > 0);
         html += '<div class="analogue-table-wrapper"><table class="analogue-table"><thead><tr>';
-        html += '<th>Cycle</th><th>Institution</th><th>Status</th><th>Unit Price (MXN)</th><th>Units Awarded</th><th>Supplier</th>';
+        html += '<th>Cycle</th><th>Institution</th><th>Status</th>';
+        if (hasRefPrice) html += '<th>Max Ref. Price</th>';
+        html += '<th>Unit Price (MXN)</th><th>Units Awarded</th><th>Supplier</th>';
         html += '</tr></thead><tbody>';
         for (const e of d.price_history.entries) {
             const stClass = statusBadgeClass(e.status);
@@ -284,6 +287,7 @@ function renderClaveDetail(d, container) {
             html += `<td><strong>${esc(e.cycle)}</strong></td>`;
             html += `<td>${esc(e.institution)}</td>`;
             html += `<td><span class="tag ${stClass}">${esc(statusLabel(e.status))}</span></td>`;
+            if (hasRefPrice) html += `<td style="text-align:right;white-space:nowrap;color:var(--text-light)">${formatMXN(e.max_reference_price)}</td>`;
             html += `<td style="text-align:right;white-space:nowrap">${formatMXN(e.unit_price)}</td>`;
             html += `<td style="text-align:right">${formatUnits(e.units_awarded)}</td>`;
             html += `<td>${esc(e.supplier) || "—"}</td>`;
@@ -327,7 +331,8 @@ function renderClaveDetail(d, container) {
             html += '<div class="mx-award-body">';
             if (a.supplier) html += `<div><strong>Supplier:</strong> ${esc(a.supplier)}</div>`;
             html += `<div><strong>Units:</strong> ${formatUnits(a.units_requested)} requested, ${formatUnits(a.units_awarded)} awarded</div>`;
-            if (a.unit_price > 0) html += `<div><strong>Unit Price:</strong> ${formatMXN(a.unit_price)} &mdash; <strong>Total:</strong> ${formatMXN(a.total_amount)}</div>`;
+            if (a.max_reference_price > 0) html += `<div><strong>BIRMEX Max Reference Price:</strong> <span class="mx-ref-price">${formatMXN(a.max_reference_price)}</span></div>`;
+            if (a.unit_price > 0) html += `<div><strong>Unit Price:</strong> ${formatMXN(a.unit_price)}${a.max_reference_price > 0 ? ' <span class="mx-ref-savings">(' + Math.round((1 - a.unit_price / a.max_reference_price) * 100) + '% below ceiling)</span>' : ''} &mdash; <strong>Total:</strong> ${formatMXN(a.total_amount)}</div>`;
 
             if (a.negotiation_type) {
                 html += `<div class="mx-negotiation"><strong>Negotiation Type:</strong> <span class="tag mx-source-patent">${esc(negotiationTypeLabel(a.negotiation_type))}</span></div>`;
@@ -480,10 +485,12 @@ function renderAdjSummary(summary, cycle, container) {
 }
 
 function renderAdjResults(results, container) {
+    const hasRef = results.some(a => a.max_reference_price > 0);
     let html = `<p class="results-summary">${results.length} award record(s)</p>`;
     html += '<div class="analogue-table-wrapper"><table class="analogue-table"><thead><tr>';
     html += '<th>Clave</th><th>Substance</th><th>Cycle</th><th>Status</th>';
     html += '<th>Supplier</th><th>Units Req.</th><th>Units Awarded</th>';
+    if (hasRef) html += '<th>Ref. Price</th>';
     html += '<th>Unit Price</th><th>Total (MXN)</th><th>Institution</th>';
     html += '</tr></thead><tbody>';
 
@@ -497,6 +504,7 @@ function renderAdjResults(results, container) {
         html += `<td>${esc(a.supplier) || "—"}</td>`;
         html += `<td style="text-align:right">${formatUnits(a.units_requested)}</td>`;
         html += `<td style="text-align:right">${formatUnits(a.units_awarded)}</td>`;
+        if (hasRef) html += `<td style="text-align:right;white-space:nowrap;color:var(--text-light)">${formatMXN(a.max_reference_price)}</td>`;
         html += `<td style="text-align:right;white-space:nowrap">${formatMXN(a.unit_price)}</td>`;
         html += `<td style="text-align:right;white-space:nowrap">${formatMXN(a.total_amount)}</td>`;
         html += `<td>${esc(a.institution)}</td>`;
@@ -564,15 +572,20 @@ function renderInstitutions(institutions, container) {
         // Two-column layout: top therapeutic groups + top suppliers
         html += '<div class="mx-inst-cols">';
 
-        // Top therapeutic groups
+        // Top therapeutic groups (clickable drill-down)
         if (inst.top_therapeutic_groups && inst.top_therapeutic_groups.length > 0) {
             html += '<div class="mx-inst-col">';
             html += '<h4>Top Therapeutic Groups by Spend</h4>';
             html += '<table class="analogue-table" style="font-size:0.82rem"><thead><tr><th>Group</th><th>Spend (MXN)</th><th>Claves</th></tr></thead><tbody>';
             for (const g of inst.top_therapeutic_groups) {
-                html += `<tr><td>${esc(g.group)}</td><td style="text-align:right">${formatMXN(g.spend)}</td><td style="text-align:center">${g.claves}</td></tr>`;
+                html += `<tr class="mx-group-row" data-institution="${esc(inst.institution)}" data-group="${esc(g.group)}" style="cursor:pointer" title="Click to see claves in ${esc(g.group)}">`;
+                html += `<td><span class="mx-group-link">${esc(g.group)}</span></td>`;
+                html += `<td style="text-align:right">${formatMXN(g.spend)}</td>`;
+                html += `<td style="text-align:center">${g.claves}</td></tr>`;
             }
-            html += '</tbody></table></div>';
+            html += '</tbody></table>';
+            html += `<div class="mx-group-detail" id="group-detail-${esc(inst.institution).replace(/\s/g, '_')}"></div>`;
+            html += '</div>';
         }
 
         // Top suppliers
@@ -591,6 +604,77 @@ function renderInstitutions(institutions, container) {
     }
 
     container.innerHTML = html;
+
+    // Bind click events on therapeutic group rows for drill-down
+    container.querySelectorAll(".mx-group-row").forEach(row => {
+        row.addEventListener("click", () => {
+            const institution = row.dataset.institution;
+            const group = row.dataset.group;
+            const detailId = "group-detail-" + institution.replace(/\s/g, "_");
+            const detailEl = document.getElementById(detailId);
+            if (detailEl) loadGroupDetail(institution, group, detailEl);
+        });
+    });
+}
+
+async function loadGroupDetail(institution, group, container) {
+    // Toggle: if already showing this group, collapse
+    if (container.dataset.activeGroup === group && !container.classList.contains("hidden")) {
+        container.innerHTML = "";
+        container.dataset.activeGroup = "";
+        return;
+    }
+
+    container.dataset.activeGroup = group;
+    container.innerHTML = '<p class="status-msg loading" style="font-size:0.82rem">Loading claves...</p>';
+
+    const cycle = document.getElementById("inst-cycle").value;
+    const params = new URLSearchParams();
+    params.set("institution", institution);
+    params.set("therapeutic_group", group);
+    if (cycle) params.set("cycle", cycle);
+    params.set("limit", "100");
+
+    try {
+        const res = await fetch("/api/mexico/adjudicaciones?" + params);
+        if (!res.ok) throw new Error("Failed");
+        const data = await res.json();
+
+        if (data.results.length === 0) {
+            container.innerHTML = '<p class="no-results" style="font-size:0.82rem">No claves found.</p>';
+            return;
+        }
+
+        let html = `<div class="mx-group-drilldown">`;
+        html += `<h4 class="mx-group-drilldown-title">${esc(group)} — ${esc(institution)}</h4>`;
+        html += '<table class="analogue-table" style="font-size:0.82rem"><thead><tr>';
+        html += '<th>Clave</th><th>Substance</th><th>Cycle</th><th>Status</th>';
+        html += '<th>Supplier</th><th>Unit Price</th><th>Ref. Price</th><th>Units</th>';
+        html += '</tr></thead><tbody>';
+
+        for (const a of data.results) {
+            const stClass = statusBadgeClass(a.status);
+            html += `<tr class="mx-clave-row" data-clave="${esc(a.clave)}" style="cursor:pointer">`;
+            html += `<td class="col-name"><strong>${esc(a.clave)}</strong></td>`;
+            html += `<td>${esc(a.active_substance)}</td>`;
+            html += `<td>${esc(a.cycle)}</td>`;
+            html += `<td><span class="tag ${stClass}">${esc(statusLabel(a.status))}</span></td>`;
+            html += `<td>${esc(a.supplier) || "—"}</td>`;
+            html += `<td style="text-align:right;white-space:nowrap">${formatMXN(a.unit_price)}</td>`;
+            html += `<td style="text-align:right;white-space:nowrap;color:var(--text-light)">${formatMXN(a.max_reference_price)}</td>`;
+            html += `<td style="text-align:right">${formatUnits(a.units_awarded)}</td>`;
+            html += '</tr>';
+        }
+
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+
+        container.querySelectorAll(".mx-clave-row").forEach(row => {
+            row.addEventListener("click", () => loadClaveDetail(row.dataset.clave));
+        });
+    } catch (e) {
+        container.innerHTML = '<p class="status-msg error" style="font-size:0.82rem">Could not load group details.</p>';
+    }
 }
 
 // ── Opportunities ────────────────────────────────────────────────────

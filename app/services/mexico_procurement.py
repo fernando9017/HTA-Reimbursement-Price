@@ -236,6 +236,7 @@ class MexicoProcurementService:
                     units_awarded=a.get("units_awarded", 0),
                     status=a.get("status", ""),
                     institution=a.get("institution", ""),
+                    max_reference_price=a.get("max_reference_price", 0.0),
                 ))
 
         # Sort by cycle chronologically
@@ -473,6 +474,7 @@ class MexicoProcurementService:
             units_awarded=a.get("units_awarded", 0),
             unit_price=a.get("unit_price", 0.0),
             total_amount=a.get("total_amount", 0.0),
+            max_reference_price=a.get("max_reference_price", 0.0),
             institution=a.get("institution", ""),
             therapeutic_group=a.get("therapeutic_group", ""),
             source_type=a.get("source_type", ""),
