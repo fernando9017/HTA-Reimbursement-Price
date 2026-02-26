@@ -509,3 +509,109 @@ class GBAAssessmentAnalysis(BaseModel):
     clinical_evidence: GBAClinicalEvidence | None = None  # Pivotal trial data
     ai_model: str = ""                  # Which model generated the analysis
     cached: bool = False                # Whether result came from cache
+
+
+# ── France HAS Deep-Dive models ──────────────────────────────────
+
+
+class HASAssessmentItem(BaseModel):
+    """A single SMR/ASMR assessment entry from the French BDPM data."""
+
+    cis_code: str = ""                  # BDPM CIS code
+    dossier_code: str = ""              # HAS/CT dossier (e.g. "CT-12345")
+    product_name: str = ""              # Medicine denomination
+    evaluation_reason: str = ""         # Motif: Inscription, Renouvellement, etc.
+    evaluation_reason_en: str = ""      # English translation of motif
+    opinion_date: str = ""              # YYYY-MM-DD
+    smr_value: str = ""                 # Important, Modéré, Faible, Insuffisant
+    smr_value_en: str = ""              # English: Major, Moderate, Minor, Insufficient
+    smr_description: str = ""           # Full French description text
+    asmr_value: str = ""                # I, II, III, IV, V
+    asmr_value_en: str = ""             # English: Major improvement, etc.
+    asmr_description: str = ""          # Full French description text
+    assessment_url: str = ""            # Link to HAS/CT assessment page
+
+
+class HASGroupedAssessment(BaseModel):
+    """A HAS assessment grouped by dossier code.
+
+    Merges SMR and ASMR from the same CT opinion into one object.
+    Multiple CIS codes (presentations) may share the same dossier.
+    """
+
+    dossier_code: str = ""
+    product_names: list[str] = []       # All medicine names for this dossier
+    active_substance: str = ""
+    evaluation_reason: str = ""
+    evaluation_reason_en: str = ""
+    opinion_date: str = ""
+    assessment_url: str = ""
+    smr_value: str = ""
+    smr_value_en: str = ""
+    smr_description: str = ""
+    asmr_value: str = ""
+    asmr_value_en: str = ""
+    asmr_description: str = ""
+
+
+class HASDrugListItem(BaseModel):
+    """Summary of a drug in the French HAS database for listing purposes."""
+
+    active_substance: str
+    trade_names: list[str] = []
+    latest_date: str = ""
+    assessment_count: int = 0           # Number of distinct dossiers
+    best_smr: str = ""                  # Best (most favorable) SMR
+    best_smr_en: str = ""
+    best_asmr: str = ""                 # Best (most favorable) ASMR
+    best_asmr_en: str = ""
+    evaluation_reasons: list[str] = []  # Unique motifs across assessments
+
+
+class HASDrugProfile(BaseModel):
+    """Complete HAS assessment profile for one active substance.
+
+    Provides all assessments grouped by dossier code, showing SMR/ASMR
+    pairs with links to CT opinion documents.
+    """
+
+    active_substance: str
+    trade_names: list[str] = []
+    total_assessments: int = 0
+    assessments: list[HASGroupedAssessment] = []
+
+
+class HASSearchResponse(BaseModel):
+    """Response for HAS drug search / listing."""
+
+    total: int
+    results: list[HASDrugListItem]
+
+
+class HASFilterOptions(BaseModel):
+    """Available filter options for the France HAS deep-dive module."""
+
+    smr_ratings: list[str]
+    asmr_ratings: list[str]
+
+
+class HASAssessmentAnalysis(BaseModel):
+    """AI-generated structured analysis of a French HAS assessment."""
+
+    dossier_code: str = ""
+    trade_name: str = ""
+    active_substance: str = ""
+    evaluation_reason: str = ""
+    opinion_date: str = ""
+    assessment_url: str = ""
+    smr_value: str = ""
+    asmr_value: str = ""
+    overall_summary: str = ""           # 2-3 sentence summary
+    clinical_context: str = ""          # Disease context / unmet need
+    smr_rationale: str = ""             # Why this SMR level was given
+    asmr_rationale: str = ""            # Why this ASMR level was given
+    target_population: str = ""         # Target population described in opinion
+    market_implications: str = ""       # Pricing / reimbursement implications
+    clinical_evidence: GBAClinicalEvidence | None = None  # Pivotal trial data (reuse)
+    ai_model: str = ""
+    cached: bool = False

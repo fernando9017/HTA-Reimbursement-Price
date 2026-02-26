@@ -25,6 +25,10 @@ from app.models import (
     GBADrugProfile,
     GBAFilterOptions,
     GBASearchResponse,
+    HASAssessmentAnalysis,
+    HASDrugProfile,
+    HASFilterOptions,
+    HASSearchResponse,
     InstitutionSummary,
     MedicineResult,
     MexicoAdjudicacionResponse,
@@ -36,6 +40,7 @@ from app.models import (
 from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
+from app.services.france_hta import FranceHTAService
 from app.services.germany_hta import GermanyHTAService
 from app.services.mexico_procurement import MexicoProcurementService
 from app.services.hta_agencies.france_has import FranceHAS
@@ -68,6 +73,9 @@ hta_agencies: dict[str, HTAAgency] = {
 
 # Germany HTA deep-dive service — wraps the G-BA adapter for richer analysis
 germany_hta_service = GermanyHTAService(hta_agencies["DE"])
+
+# France HTA deep-dive service — wraps the HAS adapter for richer analysis
+france_hta_service = FranceHTAService(hta_agencies["FR"])
 
 # Curated assessment data — verified HTA outcomes that supplement live-scraped
 # data.  Keyed by (lowercase substance, country_code) → list of AssessmentResult.
@@ -341,6 +349,12 @@ async def mexico_page():
 async def germany_page():
     """Serve the Germany HTA Deep-Dive module page."""
     return FileResponse(str(STATIC_DIR / "germany.html"))
+
+
+@app.get("/france")
+async def france_page():
+    """Serve the France HAS Deep-Dive module page."""
+    return FileResponse(str(STATIC_DIR / "france.html"))
 
 
 @app.get("/api/search", response_model=list[MedicineResult])
@@ -807,4 +821,86 @@ async def germany_analyze_assessment(decision_id: str):
         raise HTTPException(503, str(e))
     except Exception as e:
         logger.error("AI analysis failed for %s: %s", decision_id, e)
+        raise HTTPException(500, "AI analysis failed. Please try again later.")
+
+
+# ── France HAS Deep-Dive endpoints ──────────────────────────────────
+
+
+@app.get("/api/france/filters", response_model=HASFilterOptions)
+async def france_filters():
+    """Available filter options for the France HAS deep-dive module."""
+    if not france_hta_service.is_loaded:
+        raise HTTPException(503, "HAS data is still loading.")
+    return france_hta_service.get_filter_options()
+
+
+@app.get("/api/france/drugs", response_model=HASSearchResponse)
+async def france_drug_list(
+    q: str = Query("", description="Search by substance or trade name"),
+    smr_rating: str = Query("", description="Filter by SMR rating"),
+    asmr_rating: str = Query("", description="Filter by ASMR rating"),
+    limit: int = Query(100, ge=1, le=500),
+):
+    """List drugs assessed by HAS with optional search and rating filters."""
+    if not france_hta_service.is_loaded:
+        raise HTTPException(503, "HAS data is still loading.")
+    return france_hta_service.search_drugs(
+        query=q,
+        smr_rating=smr_rating,
+        asmr_rating=asmr_rating,
+        limit=limit,
+    )
+
+
+@app.get("/api/france/drugs/{substance}", response_model=HASDrugProfile)
+async def france_drug_profile(substance: str):
+    """Get the full HAS assessment profile for an active substance.
+
+    Returns all CT opinions with merged SMR/ASMR data, grouped by dossier code.
+    """
+    if not france_hta_service.is_loaded:
+        raise HTTPException(503, "HAS data is still loading.")
+    profile = france_hta_service.get_drug_profile(substance)
+    if profile is None:
+        raise HTTPException(404, f"No HAS assessments found for '{substance}'.")
+    return profile
+
+
+@app.get("/api/france/analyze/{dossier_code}", response_model=HASAssessmentAnalysis)
+async def france_analyze_assessment(dossier_code: str):
+    """Generate an AI-powered analysis for a specific HAS CT opinion.
+
+    Uses Claude Haiku to produce structured insights: SMR/ASMR rationale,
+    clinical context, and market implications.
+    Results are cached to minimise API costs.
+    """
+    if not france_hta_service.is_loaded:
+        raise HTTPException(503, "HAS data is still loading.")
+
+    # Find the assessment by dossier code
+    profile_data = france_hta_service.find_assessment_by_dossier(dossier_code)
+    if profile_data is None:
+        raise HTTPException(404, f"Assessment '{dossier_code}' not found.")
+
+    from app.services.france_ai_analysis import analyze_france_assessment
+
+    try:
+        analysis = await analyze_france_assessment(
+            dossier_code=profile_data["dossier_code"],
+            trade_name=profile_data["trade_name"],
+            active_substance=profile_data["active_substance"],
+            evaluation_reason=profile_data["evaluation_reason"],
+            opinion_date=profile_data["opinion_date"],
+            assessment_url=profile_data["assessment_url"],
+            smr_value=profile_data["smr_value"],
+            smr_description=profile_data["smr_description"],
+            asmr_value=profile_data["asmr_value"],
+            asmr_description=profile_data["asmr_description"],
+        )
+        return analysis
+    except RuntimeError as e:
+        raise HTTPException(503, str(e))
+    except Exception as e:
+        logger.error("AI analysis failed for %s: %s", dossier_code, e)
         raise HTTPException(500, "AI analysis failed. Please try again later.")
