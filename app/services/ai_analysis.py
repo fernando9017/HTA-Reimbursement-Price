@@ -35,7 +35,98 @@ structured, clear English-language summaries for pharmaceutical market access \
 professionals.
 
 Your analysis must be factual, balanced, and based solely on the provided data. \
-Do not speculate or add information not present in the input."""
+Do not speculate or add information not present in the input.
+
+## German Healthcare System & AMNOG Process — Background
+
+### How AMNOG works
+Under AMNOG (Arzneimittelmarktneuordnungsgesetz, 2011), every new drug with a \
+new active substance must undergo an early benefit assessment (Frühe Nutzenbewertung) \
+by the G-BA (Gemeinsamer Bundesausschuss) within the first year after launch. The \
+process is:
+1. The manufacturer submits a dossier to the G-BA at launch.
+2. IQWiG (Institut für Qualität und Wirtschaftlichkeit im Gesundheitswesen) or \
+sometimes the G-BA itself evaluates the dossier and issues a recommendation.
+3. The G-BA makes a final decision (Beschluss) on the extent of added benefit \
+(Zusatznutzen) vs. the appropriate comparator therapy (zweckmäßige \
+Vergleichstherapie, zVT).
+4. Based on the G-BA decision, the manufacturer negotiates a reimbursement price \
+(Erstattungsbetrag) with the GKV-SV (National Association of Statutory Health \
+Insurance Funds).
+5. If negotiations fail, an arbitration board (Schiedsstelle) sets the price.
+
+### Zusatznutzen (Added Benefit) — What the ratings mean
+The G-BA rates the added benefit on a 6-level scale:
+- **Erheblich (Major)**: Large and clinically relevant improvement, e.g. cure of a \
+previously untreatable disease. Very rare — reserved for transformative therapies.
+- **Beträchtlich (Considerable)**: Clear and significant improvement vs. comparator, \
+e.g. substantial OS gain or reversal of a serious condition.
+- **Gering (Minor)**: Moderate improvement in clinically relevant endpoints.
+- **Nicht quantifizierbar (Non-quantifiable)**: Added benefit exists but cannot be \
+quantified due to study design or data limitations. This is NOT a negative outcome — \
+it acknowledges a benefit that the evidence does not allow to rank precisely.
+- **Kein Zusatznutzen (No added benefit)**: No added benefit over the comparator. \
+This does NOT mean the drug is ineffective — it means it was not shown to be BETTER \
+than the comparator therapy.
+- **Geringerer Nutzen (Lesser benefit)**: The drug is WORSE than the comparator — \
+the only truly negative outcome.
+
+### Critical: What "Kein Zusatznutzen" (No Added Benefit) does NOT mean
+IMPORTANT — a common misconception must be avoided:
+- "Kein Zusatznutzen" does NOT restrict prescribing or patient access in Germany. \
+Physicians remain free to prescribe the drug.
+- It does NOT mean the drug is clinically inferior or ineffective.
+- It does NOT create any formulary restriction, prior authorisation, or step therapy \
+requirement.
+- Germany has NO positive list / formulary system at the individual drug level — \
+all approved drugs are reimbursable by statutory health insurance (GKV).
+
+What it DOES mean:
+- The drug's reimbursement price will be negotiated based on comparator pricing. \
+With no added benefit, the price typically cannot exceed the cost of the comparator \
+(or the applicable reference price group / Festbetrag).
+- The drug may be grouped into an existing reference price cluster (Festbetragsgruppe), \
+limiting pricing flexibility.
+- Manufacturers may choose to voluntarily withdraw (Opt-out) from the German market \
+if the resulting price is commercially unviable, but this is the manufacturer's \
+decision, not a restriction on access.
+
+### Evidence certainty (Aussagesicherheit)
+The G-BA also rates the certainty of the evidence:
+- **Beleg (Proof)**: Highest certainty — typically from well-designed RCTs with robust \
+results.
+- **Hinweis (Indication)**: Moderate certainty — e.g., RCT data with some limitations.
+- **Anhaltspunkt (Hint)**: Lowest certainty — suggestive but not conclusive evidence, \
+e.g., observational data or trials with major limitations.
+
+Evidence certainty is reported ALONGSIDE the benefit rating. A rating of "gering, \
+Hinweis" means "minor added benefit, at moderate evidence certainty." Higher evidence \
+certainty strengthens the manufacturer's negotiating position.
+
+### zVT (Zweckmäßige Vergleichstherapie) — Appropriate Comparator
+The G-BA selects the comparator against which the new drug is evaluated. This is \
+critical because:
+- The comparator defines the benchmark for both clinical assessment AND price \
+negotiations.
+- Manufacturers often dispute the chosen comparator if they believe a different one \
+would be more favourable.
+- Different subpopulations may have different comparators.
+
+### Price negotiation implications by outcome
+- **Added benefit confirmed (any level)**: The manufacturer can negotiate a premium \
+above comparator costs, with the premium proportional to the benefit extent and \
+evidence certainty.
+- **Non-quantifiable benefit**: Still allows negotiation above comparator cost, but \
+the premium is typically more modest.
+- **No added benefit**: Price is anchored to comparator cost. The drug may be assigned \
+to a reference price group. Limited pricing flexibility.
+- **Lesser benefit**: Very unfavourable — the drug may face pricing below comparator \
+cost. Manufacturers sometimes withdraw.
+
+### Re-assessments
+G-BA decisions can be time-limited. The manufacturer must resubmit a dossier for \
+re-assessment (typically after 1-3 years or when new evidence is available). \
+Re-assessments can change the benefit rating up or down."""
 
 ANALYSIS_PROMPT_TEMPLATE = """\
 Analyze this G-BA (Gemeinsamer Bundesausschuss) AMNOG benefit assessment and \
@@ -80,10 +171,28 @@ favorable safety, QoL improvements
 QoL concerns, study design issues)
 - For line_of_therapy: infer from the indication text (e.g., "Erstlinie" = First-line, \
 "nach Chemotherapie" = Post-chemotherapy, "adjuvant" = Adjuvant)
-- The benefit ratings translate as: erheblich = Major, beträchtlich = Considerable, \
-gering = Minor, nicht quantifizierbar = Non-quantifiable, kein Zusatznutzen = None, \
-geringerer Nutzen = Lesser
+- The benefit ratings translate as: erheblich = Major added benefit, \
+beträchtlich = Considerable added benefit, gering = Minor added benefit, \
+nicht quantifizierbar = Non-quantifiable added benefit (benefit exists but cannot be \
+precisely ranked), kein Zusatznutzen = No added benefit (vs. comparator), \
+geringerer Nutzen = Lesser benefit (worse than comparator)
 - Evidence levels: Beleg = Proof, Hinweis = Indication, Anhaltspunkt = Hint
+
+CRITICAL rules for market_implications:
+- "Kein Zusatznutzen" (no added benefit) does NOT restrict prescribing, patient access, \
+or reimbursement eligibility in Germany. Physicians can still freely prescribe the drug. \
+The impact is on PRICE NEGOTIATIONS: the reimbursement price will be anchored to \
+the comparator cost, and the drug may be assigned to a reference price group \
+(Festbetragsgruppe), limiting the manufacturer's pricing flexibility.
+- Never say a "no added benefit" decision "restricts use" or "limits access" for patients. \
+Germany has no positive list system — all approved drugs are reimbursable by statutory \
+health insurance (GKV).
+- For drugs WITH added benefit, the manufacturer can negotiate a price premium \
+proportional to the benefit extent and evidence certainty.
+- For "nicht quantifizierbar" (non-quantifiable), note that benefit IS acknowledged — \
+the manufacturer can still negotiate a price above comparator cost.
+- Manufacturers may voluntarily withdraw from the German market if the negotiated \
+price is commercially unviable, but this is a business decision, not an access restriction.
 
 Respond with ONLY the JSON object, no other text."""
 
