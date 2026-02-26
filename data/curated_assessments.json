@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Curated HTA assessment data for drugs where live scraping is unreliable. Entries here supplement (not replace) live-scraped data. When an adapter returns no results for a substance+country, these entries are used as fallback.",
-    "last_updated": "2025-05-01",
+    "last_updated": "2026-02-26",
     "format": "Keyed by lowercase active substance (INN). Each substance maps country codes to a list of AssessmentResult-compatible objects.",
     "per_country_fields": {
       "GB": "assessment_url (NICE guidance), nice_recommendation, guidance_reference",
@@ -154,6 +154,368 @@
         "asmr_value": "III",
         "asmr_description": "BAVENCIO en association avec axitinib apporte une amélioration du service médical rendu modérée (ASMR III) dans le carcinome à cellules rénales avancé.",
         "summary_en": "SMR: Important | ASMR III (moderate improvement) | Advanced renal cell carcinoma (with axitinib)"
+      }
+    ]
+  },
+  "pembrolizumab": {
+    "DE": [
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2018-10-15-D-452",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC), Nicht-Plattenepithelhistologie, Erstlinie, Kombination mit Pemetrexed und Platin-Chemotherapie",
+        "opinion_date": "2020-01-28",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/452/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Platinhaltige Kombinationschemotherapie",
+        "patient_group": "Erwachsene mit metastasierendem nicht-plattenepithelialen NSCLC ohne EGFR-/ALK-Mutationen, PD-L1 TPS < 50 %, Erstlinie",
+        "summary_en": "Population: Adults with metastatic non-squamous NSCLC (1L, PD-L1 <50%, combo with pemetrexed + platinum) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Platinum-based combination chemotherapy"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2018-09-19-D-451",
+        "evaluation_reason": "Melanom: Adjuvante Therapie des Melanoms im Tumorstadium III mit Lymphknotenbeteiligung nach vollständiger Resektion",
+        "opinion_date": "2019-09-19",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/451/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Beobachtendes Abwarten",
+        "patient_group": "Erwachsene mit Melanom im Tumorstadium III mit Lymphknotenbeteiligung nach vollständiger Resektion",
+        "summary_en": "Population: Adults with stage III melanoma (adjuvant after complete resection) | Added benefit: Non-quantifiable (nicht quantifizierbar) | Evidence: Indication (Hinweis) | vs. Watchful waiting"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2018-04-04-D-403",
+        "evaluation_reason": "Plattenepithelkarzinom des Kopf-Hals-Bereichs (HNSCC): Rezidivierendes oder metastasierendes HNSCC mit PD-L1-exprimierenden Tumoren (TPS ≥ 50 %)",
+        "opinion_date": "2019-08-15",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/403/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Platinbasierte Therapie",
+        "patient_group": "Erwachsene mit rezidivierendem oder metastasierendem PD-L1-positivem HNSCC (TPS ≥ 50 %) nach vorheriger Platin-basierter Therapie",
+        "summary_en": "Population: Adults with recurrent/metastatic HNSCC (PD-L1 TPS ≥50%, after prior platinum) | Added benefit: Considerable (beträchtlich) | Evidence: Hint (Anhaltspunkt) | vs. Platinum-based therapy"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2015-12-15-D-312",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC): Monotherapie zur Erstlinienbehandlung des metastasierenden NSCLC bei Erwachsenen mit PD-L1 TPS ≥ 50 %",
+        "opinion_date": "2017-08-17",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/312/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Platinhaltige Kombinationschemotherapie",
+        "patient_group": "Erwachsene mit metastasierendem NSCLC (PD-L1 TPS ≥ 50 %, keine EGFR-/ALK-Mutationen), Erstlinie, Monotherapie",
+        "summary_en": "Population: Adults with metastatic NSCLC (1L monotherapy, PD-L1 TPS ≥50%, EGFR/ALK-neg) | Added benefit: Considerable (beträchtlich) | Evidence: Hint (Anhaltspunkt) | vs. Platinum-based combination chemotherapy"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2022-01-19-D-865",
+        "evaluation_reason": "Nierenzellkarzinom: Adjuvante Monotherapie bei Erwachsenen mit erhöhtem Rezidivrisiko nach Nephrektomie",
+        "opinion_date": "2023-01-19",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/865/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Beobachtendes Abwarten",
+        "patient_group": "Erwachsene mit Nierenzellkarzinom mit erhöhtem Rezidivrisiko nach Nephrektomie oder nach Nephrektomie und Resektion metastasierter Läsionen",
+        "summary_en": "Population: Adults with RCC at high risk of recurrence (adjuvant after nephrectomy) | Added benefit: Non-quantifiable (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Watchful waiting"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2022-06-22-D-856",
+        "evaluation_reason": "Melanom: Adjuvante Therapie des Melanoms in den Tumorstadien IIB, IIC oder III nach vollständiger Resektion, ≥ 12 Jahre, Monotherapie",
+        "opinion_date": "2023-01-19",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/856/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Beobachtendes Abwarten",
+        "patient_group": "Patienten ab 12 Jahren mit Melanom Stadium IIB, IIC oder III nach vollständiger Resektion",
+        "summary_en": "Population: Patients ≥12 years with melanoma stage IIB/IIC/III (adjuvant after resection) | Added benefit: Non-quantifiable (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Watchful waiting"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2024-06-20-D-1047",
+        "evaluation_reason": "Biliäre Tumore: Erstlinie, Kombination mit Gemcitabin und Cisplatin bei lokal fortgeschrittenem nicht resezierbarem oder metastasierendem biliärem Karzinom",
+        "opinion_date": "2024-06-20",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1047/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Gemcitabin in Kombination mit Cisplatin, ggf. gefolgt von einer Zweitlinientherapie",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem nicht resezierbarem oder metastasierendem biliärem Karzinom, Erstlinie",
+        "summary_en": "Population: Adults with advanced/metastatic biliary tract cancer (1L, combo with gemcitabine + cisplatin) | Added benefit: Non-quantifiable (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Gemcitabine + cisplatin"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2024-10-17-D-1026",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC): Adjuvante Therapie nach vollständiger Resektion und platinbasierter Chemotherapie",
+        "opinion_date": "2024-10-17",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1026/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Beobachtendes Abwarten",
+        "patient_group": "Erwachsene mit NSCLC mit hohem Rezidivrisiko nach vollständiger Resektion und platinbasierter Chemotherapie",
+        "summary_en": "Population: Adults with NSCLC at high risk of recurrence (adjuvant after resection + platinum chemo) | Added benefit: Non-quantifiable (nicht quantifizierbar) | Evidence: Hint (Anhaltspunkt) | vs. Watchful waiting"
+      },
+      {
+        "product_name": "Keytruda",
+        "dossier_code": "2022-05-05-D-777",
+        "evaluation_reason": "Triple-negatives Mammakarzinom: Neoadjuvante und adjuvante Behandlung des lokal fortgeschrittenen oder frühen TNBC mit hohem Rezidivrisiko",
+        "opinion_date": "2022-12-15",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/777/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Nab-Paclitaxel oder Paclitaxel",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder frühem triple-negativem Mammakarzinom mit hohem Rezidivrisiko",
+        "summary_en": "Population: Adults with locally advanced/early triple-negative breast cancer (neoadjuvant + adjuvant) | Added benefit: Considerable (beträchtlich) | Evidence: Hint (Anhaltspunkt) | vs. Nab-paclitaxel or paclitaxel"
+      }
+    ]
+  },
+  "durvalumab": {
+    "DE": [
+      {
+        "product_name": "Imfinzi",
+        "dossier_code": "2019-04-04-D-402",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC), Stadium III: Erhaltungstherapie bei Erwachsenen mit lokal fortgeschrittenem, inoperablem NSCLC, deren Erkrankung nach platinbasierter Radiochemotherapie nicht fortgeschritten ist",
+        "opinion_date": "2019-04-04",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/402/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Beobachtendes Abwarten (best supportive care)",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem, inoperablem NSCLC (Stadium III, PD-L1 ≥ 1 %), deren Erkrankung nach platinbasierter Radiochemotherapie nicht fortgeschritten ist",
+        "summary_en": "Population: Adults with unresectable stage III NSCLC (PD-L1 ≥1%, after platinum-based chemoRT) | Added benefit: Considerable (beträchtlich) | Evidence: Hint (Anhaltspunkt) | vs. Watchful waiting (BSC)"
+      },
+      {
+        "product_name": "Imfinzi",
+        "dossier_code": "2020-10-15-D-596",
+        "evaluation_reason": "Kleinzelliges Lungenkarzinom (ES-SCLC): Erstlinie, Kombination mit Etoposid und entweder Carboplatin oder Cisplatin",
+        "opinion_date": "2021-04-01",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/596/",
+        "benefit_rating": "gering",
+        "benefit_rating_description": "Minor added benefit (gering)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Etoposid in Kombination mit Carboplatin oder Cisplatin",
+        "patient_group": "Erwachsene mit kleinzelligem Lungenkarzinom im fortgeschrittenen Stadium (ES-SCLC), Erstlinie",
+        "summary_en": "Population: Adults with extensive-stage SCLC (1L, combo with etoposide + platinum) | Added benefit: Minor (gering) | Evidence: Hint (Anhaltspunkt) | vs. Etoposide + carboplatin/cisplatin"
+      },
+      {
+        "product_name": "Imfinzi",
+        "dossier_code": "2023-10-05-D-935",
+        "evaluation_reason": "Biliäre Tumore: Erstlinie, Kombination mit Gemcitabin und Cisplatin bei nicht resezierbaren oder metastasierten biliären Tumoren",
+        "opinion_date": "2023-10-05",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/935/",
+        "benefit_rating": "gering",
+        "benefit_rating_description": "Minor added benefit (gering)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Gemcitabin in Kombination mit Cisplatin",
+        "patient_group": "Erwachsene mit nicht resezierbaren oder metastasierten biliären Tumoren, Erstlinie",
+        "summary_en": "Population: Adults with unresectable/metastatic biliary tract cancer (1L, combo with gemcitabine + cisplatin) | Added benefit: Minor (gering) | Evidence: Hint (Anhaltspunkt) | vs. Gemcitabine + cisplatin"
+      },
+      {
+        "product_name": "Imfinzi",
+        "dossier_code": "2024-06-06-D-1009",
+        "evaluation_reason": "Hepatozelluläres Karzinom (HCC): Monotherapie zur Erstlinienbehandlung des fortgeschrittenen oder nicht resezierbaren HCC",
+        "opinion_date": "2024-06-06",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1009/",
+        "benefit_rating": "kein Zusatznutzen",
+        "benefit_rating_description": "No added benefit (kein Zusatznutzen)",
+        "evidence_level": "",
+        "comparator": "Atezolizumab in Kombination mit Bevacizumab",
+        "patient_group": "Erwachsene mit fortgeschrittenem oder nicht resezierbarem hepatozellulärem Karzinom (HCC), Erstlinie, Monotherapie",
+        "summary_en": "Population: Adults with advanced/unresectable HCC (1L monotherapy) | Added benefit: No added benefit (kein Zusatznutzen) | vs. Atezolizumab + bevacizumab"
+      },
+      {
+        "product_name": "Imfinzi",
+        "dossier_code": "2026-01-22-D-1226",
+        "evaluation_reason": "Kleinzelliges Lungenkarzinom, nicht fortgeschrittenes Stadium (LS-SCLC): Monotherapie bei Erwachsenen, deren Erkrankung nach platinbasierter Radiochemotherapie nicht fortgeschritten ist",
+        "opinion_date": "2026-01-22",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1226/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Best Supportive Care",
+        "patient_group": "Erwachsene mit kleinzelligem Lungenkarzinom im nicht fortgeschrittenen Stadium (LS-SCLC), deren Erkrankung nach platinbasierter Radiochemotherapie nicht progredient ist",
+        "summary_en": "Population: Adults with limited-stage SCLC (after platinum-based chemoRT, consolidation) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Best supportive care"
+      }
+    ]
+  },
+  "enfortumab vedotin": {
+    "DE": [
+      {
+        "product_name": "Padcev",
+        "dossier_code": "2022-12-01-D-790",
+        "evaluation_reason": "Urothelkarzinom: Monotherapie bei Erwachsenen mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie und PD-1/PD-L1-Inhibitor — Patienten, für die eine Chemotherapie geeignet ist",
+        "opinion_date": "2022-12-01",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/836/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Hint (Anhaltspunkt)",
+        "comparator": "Chemotherapie nach ärztlicher Maßgabe (Taxan oder Vinflunin)",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie und PD-1/PD-L1-Inhibitor — chemotherapiefähige Patienten",
+        "summary_en": "Population: Adults with advanced urothelial carcinoma (after platinum + PD-1/L1 inhibitor, chemo-eligible) | Added benefit: Considerable (beträchtlich) | Evidence: Hint (Anhaltspunkt) | vs. Chemotherapy (taxane or vinflunine)"
+      },
+      {
+        "product_name": "Padcev",
+        "dossier_code": "2022-12-01-D-790-b",
+        "evaluation_reason": "Urothelkarzinom: Monotherapie bei Erwachsenen mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie und PD-1/PD-L1-Inhibitor — Patienten, für die eine Chemotherapie nicht geeignet ist",
+        "opinion_date": "2022-12-01",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/836/",
+        "benefit_rating": "kein Zusatznutzen",
+        "benefit_rating_description": "No added benefit (kein Zusatznutzen) — not proven",
+        "evidence_level": "",
+        "comparator": "Best Supportive Care",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie und PD-1/PD-L1-Inhibitor — chemotherapieunfähige Patienten",
+        "summary_en": "Population: Adults with advanced urothelial carcinoma (after platinum + PD-1/L1 inhibitor, chemo-ineligible) | Added benefit: Not proven | vs. Best supportive care"
+      },
+      {
+        "product_name": "Padcev",
+        "dossier_code": "2025-04-03-D-1107-a",
+        "evaluation_reason": "Urothelkarzinom: Erstlinie, Kombination mit Pembrolizumab bei Erwachsenen mit nicht resezierbarem oder metastasiertem Urothelkarzinom — Cisplatin-geeignete Patienten",
+        "opinion_date": "2025-04-03",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1133/",
+        "benefit_rating": "nicht quantifizierbar",
+        "benefit_rating_description": "Non-quantifiable added benefit (nicht quantifizierbar)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Cisplatin + Gemcitabin, ggf. gefolgt von Avelumab-Erhaltungstherapie",
+        "patient_group": "Erwachsene mit nicht resezierbarem oder metastasiertem Urothelkarzinom, Erstlinie — cisplatin-geeignete Patienten",
+        "summary_en": "Population: Adults with advanced urothelial carcinoma (1L, cisplatin-eligible, combo with pembrolizumab) | Added benefit: Non-quantifiable (nicht quantifizierbar) | Evidence: Indication (Hinweis) | vs. Cisplatin + gemcitabine ± avelumab maintenance"
+      },
+      {
+        "product_name": "Padcev",
+        "dossier_code": "2025-04-03-D-1107-b",
+        "evaluation_reason": "Urothelkarzinom: Erstlinie, Kombination mit Pembrolizumab bei Erwachsenen mit nicht resezierbarem oder metastasiertem Urothelkarzinom — Cisplatin-ungeeignete (Carboplatin-geeignete) Patienten",
+        "opinion_date": "2025-04-03",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1133/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Carboplatin + Gemcitabin, ggf. gefolgt von Avelumab-Erhaltungstherapie",
+        "patient_group": "Erwachsene mit nicht resezierbarem oder metastasiertem Urothelkarzinom, Erstlinie — cisplatin-ungeeignete (carboplatin-geeignete) Patienten",
+        "summary_en": "Population: Adults with advanced urothelial carcinoma (1L, cisplatin-ineligible/carboplatin-eligible, combo with pembrolizumab) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Carboplatin + gemcitabine ± avelumab maintenance"
+      }
+    ]
+  },
+  "nivolumab": {
+    "DE": [
+      {
+        "product_name": "Opdivo",
+        "dossier_code": "2016-01-01-D-260",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC): Plattenepithelhistologie, nach vorheriger Chemotherapie",
+        "opinion_date": "2016-08-18",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/260/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Docetaxel",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem NSCLC mit Plattenepithelhistologie nach vorheriger Chemotherapie",
+        "summary_en": "Population: Adults with advanced squamous NSCLC (after prior chemo) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Docetaxel"
+      },
+      {
+        "product_name": "Opdivo",
+        "dossier_code": "2016-01-01-D-261",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC): Nicht-Plattenepithelhistologie, nach vorheriger Chemotherapie",
+        "opinion_date": "2016-08-18",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/261/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Docetaxel",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem NSCLC mit Nicht-Plattenepithelhistologie nach vorheriger Chemotherapie",
+        "summary_en": "Population: Adults with advanced non-squamous NSCLC (after prior chemo) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Docetaxel"
+      },
+      {
+        "product_name": "Opdivo",
+        "dossier_code": "2016-03-17-D-258",
+        "evaluation_reason": "Melanom: Monotherapie bei Erwachsenen mit fortgeschrittenem (nicht resezierbarem oder metastasiertem) Melanom",
+        "opinion_date": "2016-09-15",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/258/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Ipilimumab (bei BRAF-V600-Wildtyp) oder Vemurafenib (bei BRAF-V600-Mutation)",
+        "patient_group": "Erwachsene mit fortgeschrittenem (nicht resezierbarem oder metastasiertem) Melanom, nicht vorbehandelt",
+        "summary_en": "Population: Adults with advanced melanoma (treatment-naive) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Ipilimumab (BRAF-WT) or vemurafenib (BRAF-V600 mutated)"
+      },
+      {
+        "product_name": "Opdivo",
+        "dossier_code": "2016-06-01-D-273",
+        "evaluation_reason": "Nierenzellkarzinom: Monotherapie bei Erwachsenen mit fortgeschrittenem Nierenzellkarzinom nach vorheriger Therapie",
+        "opinion_date": "2016-12-15",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/273/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Everolimus",
+        "patient_group": "Erwachsene mit fortgeschrittenem Nierenzellkarzinom nach vorheriger antiangiogener Therapie",
+        "summary_en": "Population: Adults with advanced RCC (after prior anti-angiogenic therapy) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Everolimus"
+      }
+    ]
+  },
+  "atezolizumab": {
+    "DE": [
+      {
+        "product_name": "Tecentriq",
+        "dossier_code": "2019-12-19-D-499",
+        "evaluation_reason": "Nicht-kleinzelliges Lungenkarzinom (NSCLC): Erstlinie, Kombination mit Bevacizumab, Paclitaxel und Carboplatin bei Erwachsenen mit metastasierendem nicht-plattenepithelialen NSCLC",
+        "opinion_date": "2020-06-04",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/499/",
+        "benefit_rating": "gering",
+        "benefit_rating_description": "Minor added benefit (gering)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Platinhaltige Kombinationschemotherapie ggf. in Kombination mit Bevacizumab",
+        "patient_group": "Erwachsene mit metastasierendem nicht-plattenepithelialen NSCLC ohne EGFR-/ALK-Mutationen, Erstlinie",
+        "summary_en": "Population: Adults with metastatic non-squamous NSCLC (1L, combo with bevacizumab + paclitaxel + carboplatin) | Added benefit: Minor (gering) | Evidence: Indication (Hinweis) | vs. Platinum chemo ± bevacizumab"
+      },
+      {
+        "product_name": "Tecentriq",
+        "dossier_code": "2018-04-01-D-395",
+        "evaluation_reason": "Urothelkarzinom: Monotherapie bei Erwachsenen mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie",
+        "opinion_date": "2018-10-18",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/395/",
+        "benefit_rating": "kein Zusatznutzen",
+        "benefit_rating_description": "No added benefit (kein Zusatznutzen)",
+        "evidence_level": "",
+        "comparator": "Chemotherapie nach ärztlicher Maßgabe",
+        "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie",
+        "summary_en": "Population: Adults with advanced urothelial carcinoma (after prior platinum chemo) | Added benefit: No added benefit (kein Zusatznutzen) | vs. Chemotherapy (physician's choice)"
+      }
+    ]
+  },
+  "trastuzumab deruxtecan": {
+    "DE": [
+      {
+        "product_name": "Enhertu",
+        "dossier_code": "2023-02-02-D-864",
+        "evaluation_reason": "Mammakarzinom: Monotherapie bei Erwachsenen mit inoperablem oder metastasiertem HER2-positivem Brustkrebs nach mindestens einer gegen HER2 gerichteten Vortherapie",
+        "opinion_date": "2023-02-02",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/864/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Trastuzumab-Emtansin (T-DM1)",
+        "patient_group": "Erwachsene mit inoperablem oder metastasiertem HER2-positivem Brustkrebs nach ≥ 1 HER2-gerichteten Vortherapien",
+        "summary_en": "Population: Adults with unresectable/metastatic HER2+ breast cancer (after ≥1 prior HER2 therapy) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Trastuzumab emtansine (T-DM1)"
+      },
+      {
+        "product_name": "Enhertu",
+        "dossier_code": "2024-01-09-D-922",
+        "evaluation_reason": "Mammakarzinom: Monotherapie bei Erwachsenen mit inoperablem oder metastasiertem HER2-low Brustkrebs nach vorheriger Chemotherapie in der metastasierten Situation",
+        "opinion_date": "2024-01-09",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/922/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Chemotherapie nach ärztlicher Maßgabe",
+        "patient_group": "Erwachsene mit inoperablem oder metastasiertem HER2-low Brustkrebs nach vorheriger Chemotherapie im metastasierten Setting oder Rezidiv während/innerhalb von 6 Monaten nach adjuvanter Chemotherapie",
+        "summary_en": "Population: Adults with unresectable/metastatic HER2-low breast cancer (after prior chemo) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Chemotherapy (physician's choice)"
       }
     ]
   }
