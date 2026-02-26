@@ -20,16 +20,21 @@ from app.models import (
     ClaveResult,
     CountryInfo,
     FilterOptions,
+    GBADrugProfile,
+    GBAFilterOptions,
+    GBASearchResponse,
     InstitutionSummary,
     MedicineResult,
     MexicoAdjudicacionResponse,
     MexicoProcurementFilters,
     MexicoSearchResponse,
     PriceHistoryResult,
+    PriceVarianceResponse,
 )  # ATCPrefix imported via FilterOptions
 from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
+from app.services.germany_hta import GermanyHTAService
 from app.services.mexico_procurement import MexicoProcurementService
 from app.services.hta_agencies.france_has import FranceHAS
 from app.services.hta_agencies.germany_gba import GermanyGBA
@@ -58,6 +63,9 @@ hta_agencies: dict[str, HTAAgency] = {
     "ES": SpainAEMPS(),
     "JP": JapanPMDA(),
 }
+
+# Germany HTA deep-dive service — wraps the G-BA adapter for richer analysis
+germany_hta_service = GermanyHTAService(hta_agencies["DE"])
 
 # Curated assessment data — verified HTA outcomes that supplement live-scraped
 # data.  Keyed by (lowercase substance, country_code) → list of AssessmentResult.
@@ -325,6 +333,18 @@ async def resources_page():
 async def mexico_page():
     """Serve the Mexico Pharma Procurement module page."""
     return FileResponse(str(STATIC_DIR / "mexico.html"))
+
+
+@app.get("/germany")
+async def germany_page():
+    """Serve the Germany HTA Deep-Dive module page."""
+    return FileResponse(str(STATIC_DIR / "germany.html"))
+
+
+@app.get("/germany")
+async def germany_page():
+    """Serve the Germany HTA Deep-Dive module page."""
+    return FileResponse(str(STATIC_DIR / "germany.html"))
 
 
 @app.get("/api/search", response_model=list[MedicineResult])
@@ -691,3 +711,67 @@ async def mexico_institutions(
     if not mexico_service.is_loaded:
         raise HTTPException(503, "Mexico procurement data is still loading.")
     return mexico_service.get_institution_breakdown(cycle=cycle)
+
+
+@app.get("/api/mexico/price-variance", response_model=PriceVarianceResponse)
+async def mexico_price_variance(
+    cycle: str = Query("", description="Procurement cycle, e.g. '2025-2026'"),
+    therapeutic_group: str = Query("", description="Therapeutic group filter"),
+    source_type: str = Query("", description="Source type filter"),
+    min_institutions: int = Query(2, ge=2, le=4, description="Min institutions to compare"),
+):
+    """Analyze cross-institutional price variance for the same drug.
+
+    Shows how prices for identical claves differ across IMSS, ISSSTE, PEMEX,
+    and IMSS-Bienestar, highlighting potential savings from price harmonization.
+    """
+    if not mexico_service.is_loaded:
+        raise HTTPException(503, "Mexico procurement data is still loading.")
+    return mexico_service.get_price_variance(
+        cycle=cycle,
+        therapeutic_group=therapeutic_group,
+        source_type=source_type,
+        min_institutions=min_institutions,
+    )
+
+
+# ── Germany HTA Deep-Dive endpoints ──────────────────────────────────
+
+
+@app.get("/api/germany/filters", response_model=GBAFilterOptions)
+async def germany_filters():
+    """Available filter options for the Germany HTA deep-dive module."""
+    if not germany_hta_service.is_loaded:
+        raise HTTPException(503, "G-BA data is still loading.")
+    return germany_hta_service.get_filter_options()
+
+
+@app.get("/api/germany/drugs", response_model=GBASearchResponse)
+async def germany_drug_list(
+    q: str = Query("", description="Search by substance, trade name, or indication"),
+    benefit_rating: str = Query("", description="Filter by benefit rating"),
+    limit: int = Query(100, ge=1, le=500),
+):
+    """List drugs assessed by G-BA with optional search and benefit rating filter."""
+    if not germany_hta_service.is_loaded:
+        raise HTTPException(503, "G-BA data is still loading.")
+    return germany_hta_service.search_drugs(
+        query=q,
+        benefit_rating=benefit_rating,
+        limit=limit,
+    )
+
+
+@app.get("/api/germany/drugs/{substance}", response_model=GBADrugProfile)
+async def germany_drug_profile(substance: str):
+    """Get the full G-BA assessment profile for an active substance.
+
+    Returns only current (non-superseded) assessments, with per-subpopulation
+    benefit ratings, evidence levels, and comparator therapies.
+    """
+    if not germany_hta_service.is_loaded:
+        raise HTTPException(503, "G-BA data is still loading.")
+    profile = germany_hta_service.get_drug_profile(substance)
+    if profile is None:
+        raise HTTPException(404, f"No G-BA assessments found for '{substance}'.")
+    return profile

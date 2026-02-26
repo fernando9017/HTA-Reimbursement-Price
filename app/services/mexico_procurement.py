@@ -14,12 +14,15 @@ from app.models import (
     ClaveDetailResult,
     ClaveResult,
     CompetitorBid,
+    InstitutionPrice,
     InstitutionSummary,
     MexicoAdjudicacionResponse,
     MexicoProcurementFilters,
     MexicoSearchResponse,
     PriceHistoryEntry,
     PriceHistoryResult,
+    PriceVarianceItem,
+    PriceVarianceResponse,
 )
 
 logger = logging.getLogger(__name__)
@@ -454,6 +457,120 @@ class MexicoProcurementService:
         # Sort by total spend descending
         results.sort(key=lambda r: r.total_spend_mxn, reverse=True)
         return results
+
+    # ── Cross-institutional price variance ──────────────────────────
+
+    def get_price_variance(
+        self,
+        cycle: str = "",
+        therapeutic_group: str = "",
+        source_type: str = "",
+        min_institutions: int = 2,
+    ) -> PriceVarianceResponse:
+        """Analyze price differences for the same drug across institutions.
+
+        Groups adjudicaciones by (clave, cycle) and compares unit prices
+        across institutions to identify variance.  Only includes claves
+        procured by at least ``min_institutions`` institutions with an
+        awarded price > 0.
+
+        Returns items sorted by variance_pct descending (biggest spreads first).
+        """
+        # Index: (clave, cycle) → list of adjudicacion dicts
+        clave_cycle: dict[tuple[str, str], list[dict]] = {}
+        for a in self._adjudicaciones:
+            if a.get("status", "").lower() != "adjudicada":
+                continue
+            if a.get("unit_price", 0) <= 0:
+                continue
+            if cycle and a.get("cycle", "") != cycle:
+                continue
+            if therapeutic_group and therapeutic_group.lower() not in a.get("therapeutic_group", "").lower():
+                continue
+            if source_type and a.get("source_type", "").lower() != source_type.lower():
+                continue
+            key = (a["clave"], a.get("cycle", ""))
+            clave_cycle.setdefault(key, []).append(a)
+
+        # Clave metadata lookup
+        clave_meta = {c["clave"]: c for c in self._claves}
+
+        items: list[PriceVarianceItem] = []
+        total_savings = 0.0
+        variance_sum = 0.0
+        variance_count = 0
+
+        for (clave, cyc), records in clave_cycle.items():
+            # Deduplicate by institution (take the one with lowest price per institution)
+            inst_best: dict[str, dict] = {}
+            for r in records:
+                inst = r.get("institution", "")
+                if inst not in inst_best or r["unit_price"] < inst_best[inst]["unit_price"]:
+                    inst_best[inst] = r
+
+            if len(inst_best) < min_institutions:
+                continue
+
+            prices = [r["unit_price"] for r in inst_best.values()]
+            min_p = min(prices)
+            max_p = max(prices)
+            avg_p = round(sum(prices) / len(prices), 2)
+            var_pct = round(((max_p - min_p) / min_p) * 100, 1) if min_p > 0 else 0.0
+
+            # Savings if every institution paid the minimum price
+            savings = sum(
+                (r["unit_price"] - min_p) * r.get("units_awarded", 0)
+                for r in inst_best.values()
+            )
+
+            meta = clave_meta.get(clave, {})
+
+            inst_prices = [
+                InstitutionPrice(
+                    institution=r.get("institution", ""),
+                    unit_price=r.get("unit_price", 0.0),
+                    units_awarded=r.get("units_awarded", 0),
+                    supplier=r.get("supplier", ""),
+                    max_reference_price=r.get("max_reference_price", 0.0),
+                )
+                for r in sorted(inst_best.values(), key=lambda x: x.get("unit_price", 0))
+            ]
+
+            items.append(PriceVarianceItem(
+                clave=clave,
+                active_substance=meta.get("active_substance", records[0].get("active_substance", "")),
+                therapeutic_group=meta.get("therapeutic_group", records[0].get("therapeutic_group", "")),
+                source_type=meta.get("source_type", records[0].get("source_type", "")),
+                cycle=cyc,
+                institution_prices=inst_prices,
+                min_price=round(min_p, 2),
+                max_price=round(max_p, 2),
+                variance_pct=var_pct,
+                avg_price=avg_p,
+                total_savings_potential=round(savings, 2),
+            ))
+
+            total_savings += savings
+            if var_pct > 0:
+                variance_sum += var_pct
+                variance_count += 1
+
+        # Sort by variance descending
+        items.sort(key=lambda x: x.variance_pct, reverse=True)
+
+        items_with_variance = sum(1 for i in items if i.variance_pct > 0)
+        avg_var = round(variance_sum / variance_count, 1) if variance_count > 0 else 0.0
+
+        effective_cycle = cycle or "All cycles"
+
+        return PriceVarianceResponse(
+            cycle=effective_cycle,
+            total=len(items),
+            items_with_variance=items_with_variance,
+            avg_variance_pct=avg_var,
+            total_savings_potential=round(total_savings, 2),
+            results=items,
+        )
 
     # ── Internal helpers ──────────────────────────────────────────────
 

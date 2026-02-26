@@ -304,6 +304,43 @@ class MexicoAdjudicacionResponse(BaseModel):
     results: list[AdjudicacionResult]
 
 
+class InstitutionPrice(BaseModel):
+    """Price data for a single institution in a price variance comparison."""
+
+    institution: str
+    unit_price: float = 0.0
+    units_awarded: int = 0
+    supplier: str = ""
+    max_reference_price: float = 0.0
+
+
+class PriceVarianceItem(BaseModel):
+    """Cross-institutional price variance for a single clave in a cycle."""
+
+    clave: str
+    active_substance: str
+    therapeutic_group: str = ""
+    source_type: str = ""
+    cycle: str
+    institution_prices: list[InstitutionPrice]
+    min_price: float = 0.0
+    max_price: float = 0.0
+    variance_pct: float = 0.0           # (max - min) / min * 100
+    avg_price: float = 0.0
+    total_savings_potential: float = 0.0  # savings if all bought at min price
+
+
+class PriceVarianceResponse(BaseModel):
+    """Cross-institutional price variance analysis."""
+
+    cycle: str
+    total: int
+    items_with_variance: int            # claves where prices differ across institutions
+    avg_variance_pct: float = 0.0       # average variance across all multi-institution claves
+    total_savings_potential: float = 0.0
+    results: list[PriceVarianceItem]
+
+
 class MexicoProcurementFilters(BaseModel):
     """Available filter options for Mexico procurement module."""
 
@@ -312,3 +349,71 @@ class MexicoProcurementFilters(BaseModel):
     institutions: list[str]
     source_types: list[str]
     statuses: list[str]
+
+
+# ── Germany HTA Deep-Dive models ──────────────────────────────────
+
+
+class GBASubpopulation(BaseModel):
+    """A single patient subpopulation within a G-BA assessment."""
+
+    patient_group: str                  # Description of the patient subpopulation
+    benefit_rating: str = ""            # Raw German: erheblich, beträchtlich, etc.
+    benefit_rating_en: str = ""         # English translation
+    evidence_level: str = ""            # Raw German: Beleg, Hinweis, Anhaltspunkt
+    evidence_level_en: str = ""         # English translation
+    comparator: str = ""                # Appropriate comparator therapy (zVT)
+
+
+class GBAAssessmentDetail(BaseModel):
+    """A single G-BA AMNOG assessment (one decision, potentially multiple subpopulations)."""
+
+    decision_id: str = ""               # e.g. "2020-01-15-D-500"
+    trade_name: str                     # Brand name(s): Keytruda, Opdivo, etc.
+    active_substance: str               # INN
+    indication: str                     # Therapeutic indication (AWG)
+    decision_date: str                  # YYYY-MM-DD
+    assessment_url: str = ""            # Link to G-BA assessment page
+    subpopulations: list[GBASubpopulation] = []
+    # Overall assessment summary (for single-subpopulation decisions)
+    overall_benefit: str = ""           # Best / most favorable benefit rating
+    overall_benefit_en: str = ""
+
+
+class GBADrugProfile(BaseModel):
+    """Complete G-BA assessment profile for one active substance.
+
+    Shows only the most current assessment per indication, filtering
+    out superseded re-assessments.
+    """
+
+    active_substance: str
+    trade_names: list[str] = []
+    total_assessments: int = 0
+    current_assessments: list[GBAAssessmentDetail] = []
+
+
+class GBADrugListItem(BaseModel):
+    """Summary of a drug in the G-BA database for listing purposes."""
+
+    active_substance: str
+    trade_names: list[str] = []
+    latest_date: str = ""
+    assessment_count: int = 0
+    indications: list[str] = []
+    best_benefit: str = ""              # Best benefit rating across all current assessments
+    best_benefit_en: str = ""
+
+
+class GBASearchResponse(BaseModel):
+    """Response for G-BA drug search / listing."""
+
+    total: int
+    results: list[GBADrugListItem]
+
+
+class GBAFilterOptions(BaseModel):
+    """Available filter options for the G-BA deep-dive module."""
+
+    benefit_ratings: list[str]
+    substances: list[str]

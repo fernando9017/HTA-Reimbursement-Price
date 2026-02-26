@@ -2046,6 +2046,133 @@ button:disabled {
     margin-bottom: 8px;
 }
 
+/* ── Mexico — Price Variance ────────────────────────────────────── */
+
+.mx-var-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.mx-var-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f0f3f7;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mx-var-title {
+    font-size: 0.92rem;
+    color: var(--text);
+}
+
+.mx-var-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.mx-var-body {
+    padding: 14px 16px;
+}
+
+.mx-var-range {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.mx-var-min {
+    color: #27ae60;
+}
+
+.mx-var-avg {
+    color: var(--text-light);
+}
+
+.mx-var-max {
+    color: #e74c3c;
+}
+
+.mx-var-table {
+    font-size: 0.84rem;
+}
+
+.mx-var-best {
+    background: rgba(39, 174, 96, 0.06);
+}
+
+.mx-var-worst {
+    background: rgba(231, 76, 60, 0.06);
+}
+
+.mx-var-diff {
+    font-weight: 600;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.mx-var-diff.mx-var-best {
+    color: #27ae60;
+}
+
+.mx-var-diff.mx-var-worst {
+    color: #e74c3c;
+}
+
+.mx-var-high {
+    background: rgba(231, 76, 60, 0.12);
+    color: #c0392b;
+    font-weight: 700;
+}
+
+.mx-var-medium {
+    background: rgba(243, 156, 18, 0.12);
+    color: #d68910;
+    font-weight: 700;
+}
+
+.mx-var-low {
+    background: rgba(39, 174, 96, 0.12);
+    color: #1e8449;
+    font-weight: 700;
+}
+
+.mx-var-savings {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #eafaf1;
+    border-left: 3px solid #27ae60;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #1e8449;
+}
+
+.mx-clave-link {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+}
+
+.mx-clave-link:hover {
+    color: var(--primary-light);
+    text-decoration-style: solid;
+}
+
 /* ── Utility ──────────────────────────────────────────────────────── */
 
 .hidden {
@@ -2163,4 +2290,194 @@ footer a:hover {
     font-size: 0.8rem;
     color: var(--text-muted, #888);
     margin-top: 2px;
+}
+
+/* ── Germany G-BA Deep-Dive ──────────────────────────────────────── */
+
+.country-flag {
+    font-size: 1.2em;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.gba-profile-header {
+    text-align: center;
+    padding: 20px 0 16px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.gba-profile-substance {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.gba-profile-trade {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+.gba-profile-meta {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 6px;
+}
+
+.gba-assessment-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.gba-assessment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gba-assessment-indication {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    min-width: 200px;
+}
+
+.gba-assessment-date {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.gba-subpop {
+    padding: 16px 18px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.gba-subpop:last-child {
+    border-bottom: none;
+}
+
+.gba-subpop-group {
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-light);
+    line-height: 1.5;
+}
+
+.gba-outcome-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.gba-outcome-item {
+    text-align: center;
+}
+
+.gba-outcome-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+}
+
+.gba-outcome-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--bg);
+}
+
+/* Benefit rating colors */
+.gba-benefit-major {
+    background: #d4edda !important;
+    color: #155724 !important;
+}
+
+.gba-benefit-considerable {
+    background: #d1ecf1 !important;
+    color: #0c5460 !important;
+}
+
+.gba-benefit-minor {
+    background: #fff3cd !important;
+    color: #856404 !important;
+}
+
+.gba-benefit-nq {
+    background: #e2e3e5 !important;
+    color: #383d41 !important;
+}
+
+.gba-benefit-none {
+    background: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+.gba-benefit-lesser {
+    background: #f5c6cb !important;
+    color: #721c24 !important;
+}
+
+/* Evidence level colors */
+.gba-evidence-proof {
+    background: #d4edda !important;
+    color: #155724 !important;
+}
+
+.gba-evidence-indication {
+    background: #fff3cd !important;
+    color: #856404 !important;
+}
+
+.gba-evidence-hint {
+    background: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+.gba-source-link {
+    padding: 10px 18px;
+    background: #f8f9fa;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.gba-source-link a {
+    color: var(--primary-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.gba-source-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .gba-outcome-grid {
+        grid-template-columns: 1fr;
+    }
+    .gba-assessment-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

@@ -17,7 +17,7 @@
     <nav class="page-nav">
         <div class="container">
             <a href="/" class="back-link">&larr; Home</a>
-            <span class="page-title">Mexico Pharma Procurement</span>
+            <span class="page-title"><span class="country-flag">&#x1F1F2;&#x1F1FD;</span> Mexico Pharma Procurement</span>
         </div>
     </nav>
 
@@ -28,6 +28,7 @@
             <button class="mexico-tab" data-tab="adjudicaciones">Award Tracker</button>
             <button class="mexico-tab" data-tab="institutions">By Institution</button>
             <button class="mexico-tab" data-tab="opportunities">Opportunities</button>
+            <button class="mexico-tab" data-tab="variance">Price Variance</button>
         </div>
 
         <!-- ── Tab 1: Clave Search & Intelligence ── -->
@@ -143,6 +144,54 @@
 
             <div id="opp-status" class="status-msg hidden"></div>
             <div id="opp-results"></div>
+        </section>
+
+        <!-- ── Tab 5: Cross-Institutional Price Variance ── -->
+        <section id="tab-variance" class="card mexico-tab-content hidden">
+            <h2>Cross-Institutional Price Variance</h2>
+            <p class="filter-description">Compare unit prices for the same clave across institutions (IMSS, ISSSTE, PEMEX, IMSS-Bienestar). Identifies the biggest price spreads and estimates potential savings if all institutions procured at the lowest awarded price.</p>
+
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="var-cycle">Procurement Cycle</label>
+                    <select id="var-cycle">
+                        <option value="">All cycles</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="var-therapeutic">Therapeutic Group</label>
+                    <select id="var-therapeutic">
+                        <option value="">All groups</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="var-source">Source Type</label>
+                    <select id="var-source">
+                        <option value="">All types</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="var-min-inst">Min. Institutions</label>
+                    <select id="var-min-inst">
+                        <option value="2" selected>2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button id="btn-search-variance">Analyze Variance</button>
+                <button id="btn-reset-variance" class="btn-secondary">Reset</button>
+            </div>
+
+            <div id="var-status" class="status-msg hidden"></div>
+
+            <!-- Summary cards -->
+            <div id="var-summary" class="hidden"></div>
+
+            <!-- Results table -->
+            <div id="var-results"></div>
         </section>
 
         <!-- ── Clave Detail Panel (shown on clave click) ── -->

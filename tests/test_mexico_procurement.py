@@ -1101,3 +1101,290 @@ def test_full_data_desabasto_critical(full_service):
     for drug in ["clonazepam", "insulina humana NPH", "levodopa/carbidopa"]:
         result = full_service.search_claves(query=drug)
         assert result.total >= 1, f"Desabasto-critical drug missing: {drug}"
+
+
+# ── Price Variance tests ──────────────────────────────────────────────
+
+
+VARIANCE_CLAVES = [
+    {
+        "clave": "010.000.0001.00",
+        "description": "METFORMINA 850 mg",
+        "active_substance": "metformina",
+        "atc_code": "A10BA02",
+        "therapeutic_group": "Endocrinología",
+        "source_type": "generico",
+    },
+    {
+        "clave": "010.000.0002.00",
+        "description": "OMEPRAZOL 20 mg",
+        "active_substance": "omeprazol",
+        "atc_code": "A02BC01",
+        "therapeutic_group": "Gastroenterología",
+        "source_type": "generico",
+    },
+    {
+        "clave": "010.000.0003.00",
+        "description": "TRASTUZUMAB 440 mg",
+        "active_substance": "trastuzumab",
+        "atc_code": "L01FD01",
+        "therapeutic_group": "Oncología",
+        "source_type": "biotecnologico",
+    },
+]
+
+VARIANCE_ADJUDICACIONES = [
+    # Metformina — 3 institutions, different prices → variance
+    {
+        "clave": "010.000.0001.00",
+        "description": "METFORMINA 850 mg",
+        "active_substance": "metformina",
+        "cycle": "2025-2026",
+        "status": "adjudicada",
+        "supplier": "Lab A",
+        "units_requested": 500000,
+        "units_awarded": 500000,
+        "unit_price": 1.20,
+        "total_amount": 600000.0,
+        "max_reference_price": 2.00,
+        "institution": "IMSS",
+        "therapeutic_group": "Endocrinología",
+        "source_type": "generico",
+    },
+    {
+        "clave": "010.000.0001.00",
+        "description": "METFORMINA 850 mg",
+        "active_substance": "metformina",
+        "cycle": "2025-2026",
+        "status": "adjudicada",
+        "supplier": "Lab B",
+        "units_requested": 200000,
+        "units_awarded": 200000,
+        "unit_price": 1.80,
+        "total_amount": 360000.0,
+        "max_reference_price": 2.00,
+        "institution": "ISSSTE",
+        "therapeutic_group": "Endocrinología",
+        "source_type": "generico",
+    },
+    {
+        "clave": "010.000.0001.00",
+        "description": "METFORMINA 850 mg",
+        "active_substance": "metformina",
+        "cycle": "2025-2026",
+        "status": "adjudicada",
+        "supplier": "Lab C",
+        "units_requested": 100000,
+        "units_awarded": 100000,
+        "unit_price": 1.50,
+        "total_amount": 150000.0,
+        "max_reference_price": 2.00,
+        "institution": "PEMEX",
+        "therapeutic_group": "Endocrinología",
+        "source_type": "generico",
+    },
+    # Omeprazol — 2 institutions, same price → 0% variance
+    {
+        "clave": "010.000.0002.00",
+        "description": "OMEPRAZOL 20 mg",
+        "active_substance": "omeprazol",
+        "cycle": "2025-2026",
+        "status": "adjudicada",
+        "supplier": "Lab D",
+        "units_requested": 300000,
+        "units_awarded": 300000,
+        "unit_price": 3.50,
+        "total_amount": 1050000.0,
+        "max_reference_price": 4.00,
+        "institution": "IMSS",
+        "therapeutic_group": "Gastroenterología",
+        "source_type": "generico",
+    },
+    {
+        "clave": "010.000.0002.00",
+        "description": "OMEPRAZOL 20 mg",
+        "active_substance": "omeprazol",
+        "cycle": "2025-2026",
+        "status": "adjudicada",
+        "supplier": "Lab D",
+        "units_requested": 100000,
+        "units_awarded": 100000,
+        "unit_price": 3.50,
+        "total_amount": 350000.0,
+        "max_reference_price": 4.00,
+        "institution": "ISSSTE",
+        "therapeutic_group": "Gastroenterología",
+        "source_type": "generico",
+    },
+    # Trastuzumab — only 1 institution → excluded from variance (min_institutions=2)
+    {
+        "clave": "010.000.0003.00",
+        "description": "TRASTUZUMAB 440 mg",
+        "active_substance": "trastuzumab",
+        "cycle": "2025-2026",
+        "status": "adjudicada",
+        "supplier": "Roche México",
+        "units_requested": 5000,
+        "units_awarded": 5000,
+        "unit_price": 18500.00,
+        "total_amount": 92500000.0,
+        "max_reference_price": 22000.00,
+        "institution": "IMSS",
+        "therapeutic_group": "Oncología",
+        "source_type": "biotecnologico",
+    },
+    # Metformina — desierta record (should be excluded from variance)
+    {
+        "clave": "010.000.0001.00",
+        "description": "METFORMINA 850 mg",
+        "active_substance": "metformina",
+        "cycle": "2023-2024",
+        "status": "desierta",
+        "supplier": "",
+        "units_requested": 400000,
+        "units_awarded": 0,
+        "unit_price": 0.0,
+        "total_amount": 0.0,
+        "institution": "IMSS",
+        "therapeutic_group": "Endocrinología",
+        "source_type": "generico",
+    },
+]
+
+
+@pytest.fixture
+def variance_service():
+    """Service with data designed for price variance testing."""
+    svc = MexicoProcurementService()
+    svc._claves = VARIANCE_CLAVES
+    svc._adjudicaciones = VARIANCE_ADJUDICACIONES
+    svc._loaded = True
+    return svc
+
+
+def test_variance_basic(variance_service):
+    """Variance analysis returns multi-institution claves with correct structure."""
+    result = variance_service.get_price_variance()
+    assert result.total >= 2  # metformina + omeprazol (both have 2+ institutions)
+    assert result.cycle == "All cycles"
+    assert isinstance(result.results, list)
+    assert len(result.results) >= 2
+
+
+def test_variance_metformina_spread(variance_service):
+    """Metformina has 3 institutions with prices 1.20, 1.50, 1.80 → 50% variance."""
+    result = variance_service.get_price_variance()
+    metf = [r for r in result.results if r.active_substance == "metformina"]
+    assert len(metf) == 1
+    item = metf[0]
+    assert item.clave == "010.000.0001.00"
+    assert item.min_price == 1.20
+    assert item.max_price == 1.80
+    assert item.variance_pct == 50.0
+    assert len(item.institution_prices) == 3
+    # Sorted by price ascending
+    assert item.institution_prices[0].institution == "IMSS"
+    assert item.institution_prices[0].unit_price == 1.20
+    assert item.institution_prices[2].institution == "ISSSTE"
+    assert item.institution_prices[2].unit_price == 1.80
+
+
+def test_variance_zero_for_equal_prices(variance_service):
+    """Omeprazol has same price at both institutions → 0% variance."""
+    result = variance_service.get_price_variance()
+    omep = [r for r in result.results if r.active_substance == "omeprazol"]
+    assert len(omep) == 1
+    item = omep[0]
+    assert item.variance_pct == 0.0
+    assert item.min_price == item.max_price == 3.50
+    assert item.total_savings_potential == 0.0
+
+
+def test_variance_excludes_single_institution(variance_service):
+    """Trastuzumab has only 1 institution → not in variance results."""
+    result = variance_service.get_price_variance()
+    trast = [r for r in result.results if r.active_substance == "trastuzumab"]
+    assert len(trast) == 0
+
+
+def test_variance_excludes_desiertas(variance_service):
+    """Desierta records should not appear in variance analysis."""
+    result = variance_service.get_price_variance()
+    # Metformina desierta from 2023-2024 should not create a separate entry
+    for item in result.results:
+        if item.active_substance == "metformina":
+            assert item.cycle == "2025-2026"
+
+
+def test_variance_savings_potential(variance_service):
+    """Savings potential is correct: (price - min_price) * units for each institution."""
+    result = variance_service.get_price_variance()
+    metf = [r for r in result.results if r.active_substance == "metformina"][0]
+    # IMSS: (1.20 - 1.20) * 500000 = 0
+    # PEMEX: (1.50 - 1.20) * 100000 = 30000
+    # ISSSTE: (1.80 - 1.20) * 200000 = 120000
+    expected_savings = 0 + 30000 + 120000
+    assert metf.total_savings_potential == expected_savings
+
+
+def test_variance_sorted_by_variance_desc(variance_service):
+    """Results should be sorted by variance_pct descending."""
+    result = variance_service.get_price_variance()
+    pcts = [item.variance_pct for item in result.results]
+    assert pcts == sorted(pcts, reverse=True)
+
+
+def test_variance_summary_stats(variance_service):
+    """Summary stats (items_with_variance, avg, total_savings) are correct."""
+    result = variance_service.get_price_variance()
+    # Metformina has 50% variance, omeprazol has 0% variance
+    assert result.items_with_variance >= 1  # at least metformina
+    assert result.total_savings_potential >= 150000  # at least metformina savings
+
+
+def test_variance_cycle_filter(variance_service):
+    """Filtering by cycle should narrow results."""
+    result = variance_service.get_price_variance(cycle="2025-2026")
+    assert result.cycle == "2025-2026"
+    assert result.total >= 2
+
+    # Non-existent cycle returns no results
+    result_empty = variance_service.get_price_variance(cycle="2019-2020")
+    assert result_empty.total == 0
+
+
+def test_variance_therapeutic_group_filter(variance_service):
+    """Filtering by therapeutic group narrows results."""
+    result = variance_service.get_price_variance(therapeutic_group="Endocrinología")
+    assert result.total == 1
+    assert result.results[0].active_substance == "metformina"
+
+
+def test_variance_source_type_filter(variance_service):
+    """Filtering by source type narrows results."""
+    result = variance_service.get_price_variance(source_type="generico")
+    # Both metformina and omeprazol are generics
+    assert result.total == 2
+    substances = {r.active_substance for r in result.results}
+    assert "metformina" in substances
+    assert "omeprazol" in substances
+
+
+def test_variance_min_institutions_filter(variance_service):
+    """min_institutions=3 should exclude omeprazol (only 2 institutions)."""
+    result = variance_service.get_price_variance(min_institutions=3)
+    assert result.total == 1
+    assert result.results[0].active_substance == "metformina"
+
+
+def test_variance_on_full_data(full_service):
+    """Full dataset should have some multi-institution claves with variance."""
+    result = full_service.get_price_variance()
+    # The full dataset has 4 institutions and 152 claves — there should be
+    # several claves procured by multiple institutions
+    assert result.total >= 1
+    assert isinstance(result.results, list)
+    for item in result.results:
+        assert len(item.institution_prices) >= 2
+        assert item.min_price > 0
+        assert item.max_price >= item.min_price
