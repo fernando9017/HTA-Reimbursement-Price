@@ -709,3 +709,395 @@ def test_institution_breakdown_includes_en_proceso(service):
     # en_proceso does not count as adjudicada or desierta
     assert imss.adjudicadas == 0
     assert imss.desiertas == 0
+
+
+# ── Expanded seed data tests (real data file) ──────────────────────────
+
+
+@pytest.fixture
+def full_service():
+    """Service loaded from the real seed data file."""
+    from pathlib import Path
+
+    svc = MexicoProcurementService()
+    data_file = Path(__file__).parent.parent / "data" / "mexico_procurement.json"
+    if not data_file.exists():
+        pytest.skip("Seed data file not available")
+    svc.load_from_file(data_file)
+    return svc
+
+
+def test_full_data_clave_count(full_service):
+    assert full_service.clave_count >= 150
+
+
+def test_full_data_therapeutic_coverage(full_service):
+    """All 23 therapeutic groups should be represented."""
+    opts = full_service.get_filter_options()
+    expected_groups = [
+        "Oncología", "Inmunología y Reumatología", "Endocrinología",
+        "Hematología", "Infectología", "Neurología", "Dermatología",
+        "Cardiología", "Oftalmología", "Trasplantes", "Neumología",
+        "Psiquiatría", "Gastroenterología", "Enfermedades Raras",
+        "Antibióticos", "Dolor y Anestesia", "Esclerosis Múltiple",
+        "Nefrología", "Vacunas", "Antifúngicos",
+        "Urgencias y Terapia Intensiva", "Ginecología y Obstetricia",
+        "Urología",
+    ]
+    for group in expected_groups:
+        assert group in opts.therapeutic_groups, f"Missing group: {group}"
+
+
+def test_full_data_imss_bienestar(full_service):
+    """IMSS-Bienestar should appear as an institution."""
+    opts = full_service.get_filter_options()
+    assert "IMSS-Bienestar" in opts.institutions
+
+
+def test_full_data_four_institutions(full_service):
+    opts = full_service.get_filter_options()
+    for inst in ["IMSS", "ISSSTE", "PEMEX", "IMSS-Bienestar"]:
+        assert inst in opts.institutions, f"Missing institution: {inst}"
+
+
+def test_full_data_three_cycles(full_service):
+    opts = full_service.get_filter_options()
+    for cycle in ["2023-2024", "2025-2026", "2027-2028"]:
+        assert cycle in opts.cycles, f"Missing cycle: {cycle}"
+
+
+def test_full_data_ophthalmology(full_service):
+    """Verify ophthalmology drugs are present."""
+    result = full_service.search_claves(therapeutic_group="Oftalmología")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "ranibizumab" in substances
+    assert "aflibercept" in substances
+
+
+def test_full_data_transplant(full_service):
+    result = full_service.search_claves(therapeutic_group="Trasplantes")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "tacrolimus" in substances
+
+
+def test_full_data_psychiatry(full_service):
+    result = full_service.search_claves(therapeutic_group="Psiquiatría")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "clozapina" in substances
+    assert "paliperidona palmitato" in substances
+
+
+def test_full_data_gastro_high_volume(full_service):
+    """Omeprazol should be highest-volume clave."""
+    result = full_service.search_claves(query="omeprazol")
+    assert result.total >= 1
+
+
+def test_full_data_rare_diseases(full_service):
+    result = full_service.search_claves(therapeutic_group="Enfermedades Raras")
+    assert result.total >= 3
+    substances = {r.active_substance for r in result.results}
+    assert "eculizumab" in substances
+    assert "imiglucerasa" in substances
+
+
+def test_full_data_semaglutide(full_service):
+    """Semaglutide (GLP-1) should be present in endocrinology."""
+    result = full_service.search_claves(query="semaglutida")
+    assert result.total >= 1
+    c = result.results[0]
+    assert c.therapeutic_group == "Endocrinología"
+    assert c.source_type == "patente"
+
+
+def test_full_data_imss_bienestar_breakdown(full_service):
+    """IMSS-Bienestar should have procurement data in 2025-2026."""
+    breakdown = full_service.get_institution_breakdown(cycle="2025-2026")
+    inst_names = {b.institution for b in breakdown}
+    assert "IMSS-Bienestar" in inst_names
+    bienestar = [b for b in breakdown if b.institution == "IMSS-Bienestar"][0]
+    assert bienestar.total_claves >= 5
+    assert bienestar.total_spend_mxn > 0
+
+
+def test_full_data_biosimilar_competition(full_service):
+    """Bortezomib 2025-2026 should have competitor bids."""
+    result = full_service.search_adjudicaciones(substance="bortezomib", cycle="2025-2026")
+    assert result.total >= 1
+    # IMSS record should have competitor bids
+    imss_records = [r for r in result.results if r.institution == "IMSS"]
+    assert len(imss_records) >= 1
+    assert len(imss_records[0].competitor_bids) >= 3
+
+
+def test_full_data_all_have_reference_prices(full_service):
+    """Every adjudicacion in the dataset should have a max_reference_price."""
+    result = full_service.search_adjudicaciones(limit=1500)
+    for r in result.results:
+        assert r.max_reference_price > 0, (
+            f"{r.clave} ({r.cycle}, {r.institution}) missing reference price"
+        )
+
+
+# ── New therapeutic area tests ────────────────────────────────────────
+
+
+def test_full_data_nephrology(full_service):
+    """Nephrology drugs including EPO and CKD support should be present."""
+    result = full_service.search_claves(therapeutic_group="Nefrología")
+    assert result.total >= 4
+    substances = {r.active_substance for r in result.results}
+    assert "eritropoyetina alfa" in substances
+    assert "darbepoetina alfa" in substances
+    assert "sevelámero" in substances
+    assert "calcitriol" in substances
+
+
+def test_full_data_antibiotics(full_service):
+    """Hospital and primary care antibiotics should be present."""
+    result = full_service.search_claves(therapeutic_group="Antibióticos")
+    assert result.total >= 9
+    substances = {r.active_substance for r in result.results}
+    assert "meropenem" in substances
+    assert "vancomicina" in substances
+    assert "ceftriaxona" in substances
+    assert "piperacilina/tazobactam" in substances
+    assert "amoxicilina" in substances
+    assert "ciprofloxacino" in substances
+    assert "amikacina" in substances
+
+
+def test_full_data_multiple_sclerosis(full_service):
+    """MS drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Esclerosis Múltiple")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "ocrelizumab" in substances
+    assert "fingolimod" in substances
+
+
+def test_full_data_vaccines(full_service):
+    """Full vaccine portfolio should be present."""
+    result = full_service.search_claves(therapeutic_group="Vacunas")
+    assert result.total >= 6
+    substances = {r.active_substance for r in result.results}
+    assert "vacuna influenza" in substances
+    assert "vacuna neumococo conjugada" in substances
+    assert "vacuna BCG" in substances
+    assert "vacuna pentavalente acelular" in substances
+    assert "vacuna SRP" in substances
+    assert "vacuna hepatitis B" in substances
+
+
+def test_full_data_pain_anesthesia(full_service):
+    """Pain and anesthesia drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Dolor y Anestesia")
+    assert result.total >= 6
+    substances = {r.active_substance for r in result.results}
+    assert "pregabalina" in substances
+    assert "tramadol" in substances
+    assert "propofol" in substances
+    assert "paracetamol" in substances
+    assert "ketorolaco" in substances
+    assert "metamizol sódico" in substances
+
+
+def test_full_data_cardiovascular_high_volume(full_service):
+    """High-volume cardiovascular generics should be included."""
+    result = full_service.search_claves(therapeutic_group="Cardiología")
+    assert result.total >= 12
+    substances = {r.active_substance for r in result.results}
+    assert "atorvastatina" in substances
+    assert "losartán" in substances
+    assert "amlodipino" in substances
+    assert "enoxaparina" in substances
+    assert "enalapril" in substances
+    assert "furosemida" in substances
+    assert "clopidogrel" in substances
+    assert "metoprolol" in substances
+    assert "espironolactona" in substances
+
+
+def test_full_data_oncology_expanded(full_service):
+    """Oncology should include targeted therapy AND chemotherapy backbone."""
+    result = full_service.search_claves(therapeutic_group="Oncología")
+    assert result.total >= 35
+    substances = {r.active_substance for r in result.results}
+    # Targeted therapy
+    for drug in ["enzalutamida", "abiraterona", "palbociclib", "daratumumab", "cetuximab"]:
+        assert drug in substances, f"Missing targeted therapy: {drug}"
+    # Chemotherapy backbone
+    for drug in ["carboplatino", "cisplatino", "paclitaxel", "doxorrubicina",
+                  "fluorouracilo", "ciclofosfamida", "vincristina", "gemcitabina"]:
+        assert drug in substances, f"Missing chemo backbone: {drug}"
+    # Hormonal therapy
+    for drug in ["tamoxifeno", "letrozol"]:
+        assert drug in substances, f"Missing hormonal therapy: {drug}"
+
+
+def test_full_data_hematology_support(full_service):
+    """Hematology support drugs (filgrastim, immunoglobulin, albumin)."""
+    result = full_service.search_claves(therapeutic_group="Hematología")
+    assert result.total >= 5
+    substances = {r.active_substance for r in result.results}
+    assert "filgrastim" in substances
+    assert "inmunoglobulina humana" in substances
+    assert "albúmina humana" in substances
+
+
+def test_full_data_immunology_expanded(full_service):
+    """Immunology should include tocilizumab and secukinumab."""
+    result = full_service.search_claves(therapeutic_group="Inmunología y Reumatología")
+    assert result.total >= 4
+    substances = {r.active_substance for r in result.results}
+    assert "tocilizumab" in substances
+    assert "secukinumab" in substances
+
+
+def test_full_data_endocrinology_expanded(full_service):
+    """Endocrinology should include full diabetes and thyroid portfolio."""
+    result = full_service.search_claves(therapeutic_group="Endocrinología")
+    assert result.total >= 10
+    substances = {r.active_substance for r in result.results}
+    assert "levotiroxina" in substances
+    assert "empagliflozina" in substances
+    assert "insulina humana NPH" in substances
+    assert "glibenclamida" in substances
+    assert "liraglutida" in substances
+
+
+def test_full_data_infectology_tb(full_service):
+    """TB fixed-dose combination should be in Infectología."""
+    result = full_service.search_claves(therapeutic_group="Infectología")
+    assert result.total >= 5
+    substances = {r.active_substance for r in result.results}
+    assert "isoniazida/rifampicina/pirazinamida/etambutol" in substances
+
+
+def test_full_data_adjudicacion_count(full_service):
+    """Total adjudicaciones should match the expanded dataset."""
+    result = full_service.search_adjudicaciones(limit=1500)
+    assert result.total >= 1400
+
+
+def test_full_data_23_therapeutic_groups(full_service):
+    """Verify all 23 therapeutic groups exist."""
+    opts = full_service.get_filter_options()
+    assert len(opts.therapeutic_groups) >= 23
+
+
+# ── New category tests (batch 2) ──────────────────────────────────────
+
+
+def test_full_data_antifungals(full_service):
+    """Hospital antifungals should be present."""
+    result = full_service.search_claves(therapeutic_group="Antifúngicos")
+    assert result.total >= 3
+    substances = {r.active_substance for r in result.results}
+    assert "voriconazol" in substances
+    assert "anidulafungina" in substances
+    assert "anfotericina B liposomal" in substances
+
+
+def test_full_data_icu_emergency(full_service):
+    """ICU/emergency drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Urgencias y Terapia Intensiva")
+    assert result.total >= 9
+    substances = {r.active_substance for r in result.results}
+    assert "norepinefrina" in substances
+    assert "dexametasona" in substances
+    assert "epinefrina" in substances
+    assert "midazolam" in substances
+    assert "fentanilo" in substances
+    assert "heparina sódica" in substances
+    assert "amiodarona" in substances
+
+
+def test_full_data_gynecology_obstetrics(full_service):
+    """Gynecology and obstetrics drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Ginecología y Obstetricia")
+    assert result.total >= 3
+    substances = {r.active_substance for r in result.results}
+    assert "oxitocina" in substances
+    assert "misoprostol" in substances
+
+
+def test_full_data_urology(full_service):
+    """Urology drugs should be present."""
+    result = full_service.search_claves(therapeutic_group="Urología")
+    assert result.total >= 2
+    substances = {r.active_substance for r in result.results}
+    assert "tamsulosina" in substances
+    assert "finasterida" in substances
+
+
+def test_full_data_gastroenterology_expanded(full_service):
+    """Gastroenterology should include full portfolio."""
+    result = full_service.search_claves(therapeutic_group="Gastroenterología")
+    assert result.total >= 5
+    substances = {r.active_substance for r in result.results}
+    assert "omeprazol" in substances
+    assert "pantoprazol" in substances
+    assert "mesalazina" in substances
+    assert "metoclopramida" in substances
+
+
+def test_full_data_psychiatry_expanded(full_service):
+    """Psychiatry should include SSRIs, antipsychotics, and anxiolytics."""
+    result = full_service.search_claves(therapeutic_group="Psiquiatría")
+    assert result.total >= 8
+    substances = {r.active_substance for r in result.results}
+    assert "fluoxetina" in substances
+    assert "sertralina" in substances
+    assert "clonazepam" in substances
+    assert "haloperidol" in substances
+    assert "risperidona" in substances
+
+
+def test_full_data_neurology_expanded(full_service):
+    """Neurology should include Parkinson's and antiepileptics."""
+    result = full_service.search_claves(therapeutic_group="Neurología")
+    assert result.total >= 6
+    substances = {r.active_substance for r in result.results}
+    assert "levodopa/carbidopa" in substances
+    assert "carbamazepina" in substances
+    assert "gabapentina" in substances
+
+
+def test_full_data_pneumology_expanded(full_service):
+    """Pneumology should include inhalers and bronchodilators."""
+    result = full_service.search_claves(therapeutic_group="Neumología")
+    assert result.total >= 5
+    substances = {r.active_substance for r in result.results}
+    assert "salbutamol" in substances
+    assert "tiotropio" in substances
+    assert "fluticasona/salmeterol" in substances
+
+
+def test_full_data_transplant_expanded(full_service):
+    """Transplant drugs should include calcineurin inhibitors."""
+    result = full_service.search_claves(therapeutic_group="Trasplantes")
+    assert result.total >= 4
+    substances = {r.active_substance for r in result.results}
+    assert "ciclosporina" in substances
+    assert "basiliximab" in substances
+
+
+def test_full_data_source_type_distribution(full_service):
+    """Verify realistic mix of source types."""
+    opts = full_service.get_filter_options()
+    assert "patente" in opts.source_types
+    assert "generico" in opts.source_types
+    assert "biotecnologico" in opts.source_types
+    assert "fuente_unica" in opts.source_types
+
+
+def test_full_data_desabasto_critical(full_service):
+    """Top desabasto drugs (shortage-critical) should be present."""
+    # Per Cero Desabasto 2024: clonazepam, insulina NPH, levodopa/carbidopa
+    for drug in ["clonazepam", "insulina humana NPH", "levodopa/carbidopa"]:
+        result = full_service.search_claves(query=drug)
+        assert result.total >= 1, f"Desabasto-critical drug missing: {drug}"
