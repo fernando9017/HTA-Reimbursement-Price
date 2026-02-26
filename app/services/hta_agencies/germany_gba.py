@@ -465,11 +465,17 @@ class GermanyGBA(HTAAgency):
         if not patient_group:
             patient_group = self._get_text(pg_elem, ["ID_PAT_GR"])
 
-        # Benefit rating: ZN_W (real, value attr or text) or ZUSATZNUTZEN (legacy)
-        benefit = self._get_text(pg_elem, ["ZN_W", "ZUSATZNUTZEN"])
+        # Benefit extent: ZN_A = Ausmaß (real) or ZN_W/ZUSATZNUTZEN (legacy)
+        benefit = self._get_text(pg_elem, ["ZN_A", "ZN_W", "ZUSATZNUTZEN"])
 
-        # Evidence level: ZN_A (real) or AUSSAGESICHERHEIT (legacy)
-        evidence = self._get_text(pg_elem, ["ZN_A", "AUSSAGESICHERHEIT"])
+        # Evidence certainty: ZN_W = Wahrscheinlichkeit (real) or AUSSAGESICHERHEIT (legacy)
+        evidence = self._get_text(pg_elem, ["AUSSAGESICHERHEIT"])
+        # In real AIS XML, ZN_W holds evidence (only 527/1658 have it)
+        if not evidence:
+            zn_w = self._get_text(pg_elem, ["ZN_W"])
+            # ZN_W values are evidence levels: Beleg, Hinweis, Anhaltspunkt
+            if zn_w in ("Beleg", "Hinweis", "Anhaltspunkt"):
+                evidence = zn_w
 
         # Comparator therapy
         comparator = ""
@@ -513,8 +519,8 @@ class GermanyGBA(HTAAgency):
 
     def _extract_benefit_from_element(self, elem: ET.Element) -> dict:
         """Extract benefit rating and evidence level from an element."""
-        benefit = self._get_text(elem, ["ZN_W", "ZUSATZNUTZEN"])
-        evidence = self._get_text(elem, ["ZN_A", "AUSSAGESICHERHEIT"])
+        benefit = self._get_text(elem, ["ZN_A", "ZN_W", "ZUSATZNUTZEN"])
+        evidence = self._get_text(elem, ["AUSSAGESICHERHEIT"])
         return {
             "benefit_rating": benefit,
             "evidence_level": evidence,
