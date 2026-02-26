@@ -479,6 +479,11 @@ function renderAIAnalysis(analysis, container) {
         html += '</div>';
     }
 
+    // Clinical evidence (pivotal trials)
+    if (analysis.clinical_evidence) {
+        html += renderClinicalEvidence(analysis.clinical_evidence);
+    }
+
     // Subpopulation analyses
     if (analysis.subpopulation_analyses && analysis.subpopulation_analyses.length > 0) {
         for (const sub of analysis.subpopulation_analyses) {
@@ -563,4 +568,131 @@ function renderAIAnalysis(analysis, container) {
 
     html += '</div>'; // ai-card
     container.innerHTML = html;
+}
+
+// ── Clinical Evidence renderer ──────────────────────────────────────
+
+function renderClinicalEvidence(ce) {
+    const trials = ce.pivotal_trials || [];
+    if (trials.length === 0 && !ce.indirect_comparisons && !ce.subpopulation_analyses_note) {
+        return '';
+    }
+
+    let html = '<div class="gba-ai-section gba-ce-section">';
+    html += '<div class="gba-ai-section-label">PIVOTAL CLINICAL EVIDENCE</div>';
+
+    // Trial cards
+    for (const trial of trials) {
+        html += '<div class="gba-ce-trial">';
+
+        // Trial header: name + NCT link + design
+        html += '<div class="gba-ce-trial-header">';
+        html += '<div class="gba-ce-trial-name-row">';
+        if (trial.trial_name) {
+            html += `<span class="gba-ce-trial-name">${esc(trial.trial_name)}</span>`;
+        }
+        if (trial.nct_number) {
+            html += `<a href="https://clinicaltrials.gov/study/${encodeURIComponent(trial.nct_number)}" `
+                + `target="_blank" rel="noopener" class="gba-ce-nct-link">${esc(trial.nct_number)}</a>`;
+        }
+        if (trial.confidence) {
+            const confClass = trial.confidence === "high" ? "gba-ce-conf-high"
+                : trial.confidence === "moderate" ? "gba-ce-conf-mod" : "gba-ce-conf-low";
+            html += `<span class="gba-ce-confidence ${confClass}" title="AI confidence in trial identification">${esc(trial.confidence)}</span>`;
+        }
+        html += '</div>'; // name-row
+
+        // Design + enrollment on one line
+        const designParts = [];
+        if (trial.trial_design) designParts.push(trial.trial_design);
+        if (trial.enrollment) designParts.push("N=" + trial.enrollment);
+        if (designParts.length > 0) {
+            html += `<div class="gba-ce-trial-design">${esc(designParts.join(" | "))}</div>`;
+        }
+
+        // Trial comparator
+        if (trial.trial_comparator) {
+            html += `<div class="gba-ce-trial-comparator"><strong>vs.</strong> ${esc(trial.trial_comparator)}</div>`;
+        }
+        html += '</div>'; // trial-header
+
+        // Endpoints table
+        const endpoints = trial.key_endpoints || [];
+        if (endpoints.length > 0) {
+            html += '<div class="gba-ce-endpoints">';
+            html += '<table class="gba-ce-ep-table">';
+            html += '<thead><tr>';
+            html += '<th>Endpoint</th><th>Treatment vs. Comparator</th>';
+            html += '<th>Effect Size</th><th>Sig.</th>';
+            html += '</tr></thead><tbody>';
+
+            for (const ep of endpoints) {
+                html += '<tr>';
+                // Endpoint name/abbreviation
+                html += `<td class="gba-ce-ep-name">${esc(ep.abbreviation || ep.name)}</td>`;
+
+                // Treatment vs comparator results
+                let resultsText = "";
+                if (ep.treatment_result && ep.comparator_result) {
+                    resultsText = ep.treatment_result + " vs. " + ep.comparator_result;
+                } else if (ep.treatment_result) {
+                    resultsText = ep.treatment_result;
+                }
+                html += `<td>${esc(resultsText) || '<span class="gba-ce-na">—</span>'}</td>`;
+
+                // Effect measure + value + CI
+                let effectText = "";
+                if (ep.effect_measure && ep.effect_value) {
+                    effectText = ep.effect_measure + " " + ep.effect_value;
+                    if (ep.ci_95) effectText += " [" + ep.ci_95 + "]";
+                }
+                html += `<td class="gba-ce-ep-effect">${esc(effectText) || '<span class="gba-ce-na">—</span>'}</td>`;
+
+                // Significance indicator
+                if (ep.statistically_significant === true) {
+                    html += `<td><span class="gba-ce-sig gba-ce-sig-yes" title="p=${esc(ep.p_value || 'significant')}">Sig.</span></td>`;
+                } else if (ep.statistically_significant === false) {
+                    html += `<td><span class="gba-ce-sig gba-ce-sig-no" title="p=${esc(ep.p_value || 'not significant')}">NS</span></td>`;
+                } else {
+                    html += `<td><span class="gba-ce-na">—</span></td>`;
+                }
+                html += '</tr>';
+            }
+
+            html += '</tbody></table>';
+            html += '</div>'; // endpoints
+        }
+
+        html += '</div>'; // trial
+    }
+
+    // Additional evidence info (indirect comparisons, subgroup analyses)
+    if (ce.indirect_comparisons || ce.subpopulation_analyses_note) {
+        html += '<div class="gba-ce-additional">';
+        if (ce.indirect_comparisons) {
+            html += '<div class="gba-ce-additional-item">';
+            html += '<span class="gba-ce-additional-label">Indirect Comparisons:</span> ';
+            html += `<span>${esc(ce.indirect_comparisons)}</span>`;
+            html += '</div>';
+        }
+        if (ce.subpopulation_analyses_note) {
+            html += '<div class="gba-ce-additional-item">';
+            html += '<span class="gba-ce-additional-label">Subgroup Analyses:</span> ';
+            html += `<span>${esc(ce.subpopulation_analyses_note)}</span>`;
+            html += '</div>';
+        }
+        html += '</div>';
+    }
+
+    // Evidence limitations
+    const limitations = ce.evidence_limitations || [];
+    if (limitations.length > 0) {
+        html += '<div class="gba-ce-limitations">';
+        html += '<span class="gba-ce-limitations-label">Note:</span> ';
+        html += esc(limitations.join(". "));
+        html += '</div>';
+    }
+
+    html += '</div>'; // ce-section
+    return html;
 }

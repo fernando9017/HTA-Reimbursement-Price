@@ -458,6 +458,41 @@ class GBASubpopAnalysis(BaseModel):
     key_trials: list[str] = []          # Clinical trials referenced
 
 
+class GBAEfficacyEndpoint(BaseModel):
+    """A single efficacy endpoint result from a pivotal trial."""
+
+    name: str = ""                      # e.g. "Overall Survival", "Progression-Free Survival"
+    abbreviation: str = ""              # e.g. "OS", "PFS", "ORR"
+    treatment_result: str = ""          # e.g. "22.0 months"
+    comparator_result: str = ""         # e.g. "10.6 months"
+    effect_measure: str = ""            # e.g. "HR", "OR", "RR"
+    effect_value: str = ""              # e.g. "0.56"
+    ci_95: str = ""                     # e.g. "0.45-0.70"
+    p_value: str = ""                   # e.g. "<0.001"
+    statistically_significant: bool | None = None
+
+
+class GBAClinicalTrial(BaseModel):
+    """A pivotal clinical trial referenced in a G-BA assessment."""
+
+    trial_name: str = ""                # e.g. "KEYNOTE-189"
+    nct_number: str = ""                # e.g. "NCT02578680"
+    trial_design: str = ""              # e.g. "Phase III, randomized, double-blind"
+    enrollment: int | None = None       # Total enrollment
+    trial_comparator: str = ""          # Comparator arm description
+    key_endpoints: list[GBAEfficacyEndpoint] = []
+    confidence: str = ""                # "high", "moderate", "low"
+
+
+class GBAClinicalEvidence(BaseModel):
+    """Clinical evidence section of an AI-generated G-BA analysis."""
+
+    pivotal_trials: list[GBAClinicalTrial] = []
+    indirect_comparisons: str = ""      # Description of ITC if submitted
+    subpopulation_analyses_note: str = ""  # Note on pre-specified subgroup analyses
+    evidence_limitations: list[str] = []   # Limitations / caveats about inferred data
+
+
 class GBAAssessmentAnalysis(BaseModel):
     """AI-generated structured analysis of a G-BA assessment."""
 
@@ -471,5 +506,6 @@ class GBAAssessmentAnalysis(BaseModel):
     overall_summary: str = ""           # 2-3 sentence summary
     clinical_context: str = ""          # Disease context / unmet need
     market_implications: str = ""       # Pricing / market access implications
+    clinical_evidence: GBAClinicalEvidence | None = None  # Pivotal trial data
     ai_model: str = ""                  # Which model generated the analysis
     cached: bool = False                # Whether result came from cache

@@ -16,7 +16,13 @@ from pathlib import Path
 
 import anthropic
 
-from app.models import GBAAssessmentAnalysis, GBASubpopAnalysis
+from app.models import (
+    GBAAssessmentAnalysis,
+    GBAClinicalEvidence,
+    GBAClinicalTrial,
+    GBAEfficacyEndpoint,
+    GBASubpopAnalysis,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -158,6 +164,34 @@ Produce a JSON response with this exact structure:
       "key_trials": ["<trial name if mentioned>"]
     }}
   ],
+  "clinical_evidence": {{
+    "pivotal_trials": [
+      {{
+        "trial_name": "<trial name, e.g. KEYNOTE-189>",
+        "nct_number": "<NCT number if known, e.g. NCT02578680, or empty string>",
+        "trial_design": "<e.g. Phase III, randomized, double-blind>",
+        "enrollment": <total enrollment number or null if unknown>,
+        "trial_comparator": "<comparator arm description>",
+        "key_endpoints": [
+          {{
+            "name": "<endpoint name, e.g. Overall Survival>",
+            "abbreviation": "<e.g. OS, PFS, ORR>",
+            "treatment_result": "<e.g. 22.0 months>",
+            "comparator_result": "<e.g. 10.6 months>",
+            "effect_measure": "<e.g. HR, OR, RR>",
+            "effect_value": "<e.g. 0.56>",
+            "ci_95": "<e.g. 0.45-0.70>",
+            "p_value": "<e.g. <0.001>",
+            "statistically_significant": true
+          }}
+        ],
+        "confidence": "<high, moderate, or low>"
+      }}
+    ],
+    "indirect_comparisons": "<describe if indirect treatment comparisons were likely submitted, or empty string>",
+    "subpopulation_analyses_note": "<describe if pre-specified subgroup analyses were conducted, or empty string>",
+    "evidence_limitations": ["<limitation 1>", "<limitation 2>"]
+  }},
   "overall_summary": "<2-3 sentence English summary of the assessment>",
   "clinical_context": "<1-2 sentences about the disease context and unmet need>",
   "market_implications": "<1-2 sentences about pricing/market access implications>"
@@ -177,6 +211,26 @@ nicht quantifizierbar = Non-quantifiable added benefit (benefit exists but canno
 precisely ranked), kein Zusatznutzen = No added benefit (vs. comparator), \
 geringerer Nutzen = Lesser benefit (worse than comparator)
 - Evidence levels: Beleg = Proof, Hinweis = Indication, Anhaltspunkt = Hint
+
+CRITICAL rules for clinical_evidence:
+- Include the pivotal trial(s) that supported the G-BA assessment outcome. \
+Infer the trial name and key endpoints from the drug name, indication, comparator, \
+and your knowledge of major clinical trials.
+- NEVER fabricate specific numerical values (HR, median OS/PFS, p-values, enrollment). \
+If you are confident in the values, include them. If uncertain, use empty strings \
+for the specific fields you are unsure about. Set confidence accordingly.
+- confidence levels: "high" = trial name and key endpoints are well-established; \
+"moderate" = trial name is likely correct but some endpoint details uncertain; \
+"low" = trial identification is tentative.
+- For key_endpoints, focus on the 3-5 most clinically relevant endpoints \
+(OS, PFS, ORR, DFS, EFS, safety). Do not include more than 5 endpoints.
+- For indirect_comparisons: note if the indication or comparator suggests the \
+manufacturer likely submitted indirect treatment comparisons (e.g., network \
+meta-analysis, Bucher method) rather than head-to-head trial data.
+- For subpopulation_analyses_note: note if the assessment involves pre-specified \
+subgroup analyses (e.g., by biomarker, prior therapy, disease stage).
+- evidence_limitations should note what could not be reliably determined from the \
+assessment data alone.
 
 CRITICAL rules for market_implications:
 - "Kein Zusatznutzen" (no added benefit) does NOT restrict prescribing, patient access, \
@@ -324,7 +378,7 @@ async def analyze_assessment(
 
     response = await client.messages.create(
         model=AI_MODEL,
-        max_tokens=2048,
+        max_tokens=4096,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_prompt}],
     )
@@ -359,6 +413,41 @@ async def analyze_assessment(
             key_trials=sp.get("key_trials", []),
         ))
 
+    # Build clinical evidence
+    clinical_evidence = None
+    ce_raw = parsed.get("clinical_evidence")
+    if ce_raw and isinstance(ce_raw, dict):
+        trials = []
+        for t in ce_raw.get("pivotal_trials", []):
+            endpoints = []
+            for ep in t.get("key_endpoints", []):
+                endpoints.append(GBAEfficacyEndpoint(
+                    name=ep.get("name", ""),
+                    abbreviation=ep.get("abbreviation", ""),
+                    treatment_result=ep.get("treatment_result", ""),
+                    comparator_result=ep.get("comparator_result", ""),
+                    effect_measure=ep.get("effect_measure", ""),
+                    effect_value=ep.get("effect_value", ""),
+                    ci_95=ep.get("ci_95", ""),
+                    p_value=ep.get("p_value", ""),
+                    statistically_significant=ep.get("statistically_significant"),
+                ))
+            trials.append(GBAClinicalTrial(
+                trial_name=t.get("trial_name", ""),
+                nct_number=t.get("nct_number", ""),
+                trial_design=t.get("trial_design", ""),
+                enrollment=t.get("enrollment"),
+                trial_comparator=t.get("trial_comparator", ""),
+                key_endpoints=endpoints,
+                confidence=t.get("confidence", ""),
+            ))
+        clinical_evidence = GBAClinicalEvidence(
+            pivotal_trials=trials,
+            indirect_comparisons=ce_raw.get("indirect_comparisons", ""),
+            subpopulation_analyses_note=ce_raw.get("subpopulation_analyses_note", ""),
+            evidence_limitations=ce_raw.get("evidence_limitations", []),
+        )
+
     analysis = GBAAssessmentAnalysis(
         decision_id=decision_id,
         trade_name=trade_name,
@@ -370,6 +459,7 @@ async def analyze_assessment(
         overall_summary=parsed.get("overall_summary", ""),
         clinical_context=parsed.get("clinical_context", ""),
         market_implications=parsed.get("market_implications", ""),
+        clinical_evidence=clinical_evidence,
         ai_model=AI_MODEL,
         cached=False,
     )
