@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Curated HTA assessment data for drugs where live scraping is unreliable. Entries here supplement (not replace) live-scraped data. When an adapter returns no results for a substance+country, these entries are used as fallback.",
-    "last_updated": "2026-02-26",
+    "last_updated": "2026-02-27",
     "format": "Keyed by lowercase active substance (INN). Each substance maps country codes to a list of AssessmentResult-compatible objects.",
     "per_country_fields": {
       "GB": "assessment_url (NICE guidance), nice_recommendation, guidance_reference",
@@ -486,6 +486,49 @@
         "comparator": "Chemotherapie nach ärztlicher Maßgabe",
         "patient_group": "Erwachsene mit lokal fortgeschrittenem oder metastasiertem Urothelkarzinom nach vorheriger platinhaltiger Chemotherapie",
         "summary_en": "Population: Adults with advanced urothelial carcinoma (after prior platinum chemo) | Added benefit: No added benefit (kein Zusatznutzen) | vs. Chemotherapy (physician's choice)"
+      }
+    ]
+  },
+  "inavolisib": {
+    "DE": [
+      {
+        "product_name": "Itovebi",
+        "dossier_code": "2026-02-19-D-1253",
+        "evaluation_reason": "Mammakarzinom, PIK3CA-mutiert, ER+, HER2-, lokal fortgeschritten oder metastasiert: Kombination mit Palbociclib und Fulvestrant bei Erwachsenen mit Rezidiv während oder innerhalb von 12 Monaten nach Abschluss einer adjuvanten endokrinen Therapie — Frauen < 65 Jahre",
+        "opinion_date": "2026-02-19",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1253/",
+        "benefit_rating": "beträchtlich",
+        "benefit_rating_description": "Considerable added benefit (beträchtlich)",
+        "evidence_level": "Indication (Hinweis)",
+        "comparator": "Palbociclib in Kombination mit Fulvestrant",
+        "patient_group": "Frauen < 65 Jahre mit PIK3CA-mutiertem, ER-positivem, HER2-negativem, lokal fortgeschrittenem oder metastasiertem Mammakarzinom mit Rezidiv während oder innerhalb von 12 Monaten nach adjuvanter endokriner Therapie",
+        "summary_en": "Population: Women <65 years with PIK3CA-mutated, ER+/HER2- locally advanced or metastatic breast cancer (relapse during/within 12 months of adjuvant endocrine therapy, combo with palbociclib + fulvestrant) | Added benefit: Considerable (beträchtlich) | Evidence: Indication (Hinweis) | vs. Palbociclib + fulvestrant"
+      },
+      {
+        "product_name": "Itovebi",
+        "dossier_code": "2026-02-19-D-1253-b",
+        "evaluation_reason": "Mammakarzinom, PIK3CA-mutiert, ER+, HER2-, lokal fortgeschritten oder metastasiert: Kombination mit Palbociclib und Fulvestrant bei Erwachsenen mit Rezidiv während oder innerhalb von 12 Monaten nach Abschluss einer adjuvanten endokrinen Therapie — Frauen ≥ 65 Jahre",
+        "opinion_date": "2026-02-19",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1253/",
+        "benefit_rating": "ist nicht belegt",
+        "benefit_rating_description": "Added benefit not proven (ist nicht belegt)",
+        "evidence_level": "",
+        "comparator": "Palbociclib in Kombination mit Fulvestrant",
+        "patient_group": "Frauen ≥ 65 Jahre mit PIK3CA-mutiertem, ER-positivem, HER2-negativem, lokal fortgeschrittenem oder metastasiertem Mammakarzinom mit Rezidiv während oder innerhalb von 12 Monaten nach adjuvanter endokriner Therapie",
+        "summary_en": "Population: Women ≥65 years with PIK3CA-mutated, ER+/HER2- locally advanced or metastatic breast cancer (relapse during/within 12 months of adjuvant endocrine therapy, combo with palbociclib + fulvestrant) | Added benefit: Not proven (ist nicht belegt) | vs. Palbociclib + fulvestrant"
+      },
+      {
+        "product_name": "Itovebi",
+        "dossier_code": "2026-02-19-D-1253-c",
+        "evaluation_reason": "Mammakarzinom, PIK3CA-mutiert, ER+, HER2-, lokal fortgeschritten oder metastasiert: Kombination mit Palbociclib und Fulvestrant bei Erwachsenen mit Rezidiv während oder innerhalb von 12 Monaten nach Abschluss einer adjuvanten endokriner Therapie — Männer",
+        "opinion_date": "2026-02-19",
+        "assessment_url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/1253/",
+        "benefit_rating": "ist nicht belegt",
+        "benefit_rating_description": "Added benefit not proven (ist nicht belegt)",
+        "evidence_level": "",
+        "comparator": "Palbociclib in Kombination mit Fulvestrant",
+        "patient_group": "Männer mit PIK3CA-mutiertem, ER-positivem, HER2-negativem, lokal fortgeschrittenem oder metastasiertem Mammakarzinom mit Rezidiv während oder innerhalb von 12 Monaten nach adjuvanter endokriner Therapie",
+        "summary_en": "Population: Men with PIK3CA-mutated, ER+/HER2- locally advanced or metastatic breast cancer (relapse during/within 12 months of adjuvant endocrine therapy, combo with palbociclib + fulvestrant) | Added benefit: Not proven (ist nicht belegt) | vs. Palbociclib + fulvestrant"
       }
     ]
   },
