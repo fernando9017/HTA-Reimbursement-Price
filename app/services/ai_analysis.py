@@ -1,6 +1,6 @@
 """AI-powered analysis of G-BA HTA assessment documents.
 
-Uses Claude Haiku to generate structured English analyses from
+Uses Claude Sonnet to generate structured English analyses from
 the raw G-BA decision data (indications, patient groups, benefit
 ratings, evidence levels, and comparators).
 
@@ -56,7 +56,7 @@ def clear_cache() -> int:
     logger.info("Cleared %d AI analysis cache entries (Germany)", count)
     return count
 
-AI_MODEL = "claude-haiku-4-5-20251001"
+AI_MODEL = "claude-sonnet-4-5-20250514"
 
 SYSTEM_PROMPT = """\
 You are a senior HTA (Health Technology Assessment) analyst specializing in \
