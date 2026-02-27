@@ -532,7 +532,7 @@ class SpainAEMPS(HTAAgency):
     def save_to_file(self, data_file: Path) -> None:
         if not self._loaded:
             return
-        self._write_json_file(data_file, self._make_envelope(self._ipt_list))
+        self._safe_write_json_file(data_file, self._make_envelope(self._ipt_list))
         logger.info(
             "%s saved %d IPT entries to %s",
             self.agency_abbreviation, len(self._ipt_list), data_file,

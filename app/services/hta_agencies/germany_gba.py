@@ -705,7 +705,7 @@ class GermanyGBA(HTAAgency):
         if not self._loaded:
             return
         self._apply_translations()
-        self._write_json_file(data_file, self._make_envelope(self._decisions))
+        self._safe_write_json_file(data_file, self._make_envelope(self._decisions))
         logger.info(
             "%s saved %d decisions to %s",
             self.agency_abbreviation, len(self._decisions), data_file,

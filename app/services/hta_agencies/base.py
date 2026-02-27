@@ -93,6 +93,24 @@ class HTAAgency(ABC):
 
     # ── Helpers ───────────────────────────────────────────────────────
 
+    def _safe_write_json_file(self, data_file: Path, payload: dict) -> None:
+        """Write *payload* only if it has at least as many records as the
+        existing file.  This prevents a partial remote fetch from
+        overwriting a richer bundled dataset.
+        """
+        new_count = payload.get("record_count", 0)
+        existing = self._read_json_file(data_file)
+        if existing is not None:
+            old_count = existing.get("record_count", 0)
+            if new_count < old_count * 0.8:  # allow up to 20% shrinkage
+                logger.warning(
+                    "%s: refusing to overwrite cache (%d records) with smaller "
+                    "dataset (%d records)",
+                    self.agency_abbreviation, old_count, new_count,
+                )
+                return
+        self._write_json_file(data_file, payload)
+
     def _read_json_file(self, data_file: Path) -> dict | None:
         """Read and parse a JSON data file. Returns None on any error."""
         try:

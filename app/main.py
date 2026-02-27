@@ -49,6 +49,7 @@ from app.models import (
     PriceHistoryResult,
     PriceVarianceResponse,
 )  # ATCPrefix imported via FilterOptions
+from app.config import OFFLINE_MODE
 from app.services.analogue_service import AnalogueService
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.base import HTAAgency
@@ -241,35 +242,60 @@ MAX_AGENCY_RETRIES = 2
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load all data sources on startup."""
+    """Load all data sources on startup.
+
+    When OFFLINE_MODE is enabled (env var OFFLINE_MODE=1), the app uses
+    only the bundled JSON files in data/ and never contacts remote sources.
+    This makes startup instant and fully reliable on laptops without
+    stable network connectivity.
+    """
+    if OFFLINE_MODE:
+        logger.info("OFFLINE MODE enabled — using bundled data only")
     logger.info("Loading data sources...")
     ema_cache_file = DATA_DIR / "EMA.json"
     now = datetime.now(timezone.utc).isoformat()
-    try:
-        await ema_service.load_data()
-        logger.info("EMA data loaded: %d medicines", ema_service.medicine_count)
-        # Cache to disk for future fallback
-        ema_service.save_to_file(ema_cache_file)
-        # Feed raw EMA data into analogue service
-        analogue_service.load_from_ema(ema_service.raw_medicines)
-        _data_loaded_at["EMA"] = now
-    except Exception:
-        logger.exception("Failed to fetch EMA data from remote source")
-        # Try loading from local cache as fallback
+
+    if OFFLINE_MODE:
+        # Offline: load exclusively from bundled files
         if ema_service.load_from_file(ema_cache_file):
-            logger.info("EMA data loaded from cache: %d medicines", ema_service.medicine_count)
+            logger.info("EMA data loaded from bundle: %d medicines", ema_service.medicine_count)
             analogue_service.load_from_ema(ema_service.raw_medicines)
-            _data_loaded_at["EMA"] = now + " (from cache)"
+            _data_loaded_at["EMA"] = now + " (offline)"
         else:
-            logger.error("No EMA cache available — search will be unavailable until reload")
+            logger.error("No bundled EMA data — run download_databases.py to populate data/")
+    else:
+        try:
+            await ema_service.load_data()
+            logger.info("EMA data loaded: %d medicines", ema_service.medicine_count)
+            ema_service.save_to_file(ema_cache_file)
+            analogue_service.load_from_ema(ema_service.raw_medicines)
+            _data_loaded_at["EMA"] = now
+        except Exception:
+            logger.exception("Failed to fetch EMA data from remote source")
+            if ema_service.load_from_file(ema_cache_file):
+                logger.info("EMA data loaded from cache: %d medicines", ema_service.medicine_count)
+                analogue_service.load_from_ema(ema_service.raw_medicines)
+                _data_loaded_at["EMA"] = now + " (from cache)"
+            else:
+                logger.error("No EMA cache available — search will be unavailable until reload")
 
     for code, agency in hta_agencies.items():
         data_file = DATA_DIR / f"{code}.json"
 
-        # 1) Try loading from local cache first
+        # 1) Try loading from local cache / bundled data first
         if agency.load_from_file(data_file):
-            logger.info("%s (%s) loaded from local cache", agency.agency_abbreviation, code)
-            _data_loaded_at[code] = now + " (from cache)"
+            suffix = " (offline)" if OFFLINE_MODE else " (from cache)"
+            logger.info("%s (%s) loaded from local data", agency.agency_abbreviation, code)
+            _data_loaded_at[code] = now + suffix
+            continue
+
+        # In offline mode, skip remote fetching entirely
+        if OFFLINE_MODE:
+            logger.error(
+                "%s (%s) data unavailable — no bundled file. "
+                "Run download_databases.py to populate data/",
+                agency.agency_abbreviation, code,
+            )
             continue
 
         # 2) Fetch from remote with retry
@@ -277,7 +303,6 @@ async def lifespan(app: FastAPI):
         for attempt in range(1, MAX_AGENCY_RETRIES + 1):
             try:
                 await agency.load_data()
-                # Only save to cache if we actually have data
                 if agency.is_loaded:
                     agency.save_to_file(data_file)
                     logger.info(
@@ -294,9 +319,7 @@ async def lifespan(app: FastAPI):
                     exc_info=True,
                 )
 
-        # 3) If remote fetch failed, try cache as fallback (file might have been
-        #    written by a previous successful run even if load_from_file returned
-        #    False above due to the data being stale or empty).
+        # 3) If remote fetch failed, try cache as fallback
         if not fetched and not agency.is_loaded:
             if agency.load_from_file(data_file):
                 logger.info(
@@ -479,6 +502,7 @@ async def get_assessments(
 async def reload_data(request: Request):
     """Manually trigger a reload of all data sources.
 
+    In OFFLINE_MODE, reloads only from bundled files (no network calls).
     Also clears all AI analysis caches to prevent serving stale analyses
     generated from outdated assessment data.
     """
@@ -499,32 +523,45 @@ async def reload_data(request: Request):
 
     now = datetime.now(timezone.utc).isoformat()
 
-    try:
-        await ema_service.load_data()
-        ema_service.save_to_file(ema_cache_file)
-        analogue_service.load_from_ema(ema_service.raw_medicines)
-        _data_loaded_at["EMA"] = now
-    except Exception as e:
-        errors.append(f"EMA: {e}")
+    if OFFLINE_MODE:
+        # In offline mode, just re-read bundled files — no network calls
+        if ema_service.load_from_file(ema_cache_file):
+            analogue_service.load_from_ema(ema_service.raw_medicines)
+            _data_loaded_at["EMA"] = now + " (offline)"
+        else:
+            errors.append("EMA: no bundled data file")
 
-    for code, agency in hta_agencies.items():
-        data_file = DATA_DIR / f"{code}.json"
+        for code, agency in hta_agencies.items():
+            data_file = DATA_DIR / f"{code}.json"
+            if agency.load_from_file(data_file):
+                _data_loaded_at[code] = now + " (offline)"
+            else:
+                errors.append(f"{agency.agency_abbreviation}: no bundled data file")
+    else:
         try:
-            await agency.load_data()
-            # Only save to cache if we actually have data
-            if agency.is_loaded:
-                agency.save_to_file(data_file)
-                _data_loaded_at[code] = datetime.now(timezone.utc).isoformat()
+            await ema_service.load_data()
+            ema_service.save_to_file(ema_cache_file)
+            analogue_service.load_from_ema(ema_service.raw_medicines)
+            _data_loaded_at["EMA"] = now
         except Exception as e:
-            errors.append(f"{agency.agency_abbreviation}: {e}")
-            # If remote fetch failed and adapter has no data, try cache
-            if not agency.is_loaded:
-                if agency.load_from_file(data_file):
-                    _data_loaded_at[code] = datetime.now(timezone.utc).isoformat() + " (from cache)"
-                    logger.info(
-                        "%s (%s) reload: remote failed, loaded from cache",
-                        agency.agency_abbreviation, code,
-                    )
+            errors.append(f"EMA: {e}")
+
+        for code, agency in hta_agencies.items():
+            data_file = DATA_DIR / f"{code}.json"
+            try:
+                await agency.load_data()
+                if agency.is_loaded:
+                    agency.save_to_file(data_file)
+                    _data_loaded_at[code] = datetime.now(timezone.utc).isoformat()
+            except Exception as e:
+                errors.append(f"{agency.agency_abbreviation}: {e}")
+                if not agency.is_loaded:
+                    if agency.load_from_file(data_file):
+                        _data_loaded_at[code] = datetime.now(timezone.utc).isoformat() + " (from cache)"
+                        logger.info(
+                            "%s (%s) reload: remote failed, loaded from cache",
+                            agency.agency_abbreviation, code,
+                        )
 
     # Reload curated data
     load_curated_assessments()
@@ -540,6 +577,7 @@ async def reload_data(request: Request):
         "errors": errors,
         "ema_count": ema_service.medicine_count,
         "ai_cache_cleared": ai_cleared,
+        "offline_mode": OFFLINE_MODE,
     }
 
 
@@ -547,6 +585,7 @@ async def reload_data(request: Request):
 async def status():
     """Health check showing data loading status and freshness timestamps."""
     return {
+        "offline_mode": OFFLINE_MODE,
         "ema_loaded": ema_service.is_loaded,
         "ema_count": ema_service.medicine_count,
         "analogue_loaded": analogue_service.is_loaded,

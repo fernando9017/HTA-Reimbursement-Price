@@ -430,7 +430,7 @@ class FranceHAS(HTAAgency):
             "asmr": dict(self._asmr),
             "ct_links": self._ct_links,
         }
-        self._write_json_file(data_file, self._make_envelope(data))
+        self._safe_write_json_file(data_file, self._make_envelope(data))
         logger.info(
             "%s saved %d medicines to %s",
             self.agency_abbreviation, len(self._medicines), data_file,
