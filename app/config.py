@@ -38,13 +38,23 @@ GBA_ASSESSMENT_BASE_URL = "https://www.g-ba.de/bewertungsverfahren/nutzenbewertu
 NICE_BASE_URL = "https://www.nice.org.uk"
 NICE_PUBLISHED_URL = "https://www.nice.org.uk/guidance/published"
 NICE_GUIDANCE_BASE_URL = "https://www.nice.org.uk/guidance/"
+# NICE API endpoint — returns structured JSON guidance data.
+# This is the primary data source; HTML scraping is used as fallback.
+NICE_API_URL = "https://api.nice.org.uk/services/guidance/published"
 # Programme type filters for the published guidance page
 NICE_PROGRAMME_TYPES = [
     "Technology appraisal guidance",
     "Highly specialised technologies guidance",
 ]
-# Max pages to fetch from the NICE listing (each page ~50 items)
-NICE_MAX_PAGES = 30
+# Max pages to fetch from the NICE listing (each page ~50 items).
+# NICE has published ~750+ TAs and ~35+ HSTs; 50 pages covers all of them.
+NICE_MAX_PAGES = 50
+# Known upper bounds for TA/HST numbers — used for gap-filling after listing
+# scrape to ensure 100% coverage of all published guidance.
+NICE_TA_MAX_NUMBER = 1100   # TAs numbered ta1 through ~ta1050+ (as of 2026)
+NICE_HST_MAX_NUMBER = 55    # HSTs numbered hst1 through ~hst50
+# Max concurrent requests when gap-filling individual guidance pages
+NICE_GAP_FILL_CONCURRENCY = 10
 
 # AEMPS (Agencia Española de Medicamentos y Productos Sanitarios) - Spain
 # Informes de Posicionamiento Terapéutico (IPT) listing page.
@@ -54,7 +64,21 @@ AEMPS_IPT_LISTING_URL = (
     "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
     "informes-de-posicionamiento-terapeutico/"
 )
-AEMPS_MAX_PAGES = 20
+# Additional IPT listing URLs — tried as fallbacks when primary fails.
+# Includes the Ministry of Health portal and alternative AEMPS URL paths.
+AEMPS_IPT_LISTING_URLS = [
+    "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
+    "informes-de-posicionamiento-terapeutico/",
+    "https://www.sanidad.gob.es/areas/farmacia/infoMedicamentos/IPT/home.htm",
+    "https://www.aemps.gob.es/la-aemps/informes-de-posicionamiento-terapeutico/",
+    "https://www.aemps.gob.es/medicamentos-de-uso-humano/ipt/",
+]
+# Max pages per listing URL — increased to ensure all ~200+ IPTs are captured
+AEMPS_MAX_PAGES = 40
+# CIMA REST API — AEMPS Centre for Medicine Information.
+# Provides authorised medicine data to cross-reference with IPTs.
+AEMPS_CIMA_API_URL = "https://cima.aemps.es/cima/rest/medicamentos"
+AEMPS_CIMA_BASE_URL = "https://cima.aemps.es/cima"
 
 # PMDA (Pharmaceuticals and Medical Devices Agency) - Japan
 # New drug approval information and review reports.

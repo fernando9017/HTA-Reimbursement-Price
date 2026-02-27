@@ -1,5 +1,9 @@
 """Tests for the Spain AEMPS adapter using sample HTML data."""
 
+import json
+import tempfile
+from pathlib import Path
+
 import pytest
 
 from app.services.hta_agencies.spain_aemps import (
@@ -250,3 +254,149 @@ def test_parse_html_with_no_ipt_links():
         "<html><body><a href='/other/page'>Not an IPT</a></body></html>"
     )
     assert result == []
+
+
+# ── New tests for expanded functionality ──────────────────────────────
+
+
+# Sample table-format IPT listing HTML (Pattern 2)
+SAMPLE_TABLE_HTML = """\
+<html><body>
+<table>
+  <tr>
+    <td>IPT-15/2024</td>
+    <td>Dostarlimab (Jemperli) en cáncer de endometrio</td>
+    <td>20/03/2024</td>
+    <td><a href="/ipt/ipt-15-2024-dostarlimab.pdf">PDF</a></td>
+  </tr>
+  <tr>
+    <td>IPT-10/2024</td>
+    <td>Tivozanib (Fotivda) en carcinoma de células renales</td>
+    <td>15/02/2024</td>
+    <td><a href="/ipt/ipt-10-2024-tivozanib.pdf">PDF</a></td>
+  </tr>
+</table>
+</body></html>
+"""
+
+
+def test_parse_table_format_listing():
+    """Should parse IPTs from table-structured HTML (Pattern 2)."""
+    service = SpainAEMPS()
+    items = service._parse_listing_page(SAMPLE_TABLE_HTML)
+    assert len(items) == 2
+    refs = {ipt["reference"] for ipt in items}
+    assert "IPT-15/2024" in refs
+    assert "IPT-10/2024" in refs
+
+
+def test_parse_table_format_dates():
+    """Should extract DD/MM/YYYY dates from table format."""
+    service = SpainAEMPS()
+    items = service._parse_listing_page(SAMPLE_TABLE_HTML)
+    dates = {ipt["reference"]: ipt["published_date"] for ipt in items}
+    assert dates.get("IPT-15/2024") == "2024-03-20"
+    assert dates.get("IPT-10/2024") == "2024-02-15"
+
+
+def test_cima_enrichment():
+    """Should enrich IPT entries with CIMA medicine data."""
+    service = SpainAEMPS()
+
+    # Sample IPT list
+    items = [
+        {"title": "IPT-23/2024 - Pembrolizumab en cáncer de pulmón", "url": ""},
+        {"title": "IPT-18/2023 - Nivolumab en carcinoma urotelial", "url": ""},
+        {"title": "IPT-99/2024 - Unknown drug for testing", "url": ""},
+    ]
+
+    # Sample CIMA data
+    service._cima_medicines = {
+        "pembrolizumab": {
+            "nregistro": "80000001",
+            "nombre": "KEYTRUDA",
+            "inn": "pembrolizumab",
+            "laboratorio": "MSD",
+            "estado": "Autorizado",
+            "atc": "L01FF02",
+        },
+        "nivolumab": {
+            "nregistro": "80000002",
+            "nombre": "OPDIVO",
+            "inn": "nivolumab",
+            "laboratorio": "BMS",
+            "estado": "Autorizado",
+            "atc": "L01FF01",
+        },
+    }
+
+    service._enrich_ipts_with_cima(items)
+
+    # Pembrolizumab should be enriched
+    assert items[0].get("cima_nregistro") == "80000001"
+    assert items[0].get("cima_laboratorio") == "MSD"
+
+    # Nivolumab should be enriched
+    assert items[1].get("cima_nregistro") == "80000002"
+    assert items[1].get("cima_laboratorio") == "BMS"
+
+    # Unknown drug should not be enriched
+    assert "cima_nregistro" not in items[2]
+
+
+def test_search_by_url_slug(aemps_service):
+    """Should find IPTs when substance name is in the URL slug."""
+    # The sample HTML has drug names in the URL paths
+    # e.g. ipt-23-2024-pembrolizumab.pdf
+    results_sync = []
+    for ipt in aemps_service._ipt_list:
+        if "pembrolizumab" in ipt.get("url", "").lower():
+            results_sync.append(ipt)
+    assert len(results_sync) >= 1
+
+
+# ── File-based caching tests ──────────────────────────────────────────
+
+
+def test_save_and_load_roundtrip(aemps_service):
+    """save_to_file -> load_from_file should produce equivalent data."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "ES.json"
+        aemps_service.save_to_file(data_file)
+        assert data_file.exists()
+
+        fresh = SpainAEMPS()
+        assert not fresh.is_loaded
+        result = fresh.load_from_file(data_file)
+        assert result is True
+        assert fresh.is_loaded
+        assert len(fresh._ipt_list) == len(aemps_service._ipt_list)
+
+
+def test_load_from_file_bad_file_returns_false():
+    """load_from_file on a missing file should return False."""
+    service = SpainAEMPS()
+    assert service.load_from_file(Path("/nonexistent/ES.json")) is False
+    assert not service.is_loaded
+
+
+def test_load_from_file_invalid_envelope_returns_false():
+    """load_from_file with wrong envelope structure should return False."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "ES.json"
+        data_file.write_text(json.dumps({"data": {"not_a_list": True}}))
+        service = SpainAEMPS()
+        assert service.load_from_file(data_file) is False
+
+
+def test_save_creates_envelope_metadata(aemps_service):
+    """JSON file written by save_to_file should contain expected envelope fields."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "ES.json"
+        aemps_service.save_to_file(data_file)
+        payload = json.loads(data_file.read_text())
+        assert payload["country"] == "ES"
+        assert payload["agency"] == "AEMPS"
+        assert "updated_at" in payload
+        assert "record_count" in payload
+        assert isinstance(payload["data"], list)

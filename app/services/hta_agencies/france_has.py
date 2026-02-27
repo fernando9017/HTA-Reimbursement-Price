@@ -4,9 +4,13 @@ Data source: BDPM (Base de Données Publique des Médicaments) TSV files.
 Provides SMR (Service Médical Rendu) and ASMR (Amélioration du SMR) ratings
 from the Commission de la Transparence opinions.
 
+The BDPM database is the canonical source for all French medicines with their
+HTA assessment outcomes.  It contains 12,000+ medicines with SMR/ASMR data.
+
 No authentication required. Files are Latin-1 encoded, tab-separated, no headers.
 """
 
+import asyncio
 import logging
 from collections import defaultdict
 from pathlib import Path
@@ -19,11 +23,21 @@ from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
 
+# Number of retry attempts for each BDPM file download
+_BDPM_MAX_RETRIES = 3
+
 _SMR_EN: dict[str, str] = {
     "Important": "Major clinical benefit",
     "Modéré": "Moderate clinical benefit",
     "Faible": "Minor clinical benefit",
     "Insuffisant": "Insufficient clinical benefit",
+    # Variant spellings and edge cases in BDPM data
+    "important": "Major clinical benefit",
+    "modéré": "Moderate clinical benefit",
+    "faible": "Minor clinical benefit",
+    "insuffisant": "Insufficient clinical benefit",
+    "Bien fondé non déterminé": "Benefit not determined",
+    "Non précisé": "Not specified",
 }
 
 _ASMR_EN: dict[str, str] = {
@@ -32,14 +46,23 @@ _ASMR_EN: dict[str, str] = {
     "III": "Moderate therapeutic improvement",
     "IV": "Minor therapeutic improvement",
     "V": "No therapeutic improvement",
+    "Sans objet": "Not applicable",
+    "Non précisée": "Not specified",
 }
 
 _MOTIF_EN: dict[str, str] = {
     "Inscription": "Initial registration",
+    "Inscription (première évaluation)": "Initial registration (first evaluation)",
+    "Inscription (collectivités)": "Registration (hospital use)",
     "Renouvellement": "Renewal",
+    "Renouvellement d'inscription": "Registration renewal",
     "Extension d'indication": "Indication extension",
     "Modification": "Modification",
+    "Modification des conditions d'inscription": "Registration conditions modification",
     "Réévaluation": "Re-evaluation",
+    "Réévaluation SMR et ASMR": "SMR and ASMR re-evaluation",
+    "Radiation": "Delisting",
+    "Rectificatif": "Correction",
 }
 
 
@@ -237,17 +260,41 @@ class FranceHAS(HTAAgency):
     # ── Data loading helpers ──────────────────────────────────────────
 
     async def _fetch_file(self, client: httpx.AsyncClient, file_key: str) -> str:
-        """Download a BDPM file and return its content as a string."""
+        """Download a BDPM file and return its content as a string.
+
+        Retries up to _BDPM_MAX_RETRIES times with exponential backoff to
+        handle transient network failures.
+        """
         url = BDPM_BASE_URL + BDPM_FILES[file_key]
         logger.info("Fetching BDPM file: %s (%s)", file_key, url)
-        response = await client.get(url)
-        response.raise_for_status()
-        content = response.content.decode(BDPM_ENCODING)
-        logger.info(
-            "BDPM %s fetched: %d bytes, %d lines",
-            file_key, len(response.content), content.count("\n"),
-        )
-        return content
+
+        last_error: Exception | None = None
+        for attempt in range(1, _BDPM_MAX_RETRIES + 1):
+            try:
+                response = await client.get(url)
+                response.raise_for_status()
+                # Try primary encoding, fall back to utf-8 with replacement
+                try:
+                    content = response.content.decode(BDPM_ENCODING)
+                except UnicodeDecodeError:
+                    content = response.content.decode("utf-8", errors="replace")
+                    logger.warning("BDPM %s: fell back to utf-8 decoding", file_key)
+                logger.info(
+                    "BDPM %s fetched: %d bytes, %d lines",
+                    file_key, len(response.content), content.count("\n"),
+                )
+                return content
+            except Exception as exc:
+                last_error = exc
+                if attempt < _BDPM_MAX_RETRIES:
+                    wait = 2 ** attempt
+                    logger.warning(
+                        "BDPM %s fetch attempt %d/%d failed, retrying in %ds: %s",
+                        file_key, attempt, _BDPM_MAX_RETRIES, wait, exc,
+                    )
+                    await asyncio.sleep(wait)
+
+        raise RuntimeError(f"BDPM {file_key} fetch failed after {_BDPM_MAX_RETRIES} attempts: {last_error}")
 
     def _parse_rows(self, content: str) -> list[list[str]]:
         """Split file content into rows of tab-separated fields."""
@@ -268,17 +315,21 @@ class FranceHAS(HTAAgency):
                 self._medicines[cis_code] = denomination
 
     async def _load_compositions(self, client: httpx.AsyncClient) -> None:
-        """Parse CIS_COMPO_bdpm.txt: CIS code → active substance names."""
+        """Parse CIS_COMPO_bdpm.txt: CIS code → active substance names.
+
+        Accepts all substance types (SA, FT, ST, and empty) to ensure
+        comprehensive coverage.  The BDPM composition file uses:
+        - SA = substance active (active substance)
+        - FT = fraction thérapeutique (therapeutic fraction)
+        - ST = substance for testing (less common)
+        """
         content = await self._fetch_file(client, "compositions")
         for row in self._parse_rows(content):
             if len(row) >= 4:
                 cis_code = row[0]
-                substance_name = row[3]
-                nature = row[6] if len(row) > 6 else ""
-                # SA = substance active, FT = fraction thérapeutique
-                if nature in ("SA", "FT", ""):
-                    if substance_name not in self._compositions[cis_code]:
-                        self._compositions[cis_code].append(substance_name)
+                substance_name = row[3].strip()
+                if substance_name and substance_name not in self._compositions[cis_code]:
+                    self._compositions[cis_code].append(substance_name)
 
     async def _load_smr(self, client: httpx.AsyncClient) -> None:
         """Parse CIS_HAS_SMR_bdpm.txt."""
