@@ -8,6 +8,8 @@ ever contacting remote servers.
 Usage:
     python download_databases.py            # download all
     python download_databases.py FR GB ES   # download specific countries only
+    python download_databases.py --insecure # disable SSL verification (macOS fix)
+    python download_databases.py --insecure FR GB ES
 
 After running, commit the updated data/*.json files so they ship with the repo.
 """
@@ -15,9 +17,16 @@ After running, commit the updated data/*.json files so they ship with the repo.
 import asyncio
 import json
 import logging
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Handle --insecure flag before importing app modules (so SSL_VERIFY is set)
+if "--insecure" in sys.argv:
+    sys.argv.remove("--insecure")
+    os.environ["SSL_VERIFY"] = "0"
+    print("SSL verification DISABLED (--insecure mode)")
 
 # Ensure the app package is importable
 sys.path.insert(0, str(Path(__file__).parent))

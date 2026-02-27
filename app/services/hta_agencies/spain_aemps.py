@@ -25,6 +25,7 @@ from app.config import (
     AEMPS_IPT_LISTING_URLS,
     AEMPS_MAX_PAGES,
     REQUEST_TIMEOUT,
+    SSL_VERIFY,
 )
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
@@ -85,6 +86,7 @@ class SpainAEMPS(HTAAgency):
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            verify=SSL_VERIFY,
             headers={
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "

@@ -18,7 +18,7 @@ from pathlib import Path
 
 import httpx
 
-from app.config import BDPM_BASE_URL, BDPM_ENCODING, BDPM_FILES, BDPM_SEPARATOR, REQUEST_TIMEOUT
+from app.config import BDPM_BASE_URL, BDPM_ENCODING, BDPM_FILES, BDPM_SEPARATOR, REQUEST_TIMEOUT, SSL_VERIFY
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
@@ -129,6 +129,7 @@ class FranceHAS(HTAAgency):
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            verify=SSL_VERIFY,
             headers={
                 "User-Agent": (
                     "Mozilla/5.0 (compatible; VAP-Global-Resources/1.0; "

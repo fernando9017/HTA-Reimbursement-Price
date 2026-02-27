@@ -14,7 +14,7 @@ from pathlib import Path
 
 import httpx
 
-from app.config import EMA_MEDICINES_URL, REQUEST_TIMEOUT
+from app.config import EMA_MEDICINES_URL, REQUEST_TIMEOUT, SSL_VERIFY
 from app.models import MedicineResult
 
 logger = logging.getLogger(__name__)
@@ -68,6 +68,7 @@ class EMAService:
                 async with httpx.AsyncClient(
                     timeout=REQUEST_TIMEOUT,
                     follow_redirects=True,
+                    verify=SSL_VERIFY,
                     headers=_HTTP_HEADERS,
                 ) as client:
                     response = await client.get(EMA_MEDICINES_URL)
