@@ -615,5 +615,147 @@ class HASAssessmentAnalysis(BaseModel):
     target_population: str = ""         # Target population described in opinion
     market_implications: str = ""       # Pricing / reimbursement implications
     clinical_evidence: GBAClinicalEvidence | None = None  # Pivotal trial data (reuse)
+    clinical_evidence_text: str = ""    # Text-based clinical evidence summary
+    evidence_limitations: list[str] = []  # Caveats about evidence interpretation
+    ai_model: str = ""
+    cached: bool = False
+
+
+# ── UK NICE Deep-Dive models ────────────────────────────────────
+
+
+class NICEGuidanceItem(BaseModel):
+    """A single NICE technology appraisal or HST guidance item."""
+
+    guidance_reference: str = ""        # e.g. TA900, HST20
+    title: str = ""                     # Full guidance title
+    guidance_type: str = ""             # Technology appraisal guidance, HST, etc.
+    recommendation: str = ""            # Recommended, Not recommended, etc.
+    published_date: str = ""            # YYYY-MM-DD
+    assessment_url: str = ""            # Link to NICE guidance page
+
+
+class NICEDrugListItem(BaseModel):
+    """Summary of a drug in the NICE guidance database for listing purposes."""
+
+    active_substance: str
+    titles: list[str] = []              # All guidance titles for this substance
+    guidance_count: int = 0
+    latest_date: str = ""
+    best_recommendation: str = ""       # Best outcome across all guidance
+    guidance_types: list[str] = []      # TA, HST, etc.
+
+
+class NICEDrugProfile(BaseModel):
+    """Complete NICE guidance profile for one active substance."""
+
+    active_substance: str
+    titles: list[str] = []
+    total_guidance: int = 0
+    guidance_items: list[NICEGuidanceItem] = []
+
+
+class NICESearchResponse(BaseModel):
+    """Response for NICE drug search / listing."""
+
+    total: int
+    results: list[NICEDrugListItem]
+
+
+class NICEFilterOptions(BaseModel):
+    """Available filter options for the UK NICE deep-dive module."""
+
+    guidance_types: list[str]
+    recommendations: list[str]
+
+
+class NICEAssessmentAnalysis(BaseModel):
+    """AI-generated structured analysis of a NICE technology appraisal."""
+
+    guidance_reference: str = ""
+    title: str = ""
+    active_substance: str = ""
+    guidance_type: str = ""
+    recommendation: str = ""
+    published_date: str = ""
+    assessment_url: str = ""
+    overall_summary: str = ""
+    clinical_context: str = ""
+    recommendation_rationale: str = ""
+    cost_effectiveness: str = ""        # ICER / QALY context
+    managed_access: str = ""            # Managed access arrangements if any
+    market_implications: str = ""
+    clinical_evidence_text: str = ""
+    evidence_limitations: list[str] = []
+    ai_model: str = ""
+    cached: bool = False
+
+
+# ── Spain AEMPS Deep-Dive models ────────────────────────────────
+
+
+class AEMPSIPTItem(BaseModel):
+    """A single AEMPS IPT (Informe de Posicionamiento Terapéutico) entry."""
+
+    ipt_reference: str = ""             # e.g. IPT-23/2024
+    title: str = ""                     # Drug name + indication
+    positioning: str = ""               # Favorable, Desfavorable, etc.
+    positioning_en: str = ""            # English translation
+    published_date: str = ""            # YYYY-MM-DD
+    assessment_url: str = ""            # Link to IPT PDF or detail page
+    bifimed_status: str = ""            # Reimbursement status from Bifimed
+    bifimed_url: str = ""               # Link to Bifimed entry
+
+
+class AEMPSDrugListItem(BaseModel):
+    """Summary of a drug in the AEMPS IPT database for listing purposes."""
+
+    active_substance: str
+    titles: list[str] = []              # All IPT titles
+    ipt_count: int = 0
+    latest_date: str = ""
+    best_positioning: str = ""          # Best positioning across all IPTs
+    best_positioning_en: str = ""
+
+
+class AEMPSDrugProfile(BaseModel):
+    """Complete AEMPS IPT profile for one active substance."""
+
+    active_substance: str
+    titles: list[str] = []
+    total_ipts: int = 0
+    ipt_items: list[AEMPSIPTItem] = []
+
+
+class AEMPSSearchResponse(BaseModel):
+    """Response for AEMPS drug search / listing."""
+
+    total: int
+    results: list[AEMPSDrugListItem]
+
+
+class AEMPSFilterOptions(BaseModel):
+    """Available filter options for the Spain AEMPS deep-dive module."""
+
+    positioning_values: list[str]
+
+
+class AEMPSAssessmentAnalysis(BaseModel):
+    """AI-generated structured analysis of a Spanish AEMPS IPT report."""
+
+    ipt_reference: str = ""
+    title: str = ""
+    active_substance: str = ""
+    positioning: str = ""
+    published_date: str = ""
+    assessment_url: str = ""
+    overall_summary: str = ""
+    clinical_context: str = ""
+    positioning_rationale: str = ""
+    comparator_context: str = ""        # Comparators considered in IPT
+    bifimed_implications: str = ""      # Reimbursement / Bifimed context
+    market_implications: str = ""
+    clinical_evidence_text: str = ""
+    evidence_limitations: list[str] = []
     ai_model: str = ""
     cached: bool = False

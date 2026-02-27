@@ -13,6 +13,10 @@ from fastapi.staticfiles import StaticFiles
 
 from app.models import (
     AdjudicacionResult,
+    AEMPSAssessmentAnalysis,
+    AEMPSDrugProfile,
+    AEMPSFilterOptions,
+    AEMPSSearchResponse,
     AnalogueResponse,
     AnalogueResult,
     AssessmentResponse,
@@ -34,6 +38,10 @@ from app.models import (
     MexicoAdjudicacionResponse,
     MexicoProcurementFilters,
     MexicoSearchResponse,
+    NICEAssessmentAnalysis,
+    NICEDrugProfile,
+    NICEFilterOptions,
+    NICESearchResponse,
     PriceHistoryResult,
     PriceVarianceResponse,
 )  # ATCPrefix imported via FilterOptions
@@ -43,6 +51,8 @@ from app.services.hta_agencies.base import HTAAgency
 from app.services.france_hta import FranceHTAService
 from app.services.germany_hta import GermanyHTAService
 from app.services.mexico_procurement import MexicoProcurementService
+from app.services.spain_aemps_hta import SpainAEMPSHTAService
+from app.services.uk_nice_hta import UKNICEHTAService
 from app.services.hta_agencies.france_has import FranceHAS
 from app.services.hta_agencies.germany_gba import GermanyGBA
 from app.services.hta_agencies.japan_pmda import JapanPMDA
@@ -76,6 +86,12 @@ germany_hta_service = GermanyHTAService(hta_agencies["DE"])
 
 # France HTA deep-dive service — wraps the HAS adapter for richer analysis
 france_hta_service = FranceHTAService(hta_agencies["FR"])
+
+# UK NICE deep-dive service — wraps the NICE adapter for richer analysis
+uk_nice_hta_service = UKNICEHTAService(hta_agencies["GB"])
+
+# Spain AEMPS deep-dive service — wraps the AEMPS adapter for richer analysis
+spain_aemps_hta_service = SpainAEMPSHTAService(hta_agencies["ES"])
 
 # Curated assessment data — verified HTA outcomes that supplement live-scraped
 # data.  Keyed by (lowercase substance, country_code) → list of AssessmentResult.
@@ -355,6 +371,18 @@ async def germany_page():
 async def france_page():
     """Serve the France HAS Deep-Dive module page."""
     return FileResponse(str(STATIC_DIR / "france.html"))
+
+
+@app.get("/uk-nice")
+async def uk_nice_page():
+    """Serve the UK NICE Deep-Dive module page."""
+    return FileResponse(str(STATIC_DIR / "uk_nice.html"))
+
+
+@app.get("/spain-aemps")
+async def spain_aemps_page():
+    """Serve the Spain AEMPS Deep-Dive module page."""
+    return FileResponse(str(STATIC_DIR / "spain_aemps.html"))
 
 
 @app.get("/api/search", response_model=list[MedicineResult])
@@ -903,4 +931,141 @@ async def france_analyze_assessment(dossier_code: str):
         raise HTTPException(503, str(e))
     except Exception as e:
         logger.error("AI analysis failed for %s: %s", dossier_code, e)
+        raise HTTPException(500, "AI analysis failed. Please try again later.")
+
+
+# ── UK NICE Deep-Dive endpoints ───────────────────────────────────
+
+
+@app.get("/api/uk-nice/filters", response_model=NICEFilterOptions)
+async def uk_nice_filters():
+    """Available filter options for the UK NICE deep-dive module."""
+    if not uk_nice_hta_service.is_loaded:
+        raise HTTPException(503, "NICE data is still loading.")
+    return uk_nice_hta_service.get_filter_options()
+
+
+@app.get("/api/uk-nice/drugs", response_model=NICESearchResponse)
+async def uk_nice_drug_list(
+    q: str = Query("", description="Search by substance or guidance title"),
+    guidance_type: str = Query("", description="Filter by guidance type"),
+    recommendation: str = Query("", description="Filter by recommendation"),
+    limit: int = Query(100, ge=1, le=500),
+):
+    """List drugs with NICE guidance with optional search and filters."""
+    if not uk_nice_hta_service.is_loaded:
+        raise HTTPException(503, "NICE data is still loading.")
+    return uk_nice_hta_service.search_drugs(
+        query=q,
+        guidance_type=guidance_type,
+        recommendation=recommendation,
+        limit=limit,
+    )
+
+
+@app.get("/api/uk-nice/drugs/{substance}", response_model=NICEDrugProfile)
+async def uk_nice_drug_profile(substance: str):
+    """Get the full NICE guidance profile for an active substance."""
+    if not uk_nice_hta_service.is_loaded:
+        raise HTTPException(503, "NICE data is still loading.")
+    profile = uk_nice_hta_service.get_drug_profile(substance)
+    if profile is None:
+        raise HTTPException(404, f"No NICE guidance found for '{substance}'.")
+    return profile
+
+
+@app.get("/api/uk-nice/analyze/{guidance_ref}", response_model=NICEAssessmentAnalysis)
+async def uk_nice_analyze_guidance(guidance_ref: str):
+    """Generate an AI-powered analysis for a specific NICE guidance item."""
+    if not uk_nice_hta_service.is_loaded:
+        raise HTTPException(503, "NICE data is still loading.")
+
+    guidance_data = uk_nice_hta_service.find_guidance_by_reference(guidance_ref)
+    if guidance_data is None:
+        raise HTTPException(404, f"Guidance '{guidance_ref}' not found.")
+
+    from app.services.uk_nice_ai_analysis import analyze_nice_guidance
+
+    try:
+        analysis = await analyze_nice_guidance(
+            guidance_reference=guidance_data["guidance_reference"],
+            title=guidance_data["title"],
+            active_substance=guidance_data["active_substance"],
+            guidance_type=guidance_data["guidance_type"],
+            recommendation=guidance_data["recommendation"],
+            published_date=guidance_data["published_date"],
+            assessment_url=guidance_data["assessment_url"],
+        )
+        return analysis
+    except RuntimeError as e:
+        raise HTTPException(503, str(e))
+    except Exception as e:
+        logger.error("AI analysis failed for %s: %s", guidance_ref, e)
+        raise HTTPException(500, "AI analysis failed. Please try again later.")
+
+
+# ── Spain AEMPS Deep-Dive endpoints ──────────────────────────────
+
+
+@app.get("/api/spain-aemps/filters", response_model=AEMPSFilterOptions)
+async def spain_aemps_filters():
+    """Available filter options for the Spain AEMPS deep-dive module."""
+    if not spain_aemps_hta_service.is_loaded:
+        raise HTTPException(503, "AEMPS data is still loading.")
+    return spain_aemps_hta_service.get_filter_options()
+
+
+@app.get("/api/spain-aemps/drugs", response_model=AEMPSSearchResponse)
+async def spain_aemps_drug_list(
+    q: str = Query("", description="Search by substance or IPT title"),
+    positioning: str = Query("", description="Filter by therapeutic positioning"),
+    limit: int = Query(100, ge=1, le=500),
+):
+    """List drugs with AEMPS IPT reports with optional search and filters."""
+    if not spain_aemps_hta_service.is_loaded:
+        raise HTTPException(503, "AEMPS data is still loading.")
+    return spain_aemps_hta_service.search_drugs(
+        query=q,
+        positioning=positioning,
+        limit=limit,
+    )
+
+
+@app.get("/api/spain-aemps/drugs/{substance}", response_model=AEMPSDrugProfile)
+async def spain_aemps_drug_profile(substance: str):
+    """Get the full AEMPS IPT profile for an active substance."""
+    if not spain_aemps_hta_service.is_loaded:
+        raise HTTPException(503, "AEMPS data is still loading.")
+    profile = spain_aemps_hta_service.get_drug_profile(substance)
+    if profile is None:
+        raise HTTPException(404, f"No AEMPS IPT reports found for '{substance}'.")
+    return profile
+
+
+@app.get("/api/spain-aemps/analyze/{ipt_ref}", response_model=AEMPSAssessmentAnalysis)
+async def spain_aemps_analyze_ipt(ipt_ref: str):
+    """Generate an AI-powered analysis for a specific AEMPS IPT report."""
+    if not spain_aemps_hta_service.is_loaded:
+        raise HTTPException(503, "AEMPS data is still loading.")
+
+    ipt_data = spain_aemps_hta_service.find_ipt_by_reference(ipt_ref)
+    if ipt_data is None:
+        raise HTTPException(404, f"IPT '{ipt_ref}' not found.")
+
+    from app.services.spain_aemps_ai_analysis import analyze_spain_ipt
+
+    try:
+        analysis = await analyze_spain_ipt(
+            ipt_reference=ipt_data["ipt_reference"],
+            title=ipt_data["title"],
+            active_substance=ipt_data["active_substance"],
+            positioning=ipt_data["positioning"],
+            published_date=ipt_data["published_date"],
+            assessment_url=ipt_data["assessment_url"],
+        )
+        return analysis
+    except RuntimeError as e:
+        raise HTTPException(503, str(e))
+    except Exception as e:
+        logger.error("AI analysis failed for %s: %s", ipt_ref, e)
         raise HTTPException(500, "AI analysis failed. Please try again later.")
