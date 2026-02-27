@@ -395,7 +395,9 @@ function renderSingleAssessment(a) {
            </span>`
         : "";
 
-    const comparatorBadge = a.comparator
+    // Show comparator as badge only if short; otherwise as a detail row below
+    const comparatorShort = a.comparator && a.comparator.length <= 60;
+    const comparatorBadge = a.comparator && comparatorShort
         ? `<span class="badge badge-comparator">
             <span class="label">vs.</span> ${esc(a.comparator)}
            </span>`
@@ -498,6 +500,13 @@ function renderSingleAssessment(a) {
            </div>`
         : "";
 
+    // Long comparator rendered as a detail row instead of a badge
+    const comparatorDetail = a.comparator && !comparatorShort
+        ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+            <strong>Comparator (zVT):</strong> ${esc(a.comparator)}
+           </div>`
+        : "";
+
     return `
         <div class="assessment-card">
             <div class="assessment-header">
@@ -522,6 +531,7 @@ function renderSingleAssessment(a) {
             ${smrDesc}
             ${asmrDesc}
             ${benefitDesc}
+            ${comparatorDetail}
             ${linkHtml}
         </div>
     `;
@@ -720,7 +730,9 @@ function smrClass(value) {
 function benefitClass(value) {
     const v = value.toLowerCase();
     if (v.includes("geringerer")) return "lesser";
-    if (v.includes("kein") || v.includes("nicht belegt")) return "none";
+    if (v === "gilt als belegt") return "orphan-proven";
+    if (v === "ist nicht belegt" || v === "gilt als nicht belegt") return "not-proven";
+    if (v.includes("kein")) return "none";
     if (v.includes("nicht quantifizierbar")) return "non-quantifiable";
     if (v.includes("gering")) return "minor";
     if (v.includes("beträchtlich") || v.includes("betrachtlich")) return "considerable";

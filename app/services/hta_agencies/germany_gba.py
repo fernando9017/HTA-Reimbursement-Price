@@ -49,13 +49,26 @@ from app.services.hta_agencies.base import HTAAgency
 logger = logging.getLogger(__name__)
 
 # Zusatznutzen extent values → English translations
+# These cover all values found in the real G-BA AIS XML (1658 decisions).
 BENEFIT_TRANSLATIONS = {
+    # Standard AMNOG benefit tiers (§35a SGB V)
     "erheblich": "Major added benefit (erheblich)",
     "beträchtlich": "Considerable added benefit (beträchtlich)",
     "gering": "Minor added benefit (gering)",
     "nicht quantifizierbar": "Non-quantifiable added benefit (nicht quantifizierbar)",
     "kein Zusatznutzen": "No added benefit (kein Zusatznutzen)",
     "geringerer Nutzen": "Lesser benefit (geringerer Nutzen)",
+    # Common in real data: benefit "not proven" (evidence insufficient)
+    "ist nicht belegt": "Added benefit not proven (ist nicht belegt)",
+    # Orphan drugs: benefit "deemed proven" per §35a(1) sentence 11 SGB V
+    "gilt als belegt": "Added benefit deemed proven — orphan drug (gilt als belegt)",
+    # Orphan drugs exceeding €50M: benefit considered not proven
+    "gilt als nicht belegt": "Added benefit considered not proven (gilt als nicht belegt)",
+    # Non-quantifiable with reason (long variants in real data)
+    "nicht quantifizierbar, weil die wissenschaftliche Datengrundlage dies nicht zulässt":
+        "Non-quantifiable — insufficient scientific data (nicht quantifizierbar)",
+    "nicht quantifizierbar, weil die erforderlichen Nachweise nicht vollständig sind":
+        "Non-quantifiable — required evidence incomplete (nicht quantifizierbar)",
 }
 
 # Evidence certainty levels → English translations
@@ -64,6 +77,16 @@ EVIDENCE_TRANSLATIONS = {
     "Hinweis": "Indication (Hinweis)",
     "Anhaltspunkt": "Hint (Anhaltspunkt)",
 }
+
+# Benefit ratings that never have evidence levels (by AMNOG design)
+_NO_EVIDENCE_EXPECTED = {
+    "ist nicht belegt",
+    "gilt als belegt",
+    "gilt als nicht belegt",
+}
+
+# Maximum length for comparator text before truncation in summary
+_COMPARATOR_SUMMARY_MAX = 120
 
 
 class GermanyGBA(HTAAgency):
@@ -151,7 +174,9 @@ class GermanyGBA(HTAAgency):
 
         Matches against substance names, trade names, **and** the indication
         text (AWG) to catch cases where a drug name appears only in the
-        indication description.
+        indication description.  The active_substance query is checked
+        against both INN substances *and* trade names so that users can
+        search by either (e.g. "deucravacitinib" or "Sotyktu").
         """
         if not self._loaded:
             return []
@@ -164,11 +189,19 @@ class GermanyGBA(HTAAgency):
             substance_match = False
             product_match = False
 
-            # Match active substance
+            # Match active substance against INN substance names
             for ws in dec.get("substances", []):
                 if substance_lower in ws.lower() or ws.lower() in substance_lower:
                     substance_match = True
                     break
+
+            # Also match active_substance query against trade names — users
+            # often search by brand name (e.g. "Sotyktu" not "deucravacitinib")
+            if not substance_match:
+                for hn in dec.get("trade_names", []):
+                    if substance_lower in hn.lower() or hn.lower() in substance_lower:
+                        substance_match = True
+                        break
 
             # Match trade name (against both product_name param and indication text)
             if product_lower:
@@ -192,42 +225,83 @@ class GermanyGBA(HTAAgency):
                 if procedure_id:
                     assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
 
-            # Translate benefit rating
+            # Translate benefit rating — try exact match, then prefix match
+            # for long variants like "nicht quantifizierbar, weil..."
             raw_benefit = dec.get("benefit_rating", "")
-            benefit_desc = BENEFIT_TRANSLATIONS.get(raw_benefit, raw_benefit)
+            benefit_desc = BENEFIT_TRANSLATIONS.get(raw_benefit, "")
+            if not benefit_desc:
+                for key, val in BENEFIT_TRANSLATIONS.items():
+                    if raw_benefit.startswith(key):
+                        benefit_desc = val
+                        break
+                if not benefit_desc:
+                    benefit_desc = raw_benefit
 
             # Translate evidence level
             raw_evidence = dec.get("evidence_level", "")
             evidence_desc = EVIDENCE_TRANSLATIONS.get(raw_evidence, raw_evidence)
 
+            # For benefit types where evidence is structurally absent (orphan
+            # drugs, "not proven"), provide contextual explanation instead of
+            # leaving the field blank.
+            if not evidence_desc and raw_benefit in _NO_EVIDENCE_EXPECTED:
+                if raw_benefit == "gilt als belegt":
+                    evidence_desc = "Orphan drug — §35a(1) s.11 SGB V"
+                elif raw_benefit == "ist nicht belegt":
+                    evidence_desc = "Insufficient evidence submitted"
+                elif raw_benefit == "gilt als nicht belegt":
+                    evidence_desc = "Orphan drug (>€50M) — benefit not confirmed"
+
             trade_name = ", ".join(dec.get("trade_names", [])) or active_substance
 
-            patient_group = dec.get("patient_group", "")
-            comparator_val = dec.get("comparator", "")
+            # Use English translations where available, fallback to German
+            patient_group = (
+                dec.get("patient_group_en")
+                or dec.get("patient_group", "")
+            )
+            comparator_val = (
+                dec.get("comparator_en")
+                or dec.get("comparator", "")
+            )
+
+            # Truncate very long comparator text for the summary
+            comparator_summary = comparator_val
+            if len(comparator_summary) > _COMPARATOR_SUMMARY_MAX:
+                comparator_summary = comparator_summary[:_COMPARATOR_SUMMARY_MAX].rsplit(" ", 1)[0] + "…"
 
             # Build concise English summary
             summary_parts: list[str] = []
             if patient_group:
-                summary_parts.append(f"Population: {patient_group}")
+                # Truncate for summary too — patient groups can be lengthy
+                pg_summary = patient_group
+                if len(pg_summary) > 200:
+                    pg_summary = pg_summary[:200].rsplit(" ", 1)[0] + "…"
+                summary_parts.append(f"Population: {pg_summary}")
             if benefit_desc:
                 summary_parts.append(f"Added benefit: {benefit_desc}")
             if evidence_desc:
                 summary_parts.append(f"Evidence: {evidence_desc}")
-            if comparator_val:
-                summary_parts.append(f"vs. {comparator_val}")
+            if comparator_summary:
+                summary_parts.append(f"vs. {comparator_summary}")
             summary_en = " | ".join(summary_parts)
+
+            # Use English indication translation if available
+            indication_text = (
+                dec.get("indication_en")
+                or self._strip_html(dec.get("indication", ""))
+            )
 
             results.append(
                 AssessmentResult(
                     product_name=trade_name,
                     dossier_code=dec.get("decision_id", ""),
-                    evaluation_reason=self._strip_html(dec.get("indication", "")),
+                    evaluation_reason=indication_text,
                     opinion_date=dec.get("decision_date", ""),
                     assessment_url=assessment_url,
                     benefit_rating=raw_benefit,
                     benefit_rating_description=benefit_desc,
                     evidence_level=evidence_desc,
-                    comparator=comparator_val,
+                    comparator=comparator_summary,
                     patient_group=patient_group,
                     summary_en=summary_en,
                 )
@@ -465,17 +539,32 @@ class GermanyGBA(HTAAgency):
         if not patient_group:
             patient_group = self._get_text(pg_elem, ["ID_PAT_GR"])
 
-        # Benefit extent: ZN_A = Ausmaß (real) or ZN_W/ZUSATZNUTZEN (legacy)
-        benefit = self._get_text(pg_elem, ["ZN_A", "ZN_W", "ZUSATZNUTZEN"])
+        # ── Benefit extent & evidence certainty ──
+        # Two XML formats exist:
+        #   Real AIS: ZN_A = benefit (Ausmaß), ZN_W = evidence (Wahrscheinlichkeit)
+        #   Legacy:   ZN_W = benefit,           AUSSAGESICHERHEIT = evidence
+        #
+        # Strategy: Read ZN_A first for benefit. Then classify ZN_W by its
+        # content — evidence values go to evidence, anything else to benefit.
+        _EVIDENCE_VALUES = {"Beleg", "Hinweis", "Anhaltspunkt"}
 
-        # Evidence certainty: ZN_W = Wahrscheinlichkeit (real) or AUSSAGESICHERHEIT (legacy)
+        benefit = self._get_text(pg_elem, ["ZN_A"])
         evidence = self._get_text(pg_elem, ["AUSSAGESICHERHEIT"])
-        # In real AIS XML, ZN_W holds evidence (only 527/1658 have it)
-        if not evidence:
-            zn_w = self._get_text(pg_elem, ["ZN_W"])
-            # ZN_W values are evidence levels: Beleg, Hinweis, Anhaltspunkt
-            if zn_w in ("Beleg", "Hinweis", "Anhaltspunkt"):
-                evidence = zn_w
+
+        zn_w = self._get_text(pg_elem, ["ZN_W"])
+        if zn_w:
+            if zn_w in _EVIDENCE_VALUES:
+                # ZN_W contains evidence level (real AIS format)
+                if not evidence:
+                    evidence = zn_w
+            else:
+                # ZN_W contains benefit rating (legacy format)
+                if not benefit:
+                    benefit = zn_w
+
+        # Final fallback for benefit from ZUSATZNUTZEN tag
+        if not benefit:
+            benefit = self._get_text(pg_elem, ["ZUSATZNUTZEN"])
 
         # Comparator therapy
         comparator = ""

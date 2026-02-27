@@ -502,5 +502,193 @@ def test_save_creates_parent_directories(gba_service):
         assert isinstance(payload["data"], list)
 
 
+# ── Tests for new benefit translations and evidence context ───────────
+
+def test_benefit_translations_complete():
+    """All real benefit rating values must have English translations."""
+    real_values = [
+        "erheblich", "beträchtlich", "gering", "nicht quantifizierbar",
+        "kein Zusatznutzen", "geringerer Nutzen",
+        "ist nicht belegt", "gilt als belegt", "gilt als nicht belegt",
+        "nicht quantifizierbar, weil die wissenschaftliche Datengrundlage dies nicht zulässt",
+        "nicht quantifizierbar, weil die erforderlichen Nachweise nicht vollständig sind",
+    ]
+    for val in real_values:
+        desc = BENEFIT_TRANSLATIONS.get(val, "")
+        assert desc, f"Missing translation for: {val!r}"
+        # Translations should be in English
+        assert any(w in desc.lower() for w in ["benefit", "proven", "quantifiable", "lesser"]), \
+            f"Translation for {val!r} doesn't look English: {desc!r}"
+
+
+@pytest.mark.asyncio
+async def test_search_ist_nicht_belegt():
+    """'ist nicht belegt' entries should show proper translations and evidence context."""
+    service = GermanyGBA()
+    service._decisions = [{
+        "decision_id": "2020-01-01-D-100",
+        "procedure_id": "100",
+        "url": "",
+        "trade_names": ["Eliquis"],
+        "indication": "Venenthrombose",
+        "substances": ["Apixaban"],
+        "decision_date": "2020-06-01",
+        "patient_group": "Erwachsene mit VTE",
+        "benefit_rating": "ist nicht belegt",
+        "evidence_level": "",
+        "comparator": "Enoxaparin",
+    }]
+    service._loaded = True
+    results = await service.search_assessments("Apixaban")
+    assert len(results) == 1
+    r = results[0]
+    assert "not proven" in r.benefit_rating_description.lower()
+    # Evidence should NOT be empty — should have contextual explanation
+    assert r.evidence_level != ""
+    assert "insufficient" in r.evidence_level.lower()
+
+
+@pytest.mark.asyncio
+async def test_search_gilt_als_belegt_orphan():
+    """'gilt als belegt' (orphan drugs) should show orphan context."""
+    service = GermanyGBA()
+    service._decisions = [{
+        "decision_id": "2021-01-01-D-200",
+        "procedure_id": "200",
+        "url": "",
+        "trade_names": ["Fetcroja"],
+        "indication": "Schwere Infektionen",
+        "substances": ["Cefiderocol"],
+        "decision_date": "2021-03-01",
+        "patient_group": "Erwachsene mit komplizierten Harnwegsinfektionen",
+        "benefit_rating": "gilt als belegt",
+        "evidence_level": "",
+        "comparator": "",
+    }]
+    service._loaded = True
+    results = await service.search_assessments("Cefiderocol")
+    assert len(results) == 1
+    r = results[0]
+    assert "orphan" in r.benefit_rating_description.lower()
+    assert "orphan" in r.evidence_level.lower()
+
+
+@pytest.mark.asyncio
+async def test_search_long_comparator_truncated_in_summary():
+    """Very long comparators should be truncated in the summary field."""
+    service = GermanyGBA()
+    long_comparator = "Eine patientenindividuelle Therapie unter Auswahl von " + "x" * 200
+    service._decisions = [{
+        "decision_id": "2022-01-01-D-300",
+        "procedure_id": "300",
+        "url": "",
+        "trade_names": ["Abecma"],
+        "indication": "Multiples Myelom",
+        "substances": ["Idecabtagene vicleucel"],
+        "decision_date": "2022-06-01",
+        "patient_group": "Erwachsene mit multiplem Myelom",
+        "benefit_rating": "beträchtlich",
+        "evidence_level": "Hinweis",
+        "comparator": long_comparator,
+    }]
+    service._loaded = True
+    results = await service.search_assessments("Idecabtagene vicleucel")
+    assert len(results) == 1
+    r = results[0]
+    # Comparator in the result should be truncated
+    assert len(r.comparator) < len(long_comparator)
+    assert r.comparator.endswith("…")
+
+
+@pytest.mark.asyncio
+async def test_search_nicht_quantifizierbar_weil():
+    """Long 'nicht quantifizierbar, weil...' variants should still get translations."""
+    service = GermanyGBA()
+    service._decisions = [{
+        "decision_id": "2020-01-01-D-400",
+        "procedure_id": "400",
+        "url": "",
+        "trade_names": ["Caprelsa"],
+        "indication": "Schilddrüsenkarzinom",
+        "substances": ["Vandetanib"],
+        "decision_date": "2020-09-01",
+        "patient_group": "Erwachsene mit Schilddrüsenkarzinom",
+        "benefit_rating": "nicht quantifizierbar, weil die erforderlichen Nachweise nicht vollständig sind",
+        "evidence_level": "",
+        "comparator": "Watchful Waiting",
+    }]
+    service._loaded = True
+    results = await service.search_assessments("Vandetanib")
+    assert len(results) == 1
+    r = results[0]
+    assert "non-quantifiable" in r.benefit_rating_description.lower()
+    assert "incomplete" in r.benefit_rating_description.lower()
+
+
+@pytest.mark.asyncio
+async def test_search_uses_english_translations():
+    """When *_en fields are available, they should be used for display."""
+    service = GermanyGBA()
+    service._decisions = [{
+        "decision_id": "2020-01-01-D-500",
+        "procedure_id": "500",
+        "url": "",
+        "trade_names": ["Keytruda"],
+        "indication": "Melanom bei Erwachsenen",
+        "indication_en": "Melanoma in adults",
+        "substances": ["Pembrolizumab"],
+        "decision_date": "2020-06-18",
+        "patient_group": "Erwachsene mit Melanom",
+        "patient_group_en": "Adults with melanoma",
+        "benefit_rating": "beträchtlich",
+        "evidence_level": "Hinweis",
+        "comparator": "Ipilimumab",
+        "comparator_en": "Ipilimumab",
+    }]
+    service._loaded = True
+    results = await service.search_assessments("Pembrolizumab")
+    assert len(results) == 1
+    r = results[0]
+    assert r.evaluation_reason == "Melanoma in adults"
+    assert r.patient_group == "Adults with melanoma"
+
+
+@pytest.mark.asyncio
+async def test_search_by_trade_name_as_substance():
+    """Searching by trade name (e.g. 'Sotyktu') as the active_substance param should find results.
+
+    Previously, only INN substance names matched — trade names were only
+    checked when product_name was provided, so searching 'Sotyktu' returned 0.
+    """
+    service = GermanyGBA()
+    service._decisions = [{
+        "decision_id": "2023-05-01-D-700",
+        "procedure_id": "700",
+        "url": "",
+        "trade_names": ["Sotyktu"],
+        "indication": "Plaque-Psoriasis",
+        "substances": ["Deucravacitinib"],
+        "decision_date": "2023-10-05",
+        "patient_group": "Erwachsene mit Psoriasis",
+        "benefit_rating": "ist nicht belegt",
+        "evidence_level": "",
+        "comparator": "Adalimumab",
+    }]
+    service._loaded = True
+    # Searching by trade name as substance should work now
+    results = await service.search_assessments("Sotyktu")
+    assert len(results) == 1
+    assert results[0].product_name == "Sotyktu"
+    assert results[0].comparator == "Adalimumab"
+
+    # Searching by INN should still work
+    results = await service.search_assessments("Deucravacitinib")
+    assert len(results) == 1
+
+    # Case insensitive
+    results = await service.search_assessments("sotyktu")
+    assert len(results) == 1
+
+
 # Need to import ET for the unit tests
 import xml.etree.ElementTree as ET
