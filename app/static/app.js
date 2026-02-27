@@ -517,6 +517,13 @@ function renderSingleAssessment(a) {
            </div>`
         : "";
 
+    // France (HAS) indication — extracted from SMR/ASMR description
+    const indicationRow = a.indication
+        ? `<div style="font-size:0.85rem;color:var(--text);margin-bottom:8px;">
+            <strong>Indication:</strong> ${esc(a.indication)}
+           </div>`
+        : "";
+
     return `
         <div class="assessment-card">
             <div class="assessment-header">
@@ -524,6 +531,7 @@ function renderSingleAssessment(a) {
                 <span class="opinion-date">${esc(a.opinion_date)}</span>
             </div>
             ${a.evaluation_reason ? `<div class="reason">${esc(a.evaluation_reason)}</div>` : ""}
+            ${indicationRow}
             ${patientGroup}
             <div class="rating-badges">
                 ${smrBadge}

@@ -12,6 +12,7 @@ No authentication required. Files are Latin-1 encoded, tab-separated, no headers
 
 import asyncio
 import logging
+import re
 from collections import defaultdict
 from pathlib import Path
 
@@ -176,12 +177,14 @@ class FranceHAS(HTAAgency):
         substance_lower = active_substance.lower().strip()
         product_lower = product_name.lower().strip() if product_name else ""
 
-        # Find all CIS codes where the active substance matches
+        # Find all CIS codes where the active substance matches.
+        # Use word-boundary matching to avoid "trastuzumab" matching
+        # "trastuzumab deruxtecan" or "trastuzumab emtansine".
         matching_cis: set[str] = set()
 
         for cis_code, substances in self._compositions.items():
             for subst in substances:
-                if substance_lower in subst.lower() or subst.lower() in substance_lower:
+                if _substance_matches(substance_lower, subst.lower()):
                     matching_cis.add(cis_code)
                     break
 
@@ -194,8 +197,10 @@ class FranceHAS(HTAAgency):
         if not matching_cis:
             return []
 
-        # Collect all assessments for matching CIS codes
-        # Group by dossier code to merge SMR and ASMR from the same opinion
+        # Collect all assessments for matching CIS codes.
+        # Group by dossier code + date to merge SMR and ASMR from the
+        # same opinion AND deduplicate across multiple CIS codes
+        # (different presentations of the same medicine sharing a dossier).
         dossier_assessments: dict[str, dict] = {}
 
         for cis_code in matching_cis:
@@ -203,7 +208,7 @@ class FranceHAS(HTAAgency):
 
             for smr in self._smr.get(cis_code, []):
                 dossier_code = smr["dossier_code"]
-                key = f"{cis_code}_{dossier_code}_{smr['date']}"
+                key = f"{dossier_code}_{smr['date']}"
                 if key not in dossier_assessments:
                     dossier_assessments[key] = {
                         "product_name": med_name,
@@ -215,7 +220,9 @@ class FranceHAS(HTAAgency):
                         "smr_description": smr["label"],
                         "asmr_value": "",
                         "asmr_description": "",
-                        "assessment_url": self._ct_links.get(dossier_code, ""),
+                        "assessment_url": _normalize_has_url(
+                            self._ct_links.get(dossier_code, "")
+                        ),
                     }
                 else:
                     # Update SMR if this dossier already has ASMR
@@ -224,7 +231,7 @@ class FranceHAS(HTAAgency):
 
             for asmr in self._asmr.get(cis_code, []):
                 dossier_code = asmr["dossier_code"]
-                key = f"{cis_code}_{dossier_code}_{asmr['date']}"
+                key = f"{dossier_code}_{asmr['date']}"
                 if key not in dossier_assessments:
                     dossier_assessments[key] = {
                         "product_name": med_name,
@@ -236,7 +243,9 @@ class FranceHAS(HTAAgency):
                         "smr_description": "",
                         "asmr_value": asmr["value"],
                         "asmr_description": asmr["label"],
-                        "assessment_url": self._ct_links.get(dossier_code, ""),
+                        "assessment_url": _normalize_has_url(
+                            self._ct_links.get(dossier_code, "")
+                        ),
                     }
                 else:
                     dossier_assessments[key]["asmr_value"] = asmr["value"]
@@ -245,6 +254,10 @@ class FranceHAS(HTAAgency):
         results = [
             AssessmentResult(
                 **data,
+                indication=_extract_indication(
+                    data.get("smr_description", ""),
+                    data.get("asmr_description", ""),
+                ),
                 summary_en=_build_summary_en(
                     data.get("smr_value", ""),
                     data.get("asmr_value", ""),
@@ -369,7 +382,7 @@ class FranceHAS(HTAAgency):
         for row in self._parse_rows(content):
             if len(row) >= 2:
                 dossier_code = row[0]
-                url = row[1]
+                url = _normalize_has_url(row[1])
                 self._ct_links[dossier_code] = url
 
     # ── File-based caching ────────────────────────────────────────────
@@ -430,3 +443,107 @@ def _format_date(raw: str) -> str:
     if len(raw) == 8 and raw.isdigit():
         return f"{raw[:4]}-{raw[4:6]}-{raw[6:8]}"
     return raw
+
+
+def _extract_indication(smr_label: str, asmr_label: str) -> str:
+    """Extract the therapeutic indication from the SMR or ASMR label text.
+
+    BDPM labels typically follow patterns like:
+    - "Le service médical rendu par KEYTRUDA est important dans le mélanome avancé"
+    - "SMR important dans le cancer urothélial"
+    - "ASMR modérée dans le mélanome"
+
+    Returns the indication text, or empty string if it cannot be extracted.
+    """
+    for label in (smr_label, asmr_label):
+        if not label:
+            continue
+
+        # Pattern: "dans le/la/l'/les [indication]" — extract everything after "dans"
+        match = re.search(
+            r"\bdans\s+(le |la |l['\u2019]|les |l\u2019|son |cette |)"
+            r"(.+?)\.?\s*$",
+            label,
+            re.IGNORECASE,
+        )
+        if match:
+            indication = (match.group(1) + match.group(2)).strip().rstrip(".")
+            # Skip generic descriptions like "l'indication évaluée"
+            if "indication évaluée" in indication.lower():
+                continue
+            if "indication retenue" in indication.lower():
+                continue
+            # Capitalize first letter
+            if indication:
+                indication = indication[0].upper() + indication[1:]
+            return indication
+
+    return ""
+
+
+def _substance_matches(query: str, candidate: str) -> bool:
+    """Check whether *query* matches *candidate* as a substance name.
+
+    Prevents "trastuzumab" from matching "trastuzumab deruxtecan" or
+    "trastuzumab emtansine" — those are distinct molecules (antibody-drug
+    conjugates) despite sharing a prefix.
+
+    Matching rules:
+    1. Exact match (same string)
+    2. One is a comma/semicolon-separated list containing the other
+       as an exact element (multi-substance products like "pertuzumab, trastuzumab")
+    3. Partial INN prefix matching within a single-word substance
+       (e.g., "pembroliz" matches "pembrolizumab" since the candidate
+       is a single word, but "trastuzumab" does NOT match "trastuzumab
+       deruxtecan" since the candidate is multi-word)
+    """
+    if query == candidate:
+        return True
+
+    # Split both on comma/semicolon separators to handle multi-substance
+    # products (e.g., "pertuzumab, trastuzumab")
+    query_parts = {p.strip() for p in re.split(r"[,;/+]", query) if p.strip()}
+    candidate_parts = {p.strip() for p in re.split(r"[,;/+]", candidate) if p.strip()}
+
+    # Match if any exact element from one appears in the other
+    if query_parts & candidate_parts:
+        return True
+
+    # Partial INN prefix matching: allow "pembroliz" to match "pembrolizumab"
+    # but NOT "trastuzumab" to match "trastuzumab deruxtecan".
+    # The rule: a query is a valid partial match only if it's a substring
+    # of a SINGLE-WORD substance element (no spaces).
+    for qp in query_parts:
+        for cp in candidate_parts:
+            # Only allow partial matching within single-word substances
+            if " " not in cp and qp in cp:
+                return True
+            if " " not in qp and cp in qp:
+                return True
+
+    return False
+
+
+def _normalize_has_url(url: str) -> str:
+    """Normalize HAS assessment URLs to the current website format.
+
+    The BDPM CT links file may contain older URLs using the ``/portail/``
+    path or plain ``http://``.  The HAS website now uses ``https://`` and
+    has dropped the ``/portail/`` prefix.
+    """
+    if not url:
+        return url
+
+    # http → https
+    if url.startswith("http://"):
+        url = "https://" + url[7:]
+
+    # Remove legacy /portail/ path segment
+    url = url.replace("/portail/jcms/", "/jcms/")
+
+    # Ensure /fr/ locale is present in the path
+    if "/jcms/" in url and "/fr/" not in url and "/en/" not in url:
+        # Insert /fr/ before the slug: /jcms/c_123456/slug → /jcms/c_123456/fr/slug
+        url = re.sub(r"(/jcms/[cp]_\d+)/", r"\1/fr/", url, count=1)
+
+    return url

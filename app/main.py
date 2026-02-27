@@ -517,6 +517,14 @@ async def reload_data(request: Request):
                 _data_loaded_at[code] = datetime.now(timezone.utc).isoformat()
         except Exception as e:
             errors.append(f"{agency.agency_abbreviation}: {e}")
+            # If remote fetch failed and adapter has no data, try cache
+            if not agency.is_loaded:
+                if agency.load_from_file(data_file):
+                    _data_loaded_at[code] = datetime.now(timezone.utc).isoformat() + " (from cache)"
+                    logger.info(
+                        "%s (%s) reload: remote failed, loaded from cache",
+                        agency.agency_abbreviation, code,
+                    )
 
     # Reload curated data
     load_curated_assessments()
