@@ -1,360 +1,1568 @@
 {
   "country": "GB",
   "agency": "NICE",
-  "updated_at": "2026-02-27T04:13:17",
-  "record_count": 44,
+  "updated_at": "2026-02-27T04:50:36",
+  "record_count": 195,
   "data": [
-    {
-      "reference": "TA366",
-      "title": "Pembrolizumab for advanced melanoma not previously treated with ipilimumab",
-      "url": "https://www.nice.org.uk/guidance/ta366",
-      "published_date": "2015-11-25",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA428",
-      "title": "Pembrolizumab for treating PD-L1-positive non-small-cell lung cancer after chemotherapy",
-      "url": "https://www.nice.org.uk/guidance/ta428",
-      "published_date": "2017-01-11",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA531",
-      "title": "Pembrolizumab with pemetrexed and platinum chemotherapy for untreated, metastatic, non-squamous non-small-cell lung cancer",
-      "url": "https://www.nice.org.uk/guidance/ta531",
-      "published_date": "2018-07-25",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA557",
-      "title": "Pembrolizumab with carboplatin and paclitaxel for untreated metastatic squamous non-small-cell lung cancer",
-      "url": "https://www.nice.org.uk/guidance/ta557",
-      "published_date": "2019-01-16",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA pembrolizumab renal",
-      "title": "Pembrolizumab with lenvatinib for untreated advanced renal cell carcinoma",
-      "url": "https://www.nice.org.uk/guidance/ta858",
-      "published_date": "2022-12-07",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA384",
-      "title": "Nivolumab for treating advanced (unresectable or metastatic) melanoma",
-      "url": "https://www.nice.org.uk/guidance/ta384",
-      "published_date": "2016-02-17",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA484",
-      "title": "Nivolumab for previously treated squamous non-small-cell lung cancer",
-      "url": "https://www.nice.org.uk/guidance/ta484",
-      "published_date": "2017-11-01",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA532",
-      "title": "Nivolumab with ipilimumab for untreated advanced renal cell carcinoma",
-      "url": "https://www.nice.org.uk/guidance/ta532",
-      "published_date": "2019-04-24",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA520",
-      "title": "Atezolizumab for treating locally advanced or metastatic urothelial carcinoma after platinum-containing chemotherapy",
-      "url": "https://www.nice.org.uk/guidance/ta520",
-      "published_date": "2018-06-13",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA584",
-      "title": "Atezolizumab in combination for untreated metastatic non-squamous non-small-cell lung cancer",
-      "url": "https://www.nice.org.uk/guidance/ta584",
-      "published_date": "2019-06-19",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA971",
-      "title": "Enfortumab vedotin with pembrolizumab for untreated locally advanced or metastatic urothelial cancer",
-      "url": "https://www.nice.org.uk/guidance/ta971",
-      "published_date": "2024-07-24",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA517",
-      "title": "Avelumab for treating metastatic Merkel cell carcinoma",
-      "url": "https://www.nice.org.uk/guidance/ta517",
-      "published_date": "2018-04-25",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA653",
-      "title": "Osimertinib for untreated EGFR mutation-positive non-small-cell lung cancer",
-      "url": "https://www.nice.org.uk/guidance/ta653",
-      "published_date": "2020-10-07",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA761",
-      "title": "Osimertinib for adjuvant treatment of EGFR mutation-positive non-small-cell lung cancer after complete tumour resection",
-      "url": "https://www.nice.org.uk/guidance/ta761",
-      "published_date": "2022-01-26",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA620",
-      "title": "Olaparib for maintenance treatment of BRCA 1 or 2 mutated advanced ovarian, fallopian tube and peritoneal cancer after response to first-line platinum-based chemotherapy",
-      "url": "https://www.nice.org.uk/guidance/ta620",
-      "published_date": "2020-02-05",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA855",
-      "title": "Olaparib with abiraterone for untreated BRCA-mutated metastatic castration-resistant prostate cancer",
-      "url": "https://www.nice.org.uk/guidance/ta855",
-      "published_date": "2023-02-22",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA862",
-      "title": "Trastuzumab deruxtecan for treating HER2-positive unresectable or metastatic breast cancer after trastuzumab and a taxane",
-      "url": "https://www.nice.org.uk/guidance/ta862",
-      "published_date": "2023-03-15",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA904",
-      "title": "Trastuzumab deruxtecan for treating HER2-low metastatic or unresectable breast cancer after chemotherapy",
-      "url": "https://www.nice.org.uk/guidance/ta904",
-      "published_date": "2023-09-27",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA910",
-      "title": "Sacituzumab govitecan for treating unresectable triple-negative advanced breast cancer after 2 or more therapies",
-      "url": "https://www.nice.org.uk/guidance/ta910",
-      "published_date": "2023-10-18",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA573",
-      "title": "Daratumumab with bortezomib and dexamethasone for previously treated multiple myeloma",
-      "url": "https://www.nice.org.uk/guidance/ta573",
-      "published_date": "2019-03-06",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA783",
-      "title": "Daratumumab with lenalidomide and dexamethasone for untreated multiple myeloma",
-      "url": "https://www.nice.org.uk/guidance/ta783",
-      "published_date": "2022-04-20",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA429",
-      "title": "Ibrutinib for treating chronic lymphocytic leukaemia",
-      "url": "https://www.nice.org.uk/guidance/ta429",
-      "published_date": "2017-01-25",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA689",
-      "title": "Acalabrutinib with or without obinutuzumab for treating chronic lymphocytic leukaemia",
-      "url": "https://www.nice.org.uk/guidance/ta689",
-      "published_date": "2021-06-02",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA554",
-      "title": "Tisagenlecleucel for treating relapsed or refractory B-cell acute lymphoblastic leukaemia in people aged up to 25 years",
-      "url": "https://www.nice.org.uk/guidance/ta554",
-      "published_date": "2018-12-19",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA559",
-      "title": "Axicabtagene ciloleucel for treating diffuse large B-cell lymphoma and primary mediastinal large B-cell lymphoma after 2 or more systemic therapies",
-      "url": "https://www.nice.org.uk/guidance/ta559",
-      "published_date": "2019-01-23",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "HST7",
-      "title": "Nusinersen for treating spinal muscular atrophy",
-      "url": "https://www.nice.org.uk/guidance/hst7",
-      "published_date": "2019-07-24",
-      "guidance_type": "HST",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "HST15",
-      "title": "Onasemnogene abeparvovec for treating spinal muscular atrophy",
-      "url": "https://www.nice.org.uk/guidance/hst15",
-      "published_date": "2021-03-31",
-      "guidance_type": "HST",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "HST18",
-      "title": "Risdiplam for treating spinal muscular atrophy",
-      "url": "https://www.nice.org.uk/guidance/hst18",
-      "published_date": "2022-02-09",
-      "guidance_type": "HST",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA534",
-      "title": "Dupilumab for treating moderate to severe atopic eczema",
-      "url": "https://www.nice.org.uk/guidance/ta534",
-      "published_date": "2018-08-01",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA751",
-      "title": "Dupilumab for treating severe asthma with type 2 inflammation",
-      "url": "https://www.nice.org.uk/guidance/ta751",
-      "published_date": "2021-12-01",
-      "guidance_type": "TA",
-      "recommendation": "recommended with restrictions"
-    },
-    {
-      "reference": "TA537",
-      "title": "Secukinumab for treating moderate to severe plaque psoriasis",
-      "url": "https://www.nice.org.uk/guidance/ta537",
-      "published_date": "2015-07-22",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA388",
-      "title": "Sacubitril valsartan for treating symptomatic chronic heart failure with reduced ejection fraction",
-      "url": "https://www.nice.org.uk/guidance/ta388",
-      "published_date": "2016-04-26",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA773",
-      "title": "Empagliflozin for treating chronic heart failure with reduced ejection fraction",
-      "url": "https://www.nice.org.uk/guidance/ta773",
-      "published_date": "2022-03-16",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA813",
-      "title": "Elexacaftor–tezacaftor–ivacaftor for treating cystic fibrosis",
-      "url": "https://www.nice.org.uk/guidance/ta813",
-      "published_date": "2022-09-07",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA533",
-      "title": "Ocrelizumab for treating relapsing–remitting multiple sclerosis",
-      "url": "https://www.nice.org.uk/guidance/ta533",
-      "published_date": "2018-06-27",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA1070",
-      "title": "Lecanemab for treating early Alzheimer's disease",
-      "url": "https://www.nice.org.uk/guidance/ta1070",
-      "published_date": "2025-03-12",
-      "guidance_type": "TA",
-      "recommendation": "not recommended"
-    },
-    {
-      "reference": "TA743",
-      "title": "Semaglutide for managing overweight and obesity",
-      "url": "https://www.nice.org.uk/guidance/ta743",
-      "published_date": "2023-03-08",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
-    {
-      "reference": "TA924",
-      "title": "Tirzepatide for treating type 2 diabetes",
-      "url": "https://www.nice.org.uk/guidance/ta924",
-      "published_date": "2023-11-22",
-      "guidance_type": "TA",
-      "recommendation": "recommended"
-    },
     {
       "reference": "TA294",
       "title": "Aflibercept solution for injection for treating wet age-related macular degeneration",
-      "url": "https://www.nice.org.uk/guidance/ta294",
       "published_date": "2013-07-24",
       "guidance_type": "TA",
-      "recommendation": "recommended"
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta294"
+    },
+    {
+      "reference": "TA300",
+      "title": "Peginterferon alfa and ribavirin for treating chronic hepatitis C in children and young people",
+      "published_date": "2013-11-27",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta300"
+    },
+    {
+      "reference": "TA316",
+      "title": "Enzalutamide for metastatic hormone-relapsed prostate cancer previously treated with a docetaxel-containing regimen",
+      "published_date": "2014-07-09",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta316"
+    },
+    {
+      "reference": "TA320",
+      "title": "Dimethyl fumarate for treating relapsing-remitting multiple sclerosis",
+      "published_date": "2014-08-27",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta320"
+    },
+    {
+      "reference": "TA321",
+      "title": "Dabrafenib for treating unresectable or metastatic BRAF V600 mutation-positive melanoma",
+      "published_date": "2014-10-22",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta321"
+    },
+    {
+      "reference": "HST1",
+      "title": "Eculizumab for treating atypical haemolytic uraemic syndrome",
+      "published_date": "2015-01-28",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst1"
+    },
+    {
+      "reference": "TA330",
+      "title": "Sofosbuvir for treating chronic hepatitis C",
+      "published_date": "2015-02-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta330"
+    },
+    {
+      "reference": "TA335",
+      "title": "Rivaroxaban for preventing adverse outcomes after acute management of acute coronary syndrome",
+      "published_date": "2015-03-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta335"
+    },
+    {
+      "reference": "TA336",
+      "title": "Empagliflozin in combination therapy for treating type 2 diabetes",
+      "published_date": "2015-03-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta336"
+    },
+    {
+      "reference": "TA337",
+      "title": "Rifaximin for preventing episodes of overt hepatic encephalopathy",
+      "published_date": "2015-03-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta337"
     },
     {
       "reference": "TA346",
       "title": "Aflibercept for treating diabetic macular oedema",
-      "url": "https://www.nice.org.uk/guidance/ta346",
       "published_date": "2015-07-22",
       "guidance_type": "TA",
-      "recommendation": "recommended"
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta346"
     },
     {
-      "reference": "TA950",
-      "title": "Faricimab for treating wet age-related macular degeneration",
-      "url": "https://www.nice.org.uk/guidance/ta950",
-      "published_date": "2024-04-17",
+      "reference": "TA537",
+      "title": "Secukinumab for treating moderate to severe plaque psoriasis",
+      "published_date": "2015-07-22",
       "guidance_type": "TA",
-      "recommendation": "recommended"
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta537"
     },
     {
-      "reference": "TA878",
-      "title": "Nirmatrelvir plus ritonavir for treating COVID-19",
-      "url": "https://www.nice.org.uk/guidance/ta878",
-      "published_date": "2023-04-26",
+      "reference": "TA350",
+      "title": "Secukinumab for treating moderate to severe plaque psoriasis",
+      "published_date": "2015-09-23",
       "guidance_type": "TA",
-      "recommendation": "recommended"
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta350"
     },
     {
-      "reference": "TA503",
-      "title": "Bevacizumab in combination with paclitaxel and carboplatin for first-line treatment of advanced ovarian cancer",
-      "url": "https://www.nice.org.uk/guidance/ta503",
-      "published_date": "2018-02-28",
+      "reference": "TA366",
+      "title": "Pembrolizumab for advanced melanoma not previously treated with ipilimumab",
+      "published_date": "2015-11-25",
       "guidance_type": "TA",
-      "recommendation": "not recommended"
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta366"
+    },
+    {
+      "reference": "TA371",
+      "title": "Trastuzumab emtansine for treating HER2-positive advanced breast cancer after treatment with trastuzumab and a taxane",
+      "published_date": "2015-12-09",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta371"
+    },
+    {
+      "reference": "HST2",
+      "title": "Elosulfase alfa for treating mucopolysaccharidosis type IVa",
+      "published_date": "2015-12-23",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst2"
+    },
+    {
+      "reference": "TA368",
+      "title": "Apremilast for treating moderate to severe plaque psoriasis",
+      "published_date": "2016-01-13",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta368"
+    },
+    {
+      "reference": "TA384",
+      "title": "Nivolumab for treating advanced (unresectable or metastatic) melanoma",
+      "published_date": "2016-02-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta384"
+    },
+    {
+      "reference": "TA370",
+      "title": "Bortezomib for previously untreated mantle cell lymphoma",
+      "published_date": "2016-02-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta370"
+    },
+    {
+      "reference": "TA388",
+      "title": "Sacubitril valsartan for treating symptomatic chronic heart failure with reduced ejection fraction",
+      "published_date": "2016-04-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta388"
+    },
+    {
+      "reference": "HST3",
+      "title": "Ataluren for treating Duchenne muscular dystrophy with a nonsense mutation in the dystrophin gene",
+      "published_date": "2016-07-20",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst3"
+    },
+    {
+      "reference": "TA400",
+      "title": "Nivolumab in combination with ipilimumab for treating advanced melanoma",
+      "published_date": "2016-07-27",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta400"
+    },
+    {
+      "reference": "TA428",
+      "title": "Pembrolizumab for treating PD-L1-positive non-small-cell lung cancer after chemotherapy",
+      "published_date": "2017-01-11",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta428"
+    },
+    {
+      "reference": "TA429",
+      "title": "Ibrutinib for treating chronic lymphocytic leukaemia",
+      "published_date": "2017-01-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta429"
     },
     {
       "reference": "TA432",
       "title": "Cetuximab and panitumumab for previously untreated metastatic colorectal cancer",
-      "url": "https://www.nice.org.uk/guidance/ta432",
       "published_date": "2017-02-22",
       "guidance_type": "TA",
-      "recommendation": "recommended with restrictions"
+      "recommendation": "recommended with restrictions",
+      "url": "https://www.nice.org.uk/guidance/ta432"
+    },
+    {
+      "reference": "HST4",
+      "title": "Migalastat for treating Fabry disease",
+      "published_date": "2017-02-22",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst4"
+    },
+    {
+      "reference": "TA395",
+      "title": "Ixekizumab for treating moderate to severe plaque psoriasis",
+      "published_date": "2017-04-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta395"
+    },
+    {
+      "reference": "TA415",
+      "title": "Certolizumab pegol and secukinumab for treating active psoriatic arthritis after inadequate response to DMARDs",
+      "published_date": "2017-05-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta415"
+    },
+    {
+      "reference": "HST5",
+      "title": "Eliglustat for treating type 1 Gaucher disease",
+      "published_date": "2017-06-07",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst5"
+    },
+    {
+      "reference": "TA448",
+      "title": "Etelcalcetide for treating secondary hyperparathyroidism",
+      "published_date": "2017-07-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta448"
+    },
+    {
+      "reference": "TA458",
+      "title": "Trastuzumab emtansine for treating HER2-positive advanced breast cancer after trastuzumab and a taxane",
+      "published_date": "2017-07-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta458"
+    },
+    {
+      "reference": "TA449",
+      "title": "Everolimus and sunitinib for treating unresectable or metastatic neuroendocrine tumours in people with progressive disease",
+      "published_date": "2017-08-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta449"
+    },
+    {
+      "reference": "HST6",
+      "title": "Asfotase alfa for treating paediatric-onset hypophosphatasia",
+      "published_date": "2017-08-30",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst6"
+    },
+    {
+      "reference": "TA450",
+      "title": "Blinatumomab for treating Philadelphia-chromosome-negative relapsed or refractory acute lymphoblastic leukaemia",
+      "published_date": "2017-09-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta450"
+    },
+    {
+      "reference": "TA484",
+      "title": "Nivolumab for previously treated squamous non-small-cell lung cancer",
+      "published_date": "2017-11-01",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta484"
+    },
+    {
+      "reference": "TA500",
+      "title": "Ceritinib for untreated ALK-positive non-small-cell lung cancer",
+      "published_date": "2018-01-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta500"
+    },
+    {
+      "reference": "TA479",
+      "title": "Reslizumab for treating severe eosinophilic asthma",
+      "published_date": "2018-01-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta479"
+    },
+    {
+      "reference": "TA478",
+      "title": "Brentuximab vedotin for treating relapsed or refractory systemic anaplastic large cell lymphoma",
+      "published_date": "2018-02-07",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta478"
+    },
+    {
+      "reference": "TA503",
+      "title": "Bevacizumab in combination with paclitaxel and carboplatin for first-line treatment of advanced ovarian cancer",
+      "published_date": "2018-02-28",
+      "guidance_type": "TA",
+      "recommendation": "not recommended",
+      "url": "https://www.nice.org.uk/guidance/ta503"
+    },
+    {
+      "reference": "TA510",
+      "title": "Daratumumab monotherapy for treating relapsed and refractory multiple myeloma",
+      "published_date": "2018-04-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta510"
+    },
+    {
+      "reference": "TA517",
+      "title": "Avelumab for treating metastatic Merkel cell carcinoma",
+      "published_date": "2018-04-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta517"
+    },
+    {
+      "reference": "TA492",
+      "title": "Atezolizumab for untreated PD-L1-positive locally advanced or metastatic urothelial cancer when cisplatin is unsuitable",
+      "published_date": "2018-06-06",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta492"
+    },
+    {
+      "reference": "TA520",
+      "title": "Atezolizumab for treating locally advanced or metastatic non-small-cell lung cancer after chemotherapy",
+      "published_date": "2018-06-13",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta520"
+    },
+    {
+      "reference": "TA533",
+      "title": "Ocrelizumab for treating relapsing-remitting multiple sclerosis",
+      "published_date": "2018-06-27",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta533"
+    },
+    {
+      "reference": "TA530",
+      "title": "Nivolumab for previously treated locally advanced or metastatic urothelial cancer",
+      "published_date": "2018-07-04",
+      "guidance_type": "TA",
+      "recommendation": "not recommended",
+      "url": "https://www.nice.org.uk/guidance/ta530"
+    },
+    {
+      "reference": "TA531",
+      "title": "Pembrolizumab with pemetrexed and platinum chemotherapy for untreated, metastatic, non-squamous non-small-cell lung cancer",
+      "published_date": "2018-07-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta531"
+    },
+    {
+      "reference": "TA534",
+      "title": "Dupilumab for treating moderate to severe atopic eczema",
+      "published_date": "2018-08-01",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta534"
+    },
+    {
+      "reference": "TA540",
+      "title": "Pembrolizumab for treating relapsed or refractory classical Hodgkin lymphoma",
+      "published_date": "2018-10-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta540"
+    },
+    {
+      "reference": "HST8",
+      "title": "Burosumab for treating X-linked hypophosphataemia in children and young people",
+      "published_date": "2018-10-24",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst8"
+    },
+    {
+      "reference": "TA554",
+      "title": "Tisagenlecleucel for treating relapsed or refractory B-cell acute lymphoblastic leukaemia in people aged up to 25 years",
+      "published_date": "2018-12-19",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta554"
+    },
+    {
+      "reference": "TA557",
+      "title": "Pembrolizumab with carboplatin and paclitaxel for untreated metastatic squamous non-small-cell lung cancer",
+      "published_date": "2019-01-16",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta557"
+    },
+    {
+      "reference": "TA559",
+      "title": "Axicabtagene ciloleucel for treating diffuse large B-cell lymphoma and primary mediastinal large B-cell lymphoma after 2 or more systemic therapies",
+      "published_date": "2019-01-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta559"
+    },
+    {
+      "reference": "TA560",
+      "title": "Bevacizumab for treating platinum-sensitive recurrent ovarian cancer",
+      "published_date": "2019-02-13",
+      "guidance_type": "TA",
+      "recommendation": "terminated",
+      "url": "https://www.nice.org.uk/guidance/ta560"
+    },
+    {
+      "reference": "TA573",
+      "title": "Daratumumab with bortezomib and dexamethasone for previously treated multiple myeloma",
+      "published_date": "2019-03-06",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta573"
+    },
+    {
+      "reference": "TA570",
+      "title": "Pembrolizumab for treating recurrent or metastatic squamous cell carcinoma of the head and neck after platinum-based chemotherapy",
+      "published_date": "2019-03-20",
+      "guidance_type": "TA",
+      "recommendation": "terminated",
+      "url": "https://www.nice.org.uk/guidance/ta570"
+    },
+    {
+      "reference": "TA532",
+      "title": "Nivolumab with ipilimumab for untreated advanced renal cell carcinoma",
+      "published_date": "2019-04-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta532"
+    },
+    {
+      "reference": "TA580",
+      "title": "Enzalutamide for hormone-relapsed non-metastatic prostate cancer",
+      "published_date": "2019-05-22",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta580"
+    },
+    {
+      "reference": "TA584",
+      "title": "Atezolizumab in combination with bevacizumab, paclitaxel and carboplatin for treating non-squamous non-small-cell lung cancer",
+      "published_date": "2019-06-19",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta584"
+    },
+    {
+      "reference": "TA590",
+      "title": "Fluocinolone acetonide intravitreal implant for treating recurrent non-infectious uveitis affecting the posterior segment of the eye",
+      "published_date": "2019-07-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta590"
+    },
+    {
+      "reference": "HST7",
+      "title": "Nusinersen for treating spinal muscular atrophy",
+      "published_date": "2019-07-24",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst7"
+    },
+    {
+      "reference": "HST9",
+      "title": "Inotersen for treating hereditary transthyretin amyloidosis",
+      "published_date": "2019-09-18",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst9"
+    },
+    {
+      "reference": "HST10",
+      "title": "Patisiran for treating hereditary transthyretin-related amyloidosis",
+      "published_date": "2019-09-18",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst10"
+    },
+    {
+      "reference": "HST11",
+      "title": "Voretigene neparvovec for treating inherited retinal dystrophies caused by RPE65 gene mutations",
+      "published_date": "2019-09-18",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst11"
+    },
+    {
+      "reference": "HST12",
+      "title": "Cerliponase alfa for treating neuronal ceroid lipofuscinosis type 2",
+      "published_date": "2019-10-30",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst12"
+    },
+    {
+      "reference": "TA600",
+      "title": "Pembrolizumab with carboplatin and paclitaxel for untreated metastatic squamous non-small-cell lung cancer",
+      "published_date": "2020-01-29",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta600"
+    },
+    {
+      "reference": "TA620",
+      "title": "Olaparib for maintenance treatment of BRCA mutation-positive advanced ovarian, fallopian tube or peritoneal cancer after response to first-line platinum-based chemotherapy",
+      "published_date": "2020-02-05",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta620"
+    },
+    {
+      "reference": "TA611",
+      "title": "Rucaparib for maintenance treatment of relapsed platinum-sensitive ovarian, fallopian tube or peritoneal cancer",
+      "published_date": "2020-03-11",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta611"
+    },
+    {
+      "reference": "TA628",
+      "title": "Lorlatinib for previously treated ALK-positive advanced non-small-cell lung cancer",
+      "published_date": "2020-05-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta628"
+    },
+    {
+      "reference": "TA630",
+      "title": "Larotrectinib for treating NTRK fusion-positive solid tumours",
+      "published_date": "2020-06-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta630"
+    },
+    {
+      "reference": "TA632",
+      "title": "Trastuzumab emtansine for adjuvant treatment of HER2-positive early breast cancer",
+      "published_date": "2020-06-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta632"
+    },
+    {
+      "reference": "TA638",
+      "title": "Atezolizumab in combination with carboplatin and etoposide for untreated extensive-stage small-cell lung cancer",
+      "published_date": "2020-07-29",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta638"
+    },
+    {
+      "reference": "TA639",
+      "title": "Atezolizumab with nab-paclitaxel for untreated PD-L1-positive, locally advanced or metastatic, triple-negative breast cancer",
+      "published_date": "2020-07-29",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta639"
+    },
+    {
+      "reference": "TA644",
+      "title": "Entrectinib for treating NTRK fusion-positive solid tumours",
+      "published_date": "2020-08-12",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta644"
+    },
+    {
+      "reference": "TA641",
+      "title": "Brentuximab vedotin with cyclophosphamide, doxorubicin and prednisone for untreated systemic anaplastic large cell lymphoma",
+      "published_date": "2020-08-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta641"
+    },
+    {
+      "reference": "TA642",
+      "title": "Gilteritinib for treating relapsed or refractory acute myeloid leukaemia",
+      "published_date": "2020-08-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta642"
+    },
+    {
+      "reference": "TA653",
+      "title": "Osimertinib for untreated EGFR mutation-positive non-small-cell lung cancer",
+      "published_date": "2020-10-07",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta653"
+    },
+    {
+      "reference": "TA650",
+      "title": "Pembrolizumab with axitinib for untreated advanced renal cell carcinoma",
+      "published_date": "2020-10-28",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta650"
+    },
+    {
+      "reference": "TA656",
+      "title": "Siponimod for treating secondary progressive multiple sclerosis",
+      "published_date": "2020-11-18",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta656"
+    },
+    {
+      "reference": "TA658",
+      "title": "Isatuximab with pomalidomide and dexamethasone for treating relapsed and refractory multiple myeloma",
+      "published_date": "2020-11-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta658"
+    },
+    {
+      "reference": "TA660",
+      "title": "Darolutamide with androgen deprivation therapy for treating hormone-relapsed non-metastatic prostate cancer",
+      "published_date": "2020-12-16",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta660"
+    },
+    {
+      "reference": "TA661",
+      "title": "Pembrolizumab with platinum- and fluoropyrimidine-based chemotherapy for untreated advanced head and neck squamous cell carcinoma",
+      "published_date": "2020-12-16",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta661"
+    },
+    {
+      "reference": "TA670",
+      "title": "Brigatinib for ALK-positive advanced non-small-cell lung cancer that has not been previously treated with an ALK inhibitor",
+      "published_date": "2021-01-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta670"
+    },
+    {
+      "reference": "TA673",
+      "title": "Niraparib for maintenance treatment of relapsed, platinum-sensitive ovarian, fallopian tube and peritoneal cancer",
+      "published_date": "2021-02-03",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta673"
+    },
+    {
+      "reference": "TA679",
+      "title": "Dapagliflozin for treating chronic heart failure with reduced ejection fraction",
+      "published_date": "2021-02-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta679"
+    },
+    {
+      "reference": "TA683",
+      "title": "Pembrolizumab with pemetrexed and platinum chemotherapy for untreated, metastatic, non-squamous non-small-cell lung cancer",
+      "published_date": "2021-03-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta683"
+    },
+    {
+      "reference": "TA684",
+      "title": "Nivolumab for adjuvant treatment of completely resected melanoma with lymph node involvement or metastatic disease",
+      "published_date": "2021-03-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta684"
+    },
+    {
+      "reference": "TA687",
+      "title": "Ribociclib with fulvestrant for treating hormone receptor-positive, HER2-negative advanced breast cancer",
+      "published_date": "2021-03-31",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta687"
+    },
+    {
+      "reference": "HST15",
+      "title": "Onasemnogene abeparvovec for treating spinal muscular atrophy",
+      "published_date": "2021-03-31",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst15"
+    },
+    {
+      "reference": "TA704",
+      "title": "Trastuzumab deruxtecan for treating HER2-positive unresectable or metastatic breast cancer after 2 or more anti-HER2-based regimens",
+      "published_date": "2021-05-19",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta704"
+    },
+    {
+      "reference": "TA689",
+      "title": "Acalabrutinib for treating chronic lymphocytic leukaemia",
+      "published_date": "2021-06-02",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta689"
+    },
+    {
+      "reference": "TA705",
+      "title": "Atezolizumab monotherapy for untreated advanced non-small-cell lung cancer",
+      "published_date": "2021-06-30",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta705"
+    },
+    {
+      "reference": "TA706",
+      "title": "Ozanimod for treating relapsing-remitting multiple sclerosis",
+      "published_date": "2021-07-14",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta706"
+    },
+    {
+      "reference": "TA707",
+      "title": "Nivolumab for previously treated unresectable advanced or recurrent oesophageal cancer",
+      "published_date": "2021-07-14",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta707"
+    },
+    {
+      "reference": "TA709",
+      "title": "Pembrolizumab for untreated metastatic colorectal cancer with high microsatellite instability or mismatch repair deficiency",
+      "published_date": "2021-08-11",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta709"
+    },
+    {
+      "reference": "TA712",
+      "title": "Enzalutamide with androgen deprivation therapy for treating hormone-sensitive metastatic prostate cancer",
+      "published_date": "2021-08-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta712"
+    },
+    {
+      "reference": "TA722",
+      "title": "Pemigatinib for treating relapsed or refractory advanced cholangiocarcinoma with FGFR2 fusion or rearrangement",
+      "published_date": "2021-08-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta722"
+    },
+    {
+      "reference": "TA716",
+      "title": "Nivolumab with ipilimumab for previously untreated metastatic colorectal cancer with high microsatellite instability or mismatch repair deficiency",
+      "published_date": "2021-09-22",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta716"
+    },
+    {
+      "reference": "TA725",
+      "title": "Abemaciclib with fulvestrant for treating hormone receptor-positive, HER2-negative advanced breast cancer after endocrine therapy",
+      "published_date": "2021-10-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta725"
+    },
+    {
+      "reference": "TA742",
+      "title": "Selpercatinib for treating advanced thyroid cancer with RET alterations",
+      "published_date": "2021-11-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta742"
+    },
+    {
+      "reference": "TA751",
+      "title": "Dupilumab for treating severe asthma with type 2 inflammation",
+      "published_date": "2021-12-01",
+      "guidance_type": "TA",
+      "recommendation": "recommended with restrictions",
+      "url": "https://www.nice.org.uk/guidance/ta751"
+    },
+    {
+      "reference": "TA755",
+      "title": "Risdiplam for treating spinal muscular atrophy",
+      "published_date": "2021-12-15",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta755"
+    },
+    {
+      "reference": "TA757",
+      "title": "Cabotegravir with rilpivirine for treating HIV-1 infection",
+      "published_date": "2021-12-15",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta757"
+    },
+    {
+      "reference": "TA760",
+      "title": "Selpercatinib for untreated RET fusion-positive advanced non-small-cell lung cancer",
+      "published_date": "2022-01-12",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta760"
+    },
+    {
+      "reference": "TA761",
+      "title": "Osimertinib for adjuvant treatment of EGFR mutation-positive non-small-cell lung cancer after complete tumour resection",
+      "published_date": "2022-01-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta761"
+    },
+    {
+      "reference": "TA763",
+      "title": "Daratumumab with bortezomib, melphalan and prednisone for untreated multiple myeloma",
+      "published_date": "2022-02-09",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta763"
+    },
+    {
+      "reference": "HST18",
+      "title": "Risdiplam for treating spinal muscular atrophy in children and adults",
+      "published_date": "2022-02-09",
+      "guidance_type": "HST",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/hst18"
+    },
+    {
+      "reference": "TA765",
+      "title": "Venetoclax with azacitidine for treating untreated acute myeloid leukaemia when intensive chemotherapy is unsuitable",
+      "published_date": "2022-02-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta765"
+    },
+    {
+      "reference": "TA766",
+      "title": "Pembrolizumab for adjuvant treatment of completely resected stage 3 melanoma",
+      "published_date": "2022-02-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta766"
+    },
+    {
+      "reference": "TA767",
+      "title": "Ponesimod for treating relapsing-remitting multiple sclerosis",
+      "published_date": "2022-02-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta767"
+    },
+    {
+      "reference": "TA770",
+      "title": "Pembrolizumab with carboplatin and paclitaxel for untreated metastatic squamous non-small-cell lung cancer",
+      "published_date": "2022-03-09",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta770"
+    },
+    {
+      "reference": "TA773",
+      "title": "Empagliflozin for treating chronic heart failure with reduced ejection fraction",
+      "published_date": "2022-03-16",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta773"
+    },
+    {
+      "reference": "TA772",
+      "title": "Pembrolizumab for treating relapsed or refractory classical Hodgkin lymphoma",
+      "published_date": "2022-03-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta772"
+    },
+    {
+      "reference": "TA779",
+      "title": "Dostarlimab for previously treated advanced or recurrent endometrial cancer with high microsatellite instability or mismatch repair deficiency",
+      "published_date": "2022-04-06",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta779"
+    },
+    {
+      "reference": "TA780",
+      "title": "Nivolumab with ipilimumab and cabozantinib for untreated advanced renal cell carcinoma",
+      "published_date": "2022-04-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta780"
+    },
+    {
+      "reference": "TA781",
+      "title": "Sotorasib for previously treated KRAS G12C mutation-positive advanced non-small-cell lung cancer",
+      "published_date": "2022-04-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta781"
+    },
+    {
+      "reference": "TA783",
+      "title": "Daratumumab with lenalidomide and dexamethasone for untreated multiple myeloma",
+      "published_date": "2022-04-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta783"
+    },
+    {
+      "reference": "TA784",
+      "title": "Niraparib for maintenance treatment of platinum-sensitive relapsed ovarian, fallopian tube and peritoneal cancer",
+      "published_date": "2022-05-04",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta784"
+    },
+    {
+      "reference": "TA786",
+      "title": "Tucatinib with trastuzumab and capecitabine for treating HER2-positive advanced breast cancer after 2 or more anti-HER2 therapies",
+      "published_date": "2022-05-18",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta786"
+    },
+    {
+      "reference": "TA801",
+      "title": "Pembrolizumab plus chemotherapy for untreated, triple-negative, locally recurrent unresectable or metastatic breast cancer",
+      "published_date": "2022-07-13",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta801"
+    },
+    {
+      "reference": "TA810",
+      "title": "Abemaciclib with endocrine therapy for adjuvant treatment of hormone receptor-positive, HER2-negative, node-positive early breast cancer at high risk of recurrence",
+      "published_date": "2022-08-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta810"
+    },
+    {
+      "reference": "TA814",
+      "title": "Abrocitinib, tralokinumab or upadacitinib for treating moderate to severe atopic dermatitis",
+      "published_date": "2022-08-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta814"
+    },
+    {
+      "reference": "TA817",
+      "title": "Nivolumab for adjuvant treatment of resected urothelial carcinoma at high risk of recurrence",
+      "published_date": "2022-08-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta817"
+    },
+    {
+      "reference": "TA818",
+      "title": "Nivolumab with ipilimumab for untreated unresectable malignant pleural mesothelioma",
+      "published_date": "2022-08-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta818"
+    },
+    {
+      "reference": "TA813",
+      "title": "Elexacaftor-tezacaftor-ivacaftor for treating cystic fibrosis",
+      "published_date": "2022-09-07",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta813"
+    },
+    {
+      "reference": "TA819",
+      "title": "Sacituzumab govitecan for treating unresectable locally advanced or metastatic triple-negative breast cancer after 2 or more therapies",
+      "published_date": "2022-09-07",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta819"
+    },
+    {
+      "reference": "TA823",
+      "title": "Atezolizumab for adjuvant treatment of resected non-small-cell lung cancer with PD-L1 expression of at least 50%",
+      "published_date": "2022-09-21",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta823"
+    },
+    {
+      "reference": "TA835",
+      "title": "Fostamatinib for treating refractory chronic immune thrombocytopenia",
+      "published_date": "2022-11-02",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta835"
+    },
+    {
+      "reference": "TA837",
+      "title": "Pembrolizumab for adjuvant treatment of completely resected stage 2B or 2C melanoma",
+      "published_date": "2022-11-16",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta837"
+    },
+    {
+      "reference": "TA858",
+      "title": "Lenvatinib with pembrolizumab for untreated advanced renal cell carcinoma",
+      "published_date": "2022-12-07",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta858"
+    },
+    {
+      "reference": "TA849",
+      "title": "Cabozantinib for previously treated advanced hepatocellular carcinoma",
+      "published_date": "2023-01-18",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta849"
+    },
+    {
+      "reference": "TA850",
+      "title": "Amivantamab for treating EGFR exon 20 insertion mutation-positive advanced non-small-cell lung cancer after platinum-based chemotherapy",
+      "published_date": "2023-01-18",
+      "guidance_type": "TA",
+      "recommendation": "not recommended",
+      "url": "https://www.nice.org.uk/guidance/ta850"
+    },
+    {
+      "reference": "TA851",
+      "title": "Pembrolizumab for neoadjuvant and adjuvant treatment of triple-negative early breast cancer",
+      "published_date": "2023-01-18",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta851"
+    },
+    {
+      "reference": "TA852",
+      "title": "Trifluridine-tipiracil for treating metastatic gastric cancer or gastro-oesophageal junction adenocarcinoma after 2 or more therapies",
+      "published_date": "2023-02-01",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta852"
+    },
+    {
+      "reference": "TA854",
+      "title": "Esketamine nasal spray for treatment-resistant depression",
+      "published_date": "2023-02-15",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta854"
+    },
+    {
+      "reference": "TA869",
+      "title": "Teclistamab for treating relapsed and refractory multiple myeloma",
+      "published_date": "2023-02-15",
+      "guidance_type": "TA",
+      "recommendation": "terminated",
+      "url": "https://www.nice.org.uk/guidance/ta869"
+    },
+    {
+      "reference": "TA855",
+      "title": "Olaparib with abiraterone and prednisone or prednisolone for treating BRCA-mutated hormone-relapsed metastatic prostate cancer",
+      "published_date": "2023-02-22",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta855"
+    },
+    {
+      "reference": "TA857",
+      "title": "Nivolumab with fluoropyrimidine- and platinum-based chemotherapy for untreated HER2-negative advanced gastric, gastro-oesophageal junction or oesophageal adenocarcinoma",
+      "published_date": "2023-03-01",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta857"
+    },
+    {
+      "reference": "TA743",
+      "title": "Semaglutide for managing overweight and obesity",
+      "published_date": "2023-03-08",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta743"
+    },
+    {
+      "reference": "TA860",
+      "title": "Maribavir for treating refractory or resistant cytomegalovirus infection after transplant",
+      "published_date": "2023-03-15",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta860"
+    },
+    {
+      "reference": "TA862",
+      "title": "Trastuzumab deruxtecan for treating HER2-positive unresectable or metastatic breast cancer after trastuzumab and a taxane",
+      "published_date": "2023-03-15",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta862"
+    },
+    {
+      "reference": "TA864",
+      "title": "Nintedanib for treating idiopathic pulmonary fibrosis",
+      "published_date": "2023-03-29",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta864"
+    },
+    {
+      "reference": "TA865",
+      "title": "Nivolumab with fluoropyrimidine- and platinum-based chemotherapy for untreated unresectable advanced, recurrent or metastatic oesophageal squamous cell carcinoma",
+      "published_date": "2023-03-29",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta865"
+    },
+    {
+      "reference": "TA872",
+      "title": "Axicabtagene ciloleucel for treating diffuse large B-cell lymphoma and primary mediastinal large B-cell lymphoma after first-line chemoimmunotherapy",
+      "published_date": "2023-04-12",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta872"
+    },
+    {
+      "reference": "TA874",
+      "title": "Polatuzumab vedotin with rituximab, cyclophosphamide, doxorubicin and prednisone for untreated diffuse large B-cell lymphoma",
+      "published_date": "2023-04-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta874"
+    },
+    {
+      "reference": "TA878",
+      "title": "Nirmatrelvir plus ritonavir for treating COVID-19",
+      "published_date": "2023-04-26",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta878"
+    },
+    {
+      "reference": "TA875",
+      "title": "Semaglutide for managing overweight and obesity",
+      "published_date": "2023-05-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta875"
+    },
+    {
+      "reference": "TA876",
+      "title": "Nivolumab with platinum-doublet chemotherapy for neoadjuvant treatment of resectable non-small-cell lung cancer",
+      "published_date": "2023-05-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta876"
+    },
+    {
+      "reference": "TA881",
+      "title": "Ripretinib for treating advanced gastrointestinal stromal tumour after 3 or more kinase inhibitors",
+      "published_date": "2023-05-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta881"
+    },
+    {
+      "reference": "TA900",
+      "title": "Tixagevimab plus cilgavimab for preventing COVID-19",
+      "published_date": "2023-06-21",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta900"
+    },
+    {
+      "reference": "TA902",
+      "title": "Dapagliflozin for treating chronic heart failure with preserved or mildly reduced ejection fraction",
+      "published_date": "2023-07-05",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta902"
+    },
+    {
+      "reference": "TA903",
+      "title": "Darolutamide with androgen deprivation therapy and docetaxel for treating hormone-sensitive metastatic prostate cancer",
+      "published_date": "2023-07-05",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta903"
+    },
+    {
+      "reference": "TA904",
+      "title": "Pembrolizumab with lenvatinib for previously treated advanced endometrial cancer",
+      "published_date": "2023-07-19",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta904"
+    },
+    {
+      "reference": "TA906",
+      "title": "Rimegepant for preventing migraine",
+      "published_date": "2023-07-19",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta906"
+    },
+    {
+      "reference": "TA908",
+      "title": "Olaparib for maintenance treatment of platinum-sensitive relapsed ovarian, fallopian tube or peritoneal cancer",
+      "published_date": "2023-08-02",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta908"
+    },
+    {
+      "reference": "TA909",
+      "title": "Lorlatinib for untreated ALK-positive advanced non-small-cell lung cancer",
+      "published_date": "2023-08-02",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta909"
+    },
+    {
+      "reference": "TA910",
+      "title": "Sacituzumab govitecan for treating unresectable locally advanced or metastatic triple-negative breast cancer after 2 or more therapies",
+      "published_date": "2023-10-18",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta910"
+    },
+    {
+      "reference": "TA924",
+      "title": "Tirzepatide for treating type 2 diabetes",
+      "published_date": "2023-11-22",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta924"
+    },
+    {
+      "reference": "TA921",
+      "title": "Ruxolitinib for treating polycythaemia vera when hydroxycarbamide is not tolerated or is inadequate",
+      "published_date": "2024-01-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta921"
+    },
+    {
+      "reference": "TA943",
+      "title": "Hybrid closed loop systems for managing blood glucose levels in type 1 diabetes",
+      "published_date": "2024-02-28",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta943"
+    },
+    {
+      "reference": "TA952",
+      "title": "Talazoparib with enzalutamide for treating HER2-negative locally advanced or metastatic breast cancer with germline BRCA mutations",
+      "published_date": "2024-04-10",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta952"
+    },
+    {
+      "reference": "TA950",
+      "title": "Faricimab for treating wet age-related macular degeneration",
+      "published_date": "2024-04-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta950"
+    },
+    {
+      "reference": "TA954",
+      "title": "Epcoritamab for treating relapsed or refractory diffuse large B-cell lymphoma after 2 or more lines of systemic therapy",
+      "published_date": "2024-04-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta954"
+    },
+    {
+      "reference": "TA959",
+      "title": "Daratumumab with bortezomib, cyclophosphamide and dexamethasone for treating newly diagnosed systemic light chain amyloidosis",
+      "published_date": "2024-05-08",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta959"
+    },
+    {
+      "reference": "TA964",
+      "title": "Cabozantinib with nivolumab for untreated advanced renal cell carcinoma",
+      "published_date": "2024-05-22",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta964"
+    },
+    {
+      "reference": "TA970",
+      "title": "Selinexor with dexamethasone for treating relapsed or refractory multiple myeloma",
+      "published_date": "2024-06-19",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta970"
+    },
+    {
+      "reference": "TA977",
+      "title": "Dabrafenib with trametinib for treating BRAF V600E mutation-positive paediatric low-grade glioma",
+      "published_date": "2024-07-17",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta977"
+    },
+    {
+      "reference": "TA971",
+      "title": "Enfortumab vedotin with pembrolizumab for untreated locally advanced or metastatic urothelial cancer",
+      "published_date": "2024-07-24",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta971"
+    },
+    {
+      "reference": "TA979",
+      "title": "Ivosidenib with azacitidine for treating IDH1-mutated newly diagnosed acute myeloid leukaemia when intensive chemotherapy is unsuitable",
+      "published_date": "2024-07-31",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta979"
+    },
+    {
+      "reference": "TA986",
+      "title": "Lebrikizumab for treating moderate to severe atopic dermatitis",
+      "published_date": "2024-08-28",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta986"
+    },
+    {
+      "reference": "TA988",
+      "title": "Ivacaftor-tezacaftor-elexacaftor for treating cystic fibrosis",
+      "published_date": "2024-09-11",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta988"
+    },
+    {
+      "reference": "TA989",
+      "title": "Etranacogene dezaparvovec for treating severe haemophilia B",
+      "published_date": "2024-09-11",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta989"
+    },
+    {
+      "reference": "TA990",
+      "title": "Tenecteplase for treating acute ischaemic stroke",
+      "published_date": "2024-09-25",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta990"
+    },
+    {
+      "reference": "TA992",
+      "title": "Trastuzumab deruxtecan for treating HER2-low metastatic or unresectable breast cancer after chemotherapy",
+      "published_date": "2024-10-09",
+      "guidance_type": "TA",
+      "recommendation": "not recommended",
+      "url": "https://www.nice.org.uk/guidance/ta992"
+    },
+    {
+      "reference": "TA998",
+      "title": "Risankizumab for treating moderately to severely active ulcerative colitis",
+      "published_date": "2024-10-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta998"
+    },
+    {
+      "reference": "TA999",
+      "title": "Vibegron for treating overactive bladder syndrome",
+      "published_date": "2024-11-06",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta999"
+    },
+    {
+      "reference": "TA1000",
+      "title": "Iptacopan for treating paroxysmal nocturnal haemoglobinuria",
+      "published_date": "2024-11-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1000"
+    },
+    {
+      "reference": "TA1040",
+      "title": "Olaparib for treating BRCA mutation-positive HER2-negative early breast cancer after chemotherapy",
+      "published_date": "2025-01-15",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1040"
+    },
+    {
+      "reference": "TA1043",
+      "title": "Osimertinib for adjuvant treatment of EGFR mutation-positive non-small-cell lung cancer after complete tumour resection",
+      "published_date": "2025-01-29",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1043"
+    },
+    {
+      "reference": "TA1070",
+      "title": "Lecanemab for treating early Alzheimer's disease",
+      "published_date": "2025-03-12",
+      "guidance_type": "TA",
+      "recommendation": "not recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1070"
+    },
+    {
+      "reference": "TA1063",
+      "title": "Capivasertib with fulvestrant for treating hormone receptor-positive, HER2-negative locally advanced or metastatic breast cancer",
+      "published_date": "2025-04-02",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1063"
+    },
+    {
+      "reference": "TA1064",
+      "title": "Dostarlimab with platinum-based chemotherapy for treating advanced or recurrent endometrial cancer with mismatch repair deficiency or high microsatellite instability",
+      "published_date": "2025-04-16",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1064"
+    },
+    {
+      "reference": "TA1060",
+      "title": "Osimertinib with pemetrexed and platinum-based chemotherapy for untreated EGFR mutation-positive advanced non-small-cell lung cancer",
+      "published_date": "2025-05-14",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1060"
+    },
+    {
+      "reference": "TA1080",
+      "title": "Mirikizumab for treating previously treated moderately to severely active Crohn's disease",
+      "published_date": "2025-06-04",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1080"
+    },
+    {
+      "reference": "TA1081",
+      "title": "Zanubrutinib for treating relapsed or refractory mantle cell lymphoma",
+      "published_date": "2025-06-04",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1081"
+    },
+    {
+      "reference": "TA1085",
+      "title": "Vanzacaftor-tezacaftor-deutivacaftor for treating cystic fibrosis",
+      "published_date": "2025-06-18",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1085"
+    },
+    {
+      "reference": "TA1090",
+      "title": "Durvalumab with tremelimumab for untreated advanced unresectable hepatocellular carcinoma",
+      "published_date": "2025-07-09",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1090"
+    },
+    {
+      "reference": "TA1091",
+      "title": "Tarlatamab for treating relapsed or refractory extensive-stage small-cell lung cancer",
+      "published_date": "2025-07-09",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1091"
+    },
+    {
+      "reference": "TA1092",
+      "title": "Pembrolizumab with carboplatin and paclitaxel for first-line treatment of advanced or recurrent endometrial cancer",
+      "published_date": "2025-07-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1092"
+    },
+    {
+      "reference": "TA1093",
+      "title": "Idebenone for treating Leber's hereditary optic neuropathy",
+      "published_date": "2025-07-23",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1093"
+    },
+    {
+      "reference": "TA1094",
+      "title": "Guselkumab for treating moderately to severely active ulcerative colitis",
+      "published_date": "2025-08-06",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1094"
+    },
+    {
+      "reference": "TA1095",
+      "title": "Guselkumab for treating moderately to severely active Crohn's disease",
+      "published_date": "2025-08-06",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1095"
+    },
+    {
+      "reference": "TA1096",
+      "title": "Benralizumab for treating eosinophilic granulomatosis with polyangiitis",
+      "published_date": "2025-08-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1096"
+    },
+    {
+      "reference": "TA1097",
+      "title": "Enfortumab vedotin with pembrolizumab for untreated locally advanced or metastatic urothelial cancer",
+      "published_date": "2025-08-20",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1097"
+    },
+    {
+      "reference": "TA1098",
+      "title": "Isatuximab with bortezomib, lenalidomide and dexamethasone for untreated multiple myeloma",
+      "published_date": "2025-09-03",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1098"
+    },
+    {
+      "reference": "TA1099",
+      "title": "Durvalumab for treating limited-stage small-cell lung cancer",
+      "published_date": "2025-09-03",
+      "guidance_type": "TA",
+      "recommendation": "recommended",
+      "url": "https://www.nice.org.uk/guidance/ta1099"
     }
   ]
 }
