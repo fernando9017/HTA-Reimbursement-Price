@@ -369,6 +369,35 @@ def test_find_assessment_by_id(service):
     assert sub["comparator"] == "Nivolumab"
 
 
+def test_find_assessment_by_id_aggregates_all_subpopulations(service):
+    """When a decision has multiple patient groups, find_assessment_by_id must
+    return ALL subpopulations — not just the first one it encounters.
+
+    The 2020 Pembrolizumab melanoma decision (2020-01-15-D-500) has 2
+    subpopulations (BRAF-wild and BRAF-V600). Both must be returned so
+    that the AI analysis receives the complete picture.
+    """
+    data = service.find_assessment_by_id("2020-01-15-D-500")
+    assert data is not None
+    assert data["decision_id"] == "2020-01-15-D-500"
+
+    # Must contain BOTH subpopulations
+    assert len(data["subpopulations"]) == 2, (
+        f"Expected 2 subpopulations, got {len(data['subpopulations'])}. "
+        "find_assessment_by_id must aggregate all patient groups sharing "
+        "the same decision_id."
+    )
+
+    # Verify both subpopulations are distinct
+    ratings = {sub["benefit_rating"] for sub in data["subpopulations"]}
+    assert "beträchtlich" in ratings
+    assert "nicht quantifizierbar" in ratings
+
+    comparators = {sub["comparator"] for sub in data["subpopulations"]}
+    assert "Ipilimumab" in comparators
+    assert "Vemurafenib" in comparators
+
+
 def test_find_assessment_by_id_nsclc(service):
     """Should find the NSCLC assessment for Pembrolizumab."""
     data = service.find_assessment_by_id("2021-09-01-D-600")
