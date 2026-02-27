@@ -443,6 +443,16 @@ function renderSingleAssessment(a) {
             <span class="label">NHI:</span> ${esc(a.pmda_review_type)}
            </span>`
         : "";
+    const pricingMethodBadge = a.pricing_method
+        ? `<span class="badge badge-pricing-method">
+            <span class="label">Pricing:</span> ${esc(a.pricing_method)}
+           </span>`
+        : "";
+    const premiumBadge = a.premium_type
+        ? `<span class="badge badge-premium">
+            <span class="label">Premium:</span> ${esc(a.premium_type)}
+           </span>`
+        : "";
 
     // Determine link(s) based on country
     const isGermany = !!a.benefit_rating;
@@ -527,6 +537,8 @@ function renderSingleAssessment(a) {
                 ${iptRefBadge}
                 ${bifimedBadge}
                 ${pmdaBadge}
+                ${pricingMethodBadge}
+                ${premiumBadge}
             </div>
             ${smrDesc}
             ${asmrDesc}

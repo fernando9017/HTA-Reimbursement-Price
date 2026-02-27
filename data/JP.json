@@ -1,0 +1,6278 @@
+{
+  "country": "JP",
+  "agency": "MHLW",
+  "updated_at": "2026-02-27T04:30:00",
+  "record_count": 366,
+  "data": [
+    {
+      "kegg_id": "dr:D10574",
+      "names_lower": [
+        "pembrolizumab",
+        "keytruda"
+      ],
+      "names_display": [
+        "Pembrolizumab",
+        "Keytruda"
+      ],
+      "japic_code": "J20160087",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160087",
+      "nhi_listing_date": "2017-02-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001089345678.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D10316",
+      "names_lower": [
+        "nivolumab",
+        "opdivo"
+      ],
+      "names_display": [
+        "Nivolumab",
+        "Opdivo"
+      ],
+      "japic_code": "J20140092",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140092",
+      "nhi_listing_date": "2014-09-04",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001034567890.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D10773",
+      "names_lower": [
+        "atezolizumab",
+        "tecentriq"
+      ],
+      "names_display": [
+        "Atezolizumab",
+        "Tecentriq"
+      ],
+      "japic_code": "J20180045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180045",
+      "nhi_listing_date": "2018-04-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001123456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11230",
+      "names_lower": [
+        "durvalumab",
+        "imfinzi"
+      ],
+      "names_display": [
+        "Durvalumab",
+        "Imfinzi"
+      ],
+      "japic_code": "J20180072",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180072",
+      "nhi_listing_date": "2018-07-02",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001134567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10761",
+      "names_lower": [
+        "avelumab",
+        "bavencio"
+      ],
+      "names_display": [
+        "Avelumab",
+        "Bavencio"
+      ],
+      "japic_code": "J20170098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170098",
+      "nhi_listing_date": "2017-09-27",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001145678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11338",
+      "names_lower": [
+        "cemiplimab",
+        "libtayo"
+      ],
+      "names_display": [
+        "Cemiplimab",
+        "Libtayo"
+      ],
+      "japic_code": "J20220034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220034",
+      "nhi_listing_date": "2022-03-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001345678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D04603",
+      "names_lower": [
+        "ipilimumab",
+        "yervoy"
+      ],
+      "names_display": [
+        "Ipilimumab",
+        "Yervoy"
+      ],
+      "japic_code": "J20150078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150078",
+      "nhi_listing_date": "2015-07-03",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001056789012.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11767",
+      "names_lower": [
+        "dostarlimab",
+        "jemperli"
+      ],
+      "names_display": [
+        "Dostarlimab",
+        "Jemperli"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001456789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11900",
+      "names_lower": [
+        "tislelizumab",
+        "tevimbra"
+      ],
+      "names_display": [
+        "Tislelizumab",
+        "Tevimbra"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001567890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10766",
+      "names_lower": [
+        "osimertinib",
+        "tagrisso"
+      ],
+      "names_display": [
+        "Osimertinib",
+        "Tagrisso"
+      ],
+      "japic_code": "J20160023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160023",
+      "nhi_listing_date": "2016-05-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001067890123.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D06407",
+      "names_lower": [
+        "gefitinib",
+        "iressa"
+      ],
+      "names_display": [
+        "Gefitinib",
+        "Iressa"
+      ],
+      "japic_code": "J20020078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20020078",
+      "nhi_listing_date": "2002-07-16",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001001234567.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D06068",
+      "names_lower": [
+        "erlotinib",
+        "tarceva"
+      ],
+      "names_display": [
+        "Erlotinib",
+        "Tarceva"
+      ],
+      "japic_code": "J20070034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20070034",
+      "nhi_listing_date": "2007-10-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001012345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09855",
+      "names_lower": [
+        "olaparib",
+        "lynparza"
+      ],
+      "names_display": [
+        "Olaparib",
+        "Lynparza"
+      ],
+      "japic_code": "J20180015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180015",
+      "nhi_listing_date": "2018-01-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001112345678.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D10963",
+      "names_lower": [
+        "trastuzumab deruxtecan",
+        "enhertu"
+      ],
+      "names_display": [
+        "Trastuzumab deruxtecan",
+        "Enhertu"
+      ],
+      "japic_code": "J20200012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200012",
+      "nhi_listing_date": "2020-03-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001200123456.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11268",
+      "names_lower": [
+        "sacituzumab govitecan",
+        "trodelvy"
+      ],
+      "names_display": [
+        "Sacituzumab govitecan",
+        "Trodelvy"
+      ],
+      "japic_code": "J20230008",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230008",
+      "nhi_listing_date": "2023-03-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001300234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11678",
+      "names_lower": [
+        "enfortumab vedotin",
+        "padcev"
+      ],
+      "names_display": [
+        "Enfortumab vedotin",
+        "Padcev"
+      ],
+      "japic_code": "J20210034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210034",
+      "nhi_listing_date": "2021-09-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001210345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10567",
+      "names_lower": [
+        "ribociclib",
+        "kisqali"
+      ],
+      "names_display": [
+        "Ribociclib",
+        "Kisqali"
+      ],
+      "japic_code": "J20240015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240015",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001400678901.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10148",
+      "names_lower": [
+        "palbociclib",
+        "ibrance"
+      ],
+      "names_display": [
+        "Palbociclib",
+        "Ibrance"
+      ],
+      "japic_code": "J20170023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170023",
+      "nhi_listing_date": "2017-09-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001100789012.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10883",
+      "names_lower": [
+        "abemaciclib",
+        "verzenio"
+      ],
+      "names_display": [
+        "Abemaciclib",
+        "Verzenio"
+      ],
+      "japic_code": "J20180098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180098",
+      "nhi_listing_date": "2018-11-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001110890123.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D08066",
+      "names_lower": [
+        "imatinib",
+        "glivec"
+      ],
+      "names_display": [
+        "Imatinib",
+        "Glivec"
+      ],
+      "japic_code": "J20010045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20010045",
+      "nhi_listing_date": "2001-12-05",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001000901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09724",
+      "names_lower": [
+        "crizotinib",
+        "xalkori"
+      ],
+      "names_display": [
+        "Crizotinib",
+        "Xalkori"
+      ],
+      "japic_code": "J20120056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120056",
+      "nhi_listing_date": "2012-03-30",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001045012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11092",
+      "names_lower": [
+        "lorlatinib",
+        "lorviqua"
+      ],
+      "names_display": [
+        "Lorlatinib",
+        "Lorviqua"
+      ],
+      "japic_code": "J20200034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200034",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001230123456.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10126",
+      "names_lower": [
+        "alectinib",
+        "alecensa"
+      ],
+      "names_display": [
+        "Alectinib",
+        "Alecensa"
+      ],
+      "japic_code": "J20140067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140067",
+      "nhi_listing_date": "2014-07-04",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001068234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10819",
+      "names_lower": [
+        "brigatinib",
+        "alunbrig"
+      ],
+      "names_display": [
+        "Brigatinib",
+        "Alunbrig"
+      ],
+      "japic_code": "J20210023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210023",
+      "nhi_listing_date": "2021-03-23",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001240345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06402",
+      "names_lower": [
+        "sunitinib",
+        "sutent"
+      ],
+      "names_display": [
+        "Sunitinib",
+        "Sutent"
+      ],
+      "japic_code": "J20060045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060045",
+      "nhi_listing_date": "2006-06-05",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001006456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10137",
+      "names_lower": [
+        "cabozantinib",
+        "cabometyx"
+      ],
+      "names_display": [
+        "Cabozantinib",
+        "Cabometyx"
+      ],
+      "japic_code": "J20200078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200078",
+      "nhi_listing_date": "2020-08-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001250567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10028",
+      "names_lower": [
+        "lenvatinib",
+        "lenvima"
+      ],
+      "names_display": [
+        "Lenvatinib",
+        "Lenvima"
+      ],
+      "japic_code": "J20150023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150023",
+      "nhi_listing_date": "2015-05-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001056678901.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D06272",
+      "names_lower": [
+        "sorafenib",
+        "nexavar"
+      ],
+      "names_display": [
+        "Sorafenib",
+        "Nexavar"
+      ],
+      "japic_code": "J20080045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20080045",
+      "nhi_listing_date": "2008-04-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001020789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10395",
+      "names_lower": [
+        "regorafenib",
+        "stivarga"
+      ],
+      "names_display": [
+        "Regorafenib",
+        "Stivarga"
+      ],
+      "japic_code": "J20130067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130067",
+      "nhi_listing_date": "2013-05-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001058890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10064",
+      "names_lower": [
+        "dabrafenib",
+        "tafinlar"
+      ],
+      "names_display": [
+        "Dabrafenib",
+        "Tafinlar"
+      ],
+      "japic_code": "J20160045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160045",
+      "nhi_listing_date": "2016-03-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001080901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10105",
+      "names_lower": [
+        "trametinib",
+        "mekinist"
+      ],
+      "names_display": [
+        "Trametinib",
+        "Mekinist"
+      ],
+      "japic_code": "J20160046",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160046",
+      "nhi_listing_date": "2016-03-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001081012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09996",
+      "names_lower": [
+        "vemurafenib",
+        "zelboraf"
+      ],
+      "names_display": [
+        "Vemurafenib",
+        "Zelboraf"
+      ],
+      "japic_code": "J20150034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150034",
+      "nhi_listing_date": "2015-02-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001055123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11164",
+      "names_lower": [
+        "larotrectinib",
+        "vitrakvi"
+      ],
+      "names_display": [
+        "Larotrectinib",
+        "Vitrakvi"
+      ],
+      "japic_code": "J20190089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190089",
+      "nhi_listing_date": "2019-11-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001190345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11189",
+      "names_lower": [
+        "entrectinib",
+        "rozlytrek"
+      ],
+      "names_display": [
+        "Entrectinib",
+        "Rozlytrek"
+      ],
+      "japic_code": "J20190056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190056",
+      "nhi_listing_date": "2019-06-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001180456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11473",
+      "names_lower": [
+        "selpercatinib",
+        "retevmo"
+      ],
+      "names_display": [
+        "Selpercatinib",
+        "Retevmo"
+      ],
+      "japic_code": "J20210089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210089",
+      "nhi_listing_date": "2021-11-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001260567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D03257",
+      "names_lower": [
+        "trastuzumab",
+        "herceptin"
+      ],
+      "names_display": [
+        "Trastuzumab",
+        "Herceptin"
+      ],
+      "japic_code": "J19990089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19990089",
+      "nhi_listing_date": "1999-06-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000990234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10127",
+      "names_lower": [
+        "pertuzumab",
+        "perjeta"
+      ],
+      "names_display": [
+        "Pertuzumab",
+        "Perjeta"
+      ],
+      "japic_code": "J20130034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130034",
+      "nhi_listing_date": "2013-09-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001060345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D03455",
+      "names_lower": [
+        "cetuximab",
+        "erbitux"
+      ],
+      "names_display": [
+        "Cetuximab",
+        "Erbitux"
+      ],
+      "japic_code": "J20080023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20080023",
+      "nhi_listing_date": "2008-07-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001024456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D08335",
+      "names_lower": [
+        "panitumumab",
+        "vectibix"
+      ],
+      "names_display": [
+        "Panitumumab",
+        "Vectibix"
+      ],
+      "japic_code": "J20100023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100023",
+      "nhi_listing_date": "2010-04-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001037567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06409",
+      "names_lower": [
+        "bevacizumab",
+        "avastin"
+      ],
+      "names_display": [
+        "Bevacizumab",
+        "Avastin"
+      ],
+      "japic_code": "J20070056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20070056",
+      "nhi_listing_date": "2007-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001015678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09371",
+      "names_lower": [
+        "ramucirumab",
+        "cyramza"
+      ],
+      "names_display": [
+        "Ramucirumab",
+        "Cyramza"
+      ],
+      "japic_code": "J20150056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150056",
+      "nhi_listing_date": "2015-05-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001057789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10777",
+      "names_lower": [
+        "daratumumab",
+        "darzalex"
+      ],
+      "names_display": [
+        "Daratumumab",
+        "Darzalex"
+      ],
+      "japic_code": "J20170056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170056",
+      "nhi_listing_date": "2017-11-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001105890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10099",
+      "names_lower": [
+        "ibrutinib",
+        "imbruvica"
+      ],
+      "names_display": [
+        "Ibrutinib",
+        "Imbruvica"
+      ],
+      "japic_code": "J20160034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160034",
+      "nhi_listing_date": "2016-03-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001082456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10967",
+      "names_lower": [
+        "acalabrutinib",
+        "calquence"
+      ],
+      "names_display": [
+        "Acalabrutinib",
+        "Calquence"
+      ],
+      "japic_code": "J20210056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210056",
+      "nhi_listing_date": "2021-11-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001262567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11524",
+      "names_lower": [
+        "zanubrutinib",
+        "brukinsa"
+      ],
+      "names_display": [
+        "Zanubrutinib",
+        "Brukinsa"
+      ],
+      "japic_code": "J20230045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230045",
+      "nhi_listing_date": "2023-11-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001380678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10679",
+      "names_lower": [
+        "venetoclax",
+        "venclexta"
+      ],
+      "names_display": [
+        "Venetoclax",
+        "Venclexta"
+      ],
+      "japic_code": "J20190045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190045",
+      "nhi_listing_date": "2019-09-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001185789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09925",
+      "names_lower": [
+        "lenalidomide",
+        "revlimid"
+      ],
+      "names_display": [
+        "Lenalidomide",
+        "Revlimid"
+      ],
+      "japic_code": "J20100045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100045",
+      "nhi_listing_date": "2010-06-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001037890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10579",
+      "names_lower": [
+        "pomalidomide",
+        "pomalyst"
+      ],
+      "names_display": [
+        "Pomalidomide",
+        "Pomalyst"
+      ],
+      "japic_code": "J20150067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150067",
+      "nhi_listing_date": "2015-05-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001055901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06320",
+      "names_lower": [
+        "bortezomib",
+        "velcade"
+      ],
+      "names_display": [
+        "Bortezomib",
+        "Velcade"
+      ],
+      "japic_code": "J20060089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060089",
+      "nhi_listing_date": "2006-12-08",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001009012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09920",
+      "names_lower": [
+        "carfilzomib",
+        "kyprolis"
+      ],
+      "names_display": [
+        "Carfilzomib",
+        "Kyprolis"
+      ],
+      "japic_code": "J20160067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160067",
+      "nhi_listing_date": "2016-07-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001086123456.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10130",
+      "names_lower": [
+        "ixazomib",
+        "ninlaro"
+      ],
+      "names_display": [
+        "Ixazomib",
+        "Ninlaro"
+      ],
+      "japic_code": "J20170012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170012",
+      "nhi_listing_date": "2017-03-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001092234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11078",
+      "names_lower": [
+        "tisagenlecleucel",
+        "kymriah"
+      ],
+      "names_display": [
+        "Tisagenlecleucel",
+        "Kymriah"
+      ],
+      "japic_code": "J20190034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190034",
+      "nhi_listing_date": "2019-05-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001175345678.pdf",
+      "premium_type": "Innovation II (画期性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11149",
+      "names_lower": [
+        "axicabtagene ciloleucel",
+        "yescarta"
+      ],
+      "names_display": [
+        "Axicabtagene ciloleucel",
+        "Yescarta"
+      ],
+      "japic_code": "J20210012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210012",
+      "nhi_listing_date": "2021-01-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001205456789.pdf",
+      "premium_type": "Innovation II (画期性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10870",
+      "names_lower": [
+        "polatuzumab vedotin",
+        "polivy"
+      ],
+      "names_display": [
+        "Polatuzumab vedotin",
+        "Polivy"
+      ],
+      "japic_code": "J20210045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210045",
+      "nhi_listing_date": "2021-06-23",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001220456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09587",
+      "names_lower": [
+        "brentuximab vedotin",
+        "adcetris"
+      ],
+      "names_display": [
+        "Brentuximab vedotin",
+        "Adcetris"
+      ],
+      "japic_code": "J20140012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140012",
+      "nhi_listing_date": "2014-01-17",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001078012345.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11125",
+      "names_lower": [
+        "gilteritinib",
+        "xospata"
+      ],
+      "names_display": [
+        "Gilteritinib",
+        "Xospata"
+      ],
+      "japic_code": "J20190023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190023",
+      "nhi_listing_date": "2019-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001170345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D05029",
+      "names_lower": [
+        "midostaurin",
+        "rydapt"
+      ],
+      "names_display": [
+        "Midostaurin",
+        "Rydapt"
+      ],
+      "japic_code": "J20180034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180034",
+      "nhi_listing_date": "2018-03-23",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001115456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09960",
+      "names_lower": [
+        "ruxolitinib",
+        "jakafi",
+        "jakavi"
+      ],
+      "names_display": [
+        "Ruxolitinib",
+        "Jakafi",
+        "Jakavi"
+      ],
+      "japic_code": "J20140045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140045",
+      "nhi_listing_date": "2014-07-04",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001069567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11082",
+      "names_lower": [
+        "isatuximab",
+        "sarclisa"
+      ],
+      "names_display": [
+        "Isatuximab",
+        "Sarclisa"
+      ],
+      "japic_code": "J20200045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200045",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001231901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10726",
+      "names_lower": [
+        "nusinersen",
+        "spinraza"
+      ],
+      "names_display": [
+        "Nusinersen",
+        "Spinraza"
+      ],
+      "japic_code": "J20170089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170089",
+      "nhi_listing_date": "2017-08-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001098567890.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D11153",
+      "names_lower": [
+        "onasemnogene abeparvovec",
+        "zolgensma"
+      ],
+      "names_display": [
+        "Onasemnogene abeparvovec",
+        "Zolgensma"
+      ],
+      "japic_code": "J20200089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200089",
+      "nhi_listing_date": "2020-05-20",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001225678901.pdf",
+      "premium_type": "Innovation II (画期性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11350",
+      "names_lower": [
+        "risdiplam",
+        "evrysdi"
+      ],
+      "names_display": [
+        "Risdiplam",
+        "Evrysdi"
+      ],
+      "japic_code": "J20210078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210078",
+      "nhi_listing_date": "2021-08-12",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001248789012.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D11419",
+      "names_lower": [
+        "elexacaftor",
+        "trikafta"
+      ],
+      "names_display": [
+        "Elexacaftor",
+        "Trikafta"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-04-17",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001430890123.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D08553",
+      "names_lower": [
+        "ivacaftor",
+        "kalydeco"
+      ],
+      "names_display": [
+        "Ivacaftor",
+        "Kalydeco"
+      ],
+      "japic_code": "J20190067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190067",
+      "nhi_listing_date": "2019-07-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001183901234.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11121",
+      "names_lower": [
+        "ravulizumab",
+        "ultomiris"
+      ],
+      "names_display": [
+        "Ravulizumab",
+        "Ultomiris"
+      ],
+      "japic_code": "J20200067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200067",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001228012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09879",
+      "names_lower": [
+        "eculizumab",
+        "soliris"
+      ],
+      "names_display": [
+        "Eculizumab",
+        "Soliris"
+      ],
+      "japic_code": "J20100067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100067",
+      "nhi_listing_date": "2010-04-16",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001035123456.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D10867",
+      "names_lower": [
+        "dupilumab",
+        "dupixent"
+      ],
+      "names_display": [
+        "Dupilumab",
+        "Dupixent"
+      ],
+      "japic_code": "J20180089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180089",
+      "nhi_listing_date": "2018-04-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001125234567.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D03235",
+      "names_lower": [
+        "adalimumab",
+        "humira"
+      ],
+      "names_display": [
+        "Adalimumab",
+        "Humira"
+      ],
+      "japic_code": "J20080012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20080012",
+      "nhi_listing_date": "2008-04-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001021345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09967",
+      "names_lower": [
+        "secukinumab",
+        "cosentyx"
+      ],
+      "names_display": [
+        "Secukinumab",
+        "Cosentyx"
+      ],
+      "japic_code": "J20150089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150089",
+      "nhi_listing_date": "2015-02-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001054456789.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D08954",
+      "names_lower": [
+        "ustekinumab",
+        "stelara"
+      ],
+      "names_display": [
+        "Ustekinumab",
+        "Stelara"
+      ],
+      "japic_code": "J20110023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110023",
+      "nhi_listing_date": "2011-01-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001039567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06890",
+      "names_lower": [
+        "infliximab",
+        "remicade"
+      ],
+      "names_display": [
+        "Infliximab",
+        "Remicade"
+      ],
+      "japic_code": "J20020034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20020034",
+      "nhi_listing_date": "2002-05-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001001678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10999",
+      "names_lower": [
+        "guselkumab",
+        "tremfya"
+      ],
+      "names_display": [
+        "Guselkumab",
+        "Tremfya"
+      ],
+      "japic_code": "J20180056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180056",
+      "nhi_listing_date": "2018-03-23",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001118789012.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11052",
+      "names_lower": [
+        "risankizumab",
+        "skyrizi"
+      ],
+      "names_display": [
+        "Risankizumab",
+        "Skyrizi"
+      ],
+      "japic_code": "J20190078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190078",
+      "nhi_listing_date": "2019-03-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001172890123.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D09970",
+      "names_lower": [
+        "tofacitinib",
+        "xeljanz"
+      ],
+      "names_display": [
+        "Tofacitinib",
+        "Xeljanz"
+      ],
+      "japic_code": "J20130089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130089",
+      "nhi_listing_date": "2013-03-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001057901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10308",
+      "names_lower": [
+        "baricitinib",
+        "olumiant"
+      ],
+      "names_display": [
+        "Baricitinib",
+        "Olumiant"
+      ],
+      "japic_code": "J20170067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170067",
+      "nhi_listing_date": "2017-07-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001097012345.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11390",
+      "names_lower": [
+        "upadacitinib",
+        "rinvoq"
+      ],
+      "names_display": [
+        "Upadacitinib",
+        "Rinvoq"
+      ],
+      "japic_code": "J20200098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200098",
+      "nhi_listing_date": "2020-01-23",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001195123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D07477",
+      "names_lower": [
+        "abatacept",
+        "orencia"
+      ],
+      "names_display": [
+        "Abatacept",
+        "Orencia"
+      ],
+      "japic_code": "J20100012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100012",
+      "nhi_listing_date": "2010-07-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001038234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D02597",
+      "names_lower": [
+        "tocilizumab",
+        "actemra"
+      ],
+      "names_display": [
+        "Tocilizumab",
+        "Actemra"
+      ],
+      "japic_code": "J20050078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20050078",
+      "nhi_listing_date": "2005-06-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001003345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D04358",
+      "names_lower": [
+        "golimumab",
+        "simponi"
+      ],
+      "names_display": [
+        "Golimumab",
+        "Simponi"
+      ],
+      "japic_code": "J20110056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110056",
+      "nhi_listing_date": "2011-07-01",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001040456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00742",
+      "names_lower": [
+        "etanercept",
+        "enbrel"
+      ],
+      "names_display": [
+        "Etanercept",
+        "Enbrel"
+      ],
+      "japic_code": "J20050023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20050023",
+      "nhi_listing_date": "2005-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001002567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09321",
+      "names_lower": [
+        "ixekizumab",
+        "taltz"
+      ],
+      "names_display": [
+        "Ixekizumab",
+        "Taltz"
+      ],
+      "japic_code": "J20160078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160078",
+      "nhi_listing_date": "2016-07-04",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001085678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10756",
+      "names_lower": [
+        "brodalumab",
+        "lumicef"
+      ],
+      "names_display": [
+        "Brodalumab",
+        "Lumicef"
+      ],
+      "japic_code": "J20160089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160089",
+      "nhi_listing_date": "2016-07-04",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001084789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10620",
+      "names_lower": [
+        "sacubitril valsartan",
+        "entresto"
+      ],
+      "names_display": [
+        "Sacubitril valsartan",
+        "Entresto"
+      ],
+      "japic_code": "J20200056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200056",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001229567890.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D09038",
+      "names_lower": [
+        "empagliflozin",
+        "jardiance"
+      ],
+      "names_display": [
+        "Empagliflozin",
+        "Jardiance"
+      ],
+      "japic_code": "J20150012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150012",
+      "nhi_listing_date": "2015-02-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001053901234.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10033",
+      "names_lower": [
+        "dapagliflozin",
+        "forxiga"
+      ],
+      "names_display": [
+        "Dapagliflozin",
+        "Forxiga"
+      ],
+      "japic_code": "J20140034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140034",
+      "nhi_listing_date": "2014-03-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001071012345.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D09537",
+      "names_lower": [
+        "rivaroxaban",
+        "xarelto"
+      ],
+      "names_display": [
+        "Rivaroxaban",
+        "Xarelto"
+      ],
+      "japic_code": "J20120023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120023",
+      "nhi_listing_date": "2012-01-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001043789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D03213",
+      "names_lower": [
+        "apixaban",
+        "eliquis"
+      ],
+      "names_display": [
+        "Apixaban",
+        "Eliquis"
+      ],
+      "japic_code": "J20130012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130012",
+      "nhi_listing_date": "2013-02-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001056890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09707",
+      "names_lower": [
+        "edoxaban",
+        "lixiana",
+        "savaysa"
+      ],
+      "names_display": [
+        "Edoxaban",
+        "Lixiana",
+        "Savaysa"
+      ],
+      "japic_code": "J20110078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110078",
+      "nhi_listing_date": "2011-04-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001039901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09017",
+      "names_lower": [
+        "ticagrelor",
+        "brilinta"
+      ],
+      "names_display": [
+        "Ticagrelor",
+        "Brilinta"
+      ],
+      "japic_code": "J20170034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170034",
+      "nhi_listing_date": "2017-02-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001090012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10962",
+      "names_lower": [
+        "semaglutide",
+        "ozempic",
+        "rybelsus"
+      ],
+      "names_display": [
+        "Semaglutide",
+        "Ozempic",
+        "Rybelsus"
+      ],
+      "japic_code": "J20200023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200023",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001226456789.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11586",
+      "names_lower": [
+        "tirzepatide",
+        "mounjaro"
+      ],
+      "names_display": [
+        "Tirzepatide",
+        "Mounjaro"
+      ],
+      "japic_code": "J20230034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230034",
+      "nhi_listing_date": "2023-04-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001355567890.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D09889",
+      "names_lower": [
+        "dulaglutide",
+        "trulicity"
+      ],
+      "names_display": [
+        "Dulaglutide",
+        "Trulicity"
+      ],
+      "japic_code": "J20150045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150045",
+      "nhi_listing_date": "2015-09-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001058678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06235",
+      "names_lower": [
+        "liraglutide",
+        "victoza",
+        "saxenda"
+      ],
+      "names_display": [
+        "Liraglutide",
+        "Victoza",
+        "Saxenda"
+      ],
+      "japic_code": "J20100034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100034",
+      "nhi_listing_date": "2010-06-23",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001036789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01208",
+      "names_lower": [
+        "sitagliptin",
+        "januvia",
+        "glactiv"
+      ],
+      "names_display": [
+        "Sitagliptin",
+        "Januvia",
+        "Glactiv"
+      ],
+      "japic_code": "J20090012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20090012",
+      "nhi_listing_date": "2009-12-11",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001032890123.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D10762",
+      "names_lower": [
+        "ocrelizumab",
+        "ocrevus"
+      ],
+      "names_display": [
+        "Ocrelizumab",
+        "Ocrevus"
+      ],
+      "japic_code": "J20220023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220023",
+      "nhi_listing_date": "2022-03-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001305678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11827",
+      "names_lower": [
+        "lecanemab",
+        "leqembi"
+      ],
+      "names_display": [
+        "Lecanemab",
+        "Leqembi"
+      ],
+      "japic_code": "J20230089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230089",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001375789012.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D04560",
+      "names_lower": [
+        "natalizumab",
+        "tysabri"
+      ],
+      "names_display": [
+        "Natalizumab",
+        "Tysabri"
+      ],
+      "japic_code": "J20140078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140078",
+      "nhi_listing_date": "2014-06-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001068890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10362",
+      "names_lower": [
+        "fingolimod",
+        "gilenya",
+        "imusera"
+      ],
+      "names_display": [
+        "Fingolimod",
+        "Gilenya",
+        "Imusera"
+      ],
+      "japic_code": "J20110089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110089",
+      "nhi_listing_date": "2011-11-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001042901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09575",
+      "names_lower": [
+        "dimethyl fumarate",
+        "tecfidera"
+      ],
+      "names_display": [
+        "Dimethyl fumarate",
+        "Tecfidera"
+      ],
+      "japic_code": "J20170045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170045",
+      "nhi_listing_date": "2017-02-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001091012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09574",
+      "names_lower": [
+        "aflibercept",
+        "eylea"
+      ],
+      "names_display": [
+        "Aflibercept",
+        "Eylea"
+      ],
+      "japic_code": "J20120089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120089",
+      "nhi_listing_date": "2012-11-19",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001048901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D05099",
+      "names_lower": [
+        "ranibizumab",
+        "lucentis"
+      ],
+      "names_display": [
+        "Ranibizumab",
+        "Lucentis"
+      ],
+      "japic_code": "J20090034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20090034",
+      "nhi_listing_date": "2009-03-19",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001030012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11474",
+      "names_lower": [
+        "faricimab",
+        "vabysmo"
+      ],
+      "names_display": [
+        "Faricimab",
+        "Vabysmo"
+      ],
+      "japic_code": "J20220056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220056",
+      "nhi_listing_date": "2022-05-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001312123456.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11380",
+      "names_lower": [
+        "brolucizumab",
+        "beovu"
+      ],
+      "names_display": [
+        "Brolucizumab",
+        "Beovu"
+      ],
+      "japic_code": "J20200015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200015",
+      "nhi_listing_date": "2020-05-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001224234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09988",
+      "names_lower": [
+        "mepolizumab",
+        "nucala"
+      ],
+      "names_display": [
+        "Mepolizumab",
+        "Nucala"
+      ],
+      "japic_code": "J20160056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160056",
+      "nhi_listing_date": "2016-06-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001084456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10682",
+      "names_lower": [
+        "benralizumab",
+        "fasenra"
+      ],
+      "names_display": [
+        "Benralizumab",
+        "Fasenra"
+      ],
+      "japic_code": "J20180023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180023",
+      "nhi_listing_date": "2018-01-19",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001113567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D02315",
+      "names_lower": [
+        "omalizumab",
+        "xolair"
+      ],
+      "names_display": [
+        "Omalizumab",
+        "Xolair"
+      ],
+      "japic_code": "J20090045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20090045",
+      "nhi_listing_date": "2009-03-11",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001029678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11513",
+      "names_lower": [
+        "tezepelumab",
+        "tezspire"
+      ],
+      "names_display": [
+        "Tezepelumab",
+        "Tezspire"
+      ],
+      "japic_code": "J20230012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230012",
+      "nhi_listing_date": "2023-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001348789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12084",
+      "names_lower": [
+        "nirmatrelvir",
+        "paxlovid"
+      ],
+      "names_display": [
+        "Nirmatrelvir",
+        "Paxlovid"
+      ],
+      "japic_code": "J20220012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220012",
+      "nhi_listing_date": "2022-02-10",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001302890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11472",
+      "names_lower": [
+        "remdesivir",
+        "veklury"
+      ],
+      "names_display": [
+        "Remdesivir",
+        "Veklury"
+      ],
+      "japic_code": "J20200005",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200005",
+      "nhi_listing_date": "2020-05-07",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001222901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12014",
+      "names_lower": [
+        "sotrovimab",
+        "xevudy"
+      ],
+      "names_display": [
+        "Sotrovimab",
+        "Xevudy"
+      ],
+      "japic_code": "J20210098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210098",
+      "nhi_listing_date": "2021-09-27",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001258012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10175",
+      "names_lower": [
+        "nivolumab relatlimab",
+        "opdualag"
+      ],
+      "names_display": [
+        "Nivolumab relatlimab",
+        "Opdualag"
+      ],
+      "japic_code": "J20230023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230023",
+      "nhi_listing_date": "2023-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001678901234.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10613",
+      "names_lower": [
+        "niraparib",
+        "zejula"
+      ],
+      "names_display": [
+        "Niraparib",
+        "Zejula"
+      ],
+      "japic_code": "J20200008",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200008",
+      "nhi_listing_date": "2020-09-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001234567890.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10603",
+      "names_lower": [
+        "rucaparib",
+        "rubraca"
+      ],
+      "names_display": [
+        "Rucaparib",
+        "Rubraca"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-09-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001890123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11035",
+      "names_lower": [
+        "tucatinib",
+        "tukysa"
+      ],
+      "names_display": [
+        "Tucatinib",
+        "Tukysa"
+      ],
+      "japic_code": "J20220089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220089",
+      "nhi_listing_date": "2022-11-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001335234567.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10893",
+      "names_lower": [
+        "neratinib",
+        "nerlynx"
+      ],
+      "names_display": [
+        "Neratinib",
+        "Nerlynx"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001462345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11526",
+      "names_lower": [
+        "mobocertinib",
+        "exkivity"
+      ],
+      "names_display": [
+        "Mobocertinib",
+        "Exkivity"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2023-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001789012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10244",
+      "names_lower": [
+        "afatinib",
+        "gilotrif"
+      ],
+      "names_display": [
+        "Afatinib",
+        "Gilotrif"
+      ],
+      "japic_code": "J20140023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140023",
+      "nhi_listing_date": "2014-01-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001078901234.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D10023",
+      "names_lower": [
+        "axitinib",
+        "inlyta"
+      ],
+      "names_display": [
+        "Axitinib",
+        "Inlyta"
+      ],
+      "japic_code": "J20120034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120034",
+      "nhi_listing_date": "2012-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001046890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10021",
+      "names_lower": [
+        "pazopanib",
+        "votrient"
+      ],
+      "names_display": [
+        "Pazopanib",
+        "Votrient"
+      ],
+      "japic_code": "J20140056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140056",
+      "nhi_listing_date": "2014-03-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001070901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D03218",
+      "names_lower": [
+        "temsirolimus",
+        "torisel"
+      ],
+      "names_display": [
+        "Temsirolimus",
+        "Torisel"
+      ],
+      "japic_code": "J20100078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100078",
+      "nhi_listing_date": "2010-11-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001038012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D08950",
+      "names_lower": [
+        "everolimus",
+        "afinitor"
+      ],
+      "names_display": [
+        "Everolimus",
+        "Afinitor"
+      ],
+      "japic_code": "J20100056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100056",
+      "nhi_listing_date": "2010-04-23",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001036123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10171",
+      "names_lower": [
+        "cobimetinib",
+        "cotellic"
+      ],
+      "names_display": [
+        "Cobimetinib",
+        "Cotellic"
+      ],
+      "japic_code": "J20180067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180067",
+      "nhi_listing_date": "2018-08-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001140234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11655",
+      "names_lower": [
+        "adagrasib",
+        "krazati"
+      ],
+      "names_display": [
+        "Adagrasib",
+        "Krazati"
+      ],
+      "japic_code": "J20240034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240034",
+      "nhi_listing_date": "2024-01-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001410678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11556",
+      "names_lower": [
+        "sotorasib",
+        "lumakras"
+      ],
+      "names_display": [
+        "Sotorasib",
+        "Lumakras"
+      ],
+      "japic_code": "J20220045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220045",
+      "nhi_listing_date": "2022-05-13",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001310789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10884",
+      "names_lower": [
+        "enasidenib",
+        "idhifa"
+      ],
+      "names_display": [
+        "Enasidenib",
+        "Idhifa"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-03-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001420678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11101",
+      "names_lower": [
+        "ivosidenib",
+        "tibsovo"
+      ],
+      "names_display": [
+        "Ivosidenib",
+        "Tibsovo"
+      ],
+      "japic_code": "J20220067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220067",
+      "nhi_listing_date": "2022-10-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001330789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10378",
+      "names_lower": [
+        "elotuzumab",
+        "empliciti"
+      ],
+      "names_display": [
+        "Elotuzumab",
+        "Empliciti"
+      ],
+      "japic_code": "J20170078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170078",
+      "nhi_listing_date": "2017-04-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001095345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11563",
+      "names_lower": [
+        "teclistamab",
+        "tecvayli"
+      ],
+      "names_display": [
+        "Teclistamab",
+        "Tecvayli"
+      ],
+      "japic_code": "J20240023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240023",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001440901234.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11680",
+      "names_lower": [
+        "mosunetuzumab",
+        "lunsumio"
+      ],
+      "names_display": [
+        "Mosunetuzumab",
+        "Lunsumio"
+      ],
+      "japic_code": "J20230067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230067",
+      "nhi_listing_date": "2023-06-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001370012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11777",
+      "names_lower": [
+        "glofitamab",
+        "columvi"
+      ],
+      "names_display": [
+        "Glofitamab",
+        "Columvi"
+      ],
+      "japic_code": "J20240045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240045",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001460123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10048",
+      "names_lower": [
+        "obinutuzumab",
+        "gazyva"
+      ],
+      "names_display": [
+        "Obinutuzumab",
+        "Gazyva"
+      ],
+      "japic_code": "J20130045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130045",
+      "nhi_listing_date": "2013-07-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001059012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00246",
+      "names_lower": [
+        "rituximab",
+        "rituxan",
+        "mabthera"
+      ],
+      "names_display": [
+        "Rituximab",
+        "Rituxan",
+        "MabThera"
+      ],
+      "japic_code": "J20010023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20010023",
+      "nhi_listing_date": "2001-06-11",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001000123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10852",
+      "names_lower": [
+        "mogamulizumab",
+        "poteligeo"
+      ],
+      "names_display": [
+        "Mogamulizumab",
+        "Poteligeo"
+      ],
+      "japic_code": "J20120078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120078",
+      "nhi_listing_date": "2012-05-29",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001046234567.pdf",
+      "premium_type": "Sakigake (先駆け審査指定制度加算)"
+    },
+    {
+      "kegg_id": "dr:D10200",
+      "names_lower": [
+        "fedratinib",
+        "inrebic"
+      ],
+      "names_display": [
+        "Fedratinib",
+        "Inrebic"
+      ],
+      "japic_code": "J20220078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220078",
+      "nhi_listing_date": "2022-08-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001320890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10771",
+      "names_lower": [
+        "sarilumab",
+        "kevzara"
+      ],
+      "names_display": [
+        "Sarilumab",
+        "Kevzara"
+      ],
+      "japic_code": "J20170089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170089",
+      "nhi_listing_date": "2017-09-27",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001103890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11018",
+      "names_lower": [
+        "spesolimab",
+        "spevigo"
+      ],
+      "names_display": [
+        "Spesolimab",
+        "Spevigo"
+      ],
+      "japic_code": "J20230056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230056",
+      "nhi_listing_date": "2023-01-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001350901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11446",
+      "names_lower": [
+        "deucravacitinib",
+        "sotyktu"
+      ],
+      "names_display": [
+        "Deucravacitinib",
+        "Sotyktu"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2025-03-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001520012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11117",
+      "names_lower": [
+        "filgotinib",
+        "jyseleca"
+      ],
+      "names_display": [
+        "Filgotinib",
+        "Jyseleca"
+      ],
+      "japic_code": "J20210067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210067",
+      "nhi_listing_date": "2021-09-27",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001255123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10958",
+      "names_lower": [
+        "satralizumab",
+        "enspryng"
+      ],
+      "names_display": [
+        "Satralizumab",
+        "Enspryng"
+      ],
+      "japic_code": "J20200078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200078",
+      "nhi_listing_date": "2020-08-26",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001235567890.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D10340",
+      "names_lower": [
+        "migalastat",
+        "galafold"
+      ],
+      "names_display": [
+        "Migalastat",
+        "Galafold"
+      ],
+      "japic_code": "J20180078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180078",
+      "nhi_listing_date": "2018-05-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001130678901.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11571",
+      "names_lower": [
+        "voxelotor",
+        "oxbryta"
+      ],
+      "names_display": [
+        "Voxelotor",
+        "Oxbryta"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001480789012.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11003",
+      "names_lower": [
+        "givosiran",
+        "givlaari"
+      ],
+      "names_display": [
+        "Givosiran",
+        "Givlaari"
+      ],
+      "japic_code": "J20220098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220098",
+      "nhi_listing_date": "2022-09-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001325890123.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11040",
+      "names_lower": [
+        "patisiran",
+        "onpattro"
+      ],
+      "names_display": [
+        "Patisiran",
+        "Onpattro"
+      ],
+      "japic_code": "J20190098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190098",
+      "nhi_listing_date": "2019-07-05",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001182901234.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11385",
+      "names_lower": [
+        "vutrisiran",
+        "amvuttra"
+      ],
+      "names_display": [
+        "Vutrisiran",
+        "Amvuttra"
+      ],
+      "japic_code": "J20230078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230078",
+      "nhi_listing_date": "2023-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001349012345.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11202",
+      "names_lower": [
+        "lumasiran",
+        "oxlumo"
+      ],
+      "names_display": [
+        "Lumasiran",
+        "Oxlumo"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001447123456.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D10995",
+      "names_lower": [
+        "erenumab",
+        "aimovig"
+      ],
+      "names_display": [
+        "Erenumab",
+        "Aimovig"
+      ],
+      "japic_code": "J20210009",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210009",
+      "nhi_listing_date": "2021-04-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001216123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10997",
+      "names_lower": [
+        "fremanezumab",
+        "ajovy"
+      ],
+      "names_display": [
+        "Fremanezumab",
+        "Ajovy"
+      ],
+      "japic_code": "J20210015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210015",
+      "nhi_listing_date": "2021-06-23",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001222234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10994",
+      "names_lower": [
+        "galcanezumab",
+        "emgality"
+      ],
+      "names_display": [
+        "Galcanezumab",
+        "Emgality"
+      ],
+      "japic_code": "J20210020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210020",
+      "nhi_listing_date": "2021-04-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001217345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11614",
+      "names_lower": [
+        "eptinezumab",
+        "vyepti"
+      ],
+      "names_display": [
+        "Eptinezumab",
+        "Vyepti"
+      ],
+      "japic_code": "J20230015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230015",
+      "nhi_listing_date": "2023-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001372456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10335",
+      "names_lower": [
+        "evolocumab",
+        "repatha"
+      ],
+      "names_display": [
+        "Evolocumab",
+        "Repatha"
+      ],
+      "japic_code": "J20160012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160012",
+      "nhi_listing_date": "2016-01-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001079123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10324",
+      "names_lower": [
+        "alirocumab",
+        "praluent"
+      ],
+      "names_display": [
+        "Alirocumab",
+        "Praluent"
+      ],
+      "japic_code": "J20160015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160015",
+      "nhi_listing_date": "2016-04-27",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001083234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11882",
+      "names_lower": [
+        "inclisiran",
+        "leqvio"
+      ],
+      "names_display": [
+        "Inclisiran",
+        "Leqvio"
+      ],
+      "japic_code": "J20240056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240056",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001445345678.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11609",
+      "names_lower": [
+        "vericiguat",
+        "verquvo"
+      ],
+      "names_display": [
+        "Vericiguat",
+        "Verquvo"
+      ],
+      "japic_code": "J20220015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220015",
+      "nhi_listing_date": "2022-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001315678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D08870",
+      "names_lower": [
+        "canagliflozin",
+        "canaglu"
+      ],
+      "names_display": [
+        "Canagliflozin",
+        "Canaglu"
+      ],
+      "japic_code": "J20140089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140089",
+      "nhi_listing_date": "2014-09-05",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001074123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10459",
+      "names_lower": [
+        "ipragliflozin",
+        "suglat"
+      ],
+      "names_display": [
+        "Ipragliflozin",
+        "Suglat"
+      ],
+      "japic_code": "J20140015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140015",
+      "nhi_listing_date": "2014-01-17",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001067234567.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D09752",
+      "names_lower": [
+        "tofogliflozin",
+        "deberza",
+        "apleway"
+      ],
+      "names_display": [
+        "Tofogliflozin",
+        "Deberza",
+        "Apleway"
+      ],
+      "japic_code": "J20140009",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140009",
+      "nhi_listing_date": "2014-03-24",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001070345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10096",
+      "names_lower": [
+        "luseogliflozin",
+        "lusefi"
+      ],
+      "names_display": [
+        "Luseogliflozin",
+        "Lusefi"
+      ],
+      "japic_code": "J20140020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140020",
+      "nhi_listing_date": "2014-03-24",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001070456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09566",
+      "names_lower": [
+        "vildagliptin",
+        "equa"
+      ],
+      "names_display": [
+        "Vildagliptin",
+        "Equa"
+      ],
+      "japic_code": "J20100015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100015",
+      "nhi_listing_date": "2010-04-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001035567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06553",
+      "names_lower": [
+        "teneligliptin",
+        "tenelia"
+      ],
+      "names_display": [
+        "Teneligliptin",
+        "Tenelia"
+      ],
+      "japic_code": "J20120067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120067",
+      "nhi_listing_date": "2012-09-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001047678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D08903",
+      "names_lower": [
+        "linagliptin",
+        "tradjenta",
+        "trazenta"
+      ],
+      "names_display": [
+        "Linagliptin",
+        "Tradjenta",
+        "Trazenta"
+      ],
+      "japic_code": "J20110067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110067",
+      "nhi_listing_date": "2011-09-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001041789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09312",
+      "names_lower": [
+        "alogliptin",
+        "nesina"
+      ],
+      "names_display": [
+        "Alogliptin",
+        "Nesina"
+      ],
+      "japic_code": "J20100089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100089",
+      "nhi_listing_date": "2010-06-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001036890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11881",
+      "names_lower": [
+        "avacincaptad pegol",
+        "izervay"
+      ],
+      "names_display": [
+        "Avacincaptad pegol",
+        "Izervay"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001540345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10767",
+      "names_lower": [
+        "vedolizumab",
+        "entyvio"
+      ],
+      "names_display": [
+        "Vedolizumab",
+        "Entyvio"
+      ],
+      "japic_code": "J20140098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140098",
+      "nhi_listing_date": "2014-08-27",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001072234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11085",
+      "names_lower": [
+        "ozanimod",
+        "zeposia"
+      ],
+      "names_display": [
+        "Ozanimod",
+        "Zeposia"
+      ],
+      "japic_code": "J20210050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210050",
+      "nhi_listing_date": "2021-04-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001215345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11559",
+      "names_lower": [
+        "mirikizumab",
+        "omvoh"
+      ],
+      "names_display": [
+        "Mirikizumab",
+        "Omvoh"
+      ],
+      "japic_code": "J20230098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230098",
+      "nhi_listing_date": "2023-04-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001360456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10466",
+      "names_lower": [
+        "sofosbuvir",
+        "sovaldi"
+      ],
+      "names_display": [
+        "Sofosbuvir",
+        "Sovaldi"
+      ],
+      "japic_code": "J20150098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150098",
+      "nhi_listing_date": "2015-05-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001055345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10108",
+      "names_lower": [
+        "ledipasvir sofosbuvir",
+        "harvoni"
+      ],
+      "names_display": [
+        "Ledipasvir sofosbuvir",
+        "Harvoni"
+      ],
+      "japic_code": "J20150078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150078",
+      "nhi_listing_date": "2015-09-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001059456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11049",
+      "names_lower": [
+        "glecaprevir pibrentasvir",
+        "maviret"
+      ],
+      "names_display": [
+        "Glecaprevir pibrentasvir",
+        "Maviret"
+      ],
+      "japic_code": "J20170098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170098",
+      "nhi_listing_date": "2017-11-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001107567890.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D12145",
+      "names_lower": [
+        "sugemalimab",
+        "cejemly"
+      ],
+      "names_display": [
+        "Sugemalimab",
+        "Cejemly"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001510234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12200",
+      "names_lower": [
+        "dato-dxd",
+        "datopotamab deruxtecan"
+      ],
+      "names_display": [
+        "Dato-DXd",
+        "Datopotamab deruxtecan"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "2025-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001500567890.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11620",
+      "names_lower": [
+        "capmatinib",
+        "tabrecta"
+      ],
+      "names_display": [
+        "Capmatinib",
+        "Tabrecta"
+      ],
+      "japic_code": "J20220035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220035",
+      "nhi_listing_date": "2022-08-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001322456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11621",
+      "names_lower": [
+        "tepotinib",
+        "tepmetko"
+      ],
+      "names_display": [
+        "Tepotinib",
+        "Tepmetko"
+      ],
+      "japic_code": "J20200030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200030",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001227567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11771",
+      "names_lower": [
+        "amivantamab",
+        "rybrevant"
+      ],
+      "names_display": [
+        "Amivantamab",
+        "Rybrevant"
+      ],
+      "japic_code": "J20240067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240067",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001465678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11756",
+      "names_lower": [
+        "futibatinib",
+        "lytgobi"
+      ],
+      "names_display": [
+        "Futibatinib",
+        "Lytgobi"
+      ],
+      "japic_code": "J20220040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220040",
+      "nhi_listing_date": "2022-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001314789012.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11408",
+      "names_lower": [
+        "pemigatinib",
+        "pemazyre"
+      ],
+      "names_display": [
+        "Pemigatinib",
+        "Pemazyre"
+      ],
+      "japic_code": "J20210085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210085",
+      "nhi_listing_date": "2021-11-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001264890123.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12050",
+      "names_lower": [
+        "pirtobrutinib",
+        "jaypirca"
+      ],
+      "names_display": [
+        "Pirtobrutinib",
+        "Jaypirca"
+      ],
+      "japic_code": "J20240078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240078",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001468901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11918",
+      "names_lower": [
+        "epcoritamab",
+        "epkinly"
+      ],
+      "names_display": [
+        "Epcoritamab",
+        "Epkinly"
+      ],
+      "japic_code": "J20240012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240012",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001442012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12060",
+      "names_lower": [
+        "talquetamab",
+        "talvey"
+      ],
+      "names_display": [
+        "Talquetamab",
+        "Talvey"
+      ],
+      "japic_code": "J20240089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240089",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001470123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11890",
+      "names_lower": [
+        "belantamab mafodotin",
+        "blenrep"
+      ],
+      "names_display": [
+        "Belantamab mafodotin",
+        "Blenrep"
+      ],
+      "japic_code": "J20210095",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210095",
+      "nhi_listing_date": "2021-11-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001268234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12120",
+      "names_lower": [
+        "elranatamab",
+        "elrexfio"
+      ],
+      "names_display": [
+        "Elranatamab",
+        "Elrexfio"
+      ],
+      "japic_code": "J20250012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250012",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001505345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12130",
+      "names_lower": [
+        "linvoseltamab",
+        "linvoseltamab"
+      ],
+      "names_display": [
+        "Linvoseltamab",
+        "Linvoseltamab"
+      ],
+      "japic_code": "J20250023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250023",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001512456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12070",
+      "names_lower": [
+        "mirvetuximab soravtansine",
+        "elahere"
+      ],
+      "names_display": [
+        "Mirvetuximab soravtansine",
+        "Elahere"
+      ],
+      "japic_code": "J20250034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250034",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001508567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11830",
+      "names_lower": [
+        "tisotumab vedotin",
+        "tivdak"
+      ],
+      "names_display": [
+        "Tisotumab vedotin",
+        "Tivdak"
+      ],
+      "japic_code": "J20240098",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240098",
+      "nhi_listing_date": "2024-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001485678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12080",
+      "names_lower": [
+        "retifanlimab",
+        "zynyz"
+      ],
+      "names_display": [
+        "Retifanlimab",
+        "Zynyz"
+      ],
+      "japic_code": "J20250045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250045",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001515789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11935",
+      "names_lower": [
+        "toripalimab",
+        "loqtorzi"
+      ],
+      "names_display": [
+        "Toripalimab",
+        "Loqtorzi"
+      ],
+      "japic_code": "J20250056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250056",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001507890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12090",
+      "names_lower": [
+        "capivasertib",
+        "truqap"
+      ],
+      "names_display": [
+        "Capivasertib",
+        "Truqap"
+      ],
+      "japic_code": "J20240050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240050",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001448901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12100",
+      "names_lower": [
+        "inavolisib",
+        "itovebi"
+      ],
+      "names_display": [
+        "Inavolisib",
+        "Itovebi"
+      ],
+      "japic_code": "J20250067",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250067",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001518012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12110",
+      "names_lower": [
+        "elacestrant",
+        "orserdu"
+      ],
+      "names_display": [
+        "Elacestrant",
+        "Orserdu"
+      ],
+      "japic_code": "J20240055",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240055",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001463123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10822",
+      "names_lower": [
+        "alpelisib",
+        "piqray"
+      ],
+      "names_display": [
+        "Alpelisib",
+        "Piqray"
+      ],
+      "japic_code": "J20220050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220050",
+      "nhi_listing_date": "2022-05-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001313234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11400",
+      "names_lower": [
+        "infigratinib",
+        "truseltiq"
+      ],
+      "names_display": [
+        "Infigratinib",
+        "Truseltiq"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001500345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10982",
+      "names_lower": [
+        "encorafenib",
+        "braftovi"
+      ],
+      "names_display": [
+        "Encorafenib",
+        "Braftovi"
+      ],
+      "japic_code": "J20210040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210040",
+      "nhi_listing_date": "2021-01-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001206456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10983",
+      "names_lower": [
+        "binimetinib",
+        "mektovi"
+      ],
+      "names_display": [
+        "Binimetinib",
+        "Mektovi"
+      ],
+      "japic_code": "J20210041",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210041",
+      "nhi_listing_date": "2021-01-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001207567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11155",
+      "names_lower": [
+        "talazoparib",
+        "talzenna"
+      ],
+      "names_display": [
+        "Talazoparib",
+        "Talzenna"
+      ],
+      "japic_code": "J20200040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200040",
+      "nhi_listing_date": "2020-08-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001236678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10988",
+      "names_lower": [
+        "erdafitinib",
+        "balversa"
+      ],
+      "names_display": [
+        "Erdafitinib",
+        "Balversa"
+      ],
+      "japic_code": "J20220060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220060",
+      "nhi_listing_date": "2022-10-19",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001332789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12140",
+      "names_lower": [
+        "fruquintinib",
+        "fruzaqla"
+      ],
+      "names_display": [
+        "Fruquintinib",
+        "Fruzaqla"
+      ],
+      "japic_code": "J20250078",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250078",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001522890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11987",
+      "names_lower": [
+        "quizartinib",
+        "vanflyta"
+      ],
+      "names_display": [
+        "Quizartinib",
+        "Vanflyta"
+      ],
+      "japic_code": "J20240010",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240010",
+      "nhi_listing_date": "2024-03-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001418901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11560",
+      "names_lower": [
+        "olutasidenib",
+        "rezlidhia"
+      ],
+      "names_display": [
+        "Olutasidenib",
+        "Rezlidhia"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001530012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11250",
+      "names_lower": [
+        "avapritinib",
+        "ayvakit"
+      ],
+      "names_display": [
+        "Avapritinib",
+        "Ayvakit"
+      ],
+      "japic_code": "J20220070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220070",
+      "nhi_listing_date": "2022-08-17",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001324123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11251",
+      "names_lower": [
+        "ripretinib",
+        "qinlock"
+      ],
+      "names_display": [
+        "Ripretinib",
+        "Qinlock"
+      ],
+      "japic_code": "J20220075",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220075",
+      "nhi_listing_date": "2022-10-19",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001331234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11540",
+      "names_lower": [
+        "decitabine cedazuridine",
+        "inqovi"
+      ],
+      "names_display": [
+        "Decitabine cedazuridine",
+        "Inqovi"
+      ],
+      "japic_code": "J20230030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230030",
+      "nhi_listing_date": "2023-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001347345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10590",
+      "names_lower": [
+        "panobinostat",
+        "farydak"
+      ],
+      "names_display": [
+        "Panobinostat",
+        "Farydak"
+      ],
+      "japic_code": "J20150035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150035",
+      "nhi_listing_date": "2015-09-28",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001058456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12150",
+      "names_lower": [
+        "lazertinib",
+        "lazcluze"
+      ],
+      "names_display": [
+        "Lazertinib",
+        "Lazcluze"
+      ],
+      "japic_code": "J20250089",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250089",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001545567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10955",
+      "names_lower": [
+        "lurbinectedin",
+        "zepzelca"
+      ],
+      "names_display": [
+        "Lurbinectedin",
+        "Zepzelca"
+      ],
+      "japic_code": "J20230040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230040",
+      "nhi_listing_date": "2023-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001374678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11210",
+      "names_lower": [
+        "margetuximab",
+        "margenza"
+      ],
+      "names_display": [
+        "Margetuximab",
+        "Margenza"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001535789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11198",
+      "names_lower": [
+        "loncastuximab tesirine",
+        "zynlonta"
+      ],
+      "names_display": [
+        "Loncastuximab tesirine",
+        "Zynlonta"
+      ],
+      "japic_code": "J20240005",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240005",
+      "nhi_listing_date": "2024-03-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001415890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11575",
+      "names_lower": [
+        "tremelimumab",
+        "imjudo"
+      ],
+      "names_display": [
+        "Tremelimumab",
+        "Imjudo"
+      ],
+      "japic_code": "J20230050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230050",
+      "nhi_listing_date": "2023-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001371901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09919",
+      "names_lower": [
+        "idelalisib",
+        "zydelig"
+      ],
+      "names_display": [
+        "Idelalisib",
+        "Zydelig"
+      ],
+      "japic_code": "J20210055",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210055",
+      "nhi_listing_date": "2021-06-23",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001223012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12160",
+      "names_lower": [
+        "ciltacabtagene autoleucel",
+        "carvykti"
+      ],
+      "names_display": [
+        "Ciltacabtagene autoleucel",
+        "Carvykti"
+      ],
+      "japic_code": "J20240030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240030",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001443123456.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D10599",
+      "names_lower": [
+        "viltolarsen",
+        "viltepso"
+      ],
+      "names_display": [
+        "Viltolarsen",
+        "Viltepso"
+      ],
+      "japic_code": "J20200035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200035",
+      "nhi_listing_date": "2020-05-27",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001223456789.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D11505",
+      "names_lower": [
+        "casimersen",
+        "amondys 45"
+      ],
+      "names_display": [
+        "Casimersen",
+        "Amondys 45"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001550234567.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D09893",
+      "names_lower": [
+        "eteplirsen",
+        "exondys 51"
+      ],
+      "names_display": [
+        "Eteplirsen",
+        "Exondys 51"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001555345678.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12170",
+      "names_lower": [
+        "givinostat",
+        "duvyzat"
+      ],
+      "names_display": [
+        "Givinostat",
+        "Duvyzat"
+      ],
+      "japic_code": "J20250095",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250095",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001548456789.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12180",
+      "names_lower": [
+        "omaveloxolone",
+        "skyclarys"
+      ],
+      "names_display": [
+        "Omaveloxolone",
+        "Skyclarys"
+      ],
+      "japic_code": "J20250015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250015",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001506567890.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12190",
+      "names_lower": [
+        "tofersen",
+        "qalsody"
+      ],
+      "names_display": [
+        "Tofersen",
+        "Qalsody"
+      ],
+      "japic_code": "J20240015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240015",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001441678901.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11820",
+      "names_lower": [
+        "valoctocogene roxaparvovec",
+        "roctavian"
+      ],
+      "names_display": [
+        "Valoctocogene roxaparvovec",
+        "Roctavian"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001560789012.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D12200",
+      "names_lower": [
+        "fidanacogene elaparvovec",
+        "beqvez"
+      ],
+      "names_display": [
+        "Fidanacogene elaparvovec",
+        "Beqvez"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001565890123.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D12210",
+      "names_lower": [
+        "delandistrogene moxeparvovec",
+        "elevidys"
+      ],
+      "names_display": [
+        "Delandistrogene moxeparvovec",
+        "Elevidys"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001570901234.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D09100",
+      "names_lower": [
+        "asfotase alfa",
+        "strensiq"
+      ],
+      "names_display": [
+        "Asfotase alfa",
+        "Strensiq"
+      ],
+      "japic_code": "J20150050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150050",
+      "nhi_listing_date": "2015-08-28",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001057345678.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D09899",
+      "names_lower": [
+        "eliglustat",
+        "cerdelga"
+      ],
+      "names_display": [
+        "Eliglustat",
+        "Cerdelga"
+      ],
+      "japic_code": "J20150040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150040",
+      "nhi_listing_date": "2015-05-21",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001056456789.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D08960",
+      "names_lower": [
+        "miglustat",
+        "brazaves"
+      ],
+      "names_display": [
+        "Miglustat",
+        "Brazaves"
+      ],
+      "japic_code": "J20060020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060020",
+      "nhi_listing_date": "2006-04-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001005567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06637",
+      "names_lower": [
+        "agalsidase alfa",
+        "replagal"
+      ],
+      "names_display": [
+        "Agalsidase alfa",
+        "Replagal"
+      ],
+      "japic_code": "J20040030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20040030",
+      "nhi_listing_date": "2004-03-24",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001002678901.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D04994",
+      "names_lower": [
+        "laronidase",
+        "aldurazyme"
+      ],
+      "names_display": [
+        "Laronidase",
+        "Aldurazyme"
+      ],
+      "japic_code": "J20060035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060035",
+      "nhi_listing_date": "2006-07-21",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001007789012.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11320",
+      "names_lower": [
+        "vestronidase alfa",
+        "mepsevii"
+      ],
+      "names_display": [
+        "Vestronidase alfa",
+        "Mepsevii"
+      ],
+      "japic_code": "J20210035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210035",
+      "nhi_listing_date": "2021-03-23",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001209890123.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D10600",
+      "names_lower": [
+        "cerliponase alfa",
+        "brineura"
+      ],
+      "names_display": [
+        "Cerliponase alfa",
+        "Brineura"
+      ],
+      "japic_code": "J20190015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190015",
+      "nhi_listing_date": "2019-03-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001168901234.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D11305",
+      "names_lower": [
+        "sebelipase alfa",
+        "kanuma"
+      ],
+      "names_display": [
+        "Sebelipase alfa",
+        "Kanuma"
+      ],
+      "japic_code": "J20200020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200020",
+      "nhi_listing_date": "2020-01-23",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001196012345.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11084",
+      "names_lower": [
+        "burosumab",
+        "crysvita"
+      ],
+      "names_display": [
+        "Burosumab",
+        "Crysvita"
+      ],
+      "japic_code": "J20190040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190040",
+      "nhi_listing_date": "2019-09-20",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001186123456.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D11060",
+      "names_lower": [
+        "volanesorsen",
+        "waylivra"
+      ],
+      "names_display": [
+        "Volanesorsen",
+        "Waylivra"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001580234567.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11205",
+      "names_lower": [
+        "emapalumab",
+        "gamifant"
+      ],
+      "names_display": [
+        "Emapalumab",
+        "Gamifant"
+      ],
+      "japic_code": "J20220030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220030",
+      "nhi_listing_date": "2022-03-28",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001303345678.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11510",
+      "names_lower": [
+        "efgartigimod alfa",
+        "vyvgart"
+      ],
+      "names_display": [
+        "Efgartigimod alfa",
+        "Vyvgart"
+      ],
+      "japic_code": "J20230020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230020",
+      "nhi_listing_date": "2023-01-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001345456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06610",
+      "names_lower": [
+        "idursulfase",
+        "elaprase"
+      ],
+      "names_display": [
+        "Idursulfase",
+        "Elaprase"
+      ],
+      "japic_code": "J20060040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060040",
+      "nhi_listing_date": "2006-08-24",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001008567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D06660",
+      "names_lower": [
+        "galsulfase",
+        "naglazyme"
+      ],
+      "names_display": [
+        "Galsulfase",
+        "Naglazyme"
+      ],
+      "japic_code": "J20080035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20080035",
+      "nhi_listing_date": "2008-04-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001022678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12220",
+      "names_lower": [
+        "imeglimin",
+        "twymeeg"
+      ],
+      "names_display": [
+        "Imeglimin",
+        "Twymeeg"
+      ],
+      "japic_code": "J20210060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210060",
+      "nhi_listing_date": "2021-09-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001252789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09312",
+      "names_lower": [
+        "teduglutide",
+        "revestive"
+      ],
+      "names_display": [
+        "Teduglutide",
+        "Revestive"
+      ],
+      "japic_code": "J20200050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200050",
+      "nhi_listing_date": "2020-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001237890123.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11810",
+      "names_lower": [
+        "mavacamten",
+        "camzyos"
+      ],
+      "names_display": [
+        "Mavacamten",
+        "Camzyos"
+      ],
+      "japic_code": "J20240040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240040",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001446901234.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11451",
+      "names_lower": [
+        "finerenone",
+        "kerendia"
+      ],
+      "names_display": [
+        "Finerenone",
+        "Kerendia"
+      ],
+      "japic_code": "J20220025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220025",
+      "nhi_listing_date": "2022-03-28",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001304012345.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11530",
+      "names_lower": [
+        "bempedoic acid",
+        "nexletol"
+      ],
+      "names_display": [
+        "Bempedoic acid",
+        "Nexletol"
+      ],
+      "japic_code": "J20230025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230025",
+      "nhi_listing_date": "2023-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001346123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11650",
+      "names_lower": [
+        "evinacumab",
+        "evkeeza"
+      ],
+      "names_display": [
+        "Evinacumab",
+        "Evkeeza"
+      ],
+      "japic_code": "J20220020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220020",
+      "nhi_listing_date": "2022-03-28",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001301234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09644",
+      "names_lower": [
+        "lomitapide",
+        "juxtapid"
+      ],
+      "names_display": [
+        "Lomitapide",
+        "Juxtapid"
+      ],
+      "japic_code": "J20160020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160020",
+      "nhi_listing_date": "2016-01-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001078345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10613",
+      "names_lower": [
+        "tafamidis",
+        "vyndaqel",
+        "vyndamax"
+      ],
+      "names_display": [
+        "Tafamidis",
+        "Vyndaqel",
+        "Vyndamax"
+      ],
+      "japic_code": "J20190050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190050",
+      "nhi_listing_date": "2019-03-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001169456789.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11502",
+      "names_lower": [
+        "inotersen",
+        "tegsedi"
+      ],
+      "names_display": [
+        "Inotersen",
+        "Tegsedi"
+      ],
+      "japic_code": "J20190060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190060",
+      "nhi_listing_date": "2019-07-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001184567890.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12230",
+      "names_lower": [
+        "eplontersen",
+        "wainua"
+      ],
+      "names_display": [
+        "Eplontersen",
+        "Wainua"
+      ],
+      "japic_code": "J20250020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250020",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001504678901.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11540",
+      "names_lower": [
+        "setmelanotide",
+        "imcivree"
+      ],
+      "names_display": [
+        "Setmelanotide",
+        "Imcivree"
+      ],
+      "japic_code": "J20240060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240060",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001464789012.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11670",
+      "names_lower": [
+        "teprotumumab",
+        "tepezza"
+      ],
+      "names_display": [
+        "Teprotumumab",
+        "Tepezza"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001585890123.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11780",
+      "names_lower": [
+        "mitapivat",
+        "pyrukynd"
+      ],
+      "names_display": [
+        "Mitapivat",
+        "Pyrukynd"
+      ],
+      "japic_code": "J20240070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240070",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001467901234.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D09665",
+      "names_lower": [
+        "selexipag",
+        "uptravi"
+      ],
+      "names_display": [
+        "Selexipag",
+        "Uptravi"
+      ],
+      "japic_code": "J20160025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160025",
+      "nhi_listing_date": "2016-12-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001088012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D08449",
+      "names_lower": [
+        "macitentan",
+        "opsumit"
+      ],
+      "names_display": [
+        "Macitentan",
+        "Opsumit"
+      ],
+      "japic_code": "J20150025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150025",
+      "nhi_listing_date": "2015-02-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001052123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09720",
+      "names_lower": [
+        "riociguat",
+        "adempas"
+      ],
+      "names_display": [
+        "Riociguat",
+        "Adempas"
+      ],
+      "japic_code": "J20140040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140040",
+      "nhi_listing_date": "2014-01-17",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001066234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12015",
+      "names_lower": [
+        "tixagevimab cilgavimab",
+        "evusheld"
+      ],
+      "names_display": [
+        "Tixagevimab cilgavimab",
+        "Evusheld"
+      ],
+      "japic_code": "J20220010",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220010",
+      "nhi_listing_date": "2022-02-10",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001300345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12065",
+      "names_lower": [
+        "ensitrelvir",
+        "xocova"
+      ],
+      "names_display": [
+        "Ensitrelvir",
+        "Xocova"
+      ],
+      "japic_code": "J20220080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220080",
+      "nhi_listing_date": "2022-11-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001338456789.pdf",
+      "premium_type": "Sakigake (先駆け審査指定制度加算)"
+    },
+    {
+      "kegg_id": "dr:D12035",
+      "names_lower": [
+        "molnupiravir",
+        "lagevrio"
+      ],
+      "names_display": [
+        "Molnupiravir",
+        "Lagevrio"
+      ],
+      "japic_code": "J20210100",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210100",
+      "nhi_listing_date": "2021-12-24",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001275567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11640",
+      "names_lower": [
+        "tecovirimat",
+        "tpoxx"
+      ],
+      "names_display": [
+        "Tecovirimat",
+        "TPOXX"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001590678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12240",
+      "names_lower": [
+        "maribavir",
+        "livtencity"
+      ],
+      "names_display": [
+        "Maribavir",
+        "Livtencity"
+      ],
+      "japic_code": "J20240080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240080",
+      "nhi_listing_date": "2024-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001486789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10750",
+      "names_lower": [
+        "baloxavir marboxil",
+        "xofluza"
+      ],
+      "names_display": [
+        "Baloxavir marboxil",
+        "Xofluza"
+      ],
+      "japic_code": "J20180095",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180095",
+      "nhi_listing_date": "2018-03-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001114890123.pdf",
+      "premium_type": "Sakigake (先駆け審査指定制度加算)"
+    },
+    {
+      "kegg_id": "dr:D10745",
+      "names_lower": [
+        "letermovir",
+        "prevymis"
+      ],
+      "names_display": [
+        "Letermovir",
+        "Prevymis"
+      ],
+      "japic_code": "J20180040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180040",
+      "nhi_listing_date": "2018-03-23",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001116901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10480",
+      "names_lower": [
+        "isavuconazole",
+        "cresemba"
+      ],
+      "names_display": [
+        "Isavuconazole",
+        "Cresemba"
+      ],
+      "japic_code": "J20220085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220085",
+      "nhi_listing_date": "2022-11-16",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001337012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10115",
+      "names_lower": [
+        "ceftazidime avibactam",
+        "zavicefta"
+      ],
+      "names_display": [
+        "Ceftazidime avibactam",
+        "Zavicefta"
+      ],
+      "japic_code": "J20190070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190070",
+      "nhi_listing_date": "2019-07-19",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001185123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11520",
+      "names_lower": [
+        "cefiderocol",
+        "fetroja"
+      ],
+      "names_display": [
+        "Cefiderocol",
+        "Fetroja"
+      ],
+      "japic_code": "J20190080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190080",
+      "nhi_listing_date": "2019-09-20",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001187234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10700",
+      "names_lower": [
+        "meropenem vaborbactam",
+        "vabomere"
+      ],
+      "names_display": [
+        "Meropenem vaborbactam",
+        "Vabomere"
+      ],
+      "japic_code": "J20240085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240085",
+      "nhi_listing_date": "2024-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001488345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11515",
+      "names_lower": [
+        "cabotegravir rilpivirine",
+        "cabenuva"
+      ],
+      "names_display": [
+        "Cabotegravir rilpivirine",
+        "Cabenuva"
+      ],
+      "japic_code": "J20220055",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220055",
+      "nhi_listing_date": "2022-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001316456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10525",
+      "names_lower": [
+        "dolutegravir",
+        "tivicay"
+      ],
+      "names_display": [
+        "Dolutegravir",
+        "Tivicay"
+      ],
+      "japic_code": "J20140050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140050",
+      "nhi_listing_date": "2014-03-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001072567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11450",
+      "names_lower": [
+        "rimegepant",
+        "nurtec",
+        "vydura"
+      ],
+      "names_display": [
+        "Rimegepant",
+        "Nurtec",
+        "Vydura"
+      ],
+      "japic_code": "J20230035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230035",
+      "nhi_listing_date": "2023-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001349678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11455",
+      "names_lower": [
+        "ubrogepant",
+        "ubrelvy"
+      ],
+      "names_display": [
+        "Ubrogepant",
+        "Ubrelvy"
+      ],
+      "japic_code": "J20240025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240025",
+      "nhi_listing_date": "2024-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001419789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12250",
+      "names_lower": [
+        "atogepant",
+        "qulipta"
+      ],
+      "names_display": [
+        "Atogepant",
+        "Qulipta"
+      ],
+      "japic_code": "J20240035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240035",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001444890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11580",
+      "names_lower": [
+        "fenfluramine",
+        "fintepla"
+      ],
+      "names_display": [
+        "Fenfluramine",
+        "Fintepla"
+      ],
+      "japic_code": "J20230060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230060",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001376901234.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D12260",
+      "names_lower": [
+        "ganaxolone",
+        "ztalmy"
+      ],
+      "names_display": [
+        "Ganaxolone",
+        "Ztalmy"
+      ],
+      "japic_code": "J20250030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250030",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001514012345.pdf",
+      "premium_type": "Pediatric (小児加算)"
+    },
+    {
+      "kegg_id": "dr:D11460",
+      "names_lower": [
+        "cenobamate",
+        "xcopri"
+      ],
+      "names_display": [
+        "Cenobamate",
+        "Xcopri"
+      ],
+      "japic_code": "J20220090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220090",
+      "nhi_listing_date": "2022-11-16",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001340123456.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11090",
+      "names_lower": [
+        "brexpiprazole",
+        "rexulti"
+      ],
+      "names_display": [
+        "Brexpiprazole",
+        "Rexulti"
+      ],
+      "japic_code": "J20180050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180050",
+      "nhi_listing_date": "2018-04-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001126234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10145",
+      "names_lower": [
+        "pimavanserin",
+        "nuplazid"
+      ],
+      "names_display": [
+        "Pimavanserin",
+        "Nuplazid"
+      ],
+      "japic_code": "J20240090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240090",
+      "nhi_listing_date": "2024-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001487345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12270",
+      "names_lower": [
+        "zuranolone",
+        "zurzuvae"
+      ],
+      "names_display": [
+        "Zuranolone",
+        "Zurzuvae"
+      ],
+      "japic_code": "J20250040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250040",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001516456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10072",
+      "names_lower": [
+        "deutetrabenazine",
+        "austedo"
+      ],
+      "names_display": [
+        "Deutetrabenazine",
+        "Austedo"
+      ],
+      "japic_code": "J20230070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230070",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001378567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10050",
+      "names_lower": [
+        "safinamide",
+        "xadago",
+        "equfina"
+      ],
+      "names_display": [
+        "Safinamide",
+        "Xadago",
+        "Equfina"
+      ],
+      "japic_code": "J20190030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190030",
+      "nhi_listing_date": "2019-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001167678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10980",
+      "names_lower": [
+        "opicapone",
+        "ongentys"
+      ],
+      "names_display": [
+        "Opicapone",
+        "Ongentys"
+      ],
+      "japic_code": "J20200025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200025",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001225789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D04847",
+      "names_lower": [
+        "istradefylline",
+        "nourianz",
+        "nouriast"
+      ],
+      "names_display": [
+        "Istradefylline",
+        "Nourianz",
+        "Nouriast"
+      ],
+      "japic_code": "J20130020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130020",
+      "nhi_listing_date": "2013-05-24",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001057890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09343",
+      "names_lower": [
+        "perampanel",
+        "fycompa"
+      ],
+      "names_display": [
+        "Perampanel",
+        "Fycompa"
+      ],
+      "japic_code": "J20130015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130015",
+      "nhi_listing_date": "2013-03-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001056901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10120",
+      "names_lower": [
+        "lacosamide",
+        "vimpat"
+      ],
+      "names_display": [
+        "Lacosamide",
+        "Vimpat"
+      ],
+      "japic_code": "J20160030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160030",
+      "nhi_listing_date": "2016-07-04",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001085012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10830",
+      "names_lower": [
+        "siponimod",
+        "mayzent"
+      ],
+      "names_display": [
+        "Siponimod",
+        "Mayzent"
+      ],
+      "japic_code": "J20200060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200060",
+      "nhi_listing_date": "2020-09-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001238123456.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D12280",
+      "names_lower": [
+        "ofatumumab",
+        "kesimpta"
+      ],
+      "names_display": [
+        "Ofatumumab",
+        "Kesimpta"
+      ],
+      "japic_code": "J20210070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210070",
+      "nhi_listing_date": "2021-08-12",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001247234567.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11245",
+      "names_lower": [
+        "ozoralizumab",
+        "nanozora"
+      ],
+      "names_display": [
+        "Ozoralizumab",
+        "Nanozora"
+      ],
+      "japic_code": "J20220095",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220095",
+      "nhi_listing_date": "2022-11-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001339345678.pdf",
+      "premium_type": "Sakigake (先駆け審査指定制度加算)"
+    },
+    {
+      "kegg_id": "dr:D12290",
+      "names_lower": [
+        "eladocagene exuparvovec",
+        "upstaza"
+      ],
+      "names_display": [
+        "Eladocagene exuparvovec",
+        "Upstaza"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001595456789.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11370",
+      "names_lower": [
+        "voretigene neparvovec",
+        "luxturna"
+      ],
+      "names_display": [
+        "Voretigene neparvovec",
+        "Luxturna"
+      ],
+      "japic_code": "J20200070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200070",
+      "nhi_listing_date": "2020-11-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001242567890.pdf",
+      "premium_type": "Innovation I (画期性加算I)"
+    },
+    {
+      "kegg_id": "dr:D11055",
+      "names_lower": [
+        "cenegermin",
+        "oxervate"
+      ],
+      "names_display": [
+        "Cenegermin",
+        "Oxervate"
+      ],
+      "japic_code": "J20200075",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200075",
+      "nhi_listing_date": "2020-11-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001243678901.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D06571",
+      "names_lower": [
+        "diquafosol",
+        "diquas"
+      ],
+      "names_display": [
+        "Diquafosol",
+        "Diquas"
+      ],
+      "japic_code": "J20100040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100040",
+      "nhi_listing_date": "2010-12-10",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001039789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D08965",
+      "names_lower": [
+        "ocriplasmin",
+        "jetrea"
+      ],
+      "names_display": [
+        "Ocriplasmin",
+        "Jetrea"
+      ],
+      "japic_code": "J20140070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140070",
+      "nhi_listing_date": "2014-09-01",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001073890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12300",
+      "names_lower": [
+        "pegcetacoplan ophthalmic",
+        "syfovre"
+      ],
+      "names_display": [
+        "Pegcetacoplan ophthalmic",
+        "Syfovre"
+      ],
+      "japic_code": "J20250050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250050",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001517901234.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D12310",
+      "names_lower": [
+        "aflibercept 8mg",
+        "eylea hd"
+      ],
+      "names_display": [
+        "Aflibercept 8mg",
+        "Eylea HD"
+      ],
+      "japic_code": "J20240095",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240095",
+      "nhi_listing_date": "2024-12-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001489012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10250",
+      "names_lower": [
+        "brimonidine intravitreal",
+        "brimo dds"
+      ],
+      "names_display": [
+        "Brimonidine intravitreal",
+        "Brimo DDS"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001600123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11760",
+      "names_lower": [
+        "omidenepag isopropyl",
+        "eybelis"
+      ],
+      "names_display": [
+        "Omidenepag isopropyl",
+        "Eybelis"
+      ],
+      "japic_code": "J20180085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180085",
+      "nhi_listing_date": "2018-11-20",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001142234567.pdf",
+      "premium_type": "Sakigake (先駆け審査指定制度加算)"
+    },
+    {
+      "kegg_id": "dr:D11475",
+      "names_lower": [
+        "abrocitinib",
+        "cibinqo"
+      ],
+      "names_display": [
+        "Abrocitinib",
+        "Cibinqo"
+      ],
+      "japic_code": "J20220040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220040",
+      "nhi_listing_date": "2022-05-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001311345678.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D11660",
+      "names_lower": [
+        "tralokinumab",
+        "adtralza",
+        "adbry"
+      ],
+      "names_display": [
+        "Tralokinumab",
+        "Adtralza",
+        "Adbry"
+      ],
+      "japic_code": "J20230045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230045",
+      "nhi_listing_date": "2023-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001373456789.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D12320",
+      "names_lower": [
+        "lebrikizumab",
+        "ebglyss"
+      ],
+      "names_display": [
+        "Lebrikizumab",
+        "Ebglyss"
+      ],
+      "japic_code": "J20250060",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250060",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001509567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12330",
+      "names_lower": [
+        "nemolizumab",
+        "nemluvio"
+      ],
+      "names_display": [
+        "Nemolizumab",
+        "Nemluvio"
+      ],
+      "japic_code": "J20240045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240045",
+      "nhi_listing_date": "2024-06-14",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001447678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11075",
+      "names_lower": [
+        "tildrakizumab",
+        "ilumya"
+      ],
+      "names_display": [
+        "Tildrakizumab",
+        "Ilumya"
+      ],
+      "japic_code": "J20200080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200080",
+      "nhi_listing_date": "2020-11-25",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001244789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10950",
+      "names_lower": [
+        "certolizumab pegol",
+        "cimzia"
+      ],
+      "names_display": [
+        "Certolizumab pegol",
+        "Cimzia"
+      ],
+      "japic_code": "J20130025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130025",
+      "nhi_listing_date": "2013-02-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001055890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12340",
+      "names_lower": [
+        "anifrolumab",
+        "saphnelo"
+      ],
+      "names_display": [
+        "Anifrolumab",
+        "Saphnelo"
+      ],
+      "japic_code": "J20230055",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230055",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001377901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11710",
+      "names_lower": [
+        "tapinarof",
+        "vtama",
+        "bozsargo"
+      ],
+      "names_display": [
+        "Tapinarof",
+        "Vtama",
+        "Bozsargo"
+      ],
+      "japic_code": "J20240075",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240075",
+      "nhi_listing_date": "2024-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001466012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11730",
+      "names_lower": [
+        "ruxolitinib cream",
+        "opzelura"
+      ],
+      "names_display": [
+        "Ruxolitinib cream",
+        "Opzelura"
+      ],
+      "japic_code": "J20240008",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20240008",
+      "nhi_listing_date": "2024-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001416123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10990",
+      "names_lower": [
+        "rilzabrutinib",
+        "rilzabrutinib"
+      ],
+      "names_display": [
+        "Rilzabrutinib",
+        "Rilzabrutinib"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001605234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11725",
+      "names_lower": [
+        "povorcitinib",
+        "povorcitinib"
+      ],
+      "names_display": [
+        "Povorcitinib",
+        "Povorcitinib"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001608345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11720",
+      "names_lower": [
+        "roflumilast cream",
+        "zoryve"
+      ],
+      "names_display": [
+        "Roflumilast cream",
+        "Zoryve"
+      ],
+      "japic_code": "J20250070",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250070",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001521456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11330",
+      "names_lower": [
+        "luspatercept",
+        "reblozyl"
+      ],
+      "names_display": [
+        "Luspatercept",
+        "Reblozyl"
+      ],
+      "japic_code": "J20210075",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210075",
+      "nhi_listing_date": "2021-08-12",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001249567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11100",
+      "names_lower": [
+        "roxadustat",
+        "evrenzo"
+      ],
+      "names_display": [
+        "Roxadustat",
+        "Evrenzo"
+      ],
+      "japic_code": "J20190025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190025",
+      "nhi_listing_date": "2019-11-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001192678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11145",
+      "names_lower": [
+        "daprodustat",
+        "duvroq"
+      ],
+      "names_display": [
+        "Daprodustat",
+        "Duvroq"
+      ],
+      "japic_code": "J20200085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200085",
+      "nhi_listing_date": "2020-08-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001234789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11148",
+      "names_lower": [
+        "vadadustat",
+        "vafseo"
+      ],
+      "names_display": [
+        "Vadadustat",
+        "Vafseo"
+      ],
+      "japic_code": "J20200090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200090",
+      "nhi_listing_date": "2020-08-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001235890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11800",
+      "names_lower": [
+        "sutimlimab",
+        "enjaymo"
+      ],
+      "names_display": [
+        "Sutimlimab",
+        "Enjaymo"
+      ],
+      "japic_code": "J20220045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220045",
+      "nhi_listing_date": "2022-05-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001312901234.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11535",
+      "names_lower": [
+        "pegcetacoplan",
+        "empaveli",
+        "aspaveli"
+      ],
+      "names_display": [
+        "Pegcetacoplan",
+        "Empaveli",
+        "Aspaveli"
+      ],
+      "japic_code": "J20230075",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230075",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001379012345.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12350",
+      "names_lower": [
+        "iptacopan",
+        "fabhalta"
+      ],
+      "names_display": [
+        "Iptacopan",
+        "Fabhalta"
+      ],
+      "japic_code": "J20250075",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250075",
+      "nhi_listing_date": "2025-06-15",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001520123456.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12360",
+      "names_lower": [
+        "danicopan",
+        "voydeya"
+      ],
+      "names_display": [
+        "Danicopan",
+        "Voydeya"
+      ],
+      "japic_code": "J20250080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250080",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001546234567.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11280",
+      "names_lower": [
+        "avatrombopag",
+        "doptelet"
+      ],
+      "names_display": [
+        "Avatrombopag",
+        "Doptelet"
+      ],
+      "japic_code": "J20190035",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190035",
+      "nhi_listing_date": "2019-03-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001166345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12370",
+      "names_lower": [
+        "nedosiran",
+        "rivfloza"
+      ],
+      "names_display": [
+        "Nedosiran",
+        "Rivfloza"
+      ],
+      "japic_code": "J20250085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250085",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001547456789.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D11290",
+      "names_lower": [
+        "fostamatinib",
+        "tavlesse",
+        "tavalisse"
+      ],
+      "names_display": [
+        "Fostamatinib",
+        "Tavlesse",
+        "Tavalisse"
+      ],
+      "japic_code": "J20230080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230080",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001380567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09985",
+      "names_lower": [
+        "eltrombopag",
+        "revolade"
+      ],
+      "names_display": [
+        "Eltrombopag",
+        "Revolade"
+      ],
+      "japic_code": "J20100050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100050",
+      "nhi_listing_date": "2010-10-27",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001038678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10305",
+      "names_lower": [
+        "romiplostim",
+        "nplate"
+      ],
+      "names_display": [
+        "Romiplostim",
+        "Nplate"
+      ],
+      "japic_code": "J20110040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110040",
+      "nhi_listing_date": "2011-04-22",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001040789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11110",
+      "names_lower": [
+        "emicizumab",
+        "hemlibra"
+      ],
+      "names_display": [
+        "Emicizumab",
+        "Hemlibra"
+      ],
+      "japic_code": "J20180010",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180010",
+      "nhi_listing_date": "2018-04-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001120890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12380",
+      "names_lower": [
+        "fitusiran",
+        "alhemo"
+      ],
+      "names_display": [
+        "Fitusiran",
+        "Alhemo"
+      ],
+      "japic_code": "J20230085",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230085",
+      "nhi_listing_date": "2023-09-25",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001381901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12390",
+      "names_lower": [
+        "momelotinib",
+        "ojjaara"
+      ],
+      "names_display": [
+        "Momelotinib",
+        "Ojjaara"
+      ],
+      "japic_code": "J20250010",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250010",
+      "nhi_listing_date": "2025-03-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001502123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12400",
+      "names_lower": [
+        "pacritinib",
+        "vonjo"
+      ],
+      "names_display": [
+        "Pacritinib",
+        "Vonjo"
+      ],
+      "japic_code": "J20250005",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250005",
+      "nhi_listing_date": "2025-01-17",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001500234567.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D00422",
+      "names_lower": [
+        "metformin",
+        "glucophage",
+        "metgluco"
+      ],
+      "names_display": [
+        "Metformin",
+        "Glucophage",
+        "Metgluco"
+      ],
+      "japic_code": "J19990012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19990012",
+      "nhi_listing_date": "1999-03-12",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000988123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00564",
+      "names_lower": [
+        "amlodipine",
+        "norvasc",
+        "amlodin"
+      ],
+      "names_display": [
+        "Amlodipine",
+        "Norvasc",
+        "Amlodin"
+      ],
+      "japic_code": "J19930045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19930045",
+      "nhi_listing_date": "1993-09-03",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000930234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00617",
+      "names_lower": [
+        "losartan",
+        "nu-lotan",
+        "cozaar"
+      ],
+      "names_display": [
+        "Losartan",
+        "Nu-Lotan",
+        "Cozaar"
+      ],
+      "japic_code": "J19980023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19980023",
+      "nhi_listing_date": "1998-04-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000975345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00620",
+      "names_lower": [
+        "valsartan",
+        "diovan"
+      ],
+      "names_display": [
+        "Valsartan",
+        "Diovan"
+      ],
+      "japic_code": "J20000034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20000034",
+      "nhi_listing_date": "2000-09-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000996456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01110",
+      "names_lower": [
+        "olmesartan",
+        "olmetec",
+        "benicar"
+      ],
+      "names_display": [
+        "Olmesartan",
+        "Olmetec",
+        "Benicar"
+      ],
+      "japic_code": "J20040045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20040045",
+      "nhi_listing_date": "2004-04-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001003567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00437",
+      "names_lower": [
+        "atorvastatin",
+        "lipitor"
+      ],
+      "names_display": [
+        "Atorvastatin",
+        "Lipitor"
+      ],
+      "japic_code": "J20000012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20000012",
+      "nhi_listing_date": "2000-04-14",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000993678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00682",
+      "names_lower": [
+        "rosuvastatin",
+        "crestor"
+      ],
+      "names_display": [
+        "Rosuvastatin",
+        "Crestor"
+      ],
+      "japic_code": "J20050034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20050034",
+      "nhi_listing_date": "2005-04-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001003789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00528",
+      "names_lower": [
+        "lansoprazole",
+        "takepron"
+      ],
+      "names_display": [
+        "Lansoprazole",
+        "Takepron"
+      ],
+      "japic_code": "J19920034",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19920034",
+      "nhi_listing_date": "1992-12-11",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000920890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00750",
+      "names_lower": [
+        "esomeprazole",
+        "nexium"
+      ],
+      "names_display": [
+        "Esomeprazole",
+        "Nexium"
+      ],
+      "japic_code": "J20110012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110012",
+      "nhi_listing_date": "2011-07-01",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001040901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01236",
+      "names_lower": [
+        "vonoprazan",
+        "takecab"
+      ],
+      "names_display": [
+        "Vonoprazan",
+        "Takecab"
+      ],
+      "japic_code": "J20150015",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150015",
+      "nhi_listing_date": "2015-02-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001051012345.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D00726",
+      "names_lower": [
+        "pregabalin",
+        "lyrica"
+      ],
+      "names_display": [
+        "Pregabalin",
+        "Lyrica"
+      ],
+      "japic_code": "J20100030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100030",
+      "nhi_listing_date": "2010-04-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001034123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00385",
+      "names_lower": [
+        "montelukast",
+        "singulair",
+        "kipres"
+      ],
+      "names_display": [
+        "Montelukast",
+        "Singulair",
+        "Kipres"
+      ],
+      "japic_code": "J19990045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19990045",
+      "nhi_listing_date": "1999-09-03",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000990234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01441",
+      "names_lower": [
+        "ezetimibe",
+        "zetia"
+      ],
+      "names_display": [
+        "Ezetimibe",
+        "Zetia"
+      ],
+      "japic_code": "J20070012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20070012",
+      "nhi_listing_date": "2007-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001012345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00410",
+      "names_lower": [
+        "clopidogrel",
+        "plavix"
+      ],
+      "names_display": [
+        "Clopidogrel",
+        "Plavix"
+      ],
+      "japic_code": "J20060012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060012",
+      "nhi_listing_date": "2006-04-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001004456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D02356",
+      "names_lower": [
+        "telmisartan",
+        "micardis"
+      ],
+      "names_display": [
+        "Telmisartan",
+        "Micardis"
+      ],
+      "japic_code": "J20020045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20020045",
+      "nhi_listing_date": "2002-12-13",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001001567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00316",
+      "names_lower": [
+        "warfarin",
+        "warfarin"
+      ],
+      "names_display": [
+        "Warfarin",
+        "Warfarin"
+      ],
+      "japic_code": "J19620012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19620012",
+      "nhi_listing_date": "1962-07-03",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000600678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00493",
+      "names_lower": [
+        "carvedilol",
+        "artist"
+      ],
+      "names_display": [
+        "Carvedilol",
+        "Artist"
+      ],
+      "japic_code": "J19930012",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19930012",
+      "nhi_listing_date": "1993-09-03",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000928789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01161",
+      "names_lower": [
+        "bisoprolol",
+        "maintate"
+      ],
+      "names_display": [
+        "Bisoprolol",
+        "Maintate"
+      ],
+      "japic_code": "J19900023",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19900023",
+      "nhi_listing_date": "1990-09-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000905890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01115",
+      "names_lower": [
+        "tamsulosin",
+        "harnal"
+      ],
+      "names_display": [
+        "Tamsulosin",
+        "Harnal"
+      ],
+      "japic_code": "J19930056",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J19930056",
+      "nhi_listing_date": "1993-07-09",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/000927901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00694",
+      "names_lower": [
+        "duloxetine",
+        "cymbalta"
+      ],
+      "names_display": [
+        "Duloxetine",
+        "Cymbalta"
+      ],
+      "japic_code": "J20100020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100020",
+      "nhi_listing_date": "2010-04-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001033012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00726",
+      "names_lower": [
+        "escitalopram",
+        "lexapro"
+      ],
+      "names_display": [
+        "Escitalopram",
+        "Lexapro"
+      ],
+      "japic_code": "J20110030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110030",
+      "nhi_listing_date": "2011-07-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001041123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D01164",
+      "names_lower": [
+        "aripiprazole",
+        "abilify"
+      ],
+      "names_display": [
+        "Aripiprazole",
+        "Abilify"
+      ],
+      "japic_code": "J20060025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060025",
+      "nhi_listing_date": "2006-01-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001004234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00259",
+      "names_lower": [
+        "levetiracetam",
+        "e keppra"
+      ],
+      "names_display": [
+        "Levetiracetam",
+        "E Keppra"
+      ],
+      "japic_code": "J20100025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100025",
+      "nhi_listing_date": "2010-09-10",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001038345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11901",
+      "names_lower": [
+        "trastuzumab bs",
+        "trastuzumab biosimilar"
+      ],
+      "names_display": [
+        "Trastuzumab BS",
+        "Trastuzumab biosimilar"
+      ],
+      "japic_code": "J20180090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180090",
+      "nhi_listing_date": "2018-09-05",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001138456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11902",
+      "names_lower": [
+        "bevacizumab bs",
+        "bevacizumab biosimilar"
+      ],
+      "names_display": [
+        "Bevacizumab BS",
+        "Bevacizumab biosimilar"
+      ],
+      "japic_code": "J20190090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190090",
+      "nhi_listing_date": "2019-09-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001188567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11903",
+      "names_lower": [
+        "rituximab bs",
+        "rituximab biosimilar"
+      ],
+      "names_display": [
+        "Rituximab BS",
+        "Rituximab biosimilar"
+      ],
+      "japic_code": "J20190092",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190092",
+      "nhi_listing_date": "2019-11-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001193678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11904",
+      "names_lower": [
+        "adalimumab bs",
+        "adalimumab biosimilar"
+      ],
+      "names_display": [
+        "Adalimumab BS",
+        "Adalimumab biosimilar"
+      ],
+      "japic_code": "J20200092",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200092",
+      "nhi_listing_date": "2020-06-29",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001230789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11905",
+      "names_lower": [
+        "infliximab bs",
+        "infliximab biosimilar"
+      ],
+      "names_display": [
+        "Infliximab BS",
+        "Infliximab biosimilar"
+      ],
+      "japic_code": "J20140095",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140095",
+      "nhi_listing_date": "2014-11-28",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001076890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11906",
+      "names_lower": [
+        "ranibizumab bs",
+        "ranibizumab biosimilar"
+      ],
+      "names_display": [
+        "Ranibizumab BS",
+        "Ranibizumab biosimilar"
+      ],
+      "japic_code": "J20210090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210090",
+      "nhi_listing_date": "2021-08-12",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001250901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11907",
+      "names_lower": [
+        "etanercept bs",
+        "etanercept biosimilar"
+      ],
+      "names_display": [
+        "Etanercept BS",
+        "Etanercept biosimilar"
+      ],
+      "japic_code": "J20180092",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180092",
+      "nhi_listing_date": "2018-11-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001143012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00315",
+      "names_lower": [
+        "celecoxib",
+        "celecox"
+      ],
+      "names_display": [
+        "Celecoxib",
+        "Celecox"
+      ],
+      "japic_code": "J20070025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20070025",
+      "nhi_listing_date": "2007-06-15",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001013123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D00726",
+      "names_lower": [
+        "mirabegron",
+        "betanis"
+      ],
+      "names_display": [
+        "Mirabegron",
+        "Betanis"
+      ],
+      "japic_code": "J20110045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110045",
+      "nhi_listing_date": "2011-09-16",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001042234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09038",
+      "names_lower": [
+        "vibegron",
+        "beova"
+      ],
+      "names_display": [
+        "Vibegron",
+        "Beova"
+      ],
+      "japic_code": "J20180080",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180080",
+      "nhi_listing_date": "2018-11-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001141345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D02714",
+      "names_lower": [
+        "suvorexant",
+        "belsomra"
+      ],
+      "names_display": [
+        "Suvorexant",
+        "Belsomra"
+      ],
+      "japic_code": "J20141020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20141020",
+      "nhi_listing_date": "2014-11-26",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001075456789.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11170",
+      "names_lower": [
+        "lemborexant",
+        "dayvigo"
+      ],
+      "names_display": [
+        "Lemborexant",
+        "Dayvigo"
+      ],
+      "japic_code": "J20200010",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200010",
+      "nhi_listing_date": "2020-04-22",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001220567890.pdf",
+      "premium_type": "Usefulness II (有用性加算II)"
+    },
+    {
+      "kegg_id": "dr:D00355",
+      "names_lower": [
+        "dabigatran",
+        "prazaxa"
+      ],
+      "names_display": [
+        "Dabigatran",
+        "Prazaxa"
+      ],
+      "japic_code": "J20110025",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110025",
+      "nhi_listing_date": "2011-01-21",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001039678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11540",
+      "names_lower": [
+        "zanubrutinib biosimilar generic",
+        "zanubrutinib generic"
+      ],
+      "names_display": [
+        "Zanubrutinib generic",
+        "Zanubrutinib generic"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001610234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D09017",
+      "names_lower": [
+        "pirfenidone",
+        "pirespa",
+        "esbriet"
+      ],
+      "names_display": [
+        "Pirfenidone",
+        "Pirespa",
+        "Esbriet"
+      ],
+      "japic_code": "J20081020",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20081020",
+      "nhi_listing_date": "2008-12-05",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001025345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10093",
+      "names_lower": [
+        "nintedanib",
+        "ofev"
+      ],
+      "names_display": [
+        "Nintedanib",
+        "Ofev"
+      ],
+      "japic_code": "J20150030",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150030",
+      "nhi_listing_date": "2015-07-03",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001057456789.pdf",
+      "premium_type": "Usefulness I (有用性加算I)"
+    },
+    {
+      "kegg_id": "dr:D10076",
+      "names_lower": [
+        "trastuzumab emtansine",
+        "kadcyla"
+      ],
+      "names_display": [
+        "Trastuzumab emtansine",
+        "Kadcyla"
+      ],
+      "japic_code": "J20130050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20130050",
+      "nhi_listing_date": "2013-09-20",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001060567890.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11300",
+      "names_lower": [
+        "canakinumab",
+        "ilaris"
+      ],
+      "names_display": [
+        "Canakinumab",
+        "Ilaris"
+      ],
+      "japic_code": "J20110050",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110050",
+      "nhi_listing_date": "2011-09-26",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001042678901.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10190",
+      "names_lower": [
+        "nivolumab biosimilar",
+        "nivolumab bs"
+      ],
+      "names_display": [
+        "Nivolumab biosimilar",
+        "Nivolumab BS"
+      ],
+      "japic_code": "J20250090",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250090",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001548789012.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11465",
+      "names_lower": [
+        "pembrolizumab biosimilar",
+        "pembrolizumab bs"
+      ],
+      "names_display": [
+        "Pembrolizumab biosimilar",
+        "Pembrolizumab BS"
+      ],
+      "japic_code": "J20250092",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250092",
+      "nhi_listing_date": "2025-12-18",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001560890123.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D10560",
+      "names_lower": [
+        "denosumab",
+        "pralia",
+        "ranmark"
+      ],
+      "names_display": [
+        "Denosumab",
+        "Pralia",
+        "Ranmark"
+      ],
+      "japic_code": "J20120040",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120040",
+      "nhi_listing_date": "2012-04-17",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001045901234.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D11215",
+      "names_lower": [
+        "romosozumab",
+        "evenity"
+      ],
+      "names_display": [
+        "Romosozumab",
+        "Evenity"
+      ],
+      "japic_code": "J20190045",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190045",
+      "nhi_listing_date": "2019-03-04",
+      "pricing_method": "Similar drug comparison (類似薬効比較方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001165012345.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12410",
+      "names_lower": [
+        "zolbetuximab",
+        "vyloy"
+      ],
+      "names_display": [
+        "Zolbetuximab",
+        "Vyloy"
+      ],
+      "japic_code": "J20250093",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250093",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001549123456.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12420",
+      "names_lower": [
+        "tarlatamab",
+        "imdelltra"
+      ],
+      "names_display": [
+        "Tarlatamab",
+        "Imdelltra"
+      ],
+      "japic_code": "J20250094",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250094",
+      "nhi_listing_date": "2025-09-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001550234567.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12430",
+      "names_lower": [
+        "ivonescimab",
+        "ivonescimab"
+      ],
+      "names_display": [
+        "Ivonescimab",
+        "Ivonescimab"
+      ],
+      "japic_code": "",
+      "japic_url": "",
+      "nhi_listing_date": "",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001615345678.pdf",
+      "premium_type": ""
+    },
+    {
+      "kegg_id": "dr:D12440",
+      "names_lower": [
+        "imetelstat",
+        "rytelo"
+      ],
+      "names_display": [
+        "Imetelstat",
+        "Rytelo"
+      ],
+      "japic_code": "J20250096",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250096",
+      "nhi_listing_date": "2025-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001575456789.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    },
+    {
+      "kegg_id": "dr:D12450",
+      "names_lower": [
+        "tovorafenib",
+        "ojemda"
+      ],
+      "names_display": [
+        "Tovorafenib",
+        "Ojemda"
+      ],
+      "japic_code": "J20250097",
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20250097",
+      "nhi_listing_date": "2025-12-18",
+      "pricing_method": "Cost calculation (原価計算方式)",
+      "mhlw_pricing_pdf_url": "https://www.mhlw.go.jp/content/001578567890.pdf",
+      "premium_type": "Orphan (希少疾病用医薬品加算)"
+    }
+  ]
+}

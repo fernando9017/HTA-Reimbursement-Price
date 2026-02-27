@@ -5,11 +5,15 @@ import logging
 import os
 import re
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
 from app.models import (
     AdjudicacionResult,
@@ -97,6 +101,9 @@ spain_aemps_hta_service = SpainAEMPSHTAService(hta_agencies["ES"])
 # data.  Keyed by (lowercase substance, country_code) → list of AssessmentResult.
 # Loaded from data/curated_assessments.json at startup.
 _curated_assessments: dict[tuple[str, str], list[AssessmentResult]] = {}
+
+# Data freshness: tracks when each data source was last successfully loaded
+_data_loaded_at: dict[str, str] = {}
 
 
 def load_curated_assessments(filepath: Path = CURATED_FILE) -> int:
@@ -237,6 +244,7 @@ async def lifespan(app: FastAPI):
     """Load all data sources on startup."""
     logger.info("Loading data sources...")
     ema_cache_file = DATA_DIR / "EMA.json"
+    now = datetime.now(timezone.utc).isoformat()
     try:
         await ema_service.load_data()
         logger.info("EMA data loaded: %d medicines", ema_service.medicine_count)
@@ -244,12 +252,14 @@ async def lifespan(app: FastAPI):
         ema_service.save_to_file(ema_cache_file)
         # Feed raw EMA data into analogue service
         analogue_service.load_from_ema(ema_service.raw_medicines)
+        _data_loaded_at["EMA"] = now
     except Exception:
         logger.exception("Failed to fetch EMA data from remote source")
         # Try loading from local cache as fallback
         if ema_service.load_from_file(ema_cache_file):
             logger.info("EMA data loaded from cache: %d medicines", ema_service.medicine_count)
             analogue_service.load_from_ema(ema_service.raw_medicines)
+            _data_loaded_at["EMA"] = now + " (from cache)"
         else:
             logger.error("No EMA cache available — search will be unavailable until reload")
 
@@ -259,6 +269,7 @@ async def lifespan(app: FastAPI):
         # 1) Try loading from local cache first
         if agency.load_from_file(data_file):
             logger.info("%s (%s) loaded from local cache", agency.agency_abbreviation, code)
+            _data_loaded_at[code] = now + " (from cache)"
             continue
 
         # 2) Fetch from remote with retry
@@ -274,6 +285,7 @@ async def lifespan(app: FastAPI):
                         agency.agency_abbreviation, code, attempt,
                     )
                 fetched = True
+                _data_loaded_at[code] = datetime.now(timezone.utc).isoformat()
                 break
             except Exception:
                 logger.warning(
@@ -291,6 +303,7 @@ async def lifespan(app: FastAPI):
                     "%s (%s) loaded from cache after remote failure",
                     agency.agency_abbreviation, code,
                 )
+                _data_loaded_at[code] = now + " (from cache)"
             else:
                 logger.error(
                     "%s (%s) data unavailable — remote fetch failed and no valid cache",
@@ -317,12 +330,18 @@ async def lifespan(app: FastAPI):
     yield
 
 
+# ── Rate Limiting ─────────────────────────────────────────────────────
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(
     title="VAP Global Resources",
     description="Value, Access & Pricing — Search EMA-authorized medicines and find HTA assessment outcomes by country.",
     version="0.1.0",
     lifespan=lifespan,
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 STATIC_DIR = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
@@ -386,7 +405,9 @@ async def spain_aemps_page():
 
 
 @app.get("/api/search", response_model=list[MedicineResult])
+@limiter.limit("30/minute")
 async def search_medicines(
+    request: Request,
     q: str = Query(..., min_length=2, description="Medicine name or active substance"),
     limit: int = Query(20, ge=1, le=100),
 ):
@@ -454,15 +475,35 @@ async def get_assessments(
 
 
 @app.post("/api/reload")
-async def reload_data():
-    """Manually trigger a reload of all data sources."""
+@limiter.limit("5/minute")
+async def reload_data(request: Request):
+    """Manually trigger a reload of all data sources.
+
+    Also clears all AI analysis caches to prevent serving stale analyses
+    generated from outdated assessment data.
+    """
     errors = []
     ema_cache_file = DATA_DIR / "EMA.json"
+
+    # Clear all AI analysis caches first — underlying data is changing
+    from app.services.ai_analysis import clear_cache as clear_de_cache
+    from app.services.france_ai_analysis import clear_cache as clear_fr_cache
+    from app.services.uk_nice_ai_analysis import clear_cache as clear_uk_cache
+    from app.services.spain_aemps_ai_analysis import clear_cache as clear_es_cache
+
+    ai_cleared = (
+        clear_de_cache() + clear_fr_cache()
+        + clear_uk_cache() + clear_es_cache()
+    )
+    logger.info("Cleared %d total AI analysis cache entries on reload", ai_cleared)
+
+    now = datetime.now(timezone.utc).isoformat()
 
     try:
         await ema_service.load_data()
         ema_service.save_to_file(ema_cache_file)
         analogue_service.load_from_ema(ema_service.raw_medicines)
+        _data_loaded_at["EMA"] = now
     except Exception as e:
         errors.append(f"EMA: {e}")
 
@@ -473,6 +514,7 @@ async def reload_data():
             # Only save to cache if we actually have data
             if agency.is_loaded:
                 agency.save_to_file(data_file)
+                _data_loaded_at[code] = datetime.now(timezone.utc).isoformat()
         except Exception as e:
             errors.append(f"{agency.agency_abbreviation}: {e}")
 
@@ -489,12 +531,13 @@ async def reload_data():
         "success": len(errors) == 0,
         "errors": errors,
         "ema_count": ema_service.medicine_count,
+        "ai_cache_cleared": ai_cleared,
     }
 
 
 @app.get("/api/status")
 async def status():
-    """Health check showing data loading status."""
+    """Health check showing data loading status and freshness timestamps."""
     return {
         "ema_loaded": ema_service.is_loaded,
         "ema_count": ema_service.medicine_count,
@@ -506,9 +549,11 @@ async def status():
             code: {
                 "name": agency.agency_abbreviation,
                 "loaded": agency.is_loaded,
+                "loaded_at": _data_loaded_at.get(code, ""),
             }
             for code, agency in hta_agencies.items()
         },
+        "data_loaded_at": _data_loaded_at,
     }
 
 
@@ -817,7 +862,8 @@ async def germany_drug_profile(substance: str):
 
 
 @app.get("/api/germany/analyze/{decision_id}", response_model=GBAAssessmentAnalysis)
-async def germany_analyze_assessment(decision_id: str):
+@limiter.limit("10/minute")
+async def germany_analyze_assessment(request: Request, decision_id: str):
     """Generate an AI-powered analysis for a specific G-BA assessment.
 
     Uses Claude Haiku to produce structured insights: line of therapy,
@@ -896,7 +942,8 @@ async def france_drug_profile(substance: str):
 
 
 @app.get("/api/france/analyze/{dossier_code}", response_model=HASAssessmentAnalysis)
-async def france_analyze_assessment(dossier_code: str):
+@limiter.limit("10/minute")
+async def france_analyze_assessment(request: Request, dossier_code: str):
     """Generate an AI-powered analysis for a specific HAS CT opinion.
 
     Uses Claude Haiku to produce structured insights: SMR/ASMR rationale,
@@ -975,7 +1022,8 @@ async def uk_nice_drug_profile(substance: str):
 
 
 @app.get("/api/uk-nice/analyze/{guidance_ref}", response_model=NICEAssessmentAnalysis)
-async def uk_nice_analyze_guidance(guidance_ref: str):
+@limiter.limit("10/minute")
+async def uk_nice_analyze_guidance(request: Request, guidance_ref: str):
     """Generate an AI-powered analysis for a specific NICE guidance item."""
     if not uk_nice_hta_service.is_loaded:
         raise HTTPException(503, "NICE data is still loading.")
@@ -1043,7 +1091,8 @@ async def spain_aemps_drug_profile(substance: str):
 
 
 @app.get("/api/spain-aemps/analyze/{ipt_ref}", response_model=AEMPSAssessmentAnalysis)
-async def spain_aemps_analyze_ipt(ipt_ref: str):
+@limiter.limit("10/minute")
+async def spain_aemps_analyze_ipt(request: Request, ipt_ref: str):
     """Generate an AI-powered analysis for a specific AEMPS IPT report."""
     if not spain_aemps_hta_service.is_loaded:
         raise HTTPException(503, "AEMPS data is still loading.")

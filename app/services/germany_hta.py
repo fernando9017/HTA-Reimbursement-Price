@@ -178,33 +178,14 @@ class GermanyHTAService:
     def find_assessment_by_id(self, decision_id: str) -> dict | None:
         """Find an assessment by its decision_id and return data for AI analysis.
 
+        A single G-BA decision (Beschluss) often covers multiple patient
+        subpopulations, each stored as a separate entry in self.decisions
+        with the same decision_id.  This method aggregates ALL matching
+        entries so the AI analysis receives the complete picture.
+
         Returns a dict with keys needed by the AI analysis service,
         or None if the decision is not found.
         """
-        for dec in self.decisions:
-            if dec.get("decision_id") == decision_id:
-                detail = self._build_assessment_detail(dec)
-                return {
-                    "decision_id": detail.decision_id,
-                    "trade_name": detail.trade_name,
-                    "active_substance": detail.active_substance,
-                    "indication": detail.indication,
-                    "decision_date": detail.decision_date,
-                    "assessment_url": detail.assessment_url,
-                    "subpopulations": [
-                        {
-                            "patient_group": sub.patient_group,
-                            "benefit_rating": sub.benefit_rating,
-                            "evidence_level": sub.evidence_level,
-                            "comparator": sub.comparator,
-                        }
-                        for sub in detail.subpopulations
-                    ],
-                }
-
-        # Decision_id might belong to a grouped assessment; search all
-        # decisions matching the same decision_id prefix (same Beschluss)
-        # and aggregate subpopulations.
         matching = [d for d in self.decisions if d.get("decision_id") == decision_id]
         if not matching:
             return None

@@ -22,6 +22,21 @@ _analysis_cache: dict[str, AEMPSAssessmentAnalysis] = {}
 
 CACHE_DIR = Path(__file__).parent.parent.parent / "data" / "ai_cache_spain"
 
+
+def clear_cache() -> int:
+    """Clear all cached AI analyses (memory and disk) for Spain AEMPS."""
+    count = len(_analysis_cache)
+    _analysis_cache.clear()
+    if CACHE_DIR.exists():
+        for f in CACHE_DIR.glob("*.json"):
+            try:
+                f.unlink()
+                count += 1
+            except OSError:
+                pass
+    logger.info("Cleared %d AI analysis cache entries (Spain)", count)
+    return count
+
 AI_MODEL = "claude-haiku-4-5-20251001"
 
 SYSTEM_PROMPT = """\

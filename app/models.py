@@ -61,6 +61,8 @@ class AssessmentResult(BaseModel):
     # Japan (MHLW / KEGG JAPIC)
     pmda_review_type: str = ""      # reimbursement status: "Reimbursed (NHI)" or "Not in NHI price list"
     japan_mhlw_url: str = ""        # MHLW price-setting notification PDF or page URL
+    pricing_method: str = ""        # NHI pricing method: "Similar drug comparison (類似薬効比較方式)" or "Cost calculation (原価計算方式)"
+    premium_type: str = ""          # Premium applied: "Innovation I (画期性加算I)", "Usefulness II (有用性加算II)", "Orphan (希少疾病用医薬品)", etc.
     # Translated summary (all countries)
     summary_en: str = ""
 
