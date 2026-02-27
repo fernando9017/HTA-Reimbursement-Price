@@ -1,13 +1,17 @@
 """UK NICE (National Institute for Health and Care Excellence) adapter.
 
-Data source: NICE published guidance listing pages (public HTML).
-Fetches Technology Appraisal (TA) and Highly Specialised Technology (HST)
-guidance from the NICE website and parses the HTML to extract guidance
-metadata and recommendation outcomes.
+Data sources (tried in order of preference):
+1. NICE API — structured JSON endpoint for published guidance.
+2. NICE HTML listing — paginated HTML pages scraped for TA/HST guidance.
+3. Gap-filling — individual guidance pages fetched for any TA/HST numbers
+   discovered to be missing after the listing scrape, ensuring comprehensive
+   coverage of all ~750+ TAs and ~35+ HSTs published to date.
 
-No API key required for public website pages.
+No API key required for public website pages or the API endpoint.
 """
 
+import asyncio
+import json
 import logging
 import re
 from pathlib import Path
@@ -15,11 +19,15 @@ from pathlib import Path
 import httpx
 
 from app.config import (
+    NICE_API_URL,
     NICE_BASE_URL,
+    NICE_GAP_FILL_CONCURRENCY,
     NICE_GUIDANCE_BASE_URL,
+    NICE_HST_MAX_NUMBER,
     NICE_MAX_PAGES,
     NICE_PROGRAMME_TYPES,
     NICE_PUBLISHED_URL,
+    NICE_TA_MAX_NUMBER,
     REQUEST_TIMEOUT,
 )
 from app.models import AssessmentResult
@@ -70,7 +78,13 @@ class UKNICE(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch NICE published guidance listing pages and parse them."""
+        """Fetch NICE guidance data using API, HTML listing, and gap-filling.
+
+        Strategy:
+        1. Try the NICE JSON API first (fastest, most reliable).
+        2. Fall back to HTML listing page scraping.
+        3. Gap-fill any missing TA/HST numbers by fetching individual pages.
+        """
         all_guidance: list[dict] = []
 
         async with httpx.AsyncClient(
@@ -85,9 +99,38 @@ class UKNICE(HTAAgency):
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             },
         ) as client:
+            # Strategy 1: Try NICE API (JSON)
+            api_guidance = await self._fetch_guidance_api(client)
+            if api_guidance:
+                all_guidance.extend(api_guidance)
+                logger.info(
+                    "NICE API returned %d guidance entries", len(api_guidance),
+                )
+
+            # Strategy 2: HTML listing page scraping (supplements API or acts as fallback)
+            html_guidance = []
             for programme_type in NICE_PROGRAMME_TYPES:
                 guidance = await self._fetch_guidance_listing(client, programme_type)
-                all_guidance.extend(guidance)
+                html_guidance.extend(guidance)
+
+            if html_guidance:
+                # Merge HTML results with API results, avoiding duplicates
+                existing_refs = {g["reference"] for g in all_guidance}
+                new_items = [g for g in html_guidance if g["reference"] not in existing_refs]
+                all_guidance.extend(new_items)
+                logger.info(
+                    "NICE HTML listing returned %d items (%d new after dedup)",
+                    len(html_guidance), len(new_items),
+                )
+
+            # Strategy 3: Gap-fill missing TA/HST numbers
+            gap_filled = await self._fill_guidance_gaps(client, all_guidance)
+            if gap_filled:
+                all_guidance.extend(gap_filled)
+                logger.info(
+                    "NICE gap-filling added %d additional guidance entries",
+                    len(gap_filled),
+                )
 
         if not all_guidance:
             raise RuntimeError(
@@ -99,7 +142,12 @@ class UKNICE(HTAAgency):
 
         self._guidance_list = all_guidance
         self._loaded = True
-        logger.info("UK NICE data loaded: %d guidance entries", len(self._guidance_list))
+        ta_count = sum(1 for g in all_guidance if g.get("reference", "").startswith("TA"))
+        hst_count = sum(1 for g in all_guidance if g.get("reference", "").startswith("HST"))
+        logger.info(
+            "UK NICE data loaded: %d total guidance entries (%d TAs, %d HSTs)",
+            len(self._guidance_list), ta_count, hst_count,
+        )
 
     async def search_assessments(
         self,
@@ -190,7 +238,166 @@ class UKNICE(HTAAgency):
         results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results
 
-    # ── Data loading helpers ──────────────────────────────────────────
+    # ── Strategy 1: NICE API (JSON) ───────────────────────────────────
+
+    async def _fetch_guidance_api(self, client: httpx.AsyncClient) -> list[dict]:
+        """Try the NICE JSON API endpoint for published guidance data.
+
+        The NICE API returns structured JSON with guidance metadata including
+        title, reference, published date, and recommendation status.  This is
+        faster and more reliable than HTML scraping.
+        """
+        all_items: list[dict] = []
+
+        for programme_type in NICE_PROGRAMME_TYPES:
+            try:
+                items = await self._fetch_api_programme_type(client, programme_type)
+                all_items.extend(items)
+            except Exception:
+                logger.debug(
+                    "NICE API not available for %s — will fall back to HTML",
+                    programme_type,
+                )
+
+        return all_items
+
+    async def _fetch_api_programme_type(
+        self, client: httpx.AsyncClient, programme_type: str,
+    ) -> list[dict]:
+        """Fetch all pages of a programme type from the NICE API."""
+        items: list[dict] = []
+        seen_refs: set[str] = set()
+
+        for page in range(1, NICE_MAX_PAGES + 1):
+            params = {
+                "ngt": programme_type,
+                "ps": "50",
+                "page": str(page),
+            }
+            try:
+                resp = await client.get(
+                    NICE_API_URL,
+                    params=params,
+                    headers={
+                        "Accept": "application/json",
+                        "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
+                    },
+                )
+                resp.raise_for_status()
+                data = resp.json()
+            except (httpx.HTTPStatusError, json.JSONDecodeError):
+                # API not available or returned non-JSON — stop trying this source
+                if page == 1:
+                    raise  # Re-raise so caller can fall back
+                break
+            except Exception:
+                if page == 1:
+                    raise
+                break
+
+            # Parse the JSON response — handle multiple possible structures
+            page_items = self._parse_api_response(data, programme_type, seen_refs)
+            if not page_items:
+                break
+
+            items.extend(page_items)
+            logger.debug("NICE API %s page %d: %d items", programme_type, page, len(page_items))
+
+        return items
+
+    def _parse_api_response(
+        self, data: dict | list, programme_type: str, seen_refs: set[str],
+    ) -> list[dict]:
+        """Parse a NICE API JSON response into guidance items.
+
+        Handles multiple known response structures:
+        - {"results": [...]} — paginated list
+        - [{"guidanceReference": "TA123", ...}, ...] — direct list
+        - {"data": {"results": [...]}} — wrapped format
+        """
+        results_list: list = []
+
+        if isinstance(data, list):
+            results_list = data
+        elif isinstance(data, dict):
+            results_list = (
+                data.get("results")
+                or data.get("data", {}).get("results")
+                or data.get("guidance")
+                or data.get("items")
+                or []
+            )
+
+        if not results_list:
+            return []
+
+        items: list[dict] = []
+        for entry in results_list:
+            if not isinstance(entry, dict):
+                continue
+
+            # Extract reference (TA/HST number)
+            ref = (
+                entry.get("guidanceReference", "")
+                or entry.get("reference", "")
+                or entry.get("id", "")
+            )
+            if not ref:
+                # Try to extract from URL
+                url = entry.get("url", "") or entry.get("links", {}).get("self", "")
+                ref_match = re.search(r"(ta|hst)(\d+)", url, re.IGNORECASE)
+                if ref_match:
+                    ref = f"{ref_match.group(1).upper()}{ref_match.group(2)}"
+
+            if not ref or ref in seen_refs:
+                continue
+
+            # Only accept TA/HST references
+            if not re.match(r"^(TA|HST)\d+$", ref, re.IGNORECASE):
+                continue
+
+            seen_refs.add(ref)
+
+            title = (
+                entry.get("title", "")
+                or entry.get("guidanceTitle", "")
+                or entry.get("name", "")
+            )
+
+            url = entry.get("url", "") or entry.get("links", {}).get("self", "")
+            if not url:
+                url = f"{NICE_BASE_URL}/guidance/{ref.lower()}"
+            elif not url.startswith("http"):
+                url = NICE_BASE_URL + url
+
+            # Date
+            pub_date = (
+                entry.get("publishedDate", "")
+                or entry.get("lastModified", "")
+                or entry.get("datePublished", "")
+            )
+            if pub_date and "T" in pub_date:
+                pub_date = pub_date[:10]  # Extract YYYY-MM-DD from ISO datetime
+
+            # Recommendation
+            recommendation = (
+                entry.get("recommendation", "")
+                or entry.get("recommendationStatus", "")
+                or entry.get("status", "")
+            )
+
+            items.append({
+                "reference": ref.upper(),
+                "title": title,
+                "url": url,
+                "published_date": pub_date,
+                "guidance_type": programme_type,
+                "recommendation": recommendation.lower() if recommendation else "",
+            })
+
+        return items
+
+    # ── Strategy 2: HTML listing scraping ─────────────────────────────
 
     async def _fetch_guidance_listing(
         self,
@@ -335,7 +542,133 @@ class UKNICE(HTAAgency):
                     "recommendation": recommendation,
                 })
 
+        # Pattern 4: React/Vue-style data attributes and aria labels
+        # Modern NICE pages may use data-* attributes with guidance info
+        if not items:
+            data_pattern = re.compile(
+                r'data-(?:guidance-)?(?:ref|id)="(ta|hst)(\d+)"',
+                re.IGNORECASE,
+            )
+            for match in data_pattern.finditer(html):
+                gtype = match.group(1)
+                number = match.group(2)
+                ref = f"{gtype.upper()}{number}"
+                if ref in seen_refs:
+                    continue
+                seen_refs.add(ref)
+
+                path = f"/guidance/{gtype.lower()}{number}"
+                url = NICE_BASE_URL + path
+                title = self._extract_title_near(html, path) or ref
+                date = self._extract_date_near(html, path)
+                recommendation = self._extract_recommendation_near(html, path)
+
+                items.append({
+                    "reference": ref,
+                    "title": title,
+                    "url": url,
+                    "published_date": date,
+                    "guidance_type": programme_type,
+                    "recommendation": recommendation,
+                })
+
         return items
+
+    # ── Strategy 3: Gap-filling ───────────────────────────────────────
+
+    async def _fill_guidance_gaps(
+        self,
+        client: httpx.AsyncClient,
+        existing: list[dict],
+    ) -> list[dict]:
+        """Identify missing TA/HST numbers and fetch individual pages to fill gaps.
+
+        Compares the TA/HST numbers already collected against the known maximum
+        range, then concurrently fetches individual guidance pages for any gaps.
+        This ensures near-100% coverage of all published NICE guidance.
+        """
+        existing_refs = {g["reference"] for g in existing}
+
+        # Determine which TA/HST numbers we're missing
+        missing_tas: list[int] = []
+        for n in range(1, NICE_TA_MAX_NUMBER + 1):
+            ref = f"TA{n}"
+            if ref not in existing_refs:
+                missing_tas.append(n)
+
+        missing_hsts: list[int] = []
+        for n in range(1, NICE_HST_MAX_NUMBER + 1):
+            ref = f"HST{n}"
+            if ref not in existing_refs:
+                missing_hsts.append(n)
+
+        total_missing = len(missing_tas) + len(missing_hsts)
+        if total_missing == 0:
+            return []
+
+        logger.info(
+            "NICE gap-fill: %d existing, %d missing TAs + %d missing HSTs to check",
+            len(existing_refs), len(missing_tas), len(missing_hsts),
+        )
+
+        # Build list of (reference, url) pairs to fetch
+        to_fetch: list[tuple[str, str]] = []
+        for n in missing_tas:
+            ref = f"TA{n}"
+            url = f"{NICE_BASE_URL}/guidance/ta{n}"
+            to_fetch.append((ref, url))
+        for n in missing_hsts:
+            ref = f"HST{n}"
+            url = f"{NICE_BASE_URL}/guidance/hst{n}"
+            to_fetch.append((ref, url))
+
+        # Fetch in batches with concurrency control
+        semaphore = asyncio.Semaphore(NICE_GAP_FILL_CONCURRENCY)
+        found: list[dict] = []
+
+        async def fetch_one(ref: str, url: str) -> dict | None:
+            async with semaphore:
+                try:
+                    resp = await client.get(url)
+                    if resp.status_code == 404:
+                        return None  # This TA/HST number doesn't exist
+                    resp.raise_for_status()
+                    html = resp.text
+
+                    # Verify this is actually a TA/HST page (not a redirect to generic page)
+                    if f"/guidance/{ref.lower()}" not in resp.url.path.lower():
+                        return None
+
+                    rec, date = _extract_from_guidance_page(html)
+                    title = _extract_title_from_page(html)
+
+                    if not title:
+                        return None  # Not a valid guidance page
+
+                    gtype = "Technology appraisal guidance" if ref.startswith("TA") else "Highly specialised technologies guidance"
+
+                    return {
+                        "reference": ref,
+                        "title": title,
+                        "url": url,
+                        "published_date": date,
+                        "guidance_type": gtype,
+                        "recommendation": rec,
+                    }
+                except Exception:
+                    return None
+
+        # Run all fetches concurrently
+        tasks = [fetch_one(ref, url) for ref, url in to_fetch]
+        results = await asyncio.gather(*tasks)
+
+        for result in results:
+            if result is not None:
+                found.append(result)
+
+        return found
+
+    # ── HTML extraction helpers ───────────────────────────────────────
 
     def _extract_title_near(self, html: str, path: str) -> str:
         """Try to find a title near a guidance path reference."""
@@ -463,6 +796,37 @@ def _parse_date_text(day: str, month_name: str, year: str) -> str:
     }
     month = months.get(month_name.lower(), "01")
     return f"{year}-{month}-{int(day):02d}"
+
+
+def _extract_title_from_page(html: str) -> str:
+    """Extract the guidance title from an individual NICE guidance page.
+
+    Tries multiple approaches: <title> tag, <h1>, and meta og:title.
+    """
+    # Try <title> tag first — typically "Title | Guidance | NICE"
+    title_match = re.search(r"<title[^>]*>(.+?)</title>", html, re.IGNORECASE | re.DOTALL)
+    if title_match:
+        raw = _clean_html_text(title_match.group(1))
+        # Strip common NICE suffixes
+        for suffix in [" | Guidance | NICE", " | NICE", " - NICE"]:
+            if raw.endswith(suffix):
+                raw = raw[:-len(suffix)]
+        if raw and len(raw) > 5:
+            return raw
+
+    # Try <h1>
+    h1_match = re.search(r"<h1[^>]*>(.*?)</h1>", html, re.IGNORECASE | re.DOTALL)
+    if h1_match:
+        title = _clean_html_text(h1_match.group(1))
+        if title and len(title) > 5:
+            return title
+
+    # Try og:title meta tag
+    og_match = re.search(r'<meta\s+property="og:title"\s+content="([^"]+)"', html, re.IGNORECASE)
+    if og_match:
+        return _clean_html_text(og_match.group(1))
+
+    return ""
 
 
 def _extract_from_guidance_page(html: str) -> tuple[str, str]:

@@ -1,11 +1,17 @@
 """Tests for the UK NICE adapter using sample HTML data."""
 
+import json
+import tempfile
+from pathlib import Path
+
 import pytest
 
 from app.services.hta_agencies.uk_nice import (
     UKNICE,
     RECOMMENDATION_DISPLAY,
     _clean_html_text,
+    _extract_from_guidance_page,
+    _extract_title_from_page,
     _normalize_recommendation,
     _parse_date_text,
 )
@@ -233,3 +239,239 @@ def test_parse_html_with_no_guidance_links():
         "Technology appraisal guidance",
     )
     assert result == []
+
+
+# ── New tests for expanded functionality ──────────────────────────────
+
+
+# Sample NICE API JSON response
+SAMPLE_API_RESPONSE = {
+    "results": [
+        {
+            "guidanceReference": "TA950",
+            "title": "Sotorasib for treating KRAS G12C-mutated advanced non-small-cell lung cancer",
+            "url": "/guidance/ta950",
+            "publishedDate": "2024-06-15T00:00:00",
+            "recommendation": "recommended",
+        },
+        {
+            "guidanceReference": "TA951",
+            "title": "Teclistamab for relapsed and refractory multiple myeloma",
+            "url": "/guidance/ta951",
+            "publishedDate": "2024-07-20T00:00:00",
+            "recommendation": "not recommended",
+        },
+        {
+            "guidanceReference": "HST25",
+            "title": "Voretigene neparvovec for treating inherited retinal dystrophies",
+            "url": "/guidance/hst25",
+            "publishedDate": "2024-05-10T00:00:00",
+            "recommendation": "recommended",
+        },
+    ]
+}
+
+
+def test_parse_api_response_standard_format():
+    """Should parse NICE API JSON with standard results structure."""
+    service = UKNICE()
+    seen = set()
+    items = service._parse_api_response(SAMPLE_API_RESPONSE, "Technology appraisal guidance", seen)
+    assert len(items) == 3
+    refs = {g["reference"] for g in items}
+    assert "TA950" in refs
+    assert "TA951" in refs
+    assert "HST25" in refs
+
+
+def test_parse_api_response_extracts_dates():
+    """Should extract published dates from API response and format as YYYY-MM-DD."""
+    service = UKNICE()
+    seen = set()
+    items = service._parse_api_response(SAMPLE_API_RESPONSE, "Technology appraisal guidance", seen)
+    dates = {g["reference"]: g["published_date"] for g in items}
+    assert dates["TA950"] == "2024-06-15"
+    assert dates["HST25"] == "2024-05-10"
+
+
+def test_parse_api_response_extracts_recommendations():
+    """Should extract recommendation status from API response."""
+    service = UKNICE()
+    seen = set()
+    items = service._parse_api_response(SAMPLE_API_RESPONSE, "Technology appraisal guidance", seen)
+    recs = {g["reference"]: g["recommendation"] for g in items}
+    assert recs["TA950"] == "recommended"
+    assert recs["TA951"] == "not recommended"
+
+
+def test_parse_api_response_deduplicates():
+    """Should not return duplicate references."""
+    service = UKNICE()
+    seen = {"TA950"}  # Pre-seed with an existing ref
+    items = service._parse_api_response(SAMPLE_API_RESPONSE, "Technology appraisal guidance", seen)
+    assert len(items) == 2  # TA950 should be skipped
+    refs = {g["reference"] for g in items}
+    assert "TA950" not in refs
+
+
+def test_parse_api_response_list_format():
+    """Should handle API response as a direct list of items."""
+    service = UKNICE()
+    seen = set()
+    data = [
+        {"guidanceReference": "TA100", "title": "Drug A for cancer", "url": "/guidance/ta100"},
+        {"guidanceReference": "TA101", "title": "Drug B for diabetes", "url": "/guidance/ta101"},
+    ]
+    items = service._parse_api_response(data, "Technology appraisal guidance", seen)
+    assert len(items) == 2
+
+
+def test_parse_api_response_empty():
+    """Should return empty list for empty API response."""
+    service = UKNICE()
+    seen = set()
+    assert service._parse_api_response({}, "TA", seen) == []
+    assert service._parse_api_response({"results": []}, "TA", seen) == []
+    assert service._parse_api_response([], "TA", seen) == []
+
+
+def test_parse_api_response_constructs_urls():
+    """Should construct full NICE URLs from relative paths."""
+    service = UKNICE()
+    seen = set()
+    data = [{"guidanceReference": "TA999", "title": "Test", "url": "/guidance/ta999"}]
+    items = service._parse_api_response(data, "TA", seen)
+    assert items[0]["url"] == "https://www.nice.org.uk/guidance/ta999"
+
+
+def test_extract_title_from_guidance_page():
+    """Should extract title from individual guidance page HTML."""
+    html = """
+    <html>
+    <head><title>Drug X for treating cancer | Guidance | NICE</title></head>
+    <body><h1>Drug X for treating cancer</h1></body>
+    </html>
+    """
+    title = _extract_title_from_page(html)
+    assert "Drug X for treating cancer" in title
+
+
+def test_extract_title_from_page_h1_fallback():
+    """Should fall back to <h1> tag when <title> is generic."""
+    html = """
+    <html>
+    <head><title>NICE</title></head>
+    <body><h1>Sotorasib for lung cancer after immunotherapy</h1></body>
+    </html>
+    """
+    title = _extract_title_from_page(html)
+    assert "Sotorasib" in title
+
+
+def test_extract_from_guidance_page_recommendation():
+    """Should extract recommendation from a guidance page."""
+    html = """
+    <html><body>
+    <div class="recommendation-status">
+        <p>Sotorasib is recommended as an option for treating...</p>
+    </div>
+    </body></html>
+    """
+    rec, _ = _extract_from_guidance_page(html)
+    assert rec == "recommended"
+
+
+def test_extract_from_guidance_page_not_recommended():
+    """Should correctly identify 'not recommended' over 'recommended'."""
+    html = """
+    <html><body>
+    <div>Teclistamab is not recommended for use in the NHS...</div>
+    </body></html>
+    """
+    rec, _ = _extract_from_guidance_page(html)
+    assert rec == "not recommended"
+
+
+def test_extract_from_guidance_page_date():
+    """Should extract published date from a guidance page."""
+    html = """
+    <html><body>
+    <p>Published date: 15 January 2024</p>
+    <p>This guidance is recommended...</p>
+    </body></html>
+    """
+    _, date = _extract_from_guidance_page(html)
+    assert date == "2024-01-15"
+
+
+# Sample HTML with Pattern 2 (multi-line link text with nested HTML)
+SAMPLE_PATTERN2_HTML = """\
+<html><body>
+<div class="results-list">
+  <h3 class="title">
+    <a href="/guidance/ta960">
+      <span class="reference">TA960</span>
+      Durvalumab for treating locally advanced urothelial carcinoma
+    </a>
+  </h3>
+  <p class="date">Published: 5 September 2024</p>
+  <p>Recommended</p>
+</div>
+</body></html>
+"""
+
+
+def test_parse_listing_pattern2():
+    """Should parse HTML using Pattern 2 (multi-line link text with nested tags)."""
+    service = UKNICE()
+    items = service._parse_listing_page(SAMPLE_PATTERN2_HTML, "Technology appraisal guidance")
+    assert len(items) >= 1
+    refs = {g["reference"] for g in items}
+    assert "TA960" in refs
+
+
+# ── File-based caching tests ──────────────────────────────────────────
+
+
+def test_save_and_load_roundtrip(nice_service):
+    """save_to_file -> load_from_file should produce equivalent data."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "GB.json"
+        nice_service.save_to_file(data_file)
+        assert data_file.exists()
+
+        fresh = UKNICE()
+        assert not fresh.is_loaded
+        result = fresh.load_from_file(data_file)
+        assert result is True
+        assert fresh.is_loaded
+        assert len(fresh._guidance_list) == len(nice_service._guidance_list)
+
+
+def test_load_from_file_bad_file_returns_false():
+    """load_from_file on a missing file should return False."""
+    service = UKNICE()
+    assert service.load_from_file(Path("/nonexistent/GB.json")) is False
+    assert not service.is_loaded
+
+
+def test_load_from_file_invalid_envelope_returns_false():
+    """load_from_file with wrong envelope structure should return False."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "GB.json"
+        data_file.write_text(json.dumps({"data": {"not_a_list": True}}))
+        service = UKNICE()
+        assert service.load_from_file(data_file) is False
+
+
+def test_save_creates_envelope_metadata(nice_service):
+    """JSON file written by save_to_file should contain expected envelope fields."""
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "GB.json"
+        nice_service.save_to_file(data_file)
+        payload = json.loads(data_file.read_text())
+        assert payload["country"] == "GB"
+        assert payload["agency"] == "NICE"
+        assert "updated_at" in payload
+        assert "record_count" in payload
+        assert isinstance(payload["data"], list)

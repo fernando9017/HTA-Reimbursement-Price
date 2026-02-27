@@ -1,28 +1,37 @@
 """Spain AEMPS (Agencia Española de Medicamentos y Productos Sanitarios) adapter.
 
-Data source: AEMPS Informes de Posicionamiento Terapéutico (IPT) listing page.
-IPTs are therapeutic positioning reports that evaluate new medicines and provide
-recommendations on their place in therapy relative to existing alternatives.
+Data sources (tried in order):
+1. AEMPS IPT listing pages — Informes de Posicionamiento Terapéutico (IPT)
+   scraped from the AEMPS website and Ministry of Health portal.
+2. CIMA REST API — authorised medicine data from the AEMPS Centre for Medicine
+   Information, cross-referenced with IPTs for enriched medicine metadata.
 
-The listing page is a public HTML page on the AEMPS website.  Each IPT entry
-contains the drug name, indication, date, and a link to the full PDF report.
-
+Multiple listing URLs are tried as fallbacks to maximise IPT coverage.
 No authentication required.
 """
 
+import json
 import logging
 import re
 from pathlib import Path
 
 import httpx
 
-from app.config import AEMPS_BASE_URL, AEMPS_IPT_LISTING_URL, AEMPS_MAX_PAGES, REQUEST_TIMEOUT
+from app.config import (
+    AEMPS_BASE_URL,
+    AEMPS_CIMA_API_URL,
+    AEMPS_CIMA_BASE_URL,
+    AEMPS_IPT_LISTING_URL,
+    AEMPS_IPT_LISTING_URLS,
+    AEMPS_MAX_PAGES,
+    REQUEST_TIMEOUT,
+)
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
 logger = logging.getLogger(__name__)
 
-# Therapeutic positioning outcomes → English display values
+# Therapeutic positioning outcomes -> English display values
 POSITIONING_DISPLAY = {
     "favorable": "Favorable",
     "desfavorable": "Unfavorable (Desfavorable)",
@@ -38,6 +47,7 @@ class SpainAEMPS(HTAAgency):
 
     def __init__(self) -> None:
         self._ipt_list: list[dict] = []
+        self._cima_medicines: dict[str, dict] = {}  # INN lower -> CIMA data
         self._loaded = False
 
     @property
@@ -61,8 +71,16 @@ class SpainAEMPS(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch and parse the AEMPS IPT listing page(s)."""
+        """Fetch and parse IPT data from multiple listing URLs, plus CIMA data.
+
+        Strategy:
+        1. Try all IPT listing URLs, collecting entries from each.
+        2. Optionally fetch CIMA authorised medicine data for cross-referencing.
+        3. Deduplicate and merge results from all sources.
+        """
         all_items: list[dict] = []
+        seen_refs: set[str] = set()
+        seen_urls: set[str] = set()
 
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
@@ -76,34 +94,25 @@ class SpainAEMPS(HTAAgency):
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             },
         ) as client:
-            # Try main listing URL and alternative (Ministry of Health portal)
-            listing_urls = [
-                AEMPS_IPT_LISTING_URL,
-                "https://www.sanidad.gob.es/areas/farmacia/infoMedicamentos/IPT/home.htm",
-            ]
-            for listing_url in listing_urls:
-                for page in range(1, AEMPS_MAX_PAGES + 1):
-                    try:
-                        params = {"pg": str(page)} if page > 1 else {}
-                        resp = await client.get(listing_url, params=params)
-                        resp.raise_for_status()
-                        html = resp.text
-                    except Exception:
-                        logger.warning(
-                            "Failed to fetch AEMPS IPT listing page %d from %s",
-                            page, listing_url,
-                        )
-                        break
+            # Try ALL listing URLs (not just first success) to maximise coverage
+            for listing_url in AEMPS_IPT_LISTING_URLS:
+                url_items = await self._fetch_ipt_listing(client, listing_url, seen_refs, seen_urls)
+                if url_items:
+                    all_items.extend(url_items)
+                    logger.info(
+                        "AEMPS listing %s returned %d new items",
+                        listing_url[:60], len(url_items),
+                    )
 
-                    items = self._parse_listing_page(html)
-                    if not items:
-                        break
-
-                    all_items.extend(items)
-                    logger.debug("AEMPS IPT page %d: %d items", page, len(items))
-
-                if all_items:
-                    break  # Got data from this URL, no need to try alternatives
+            # Try CIMA API to enrich IPT data with authorised medicine metadata
+            try:
+                await self._fetch_cima_data(client)
+            except Exception:
+                logger.debug(
+                    "CIMA API not available — IPT data will not be enriched "
+                    "with authorised medicine metadata",
+                    exc_info=True,
+                )
 
         if not all_items:
             raise RuntimeError(
@@ -113,6 +122,10 @@ class SpainAEMPS(HTAAgency):
                 "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
                 "informes-de-posicionamiento-terapeutico/"
             )
+
+        # Enrich IPT entries with CIMA data if available
+        if self._cima_medicines:
+            self._enrich_ipts_with_cima(all_items)
 
         self._ipt_list = all_items
         self._loaded = True
@@ -177,6 +190,135 @@ class SpainAEMPS(HTAAgency):
         # Sort most recent first
         results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results
+
+    # ── IPT listing fetching ──────────────────────────────────────────
+
+    async def _fetch_ipt_listing(
+        self,
+        client: httpx.AsyncClient,
+        listing_url: str,
+        seen_refs: set[str],
+        seen_urls: set[str],
+    ) -> list[dict]:
+        """Fetch all pages of an IPT listing URL, deduplicating against seen refs/urls."""
+        all_items: list[dict] = []
+
+        for page in range(1, AEMPS_MAX_PAGES + 1):
+            try:
+                params = {"pg": str(page)} if page > 1 else {}
+                resp = await client.get(listing_url, params=params)
+                resp.raise_for_status()
+                html = resp.text
+            except Exception:
+                logger.warning(
+                    "Failed to fetch AEMPS IPT listing page %d from %s",
+                    page, listing_url,
+                )
+                break
+
+            items = self._parse_listing_page(html)
+            if not items:
+                break
+
+            # Deduplicate against already-collected entries
+            new_items = []
+            for item in items:
+                ref = item.get("reference", "")
+                url = item.get("url", "")
+
+                if ref and ref in seen_refs:
+                    continue
+                if url and url in seen_urls:
+                    continue
+
+                if ref:
+                    seen_refs.add(ref)
+                if url:
+                    seen_urls.add(url)
+                new_items.append(item)
+
+            all_items.extend(new_items)
+            logger.debug("AEMPS IPT %s page %d: %d items (%d new)", listing_url[:40], page, len(items), len(new_items))
+
+        return all_items
+
+    # ── CIMA REST API ────────────────────────────────────────────────
+
+    async def _fetch_cima_data(self, client: httpx.AsyncClient) -> None:
+        """Fetch authorised medicine data from the CIMA REST API.
+
+        The CIMA API provides structured medicine data including INN, brand name,
+        ATC code, authorisation status, and laboratory (MAH).  We use it to
+        cross-reference with IPTs and enrich the data.
+        """
+        # Fetch a broad set of medicines from CIMA (paginated)
+        page = 1
+        max_pages = 50  # CIMA returns ~25 items per page
+        total_loaded = 0
+
+        while page <= max_pages:
+            try:
+                resp = await client.get(
+                    AEMPS_CIMA_API_URL,
+                    params={"pagina": str(page)},
+                    headers={"Accept": "application/json"},
+                )
+                if resp.status_code != 200:
+                    break
+                data = resp.json()
+            except Exception:
+                break
+
+            # CIMA response structure: {"resultados": [...], "totalFilas": N, ...}
+            results = data.get("resultados", [])
+            if not results:
+                break
+
+            for med in results:
+                inn = (med.get("vtm", {}).get("nombre", "") or "").lower().strip()
+                if not inn:
+                    # Try alternative field names
+                    inn = (med.get("principiosActivos", "") or "").lower().strip()
+                if inn:
+                    self._cima_medicines[inn] = {
+                        "nregistro": med.get("nregistro", ""),
+                        "nombre": med.get("nombre", ""),
+                        "inn": inn,
+                        "laboratorio": med.get("labtitular", ""),
+                        "estado": med.get("estado", {}).get("nombre", ""),
+                        "atc": med.get("atc", {}).get("codigo", ""),
+                    }
+
+            total_loaded += len(results)
+            total_rows = data.get("totalFilas", 0)
+
+            if total_loaded >= total_rows:
+                break
+            page += 1
+
+        if self._cima_medicines:
+            logger.info(
+                "CIMA API loaded %d authorised medicines for cross-reference",
+                len(self._cima_medicines),
+            )
+
+    def _enrich_ipts_with_cima(self, items: list[dict]) -> None:
+        """Enrich IPT entries with CIMA medicine data where available."""
+        enriched = 0
+        for ipt in items:
+            title_lower = ipt.get("title", "").lower()
+            # Try to match IPT drug name against CIMA INN
+            for inn, cima_data in self._cima_medicines.items():
+                if inn in title_lower:
+                    ipt["cima_nregistro"] = cima_data.get("nregistro", "")
+                    ipt["cima_nombre"] = cima_data.get("nombre", "")
+                    ipt["cima_laboratorio"] = cima_data.get("laboratorio", "")
+                    ipt["cima_atc"] = cima_data.get("atc", "")
+                    enriched += 1
+                    break
+
+        if enriched:
+            logger.info("Enriched %d IPT entries with CIMA medicine data", enriched)
 
     # ── Data loading helpers ──────────────────────────────────────────
 
@@ -277,6 +419,51 @@ class SpainAEMPS(HTAAgency):
                     "positioning": "",
                 })
 
+        # Pattern 3: WordPress block/card layouts (newer AEMPS site)
+        # <div class="wp-block-..."><a href="...">Drug (IPT-XX/YYYY)</a><time>date</time></div>
+        if not items:
+            wp_pattern = re.compile(
+                r'<a\s+href="([^"]*)"[^>]*>\s*(.*?)</a>.*?'
+                r'(?:<time[^>]*>([^<]*)</time>)?',
+                re.IGNORECASE | re.DOTALL,
+            )
+            for match in wp_pattern.finditer(html):
+                url = match.group(1)
+                title_raw = match.group(2)
+                date_text = match.group(3) or ""
+
+                title = _clean_html_text(title_raw)
+                if not title or len(title) < 5:
+                    continue
+
+                # Check if this looks like an IPT link
+                ref = _extract_ipt_reference(url) or _extract_ipt_reference(title)
+                if not ref:
+                    # Also check if URL contains IPT-related keywords
+                    url_lower = url.lower()
+                    if not any(kw in url_lower for kw in ("ipt", "posicionamiento", "informe")):
+                        continue
+
+                if ref and ref in seen_refs:
+                    continue
+                if ref:
+                    seen_refs.add(ref)
+
+                if url and not url.startswith("http"):
+                    url = AEMPS_BASE_URL + (url if url.startswith("/") else "/" + url)
+
+                if url in seen_urls:
+                    continue
+                seen_urls.add(url)
+
+                items.append({
+                    "reference": ref or "",
+                    "title": title,
+                    "url": url,
+                    "published_date": _parse_spanish_date(date_text.strip()) if date_text else "",
+                    "positioning": self._extract_positioning_near(html, title_raw),
+                })
+
         return items
 
     def _extract_date_near(self, html: str, anchor_text: str) -> str:
@@ -359,12 +546,12 @@ def _clean_html_text(text: str) -> str:
     text = re.sub(r"&lt;", "<", text)
     text = re.sub(r"&gt;", ">", text)
     text = re.sub(r"&nbsp;", " ", text)
-    text = re.sub(r"&aacute;", "á", text)
-    text = re.sub(r"&eacute;", "é", text)
-    text = re.sub(r"&iacute;", "í", text)
-    text = re.sub(r"&oacute;", "ó", text)
-    text = re.sub(r"&uacute;", "ú", text)
-    text = re.sub(r"&ntilde;", "ñ", text)
+    text = re.sub(r"&aacute;", "\u00e1", text)
+    text = re.sub(r"&eacute;", "\u00e9", text)
+    text = re.sub(r"&iacute;", "\u00ed", text)
+    text = re.sub(r"&oacute;", "\u00f3", text)
+    text = re.sub(r"&uacute;", "\u00fa", text)
+    text = re.sub(r"&ntilde;", "\u00f1", text)
     text = re.sub(r"&#\d+;", "", text)
     text = re.sub(r"\s+", " ", text)
     return text.strip()

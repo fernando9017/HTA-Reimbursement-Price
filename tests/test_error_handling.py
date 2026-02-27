@@ -177,7 +177,7 @@ class TestFranceHASErrors:
 
     @pytest.mark.asyncio
     async def test_load_data_http_error(self):
-        """HTTP error during BDPM file download should propagate."""
+        """HTTP error during BDPM file download should propagate after retries."""
         agency = FranceHAS()
 
         mock_response = MagicMock()
@@ -193,8 +193,9 @@ class TestFranceHASErrors:
         mock_client.__aexit__ = AsyncMock(return_value=False)
 
         with patch("app.services.hta_agencies.france_has.httpx.AsyncClient", return_value=mock_client):
-            with pytest.raises(httpx.HTTPStatusError):
-                await agency.load_data()
+            with patch("app.services.hta_agencies.france_has.asyncio.sleep", new_callable=AsyncMock):
+                with pytest.raises(RuntimeError, match="fetch failed after"):
+                    await agency.load_data()
 
         assert agency.is_loaded is False
 
