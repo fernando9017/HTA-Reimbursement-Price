@@ -12,6 +12,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 from pathlib import Path
 
 import anthropic
@@ -198,7 +199,7 @@ Produce a JSON response with this exact structure:
         "trial_name": "<trial name, e.g. KEYNOTE-189>",
         "nct_number": "<NCT number if known>",
         "trial_design": "<Phase III, randomized, double-blind, placebo-controlled>",
-        "enrollment": <total N>,
+        "enrollment": "<total N or null if unknown>",
         "trial_comparator": "<comparator arm description>",
         "confidence": "<high|moderate|low>",
         "key_endpoints": [
@@ -363,6 +364,42 @@ def _save_to_disk_cache(key: str, analysis: GBAAssessmentAnalysis) -> None:
         logger.warning("Failed to save AI cache file for key: %s", key)
 
 
+def _extract_json(text: str) -> dict | None:
+    """Extract a JSON object from AI response text.
+
+    Tries multiple strategies in order:
+    1. Direct parse of the full text
+    2. Strip markdown code fences (```json ... ```)
+    3. Find the outermost { ... } brace pair
+    """
+    text = text.strip()
+
+    # Strategy 1: Direct parse
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Strategy 2: Strip markdown code fences
+    fence_match = re.search(r"```(?:json)?\s*\n(.*?)\n\s*```", text, re.DOTALL)
+    if fence_match:
+        try:
+            return json.loads(fence_match.group(1).strip())
+        except json.JSONDecodeError:
+            pass
+
+    # Strategy 3: Find outermost braces
+    first_brace = text.find("{")
+    last_brace = text.rfind("}")
+    if first_brace != -1 and last_brace > first_brace:
+        try:
+            return json.loads(text[first_brace : last_brace + 1])
+        except json.JSONDecodeError:
+            pass
+
+    return None
+
+
 async def analyze_assessment(
     decision_id: str,
     trade_name: str,
@@ -440,25 +477,23 @@ async def analyze_assessment(
 
     response = await client.messages.create(
         model=AI_MODEL,
-        max_tokens=4096,
+        max_tokens=8192,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_prompt}],
     )
 
     # Parse the response
     response_text = response.content[0].text.strip()
+    logger.debug("AI raw response length: %d chars", len(response_text))
 
-    # Strip markdown code fences if present
-    if response_text.startswith("```"):
-        lines = response_text.split("\n")
-        # Remove first line (```json or ```) and last line (```)
-        lines = [l for l in lines if not l.strip().startswith("```")]
-        response_text = "\n".join(lines)
-
-    try:
-        parsed = json.loads(response_text)
-    except json.JSONDecodeError:
-        logger.error("AI response was not valid JSON: %s", response_text[:500])
+    # Extract JSON from the response using multiple strategies
+    parsed = _extract_json(response_text)
+    if parsed is None:
+        logger.error(
+            "AI response was not valid JSON (length=%d): %s",
+            len(response_text),
+            response_text[:500],
+        )
         raise RuntimeError("AI returned invalid JSON response")
 
     # Build the analysis result
@@ -487,22 +522,35 @@ async def analyze_assessment(
         for t in ce_raw.get("pivotal_trials", []):
             endpoints = []
             for ep in t.get("key_endpoints", []):
+                # Handle statistically_significant — may be bool or string
+                sig_raw = ep.get("statistically_significant")
+                if isinstance(sig_raw, str):
+                    sig_raw = sig_raw.lower() in ("true", "yes", "1")
                 endpoints.append(GBAEfficacyEndpoint(
                     name=ep.get("name", ""),
                     abbreviation=ep.get("abbreviation", ""),
-                    treatment_result=ep.get("treatment_result", ""),
-                    comparator_result=ep.get("comparator_result", ""),
-                    effect_measure=ep.get("effect_measure", ""),
-                    effect_value=ep.get("effect_value", ""),
-                    ci_95=ep.get("ci_95", ""),
-                    p_value=ep.get("p_value", ""),
-                    statistically_significant=ep.get("statistically_significant"),
+                    treatment_result=str(ep.get("treatment_result", "")),
+                    comparator_result=str(ep.get("comparator_result", "")),
+                    effect_measure=str(ep.get("effect_measure", "")),
+                    effect_value=str(ep.get("effect_value", "")),
+                    ci_95=str(ep.get("ci_95", "")),
+                    p_value=str(ep.get("p_value", "")),
+                    statistically_significant=sig_raw,
                 ))
+            # Parse enrollment — may come as int, string, or null
+            enrollment_raw = t.get("enrollment")
+            enrollment_val = None
+            if enrollment_raw is not None:
+                try:
+                    enrollment_val = int(enrollment_raw)
+                except (ValueError, TypeError):
+                    pass
+
             trials.append(GBAClinicalTrial(
                 trial_name=t.get("trial_name", ""),
                 nct_number=t.get("nct_number", ""),
                 trial_design=t.get("trial_design", ""),
-                enrollment=t.get("enrollment"),
+                enrollment=enrollment_val,
                 trial_comparator=t.get("trial_comparator", ""),
                 key_endpoints=endpoints,
                 confidence=t.get("confidence", ""),
