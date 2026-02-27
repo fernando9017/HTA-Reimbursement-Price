@@ -588,35 +588,136 @@ function renderAIAnalysis(analysis, container) {
     html += `<span class="gba-ai-model">Model: ${esc(analysis.ai_model)}${analysis.cached ? " (cached)" : ""}</span>`;
     html += '</div>';
 
-    // Overall summary
-    if (analysis.overall_summary) {
-        html += '<div class="gba-ai-section">';
-        html += '<div class="gba-ai-section-label">SUMMARY</div>';
-        html += `<div class="gba-ai-section-text">${esc(analysis.overall_summary)}</div>`;
+    // ── Decision Summary (AI-generated drivers/barriers/P&MA) ──
+    const hasDrivers = analysis.decision_drivers && analysis.decision_drivers.length > 0;
+    const hasBarriers = analysis.decision_barriers && analysis.decision_barriers.length > 0;
+    if (hasDrivers || hasBarriers || analysis.pma_conclusion) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Decision Summary</span>';
+        html += '<span class="gba-section-chevron"></span>';
         html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        if (hasDrivers) {
+            html += '<div class="gba-summary-block gba-summary-drivers">';
+            html += '<div class="gba-summary-label">Drivers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const d of analysis.decision_drivers) {
+                html += `<li><span class="gba-indicator gba-indicator-positive"></span>${esc(d)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        if (hasBarriers) {
+            html += '<div class="gba-summary-block gba-summary-barriers">';
+            html += '<div class="gba-summary-label">Barriers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const b of analysis.decision_barriers) {
+                html += `<li><span class="gba-indicator gba-indicator-negative"></span>${esc(b)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        if (analysis.pma_conclusion) {
+            html += '<div class="gba-summary-block gba-summary-pma">';
+            html += '<div class="gba-summary-label">P&amp;MA</div>';
+            html += `<div class="gba-summary-text">${esc(analysis.pma_conclusion)}</div>`;
+            html += '</div>';
+        }
+
+        html += '</div></div>';
     }
 
-    // Clinical context
-    if (analysis.clinical_context) {
-        html += '<div class="gba-ai-section">';
-        html += '<div class="gba-ai-section-label">CLINICAL CONTEXT</div>';
-        html += `<div class="gba-ai-section-text">${esc(analysis.clinical_context)}</div>`;
+    // ── Background (summary + context) ──
+    if (analysis.overall_summary || analysis.clinical_context) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Background</span>';
+        html += '<span class="gba-section-chevron"></span>';
         html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        if (analysis.overall_summary) {
+            html += `<div class="gba-ai-section-text" style="margin-bottom:12px">${esc(analysis.overall_summary)}</div>`;
+        }
+        if (analysis.clinical_context) {
+            html += `<div class="gba-ai-section-text" style="color:var(--text-light)">${esc(analysis.clinical_context)}</div>`;
+        }
+
+        html += '</div></div>';
     }
 
-    // Clinical evidence — prefer text summary over legacy table
-    if (analysis.clinical_evidence_text) {
-        html += renderClinicalEvidenceText(analysis.clinical_evidence_text, analysis.evidence_limitations || []);
-    } else if (analysis.clinical_evidence) {
+    // ── Relevant Trial (structured clinical evidence) ──
+    if (analysis.clinical_evidence && analysis.clinical_evidence.pivotal_trials &&
+        analysis.clinical_evidence.pivotal_trials.length > 0) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Relevant Trial</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
         html += renderClinicalEvidence(analysis.clinical_evidence);
+        html += '</div></div>';
+    } else if (analysis.clinical_evidence_text) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Clinical Evidence</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+        html += renderClinicalEvidenceText(analysis.clinical_evidence_text, analysis.evidence_limitations || []);
+        html += '</div></div>';
     }
 
-    // Subpopulation analyses
+    // ── Key Decision Drivers (comparator + efficacy/safety/QoL) ──
+    const hasComparator = analysis.comparator_assessment && analysis.comparator_assessment.length > 0;
+    const hasEfficacy = analysis.efficacy_safety_evaluation && analysis.efficacy_safety_evaluation.length > 0;
+    if (hasComparator || hasEfficacy) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Key Decision Drivers</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        if (hasComparator) {
+            html += '<div class="gba-driver-subsection">';
+            html += '<div class="gba-driver-subtitle">Comparator / Trial Design Assessment</div>';
+            html += '<ul class="gba-driver-list">';
+            for (const item of analysis.comparator_assessment) {
+                const cls = sentimentIndicatorClass(item.sentiment);
+                html += `<li><span class="gba-indicator ${cls}"></span>${esc(item.text)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        if (hasEfficacy) {
+            html += '<div class="gba-driver-subsection">';
+            html += '<div class="gba-driver-subtitle">Efficacy / Safety / QoL Evaluation</div>';
+            html += '<ul class="gba-driver-list">';
+            for (const item of analysis.efficacy_safety_evaluation) {
+                const cls = sentimentIndicatorClass(item.sentiment);
+                html += `<li><span class="gba-indicator ${cls}"></span>${esc(item.text)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        html += '</div></div>';
+    }
+
+    // ── Subpopulation Analyses ──
     if (analysis.subpopulation_analyses && analysis.subpopulation_analyses.length > 0) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Subpopulation Analyses</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+
         for (const sub of analysis.subpopulation_analyses) {
             html += '<div class="gba-ai-subpop">';
 
-            // Header row: patient group + line of therapy
             html += '<div class="gba-ai-subpop-header">';
             if (sub.patient_group) {
                 html += `<div class="gba-ai-subpop-group">${esc(sub.patient_group)}</div>`;
@@ -626,7 +727,6 @@ function renderAIAnalysis(analysis, container) {
             }
             html += '</div>';
 
-            // Outcome grid
             html += '<div class="gba-ai-outcome-row">';
             if (sub.outcome_en) {
                 html += '<div class="gba-ai-field">';
@@ -640,17 +740,9 @@ function renderAIAnalysis(analysis, container) {
                 html += `<div class="gba-ai-field-value">${esc(sub.comparator)}</div>`;
                 html += '</div>';
             }
-            if (sub.indication_detail) {
-                html += '<div class="gba-ai-field">';
-                html += '<div class="gba-ai-field-label">INDICATION</div>';
-                html += `<div class="gba-ai-field-value">${esc(sub.indication_detail)}</div>`;
-                html += '</div>';
-            }
             html += '</div>';
 
-            // Arguments
             html += '<div class="gba-ai-args-row">';
-
             if (sub.positive_arguments && sub.positive_arguments.length > 0) {
                 html += '<div class="gba-ai-args gba-ai-args-pos">';
                 html += '<div class="gba-ai-args-label">POSITIVE ARGUMENTS</div>';
@@ -660,7 +752,6 @@ function renderAIAnalysis(analysis, container) {
                 }
                 html += '</ul></div>';
             }
-
             if (sub.negative_arguments && sub.negative_arguments.length > 0) {
                 html += '<div class="gba-ai-args gba-ai-args-neg">';
                 html += '<div class="gba-ai-args-label">NEGATIVE ARGUMENTS</div>';
@@ -670,10 +761,8 @@ function renderAIAnalysis(analysis, container) {
                 }
                 html += '</ul></div>';
             }
+            html += '</div>';
 
-            html += '</div>'; // args-row
-
-            // Key trials
             if (sub.key_trials && sub.key_trials.length > 0) {
                 html += '<div class="gba-ai-trials">';
                 html += '<span class="gba-ai-field-label">KEY TRIALS: </span>';
@@ -683,18 +772,48 @@ function renderAIAnalysis(analysis, container) {
 
             html += '</div>'; // ai-subpop
         }
+
+        html += '</div></div>';
     }
 
-    // Market implications
+    // ── Market Implications ──
     if (analysis.market_implications) {
-        html += '<div class="gba-ai-section gba-ai-market">';
-        html += '<div class="gba-ai-section-label">MARKET IMPLICATIONS</div>';
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Market Implications</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
         html += `<div class="gba-ai-section-text">${esc(analysis.market_implications)}</div>`;
+        html += '</div></div>';
+    }
+
+    // Evidence limitations footnote
+    const limitations = analysis.evidence_limitations || [];
+    if (limitations.length > 0) {
+        html += '<div class="gba-ce-limitations" style="margin:12px 16px">';
+        html += '<span class="gba-ce-limitations-label">Note:</span> ';
+        html += esc(limitations.join(". "));
         html += '</div>';
     }
 
     html += '</div>'; // ai-card
     container.innerHTML = html;
+
+    // Enable collapsible sections within AI analysis
+    container.querySelectorAll(".gba-section-toggle").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const section = toggle.closest(".gba-section");
+            section.classList.toggle("collapsed");
+        });
+    });
+}
+
+/** Map sentiment to indicator CSS class. */
+function sentimentIndicatorClass(sentiment) {
+    if (sentiment === "positive") return "gba-indicator-positive";
+    if (sentiment === "negative") return "gba-indicator-negative";
+    return "gba-indicator-neutral";
 }
 
 // ── Clinical Evidence Text renderer (new format) ────────────────────
