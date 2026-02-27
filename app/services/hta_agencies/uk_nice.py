@@ -29,6 +29,7 @@ from app.config import (
     NICE_PUBLISHED_URL,
     NICE_TA_MAX_NUMBER,
     REQUEST_TIMEOUT,
+    SSL_VERIFY,
 )
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
@@ -90,6 +91,7 @@ class UKNICE(HTAAgency):
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            verify=SSL_VERIFY,
             headers={
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -188,6 +190,7 @@ class UKNICE(HTAAgency):
             async with httpx.AsyncClient(
                 timeout=REQUEST_TIMEOUT,
                 follow_redirects=True,
+                verify=SSL_VERIFY,
                 headers={
                     "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
                     "Accept": "text/html",

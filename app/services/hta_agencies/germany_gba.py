@@ -42,7 +42,7 @@ from pathlib import Path
 
 import httpx
 
-from app.config import GBA_AIS_PAGE_URL, GBA_ASSESSMENT_BASE_URL, REQUEST_TIMEOUT
+from app.config import GBA_AIS_PAGE_URL, GBA_ASSESSMENT_BASE_URL, REQUEST_TIMEOUT, SSL_VERIFY
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
@@ -129,6 +129,7 @@ class GermanyGBA(HTAAgency):
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            verify=SSL_VERIFY,
             headers=headers,
         ) as client:
             xml_urls = await self._find_xml_urls(client)

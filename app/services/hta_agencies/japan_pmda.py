@@ -29,7 +29,7 @@ from pathlib import Path
 
 import httpx
 
-from app.config import KEGG_API_BASE, KEGG_JAPIC_BASE_URL, MHLW_PRICING_URL, REQUEST_TIMEOUT
+from app.config import KEGG_API_BASE, KEGG_JAPIC_BASE_URL, MHLW_PRICING_URL, REQUEST_TIMEOUT, SSL_VERIFY
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
@@ -83,6 +83,7 @@ class JapanPMDA(HTAAgency):
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            verify=SSL_VERIFY,
             headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
         ) as client:
             # Step 1: JAPIC → KEGG drug ID mapping (one call gives all NHI-priced drugs)
@@ -185,6 +186,7 @@ class JapanPMDA(HTAAgency):
         async with httpx.AsyncClient(
             timeout=30.0,
             follow_redirects=True,
+            verify=SSL_VERIFY,
             headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
         ) as client:
             for drug in matched:

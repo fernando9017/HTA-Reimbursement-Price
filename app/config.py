@@ -114,3 +114,8 @@ MHLW_PRICING_URL = (
 
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0
+
+# SSL verification — set SSL_VERIFY=0 to disable certificate verification.
+# Useful on macOS where some government sites (e.g. French BDPM) have
+# broken certificate chains that cause SSL errors.
+SSL_VERIFY = os.environ.get("SSL_VERIFY", "").lower() not in ("0", "false", "no")
