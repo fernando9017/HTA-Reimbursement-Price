@@ -1,7 +1,7 @@
 {
   "country": "FR",
   "agency": "HAS",
-  "updated_at": "2026-02-27T10:30:00",
+  "updated_at": "2026-02-27T16:14:45",
   "record_count": 330,
   "data": {
     "medicines": {
@@ -1572,7 +1572,7 @@
         {
           "dossier_code": "CT-20029",
           "motif": "Inscription",
-          "date": "2017-10-10",
+          "date": "2019-10-10",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -1703,7 +1703,7 @@
         {
           "dossier_code": "CT-20048",
           "motif": "Inscription",
-          "date": "2020-10-18",
+          "date": "2022-10-18",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -1726,7 +1726,7 @@
         {
           "dossier_code": "CT-20051",
           "motif": "Inscription",
-          "date": "2020-02-01",
+          "date": "2022-02-01",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -1749,28 +1749,28 @@
         {
           "dossier_code": "CT-20054",
           "motif": "Inscription",
-          "date": "2017-03-20",
+          "date": "2024-03-20",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20055",
           "motif": "Extension d'indication",
-          "date": "2018-11-11",
+          "date": "2025-11-11",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
         {
           "dossier_code": "CT-20056",
           "motif": "Extension d'indication",
-          "date": "2021-04-16",
+          "date": "2025-04-16",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
         {
           "dossier_code": "CT-20057",
           "motif": "Extension d'indication",
-          "date": "2022-03-01",
+          "date": "2025-03-01",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
@@ -1786,14 +1786,14 @@
         {
           "dossier_code": "CT-20059",
           "motif": "Inscription",
-          "date": "2017-04-16",
+          "date": "2021-04-16",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20060",
           "motif": "Extension d'indication",
-          "date": "2018-02-27",
+          "date": "2022-02-27",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         }
@@ -1802,14 +1802,14 @@
         {
           "dossier_code": "CT-20061",
           "motif": "Inscription",
-          "date": "2015-03-17",
+          "date": "2020-03-17",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20062",
           "motif": "Extension d'indication",
-          "date": "2018-09-28",
+          "date": "2021-09-28",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         }
@@ -2032,21 +2032,21 @@
         {
           "dossier_code": "CT-20093",
           "motif": "Inscription",
-          "date": "2016-02-22",
+          "date": "2020-02-22",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20094",
           "motif": "Extension d'indication",
-          "date": "2017-10-23",
+          "date": "2021-10-23",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
         {
           "dossier_code": "CT-20095",
           "motif": "Extension d'indication",
-          "date": "2018-02-11",
+          "date": "2021-02-11",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
@@ -2069,7 +2069,7 @@
         {
           "dossier_code": "CT-20098",
           "motif": "Inscription",
-          "date": "2018-11-07",
+          "date": "2021-11-07",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -2205,21 +2205,21 @@
         {
           "dossier_code": "CT-20116",
           "motif": "Inscription",
-          "date": "2015-10-26",
+          "date": "2020-10-26",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         },
         {
           "dossier_code": "CT-20117",
           "motif": "Extension d'indication",
-          "date": "2016-03-28",
+          "date": "2021-03-28",
           "value": "Important",
           "label": "SMR important dans cette nouvelle indication hématologique"
         },
         {
           "dossier_code": "CT-20118",
           "motif": "Extension d'indication",
-          "date": "2017-06-02",
+          "date": "2021-06-02",
           "value": "Important",
           "label": "SMR important dans cette nouvelle indication hématologique"
         }
@@ -2228,7 +2228,7 @@
         {
           "dossier_code": "CT-20119",
           "motif": "Inscription",
-          "date": "2017-11-22",
+          "date": "2020-11-22",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         }
@@ -2475,7 +2475,7 @@
         {
           "dossier_code": "CT-20150",
           "motif": "Inscription",
-          "date": "2019-11-26",
+          "date": "2021-11-26",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         },
@@ -2514,14 +2514,14 @@
         {
           "dossier_code": "CT-20155",
           "motif": "Inscription",
-          "date": "2019-12-23",
+          "date": "2023-12-23",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         },
         {
           "dossier_code": "CT-20156",
           "motif": "Extension d'indication",
-          "date": "2021-07-01",
+          "date": "2024-07-01",
           "value": "Important",
           "label": "SMR important dans cette nouvelle indication hématologique"
         },
@@ -2537,7 +2537,7 @@
         {
           "dossier_code": "CT-20158",
           "motif": "Inscription",
-          "date": "2021-07-06",
+          "date": "2023-07-06",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         }
@@ -2626,21 +2626,21 @@
         {
           "dossier_code": "CT-20169",
           "motif": "Inscription",
-          "date": "2016-07-18",
+          "date": "2021-07-18",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         },
         {
           "dossier_code": "CT-20170",
           "motif": "Extension d'indication",
-          "date": "2017-02-15",
+          "date": "2022-02-15",
           "value": "Important",
           "label": "SMR important dans cette nouvelle indication hématologique"
         },
         {
           "dossier_code": "CT-20171",
           "motif": "Extension d'indication",
-          "date": "2019-06-14",
+          "date": "2022-06-14",
           "value": "Important",
           "label": "SMR important dans cette nouvelle indication hématologique"
         }
@@ -2649,14 +2649,14 @@
         {
           "dossier_code": "CT-20172",
           "motif": "Inscription",
-          "date": "2015-07-13",
+          "date": "2022-07-13",
           "value": "Important",
           "label": "SMR important dans l'hémopathie maligne évaluée"
         },
         {
           "dossier_code": "CT-20173",
           "motif": "Extension d'indication",
-          "date": "2018-10-16",
+          "date": "2023-10-16",
           "value": "Important",
           "label": "SMR important dans cette nouvelle indication hématologique"
         }
@@ -2718,7 +2718,7 @@
         {
           "dossier_code": "CT-20183",
           "motif": "Inscription",
-          "date": "2016-05-27",
+          "date": "2019-05-27",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -2741,14 +2741,14 @@
         {
           "dossier_code": "CT-20186",
           "motif": "Inscription",
-          "date": "2015-01-01",
+          "date": "2020-01-01",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20187",
           "motif": "Extension d'indication",
-          "date": "2018-06-20",
+          "date": "2021-06-20",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
@@ -2893,7 +2893,7 @@
         {
           "dossier_code": "CT-20206",
           "motif": "Inscription",
-          "date": "2018-07-11",
+          "date": "2021-07-11",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -2930,21 +2930,21 @@
         {
           "dossier_code": "CT-20211",
           "motif": "Inscription",
-          "date": "2016-04-07",
+          "date": "2023-04-07",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20212",
           "motif": "Extension d'indication",
-          "date": "2018-05-03",
+          "date": "2024-05-03",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         },
         {
           "dossier_code": "CT-20213",
           "motif": "Extension d'indication",
-          "date": "2021-09-08",
+          "date": "2024-09-08",
           "value": "Important",
           "label": "SMR important dans la nouvelle indication"
         }
@@ -3202,7 +3202,7 @@
         {
           "dossier_code": "CT-20247",
           "motif": "Inscription",
-          "date": "2015-04-09",
+          "date": "2018-04-09",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -3232,7 +3232,7 @@
         {
           "dossier_code": "CT-20251",
           "motif": "Inscription",
-          "date": "2015-05-09",
+          "date": "2018-05-09",
           "value": "Important",
           "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
         },
@@ -3319,14 +3319,14 @@
         {
           "dossier_code": "CT-20262",
           "motif": "Inscription",
-          "date": "2016-07-13",
+          "date": "2021-07-13",
           "value": "Important",
           "label": "SMR important dans la pathologie neurologique évaluée"
         },
         {
           "dossier_code": "CT-20263",
           "motif": "Renouvellement",
-          "date": "2019-11-27",
+          "date": "2022-11-27",
           "value": "Important",
           "label": "Le service médical rendu reste important"
         }
@@ -3344,7 +3344,7 @@
         {
           "dossier_code": "CT-20265",
           "motif": "Inscription",
-          "date": "2016-01-14",
+          "date": "2021-01-14",
           "value": "Important",
           "label": "SMR important dans la pathologie neurologique évaluée"
         },
@@ -3440,7 +3440,7 @@
         {
           "dossier_code": "CT-20277",
           "motif": "Inscription",
-          "date": "2019-07-20",
+          "date": "2021-07-20",
           "value": "Modéré",
           "label": "SMR modéré dans la pathologie neurologique évaluée"
         }
@@ -3458,14 +3458,14 @@
         {
           "dossier_code": "CT-20279",
           "motif": "Inscription",
-          "date": "2019-05-10",
+          "date": "2025-05-10",
           "value": "Important",
           "label": "SMR important dans la pathologie neurologique évaluée"
         },
         {
           "dossier_code": "CT-20280",
           "motif": "Renouvellement",
-          "date": "2022-12-27",
+          "date": "2025-12-27",
           "value": "Important",
           "label": "Le service médical rendu reste important"
         }
@@ -3474,7 +3474,7 @@
         {
           "dossier_code": "CT-20281",
           "motif": "Inscription",
-          "date": "2020-03-11",
+          "date": "2024-03-11",
           "value": "Modéré",
           "label": "SMR modéré dans la pathologie neurologique évaluée"
         },
@@ -3711,14 +3711,14 @@
         {
           "dossier_code": "CT-20312",
           "motif": "Inscription",
-          "date": "2018-04-27",
+          "date": "2023-04-27",
           "value": "Important",
           "label": "SMR important dans la pathologie immunologique/dermatologique évaluée"
         },
         {
           "dossier_code": "CT-20313",
           "motif": "Extension d'indication",
-          "date": "2021-10-22",
+          "date": "2024-10-22",
           "value": "Important",
           "label": "SMR important dans cette extension d'indication"
         },
@@ -3734,7 +3734,7 @@
         {
           "dossier_code": "CT-20315",
           "motif": "Inscription",
-          "date": "2017-10-21",
+          "date": "2019-10-21",
           "value": "Important",
           "label": "SMR important dans la pathologie immunologique/dermatologique évaluée"
         },
@@ -3853,7 +3853,7 @@
         {
           "dossier_code": "CT-20332",
           "motif": "Inscription",
-          "date": "2019-10-20",
+          "date": "2021-10-20",
           "value": "Important",
           "label": "SMR important dans l'indication cardiovasculaire"
         },
@@ -3894,7 +3894,7 @@
         {
           "dossier_code": "CT-20337",
           "motif": "Inscription",
-          "date": "2017-03-12",
+          "date": "2020-03-12",
           "value": "Important",
           "label": "SMR important dans l'indication cardiovasculaire"
         }
@@ -4017,7 +4017,7 @@
         {
           "dossier_code": "CT-20353",
           "motif": "Inscription",
-          "date": "2018-06-09",
+          "date": "2020-06-09",
           "value": "Important",
           "label": "SMR important dans le traitement du diabète de type 2"
         }
@@ -4067,14 +4067,14 @@
         {
           "dossier_code": "CT-20359",
           "motif": "Inscription",
-          "date": "2017-08-11",
+          "date": "2022-08-11",
           "value": "Important",
           "label": "SMR important dans la pathologie ophtalmologique évaluée"
         },
         {
           "dossier_code": "CT-20360",
           "motif": "Extension d'indication",
-          "date": "2020-02-20",
+          "date": "2023-02-20",
           "value": "Important",
           "label": "SMR important dans cette extension d'indication ophtalmologique"
         }
@@ -4092,7 +4092,7 @@
         {
           "dossier_code": "CT-20362",
           "motif": "Inscription",
-          "date": "2018-07-17",
+          "date": "2020-07-17",
           "value": "Important",
           "label": "SMR important dans la pathologie ophtalmologique évaluée"
         },
@@ -4158,7 +4158,7 @@
         {
           "dossier_code": "CT-20370",
           "motif": "Inscription",
-          "date": "2016-02-04",
+          "date": "2018-02-04",
           "value": "Important",
           "label": "SMR important dans cette maladie rare"
         }
@@ -4219,7 +4219,7 @@
         {
           "dossier_code": "CT-20377",
           "motif": "Inscription",
-          "date": "2016-09-25",
+          "date": "2023-09-25",
           "value": "Important",
           "label": "SMR important dans cette maladie rare"
         }
@@ -4296,14 +4296,14 @@
         {
           "dossier_code": "CT-20386",
           "motif": "Inscription",
-          "date": "2017-05-03",
+          "date": "2023-05-03",
           "value": "Important",
           "label": "SMR important dans l'asthme sévère"
         },
         {
           "dossier_code": "CT-20387",
           "motif": "Renouvellement",
-          "date": "2021-10-02",
+          "date": "2024-10-02",
           "value": "Important",
           "label": "Maintien du service médical rendu important"
         }
@@ -4312,7 +4312,7 @@
         {
           "dossier_code": "CT-20388",
           "motif": "Inscription",
-          "date": "2018-10-02",
+          "date": "2022-10-02",
           "value": "Important",
           "label": "SMR important dans la pathologie infectieuse évaluée"
         }
@@ -4357,7 +4357,7 @@
         {
           "dossier_code": "CT-20393",
           "motif": "Inscription",
-          "date": "2017-11-22",
+          "date": "2023-11-22",
           "value": "Important",
           "label": "SMR important dans la pathologie infectieuse évaluée"
         }
@@ -4393,7 +4393,7 @@
         {
           "dossier_code": "CT-20397",
           "motif": "Inscription",
-          "date": "2020-05-11",
+          "date": "2023-05-11",
           "value": "Important",
           "label": "SMR important dans le trouble psychiatrique évalué"
         }
@@ -4461,7 +4461,7 @@
         {
           "dossier_code": "CT-20405",
           "motif": "Inscription",
-          "date": "2018-08-14",
+          "date": "2022-08-14",
           "value": "Important",
           "label": "SMR important dans la pathologie neurologique évaluée"
         },
@@ -4477,14 +4477,14 @@
         {
           "dossier_code": "CT-20500",
           "motif": "Inscription",
-          "date": "2019-01-24",
+          "date": "2022-01-24",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20501",
           "motif": "Inscription",
-          "date": "2020-11-24",
+          "date": "2022-11-24",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4493,7 +4493,7 @@
         {
           "dossier_code": "CT-20502",
           "motif": "Inscription",
-          "date": "2019-10-14",
+          "date": "2022-10-14",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -4502,7 +4502,7 @@
         {
           "dossier_code": "CT-20503",
           "motif": "Inscription",
-          "date": "2019-04-08",
+          "date": "2021-04-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -4525,7 +4525,7 @@
         {
           "dossier_code": "CT-20506",
           "motif": "Inscription",
-          "date": "2019-03-23",
+          "date": "2021-03-23",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -4573,14 +4573,14 @@
         {
           "dossier_code": "CT-20512",
           "motif": "Inscription",
-          "date": "2019-11-08",
+          "date": "2024-11-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20513",
           "motif": "Réévaluation",
-          "date": "2020-02-13",
+          "date": "2025-02-13",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4589,14 +4589,14 @@
         {
           "dossier_code": "CT-20514",
           "motif": "Inscription",
-          "date": "2020-03-12",
+          "date": "2024-03-12",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20515",
           "motif": "Extension d'indication",
-          "date": "2020-10-21",
+          "date": "2025-10-21",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4605,7 +4605,7 @@
         {
           "dossier_code": "CT-20516",
           "motif": "Inscription",
-          "date": "2019-03-15",
+          "date": "2023-03-15",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4614,14 +4614,14 @@
         {
           "dossier_code": "CT-20517",
           "motif": "Inscription",
-          "date": "2019-11-11",
+          "date": "2022-11-11",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20518",
           "motif": "Extension d'indication",
-          "date": "2020-01-26",
+          "date": "2023-01-26",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4630,7 +4630,7 @@
         {
           "dossier_code": "CT-20519",
           "motif": "Inscription",
-          "date": "2020-02-07",
+          "date": "2023-02-07",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4639,7 +4639,7 @@
         {
           "dossier_code": "CT-20520",
           "motif": "Inscription",
-          "date": "2020-04-21",
+          "date": "2023-04-21",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4648,7 +4648,7 @@
         {
           "dossier_code": "CT-20521",
           "motif": "Inscription",
-          "date": "2020-03-09",
+          "date": "2024-03-09",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4657,14 +4657,14 @@
         {
           "dossier_code": "CT-20522",
           "motif": "Inscription",
-          "date": "2020-12-19",
+          "date": "2024-12-19",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
         {
           "dossier_code": "CT-20523",
           "motif": "Renouvellement",
-          "date": "2021-04-05",
+          "date": "2025-04-05",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -4673,14 +4673,14 @@
         {
           "dossier_code": "CT-20524",
           "motif": "Inscription",
-          "date": "2019-01-28",
+          "date": "2024-01-28",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20525",
           "motif": "Renouvellement",
-          "date": "2021-10-03",
+          "date": "2025-10-03",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4689,7 +4689,7 @@
         {
           "dossier_code": "CT-20526",
           "motif": "Inscription",
-          "date": "2020-09-09",
+          "date": "2024-09-09",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4698,7 +4698,7 @@
         {
           "dossier_code": "CT-20527",
           "motif": "Inscription",
-          "date": "2019-11-24",
+          "date": "2022-11-24",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -4737,7 +4737,7 @@
         {
           "dossier_code": "CT-20532",
           "motif": "Inscription",
-          "date": "2019-06-25",
+          "date": "2024-06-25",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4746,7 +4746,7 @@
         {
           "dossier_code": "CT-20533",
           "motif": "Inscription",
-          "date": "2019-10-11",
+          "date": "2025-10-11",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4755,14 +4755,14 @@
         {
           "dossier_code": "CT-20534",
           "motif": "Inscription",
-          "date": "2019-06-27",
+          "date": "2022-06-27",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20535",
           "motif": "Inscription",
-          "date": "2020-10-03",
+          "date": "2022-10-03",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4787,7 +4787,7 @@
         {
           "dossier_code": "CT-20538",
           "motif": "Inscription",
-          "date": "2020-04-18",
+          "date": "2024-04-18",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -4796,7 +4796,7 @@
         {
           "dossier_code": "CT-20539",
           "motif": "Inscription",
-          "date": "2019-12-10",
+          "date": "2022-12-10",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -4821,14 +4821,14 @@
         {
           "dossier_code": "CT-20542",
           "motif": "Inscription",
-          "date": "2019-10-08",
+          "date": "2022-10-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20543",
           "motif": "Extension d'indication",
-          "date": "2020-04-03",
+          "date": "2023-04-03",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4853,7 +4853,7 @@
         {
           "dossier_code": "CT-20546",
           "motif": "Inscription",
-          "date": "2020-04-26",
+          "date": "2022-04-26",
           "value": "Faible",
           "label": "Le service médical rendu par cette spécialité est faible."
         }
@@ -4862,14 +4862,14 @@
         {
           "dossier_code": "CT-20547",
           "motif": "Inscription",
-          "date": "2020-04-04",
+          "date": "2024-04-04",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20548",
           "motif": "Renouvellement",
-          "date": "2021-07-15",
+          "date": "2025-07-15",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4878,14 +4878,14 @@
         {
           "dossier_code": "CT-20549",
           "motif": "Inscription",
-          "date": "2019-11-21",
+          "date": "2024-11-21",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20550",
           "motif": "Inscription",
-          "date": "2021-12-11",
+          "date": "2024-12-11",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4894,7 +4894,7 @@
         {
           "dossier_code": "CT-20551",
           "motif": "Inscription",
-          "date": "2019-04-07",
+          "date": "2022-04-07",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4944,7 +4944,7 @@
         {
           "dossier_code": "CT-20557",
           "motif": "Inscription",
-          "date": "2019-03-13",
+          "date": "2021-03-13",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
@@ -4960,7 +4960,7 @@
         {
           "dossier_code": "CT-20559",
           "motif": "Inscription",
-          "date": "2020-03-07",
+          "date": "2022-03-07",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -4969,7 +4969,7 @@
         {
           "dossier_code": "CT-20560",
           "motif": "Inscription",
-          "date": "2019-10-24",
+          "date": "2021-10-24",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -4985,7 +4985,7 @@
         {
           "dossier_code": "CT-20562",
           "motif": "Inscription",
-          "date": "2019-01-17",
+          "date": "2021-01-17",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5001,7 +5001,7 @@
         {
           "dossier_code": "CT-20564",
           "motif": "Inscription",
-          "date": "2019-10-08",
+          "date": "2024-10-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5010,7 +5010,7 @@
         {
           "dossier_code": "CT-20565",
           "motif": "Inscription",
-          "date": "2019-10-03",
+          "date": "2024-10-03",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5019,14 +5019,14 @@
         {
           "dossier_code": "CT-20566",
           "motif": "Inscription",
-          "date": "2020-05-07",
+          "date": "2023-05-07",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20567",
           "motif": "Inscription",
-          "date": "2021-07-05",
+          "date": "2023-07-05",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5035,14 +5035,14 @@
         {
           "dossier_code": "CT-20568",
           "motif": "Inscription",
-          "date": "2020-08-11",
+          "date": "2022-08-11",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20569",
           "motif": "Réévaluation",
-          "date": "2020-08-20",
+          "date": "2023-08-20",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5058,7 +5058,7 @@
         {
           "dossier_code": "CT-20571",
           "motif": "Inscription",
-          "date": "2019-06-03",
+          "date": "2021-06-03",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
@@ -5154,14 +5154,14 @@
         {
           "dossier_code": "CT-20583",
           "motif": "Inscription",
-          "date": "2019-09-02",
+          "date": "2022-09-02",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20584",
           "motif": "Renouvellement",
-          "date": "2020-07-05",
+          "date": "2023-07-05",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5170,7 +5170,7 @@
         {
           "dossier_code": "CT-20585",
           "motif": "Inscription",
-          "date": "2020-01-12",
+          "date": "2024-01-12",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5179,7 +5179,7 @@
         {
           "dossier_code": "CT-20586",
           "motif": "Inscription",
-          "date": "2019-11-04",
+          "date": "2021-11-04",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5195,14 +5195,14 @@
         {
           "dossier_code": "CT-20588",
           "motif": "Inscription",
-          "date": "2019-03-26",
+          "date": "2022-03-26",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
         {
           "dossier_code": "CT-20589",
           "motif": "Modification",
-          "date": "2020-03-24",
+          "date": "2023-03-24",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -5296,7 +5296,7 @@
         {
           "dossier_code": "CT-20601",
           "motif": "Inscription",
-          "date": "2019-09-26",
+          "date": "2021-09-26",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5367,14 +5367,14 @@
         {
           "dossier_code": "CT-20610",
           "motif": "Inscription",
-          "date": "2019-09-16",
+          "date": "2022-09-16",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20611",
           "motif": "Réévaluation",
-          "date": "2020-11-03",
+          "date": "2023-11-03",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5383,7 +5383,7 @@
         {
           "dossier_code": "CT-20612",
           "motif": "Inscription",
-          "date": "2020-02-27",
+          "date": "2022-02-27",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
@@ -5399,7 +5399,7 @@
         {
           "dossier_code": "CT-20614",
           "motif": "Inscription",
-          "date": "2019-01-08",
+          "date": "2024-01-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5424,7 +5424,7 @@
         {
           "dossier_code": "CT-20617",
           "motif": "Inscription",
-          "date": "2019-02-25",
+          "date": "2021-02-25",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5440,7 +5440,7 @@
         {
           "dossier_code": "CT-20619",
           "motif": "Inscription",
-          "date": "2019-08-05",
+          "date": "2023-08-05",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5449,14 +5449,14 @@
         {
           "dossier_code": "CT-20620",
           "motif": "Inscription",
-          "date": "2020-08-20",
+          "date": "2024-08-20",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20621",
           "motif": "Modification",
-          "date": "2021-09-15",
+          "date": "2025-09-15",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5465,21 +5465,21 @@
         {
           "dossier_code": "CT-20622",
           "motif": "Inscription",
-          "date": "2020-08-09",
+          "date": "2025-08-09",
           "value": "Insuffisant",
           "label": "Le service médical rendu par cette spécialité est insuffisant pour justifier une prise en charge."
         },
         {
           "dossier_code": "CT-20623",
           "motif": "Extension d'indication",
-          "date": "2021-09-16",
+          "date": "2025-09-16",
           "value": "Insuffisant",
           "label": "Le service médical rendu par cette spécialité est insuffisant pour justifier une prise en charge."
         },
         {
           "dossier_code": "CT-20624",
           "motif": "Inscription",
-          "date": "2021-12-10",
+          "date": "2025-12-10",
           "value": "Insuffisant",
           "label": "Le service médical rendu par cette spécialité est insuffisant pour justifier une prise en charge."
         }
@@ -5488,14 +5488,14 @@
         {
           "dossier_code": "CT-20625",
           "motif": "Inscription",
-          "date": "2020-06-18",
+          "date": "2023-06-18",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20626",
           "motif": "Inscription",
-          "date": "2021-12-05",
+          "date": "2023-12-05",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5504,7 +5504,7 @@
         {
           "dossier_code": "CT-20627",
           "motif": "Inscription",
-          "date": "2019-07-14",
+          "date": "2023-07-14",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5522,7 +5522,7 @@
         {
           "dossier_code": "CT-20630",
           "motif": "Inscription",
-          "date": "2020-05-25",
+          "date": "2022-05-25",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5538,7 +5538,7 @@
         {
           "dossier_code": "CT-20632",
           "motif": "Inscription",
-          "date": "2019-08-08",
+          "date": "2021-08-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5554,14 +5554,14 @@
         {
           "dossier_code": "CT-20634",
           "motif": "Inscription",
-          "date": "2020-12-06",
+          "date": "2024-12-06",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20635",
           "motif": "Modification",
-          "date": "2020-07-19",
+          "date": "2025-07-19",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5570,7 +5570,7 @@
         {
           "dossier_code": "CT-20636",
           "motif": "Inscription",
-          "date": "2019-02-21",
+          "date": "2025-02-21",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5579,7 +5579,7 @@
         {
           "dossier_code": "CT-20637",
           "motif": "Inscription",
-          "date": "2020-03-02",
+          "date": "2022-03-02",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5595,14 +5595,14 @@
         {
           "dossier_code": "CT-20639",
           "motif": "Inscription",
-          "date": "2020-05-25",
+          "date": "2023-05-25",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20640",
           "motif": "Renouvellement",
-          "date": "2020-08-01",
+          "date": "2024-08-01",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5696,7 +5696,7 @@
         {
           "dossier_code": "CT-20652",
           "motif": "Inscription",
-          "date": "2019-07-27",
+          "date": "2022-07-27",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5712,14 +5712,14 @@
         {
           "dossier_code": "CT-20654",
           "motif": "Inscription",
-          "date": "2019-07-06",
+          "date": "2023-07-06",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
         {
           "dossier_code": "CT-20655",
           "motif": "Réévaluation",
-          "date": "2021-10-26",
+          "date": "2024-10-26",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -5744,7 +5744,7 @@
         {
           "dossier_code": "CT-20658",
           "motif": "Inscription",
-          "date": "2020-08-08",
+          "date": "2022-08-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5760,7 +5760,7 @@
         {
           "dossier_code": "CT-20660",
           "motif": "Inscription",
-          "date": "2020-03-16",
+          "date": "2023-03-16",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5769,7 +5769,7 @@
         {
           "dossier_code": "CT-20661",
           "motif": "Inscription",
-          "date": "2020-06-09",
+          "date": "2022-06-09",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5778,7 +5778,7 @@
         {
           "dossier_code": "CT-20662",
           "motif": "Inscription",
-          "date": "2020-09-01",
+          "date": "2024-09-01",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5803,7 +5803,7 @@
         {
           "dossier_code": "CT-20665",
           "motif": "Inscription",
-          "date": "2020-08-26",
+          "date": "2022-08-26",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -5940,7 +5940,7 @@
         {
           "dossier_code": "CT-20682",
           "motif": "Inscription",
-          "date": "2020-10-20",
+          "date": "2023-10-20",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5949,14 +5949,14 @@
         {
           "dossier_code": "CT-20683",
           "motif": "Inscription",
-          "date": "2019-09-13",
+          "date": "2023-09-13",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20684",
           "motif": "Renouvellement",
-          "date": "2021-05-19",
+          "date": "2024-05-19",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -5965,14 +5965,14 @@
         {
           "dossier_code": "CT-20685",
           "motif": "Inscription",
-          "date": "2019-04-21",
+          "date": "2022-04-21",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20686",
           "motif": "Extension d'indication",
-          "date": "2020-04-06",
+          "date": "2023-04-06",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6093,14 +6093,14 @@
         {
           "dossier_code": "CT-20701",
           "motif": "Inscription",
-          "date": "2020-02-16",
+          "date": "2022-02-16",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20702",
           "motif": "Inscription",
-          "date": "2020-03-11",
+          "date": "2022-03-11",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6109,14 +6109,14 @@
         {
           "dossier_code": "CT-20703",
           "motif": "Inscription",
-          "date": "2020-05-22",
+          "date": "2022-05-22",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20704",
           "motif": "Extension d'indication",
-          "date": "2020-08-03",
+          "date": "2023-08-03",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6166,7 +6166,7 @@
         {
           "dossier_code": "CT-20710",
           "motif": "Inscription",
-          "date": "2020-08-23",
+          "date": "2023-08-23",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -6175,7 +6175,7 @@
         {
           "dossier_code": "CT-20711",
           "motif": "Inscription",
-          "date": "2019-11-20",
+          "date": "2025-11-20",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6184,14 +6184,14 @@
         {
           "dossier_code": "CT-20712",
           "motif": "Inscription",
-          "date": "2019-05-18",
+          "date": "2023-05-18",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20713",
           "motif": "Renouvellement",
-          "date": "2020-02-15",
+          "date": "2024-02-15",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6278,14 +6278,14 @@
         {
           "dossier_code": "CT-20724",
           "motif": "Inscription",
-          "date": "2020-07-22",
+          "date": "2022-07-22",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20725",
           "motif": "Extension d'indication",
-          "date": "2020-08-02",
+          "date": "2023-08-02",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -6372,14 +6372,14 @@
         {
           "dossier_code": "CT-20737",
           "motif": "Inscription",
-          "date": "2020-10-22",
+          "date": "2023-10-22",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20738",
           "motif": "Inscription",
-          "date": "2020-10-28",
+          "date": "2023-10-28",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6388,7 +6388,7 @@
         {
           "dossier_code": "CT-20739",
           "motif": "Inscription",
-          "date": "2019-08-19",
+          "date": "2022-08-19",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         },
@@ -6452,7 +6452,7 @@
         {
           "dossier_code": "CT-20747",
           "motif": "Inscription",
-          "date": "2019-10-24",
+          "date": "2024-10-24",
           "value": "Modéré",
           "label": "Le service médical rendu par cette spécialité est modéré."
         }
@@ -6477,7 +6477,7 @@
         {
           "dossier_code": "CT-20750",
           "motif": "Inscription",
-          "date": "2019-11-04",
+          "date": "2022-11-04",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -6493,7 +6493,7 @@
         {
           "dossier_code": "CT-20752",
           "motif": "Inscription",
-          "date": "2019-02-10",
+          "date": "2021-02-10",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -6509,14 +6509,14 @@
         {
           "dossier_code": "CT-20754",
           "motif": "Inscription",
-          "date": "2020-09-17",
+          "date": "2023-09-17",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20755",
           "motif": "Extension d'indication",
-          "date": "2021-08-26",
+          "date": "2024-08-26",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6612,7 +6612,7 @@
         {
           "dossier_code": "CT-20767",
           "motif": "Inscription",
-          "date": "2020-10-24",
+          "date": "2023-10-24",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -6637,14 +6637,14 @@
         {
           "dossier_code": "CT-20770",
           "motif": "Inscription",
-          "date": "2020-08-08",
+          "date": "2023-08-08",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20771",
           "motif": "Inscription",
-          "date": "2021-09-21",
+          "date": "2023-09-21",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -7046,7 +7046,7 @@
         {
           "dossier_code": "CT-20823",
           "motif": "Inscription",
-          "date": "2020-03-26",
+          "date": "2024-03-26",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -7055,14 +7055,14 @@
         {
           "dossier_code": "CT-20824",
           "motif": "Inscription",
-          "date": "2020-12-12",
+          "date": "2024-12-12",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
         {
           "dossier_code": "CT-20825",
           "motif": "Extension d'indication",
-          "date": "2020-07-19",
+          "date": "2025-07-19",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         }
@@ -7071,7 +7071,7 @@
         {
           "dossier_code": "CT-20826",
           "motif": "Inscription",
-          "date": "2019-07-28",
+          "date": "2022-07-28",
           "value": "Important",
           "label": "Le service médical rendu par cette spécialité est important."
         },
@@ -7295,7 +7295,7 @@
         {
           "dossier_code": "CT-20029",
           "motif": "Inscription",
-          "date": "2017-10-10",
+          "date": "2019-10-10",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication évaluée"
         },
@@ -7412,7 +7412,7 @@
         {
           "dossier_code": "CT-20048",
           "motif": "Inscription",
-          "date": "2020-10-18",
+          "date": "2022-10-18",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
@@ -7428,7 +7428,7 @@
         {
           "dossier_code": "CT-20051",
           "motif": "Inscription",
-          "date": "2020-02-01",
+          "date": "2022-02-01",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication évaluée"
         },
@@ -7451,28 +7451,28 @@
         {
           "dossier_code": "CT-20054",
           "motif": "Inscription",
-          "date": "2017-03-20",
+          "date": "2024-03-20",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20055",
           "motif": "Extension d'indication",
-          "date": "2018-11-11",
+          "date": "2025-11-11",
           "value": "IV",
           "label": "ASMR de niveau IV dans cette extension d'indication"
         },
         {
           "dossier_code": "CT-20056",
           "motif": "Extension d'indication",
-          "date": "2021-04-16",
+          "date": "2025-04-16",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         },
         {
           "dossier_code": "CT-20057",
           "motif": "Extension d'indication",
-          "date": "2022-03-01",
+          "date": "2025-03-01",
           "value": "IV",
           "label": "ASMR de niveau IV dans cette extension d'indication"
         }
@@ -7481,14 +7481,14 @@
         {
           "dossier_code": "CT-20059",
           "motif": "Inscription",
-          "date": "2017-04-16",
+          "date": "2021-04-16",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20060",
           "motif": "Extension d'indication",
-          "date": "2018-02-27",
+          "date": "2022-02-27",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         }
@@ -7497,14 +7497,14 @@
         {
           "dossier_code": "CT-20061",
           "motif": "Inscription",
-          "date": "2015-03-17",
+          "date": "2020-03-17",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20062",
           "motif": "Extension d'indication",
-          "date": "2018-09-28",
+          "date": "2021-09-28",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         }
@@ -7699,21 +7699,21 @@
         {
           "dossier_code": "CT-20093",
           "motif": "Inscription",
-          "date": "2016-02-22",
+          "date": "2020-02-22",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20094",
           "motif": "Extension d'indication",
-          "date": "2017-10-23",
+          "date": "2021-10-23",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         },
         {
           "dossier_code": "CT-20095",
           "motif": "Extension d'indication",
-          "date": "2018-02-11",
+          "date": "2021-02-11",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         },
@@ -7729,7 +7729,7 @@
         {
           "dossier_code": "CT-20098",
           "motif": "Inscription",
-          "date": "2018-11-07",
+          "date": "2021-11-07",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
@@ -7844,21 +7844,21 @@
         {
           "dossier_code": "CT-20116",
           "motif": "Inscription",
-          "date": "2015-10-26",
+          "date": "2020-10-26",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication hématologique"
         },
         {
           "dossier_code": "CT-20117",
           "motif": "Extension d'indication",
-          "date": "2016-03-28",
+          "date": "2021-03-28",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         },
         {
           "dossier_code": "CT-20118",
           "motif": "Extension d'indication",
-          "date": "2017-06-02",
+          "date": "2021-06-02",
           "value": "IV",
           "label": "ASMR de niveau IV dans cette extension d'indication"
         }
@@ -7867,7 +7867,7 @@
         {
           "dossier_code": "CT-20119",
           "motif": "Inscription",
-          "date": "2017-11-22",
+          "date": "2020-11-22",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication hématologique"
         }
@@ -8114,7 +8114,7 @@
         {
           "dossier_code": "CT-20150",
           "motif": "Inscription",
-          "date": "2019-11-26",
+          "date": "2021-11-26",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication hématologique"
         },
@@ -8153,14 +8153,14 @@
         {
           "dossier_code": "CT-20155",
           "motif": "Inscription",
-          "date": "2019-12-23",
+          "date": "2023-12-23",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication hématologique"
         },
         {
           "dossier_code": "CT-20156",
           "motif": "Extension d'indication",
-          "date": "2021-07-01",
+          "date": "2024-07-01",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         },
@@ -8176,7 +8176,7 @@
         {
           "dossier_code": "CT-20158",
           "motif": "Inscription",
-          "date": "2021-07-06",
+          "date": "2023-07-06",
           "value": "II",
           "label": "ASMR de niveau II dans l'indication hématologique"
         }
@@ -8265,21 +8265,21 @@
         {
           "dossier_code": "CT-20169",
           "motif": "Inscription",
-          "date": "2016-07-18",
+          "date": "2021-07-18",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication hématologique"
         },
         {
           "dossier_code": "CT-20170",
           "motif": "Extension d'indication",
-          "date": "2017-02-15",
+          "date": "2022-02-15",
           "value": "IV",
           "label": "ASMR de niveau IV dans cette extension d'indication"
         },
         {
           "dossier_code": "CT-20171",
           "motif": "Extension d'indication",
-          "date": "2019-06-14",
+          "date": "2022-06-14",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication"
         }
@@ -8288,14 +8288,14 @@
         {
           "dossier_code": "CT-20172",
           "motif": "Inscription",
-          "date": "2015-07-13",
+          "date": "2022-07-13",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication hématologique"
         },
         {
           "dossier_code": "CT-20173",
           "motif": "Extension d'indication",
-          "date": "2018-10-16",
+          "date": "2023-10-16",
           "value": "III",
           "label": "ASMR de niveau III dans cette extension d'indication"
         }
@@ -8350,7 +8350,7 @@
         {
           "dossier_code": "CT-20183",
           "motif": "Inscription",
-          "date": "2016-05-27",
+          "date": "2019-05-27",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication évaluée"
         },
@@ -8373,14 +8373,14 @@
         {
           "dossier_code": "CT-20186",
           "motif": "Inscription",
-          "date": "2015-01-01",
+          "date": "2020-01-01",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20187",
           "motif": "Extension d'indication",
-          "date": "2018-06-20",
+          "date": "2021-06-20",
           "value": "III",
           "label": "ASMR de niveau III dans cette extension d'indication"
         },
@@ -8497,7 +8497,7 @@
         {
           "dossier_code": "CT-20206",
           "motif": "Inscription",
-          "date": "2018-07-11",
+          "date": "2021-07-11",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
@@ -8527,21 +8527,21 @@
         {
           "dossier_code": "CT-20211",
           "motif": "Inscription",
-          "date": "2016-04-07",
+          "date": "2023-04-07",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20212",
           "motif": "Extension d'indication",
-          "date": "2018-05-03",
+          "date": "2024-05-03",
           "value": "IV",
           "label": "ASMR de niveau IV dans cette extension d'indication"
         },
         {
           "dossier_code": "CT-20213",
           "motif": "Extension d'indication",
-          "date": "2021-09-08",
+          "date": "2024-09-08",
           "value": "IV",
           "label": "ASMR de niveau IV dans cette extension d'indication"
         }
@@ -8757,7 +8757,7 @@
         {
           "dossier_code": "CT-20247",
           "motif": "Inscription",
-          "date": "2015-04-09",
+          "date": "2018-04-09",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication évaluée"
         },
@@ -8780,7 +8780,7 @@
         {
           "dossier_code": "CT-20251",
           "motif": "Inscription",
-          "date": "2015-05-09",
+          "date": "2018-05-09",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication évaluée"
         },
@@ -8860,7 +8860,7 @@
         {
           "dossier_code": "CT-20262",
           "motif": "Inscription",
-          "date": "2016-07-13",
+          "date": "2021-07-13",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication neurologique"
         }
@@ -8878,7 +8878,7 @@
         {
           "dossier_code": "CT-20265",
           "motif": "Inscription",
-          "date": "2016-01-14",
+          "date": "2021-01-14",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication neurologique"
         }
@@ -8932,7 +8932,7 @@
         {
           "dossier_code": "CT-20277",
           "motif": "Inscription",
-          "date": "2019-07-20",
+          "date": "2021-07-20",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication neurologique"
         }
@@ -8950,7 +8950,7 @@
         {
           "dossier_code": "CT-20279",
           "motif": "Inscription",
-          "date": "2019-05-10",
+          "date": "2025-05-10",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication neurologique"
         }
@@ -8959,7 +8959,7 @@
         {
           "dossier_code": "CT-20281",
           "motif": "Inscription",
-          "date": "2020-03-11",
+          "date": "2024-03-11",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication neurologique"
         }
@@ -9189,14 +9189,14 @@
         {
           "dossier_code": "CT-20312",
           "motif": "Inscription",
-          "date": "2018-04-27",
+          "date": "2023-04-27",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication évaluée"
         },
         {
           "dossier_code": "CT-20313",
           "motif": "Extension d'indication",
-          "date": "2021-10-22",
+          "date": "2024-10-22",
           "value": "V",
           "label": "ASMR de niveau V dans cette extension d'indication en dermatologie/immunologie"
         },
@@ -9212,7 +9212,7 @@
         {
           "dossier_code": "CT-20315",
           "motif": "Inscription",
-          "date": "2017-10-21",
+          "date": "2019-10-21",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication évaluée"
         },
@@ -9324,7 +9324,7 @@
         {
           "dossier_code": "CT-20332",
           "motif": "Inscription",
-          "date": "2019-10-20",
+          "date": "2021-10-20",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication cardiovasculaire évaluée"
         }
@@ -9351,7 +9351,7 @@
         {
           "dossier_code": "CT-20337",
           "motif": "Inscription",
-          "date": "2017-03-12",
+          "date": "2020-03-12",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication cardiovasculaire évaluée"
         }
@@ -9453,7 +9453,7 @@
         {
           "dossier_code": "CT-20353",
           "motif": "Inscription",
-          "date": "2018-06-09",
+          "date": "2020-06-09",
           "value": "V",
           "label": "ASMR de niveau V dans le traitement du diabète de type 2"
         }
@@ -9503,14 +9503,14 @@
         {
           "dossier_code": "CT-20359",
           "motif": "Inscription",
-          "date": "2017-08-11",
+          "date": "2022-08-11",
           "value": "III",
           "label": "ASMR de niveau III dans l'indication ophtalmologique"
         },
         {
           "dossier_code": "CT-20360",
           "motif": "Extension d'indication",
-          "date": "2020-02-20",
+          "date": "2023-02-20",
           "value": "IV",
           "label": "ASMR de niveau III"
         }
@@ -9528,7 +9528,7 @@
         {
           "dossier_code": "CT-20362",
           "motif": "Inscription",
-          "date": "2018-07-17",
+          "date": "2020-07-17",
           "value": "IV",
           "label": "ASMR de niveau IV dans l'indication ophtalmologique"
         },
@@ -9580,7 +9580,7 @@
         {
           "dossier_code": "CT-20370",
           "motif": "Inscription",
-          "date": "2016-02-04",
+          "date": "2018-02-04",
           "value": "I",
           "label": "ASMR de niveau I dans le traitement de cette maladie rare"
         }
@@ -9634,7 +9634,7 @@
         {
           "dossier_code": "CT-20377",
           "motif": "Inscription",
-          "date": "2016-09-25",
+          "date": "2023-09-25",
           "value": "II",
           "label": "ASMR de niveau II dans le traitement de cette maladie rare"
         }
@@ -9697,7 +9697,7 @@
         {
           "dossier_code": "CT-20386",
           "motif": "Inscription",
-          "date": "2017-05-03",
+          "date": "2023-05-03",
           "value": "IV",
           "label": "ASMR de niveau IV dans le traitement de l'asthme sévère"
         }
@@ -9706,7 +9706,7 @@
         {
           "dossier_code": "CT-20388",
           "motif": "Inscription",
-          "date": "2018-10-02",
+          "date": "2022-10-02",
           "value": "IV",
           "label": "ASMR de niveau IV dans le traitement de la maladie infectieuse"
         }
@@ -9751,7 +9751,7 @@
         {
           "dossier_code": "CT-20393",
           "motif": "Inscription",
-          "date": "2017-11-22",
+          "date": "2023-11-22",
           "value": "IV",
           "label": "ASMR de niveau IV dans le traitement de la maladie infectieuse"
         }
@@ -9787,7 +9787,7 @@
         {
           "dossier_code": "CT-20397",
           "motif": "Inscription",
-          "date": "2020-05-11",
+          "date": "2023-05-11",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication psychiatrique"
         }
@@ -9841,7 +9841,7 @@
         {
           "dossier_code": "CT-20405",
           "motif": "Inscription",
-          "date": "2018-08-14",
+          "date": "2022-08-14",
           "value": "V",
           "label": "ASMR de niveau V dans l'indication neurologique"
         }
@@ -9850,7 +9850,7 @@
         {
           "dossier_code": "CT-20500",
           "motif": "Inscription",
-          "date": "2019-01-24",
+          "date": "2022-01-24",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -9859,7 +9859,7 @@
         {
           "dossier_code": "CT-20502",
           "motif": "Inscription",
-          "date": "2019-10-14",
+          "date": "2022-10-14",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -9868,7 +9868,7 @@
         {
           "dossier_code": "CT-20503",
           "motif": "Inscription",
-          "date": "2019-04-08",
+          "date": "2021-04-08",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -9891,7 +9891,7 @@
         {
           "dossier_code": "CT-20506",
           "motif": "Inscription",
-          "date": "2019-03-23",
+          "date": "2021-03-23",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -9939,14 +9939,14 @@
         {
           "dossier_code": "CT-20512",
           "motif": "Inscription",
-          "date": "2019-11-08",
+          "date": "2024-11-08",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20513",
           "motif": "Réévaluation",
-          "date": "2020-02-13",
+          "date": "2025-02-13",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -9955,14 +9955,14 @@
         {
           "dossier_code": "CT-20514",
           "motif": "Inscription",
-          "date": "2020-03-12",
+          "date": "2024-03-12",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20515",
           "motif": "Extension d'indication",
-          "date": "2020-10-21",
+          "date": "2025-10-21",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -9971,7 +9971,7 @@
         {
           "dossier_code": "CT-20516",
           "motif": "Inscription",
-          "date": "2019-03-15",
+          "date": "2023-03-15",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -9980,14 +9980,14 @@
         {
           "dossier_code": "CT-20517",
           "motif": "Inscription",
-          "date": "2019-11-11",
+          "date": "2022-11-11",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20518",
           "motif": "Extension d'indication",
-          "date": "2020-01-26",
+          "date": "2023-01-26",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -9996,7 +9996,7 @@
         {
           "dossier_code": "CT-20519",
           "motif": "Inscription",
-          "date": "2020-02-07",
+          "date": "2023-02-07",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10005,7 +10005,7 @@
         {
           "dossier_code": "CT-20520",
           "motif": "Inscription",
-          "date": "2020-04-21",
+          "date": "2023-04-21",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10014,7 +10014,7 @@
         {
           "dossier_code": "CT-20521",
           "motif": "Inscription",
-          "date": "2020-03-09",
+          "date": "2024-03-09",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10023,14 +10023,14 @@
         {
           "dossier_code": "CT-20522",
           "motif": "Inscription",
-          "date": "2020-12-19",
+          "date": "2024-12-19",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20523",
           "motif": "Renouvellement",
-          "date": "2021-04-05",
+          "date": "2025-04-05",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10039,14 +10039,14 @@
         {
           "dossier_code": "CT-20524",
           "motif": "Inscription",
-          "date": "2019-01-28",
+          "date": "2024-01-28",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20525",
           "motif": "Renouvellement",
-          "date": "2021-10-03",
+          "date": "2025-10-03",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10055,7 +10055,7 @@
         {
           "dossier_code": "CT-20526",
           "motif": "Inscription",
-          "date": "2020-09-09",
+          "date": "2024-09-09",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10064,7 +10064,7 @@
         {
           "dossier_code": "CT-20527",
           "motif": "Inscription",
-          "date": "2019-11-24",
+          "date": "2022-11-24",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -10096,7 +10096,7 @@
         {
           "dossier_code": "CT-20532",
           "motif": "Inscription",
-          "date": "2019-06-25",
+          "date": "2024-06-25",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10105,7 +10105,7 @@
         {
           "dossier_code": "CT-20533",
           "motif": "Inscription",
-          "date": "2019-10-11",
+          "date": "2025-10-11",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10114,14 +10114,14 @@
         {
           "dossier_code": "CT-20534",
           "motif": "Inscription",
-          "date": "2019-06-27",
+          "date": "2022-06-27",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20535",
           "motif": "Inscription",
-          "date": "2020-10-03",
+          "date": "2022-10-03",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10146,7 +10146,7 @@
         {
           "dossier_code": "CT-20538",
           "motif": "Inscription",
-          "date": "2020-04-18",
+          "date": "2024-04-18",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10155,7 +10155,7 @@
         {
           "dossier_code": "CT-20539",
           "motif": "Inscription",
-          "date": "2019-12-10",
+          "date": "2022-12-10",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -10180,7 +10180,7 @@
         {
           "dossier_code": "CT-20542",
           "motif": "Inscription",
-          "date": "2019-10-08",
+          "date": "2022-10-08",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10205,7 +10205,7 @@
         {
           "dossier_code": "CT-20546",
           "motif": "Inscription",
-          "date": "2020-04-26",
+          "date": "2022-04-26",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10214,14 +10214,14 @@
         {
           "dossier_code": "CT-20547",
           "motif": "Inscription",
-          "date": "2020-04-04",
+          "date": "2024-04-04",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20548",
           "motif": "Renouvellement",
-          "date": "2021-07-15",
+          "date": "2025-07-15",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10230,14 +10230,14 @@
         {
           "dossier_code": "CT-20549",
           "motif": "Inscription",
-          "date": "2019-11-21",
+          "date": "2024-11-21",
           "value": "II",
           "label": "Amélioration importante en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR II)."
         },
         {
           "dossier_code": "CT-20550",
           "motif": "Inscription",
-          "date": "2021-12-11",
+          "date": "2024-12-11",
           "value": "II",
           "label": "Amélioration importante en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR II)."
         }
@@ -10246,7 +10246,7 @@
         {
           "dossier_code": "CT-20551",
           "motif": "Inscription",
-          "date": "2019-04-07",
+          "date": "2022-04-07",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10296,7 +10296,7 @@
         {
           "dossier_code": "CT-20557",
           "motif": "Inscription",
-          "date": "2019-03-13",
+          "date": "2021-03-13",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
@@ -10312,7 +10312,7 @@
         {
           "dossier_code": "CT-20559",
           "motif": "Inscription",
-          "date": "2020-03-07",
+          "date": "2022-03-07",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10321,7 +10321,7 @@
         {
           "dossier_code": "CT-20560",
           "motif": "Inscription",
-          "date": "2019-10-24",
+          "date": "2021-10-24",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -10337,7 +10337,7 @@
         {
           "dossier_code": "CT-20562",
           "motif": "Inscription",
-          "date": "2019-01-17",
+          "date": "2021-01-17",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -10353,7 +10353,7 @@
         {
           "dossier_code": "CT-20564",
           "motif": "Inscription",
-          "date": "2019-10-08",
+          "date": "2024-10-08",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10362,7 +10362,7 @@
         {
           "dossier_code": "CT-20565",
           "motif": "Inscription",
-          "date": "2019-10-03",
+          "date": "2024-10-03",
           "value": "II",
           "label": "Amélioration importante en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR II)."
         }
@@ -10371,14 +10371,14 @@
         {
           "dossier_code": "CT-20566",
           "motif": "Inscription",
-          "date": "2020-05-07",
+          "date": "2023-05-07",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20567",
           "motif": "Inscription",
-          "date": "2021-07-05",
+          "date": "2023-07-05",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10387,7 +10387,7 @@
         {
           "dossier_code": "CT-20568",
           "motif": "Inscription",
-          "date": "2020-08-11",
+          "date": "2022-08-11",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -10403,7 +10403,7 @@
         {
           "dossier_code": "CT-20571",
           "motif": "Inscription",
-          "date": "2019-06-03",
+          "date": "2021-06-03",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
@@ -10485,14 +10485,14 @@
         {
           "dossier_code": "CT-20583",
           "motif": "Inscription",
-          "date": "2019-09-02",
+          "date": "2022-09-02",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20584",
           "motif": "Renouvellement",
-          "date": "2020-07-05",
+          "date": "2023-07-05",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10501,7 +10501,7 @@
         {
           "dossier_code": "CT-20585",
           "motif": "Inscription",
-          "date": "2020-01-12",
+          "date": "2024-01-12",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10510,7 +10510,7 @@
         {
           "dossier_code": "CT-20586",
           "motif": "Inscription",
-          "date": "2019-11-04",
+          "date": "2021-11-04",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -10526,7 +10526,7 @@
         {
           "dossier_code": "CT-20588",
           "motif": "Inscription",
-          "date": "2019-03-26",
+          "date": "2022-03-26",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10613,7 +10613,7 @@
         {
           "dossier_code": "CT-20601",
           "motif": "Inscription",
-          "date": "2019-09-26",
+          "date": "2021-09-26",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
@@ -10684,14 +10684,14 @@
         {
           "dossier_code": "CT-20610",
           "motif": "Inscription",
-          "date": "2019-09-16",
+          "date": "2022-09-16",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20611",
           "motif": "Réévaluation",
-          "date": "2020-11-03",
+          "date": "2023-11-03",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10700,7 +10700,7 @@
         {
           "dossier_code": "CT-20612",
           "motif": "Inscription",
-          "date": "2020-02-27",
+          "date": "2022-02-27",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
@@ -10716,7 +10716,7 @@
         {
           "dossier_code": "CT-20614",
           "motif": "Inscription",
-          "date": "2019-01-08",
+          "date": "2024-01-08",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10741,7 +10741,7 @@
         {
           "dossier_code": "CT-20617",
           "motif": "Inscription",
-          "date": "2019-02-25",
+          "date": "2021-02-25",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -10757,7 +10757,7 @@
         {
           "dossier_code": "CT-20619",
           "motif": "Inscription",
-          "date": "2019-08-05",
+          "date": "2023-08-05",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10766,7 +10766,7 @@
         {
           "dossier_code": "CT-20620",
           "motif": "Inscription",
-          "date": "2020-08-20",
+          "date": "2024-08-20",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10775,21 +10775,21 @@
         {
           "dossier_code": "CT-20622",
           "motif": "Inscription",
-          "date": "2020-08-09",
+          "date": "2025-08-09",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20623",
           "motif": "Extension d'indication",
-          "date": "2021-09-16",
+          "date": "2025-09-16",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20624",
           "motif": "Inscription",
-          "date": "2021-12-10",
+          "date": "2025-12-10",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10798,14 +10798,14 @@
         {
           "dossier_code": "CT-20625",
           "motif": "Inscription",
-          "date": "2020-06-18",
+          "date": "2023-06-18",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20626",
           "motif": "Inscription",
-          "date": "2021-12-05",
+          "date": "2023-12-05",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -10814,7 +10814,7 @@
         {
           "dossier_code": "CT-20627",
           "motif": "Inscription",
-          "date": "2019-07-14",
+          "date": "2023-07-14",
           "value": "II",
           "label": "Amélioration importante en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR II)."
         }
@@ -10832,7 +10832,7 @@
         {
           "dossier_code": "CT-20630",
           "motif": "Inscription",
-          "date": "2020-05-25",
+          "date": "2022-05-25",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -10848,7 +10848,7 @@
         {
           "dossier_code": "CT-20632",
           "motif": "Inscription",
-          "date": "2019-08-08",
+          "date": "2021-08-08",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
@@ -10864,14 +10864,14 @@
         {
           "dossier_code": "CT-20634",
           "motif": "Inscription",
-          "date": "2020-12-06",
+          "date": "2024-12-06",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20635",
           "motif": "Modification",
-          "date": "2020-07-19",
+          "date": "2025-07-19",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10880,7 +10880,7 @@
         {
           "dossier_code": "CT-20636",
           "motif": "Inscription",
-          "date": "2019-02-21",
+          "date": "2025-02-21",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -10889,7 +10889,7 @@
         {
           "dossier_code": "CT-20637",
           "motif": "Inscription",
-          "date": "2020-03-02",
+          "date": "2022-03-02",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -10905,14 +10905,14 @@
         {
           "dossier_code": "CT-20639",
           "motif": "Inscription",
-          "date": "2020-05-25",
+          "date": "2023-05-25",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20640",
           "motif": "Renouvellement",
-          "date": "2020-08-01",
+          "date": "2024-08-01",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -10999,7 +10999,7 @@
         {
           "dossier_code": "CT-20652",
           "motif": "Inscription",
-          "date": "2019-07-27",
+          "date": "2022-07-27",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -11015,7 +11015,7 @@
         {
           "dossier_code": "CT-20654",
           "motif": "Inscription",
-          "date": "2019-07-06",
+          "date": "2023-07-06",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -11033,7 +11033,7 @@
         {
           "dossier_code": "CT-20658",
           "motif": "Inscription",
-          "date": "2020-08-08",
+          "date": "2022-08-08",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -11049,7 +11049,7 @@
         {
           "dossier_code": "CT-20660",
           "motif": "Inscription",
-          "date": "2020-03-16",
+          "date": "2023-03-16",
           "value": "II",
           "label": "Amélioration importante en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR II)."
         }
@@ -11058,7 +11058,7 @@
         {
           "dossier_code": "CT-20661",
           "motif": "Inscription",
-          "date": "2020-06-09",
+          "date": "2022-06-09",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -11067,7 +11067,7 @@
         {
           "dossier_code": "CT-20662",
           "motif": "Inscription",
-          "date": "2020-09-01",
+          "date": "2024-09-01",
           "value": "II",
           "label": "Amélioration importante en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR II)."
         }
@@ -11092,7 +11092,7 @@
         {
           "dossier_code": "CT-20665",
           "motif": "Inscription",
-          "date": "2020-08-26",
+          "date": "2022-08-26",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -11222,7 +11222,7 @@
         {
           "dossier_code": "CT-20682",
           "motif": "Inscription",
-          "date": "2020-10-20",
+          "date": "2023-10-20",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -11231,14 +11231,14 @@
         {
           "dossier_code": "CT-20683",
           "motif": "Inscription",
-          "date": "2019-09-13",
+          "date": "2023-09-13",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20684",
           "motif": "Renouvellement",
-          "date": "2021-05-19",
+          "date": "2024-05-19",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -11247,14 +11247,14 @@
         {
           "dossier_code": "CT-20685",
           "motif": "Inscription",
-          "date": "2019-04-21",
+          "date": "2022-04-21",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20686",
           "motif": "Extension d'indication",
-          "date": "2020-04-06",
+          "date": "2023-04-06",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -11375,14 +11375,14 @@
         {
           "dossier_code": "CT-20701",
           "motif": "Inscription",
-          "date": "2020-02-16",
+          "date": "2022-02-16",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20702",
           "motif": "Inscription",
-          "date": "2020-03-11",
+          "date": "2022-03-11",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -11391,14 +11391,14 @@
         {
           "dossier_code": "CT-20703",
           "motif": "Inscription",
-          "date": "2020-05-22",
+          "date": "2022-05-22",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20704",
           "motif": "Extension d'indication",
-          "date": "2020-08-03",
+          "date": "2023-08-03",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -11448,7 +11448,7 @@
         {
           "dossier_code": "CT-20710",
           "motif": "Inscription",
-          "date": "2020-08-23",
+          "date": "2023-08-23",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -11457,7 +11457,7 @@
         {
           "dossier_code": "CT-20711",
           "motif": "Inscription",
-          "date": "2019-11-20",
+          "date": "2025-11-20",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -11466,7 +11466,7 @@
         {
           "dossier_code": "CT-20712",
           "motif": "Inscription",
-          "date": "2019-05-18",
+          "date": "2023-05-18",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -11553,14 +11553,14 @@
         {
           "dossier_code": "CT-20724",
           "motif": "Inscription",
-          "date": "2020-07-22",
+          "date": "2022-07-22",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20725",
           "motif": "Extension d'indication",
-          "date": "2020-08-02",
+          "date": "2023-08-02",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
@@ -11647,14 +11647,14 @@
         {
           "dossier_code": "CT-20737",
           "motif": "Inscription",
-          "date": "2020-10-22",
+          "date": "2023-10-22",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
         {
           "dossier_code": "CT-20738",
           "motif": "Inscription",
-          "date": "2020-10-28",
+          "date": "2023-10-28",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -11663,7 +11663,7 @@
         {
           "dossier_code": "CT-20739",
           "motif": "Inscription",
-          "date": "2019-08-19",
+          "date": "2022-08-19",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         },
@@ -11727,7 +11727,7 @@
         {
           "dossier_code": "CT-20747",
           "motif": "Inscription",
-          "date": "2019-10-24",
+          "date": "2024-10-24",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -11752,7 +11752,7 @@
         {
           "dossier_code": "CT-20750",
           "motif": "Inscription",
-          "date": "2019-11-04",
+          "date": "2022-11-04",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -11768,7 +11768,7 @@
         {
           "dossier_code": "CT-20752",
           "motif": "Inscription",
-          "date": "2019-02-10",
+          "date": "2021-02-10",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
@@ -11784,14 +11784,14 @@
         {
           "dossier_code": "CT-20754",
           "motif": "Inscription",
-          "date": "2020-09-17",
+          "date": "2023-09-17",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20755",
           "motif": "Extension d'indication",
-          "date": "2021-08-26",
+          "date": "2024-08-26",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -11887,7 +11887,7 @@
         {
           "dossier_code": "CT-20767",
           "motif": "Inscription",
-          "date": "2020-10-24",
+          "date": "2023-10-24",
           "value": "V",
           "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
         }
@@ -11912,14 +11912,14 @@
         {
           "dossier_code": "CT-20770",
           "motif": "Inscription",
-          "date": "2020-08-08",
+          "date": "2023-08-08",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
         {
           "dossier_code": "CT-20771",
           "motif": "Inscription",
-          "date": "2021-09-21",
+          "date": "2023-09-21",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -12300,7 +12300,7 @@
         {
           "dossier_code": "CT-20823",
           "motif": "Inscription",
-          "date": "2020-03-26",
+          "date": "2024-03-26",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         }
@@ -12309,14 +12309,14 @@
         {
           "dossier_code": "CT-20824",
           "motif": "Inscription",
-          "date": "2020-12-12",
+          "date": "2024-12-12",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         },
         {
           "dossier_code": "CT-20825",
           "motif": "Extension d'indication",
-          "date": "2020-07-19",
+          "date": "2025-07-19",
           "value": "IV",
           "label": "Amélioration mineure en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR IV)."
         }
@@ -12325,7 +12325,7 @@
         {
           "dossier_code": "CT-20826",
           "motif": "Inscription",
-          "date": "2019-07-28",
+          "date": "2022-07-28",
           "value": "III",
           "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
         },
