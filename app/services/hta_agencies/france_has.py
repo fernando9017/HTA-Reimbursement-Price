@@ -95,23 +95,49 @@ class FranceHAS(HTAAgency):
         return self._loaded
 
     async def load_data(self) -> None:
-        """Fetch all BDPM data files and parse them."""
+        """Fetch all BDPM data files and parse them.
+
+        Core files (medicines, compositions, SMR, ASMR) must load
+        successfully.  Supplementary files (CT links) are loaded on a
+        best-effort basis — a failure there does not prevent the module
+        from being marked as loaded.
+        """
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
         ) as client:
+            # Core files — all must succeed
             await self._load_medicines(client)
             await self._load_compositions(client)
             await self._load_smr(client)
             await self._load_asmr(client)
-            await self._load_ct_links(client)
+
+            # Supplementary file — best-effort
+            try:
+                await self._load_ct_links(client)
+            except Exception:
+                logger.warning(
+                    "Failed to load BDPM CT links file — assessment URLs "
+                    "will be unavailable, but SMR/ASMR data is intact",
+                    exc_info=True,
+                )
+
+        if not self._medicines:
+            raise RuntimeError("BDPM medicines file returned no records")
+
+        smr_count = sum(len(v) for v in self._smr.values())
+        asmr_count = sum(len(v) for v in self._asmr.values())
+        if smr_count == 0 and asmr_count == 0:
+            raise RuntimeError("BDPM SMR and ASMR files returned no records")
 
         self._loaded = True
         logger.info(
-            "France HAS data loaded: %d medicines, %d SMR records, %d ASMR records, %d CT links",
+            "France HAS data loaded: %d medicines, %d compositions, "
+            "%d SMR records, %d ASMR records, %d CT links",
             len(self._medicines),
-            sum(len(v) for v in self._smr.values()),
-            sum(len(v) for v in self._asmr.values()),
+            sum(len(v) for v in self._compositions.values()),
+            smr_count,
+            asmr_count,
             len(self._ct_links),
         )
 
@@ -213,10 +239,15 @@ class FranceHAS(HTAAgency):
     async def _fetch_file(self, client: httpx.AsyncClient, file_key: str) -> str:
         """Download a BDPM file and return its content as a string."""
         url = BDPM_BASE_URL + BDPM_FILES[file_key]
-        logger.info("Fetching BDPM file: %s", url)
+        logger.info("Fetching BDPM file: %s (%s)", file_key, url)
         response = await client.get(url)
         response.raise_for_status()
-        return response.content.decode(BDPM_ENCODING)
+        content = response.content.decode(BDPM_ENCODING)
+        logger.info(
+            "BDPM %s fetched: %d bytes, %d lines",
+            file_key, len(response.content), content.count("\n"),
+        )
+        return content
 
     def _parse_rows(self, content: str) -> list[list[str]]:
         """Split file content into rows of tab-separated fields."""
@@ -306,11 +337,22 @@ class FranceHAS(HTAAgency):
         except Exception:
             logger.warning("%s: malformed data in %s", self.agency_abbreviation, data_file)
             return False
-        self._loaded = bool(self._medicines)
+
+        smr_count = sum(len(v) for v in self._smr.values())
+        asmr_count = sum(len(v) for v in self._asmr.values())
+        # Require medicines AND at least some SMR/ASMR records
+        self._loaded = bool(self._medicines) and (smr_count > 0 or asmr_count > 0)
         if self._loaded:
             logger.info(
-                "%s loaded %d medicines from %s",
-                self.agency_abbreviation, len(self._medicines), data_file,
+                "%s loaded from %s: %d medicines, %d SMR, %d ASMR, %d CT links",
+                self.agency_abbreviation, data_file,
+                len(self._medicines), smr_count, asmr_count, len(self._ct_links),
+            )
+        else:
+            logger.warning(
+                "%s: cache %s has insufficient data (%d medicines, %d SMR, %d ASMR)",
+                self.agency_abbreviation, data_file,
+                len(self._medicines), smr_count, asmr_count,
             )
         return self._loaded
 

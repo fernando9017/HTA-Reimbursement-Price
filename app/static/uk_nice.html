@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>France HAS HTA Deep-Dive — VAP Global Resources</title>
+    <title>UK NICE HTA Deep-Dive — VAP Global Resources</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
     <!-- Privacy-friendly analytics by Plausible -->
@@ -17,74 +17,73 @@
     <header>
         <div class="container">
             <h1>VAP Global Resources</h1>
-            <p class="subtitle">Value, Access &amp; Pricing — France HAS CT Assessment Intelligence</p>
+            <p class="subtitle">Value, Access &amp; Pricing — UK NICE Technology Appraisal Intelligence</p>
         </div>
     </header>
 
     <nav class="page-nav">
         <div class="container">
             <a href="/" class="back-link">&larr; Home</a>
-            <span class="page-title"><span class="fi fi-fr country-flag"></span> France HAS — HTA Deep-Dive</span>
+            <span class="page-title"><span class="fi fi-gb country-flag"></span> United Kingdom NICE — HTA Deep-Dive</span>
         </div>
     </nav>
 
     <main class="container">
         <!-- Tab navigation -->
         <div class="mexico-tabs" id="tabs">
-            <button class="mexico-tab active" data-tab="browse">Drug Browser</button>
-            <button class="mexico-tab" data-tab="detail">Assessment Detail</button>
+            <button class="mexico-tab active" data-tab="browse">Guidance Browser</button>
+            <button class="mexico-tab" data-tab="detail">Guidance Detail</button>
         </div>
 
-        <!-- Tab 1: Drug Browser -->
+        <!-- Tab 1: Guidance Browser -->
         <section id="tab-browse" class="card mexico-tab-content">
-            <h2>HAS Assessed Drugs</h2>
-            <p class="filter-description">Browse medicines assessed by the French HAS Commission de la Transparence. Shows SMR (Service M&eacute;dical Rendu) and ASMR (Am&eacute;lioration du SMR) ratings from CT opinions. Click any drug to view the full assessment profile.</p>
+            <h2>NICE Technology Appraisals</h2>
+            <p class="filter-description">Browse medicines evaluated by NICE. Shows Technology Appraisals (TA) and Highly Specialised Technologies (HST) with recommendation outcomes. Click any drug to view the full guidance profile.</p>
 
             <div class="search-box">
-                <input type="text" id="has-query" placeholder="e.g. pembrolizumab, Keytruda..." autocomplete="off">
-                <button id="btn-search-has">Search</button>
+                <input type="text" id="nice-query" placeholder="e.g. pembrolizumab, nivolumab..." autocomplete="off">
+                <button id="btn-search-nice">Search</button>
             </div>
 
             <div class="filter-grid" style="margin-top: 16px;">
                 <div class="filter-group">
-                    <label for="has-smr-filter">SMR Rating</label>
-                    <select id="has-smr-filter">
-                        <option value="">All SMR ratings</option>
+                    <label for="nice-type-filter">Guidance Type</label>
+                    <select id="nice-type-filter">
+                        <option value="">All types</option>
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="has-asmr-filter">ASMR Rating</label>
-                    <select id="has-asmr-filter">
-                        <option value="">All ASMR ratings</option>
+                    <label for="nice-rec-filter">Recommendation</label>
+                    <select id="nice-rec-filter">
+                        <option value="">All recommendations</option>
                     </select>
                 </div>
             </div>
 
-            <div id="has-browse-status" class="status-msg hidden"></div>
-            <div id="has-browse-results"></div>
+            <div id="nice-browse-status" class="status-msg hidden"></div>
+            <div id="nice-browse-results"></div>
         </section>
 
-        <!-- Tab 2: Assessment Detail (shown on drug click) -->
+        <!-- Tab 2: Guidance Detail -->
         <section id="tab-detail" class="card mexico-tab-content hidden">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-                <h2 id="has-detail-title">Assessment Detail</h2>
+                <h2 id="nice-detail-title">Guidance Detail</h2>
                 <button class="btn-secondary btn-close" id="btn-back-browse">Back to Browser</button>
             </div>
-            <div id="has-detail-header"></div>
-            <div id="has-detail-assessments"></div>
+            <div id="nice-detail-header"></div>
+            <div id="nice-detail-items"></div>
         </section>
     </main>
 
     <footer>
         <div class="container">
             <p>Data sources:
-            <a href="https://www.has-sante.fr" target="_blank" rel="noopener">Haute Autorit&eacute; de Sant&eacute; (HAS)</a> &middot;
-            <a href="https://base-donnees-publique.medicaments.gouv.fr" target="_blank" rel="noopener">BDPM</a></p>
+            <a href="https://www.nice.org.uk/guidance/published" target="_blank" rel="noopener">NICE Published Guidance</a></p>
             <p>&copy; 2026 Fernando Rosas. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="/static/shared.js"></script>
-    <script src="/static/france.js"></script>
+    <script src="/static/uk_nice.js"></script>
 </body>
 </html>

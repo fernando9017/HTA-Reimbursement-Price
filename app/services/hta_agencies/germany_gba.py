@@ -163,6 +163,7 @@ class GermanyGBA(HTAAgency):
 
         self._decisions = self._parse_xml(xml_content)
         self._loaded = True
+        self._apply_translations()
         logger.info("Germany G-BA data loaded: %d decision entries", len(self._decisions))
 
     async def search_assessments(
@@ -691,6 +692,9 @@ class GermanyGBA(HTAAgency):
         self._decisions = payload["data"]
         self._loaded = bool(self._decisions)
         if self._loaded:
+            # Apply translations for any fields that may be missing _en versions
+            # (e.g. cache created before translator was updated with new entries)
+            self._apply_translations()
             logger.info(
                 "%s loaded %d decisions from %s",
                 self.agency_abbreviation, len(self._decisions), data_file,
