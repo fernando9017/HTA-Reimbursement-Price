@@ -507,3 +507,310 @@ def test_assessment_url_falls_back_to_procedure_id():
     # Falls back to procedure_id-based URL
     assert profile.current_assessments[0].assessment_url == \
         "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"
+
+
+# ── Decision Summary / Enhanced Analysis tests ──────────────────────
+
+
+def test_grouped_assessment_has_decision_summary(service):
+    """Grouped assessments should include an auto-generated decision summary."""
+    profile = service.get_drug_profile("Pembrolizumab")
+    assert profile is not None
+    for g in profile.grouped_assessments:
+        assert g.decision_summary is not None
+
+
+def test_decision_summary_drivers_for_positive_benefit(service):
+    """Subpopulations with positive benefit ratings should appear as drivers."""
+    profile = service.get_drug_profile("Pembrolizumab")
+    # The melanoma re-assessment (2023) has erheblich — should be a driver
+    melanoma = [
+        g for g in profile.grouped_assessments if "Melanom" in g.indication
+    ]
+    assert len(melanoma) == 1
+    summary = melanoma[0].decision_summary
+    assert summary is not None
+    assert len(summary.drivers) > 0
+    # At least one driver should mention "Major" (erheblich)
+    assert any("Major" in d.text for d in summary.drivers)
+
+
+def test_decision_summary_barriers_for_no_benefit(service):
+    """Subpopulations with no added benefit should appear as barriers."""
+    profile = service.get_drug_profile("Nivolumab")
+    assert profile is not None
+    grouped = profile.grouped_assessments
+    assert len(grouped) == 1
+    summary = grouped[0].decision_summary
+    assert summary is not None
+    # kein Zusatznutzen should produce a barrier
+    assert len(summary.barriers) > 0
+    assert any("No added benefit" in b.text for b in summary.barriers)
+
+
+def test_decision_summary_mixed_outcomes():
+    """When subpopulations have mixed ratings, both drivers and barriers should appear."""
+    adapter = GermanyGBA()
+    adapter._decisions = [
+        {
+            "decision_id": "2025-01-15-D-1100",
+            "procedure_id": "1100",
+            "url": "",
+            "trade_names": ["Itovebi"],
+            "substances": ["Inavolisib"],
+            "indication": "Mammakarzinom",
+            "decision_date": "2026-02-19",
+            "patient_group": "Adult women without prior neoadjuvant CDK4/6i use",
+            "benefit_rating": "beträchtlich",
+            "evidence_level": "Hinweis",
+            "comparator": "Palbociclib + Fulvestrant",
+        },
+        {
+            "decision_id": "2025-01-15-D-1100",
+            "procedure_id": "1100",
+            "url": "",
+            "trade_names": ["Itovebi"],
+            "substances": ["Inavolisib"],
+            "indication": "Mammakarzinom",
+            "decision_date": "2026-02-19",
+            "patient_group": "Adult women with prior neoadjuvant CDK4/6i use",
+            "benefit_rating": "kein Zusatznutzen",
+            "evidence_level": "",
+            "comparator": "Palbociclib + Fulvestrant",
+        },
+        {
+            "decision_id": "2025-01-15-D-1100",
+            "procedure_id": "1100",
+            "url": "",
+            "trade_names": ["Itovebi"],
+            "substances": ["Inavolisib"],
+            "indication": "Mammakarzinom",
+            "decision_date": "2026-02-19",
+            "patient_group": "Adult men",
+            "benefit_rating": "kein Zusatznutzen",
+            "evidence_level": "",
+            "comparator": "Palbociclib + Fulvestrant",
+        },
+    ]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("Inavolisib")
+    assert profile is not None
+    grouped = profile.grouped_assessments
+    assert len(grouped) == 1
+
+    summary = grouped[0].decision_summary
+    assert summary is not None
+
+    # 1 driver (beträchtlich) + 2 barriers (kein Zusatznutzen)
+    assert len(summary.drivers) == 1
+    assert len(summary.barriers) == 2
+    assert any("Considerable" in d.text for d in summary.drivers)
+    assert any("No added benefit" in b.text for b in summary.barriers)
+
+
+def test_pma_conclusion_generated(service):
+    """P&MA conclusion should be generated for each grouped assessment."""
+    profile = service.get_drug_profile("Nivolumab")
+    assert profile is not None
+    summary = profile.grouped_assessments[0].decision_summary
+    assert summary is not None
+    assert summary.pma_conclusion != ""
+    # No added benefit → pricing constraint language
+    assert "discount" in summary.pma_conclusion.lower() or "not exceed" in summary.pma_conclusion.lower()
+
+
+def test_pma_conclusion_positive_rating():
+    """P&MA conclusion for positive ratings should mention premium."""
+    adapter = GermanyGBA()
+    adapter._decisions = [{
+        "decision_id": "2023-01-01-D-900",
+        "procedure_id": "900",
+        "url": "",
+        "trade_names": ["TestDrug"],
+        "substances": ["TestSubstance"],
+        "indication": "TestIndication",
+        "decision_date": "2023-06-01",
+        "patient_group": "Adults with disease X",
+        "benefit_rating": "beträchtlich",
+        "evidence_level": "Hinweis",
+        "comparator": "StandardOfCare",
+    }]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("TestSubstance")
+    assert profile is not None
+    summary = profile.grouped_assessments[0].decision_summary
+    assert summary is not None
+    assert "premium" in summary.pma_conclusion.lower()
+
+
+def test_recommendation_text_generated(service):
+    """Recommendation text should be auto-generated."""
+    profile = service.get_drug_profile("Semaglutid")
+    assert profile is not None
+    summary = profile.grouped_assessments[0].decision_summary
+    assert summary is not None
+    assert summary.recommendation_text != ""
+    # Should mention the substance/trade name
+    assert "Ozempic" in summary.recommendation_text or "Semaglutid" in summary.recommendation_text
+
+
+def test_recommendation_text_mixed_outcomes():
+    """Recommendation text for mixed outcomes should mention both positive and negative."""
+    adapter = GermanyGBA()
+    adapter._decisions = [
+        {
+            "decision_id": "2025-01-15-D-1200",
+            "procedure_id": "1200",
+            "url": "",
+            "trade_names": ["MixedDrug"],
+            "substances": ["MixedSubstance"],
+            "indication": "Disease Y",
+            "decision_date": "2025-06-01",
+            "patient_group": "Subpop A",
+            "benefit_rating": "gering",
+            "evidence_level": "Beleg",
+            "comparator": "Placebo",
+        },
+        {
+            "decision_id": "2025-01-15-D-1200",
+            "procedure_id": "1200",
+            "url": "",
+            "trade_names": ["MixedDrug"],
+            "substances": ["MixedSubstance"],
+            "indication": "Disease Y",
+            "decision_date": "2025-06-01",
+            "patient_group": "Subpop B",
+            "benefit_rating": "kein Zusatznutzen",
+            "evidence_level": "",
+            "comparator": "Placebo",
+        },
+    ]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("MixedSubstance")
+    summary = profile.grouped_assessments[0].decision_summary
+    assert "no additional benefit" in summary.recommendation_text.lower()
+
+
+def test_rating_explanations_present(service):
+    """Grouped assessments should include P&MA rating explanations."""
+    profile = service.get_drug_profile("Pembrolizumab")
+    assert profile is not None
+    for g in profile.grouped_assessments:
+        assert len(g.rating_explanations) > 0
+
+
+def test_rating_explanations_content(service):
+    """Rating explanations should contain the expected fields."""
+    profile = service.get_drug_profile("Semaglutid")
+    explanations = profile.grouped_assessments[0].rating_explanations
+    assert len(explanations) == 1
+    exp = explanations[0]
+    assert exp.rating == "gering"
+    assert "Minor" in exp.rating_en
+    assert exp.explanation != ""
+    assert exp.price_implication != ""
+
+
+def test_rating_explanations_deduped():
+    """Rating explanations should be deduplicated across subpopulations."""
+    adapter = GermanyGBA()
+    adapter._decisions = [
+        {
+            "decision_id": "2025-01-01-D-1300",
+            "procedure_id": "1300",
+            "url": "",
+            "trade_names": ["DedupDrug"],
+            "substances": ["DedupSubstance"],
+            "indication": "Disease Z",
+            "decision_date": "2025-06-01",
+            "patient_group": "Pop A",
+            "benefit_rating": "gering",
+            "evidence_level": "Beleg",
+            "comparator": "Comp A",
+        },
+        {
+            "decision_id": "2025-01-01-D-1300",
+            "procedure_id": "1300",
+            "url": "",
+            "trade_names": ["DedupDrug"],
+            "substances": ["DedupSubstance"],
+            "indication": "Disease Z",
+            "decision_date": "2025-06-01",
+            "patient_group": "Pop B",
+            "benefit_rating": "gering",
+            "evidence_level": "Hinweis",
+            "comparator": "Comp B",
+        },
+    ]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("DedupSubstance")
+    explanations = profile.grouped_assessments[0].rating_explanations
+    # Both subpops have "gering" — should only appear once
+    assert len(explanations) == 1
+    assert explanations[0].rating == "gering"
+
+
+def test_rating_explanations_sorted_best_first():
+    """Rating explanations should be sorted best-first."""
+    adapter = GermanyGBA()
+    adapter._decisions = [
+        {
+            "decision_id": "2025-02-01-D-1400",
+            "procedure_id": "1400",
+            "url": "",
+            "trade_names": ["SortDrug"],
+            "substances": ["SortSubstance"],
+            "indication": "Disease W",
+            "decision_date": "2025-06-01",
+            "patient_group": "Pop A",
+            "benefit_rating": "kein Zusatznutzen",
+            "evidence_level": "",
+            "comparator": "Comp",
+        },
+        {
+            "decision_id": "2025-02-01-D-1400",
+            "procedure_id": "1400",
+            "url": "",
+            "trade_names": ["SortDrug"],
+            "substances": ["SortSubstance"],
+            "indication": "Disease W",
+            "decision_date": "2025-06-01",
+            "patient_group": "Pop B",
+            "benefit_rating": "beträchtlich",
+            "evidence_level": "Hinweis",
+            "comparator": "Comp",
+        },
+    ]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("SortSubstance")
+    explanations = profile.grouped_assessments[0].rating_explanations
+    assert len(explanations) == 2
+    # beträchtlich should come before kein Zusatznutzen
+    assert explanations[0].rating == "beträchtlich"
+    assert explanations[1].rating == "kein Zusatznutzen"
+
+
+def test_highest_rated_subpop():
+    """_get_highest_rated_subpop should return the most favorable subpopulation."""
+    from app.models import GBASubpopulation
+    svc = GermanyHTAService(GermanyGBA())
+
+    subpops = [
+        GBASubpopulation(patient_group="A", benefit_rating="kein Zusatznutzen"),
+        GBASubpopulation(patient_group="B", benefit_rating="beträchtlich"),
+        GBASubpopulation(patient_group="C", benefit_rating="gering"),
+    ]
+    best = svc._get_highest_rated_subpop(subpops)
+    assert best is not None
+    assert best.patient_group == "B"
+    assert best.benefit_rating == "beträchtlich"
