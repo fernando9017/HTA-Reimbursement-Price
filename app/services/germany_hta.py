@@ -307,10 +307,12 @@ class GermanyHTAService:
 
     def _build_assessment_detail(self, dec: dict) -> GBAAssessmentDetail:
         """Convert a raw decision dict into a GBAAssessmentDetail."""
-        procedure_id = dec.get("procedure_id", "")
-        assessment_url = ""
-        if procedure_id:
-            assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
+        # Prefer direct URL from XML data; fall back to procedure_id construction
+        assessment_url = dec.get("url", "")
+        if not assessment_url:
+            procedure_id = dec.get("procedure_id", "")
+            if procedure_id:
+                assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
 
         raw_benefit = dec.get("benefit_rating", "")
         benefit_en = BENEFIT_TRANSLATIONS.get(raw_benefit, raw_benefit)
@@ -382,10 +384,12 @@ class GermanyHTAService:
 
             best = self._best_benefit(benefit_ratings)
 
-            procedure_id = first.get("procedure_id", "")
-            assessment_url = ""
-            if procedure_id:
-                assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
+            # Prefer direct URL from XML data; fall back to procedure_id
+            assessment_url = first.get("url", "")
+            if not assessment_url:
+                procedure_id = first.get("procedure_id", "")
+                if procedure_id:
+                    assessment_url = GBA_ASSESSMENT_BASE_URL + procedure_id + "/"
 
             trade_names = first.get("trade_names", [])
             trade_name = (
