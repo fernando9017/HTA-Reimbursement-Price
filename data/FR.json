@@ -3850,25 +3850,11 @@
       ],
       "60000110": [
         {
-          "dossier_code": "CT-20325",
+          "dossier_code": "CT-20900",
           "motif": "Inscription",
-          "date": "2017-05-25",
+          "date": "2023-11-22",
           "value": "Important",
-          "label": "SMR important dans la pathologie immunologique/dermatologique évaluée"
-        },
-        {
-          "dossier_code": "CT-20326",
-          "motif": "Extension d'indication",
-          "date": "2019-02-08",
-          "value": "Important",
-          "label": "SMR important dans cette extension d'indication"
-        },
-        {
-          "dossier_code": "CT-20327",
-          "motif": "Extension d'indication",
-          "date": "2021-03-28",
-          "value": "Important",
-          "label": "SMR important dans cette extension d'indication"
+          "label": "Le service médical rendu par SOTYKTU est important dans le traitement du psoriasis en plaques modéré à sévère de l'adulte en cas d'échec, d'intolérance ou de contre-indication aux médicaments biologiques."
         }
       ],
       "60000111": [
@@ -5574,18 +5560,11 @@
       ],
       "60000237": [
         {
-          "dossier_code": "CT-20628",
+          "dossier_code": "CT-20900",
           "motif": "Inscription",
-          "date": "2020-07-02",
+          "date": "2023-11-22",
           "value": "Important",
-          "label": "Le service médical rendu par cette spécialité est important."
-        },
-        {
-          "dossier_code": "CT-20629",
-          "motif": "Renouvellement",
-          "date": "2020-10-13",
-          "value": "Important",
-          "label": "Le service médical rendu par cette spécialité est important."
+          "label": "Le service médical rendu par SOTYKTU est important dans le traitement du psoriasis en plaques modéré à sévère de l'adulte en cas d'échec, d'intolérance ou de contre-indication aux médicaments biologiques."
         }
       ],
       "60000238": [
@@ -9384,25 +9363,11 @@
       ],
       "60000110": [
         {
-          "dossier_code": "CT-20325",
+          "dossier_code": "CT-20900",
           "motif": "Inscription",
-          "date": "2017-05-25",
-          "value": "IV",
-          "label": "ASMR de niveau IV dans l'indication évaluée"
-        },
-        {
-          "dossier_code": "CT-20326",
-          "motif": "Extension d'indication",
-          "date": "2019-02-08",
+          "date": "2023-11-22",
           "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication en dermatologie/immunologie"
-        },
-        {
-          "dossier_code": "CT-20327",
-          "motif": "Extension d'indication",
-          "date": "2021-03-28",
-          "value": "III",
-          "label": "ASMR de niveau III dans cette extension d'indication en dermatologie/immunologie"
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) dans la stratégie de prise en charge du psoriasis en plaques modéré à sévère."
         }
       ],
       "60000111": [
@@ -10940,18 +10905,11 @@
       ],
       "60000237": [
         {
-          "dossier_code": "CT-20628",
+          "dossier_code": "CT-20900",
           "motif": "Inscription",
-          "date": "2020-07-02",
+          "date": "2023-11-22",
           "value": "V",
-          "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
-        },
-        {
-          "dossier_code": "CT-20629",
-          "motif": "Renouvellement",
-          "date": "2020-10-13",
-          "value": "V",
-          "label": "Absence d'amélioration (ASMR V) par rapport aux comparateurs cliniquement pertinents."
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) dans la stratégie de prise en charge du psoriasis en plaques modéré à sévère."
         }
       ],
       "60000238": [
@@ -12797,9 +12755,6 @@
       "CT-20322": "https://www.has-sante.fr/jcms/p_3020323/fr/avis-ct-20322",
       "CT-20323": "https://www.has-sante.fr/jcms/p_3020324/fr/avis-ct-20323",
       "CT-20324": "https://www.has-sante.fr/jcms/p_3020325/fr/avis-ct-20324",
-      "CT-20325": "https://www.has-sante.fr/jcms/p_3020326/fr/avis-ct-20325",
-      "CT-20326": "https://www.has-sante.fr/jcms/p_3020327/fr/avis-ct-20326",
-      "CT-20327": "https://www.has-sante.fr/jcms/p_3020328/fr/avis-ct-20327",
       "CT-20328": "https://www.has-sante.fr/jcms/p_3020329/fr/avis-ct-20328",
       "CT-20329": "https://www.has-sante.fr/jcms/p_3020330/fr/avis-ct-20329",
       "CT-20330": "https://www.has-sante.fr/jcms/p_3020331/fr/avis-ct-20330",
@@ -13007,8 +12962,6 @@
       "CT-20625": "https://www.has-sante.fr/jcms/p_3300125/fr/avis-ct-20625",
       "CT-20626": "https://www.has-sante.fr/jcms/p_3300126/fr/avis-ct-20626",
       "CT-20627": "https://www.has-sante.fr/jcms/p_3300127/fr/avis-ct-20627",
-      "CT-20628": "https://www.has-sante.fr/jcms/p_3300128/fr/avis-ct-20628",
-      "CT-20629": "https://www.has-sante.fr/jcms/p_3300129/fr/avis-ct-20629",
       "CT-20630": "https://www.has-sante.fr/jcms/p_3300130/fr/avis-ct-20630",
       "CT-20631": "https://www.has-sante.fr/jcms/p_3300131/fr/avis-ct-20631",
       "CT-20632": "https://www.has-sante.fr/jcms/p_3300132/fr/avis-ct-20632",
@@ -13206,7 +13159,8 @@
       "CT-20824": "https://www.has-sante.fr/jcms/p_3300324/fr/avis-ct-20824",
       "CT-20825": "https://www.has-sante.fr/jcms/p_3300325/fr/avis-ct-20825",
       "CT-20826": "https://www.has-sante.fr/jcms/p_3300326/fr/avis-ct-20826",
-      "CT-20827": "https://www.has-sante.fr/jcms/p_3300327/fr/avis-ct-20827"
+      "CT-20827": "https://www.has-sante.fr/jcms/p_3300327/fr/avis-ct-20827",
+      "CT-20900": "https://www.has-sante.fr/jcms/p_3479044/fr/sotyktu-deucravacitinib-psoriasis-en-plaques"
     }
   }
 }
