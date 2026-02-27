@@ -134,19 +134,41 @@ class EMAService:
             return False
 
     def save_to_file(self, data_file: Path) -> None:
-        """Save the currently loaded EMA data to a local JSON cache file."""
+        """Save the currently loaded EMA data to a local JSON cache file.
+
+        Refuses to overwrite an existing cache with significantly fewer
+        records (>20% drop) to protect bundled data from partial fetches.
+        """
         if not self._loaded or not self._medicines:
             return
         data_file.parent.mkdir(parents=True, exist_ok=True)
+        new_count = len(self._medicines)
+
+        # Protect existing cache from being overwritten with fewer records
+        if data_file.exists():
+            try:
+                with open(data_file, encoding="utf-8") as fh:
+                    old_envelope = json.load(fh)
+                old_count = old_envelope.get("record_count", 0)
+                if new_count < old_count * 0.8:
+                    logger.warning(
+                        "EMA: refusing to overwrite cache (%d records) with "
+                        "smaller dataset (%d records)",
+                        old_count, new_count,
+                    )
+                    return
+            except Exception:
+                pass  # can't read old file — safe to overwrite
+
         envelope = {
             "source": "EMA",
             "updated_at": datetime.now().isoformat(timespec="seconds"),
-            "record_count": len(self._medicines),
+            "record_count": new_count,
             "data": self._medicines,
         }
         with open(data_file, "w", encoding="utf-8") as fh:
             json.dump(envelope, fh, ensure_ascii=False)
-        logger.info("EMA data cached to %s (%d medicines)", data_file, len(self._medicines))
+        logger.info("EMA data cached to %s (%d medicines)", data_file, new_count)
 
     def search(self, query: str, limit: int = 20) -> list[MedicineResult]:
         """Search medicines by name or active substance.
