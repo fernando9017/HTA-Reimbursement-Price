@@ -529,6 +529,13 @@ class GBAClinicalEvidence(BaseModel):
     evidence_limitations: list[str] = []   # Limitations / caveats about inferred data
 
 
+class GBAKeyDriverItem(BaseModel):
+    """A key decision driver item in the AI-generated analysis."""
+
+    text: str                           # Description of the finding
+    sentiment: str = ""                 # "positive", "negative", "neutral"
+
+
 class GBAAssessmentAnalysis(BaseModel):
     """AI-generated structured analysis of a G-BA assessment."""
 
@@ -542,9 +549,15 @@ class GBAAssessmentAnalysis(BaseModel):
     overall_summary: str = ""           # 2-3 sentence summary
     clinical_context: str = ""          # Disease context / unmet need
     market_implications: str = ""       # Pricing / market access implications
-    clinical_evidence: GBAClinicalEvidence | None = None  # Legacy pivotal trial data
+    clinical_evidence: GBAClinicalEvidence | None = None  # Structured pivotal trial data
     clinical_evidence_text: str = ""    # Text-based clinical evidence summary
     evidence_limitations: list[str] = []  # Caveats about evidence interpretation
+    # Enhanced analysis fields (Itovebi-style structured format)
+    decision_drivers: list[str] = []    # Key factors driving positive benefit
+    decision_barriers: list[str] = []   # Key barriers / negative factors
+    pma_conclusion: str = ""            # Overall P&MA conclusion
+    comparator_assessment: list[GBAKeyDriverItem] = []  # Comparator/trial design items
+    efficacy_safety_evaluation: list[GBAKeyDriverItem] = []  # Efficacy/safety/QoL items
     ai_model: str = ""                  # Which model generated the analysis
     cached: bool = False                # Whether result came from cache
 
