@@ -1547,25 +1547,25 @@
       ],
       "60000005": [
         {
-          "dossier_code": "CT-20026",
+          "dossier_code": "CT-20901",
           "motif": "Inscription",
-          "date": "2015-02-13",
+          "date": "2019-04-17",
           "value": "Important",
-          "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
+          "label": "Le service médical rendu par IMFINZI est important dans le cancer bronchique non à petites cellules localement avancé, non résécable, dont la maladie n'a pas progressé après une chimioradiothérapie à base de platine."
         },
         {
-          "dossier_code": "CT-20027",
+          "dossier_code": "CT-20902",
           "motif": "Extension d'indication",
-          "date": "2017-05-03",
+          "date": "2023-03-08",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
+          "label": "Le service médical rendu par IMFINZI est important dans le cancer des voies biliaires."
         },
         {
-          "dossier_code": "CT-20028",
+          "dossier_code": "CT-20903",
           "motif": "Extension d'indication",
-          "date": "2018-09-18",
+          "date": "2025-03-12",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
+          "label": "Le service médical rendu par IMFINZI est important dans le cancer de l'endomètre avancé ou récidivant dMMR."
         }
       ],
       "60000006": [
@@ -1593,32 +1593,18 @@
       ],
       "60000007": [
         {
-          "dossier_code": "CT-20032",
+          "dossier_code": "CT-20904",
           "motif": "Inscription",
-          "date": "2016-07-21",
-          "value": "Important",
-          "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
+          "date": "2022-07-06",
+          "value": "Insuffisant",
+          "label": "Le service médical rendu par JEMPERLI est insuffisant en monothérapie pour le traitement du cancer de l'endomètre récidivant ou avancé dMMR/MSI-H, en progression après ou pendant une chimiothérapie à base de platine."
         },
         {
-          "dossier_code": "CT-20033",
+          "dossier_code": "CT-20905",
           "motif": "Extension d'indication",
-          "date": "2018-03-03",
+          "date": "2024-12-18",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
-        },
-        {
-          "dossier_code": "CT-20034",
-          "motif": "Extension d'indication",
-          "date": "2020-04-20",
-          "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
-        },
-        {
-          "dossier_code": "CT-20035",
-          "motif": "Renouvellement",
-          "date": "2024-11-21",
-          "value": "Important",
-          "label": "Le service médical rendu par ce médicament reste important"
+          "label": "Le service médical rendu par JEMPERLI est important en association avec le carboplatine et le paclitaxel dans le cancer de l'endomètre avancé ou récidivant dMMR/MSI-H."
         }
       ],
       "60000008": [
@@ -1853,55 +1839,41 @@
       ],
       "60000018": [
         {
-          "dossier_code": "CT-20066",
+          "dossier_code": "CT-20906",
           "motif": "Inscription",
-          "date": "2016-02-23",
+          "date": "2022-06-15",
           "value": "Important",
-          "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
+          "label": "Le service médical rendu par ENHERTU est important en monothérapie dans le traitement du cancer du sein métastatique HER2-positif, non résécable, après au moins deux lignes de traitement anti-HER2."
         },
         {
-          "dossier_code": "CT-20067",
+          "dossier_code": "CT-20907",
           "motif": "Extension d'indication",
-          "date": "2017-09-21",
+          "date": "2023-07-19",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
+          "label": "Le service médical rendu par ENHERTU est important dans le cancer du sein HER2-faible non résécable ou métastatique."
         },
         {
-          "dossier_code": "CT-20068",
+          "dossier_code": "CT-20908",
           "motif": "Extension d'indication",
-          "date": "2018-04-02",
+          "date": "2023-01-11",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
+          "label": "Le service médical rendu par ENHERTU est important dans l'adénocarcinome gastrique ou de la jonction gastro-œsophagienne HER2-positif, en 3ème ligne et au-delà."
         }
       ],
       "60000019": [
         {
-          "dossier_code": "CT-20069",
+          "dossier_code": "CT-20909",
           "motif": "Inscription",
-          "date": "2016-01-19",
+          "date": "2022-04-06",
           "value": "Important",
-          "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
+          "label": "Le service médical rendu par TRODELVY est important dans le cancer du sein triple négatif non résécable ou métastatique, après au moins deux traitements systémiques dont au moins un au stade avancé."
         },
         {
-          "dossier_code": "CT-20070",
+          "dossier_code": "CT-20910",
           "motif": "Extension d'indication",
-          "date": "2017-04-16",
+          "date": "2024-04-30",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
-        },
-        {
-          "dossier_code": "CT-20071",
-          "motif": "Extension d'indication",
-          "date": "2019-04-08",
-          "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
-        },
-        {
-          "dossier_code": "CT-20072",
-          "motif": "Renouvellement",
-          "date": "2023-10-26",
-          "value": "Important",
-          "label": "Le service médical rendu par ce médicament reste important"
+          "label": "Le service médical rendu par TRODELVY est important dans le cancer du sein RH+/HER2-négatif non résécable ou métastatique."
         }
       ],
       "60000020": [
@@ -2389,11 +2361,11 @@
       ],
       "60000041": [
         {
-          "dossier_code": "CT-20136",
+          "dossier_code": "CT-20911",
           "motif": "Inscription",
-          "date": "2015-07-17",
+          "date": "2023-09-20",
           "value": "Important",
-          "label": "SMR important dans l'hémopathie maligne évaluée"
+          "label": "Le service médical rendu par BRUKINSA est important dans le traitement de la leucémie lymphoïde chronique."
         }
       ],
       "60000042": [
@@ -2524,18 +2496,18 @@
       ],
       "60000049": [
         {
-          "dossier_code": "CT-20153",
+          "dossier_code": "CT-20912",
           "motif": "Inscription",
-          "date": "2015-04-14",
+          "date": "2022-11-23",
           "value": "Important",
-          "label": "SMR important dans l'hémopathie maligne évaluée"
+          "label": "Le service médical rendu par CARVYKTI est important dans le myélome multiple en rechute et réfractaire, après au moins trois traitements antérieurs."
         },
         {
-          "dossier_code": "CT-20154",
+          "dossier_code": "CT-20913",
           "motif": "Extension d'indication",
-          "date": "2018-08-21",
+          "date": "2025-09-09",
           "value": "Important",
-          "label": "SMR important dans cette nouvelle indication hématologique"
+          "label": "Le service médical rendu par CARVYKTI est important dans le myélome multiple en rechute et réfractaire, après au moins un traitement antérieur, réfractaire au lénalidomide."
         }
       ],
       "60000050": [
@@ -2691,32 +2663,18 @@
       ],
       "60000059": [
         {
-          "dossier_code": "CT-20174",
+          "dossier_code": "CT-20914",
           "motif": "Inscription",
-          "date": "2015-05-09",
+          "date": "2022-10-11",
           "value": "Important",
-          "label": "Le service médical rendu par ce médicament est important dans l'indication évaluée"
+          "label": "Le service médical rendu par PADCEV est important en monothérapie dans le carcinome urothélial localement avancé ou métastatique, ayant reçu une chimiothérapie à base de sels de platine et un anti-PD-1 ou anti-PD-L1."
         },
         {
-          "dossier_code": "CT-20175",
+          "dossier_code": "CT-20915",
           "motif": "Extension d'indication",
-          "date": "2017-12-14",
+          "date": "2025-03-11",
           "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
-        },
-        {
-          "dossier_code": "CT-20176",
-          "motif": "Extension d'indication",
-          "date": "2020-10-16",
-          "value": "Important",
-          "label": "SMR important dans la nouvelle indication"
-        },
-        {
-          "dossier_code": "CT-20177",
-          "motif": "Renouvellement",
-          "date": "2023-04-01",
-          "value": "Important",
-          "label": "Le service médical rendu par ce médicament reste important"
+          "label": "Le service médical rendu par PADCEV en association avec le pembrolizumab est important dans le carcinome urothélial localement avancé ou métastatique en première ligne."
         }
       ],
       "60000060": [
@@ -4000,18 +3958,11 @@
       ],
       "60000122": [
         {
-          "dossier_code": "CT-20345",
+          "dossier_code": "CT-20916",
           "motif": "Inscription",
-          "date": "2017-02-08",
+          "date": "2024-07-17",
           "value": "Important",
-          "label": "SMR important dans le traitement du diabète de type 2"
-        },
-        {
-          "dossier_code": "CT-20346",
-          "motif": "Extension d'indication",
-          "date": "2019-01-05",
-          "value": "Important",
-          "label": "SMR important dans cette nouvelle indication"
+          "label": "Le service médical rendu par MOUNJARO est important dans le traitement du diabète de type 2 de l'adulte insuffisamment contrôlé, en 2ème ou 3ème ligne."
         }
       ],
       "60000123": [
@@ -6380,25 +6331,18 @@
       ],
       "60000290": [
         {
-          "dossier_code": "CT-20731",
+          "dossier_code": "CT-20917",
           "motif": "Inscription",
-          "date": "2020-11-23",
+          "date": "2024-07-17",
           "value": "Important",
-          "label": "Le service médical rendu par cette spécialité est important."
+          "label": "Le service médical rendu par MOUNJARO est important dans le traitement du diabète de type 2 de l'adulte insuffisamment contrôlé, en 2ème ou 3ème ligne."
         },
         {
-          "dossier_code": "CT-20732",
-          "motif": "Renouvellement",
-          "date": "2020-10-03",
-          "value": "Important",
-          "label": "Le service médical rendu par cette spécialité est important."
-        },
-        {
-          "dossier_code": "CT-20733",
+          "dossier_code": "CT-20918",
           "motif": "Extension d'indication",
-          "date": "2022-04-24",
+          "date": "2025-11-19",
           "value": "Important",
-          "label": "Le service médical rendu par cette spécialité est important."
+          "label": "Le service médical rendu par MOUNJARO est important dans la gestion du poids chez l'adulte avec un IMC initial ≥ 35 kg/m², après échec d'une prise en charge nutritionnelle bien conduite."
         }
       ],
       "60000291": [
@@ -7326,25 +7270,25 @@
       ],
       "60000005": [
         {
-          "dossier_code": "CT-20026",
+          "dossier_code": "CT-20901",
           "motif": "Inscription",
-          "date": "2015-02-13",
+          "date": "2019-04-17",
+          "value": "III",
+          "label": "ASMR modérée (III) en monothérapie dans le traitement des patients adultes atteints d'un CBNPC localement avancé, non résécable, dont les tumeurs expriment PD-L1 ≥ 1% des cellules tumorales."
+        },
+        {
+          "dossier_code": "CT-20902",
+          "motif": "Extension d'indication",
+          "date": "2023-03-08",
           "value": "IV",
-          "label": "ASMR de niveau IV dans l'indication évaluée"
+          "label": "ASMR mineure (IV) en association au cisplatine et à la gemcitabine dans le cancer des voies biliaires localement avancé ou métastatique."
         },
         {
-          "dossier_code": "CT-20027",
+          "dossier_code": "CT-20903",
           "motif": "Extension d'indication",
-          "date": "2017-05-03",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
-        },
-        {
-          "dossier_code": "CT-20028",
-          "motif": "Extension d'indication",
-          "date": "2018-09-18",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
+          "date": "2025-03-12",
+          "value": "III",
+          "label": "ASMR modérée (III) dans le cancer de l'endomètre avancé ou récidivant avec un statut dMMR."
         }
       ],
       "60000006": [
@@ -7372,25 +7316,18 @@
       ],
       "60000007": [
         {
-          "dossier_code": "CT-20032",
+          "dossier_code": "CT-20904",
           "motif": "Inscription",
-          "date": "2016-07-21",
+          "date": "2022-07-06",
+          "value": "V",
+          "label": "Sans objet (avis défavorable au remboursement)."
+        },
+        {
+          "dossier_code": "CT-20905",
+          "motif": "Extension d'indication",
+          "date": "2024-12-18",
           "value": "III",
-          "label": "ASMR de niveau III dans l'indication évaluée"
-        },
-        {
-          "dossier_code": "CT-20033",
-          "motif": "Extension d'indication",
-          "date": "2018-03-03",
-          "value": "IV",
-          "label": "ASMR de niveau IV dans cette extension d'indication"
-        },
-        {
-          "dossier_code": "CT-20034",
-          "motif": "Extension d'indication",
-          "date": "2020-04-20",
-          "value": "IV",
-          "label": "ASMR de niveau IV dans cette extension d'indication"
+          "label": "ASMR modérée (III) par rapport à l'association carboplatine-paclitaxel dans le traitement du cancer de l'endomètre avancé dMMR/MSI-H."
         }
       ],
       "60000008": [
@@ -7597,48 +7534,41 @@
       ],
       "60000018": [
         {
-          "dossier_code": "CT-20066",
+          "dossier_code": "CT-20906",
           "motif": "Inscription",
-          "date": "2016-02-23",
+          "date": "2022-06-15",
           "value": "IV",
-          "label": "ASMR de niveau IV dans l'indication évaluée"
+          "label": "ASMR mineure (IV) dans le cancer du sein métastatique HER2-positif ayant reçu au moins deux lignes de traitement anti-HER2."
         },
         {
-          "dossier_code": "CT-20067",
+          "dossier_code": "CT-20907",
           "motif": "Extension d'indication",
-          "date": "2017-09-21",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
+          "date": "2023-07-19",
+          "value": "III",
+          "label": "ASMR modérée (III) dans le cancer du sein métastatique HER2-faible après au moins une ligne de chimiothérapie au stade métastatique."
         },
         {
-          "dossier_code": "CT-20068",
+          "dossier_code": "CT-20908",
           "motif": "Extension d'indication",
-          "date": "2018-04-02",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
+          "date": "2023-01-11",
+          "value": "IV",
+          "label": "ASMR mineure (IV) dans le traitement de l'adénocarcinome gastrique ou de la JGO HER2-positif avancé, en 3ème ligne et au-delà."
         }
       ],
       "60000019": [
         {
-          "dossier_code": "CT-20069",
+          "dossier_code": "CT-20909",
           "motif": "Inscription",
-          "date": "2016-01-19",
+          "date": "2022-04-06",
           "value": "III",
-          "label": "ASMR de niveau III dans l'indication évaluée"
+          "label": "ASMR modérée (III) par rapport à la chimiothérapie dans le cancer du sein triple négatif métastatique, après au moins deux traitements systémiques."
         },
         {
-          "dossier_code": "CT-20070",
+          "dossier_code": "CT-20910",
           "motif": "Extension d'indication",
-          "date": "2017-04-16",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
-        },
-        {
-          "dossier_code": "CT-20071",
-          "motif": "Extension d'indication",
-          "date": "2019-04-08",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
+          "date": "2024-04-30",
+          "value": "IV",
+          "label": "ASMR mineure (IV) dans le cancer du sein RH+/HER2-négatif métastatique, en 3ème ligne et au-delà."
         }
       ],
       "60000020": [
@@ -8070,11 +8000,11 @@
       ],
       "60000041": [
         {
-          "dossier_code": "CT-20136",
+          "dossier_code": "CT-20911",
           "motif": "Inscription",
-          "date": "2015-07-17",
+          "date": "2023-09-20",
           "value": "V",
-          "label": "ASMR de niveau V dans l'indication hématologique"
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) par rapport aux traitements disponibles dans la leucémie lymphoïde chronique."
         }
       ],
       "60000042": [
@@ -8205,18 +8135,18 @@
       ],
       "60000049": [
         {
-          "dossier_code": "CT-20153",
+          "dossier_code": "CT-20912",
           "motif": "Inscription",
-          "date": "2015-04-14",
-          "value": "II",
-          "label": "ASMR de niveau II dans l'indication hématologique"
+          "date": "2022-11-23",
+          "value": "V",
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) dans la stratégie thérapeutique du myélome multiple en 4ème ligne et au-delà."
         },
         {
-          "dossier_code": "CT-20154",
+          "dossier_code": "CT-20913",
           "motif": "Extension d'indication",
-          "date": "2018-08-21",
+          "date": "2025-09-09",
           "value": "III",
-          "label": "ASMR de niveau III dans cette extension d'indication"
+          "label": "ASMR modérée (III) dans le myélome multiple en rechute, en 2ème ligne et au-delà, réfractaire au lénalidomide."
         }
       ],
       "60000050": [
@@ -8372,25 +8302,18 @@
       ],
       "60000059": [
         {
-          "dossier_code": "CT-20174",
+          "dossier_code": "CT-20914",
           "motif": "Inscription",
-          "date": "2015-05-09",
-          "value": "IV",
-          "label": "ASMR de niveau IV dans l'indication évaluée"
+          "date": "2022-10-11",
+          "value": "III",
+          "label": "ASMR modérée (III) en monothérapie dans le carcinome urothélial après échec du platine et de l'immunothérapie."
         },
         {
-          "dossier_code": "CT-20175",
+          "dossier_code": "CT-20915",
           "motif": "Extension d'indication",
-          "date": "2017-12-14",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
-        },
-        {
-          "dossier_code": "CT-20176",
-          "motif": "Extension d'indication",
-          "date": "2020-10-16",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
+          "date": "2025-03-11",
+          "value": "III",
+          "label": "ASMR modérée (III) en association avec le pembrolizumab dans le carcinome urothélial en première ligne."
         }
       ],
       "60000060": [
@@ -9471,18 +9394,11 @@
       ],
       "60000122": [
         {
-          "dossier_code": "CT-20345",
+          "dossier_code": "CT-20916",
           "motif": "Inscription",
-          "date": "2017-02-08",
+          "date": "2024-07-17",
           "value": "V",
-          "label": "ASMR de niveau V dans le traitement du diabète de type 2"
-        },
-        {
-          "dossier_code": "CT-20346",
-          "motif": "Extension d'indication",
-          "date": "2019-01-05",
-          "value": "V",
-          "label": "ASMR de niveau V dans cette extension d'indication"
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) dans la stratégie de prise en charge du diabète de type 2."
         }
       ],
       "60000123": [
@@ -11690,25 +11606,18 @@
       ],
       "60000290": [
         {
-          "dossier_code": "CT-20731",
+          "dossier_code": "CT-20917",
           "motif": "Inscription",
-          "date": "2020-11-23",
-          "value": "III",
-          "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
+          "date": "2024-07-17",
+          "value": "V",
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) dans la stratégie de prise en charge du diabète de type 2."
         },
         {
-          "dossier_code": "CT-20732",
-          "motif": "Renouvellement",
-          "date": "2020-10-03",
-          "value": "III",
-          "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
-        },
-        {
-          "dossier_code": "CT-20733",
+          "dossier_code": "CT-20918",
           "motif": "Extension d'indication",
-          "date": "2022-04-24",
-          "value": "III",
-          "label": "Amélioration modérée en termes d'efficacité thérapeutique et/ou de réduction des effets indésirables (ASMR III)."
+          "date": "2025-11-19",
+          "value": "V",
+          "label": "Absence d'amélioration du service médical rendu (ASMR V) dans la stratégie de prise en charge de l'obésité."
         }
       ],
       "60000291": [
@@ -12456,16 +12365,9 @@
       "CT-20023": "https://www.has-sante.fr/jcms/p_3020024/fr/avis-ct-20023",
       "CT-20024": "https://www.has-sante.fr/jcms/p_3020025/fr/avis-ct-20024",
       "CT-20025": "https://www.has-sante.fr/jcms/p_3020026/fr/avis-ct-20025",
-      "CT-20026": "https://www.has-sante.fr/jcms/p_3020027/fr/avis-ct-20026",
-      "CT-20027": "https://www.has-sante.fr/jcms/p_3020028/fr/avis-ct-20027",
-      "CT-20028": "https://www.has-sante.fr/jcms/p_3020029/fr/avis-ct-20028",
       "CT-20029": "https://www.has-sante.fr/jcms/p_3020030/fr/avis-ct-20029",
       "CT-20030": "https://www.has-sante.fr/jcms/p_3020031/fr/avis-ct-20030",
       "CT-20031": "https://www.has-sante.fr/jcms/p_3020032/fr/avis-ct-20031",
-      "CT-20032": "https://www.has-sante.fr/jcms/p_3020033/fr/avis-ct-20032",
-      "CT-20033": "https://www.has-sante.fr/jcms/p_3020034/fr/avis-ct-20033",
-      "CT-20034": "https://www.has-sante.fr/jcms/p_3020035/fr/avis-ct-20034",
-      "CT-20035": "https://www.has-sante.fr/jcms/p_3020036/fr/avis-ct-20035",
       "CT-20036": "https://www.has-sante.fr/jcms/p_3020037/fr/avis-ct-20036",
       "CT-20037": "https://www.has-sante.fr/jcms/p_3020038/fr/avis-ct-20037",
       "CT-20038": "https://www.has-sante.fr/jcms/p_3020039/fr/avis-ct-20038",
@@ -12496,13 +12398,6 @@
       "CT-20063": "https://www.has-sante.fr/jcms/p_3020064/fr/avis-ct-20063",
       "CT-20064": "https://www.has-sante.fr/jcms/p_3020065/fr/avis-ct-20064",
       "CT-20065": "https://www.has-sante.fr/jcms/p_3020066/fr/avis-ct-20065",
-      "CT-20066": "https://www.has-sante.fr/jcms/p_3020067/fr/avis-ct-20066",
-      "CT-20067": "https://www.has-sante.fr/jcms/p_3020068/fr/avis-ct-20067",
-      "CT-20068": "https://www.has-sante.fr/jcms/p_3020069/fr/avis-ct-20068",
-      "CT-20069": "https://www.has-sante.fr/jcms/p_3020070/fr/avis-ct-20069",
-      "CT-20070": "https://www.has-sante.fr/jcms/p_3020071/fr/avis-ct-20070",
-      "CT-20071": "https://www.has-sante.fr/jcms/p_3020072/fr/avis-ct-20071",
-      "CT-20072": "https://www.has-sante.fr/jcms/p_3020073/fr/avis-ct-20072",
       "CT-20073": "https://www.has-sante.fr/jcms/p_3020074/fr/avis-ct-20073",
       "CT-20074": "https://www.has-sante.fr/jcms/p_3020075/fr/avis-ct-20074",
       "CT-20075": "https://www.has-sante.fr/jcms/p_3020076/fr/avis-ct-20075",
@@ -12566,7 +12461,6 @@
       "CT-20133": "https://www.has-sante.fr/jcms/p_3020134/fr/avis-ct-20133",
       "CT-20134": "https://www.has-sante.fr/jcms/p_3020135/fr/avis-ct-20134",
       "CT-20135": "https://www.has-sante.fr/jcms/p_3020136/fr/avis-ct-20135",
-      "CT-20136": "https://www.has-sante.fr/jcms/p_3020137/fr/avis-ct-20136",
       "CT-20137": "https://www.has-sante.fr/jcms/p_3020138/fr/avis-ct-20137",
       "CT-20138": "https://www.has-sante.fr/jcms/p_3020139/fr/avis-ct-20138",
       "CT-20139": "https://www.has-sante.fr/jcms/p_3020140/fr/avis-ct-20139",
@@ -12583,8 +12477,6 @@
       "CT-20150": "https://www.has-sante.fr/jcms/p_3020151/fr/avis-ct-20150",
       "CT-20151": "https://www.has-sante.fr/jcms/p_3020152/fr/avis-ct-20151",
       "CT-20152": "https://www.has-sante.fr/jcms/p_3020153/fr/avis-ct-20152",
-      "CT-20153": "https://www.has-sante.fr/jcms/p_3020154/fr/avis-ct-20153",
-      "CT-20154": "https://www.has-sante.fr/jcms/p_3020155/fr/avis-ct-20154",
       "CT-20155": "https://www.has-sante.fr/jcms/p_3020156/fr/avis-ct-20155",
       "CT-20156": "https://www.has-sante.fr/jcms/p_3020157/fr/avis-ct-20156",
       "CT-20157": "https://www.has-sante.fr/jcms/p_3020158/fr/avis-ct-20157",
@@ -12604,10 +12496,6 @@
       "CT-20171": "https://www.has-sante.fr/jcms/p_3020172/fr/avis-ct-20171",
       "CT-20172": "https://www.has-sante.fr/jcms/p_3020173/fr/avis-ct-20172",
       "CT-20173": "https://www.has-sante.fr/jcms/p_3020174/fr/avis-ct-20173",
-      "CT-20174": "https://www.has-sante.fr/jcms/p_3020175/fr/avis-ct-20174",
-      "CT-20175": "https://www.has-sante.fr/jcms/p_3020176/fr/avis-ct-20175",
-      "CT-20176": "https://www.has-sante.fr/jcms/p_3020177/fr/avis-ct-20176",
-      "CT-20177": "https://www.has-sante.fr/jcms/p_3020178/fr/avis-ct-20177",
       "CT-20178": "https://www.has-sante.fr/jcms/p_3020179/fr/avis-ct-20178",
       "CT-20179": "https://www.has-sante.fr/jcms/p_3020180/fr/avis-ct-20179",
       "CT-20180": "https://www.has-sante.fr/jcms/p_3020181/fr/avis-ct-20180",
@@ -12772,8 +12660,6 @@
       "CT-20342": "https://www.has-sante.fr/jcms/p_3020343/fr/avis-ct-20342",
       "CT-20343": "https://www.has-sante.fr/jcms/p_3020344/fr/avis-ct-20343",
       "CT-20344": "https://www.has-sante.fr/jcms/p_3020345/fr/avis-ct-20344",
-      "CT-20345": "https://www.has-sante.fr/jcms/p_3020346/fr/avis-ct-20345",
-      "CT-20346": "https://www.has-sante.fr/jcms/p_3020347/fr/avis-ct-20346",
       "CT-20347": "https://www.has-sante.fr/jcms/p_3020348/fr/avis-ct-20347",
       "CT-20348": "https://www.has-sante.fr/jcms/p_3020349/fr/avis-ct-20348",
       "CT-20349": "https://www.has-sante.fr/jcms/p_3020350/fr/avis-ct-20349",
@@ -13063,9 +12949,6 @@
       "CT-20728": "https://www.has-sante.fr/jcms/p_3300228/fr/avis-ct-20728",
       "CT-20729": "https://www.has-sante.fr/jcms/p_3300229/fr/avis-ct-20729",
       "CT-20730": "https://www.has-sante.fr/jcms/p_3300230/fr/avis-ct-20730",
-      "CT-20731": "https://www.has-sante.fr/jcms/p_3300231/fr/avis-ct-20731",
-      "CT-20732": "https://www.has-sante.fr/jcms/p_3300232/fr/avis-ct-20732",
-      "CT-20733": "https://www.has-sante.fr/jcms/p_3300233/fr/avis-ct-20733",
       "CT-20734": "https://www.has-sante.fr/jcms/p_3300234/fr/avis-ct-20734",
       "CT-20735": "https://www.has-sante.fr/jcms/p_3300235/fr/avis-ct-20735",
       "CT-20736": "https://www.has-sante.fr/jcms/p_3300236/fr/avis-ct-20736",
@@ -13160,7 +13043,25 @@
       "CT-20825": "https://www.has-sante.fr/jcms/p_3300325/fr/avis-ct-20825",
       "CT-20826": "https://www.has-sante.fr/jcms/p_3300326/fr/avis-ct-20826",
       "CT-20827": "https://www.has-sante.fr/jcms/p_3300327/fr/avis-ct-20827",
-      "CT-20900": "https://www.has-sante.fr/jcms/p_3479044/fr/sotyktu-deucravacitinib-psoriasis-en-plaques"
+      "CT-20900": "https://www.has-sante.fr/jcms/p_3479044/fr/sotyktu-deucravacitinib-psoriasis-en-plaques",
+      "CT-20901": "https://www.has-sante.fr/jcms/pprd_2982846/fr/imfinzi-durvalumab",
+      "CT-20902": "https://www.has-sante.fr/jcms/pprd_2982846/fr/imfinzi-durvalumab",
+      "CT-20903": "https://www.has-sante.fr/jcms/p_3590636/fr/imfinzi-durvalumab-cancer-de-l-endometre",
+      "CT-20904": "https://www.has-sante.fr/jcms/p_3296883/fr/jemperli-500-mg-dostarlimab",
+      "CT-20905": "https://www.has-sante.fr/jcms/p_3488415/fr/jemperli-dostarlimab-cancer-de-l-endometre",
+      "CT-20906": "https://www.has-sante.fr/jcms/p_3272596/fr/enhertu-trastuzumab-deruxtecan",
+      "CT-20907": "https://www.has-sante.fr/jcms/p_3444788/fr/enhertu-trastuzumab-deruxtecan-cancer-du-sein-her2-faible",
+      "CT-20908": "https://www.has-sante.fr/jcms/p_3447975/fr/enhertu-trastuzumab-deruxtecan-adenocarcinome-gastrique",
+      "CT-20909": "https://www.has-sante.fr/jcms/p_3341351/fr/trodelvy-sacituzumab-govitecan-cancer-du-sein-triple-negatif",
+      "CT-20910": "https://www.has-sante.fr/jcms/p_3490834/fr/trodelvy-sacituzumab-govitecan-cancer-du-sein",
+      "CT-20911": "https://www.has-sante.fr/jcms/p_3461141/fr/brukinsa-zanubrutinib-leucemie-lymphoide-chronique-llc",
+      "CT-20912": "https://www.has-sante.fr/jcms/p_3392179/fr/carvykti-ciltacabtagene-autoleucel-myelome-multiple",
+      "CT-20913": "https://www.has-sante.fr/jcms/p_3639814/fr/carvykti-ciltacabtagene-autoleucel-myelome-multiple",
+      "CT-20914": "https://www.has-sante.fr/jcms/p_3396009/fr/padcev-enfortumab-vedotine-cancer-urothelial",
+      "CT-20915": "https://www.has-sante.fr/jcms/p_3589932/fr/padcev-enfortumab-vedotin-carcinome-urothelial",
+      "CT-20916": "https://www.has-sante.fr/jcms/p_3538387/fr/mounjaro-tirzepatide-diabete-de-type-2",
+      "CT-20917": "https://www.has-sante.fr/jcms/p_3538387/fr/mounjaro-tirzepatide-diabete-de-type-2",
+      "CT-20918": "https://www.has-sante.fr/jcms/p_3538381/fr/mounjaro-tirzepatide-obesite"
     }
   }
 }
