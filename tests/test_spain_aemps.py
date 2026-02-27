@@ -400,3 +400,114 @@ def test_save_creates_envelope_metadata(aemps_service):
         assert "updated_at" in payload
         assert "record_count" in payload
         assert isinstance(payload["data"], list)
+
+
+# ── HTA service substance grouping tests ─────────────────────────────
+
+
+def test_hta_service_substance_grouping_case_insensitive():
+    """IPTs with different casings of the same substance should be grouped together."""
+    from app.services.spain_aemps_hta import SpainAEMPSHTAService
+
+    service = SpainAEMPS()
+    service._ipt_list = [
+        {
+            "reference": "IPT-01/2024",
+            "title": "Pembrolizumab (Keytruda) en melanoma",
+            "url": "",
+            "published_date": "2024-01-01",
+            "positioning": "favorable",
+        },
+        {
+            "reference": "IPT-02/2024",
+            "title": "pembrolizumab (Keytruda) en cáncer de pulmón",
+            "url": "",
+            "published_date": "2024-06-01",
+            "positioning": "favorable",
+        },
+    ]
+    service._loaded = True
+
+    hta = SpainAEMPSHTAService(service)
+    result = hta.search_drugs()
+    # Both IPTs should be grouped under one substance
+    pembrolizumab_items = [r for r in result.results if "pembrolizumab" in r.active_substance.lower()]
+    assert len(pembrolizumab_items) == 1
+    assert pembrolizumab_items[0].ipt_count == 2
+
+
+def test_hta_service_brand_name_grouped_with_substance():
+    """IPTs listed by brand name in parentheses should be grouped with the INN."""
+    from app.services.spain_aemps_hta import SpainAEMPSHTAService
+
+    service = SpainAEMPS()
+    service._ipt_list = [
+        {
+            "reference": "IPT-01/2024",
+            "title": "Nivolumab (Opdivo) en carcinoma urotelial",
+            "url": "",
+            "published_date": "2024-01-01",
+            "positioning": "favorable",
+        },
+        {
+            "reference": "IPT-02/2024",
+            "title": "Nivolumab (Opdivo) en melanoma",
+            "url": "",
+            "published_date": "2024-06-01",
+            "positioning": "favorable condicionado",
+        },
+    ]
+    service._loaded = True
+
+    hta = SpainAEMPSHTAService(service)
+    result = hta.search_drugs()
+    nivo_items = [r for r in result.results if "nivolumab" in r.active_substance.lower()]
+    assert len(nivo_items) == 1
+    assert nivo_items[0].ipt_count == 2
+
+
+def test_hta_service_extract_substance_with_hyphens():
+    """Substance names with hyphens (e.g. trastuzumab-deruxtecan) should be extracted."""
+    from app.services.spain_aemps_hta import SpainAEMPSHTAService
+
+    service = SpainAEMPS()
+    service._ipt_list = [
+        {
+            "reference": "IPT-08/2022",
+            "title": "Trastuzumab deruxtecan (Enhertu) en cáncer de mama HER2-positivo",
+            "url": "",
+            "published_date": "2022-06-22",
+            "positioning": "favorable",
+        },
+    ]
+    service._loaded = True
+
+    hta = SpainAEMPSHTAService(service)
+    profile = hta.get_drug_profile("Trastuzumab deruxtecan")
+    assert profile is not None
+    assert profile.total_ipts == 1
+
+
+def test_hta_service_extract_substance_with_prefix_variations():
+    """Different prefix patterns should all be handled correctly."""
+    from app.services.spain_aemps_hta import SpainAEMPSHTAService
+
+    hta = SpainAEMPSHTAService(SpainAEMPS())
+
+    # "Informe de posicionamiento terapéutico de ..."
+    substance1 = hta._extract_substance_from_title(
+        "Informe de posicionamiento terapéutico de Atezolizumab (Tecentriq) en hepatocelular"
+    )
+    assert substance1 == "Atezolizumab"
+
+    # "Informe de posicionamiento terapéutico sobre ..."
+    substance2 = hta._extract_substance_from_title(
+        "Informe de posicionamiento terapéutico sobre Nivolumab en melanoma"
+    )
+    assert substance2 == "Nivolumab"
+
+    # "IPT-XX/YYYY - ..."
+    substance3 = hta._extract_substance_from_title(
+        "IPT-23/2024 - Pembrolizumab (Keytruda) en cáncer de pulmón"
+    )
+    assert substance3 == "Pembrolizumab"

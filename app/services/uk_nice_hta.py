@@ -50,18 +50,37 @@ class UKNICEHTAService:
         recommendation: str = "",
         limit: int = 100,
     ) -> NICESearchResponse:
-        """List drugs with NICE guidance, optionally filtered."""
+        """List drugs with NICE guidance, optionally filtered.
+
+        Supports search by molecule name (INN) or brand name by
+        consulting the brand ↔ substance mapping from EMA data.
+        """
         profiles = self._build_substance_profiles()
 
         results: list[NICEDrugListItem] = []
         query_lower = query.lower().strip()
 
+        # Resolve brand → substance if applicable
+        resolved_substance = ""
+        if query_lower:
+            brand_map = self._nice._brand_to_substance
+            if query_lower in brand_map:
+                resolved_substance = brand_map[query_lower]
+
         for substance, profile in sorted(profiles.items()):
             if query_lower:
-                searchable = substance.lower() + " " + " ".join(
-                    t.lower() for t in profile["titles"]
+                searchable = (
+                    substance.lower() + " "
+                    + " ".join(t.lower() for t in profile["titles"])
+                    + " "
+                    + " ".join(b for b in profile.get("brand_names", []))
                 )
-                if query_lower not in searchable:
+                direct_match = query_lower in searchable
+                resolved_match = (
+                    resolved_substance
+                    and resolved_substance in substance.lower()
+                )
+                if not direct_match and not resolved_match:
                     continue
 
             if guidance_type:
@@ -93,7 +112,10 @@ class UKNICEHTAService:
     # ── Drug profile (detailed) ───────────────────────────────────────
 
     def get_drug_profile(self, substance: str) -> NICEDrugProfile | None:
-        """Get the full NICE guidance profile for one active substance."""
+        """Get the full NICE guidance profile for one active substance.
+
+        Supports lookup by INN (molecule name) or brand name.
+        """
         profiles = self._build_substance_profiles()
         substance_lower = substance.lower().strip()
 
@@ -102,6 +124,15 @@ class UKNICEHTAService:
             if key.lower() == substance_lower:
                 matched_key = key
                 break
+
+        # If not found by substance, try resolving as brand name
+        if matched_key is None:
+            resolved = self._nice._brand_to_substance.get(substance_lower, "")
+            if resolved:
+                for key in profiles:
+                    if key.lower() == resolved:
+                        matched_key = key
+                        break
 
         if matched_key is None:
             return None
@@ -173,19 +204,32 @@ class UKNICEHTAService:
     # ── Internal helpers ──────────────────────────────────────────────
 
     def _build_substance_profiles(self) -> dict[str, dict]:
-        """Group guidance items by substance extracted from titles."""
+        """Group guidance items by substance extracted from titles.
+
+        Also includes brand names from the EMA mapping for each substance
+        so that the deep-dive search can match by brand name.
+        """
         from app.services.hta_agencies.uk_nice import _normalize_recommendation
 
         by_substance: dict[str, list[dict]] = defaultdict(list)
+        # Normalise keys: canonical (lowercase) → display name
+        canonical_display: dict[str, str] = {}
 
         for g in self._nice._guidance_list:
             substance = self._extract_substance_from_title(g.get("title", ""))
             if not substance:
                 substance = g.get("title", "Unknown")[:60]
-            by_substance[substance].append(g)
+            canonical = substance.lower().strip()
+            if canonical not in canonical_display:
+                canonical_display[canonical] = substance
+            by_substance[canonical].append(g)
+
+        # Brand name mapping from the adapter (populated from EMA data)
+        sub_to_brands = self._nice._substance_to_brands
 
         profiles: dict[str, dict] = {}
-        for substance, items in by_substance.items():
+        for canonical, items in by_substance.items():
+            display_name = canonical_display.get(canonical, canonical)
             titles: list[str] = []
             guidance_types: list[str] = []
             recommendations: list[str] = []
@@ -223,13 +267,17 @@ class UKNICEHTAService:
 
             guidance_items.sort(key=lambda x: x.published_date, reverse=True)
 
-            profiles[substance] = {
+            # Collect brand names for this substance from EMA mapping
+            brand_names = sorted(sub_to_brands.get(canonical, set()))
+
+            profiles[display_name] = {
                 "titles": titles,
                 "guidance_types": guidance_types,
                 "recommendations": recommendations,
                 "latest_date": latest_date,
                 "guidance_count": len(guidance_items),
                 "guidance_items": guidance_items,
+                "brand_names": brand_names,
             }
 
         return profiles

@@ -57,6 +57,9 @@ class UKNICE(HTAAgency):
     def __init__(self) -> None:
         self._guidance_list: list[dict] = []
         self._loaded = False
+        # Brand ↔ substance mappings (populated from EMA data)
+        self._brand_to_substance: dict[str, str] = {}  # "keytruda" → "pembrolizumab"
+        self._substance_to_brands: dict[str, set[str]] = {}  # "pembrolizumab" → {"keytruda"}
 
     @property
     def country_code(self) -> str:
@@ -77,6 +80,35 @@ class UKNICE(HTAAgency):
     @property
     def is_loaded(self) -> bool:
         return self._loaded
+
+    def set_brand_mapping(self, ema_medicines: list[dict]) -> None:
+        """Build brand ↔ substance mappings from EMA medicine data.
+
+        This allows the adapter to resolve brand names (e.g. "Keytruda")
+        to INN substances (e.g. "pembrolizumab") and vice-versa, enabling
+        search by either molecule or brand name.
+        """
+        brand_to_sub: dict[str, str] = {}
+        sub_to_brands: dict[str, set[str]] = {}
+
+        for med in ema_medicines:
+            substance = (med.get("activeSubstance") or "").lower().strip()
+            name = (med.get("medicineName") or med.get("name") or "").lower().strip()
+            if not substance or not name:
+                continue
+            # Skip entries where name == substance (no brand info)
+            if name == substance:
+                continue
+            brand_to_sub[name] = substance
+            sub_to_brands.setdefault(substance, set()).add(name)
+
+        self._brand_to_substance = brand_to_sub
+        self._substance_to_brands = sub_to_brands
+        if brand_to_sub:
+            logger.info(
+                "NICE brand mapping loaded: %d brand→substance entries",
+                len(brand_to_sub),
+            )
 
     async def load_data(self) -> None:
         """Fetch NICE guidance data using API, HTML listing, and gap-filling.
@@ -158,6 +190,12 @@ class UKNICE(HTAAgency):
     ) -> list[AssessmentResult]:
         """Find NICE Technology Appraisals matching the given substance or product.
 
+        Searches the guidance title **and** the URL slug to catch cases
+        where a drug name appears in the URL but not the display title.
+        Also consults the brand-name mapping (populated from EMA data) so
+        that users can search by either INN (molecule) or brand name,
+        matching the behaviour of the Germany G-BA adapter.
+
         When matches are found but the recommendation is missing from the
         listing data, this method makes one extra HTTP call per matched
         guidance to fetch the individual guidance page and extract the
@@ -169,14 +207,39 @@ class UKNICE(HTAAgency):
         substance_lower = active_substance.lower().strip()
         product_lower = product_name.lower().strip() if product_name else ""
 
+        # Resolve brand name → INN via mapping (e.g. "Keytruda" → "pembrolizumab")
+        extra_terms: set[str] = set()
+        if substance_lower in self._brand_to_substance:
+            extra_terms.add(self._brand_to_substance[substance_lower])
+        if product_lower and product_lower in self._brand_to_substance:
+            extra_terms.add(self._brand_to_substance[product_lower])
+        # Also resolve INN → brand names
+        if substance_lower in self._substance_to_brands:
+            extra_terms.update(self._substance_to_brands[substance_lower])
+        if product_lower and product_lower in self._substance_to_brands:
+            extra_terms.update(self._substance_to_brands[product_lower])
+
         matched: list[dict] = []
         for g in self._guidance_list:
             title_lower = g.get("title", "").lower()
+            url_lower = g.get("url", "").lower()
 
-            substance_match = substance_lower in title_lower
-            product_match = product_lower and product_lower in title_lower
+            # Search title and URL slug
+            substance_match = (
+                substance_lower in title_lower
+                or substance_lower in url_lower
+            )
+            product_match = product_lower and (
+                product_lower in title_lower
+                or product_lower in url_lower
+            )
+            # Also try resolved brand/substance terms
+            extra_match = any(
+                term in title_lower or term in url_lower
+                for term in extra_terms
+            ) if extra_terms else False
 
-            if substance_match or product_match:
+            if substance_match or product_match or extra_match:
                 matched.append(g)
 
         if not matched:
