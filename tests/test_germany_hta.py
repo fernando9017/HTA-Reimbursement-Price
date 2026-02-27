@@ -418,3 +418,92 @@ def test_find_assessment_by_id_semaglutid(service):
     assert data is not None
     assert data["active_substance"] == "Semaglutid"
     assert data["assessment_url"] != ""
+
+
+# ── URL construction tests ─────────────────────────────────────────
+
+
+def test_assessment_url_prefers_direct_url():
+    """When decisions have a 'url' field (real AIS XML), it should be used
+    instead of constructing from procedure_id.
+
+    In real G-BA data, the procedure_id (from decision_id) uses a different
+    numbering than the URL. E.g. decision_id 2011-04-15-D-003 has
+    procedure_id=003, but the real URL is /nutzenbewertung/10/.
+    """
+    adapter = GermanyGBA()
+    adapter._decisions = [{
+        "decision_id": "2011-04-15-D-003",
+        "procedure_id": "003",
+        "url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/10/",
+        "trade_names": ["Jevtana"],
+        "substances": ["Cabazitaxel"],
+        "indication": "Prostatakarzinom",
+        "decision_date": "2012-03-29",
+        "patient_group": "Patienten mit Prostatakarzinom",
+        "benefit_rating": "gering",
+        "evidence_level": "Hinweis",
+        "comparator": "Prednison",
+    }]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("Cabazitaxel")
+    assert profile is not None
+    # Must use the direct URL, NOT /nutzenbewertung/003/
+    assert profile.current_assessments[0].assessment_url == \
+        "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/10/"
+
+
+def test_grouped_assessment_url_prefers_direct_url():
+    """Grouped assessments should also prefer the direct URL from XML data."""
+    adapter = GermanyGBA()
+    adapter._decisions = [{
+        "decision_id": "2011-06-15-D-009",
+        "procedure_id": "009",
+        "url": "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/5/",
+        "trade_names": ["Eliquis"],
+        "substances": ["Apixaban"],
+        "indication": "VTE Prophylaxe",
+        "decision_date": "2012-06-07",
+        "patient_group": "Patienten mit VTE",
+        "benefit_rating": "ist nicht belegt",
+        "evidence_level": "",
+        "comparator": "Enoxaparin",
+    }]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("Apixaban")
+    assert profile is not None
+    grouped = profile.grouped_assessments
+    assert len(grouped) == 1
+    # Must use the direct URL, NOT /nutzenbewertung/009/
+    assert grouped[0].assessment_url == \
+        "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/5/"
+
+
+def test_assessment_url_falls_back_to_procedure_id():
+    """When the url field is empty (legacy format), fall back to procedure_id."""
+    adapter = GermanyGBA()
+    adapter._decisions = [{
+        "decision_id": "2020-01-15-D-500",
+        "procedure_id": "500",
+        "url": "",
+        "trade_names": ["Keytruda"],
+        "substances": ["Pembrolizumab"],
+        "indication": "Melanom",
+        "decision_date": "2020-06-18",
+        "patient_group": "Erwachsene mit Melanom",
+        "benefit_rating": "beträchtlich",
+        "evidence_level": "Hinweis",
+        "comparator": "Ipilimumab",
+    }]
+    adapter._loaded = True
+    svc = GermanyHTAService(adapter)
+
+    profile = svc.get_drug_profile("Pembrolizumab")
+    assert profile is not None
+    # Falls back to procedure_id-based URL
+    assert profile.current_assessments[0].assessment_url == \
+        "https://www.g-ba.de/bewertungsverfahren/nutzenbewertung/500/"
