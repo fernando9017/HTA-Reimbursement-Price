@@ -608,6 +608,16 @@ button:disabled {
     color: #616161;
 }
 
+.badge-pricing-method {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.badge-premium {
+    background: #fff3e0;
+    color: #e65100;
+}
+
 .assessment-link {
     display: inline-block;
     margin-top: 6px;

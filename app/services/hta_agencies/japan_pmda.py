@@ -192,15 +192,20 @@ class JapanPMDA(HTAAgency):
                 indication = await self._get_indication(client, drug["kegg_id"])
                 is_reimbursed = bool(drug["japic_code"])
 
+                # Use per-drug pricing PDF URL if available, fall back to MHLW index
+                mhlw_url = drug.get("mhlw_pricing_pdf_url") or (MHLW_PRICING_URL if is_reimbursed else "")
+
                 results.append(AssessmentResult(
                     product_name=(
                         drug["names_display"][0] if drug["names_display"] else active_substance
                     ),
                     evaluation_reason=indication,
-                    opinion_date="",
+                    opinion_date=drug.get("nhi_listing_date", ""),
                     assessment_url=drug["japic_url"],
                     pmda_review_type="Reimbursed (NHI)" if is_reimbursed else "Not in NHI price list",
-                    japan_mhlw_url=MHLW_PRICING_URL if is_reimbursed else "",
+                    japan_mhlw_url=mhlw_url,
+                    pricing_method=drug.get("pricing_method", ""),
+                    premium_type=drug.get("premium_type", ""),
                 ))
 
         return results

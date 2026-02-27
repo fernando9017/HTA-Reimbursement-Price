@@ -1,9 +1,142 @@
 {
   "country": "ES",
   "agency": "AEMPS",
-  "updated_at": "2026-02-27T04:30:00",
-  "record_count": 156,
+  "updated_at": "2026-02-27T10:00:00",
+  "record_count": 310,
   "data": [
+    {
+      "reference": "IPT-1/2013",
+      "title": "Pirfenidona (Esbriet) en fibrosis pulmonar idiopática",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-1-2013-esbriet-fpi.pdf",
+      "published_date": "2013-09-12",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-2/2013",
+      "title": "Boceprevir (Victrelis) en hepatitis C crónica genotipo 1",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-2-2013-victrelis-vhc.pdf",
+      "published_date": "2013-10-03",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-3/2013",
+      "title": "Telaprevir (Incivo) en hepatitis C crónica genotipo 1",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-3-2013-incivo-vhc.pdf",
+      "published_date": "2013-10-03",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-4/2013",
+      "title": "Fingolimod (Gilenya) en esclerosis múltiple recurrente-remitente de alta actividad",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-4-2013-gilenya-emrr.pdf",
+      "published_date": "2013-11-15",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-5/2013",
+      "title": "Abiraterona (Zytiga) en cáncer de próstata metastásico resistente a la castración previamente tratado con docetaxel",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-5-2013-zytiga-prostata.pdf",
+      "published_date": "2013-11-28",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-6/2014",
+      "title": "Enzalutamida (Xtandi) en cáncer de próstata metastásico resistente a la castración previamente tratado con docetaxel",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-6-2014-xtandi-prostata.pdf",
+      "published_date": "2014-01-22",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-7/2014",
+      "title": "Crizotinib (Xalkori) en cáncer de pulmón no microcítico ALK positivo avanzado previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-7-2014-xalkori-cpnm.pdf",
+      "published_date": "2014-03-05",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-8/2014",
+      "title": "Sofosbuvir (Sovaldi) en hepatitis C crónica en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-8-2014-sovaldi-vhc.pdf",
+      "published_date": "2014-04-17",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-9/2014",
+      "title": "Simeprevir (Olysio) en hepatitis C crónica genotipo 1 o 4",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-9-2014-olysio-vhc.pdf",
+      "published_date": "2014-05-21",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-10/2014",
+      "title": "Vemurafenib (Zelboraf) en melanoma irresecable o metastásico con mutación BRAF V600",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-10-2014-zelboraf-melanoma.pdf",
+      "published_date": "2014-06-18",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-11/2014",
+      "title": "Pertuzumab (Perjeta) en combinación con trastuzumab y docetaxel en cáncer de mama HER2 positivo metastásico o localmente recurrente irresecable",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-11-2014-perjeta-mama.pdf",
+      "published_date": "2014-07-09",
+      "positioning": "desfavorable"
+    },
+    {
+      "reference": "IPT-12/2014",
+      "title": "Trastuzumab emtansina (Kadcyla) en cáncer de mama HER2 positivo metastásico previamente tratado con trastuzumab y un taxano",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-12-2014-kadcyla-mama.pdf",
+      "published_date": "2014-09-03",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-13/2014",
+      "title": "Dabrafenib (Tafinlar) en melanoma irresecable o metastásico con mutación BRAF V600",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-13-2014-tafinlar-melanoma.pdf",
+      "published_date": "2014-10-08",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-14/2014",
+      "title": "Pomalidomida (Imnovid) en mieloma múltiple en recaída y refractario tras lenalidomida y bortezomib",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-14-2014-imnovid-mm.pdf",
+      "published_date": "2014-10-22",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-15/2014",
+      "title": "Ledipasvir/sofosbuvir (Harvoni) en hepatitis C crónica genotipo 1",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-15-2014-harvoni-vhc.pdf",
+      "published_date": "2014-11-20",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-16/2015",
+      "title": "Daclatasvir (Daklinza) en hepatitis C crónica en adultos en combinación con otros antivirales",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-16-2015-daklinza-vhc.pdf",
+      "published_date": "2015-01-14",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-17/2015",
+      "title": "Ombitasvir/paritaprevir/ritonavir con o sin dasabuvir (Viekirax/Exviera) en hepatitis C crónica genotipo 1 o 4",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-17-2015-viekirax-vhc.pdf",
+      "published_date": "2015-01-28",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-18/2015",
+      "title": "Ipilimumab (Yervoy) en melanoma avanzado irresecable o metastásico no tratado previamente",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-18-2015-yervoy-melanoma.pdf",
+      "published_date": "2015-02-11",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-19/2015",
+      "title": "Obinutuzumab (Gazyvaro) en leucemia linfocítica crónica no tratada previamente en combinación con clorambucilo",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-19-2015-gazyvaro-llc.pdf",
+      "published_date": "2015-02-25",
+      "positioning": "favorable"
+    },
     {
       "reference": "IPT-20/2015",
       "title": "Ranibizumab (Lucentis) en degeneración macular asociada a la edad neovascular",
@@ -1095,6 +1228,951 @@
       "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-175-2025-leqembi-alzheimer.pdf",
       "published_date": "2025-02-20",
       "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-176/2025",
+      "title": "Glofitamab (Columvi) en linfoma difuso de células B grandes en recaída o refractario tras dos o más líneas de tratamiento",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-176-2025-columvi-ldcbg.pdf",
+      "published_date": "2025-02-26",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-177/2025",
+      "title": "Epcoritamab (Tepkinly) en linfoma difuso de células B grandes en recaída o refractario tras dos o más líneas de tratamiento sistémico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-177-2025-tepkinly-ldcbg.pdf",
+      "published_date": "2025-03-05",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-178/2025",
+      "title": "Talquetamab (Talvey) en mieloma múltiple en recaída y refractario tras al menos tres líneas previas de tratamiento",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-178-2025-talvey-mm.pdf",
+      "published_date": "2025-03-12",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-179/2025",
+      "title": "Elranatamab (Elrexfio) en mieloma múltiple en recaída y refractario tras al menos tres líneas previas de tratamiento",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-179-2025-elrexfio-mm.pdf",
+      "published_date": "2025-03-19",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-180/2025",
+      "title": "Pirtobrutinib (Jaypirca) en linfoma de células del manto en recaída o refractario tras tratamiento previo con inhibidor de BTK",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-180-2025-jaypirca-lcm.pdf",
+      "published_date": "2025-03-26",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-181/2025",
+      "title": "Capivasertib (Truqap) en combinación con fulvestrant en cáncer de mama HR+/HER2- localmente avanzado o metastásico con alteraciones de PIK3CA/AKT1/PTEN",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-181-2025-truqap-mama.pdf",
+      "published_date": "2025-04-02",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-182/2025",
+      "title": "Elacestrant (Orserdu) en cáncer de mama HR+/HER2- localmente avanzado o metastásico con mutación ESR1",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-182-2025-orserdu-mama.pdf",
+      "published_date": "2025-04-09",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-183/2025",
+      "title": "Trastuzumab deruxtecan (Enhertu) en cáncer de pulmón no microcítico con mutación HER2 previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-183-2025-enhertu-cpnm-her2.pdf",
+      "published_date": "2025-04-16",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-184/2025",
+      "title": "Tisotumab vedotina (Tivdak) en carcinoma de cérvix recurrente o metastásico previamente tratado con quimioterapia basada en platino",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-184-2025-tivdak-cervix.pdf",
+      "published_date": "2025-04-23",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-185/2025",
+      "title": "Adagrasib (Krazati) en cáncer de pulmón no microcítico avanzado con mutación KRAS G12C previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-185-2025-krazati-cpnm.pdf",
+      "published_date": "2025-04-30",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-186/2025",
+      "title": "Repotrectinib (Augtyro) en cáncer de pulmón no microcítico ROS1 positivo avanzado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-186-2025-augtyro-ros1.pdf",
+      "published_date": "2025-05-07",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-187/2025",
+      "title": "Mavacamten (Camzyos) en miocardiopatía hipertrófica obstructiva sintomática en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-187-2025-camzyos-mcho.pdf",
+      "published_date": "2025-05-14",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-188/2025",
+      "title": "Iptacopan (Fabhalta) en hemoglobinuria paroxística nocturna en adultos con hemólisis residual",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-188-2025-fabhalta-hpn.pdf",
+      "published_date": "2025-05-21",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-189/2025",
+      "title": "Pegcetacoplan (Aspaveli) en hemoglobinuria paroxística nocturna en adultos con anemia residual tras tratamiento con inhibidor de C5",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-189-2025-aspaveli-hpn.pdf",
+      "published_date": "2025-05-28",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-190/2025",
+      "title": "Rimegepant (Vydura) en tratamiento agudo y profilaxis de la migraña en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-190-2025-vydura-migrana.pdf",
+      "published_date": "2025-06-04",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-191/2025",
+      "title": "Atogepant (Aquipta) en profilaxis de la migraña episódica en adultos con al menos 4 días de migraña al mes",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-191-2025-aquipta-migrana.pdf",
+      "published_date": "2025-06-11",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-192/2025",
+      "title": "Fenfluramine (Fintepla) en crisis epilépticas asociadas al síndrome de Dravet como tratamiento complementario",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-192-2025-fintepla-dravet.pdf",
+      "published_date": "2025-06-18",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-193/2025",
+      "title": "Cenobamate (Ontozry) en crisis epilépticas focales no controladas como tratamiento complementario en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-193-2025-ontozry-epilepsia.pdf",
+      "published_date": "2025-06-25",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-194/2025",
+      "title": "Abrocitinib (Cibinqo) en dermatitis atópica moderada a grave en adultos candidatos a tratamiento sistémico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-194-2025-cibinqo-da.pdf",
+      "published_date": "2025-07-02",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-195/2025",
+      "title": "Tralokinumab (Adtralza) en dermatitis atópica moderada a grave en adultos candidatos a tratamiento sistémico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-195-2025-adtralza-da.pdf",
+      "published_date": "2025-07-09",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-196/2025",
+      "title": "Lebrikizumab (Ebglyss) en dermatitis atópica moderada a grave en adultos candidatos a tratamiento sistémico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-196-2025-ebglyss-da.pdf",
+      "published_date": "2025-07-16",
+      "positioning": "desfavorable"
+    },
+    {
+      "reference": "IPT-197/2025",
+      "title": "Nemolizumab (Nemluvio) en prurigo nodular moderado a grave en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-197-2025-nemluvio-prurigo.pdf",
+      "published_date": "2025-07-23",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-198/2025",
+      "title": "Mirikizumab (Omvoh) en colitis ulcerosa activa moderada a grave en adultos con respuesta inadecuada a tratamiento convencional o biológico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-198-2025-omvoh-cu.pdf",
+      "published_date": "2025-07-30",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-199/2025",
+      "title": "Anifrolumab (Saphnelo) en lupus eritematoso sistémico activo autoanticuerpo positivo como tratamiento complementario",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-199-2025-saphnelo-les.pdf",
+      "published_date": "2025-08-06",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-200/2025",
+      "title": "Fruquintinib (Fruzaqla) en cáncer colorrectal metastásico previamente tratado con quimioterapia y terapia anti-VEGF",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-200-2025-fruzaqla-ccr.pdf",
+      "published_date": "2025-08-13",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-201/2025",
+      "title": "Zolbetuximab (Vyloy) en adenocarcinoma gástrico o de la unión gastroesofágica avanzado CLDN18.2 positivo y HER2 negativo",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-201-2025-vyloy-gastrico.pdf",
+      "published_date": "2025-08-20",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-202/2025",
+      "title": "Tarlatamab (Imdelltra) en cáncer de pulmón microcítico en estadio extenso previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-202-2025-imdelltra-cpm.pdf",
+      "published_date": "2025-08-27",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-203/2025",
+      "title": "Tofersen (Qalsody) en esclerosis lateral amiotrófica asociada a mutación en el gen SOD1",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-203-2025-qalsody-ela-sod1.pdf",
+      "published_date": "2025-09-03",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-204/2025",
+      "title": "Burosumab (Crysvita) en hipofosfatemia ligada al cromosoma X en pacientes pediátricos y adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-204-2025-crysvita-xlh.pdf",
+      "published_date": "2025-09-10",
+      "positioning": "desfavorable"
+    },
+    {
+      "reference": "IPT-205/2025",
+      "title": "Omaveloxolone (Skyclarys) en ataxia de Friedreich en pacientes de 16 años o más",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-205-2025-skyclarys-friedreich.pdf",
+      "published_date": "2025-09-17",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-206/2025",
+      "title": "Givinostat (Duvyzat) en distrofia muscular de Duchenne en pacientes de 6 años o más",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-206-2025-duvyzat-duchenne.pdf",
+      "published_date": "2025-09-24",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-207/2025",
+      "title": "Viltolarsen (Viltepso) en distrofia muscular de Duchenne con mutación susceptible de salto del exón 53",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-207-2025-viltepso-duchenne.pdf",
+      "published_date": "2025-10-01",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-208/2025",
+      "title": "Luspatercept (Reblozyl) en anemia en síndromes mielodisplásicos con sideroblastos en anillo dependientes de transfusiones",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-208-2025-reblozyl-smd.pdf",
+      "published_date": "2025-10-08",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-209/2025",
+      "title": "Sutimlimab (Enjaymo) en anemia hemolítica en enfermedad de aglutininas frías en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-209-2025-enjaymo-eaf.pdf",
+      "published_date": "2025-10-15",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-210/2025",
+      "title": "Lumasiran (Oxlumo) en hiperoxaluria primaria tipo 1 en pacientes pediátricos y adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-210-2025-oxlumo-hp1.pdf",
+      "published_date": "2025-10-22",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-211/2025",
+      "title": "Esketamina (Spravato) en trastorno depresivo mayor resistente al tratamiento en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-211-2025-spravato-tdm.pdf",
+      "published_date": "2025-10-29",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-212/2025",
+      "title": "Cefiderocol (Fetcroja) en infecciones causadas por bacterias gramnegativas aerobias con opciones terapéuticas limitadas",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-212-2025-fetcroja-infecciones.pdf",
+      "published_date": "2025-11-05",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-213/2025",
+      "title": "Maribavir (Livtencity) en infección por citomegalovirus refractaria o resistente a tratamiento en pacientes trasplantados",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-213-2025-livtencity-cmv.pdf",
+      "published_date": "2025-11-12",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-214/2025",
+      "title": "Asciminib (Scemblix) en leucemia mieloide crónica con cromosoma Filadelfia positivo previamente tratada con dos o más inhibidores de tirosina quinasa",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-214-2025-scemblix-lmc.pdf",
+      "published_date": "2025-11-19",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-215/2025",
+      "title": "Avapritinib (Ayvakyt) en tumor del estroma gastrointestinal avanzado con mutación PDGFRA D842V",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-215-2025-ayvakyt-gist.pdf",
+      "published_date": "2025-11-26",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-216/2025",
+      "title": "Ripretinib (Qinlock) en tumor del estroma gastrointestinal avanzado previamente tratado con tres o más inhibidores de quinasa",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-216-2025-qinlock-gist.pdf",
+      "published_date": "2025-12-03",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-217/2025",
+      "title": "Retifanlimab (Zynyz) en carcinoma de células de Merkel metastásico en adultos no tratados previamente",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-217-2025-zynyz-merkel.pdf",
+      "published_date": "2025-12-10",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-218/2025",
+      "title": "Tislelizumab (Tevimbra) en cáncer de esófago escamoso avanzado o metastásico previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-218-2025-tevimbra-esofago.pdf",
+      "published_date": "2025-12-17",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-219/2025",
+      "title": "Letermovir (Prevymis) en profilaxis de reactivación de citomegalovirus en receptores de trasplante alogénico de progenitores hematopoyéticos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-219-2025-prevymis-cmv.pdf",
+      "published_date": "2025-12-22",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-220/2026",
+      "title": "Donanemab (Kisunla) en enfermedad de Alzheimer temprana con patología amiloide y tau confirmada",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-220-2026-kisunla-alzheimer.pdf",
+      "published_date": "2026-01-07",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-273/2026",
+      "title": "Nivolumab (Opdivo) en adyuvancia en carcinoma urotelial muscular invasivo de alto riesgo tras resección radical",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-273-2026-opdivo-urotelial-adj.pdf",
+      "published_date": "2026-01-07",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-221/2026",
+      "title": "Inavolisib (Itovebi) en combinación con palbociclib y fulvestrant en cáncer de mama HR+/HER2- localmente avanzado o metastásico con mutación PIK3CA",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-221-2026-itovebi-mama.pdf",
+      "published_date": "2026-01-14",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-274/2026",
+      "title": "Pembrolizumab (Keytruda) en cáncer de mama triple negativo en estadio precoz de alto riesgo como tratamiento neoadyuvante y adyuvante",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-274-2026-keytruda-mama-tn-neo.pdf",
+      "published_date": "2026-01-14",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-222/2026",
+      "title": "Datopotamab deruxtecan (Datroway) en cáncer de mama HR+/HER2-low metastásico previamente tratado con quimioterapia y terapia endocrina",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-222-2026-datroway-mama.pdf",
+      "published_date": "2026-01-21",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-275/2026",
+      "title": "Nivolumab (Opdivo) en combinación con ipilimumab y quimioterapia en cáncer de pulmón no microcítico metastásico en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-275-2026-opdivo-ipi-cpnm-1l.pdf",
+      "published_date": "2026-01-21",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-223/2026",
+      "title": "Mirvetuximab soravtansine (Elahere) en cáncer de ovario epitelial avanzado con receptor alfa de folato positivo previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-223-2026-elahere-ovario.pdf",
+      "published_date": "2026-01-28",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-276/2026",
+      "title": "Sotorasib (Lumakras) en cáncer de pulmón no microcítico avanzado con mutación KRAS G12C en primera línea en combinación con quimioterapia",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-276-2026-lumakras-1l.pdf",
+      "published_date": "2026-01-28",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-224/2026",
+      "title": "Toripalimab (Loqtorzi) en carcinoma nasofaríngeo metastásico o recurrente en combinación con quimioterapia basada en platino",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-224-2026-loqtorzi-nasofaringe.pdf",
+      "published_date": "2026-02-04",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-277/2026",
+      "title": "Osimertinib (Tagrisso) en combinación con quimioterapia en cáncer de pulmón no microcítico localmente avanzado o metastásico con mutación EGFR",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-277-2026-tagrisso-combo.pdf",
+      "published_date": "2026-02-04",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-225/2026",
+      "title": "Futibatinib (Lytgobi) en colangiocarcinoma intrahepático localmente avanzado o metastásico con fusión o reordenamiento de FGFR2",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-225-2026-lytgobi-colangiocarcinoma.pdf",
+      "published_date": "2026-02-11",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-278/2026",
+      "title": "Pembrolizumab (Keytruda) en carcinoma hepatocelular avanzado en primera línea en combinación con lenvatinib",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-278-2026-keytruda-hcc-1l.pdf",
+      "published_date": "2026-02-11",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-226/2026",
+      "title": "Pemigatinib (Pemazyre) en colangiocarcinoma localmente avanzado o metastásico con fusión o reordenamiento de FGFR2 previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-226-2026-pemazyre-colangiocarcinoma.pdf",
+      "published_date": "2026-02-18",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-279/2026",
+      "title": "Zanubrutinib (Brukinsa) en leucemia linfocítica crónica no tratada previamente",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-279-2026-brukinsa-llc-1l.pdf",
+      "published_date": "2026-02-18",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-227/2026",
+      "title": "Ganaxolone (Ztalmy) en crisis epilépticas asociadas al déficit de CDKL5 en pacientes de 2 años o más",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-227-2026-ztalmy-cdkl5.pdf",
+      "published_date": "2026-02-25",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-280/2026",
+      "title": "Venetoclax (Venclyxto) en combinación con obinutuzumab en leucemia linfocítica crónica no tratada previamente",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-280-2026-venclyxto-llc-1l.pdf",
+      "published_date": "2026-02-25",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-228/2026",
+      "title": "Diroximel fumarato (Vumerity) en esclerosis múltiple recurrente-remitente en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-228-2026-vumerity-emrr.pdf",
+      "published_date": "2026-03-04",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-281/2026",
+      "title": "Idecabtagene vicleucel (Abecma) en mieloma múltiple en recaída tras una a tres líneas previas de tratamiento",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-281-2026-abecma-mm-precoz.pdf",
+      "published_date": "2026-03-04",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-229/2026",
+      "title": "Sarilumab (Kevzara) en artritis reumatoide activa moderada a grave con respuesta inadecuada a FAMEs convencionales",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-229-2026-kevzara-ar.pdf",
+      "published_date": "2026-03-11",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-282/2026",
+      "title": "Ciltacabtagene autoleucel (Carvykti) en mieloma múltiple en recaída tras una a tres líneas previas de tratamiento incluyendo un inhibidor del proteasoma y un inmunomodulador",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-282-2026-carvykti-mm-precoz.pdf",
+      "published_date": "2026-03-11",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-230/2026",
+      "title": "Setmelanotide (Imcivree) en obesidad y control del hambre asociados a deficiencia genéticamente confirmada de la vía leptina-melanocortina",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-230-2026-imcivree-obesidad.pdf",
+      "published_date": "2026-03-18",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-283/2026",
+      "title": "Isatuximab (Sarclisa) en combinación con carfilzomib y dexametasona en mieloma múltiple en recaída",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-283-2026-sarclisa-mm-kd.pdf",
+      "published_date": "2026-03-18",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-231/2026",
+      "title": "Molnupiravir (Lagevrio) en COVID-19 en adultos con factores de riesgo de enfermedad grave",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-231-2026-lagevrio-covid19.pdf",
+      "published_date": "2026-03-25",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-284/2026",
+      "title": "Daratumumab subcutáneo (Darzalex SC) en combinación con lenalidomida y dexametasona en mieloma múltiple de nuevo diagnóstico no candidato a trasplante",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-284-2026-darzalex-sc-rd.pdf",
+      "published_date": "2026-03-25",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-232/2026",
+      "title": "Sotrovimab (Xevudy) en COVID-19 en adultos y adolescentes con riesgo de progresión a enfermedad grave",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-232-2026-xevudy-covid19.pdf",
+      "published_date": "2026-04-01",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-285/2026",
+      "title": "Glofitamab (Columvi) en linfoma folicular en recaída o refractario tras dos o más líneas de tratamiento sistémico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-285-2026-columvi-lf.pdf",
+      "published_date": "2026-04-01",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-233/2026",
+      "title": "Baloxavir marboxil (Xofluza) en gripe en pacientes con alto riesgo de complicaciones",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-233-2026-xofluza-gripe.pdf",
+      "published_date": "2026-04-08",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-286/2026",
+      "title": "Polatuzumab vedotina (Polivy) en combinación con rituximab, ciclofosfamida, doxorrubicina y prednisona en linfoma difuso de células B grandes no tratado previamente",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-286-2026-polivy-ldcbg-1l.pdf",
+      "published_date": "2026-04-08",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-234/2026",
+      "title": "Ceftazidima/avibactam (Zavicefta) en infecciones por bacterias gramnegativas multirresistentes en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-234-2026-zavicefta-infecciones.pdf",
+      "published_date": "2026-04-15",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-287/2026",
+      "title": "Ivosidenib (Tibsovo) en colangiocarcinoma localmente avanzado o metastásico con mutación IDH1 previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-287-2026-tibsovo-colangiocarcinoma.pdf",
+      "published_date": "2026-04-15",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-235/2026",
+      "title": "Ensitrelvir (Xocova) en COVID-19 en adultos con factores de riesgo de progresión a enfermedad grave",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-235-2026-xocova-covid19.pdf",
+      "published_date": "2026-04-22",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-288/2026",
+      "title": "Tivozanib (Fotivda) en carcinoma de células renales avanzado tras progresión a dos líneas previas de tratamiento",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-288-2026-fotivda-ccr-3l.pdf",
+      "published_date": "2026-04-22",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-236/2026",
+      "title": "Roxadustat (Evrenzo) en anemia sintomática asociada a enfermedad renal crónica en adultos en diálisis",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-236-2026-evrenzo-anemia.pdf",
+      "published_date": "2026-04-29",
+      "positioning": "desfavorable"
+    },
+    {
+      "reference": "IPT-289/2026",
+      "title": "Cabozantinib (Cabometyx) en combinación con nivolumab en carcinoma de células renales avanzado en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-289-2026-cabometyx-opdivo-ccr.pdf",
+      "published_date": "2026-04-29",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-237/2026",
+      "title": "Avatrombopag (Doptelet) en trombocitopenia grave en adultos con enfermedad hepática crónica programados para un procedimiento invasivo",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-237-2026-doptelet-trombocitopenia.pdf",
+      "published_date": "2026-05-06",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-290/2026",
+      "title": "Pembrolizumab (Keytruda) en cáncer gástrico o de la unión gastroesofágica avanzado HER2 negativo con CPS ≥1 en combinación con quimioterapia en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-290-2026-keytruda-gastrico-1l.pdf",
+      "published_date": "2026-05-06",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-238/2026",
+      "title": "Tucatinib (Tukysa) en combinación con trastuzumab en cáncer colorrectal metastásico HER2 positivo previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-238-2026-tukysa-ccr-her2.pdf",
+      "published_date": "2026-05-13",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-291/2026",
+      "title": "Dabrafenib (Tafinlar) en combinación con trametinib (Mekinist) en tumores sólidos avanzados con mutación BRAF V600E (indicación agnóstica del tumor)",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-291-2026-tafinlar-mekinist-agnostico.pdf",
+      "published_date": "2026-05-13",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-239/2026",
+      "title": "Pralsetinib (Gavreto) en cáncer de pulmón no microcítico avanzado con fusión del gen RET",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-239-2026-gavreto-cpnm-ret.pdf",
+      "published_date": "2026-05-20",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-292/2026",
+      "title": "Nivolumab (Opdivo) en cáncer de esófago escamoso avanzado o recurrente en primera línea en combinación con quimioterapia basada en fluoropirimidina y platino",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-292-2026-opdivo-esofago-1l.pdf",
+      "published_date": "2026-05-20",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-240/2026",
+      "title": "Selpercatinib (Retsevmo) en carcinoma medular de tiroides avanzado con mutación del gen RET",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-240-2026-retsevmo-tiroides-ret.pdf",
+      "published_date": "2026-05-27",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-293/2026",
+      "title": "Selpercatinib (Retsevmo) en cáncer de pulmón no microcítico avanzado con fusión del gen RET no tratado previamente",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-293-2026-retsevmo-cpnm-1l.pdf",
+      "published_date": "2026-05-27",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-241/2026",
+      "title": "Trastuzumab deruxtecan (Enhertu) en cáncer de mama HER2 positivo en estadios precoces de alto riesgo como tratamiento neoadyuvante/adyuvante",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-241-2026-enhertu-mama-adj.pdf",
+      "published_date": "2026-06-03",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-294/2026",
+      "title": "Niraparib (Zejula) en combinación con abiraterona y prednisona en cáncer de próstata resistente a la castración metastásico con mutación HRR",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-294-2026-zejula-prostata-hrr.pdf",
+      "published_date": "2026-06-03",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-242/2026",
+      "title": "Emicizumab (Hemlibra) en hemofilia A sin inhibidores del factor VIII como profilaxis de rutina",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-242-2026-hemlibra-hemofilia-a.pdf",
+      "published_date": "2026-06-10",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-295/2026",
+      "title": "Talazoparib (Talzenna) en combinación con enzalutamida en cáncer de próstata resistente a la castración metastásico con mutación HRR",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-295-2026-talzenna-prostata-hrr.pdf",
+      "published_date": "2026-06-10",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-243/2026",
+      "title": "Fitusiran (Alhemo) en prevención de episodios hemorrágicos en hemofilia A o B con inhibidores",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-243-2026-alhemo-hemofilia.pdf",
+      "published_date": "2026-06-17",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-296/2026",
+      "title": "Encorafenib (Braftovi) en combinación con cetuximab en cáncer colorrectal metastásico con mutación BRAF V600E previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-296-2026-braftovi-ccr-braf.pdf",
+      "published_date": "2026-06-17",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-244/2026",
+      "title": "Ácido bempedoico (Nilemdo) en hipercolesterolemia primaria o dislipidemia mixta como complemento a dieta en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-244-2026-nilemdo-hipercolesterolemia.pdf",
+      "published_date": "2026-06-24",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-297/2026",
+      "title": "Treosulfán (Trecondi) en acondicionamiento previo a trasplante alogénico de progenitores hematopoyéticos en pacientes adultos con neoplasias hematológicas",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-297-2026-trecondi-acondicionamiento.pdf",
+      "published_date": "2026-06-24",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-245/2026",
+      "title": "Tafamidis (Vyndaqel) en miocardiopatía por amiloidosis por transtiretina en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-245-2026-vyndaqel-attr-cm.pdf",
+      "published_date": "2026-07-01",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-298/2026",
+      "title": "Loncastuximab tesirine (Zynlonta) en linfoma difuso de células B grandes en recaída o refractario tras dos o más líneas de tratamiento sistémico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-298-2026-zynlonta-ldcbg.pdf",
+      "published_date": "2026-07-01",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-246/2026",
+      "title": "Patisiran (Onpattro) en amiloidosis hereditaria por transtiretina con polineuropatía en estadio 1 o 2",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-246-2026-onpattro-attr.pdf",
+      "published_date": "2026-07-08",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-299/2026",
+      "title": "Belzutifan (Welireg) en carcinoma de células renales avanzado previamente tratado con inhibidor de punto de control inmunitario y terapia anti-VEGF",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-299-2026-welireg-ccr.pdf",
+      "published_date": "2026-07-08",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-247/2026",
+      "title": "Difelikefalin (Kapruvia) en prurito asociado a enfermedad renal crónica en adultos en hemodiálisis",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-247-2026-kapruvia-prurito.pdf",
+      "published_date": "2026-07-15",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-300/2026",
+      "title": "Axicabtagene ciloleucel (Yescarta) en linfoma difuso de células B grandes de alto riesgo en primera recaída en adultos elegibles para trasplante",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-300-2026-yescarta-ldcbg-2l.pdf",
+      "published_date": "2026-07-15",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-248/2026",
+      "title": "Zuranolone (Zurzuvae) en episodio depresivo mayor periparto en adultas",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-248-2026-zurzuvae-depresion.pdf",
+      "published_date": "2026-07-22",
+      "positioning": "desfavorable"
+    },
+    {
+      "reference": "IPT-301/2026",
+      "title": "Lisocabtagene maraleucel (Breyanzi) en linfoma difuso de células B grandes en recaída o refractario tras dos o más líneas de tratamiento",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-301-2026-breyanzi-ldcbg.pdf",
+      "published_date": "2026-07-22",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-249/2026",
+      "title": "Eltrombopag (Revolade) en trombocitopenia inmune primaria crónica en adultos refractarios a otros tratamientos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-249-2026-revolade-pti.pdf",
+      "published_date": "2026-07-29",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-302/2026",
+      "title": "Enasidenib (Idhifa) en leucemia mieloide aguda con mutación IDH2 en recaída o refractaria",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-302-2026-idhifa-lma-idh2.pdf",
+      "published_date": "2026-07-29",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-250/2026",
+      "title": "Lumacaftor/ivacaftor (Orkambi) en fibrosis quística en pacientes homocigotos para la mutación F508del a partir de 2 años",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-250-2026-orkambi-fq.pdf",
+      "published_date": "2026-08-05",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-303/2026",
+      "title": "Quizartinib (Vanflyta) en leucemia mieloide aguda con mutación FLT3-ITD de nuevo diagnóstico en combinación con quimioterapia estándar",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-303-2026-vanflyta-lma-flt3.pdf",
+      "published_date": "2026-08-05",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-251/2026",
+      "title": "Pembrolizumab (Keytruda) en combinación con enfortumab vedotina en carcinoma urotelial localmente avanzado o metastásico en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-251-2026-keytruda-padcev-urotelial.pdf",
+      "published_date": "2026-08-12",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-304/2026",
+      "title": "Gilteritinib (Xospata) en combinación con azacitidina en leucemia mieloide aguda con mutación FLT3 de nuevo diagnóstico no candidata a quimioterapia intensiva",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-304-2026-xospata-aza-lma.pdf",
+      "published_date": "2026-08-12",
+      "positioning": "pendiente"
+    },
+    {
+      "reference": "IPT-252/2026",
+      "title": "Nivolumab (Opdivo) en combinación con quimioterapia en cáncer de vejiga muscular invasivo como tratamiento neoadyuvante",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-252-2026-opdivo-vejiga-neo.pdf",
+      "published_date": "2026-08-19",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-305/2026",
+      "title": "Imetelstat (Rytelo) en citopenias dependientes de transfusión por síndromes mielodisplásicos/neoplasias mieloproliferativas",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-305-2026-rytelo-smd.pdf",
+      "published_date": "2026-08-19",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-253/2026",
+      "title": "Pembrolizumab (Keytruda) en cáncer de cuello uterino avanzado o recurrente en combinación con quimioterapia con o sin bevacizumab",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-253-2026-keytruda-cervix.pdf",
+      "published_date": "2026-08-26",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-306/2026",
+      "title": "Ruxolitinib (Jakavi) en enfermedad de injerto contra huésped aguda refractaria a corticosteroides",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-306-2026-jakavi-eich.pdf",
+      "published_date": "2026-08-26",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-254/2026",
+      "title": "Durvalumab (Imfinzi) en combinación con quimioterapia en cáncer de vías biliares avanzado o irresecable",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-254-2026-imfinzi-vias-biliares.pdf",
+      "published_date": "2026-09-02",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-307/2026",
+      "title": "Ruxolitinib (Jakavi) en enfermedad de injerto contra huésped crónica refractaria a corticosteroides",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-307-2026-jakavi-eich-cronica.pdf",
+      "published_date": "2026-09-02",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-255/2026",
+      "title": "Nivolumab (Opdivo) en combinación con ipilimumab en mesotelioma pleural maligno irresecable en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-255-2026-opdivo-ipi-mesotelioma.pdf",
+      "published_date": "2026-09-09",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-308/2026",
+      "title": "Trastuzumab deruxtecan (Enhertu) en cáncer colorrectal metastásico HER2 positivo previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-308-2026-enhertu-ccr-her2.pdf",
+      "published_date": "2026-09-09",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-256/2026",
+      "title": "Cemiplimab (Libtayo) en carcinoma basocelular localmente avanzado o metastásico previamente tratado con inhibidor de hedgehog",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-256-2026-libtayo-cbc.pdf",
+      "published_date": "2026-09-16",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-309/2026",
+      "title": "Nivolumab (Opdivo) en adyuvancia en cáncer de esófago o de la unión gastroesofágica resecado con enfermedad patológica residual tras quimiorradioterapia neoadyuvante",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-309-2026-opdivo-esofago-adj.pdf",
+      "published_date": "2026-09-16",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-257/2026",
+      "title": "Dostarlimab (Jemperli) en combinación con carboplatino-paclitaxel en cáncer de endometrio avanzado o recurrente con deficiencia de reparación de desapareamientos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-257-2026-jemperli-endometrio-1l.pdf",
+      "published_date": "2026-09-23",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-310/2026",
+      "title": "Sacituzumab govitecan (Trodelvy) en carcinoma urotelial localmente avanzado o metastásico previamente tratado con inhibidor de punto de control inmunitario y quimioterapia basada en platino",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-310-2026-trodelvy-urotelial-3l.pdf",
+      "published_date": "2026-09-23",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-258/2026",
+      "title": "Mobocertinib (Exkivity) en cáncer de pulmón no microcítico avanzado con inserción en el exón 20 de EGFR previamente tratado",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-258-2026-exkivity-cpnm-egfr-ex20.pdf",
+      "published_date": "2026-09-30",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-259/2026",
+      "title": "Sacituzumab govitecan (Trodelvy) en cáncer de mama HR+/HER2- metastásico previamente tratado con terapia endocrina y al menos dos líneas de quimioterapia",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-259-2026-trodelvy-mama-hr.pdf",
+      "published_date": "2026-10-07",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-260/2026",
+      "title": "Zanubrutinib (Brukinsa) en linfoma de zona marginal en recaída o refractario previamente tratado con al menos un régimen basado en anti-CD20",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-260-2026-brukinsa-lzm.pdf",
+      "published_date": "2026-10-14",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-261/2026",
+      "title": "Ravulizumab (Ultomiris) en miastenia gravis generalizada con anticuerpos anti-receptor de acetilcolina",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-261-2026-ultomiris-mg.pdf",
+      "published_date": "2026-10-21",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-262/2026",
+      "title": "Ruxolitinib crema (Opzelura) en vitíligo no segmentario con afectación facial en adultos",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-262-2026-opzelura-vitiligo.pdf",
+      "published_date": "2026-10-28",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-263/2026",
+      "title": "Dupilumab (Dupixent) en rinosinusitis crónica con poliposis nasal grave no controlada",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-263-2026-dupixent-rscpn.pdf",
+      "published_date": "2026-11-04",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-264/2026",
+      "title": "Nivolumab (Opdivo) en combinación con quimioterapia en cáncer gástrico o de la unión gastroesofágica avanzado HER2 negativo en primera línea con CPS ≥5",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-264-2026-opdivo-gastrico-1l.pdf",
+      "published_date": "2026-11-11",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-265/2026",
+      "title": "Pembrolizumab (Keytruda) en adyuvancia en melanoma resecado de alto riesgo estadio IIB o IIC",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-265-2026-keytruda-melanoma-adj.pdf",
+      "published_date": "2026-11-18",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-266/2026",
+      "title": "Tremelimumab (Imjudo) en combinación con durvalumab en carcinoma hepatocelular avanzado en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-266-2026-imjudo-hcc.pdf",
+      "published_date": "2026-11-25",
+      "positioning": "favorable condicionado"
+    },
+    {
+      "reference": "IPT-267/2026",
+      "title": "Atezolizumab (Tecentriq) en combinación con quimioterapia y bevacizumab en cáncer de ovario avanzado de alto riesgo en primera línea",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-267-2026-tecentriq-ovario.pdf",
+      "published_date": "2026-12-02",
+      "positioning": "no favorable"
+    },
+    {
+      "reference": "IPT-268/2026",
+      "title": "Risankizumab (Skyrizi) en colitis ulcerosa activa moderada a grave en adultos con respuesta inadecuada a tratamiento convencional o biológico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-268-2026-skyrizi-cu.pdf",
+      "published_date": "2026-12-09",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-269/2026",
+      "title": "Guselkumab (Tremfya) en colitis ulcerosa activa moderada a grave en adultos con respuesta inadecuada a tratamiento convencional o biológico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-269-2026-tremfya-cu.pdf",
+      "published_date": "2026-12-16",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-270/2026",
+      "title": "Bimekizumab (Bimzelx) en espondilitis anquilosante activa refractaria a tratamiento convencional",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-270-2026-bimzelx-ea.pdf",
+      "published_date": "2026-12-23",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-271/2026",
+      "title": "Upadacitinib (Rinvoq) en colitis ulcerosa activa moderada a grave en adultos con respuesta inadecuada a tratamiento convencional o biológico",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-271-2026-rinvoq-cu.pdf",
+      "published_date": "2026-12-30",
+      "positioning": "favorable"
+    },
+    {
+      "reference": "IPT-272/2026",
+      "title": "Ixekizumab (Taltz) en espondiloartritis axial activa en adultos con respuesta inadecuada a tratamiento convencional",
+      "url": "https://www.aemps.gob.es/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-272-2026-taltz-eaa.pdf",
+      "published_date": "2026-12-30",
+      "positioning": "favorable"
     }
   ]
 }
