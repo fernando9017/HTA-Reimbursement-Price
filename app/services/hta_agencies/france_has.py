@@ -129,6 +129,12 @@ class FranceHAS(HTAAgency):
         async with httpx.AsyncClient(
             timeout=REQUEST_TIMEOUT,
             follow_redirects=True,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (compatible; VAP-Global-Resources/1.0; "
+                    "+https://github.com/fernando9017/HTA-Reimbursement-Price)"
+                ),
+            },
         ) as client:
             # Core files — all must succeed
             await self._load_medicines(client)
