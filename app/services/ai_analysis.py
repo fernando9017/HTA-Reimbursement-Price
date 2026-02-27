@@ -32,6 +32,30 @@ _analysis_cache: dict[str, GBAAssessmentAnalysis] = {}
 # Disk cache directory
 CACHE_DIR = Path(__file__).parent.parent.parent / "data" / "ai_cache"
 
+
+def clear_cache() -> int:
+    """Clear all cached AI analyses (memory and disk).
+
+    Called when underlying HTA data is reloaded to prevent serving stale
+    analyses that were generated from outdated assessment data.
+
+    Returns the number of entries cleared.
+    """
+    count = len(_analysis_cache)
+    _analysis_cache.clear()
+
+    # Remove disk cache files
+    if CACHE_DIR.exists():
+        for f in CACHE_DIR.glob("*.json"):
+            try:
+                f.unlink()
+                count += 1
+            except OSError:
+                logger.warning("Failed to delete AI cache file: %s", f)
+
+    logger.info("Cleared %d AI analysis cache entries (Germany)", count)
+    return count
+
 AI_MODEL = "claude-haiku-4-5-20251001"
 
 SYSTEM_PROMPT = """\
