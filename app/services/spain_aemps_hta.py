@@ -161,17 +161,44 @@ class SpainAEMPSHTAService:
     # ── Internal helpers ──────────────────────────────────────────────
 
     def _build_substance_profiles(self) -> dict[str, dict]:
-        """Group IPT items by substance extracted from titles."""
+        """Group IPT items by substance extracted from titles.
+
+        Normalises substance names to title-case for consistent grouping
+        and resolves brand names in parentheses to their INN substance so
+        that IPTs for the same drug are not split across multiple keys.
+        """
         by_substance: dict[str, list[dict]] = defaultdict(list)
+        # Canonical-key → display-key mapping (first seen casing wins)
+        canonical_display: dict[str, str] = {}
+        # Brand-name → canonical substance mapping from parenthetical names
+        brand_to_substance: dict[str, str] = {}
 
         for ipt in self._aemps._ipt_list:
-            substance = self._extract_substance_from_title(ipt.get("title", ""))
+            substance, brand = self._extract_substance_and_brand(ipt.get("title", ""))
             if not substance:
                 substance = ipt.get("title", "Unknown")[:60]
-            by_substance[substance].append(ipt)
+
+            canonical = substance.lower().strip()
+
+            # If we know this brand maps to a substance, use that
+            if canonical in brand_to_substance:
+                canonical = brand_to_substance[canonical]
+                substance = canonical_display.get(canonical, substance)
+
+            # Register brand → substance mapping
+            if brand:
+                brand_canonical = brand.lower().strip()
+                if brand_canonical not in brand_to_substance:
+                    brand_to_substance[brand_canonical] = canonical
+
+            if canonical not in canonical_display:
+                canonical_display[canonical] = substance
+
+            by_substance[canonical].append(ipt)
 
         profiles: dict[str, dict] = {}
-        for substance, items in by_substance.items():
+        for canonical, items in by_substance.items():
+            display_name = canonical_display.get(canonical, canonical)
             titles: list[str] = []
             positionings: list[str] = []
             latest_date = ""
@@ -204,7 +231,7 @@ class SpainAEMPSHTAService:
 
             ipt_items.sort(key=lambda x: x.published_date, reverse=True)
 
-            profiles[substance] = {
+            profiles[display_name] = {
                 "titles": titles,
                 "positionings": positionings,
                 "latest_date": latest_date,
@@ -231,38 +258,77 @@ class SpainAEMPSHTAService:
         return best_val
 
     def _extract_substance_from_title(self, title: str) -> str:
-        """Extract the active substance from an IPT title.
+        """Extract the active substance from an IPT title (backward compat)."""
+        substance, _ = self._extract_substance_and_brand(title)
+        return substance
+
+    def _extract_substance_and_brand(self, title: str) -> tuple[str, str]:
+        """Extract active substance and brand name from an IPT title.
 
         Spanish IPT titles follow patterns like:
           "Pembrolizumab (Keytruda) en cáncer de pulmón"
           "Informe de posicionamiento terapéutico de nivolumab (Opdivo)"
+          "IPT-23/2024 - Trastuzumab deruxtecan (Enhertu) en cáncer de mama"
+
+        Returns (substance, brand) — brand may be empty.
         """
         if not title:
-            return ""
+            return "", ""
 
         import re
 
-        # Remove common IPT title prefixes
+        # Remove common IPT title prefixes (multiple variants)
         clean = title.strip()
         clean = re.sub(
-            r'^(?:Informe\s+de\s+posicionamiento\s+terapéutico\s+de\s+)',
+            r'^(?:Informe\s+de\s+posicionamiento\s+terapéutico\s+'
+            r'(?:de|del|sobre|para)\s+)',
             '', clean, flags=re.IGNORECASE,
         )
         clean = re.sub(
-            r'^(?:IPT[- ]\d+/\d{4}\s*[-–:]\s*)',
+            r'^(?:IPT[- ]?\d+/\d{4}(?:v\d+)?\s*[-–:.]?\s*)',
             '', clean, flags=re.IGNORECASE,
         )
+        clean = clean.strip()
 
-        # Extract drug name before parentheses or prepositions
+        # Try to extract "Substance (Brand)" pattern first
+        # Allow 1-4 word substance names with hyphens/numbers
         match = re.match(
-            r'^([A-Za-záéíóúñÁÉÍÓÚÑ]+(?:\s+[A-Za-záéíóúñÁÉÍÓÚÑ]+)?)',
-            clean,
+            r'^([\w\-áéíóúñÁÉÍÓÚÑüÜ]+(?:\s+[\w\-áéíóúñÁÉÍÓÚÑüÜ]+){0,3})'
+            r'\s*\(([^)]+)\)',
+            clean, re.UNICODE,
         )
         if match:
             substance = match.group(1).strip()
-            # Don't return common Spanish words
-            skip = {"informe", "de", "del", "para", "en", "con", "como", "por"}
+            brand = match.group(2).strip()
+            # Don't return common Spanish words as substance
+            skip = {"informe", "de", "del", "para", "en", "con", "como", "por",
+                    "sobre", "uso", "humano", "medicamentos"}
             if substance.lower() not in skip and len(substance) > 2:
-                return substance
+                return substance, brand
 
-        return clean[:60]
+        # No parenthetical brand — extract substance before prepositions
+        match = re.match(
+            r'^([\w\-áéíóúñÁÉÍÓÚÑüÜ]+(?:\s+[\w\-áéíóúñÁÉÍÓÚÑüÜ]+){0,3})'
+            r'(?:\s+(?:en|para|como|con|tras|frente|versus|vs)\s+)',
+            clean, re.IGNORECASE | re.UNICODE,
+        )
+        if match:
+            substance = match.group(1).strip()
+            skip = {"informe", "de", "del", "para", "en", "con", "como", "por",
+                    "sobre", "uso", "humano", "medicamentos"}
+            if substance.lower() not in skip and len(substance) > 2:
+                return substance, ""
+
+        # Fallback: first 1-3 words (drug names are typically 1-3 words)
+        match = re.match(
+            r'^([\w\-áéíóúñÁÉÍÓÚÑüÜ]+(?:\s+[\w\-áéíóúñÁÉÍÓÚÑüÜ]+){0,2})',
+            clean, re.UNICODE,
+        )
+        if match:
+            substance = match.group(1).strip()
+            skip = {"informe", "de", "del", "para", "en", "con", "como", "por",
+                    "sobre", "uso", "humano", "medicamentos"}
+            if substance.lower() not in skip and len(substance) > 2:
+                return substance, ""
+
+        return clean[:60], ""

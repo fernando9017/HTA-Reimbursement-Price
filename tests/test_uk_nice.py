@@ -475,3 +475,102 @@ def test_save_creates_envelope_metadata(nice_service):
         assert "updated_at" in payload
         assert "record_count" in payload
         assert isinstance(payload["data"], list)
+
+
+# ── Brand name search tests ──────────────────────────────────────────
+
+
+@pytest.mark.asyncio
+async def test_search_by_brand_name_via_mapping(nice_service):
+    """Should find guidance when searching by brand name after EMA mapping is set."""
+    # Set up EMA brand mapping
+    nice_service.set_brand_mapping([
+        {"medicineName": "Keytruda", "activeSubstance": "Pembrolizumab"},
+        {"medicineName": "Opdivo", "activeSubstance": "Nivolumab"},
+    ])
+
+    # Search by brand name "Keytruda" — should resolve to pembrolizumab
+    results = await nice_service.search_assessments("Keytruda")
+    assert len(results) >= 1
+    assert any("TA900" in r.guidance_reference for r in results)
+
+
+@pytest.mark.asyncio
+async def test_search_by_substance_still_works_with_mapping(nice_service):
+    """Searching by INN should still work after brand mapping is set."""
+    nice_service.set_brand_mapping([
+        {"medicineName": "Keytruda", "activeSubstance": "Pembrolizumab"},
+    ])
+    results = await nice_service.search_assessments("Pembrolizumab")
+    assert len(results) == 1
+    assert "TA900" in results[0].guidance_reference
+
+
+@pytest.mark.asyncio
+async def test_search_url_slug_matching(nice_service):
+    """Should also search the URL slug for matches."""
+    # The URL contains /guidance/ta900 — search for "ta900" should match
+    results = await nice_service.search_assessments("ta900")
+    assert len(results) >= 1
+
+
+def test_set_brand_mapping():
+    """set_brand_mapping should populate internal lookup dictionaries."""
+    service = UKNICE()
+    service.set_brand_mapping([
+        {"medicineName": "Keytruda", "activeSubstance": "Pembrolizumab"},
+        {"medicineName": "Opdivo", "activeSubstance": "Nivolumab"},
+        {"medicineName": "Tecentriq", "activeSubstance": "Atezolizumab"},
+    ])
+    assert service._brand_to_substance["keytruda"] == "pembrolizumab"
+    assert service._brand_to_substance["opdivo"] == "nivolumab"
+    assert "keytruda" in service._substance_to_brands["pembrolizumab"]
+
+
+def test_set_brand_mapping_ignores_same_name():
+    """Should skip entries where name == substance (no brand info)."""
+    service = UKNICE()
+    service.set_brand_mapping([
+        {"medicineName": "Pembrolizumab", "activeSubstance": "Pembrolizumab"},
+    ])
+    assert len(service._brand_to_substance) == 0
+
+
+# ── HTA service brand name search tests ──────────────────────────────
+
+
+def test_hta_service_search_drugs_by_brand_name():
+    """Deep-dive drug search should find drugs by brand name."""
+    from app.services.uk_nice_hta import UKNICEHTAService
+
+    service = UKNICE()
+    items = service._parse_listing_page(SAMPLE_LISTING_HTML, "Technology appraisal guidance")
+    service._guidance_list = items
+    service._loaded = True
+    service.set_brand_mapping([
+        {"medicineName": "Keytruda", "activeSubstance": "Pembrolizumab"},
+    ])
+
+    hta = UKNICEHTAService(service)
+    result = hta.search_drugs(query="Keytruda")
+    assert result.total >= 1
+    assert any("pembrolizumab" in r.active_substance.lower() for r in result.results)
+
+
+def test_hta_service_get_drug_profile_by_brand_name():
+    """get_drug_profile should resolve brand names to INN."""
+    from app.services.uk_nice_hta import UKNICEHTAService
+
+    service = UKNICE()
+    items = service._parse_listing_page(SAMPLE_LISTING_HTML, "Technology appraisal guidance")
+    service._guidance_list = items
+    service._loaded = True
+    service.set_brand_mapping([
+        {"medicineName": "Keytruda", "activeSubstance": "Pembrolizumab"},
+    ])
+
+    hta = UKNICEHTAService(service)
+    # Should resolve "Keytruda" → "Pembrolizumab" and find the profile
+    profile = hta.get_drug_profile("Keytruda")
+    assert profile is not None
+    assert profile.total_guidance >= 1

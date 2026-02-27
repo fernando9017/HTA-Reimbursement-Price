@@ -333,6 +333,14 @@ async def lifespan(app: FastAPI):
                     agency.agency_abbreviation, code,
                 )
 
+    # Pass EMA brand ↔ substance mapping to the NICE adapter so it can
+    # resolve brand-name searches (e.g. "Keytruda" → "pembrolizumab").
+    if ema_service.is_loaded and hta_agencies["GB"].is_loaded:
+        try:
+            hta_agencies["GB"].set_brand_mapping(ema_service.raw_medicines)
+        except Exception:
+            logger.warning("Failed to set NICE brand mapping from EMA data", exc_info=True)
+
     # Load curated assessment data (supplements live-scraped data)
     load_curated_assessments()
 
@@ -562,6 +570,13 @@ async def reload_data(request: Request):
                             "%s (%s) reload: remote failed, loaded from cache",
                             agency.agency_abbreviation, code,
                         )
+
+    # Refresh NICE brand mapping from EMA data
+    if ema_service.is_loaded and hta_agencies["GB"].is_loaded:
+        try:
+            hta_agencies["GB"].set_brand_mapping(ema_service.raw_medicines)
+        except Exception:
+            logger.warning("Failed to refresh NICE brand mapping", exc_info=True)
 
     # Reload curated data
     load_curated_assessments()
