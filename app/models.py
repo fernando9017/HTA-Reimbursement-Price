@@ -43,6 +43,7 @@ class AssessmentResult(BaseModel):
     smr_description: str = ""
     asmr_value: str = ""
     asmr_description: str = ""
+    indication: str = ""            # Indication extracted from SMR/ASMR description text
     # Germany (G-BA)
     benefit_rating: str = ""
     benefit_rating_description: str = ""

@@ -180,7 +180,7 @@ class SpainAEMPS(HTAAgency):
                     product_name=product_name or active_substance,
                     evaluation_reason=ipt.get("title", ""),
                     opinion_date=ipt.get("published_date", ""),
-                    assessment_url=ipt.get("url", ""),
+                    assessment_url=_normalize_aemps_url(ipt.get("url", ""), ref),
                     ipt_reference=ref,
                     therapeutic_positioning=pos_display,
                     summary_en=" | ".join(summary_parts),
@@ -612,3 +612,60 @@ def _normalize_positioning(raw: str) -> str:
         if keyword in lower:
             return POSITIONING_DISPLAY[keyword]
     return raw.strip().capitalize()
+
+
+def _normalize_aemps_url(url: str, ipt_reference: str = "") -> str:
+    """Normalize an AEMPS IPT URL to the current website format.
+
+    The AEMPS website has migrated PDF locations over time.  Older URLs
+    like ``/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-…``
+    may no longer resolve.  Current IPT PDFs are served from
+    ``/medicamentosUsoHumano/informesPublicos/docs/{year}/IPT-NNN-drug.pdf``.
+
+    If the original URL appears broken (old path pattern), we attempt to
+    build a working search URL on the AEMPS website using the IPT reference
+    so the user can locate the document.
+    """
+    if not url:
+        # If no URL but we have a reference, build a search link
+        if ipt_reference:
+            return _build_aemps_search_url(ipt_reference)
+        return ""
+
+    # http → https
+    if url.startswith("http://"):
+        url = "https://" + url[7:]
+
+    # URLs pointing to the actual PDF under the new path are already correct
+    if "/medicamentosUsoHumano/informesPublicos/" in url:
+        return url
+
+    # Old-style WordPress slug URLs that likely don't resolve to PDFs anymore.
+    # These look like:
+    #   /medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/ipt-XXX-...
+    # Try to extract IPT ref from the URL and build the current-style URL.
+    old_path = "/medicamentos-de-uso-humano/informes-de-posicionamiento-terapeutico/"
+    if old_path in url and url.endswith(".pdf"):
+        # Extract the slug from the old URL
+        slug = url.rsplit("/", 1)[-1]  # e.g. "ipt-1-2013-esbriet-fpi.pdf"
+        # Try to build the new-style URL
+        ref_match = re.search(r"ipt[- ]?(\d+)[- ](\d{4})", slug, re.IGNORECASE)
+        if ref_match:
+            ipt_num = ref_match.group(1)
+            year = ref_match.group(2)
+            # Construct new-style path: convert slug separators to match
+            # the current AEMPS pattern (IPT-NNN-drug-name.pdf)
+            new_slug = re.sub(r"^ipt[- ]?", "IPT-", slug, flags=re.IGNORECASE)
+            new_url = (
+                f"https://www.aemps.gob.es/medicamentosUsoHumano/"
+                f"informesPublicos/docs/{year}/{new_slug}"
+            )
+            return new_url
+
+    return url
+
+
+def _build_aemps_search_url(ipt_reference: str) -> str:
+    """Build an AEMPS search URL from an IPT reference like 'IPT-23/2024'."""
+    # Point to the AEMPS IPT tag page which lists all IPTs
+    return "https://www.aemps.gob.es/tag/ipt/"
