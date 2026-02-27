@@ -386,6 +386,36 @@ class GBAAssessmentDetail(BaseModel):
     overall_benefit_en: str = ""
 
 
+class GBADecisionDriverItem(BaseModel):
+    """A single driver or barrier point in a G-BA decision summary."""
+
+    text: str                           # Description of the driver/barrier
+    sentiment: str = ""                 # "positive", "negative", "neutral"
+    subpopulation: str = ""             # Which subpopulation this relates to
+
+
+class GBADecisionSummary(BaseModel):
+    """Auto-generated decision summary for a G-BA grouped assessment.
+
+    Classifies subpopulation outcomes into drivers (positive benefit) and
+    barriers (no/lesser benefit), and generates a P&MA conclusion.
+    """
+
+    drivers: list[GBADecisionDriverItem] = []   # Key factors driving positive benefit
+    barriers: list[GBADecisionDriverItem] = []  # Key barriers or negative factors
+    pma_conclusion: str = ""                    # Overall P&MA conclusion
+    recommendation_text: str = ""               # Formatted G-BA recommendation summary
+
+
+class GBARatingExplanation(BaseModel):
+    """What a benefit rating means for P&MA negotiations."""
+
+    rating: str                         # German rating value
+    rating_en: str                      # English translation
+    explanation: str                    # What this rating means
+    price_implication: str              # Pricing implications
+
+
 class GBAGroupedAssessment(BaseModel):
     """A G-BA assessment decision grouped by decision_id.
 
@@ -404,6 +434,9 @@ class GBAGroupedAssessment(BaseModel):
     subpopulation_count: int = 0        # Number of distinct subpopulations
     overall_benefit: str = ""           # Best benefit across all subpopulations
     overall_benefit_en: str = ""
+    # Enhanced analysis fields
+    decision_summary: GBADecisionSummary | None = None
+    rating_explanations: list[GBARatingExplanation] = []
 
 
 class GBADrugProfile(BaseModel):

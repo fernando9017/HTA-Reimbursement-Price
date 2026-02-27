@@ -272,78 +272,203 @@ function renderGBAGroupedView(profile, container) {
 
     let html = '';
     for (const g of grouped) {
-        const subCount = g.subpopulations ? g.subpopulations.length : 0;
-        html += '<div class="gba-grouped-card">';
-
-        // Grouped header
-        html += '<div class="gba-grouped-header">';
-        html += `<div class="gba-grouped-indication">${esc(g.indication_en || g.indication)}</div>`;
-        html += '<div class="gba-grouped-meta">';
-        if (subCount > 1) {
-            html += `<span class="gba-grouped-badge">${subCount} subpopulations</span>`;
-        }
-        html += `<span class="gba-grouped-date">${esc(g.decision_date)}</span>`;
-        html += '</div>';
-        html += '</div>';
-
-        // Subpopulations
-        html += '<div class="gba-grouped-subpops">';
-        if (g.subpopulations && subCount > 0) {
-            for (let i = 0; i < g.subpopulations.length; i++) {
-                const sub = g.subpopulations[i];
-                html += '<div class="gba-grouped-subpop">';
-
-                if (subCount > 1) {
-                    html += `<div class="gba-grouped-subpop-num">Subpopulation ${i + 1} of ${subCount}</div>`;
-                }
-
-                if (sub.patient_group) {
-                    html += `<div class="gba-subpop-group"><strong>Population:</strong> ${esc(sub.patient_group_en || sub.patient_group)}</div>`;
-                }
-
-                html += '<div class="gba-outcome-grid">';
-                html += renderOutcomeItem("OUTCOME", sub.benefit_rating_en || sub.benefit_rating, benefitBadgeClass(sub.benefit_rating));
-                if (sub.evidence_level || sub.evidence_level_en) {
-                    html += renderOutcomeItem("EVIDENCE", sub.evidence_level_en || sub.evidence_level, evidenceBadgeClass(sub.evidence_level));
-                }
-                if (sub.comparator) {
-                    html += renderOutcomeItem("COMPARATOR", sub.comparator_en || sub.comparator, "");
-                }
-                html += '</div>'; // outcome-grid
-                html += '</div>'; // grouped-subpop
-            }
-        } else {
-            // No subpopulation detail
-            const benefitClass = benefitBadgeClass(g.overall_benefit);
-            html += '<div class="gba-grouped-subpop">';
-            html += '<div class="gba-outcome-grid">';
-            html += renderOutcomeItem("OUTCOME", g.overall_benefit_en || g.overall_benefit || "—", benefitClass);
-            html += '</div></div>';
-        }
-        html += '</div>'; // grouped-subpops
-
-        // Action bar
-        html += '<div class="gba-action-bar">';
-        if (g.assessment_url) {
-            html += `<a href="${esc(g.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">G-BA Assessment &rarr;</a>`;
-        }
-        if (g.decision_id && aiAnalysisAvailable) {
-            html += `<button class="gba-ai-btn" data-decision-id="${esc(g.decision_id)}">Analyze with AI</button>`;
-        }
-        html += '</div>';
-
-        // AI analysis container
-        if (g.decision_id && aiAnalysisAvailable) {
-            html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(g.decision_id)}"></div>`;
-        }
-
-        html += '</div>'; // grouped-card
+        html += renderEnhancedAssessment(g);
     }
 
     container.innerHTML = html;
     container.querySelectorAll(".gba-ai-btn").forEach(btn => {
         btn.addEventListener("click", () => loadAIAnalysis(btn.dataset.decisionId));
     });
+
+    // Collapsible sections
+    container.querySelectorAll(".gba-section-toggle").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const section = toggle.closest(".gba-section");
+            section.classList.toggle("collapsed");
+        });
+    });
+}
+
+/**
+ * Render a single grouped assessment in the enhanced structured format
+ * matching the Itovebi-style analysis layout.
+ */
+function renderEnhancedAssessment(g) {
+    const subCount = g.subpopulations ? g.subpopulations.length : 0;
+    const summary = g.decision_summary;
+    let html = '<div class="gba-enhanced-card">';
+
+    // ── Card header ──
+    html += '<div class="gba-enhanced-header">';
+    html += `<div class="gba-enhanced-title">${esc(g.trade_name)} EVALUATION IN DEU (G-BA)</div>`;
+    html += `<div class="gba-enhanced-date">Published ${esc(g.decision_date)}</div>`;
+    html += '</div>';
+
+    // ── Section 1: Decision Summary ──
+    if (summary) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Decision Summary</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        // Drivers
+        if (summary.drivers && summary.drivers.length > 0) {
+            html += '<div class="gba-summary-block gba-summary-drivers">';
+            html += '<div class="gba-summary-label">Drivers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const d of summary.drivers) {
+                html += `<li><span class="gba-indicator gba-indicator-positive"></span>${esc(d.text)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        // Barriers
+        if (summary.barriers && summary.barriers.length > 0) {
+            html += '<div class="gba-summary-block gba-summary-barriers">';
+            html += '<div class="gba-summary-label">Barriers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const b of summary.barriers) {
+                html += `<li><span class="gba-indicator gba-indicator-negative"></span>${esc(b.text)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        // P&MA conclusion
+        if (summary.pma_conclusion) {
+            html += '<div class="gba-summary-block gba-summary-pma">';
+            html += '<div class="gba-summary-label">P&amp;MA</div>';
+            html += `<div class="gba-summary-text">${esc(summary.pma_conclusion)}</div>`;
+            html += '</div>';
+        }
+
+        html += '</div></div>'; // section-body + section
+    }
+
+    // ── Section 2: G-BA Recommendation ──
+    html += '<div class="gba-section">';
+    html += '<div class="gba-section-header gba-section-toggle">';
+    html += '<span class="gba-section-title">G-BA Recommendation</span>';
+    html += '<span class="gba-section-chevron"></span>';
+    html += '</div>';
+    html += '<div class="gba-section-body">';
+
+    // Recommendation summary text
+    if (summary && summary.recommendation_text) {
+        html += `<div class="gba-rec-summary">${esc(summary.recommendation_text)}:</div>`;
+    }
+
+    // Per-subpopulation breakdown
+    if (g.subpopulations && subCount > 0) {
+        html += '<div class="gba-rec-subpops">';
+        for (let i = 0; i < g.subpopulations.length; i++) {
+            const sub = g.subpopulations[i];
+            const isPositive = isPositiveRating(sub.benefit_rating);
+            const isNegative = isNegativeRating(sub.benefit_rating);
+            const indicatorClass = isPositive ? "gba-indicator-positive"
+                : isNegative ? "gba-indicator-negative" : "gba-indicator-neutral";
+
+            html += '<div class="gba-rec-subpop-item">';
+
+            // Rating badge with indicator
+            html += '<div class="gba-rec-rating-row">';
+            html += `<span class="gba-indicator ${indicatorClass}"></span>`;
+            html += `<span class="tag ${benefitBadgeClass(sub.benefit_rating)}">${esc(sub.benefit_rating_en || sub.benefit_rating)}</span>`;
+            html += '</div>';
+
+            // Population
+            if (sub.patient_group) {
+                html += `<div class="gba-rec-pop">${esc(sub.patient_group_en || sub.patient_group)}</div>`;
+            }
+
+            // Evidence + Comparator inline
+            html += '<div class="gba-rec-details">';
+            if (sub.evidence_level || sub.evidence_level_en) {
+                html += `<span class="gba-rec-detail"><strong>Evidence:</strong> ${esc(sub.evidence_level_en || sub.evidence_level)}</span>`;
+            }
+            if (sub.comparator) {
+                html += `<span class="gba-rec-detail"><strong>vs.</strong> ${esc(sub.comparator_en || sub.comparator)}</span>`;
+            }
+            html += '</div>';
+
+            html += '</div>'; // rec-subpop-item
+        }
+        html += '</div>'; // rec-subpops
+    } else {
+        // Single overall rating
+        const benefitClass = benefitBadgeClass(g.overall_benefit);
+        html += '<div class="gba-rec-subpops">';
+        html += '<div class="gba-rec-subpop-item">';
+        html += `<span class="tag ${benefitClass}">${esc(g.overall_benefit_en || g.overall_benefit || "\u2014")}</span>`;
+        html += '</div></div>';
+    }
+
+    // Indication
+    if (g.indication || g.indication_en) {
+        html += '<div class="gba-rec-indication">';
+        html += `<strong>Indication:</strong> ${esc(g.indication_en || g.indication)}`;
+        html += '</div>';
+    }
+
+    html += '</div></div>'; // section-body + section
+
+    // ── Section 3: Key P&MA Terms ──
+    const ratings = g.rating_explanations || [];
+    if (ratings.length > 0) {
+        html += '<div class="gba-section collapsed">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Key P&amp;MA Terms (Germany)</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        html += '<table class="gba-pma-table">';
+        html += '<thead><tr><th>Rating</th><th>Explanation</th><th>Price Implication</th></tr></thead>';
+        html += '<tbody>';
+        for (const r of ratings) {
+            html += '<tr>';
+            html += `<td class="gba-pma-rating"><span class="tag ${benefitBadgeClass(r.rating)}">${esc(r.rating_en)}</span></td>`;
+            html += `<td>${esc(r.explanation)}</td>`;
+            html += `<td>${esc(r.price_implication)}</td>`;
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+
+        html += '</div></div>'; // section-body + section
+    }
+
+    // ── Action bar ──
+    html += '<div class="gba-action-bar">';
+    if (g.assessment_url) {
+        html += `<a href="${esc(g.assessment_url)}" target="_blank" rel="noopener" class="gba-source-btn">View on G-BA &rarr;</a>`;
+    }
+    if (g.decision_id && aiAnalysisAvailable) {
+        html += `<button class="gba-ai-btn" data-decision-id="${esc(g.decision_id)}">Analyze with AI</button>`;
+    }
+    html += '</div>';
+
+    // AI analysis container
+    if (g.decision_id && aiAnalysisAvailable) {
+        html += `<div class="gba-ai-analysis hidden" id="ai-analysis-${esc(g.decision_id)}"></div>`;
+    }
+
+    html += '</div>'; // enhanced-card
+    return html;
+}
+
+/** Check if a benefit rating is positive (driver). */
+function isPositiveRating(rating) {
+    const r = (rating || "").toLowerCase();
+    return r === "erheblich" || r === "beträchtlich" || r === "gering"
+        || r.startsWith("nicht quantifizierbar") || r === "gilt als belegt";
+}
+
+/** Check if a benefit rating is negative (barrier). */
+function isNegativeRating(rating) {
+    const r = (rating || "").toLowerCase();
+    return r === "kein zusatznutzen" || r === "geringerer nutzen"
+        || r === "ist nicht belegt" || r === "gilt als nicht belegt";
 }
 
 // ── By Subpopulation view (flat, one card per subpop) ─────────────

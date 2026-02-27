@@ -357,16 +357,281 @@ function renderAssessments(data) {
     hideStatus(assessmentStatus);
     assessmentResults.classList.remove("hidden");
 
+    const isGermany = data.country_code === "DE";
+
+    let cardsHtml;
+    if (isGermany && data.assessments.some(a => a.dossier_code)) {
+        // Group Germany assessments by decision_id for a structured view
+        cardsHtml = renderGermanyGroupedAssessments(data.assessments);
+    } else {
+        cardsHtml = data.assessments.map(renderSingleAssessment).join("");
+    }
+
     assessmentResults.innerHTML = `
         <p style="margin-bottom:8px;color:var(--text-light);font-size:0.9rem;">
             Found <strong>${data.assessments.length}</strong> assessment(s) from
             <strong>${esc(data.agency)}</strong> (${esc(data.country_name)})
         </p>
-        ${data.assessments.map(renderSingleAssessment).join("")}
+        ${cardsHtml}
     `;
 
     assessmentResults.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // Toggle collapsible sections
+    assessmentResults.querySelectorAll(".gba-section-toggle").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const section = toggle.closest(".gba-section");
+            section.classList.toggle("collapsed");
+        });
+    });
 }
+
+/**
+ * Group Germany (G-BA) assessments by dossier_code (decision_id) and render
+ * them in the enhanced structured format with Decision Summary, Recommendation,
+ * and P&MA Terms.
+ */
+function renderGermanyGroupedAssessments(assessments) {
+    // Group by dossier_code
+    const groups = {};
+    const order = [];
+    for (const a of assessments) {
+        const key = a.dossier_code || a.opinion_date + "_" + a.product_name;
+        if (!groups[key]) {
+            groups[key] = [];
+            order.push(key);
+        }
+        groups[key].push(a);
+    }
+
+    let html = "";
+    for (const key of order) {
+        const group = groups[key];
+        html += renderGermanyDecisionCard(group);
+    }
+    return html;
+}
+
+/**
+ * Render one grouped Germany G-BA decision card.
+ */
+function renderGermanyDecisionCard(assessments) {
+    const first = assessments[0];
+    const tradeName = first.product_name;
+    const date = first.opinion_date;
+    const indication = first.evaluation_reason;
+    const url = first.assessment_url;
+
+    // Classify subpopulations into drivers and barriers
+    const drivers = [];
+    const barriers = [];
+    const ratingSet = new Set();
+
+    for (const a of assessments) {
+        const rating = a.benefit_rating || "";
+        const ratingDesc = a.benefit_rating_description || "";
+        const pop = a.patient_group || "";
+        const comparator = a.comparator || "";
+        const cleanDesc = ratingDesc.split("(")[0].trim();
+
+        if (ratingSet.size === 0 || !ratingSet.has(rating)) ratingSet.add(rating);
+
+        if (isGBAPositive(rating)) {
+            let text = cleanDesc;
+            if (pop) text += " for " + pop;
+            if (comparator) text += " vs. " + comparator;
+            drivers.push({ text, rating, pop, comparator });
+        } else if (isGBANegative(rating)) {
+            let text = cleanDesc;
+            if (pop) text += " for " + pop;
+            barriers.push({ text, rating, pop });
+        }
+    }
+
+    let html = '<div class="gba-enhanced-card">';
+
+    // Header
+    html += '<div class="gba-enhanced-header">';
+    html += `<div class="gba-enhanced-title">${esc(tradeName)} EVALUATION IN DEU (G-BA)</div>`;
+    html += `<div class="gba-enhanced-date">Published ${esc(date)}</div>`;
+    html += '</div>';
+
+    // Decision Summary
+    if (drivers.length > 0 || barriers.length > 0) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Decision Summary</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        if (drivers.length > 0) {
+            html += '<div class="gba-summary-block gba-summary-drivers">';
+            html += '<div class="gba-summary-label">Drivers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const d of drivers) {
+                html += `<li><span class="gba-indicator gba-indicator-positive"></span>${esc(d.text)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        if (barriers.length > 0) {
+            html += '<div class="gba-summary-block gba-summary-barriers">';
+            html += '<div class="gba-summary-label">Barriers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const b of barriers) {
+                html += `<li><span class="gba-indicator gba-indicator-negative"></span>${esc(b.text)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        html += '</div></div>';
+    }
+
+    // G-BA Recommendation
+    html += '<div class="gba-section">';
+    html += '<div class="gba-section-header gba-section-toggle">';
+    html += '<span class="gba-section-title">G-BA Recommendation</span>';
+    html += '<span class="gba-section-chevron"></span>';
+    html += '</div>';
+    html += '<div class="gba-section-body">';
+
+    if (indication) {
+        html += `<div class="gba-rec-indication" style="margin-bottom:12px"><strong>Indication:</strong> ${esc(indication)}</div>`;
+    }
+
+    html += '<div class="gba-rec-subpops">';
+    for (const a of assessments) {
+        const isPos = isGBAPositive(a.benefit_rating);
+        const isNeg = isGBANegative(a.benefit_rating);
+        const indicatorCls = isPos ? "gba-indicator-positive" : isNeg ? "gba-indicator-negative" : "gba-indicator-neutral";
+
+        html += '<div class="gba-rec-subpop-item">';
+        html += '<div class="gba-rec-rating-row">';
+        html += `<span class="gba-indicator ${indicatorCls}"></span>`;
+        html += `<span class="badge badge-benefit ${benefitClass(a.benefit_rating)}">`;
+        html += `<span class="label">Zusatznutzen:</span> ${esc(a.benefit_rating)}</span>`;
+        html += '</div>';
+
+        if (a.patient_group) {
+            html += `<div class="gba-rec-pop">${esc(a.patient_group)}</div>`;
+        }
+
+        html += '<div class="gba-rec-details">';
+        if (a.evidence_level) {
+            html += `<span class="gba-rec-detail"><strong>Evidence:</strong> ${esc(a.evidence_level)}</span>`;
+        }
+        if (a.comparator) {
+            html += `<span class="gba-rec-detail"><strong>vs.</strong> ${esc(a.comparator)}</span>`;
+        }
+        html += '</div>';
+
+        if (a.benefit_rating_description && a.benefit_rating_description !== a.benefit_rating) {
+            html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(a.benefit_rating_description)}</div>`;
+        }
+
+        html += '</div>';
+    }
+    html += '</div>';
+
+    html += '</div></div>';
+
+    // P&MA Terms
+    const uniqueRatings = [...ratingSet];
+    if (uniqueRatings.length > 0) {
+        html += '<div class="gba-section collapsed">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Key P&amp;MA Terms (Germany)</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+        html += '<table class="gba-pma-table"><thead><tr>';
+        html += '<th>Rating</th><th>Explanation</th><th>Price Implication</th>';
+        html += '</tr></thead><tbody>';
+        for (const rating of uniqueRatings) {
+            const info = GBA_PMA_TERMS[rating];
+            if (info) {
+                html += '<tr>';
+                html += `<td class="gba-pma-rating"><span class="badge badge-benefit ${benefitClass(rating)}">${esc(info.label)}</span></td>`;
+                html += `<td>${esc(info.explanation)}</td>`;
+                html += `<td>${esc(info.price_implication)}</td>`;
+                html += '</tr>';
+            }
+        }
+        html += '</tbody></table></div></div>';
+    }
+
+    // Action bar
+    html += '<div class="gba-action-bar">';
+    if (url) {
+        html += `<a class="gba-source-btn" href="${esc(url)}" target="_blank" rel="noopener">View on G-BA &rarr;</a>`;
+    }
+    html += '</div>';
+
+    html += '</div>';
+    return html;
+}
+
+function isGBAPositive(rating) {
+    const r = (rating || "").toLowerCase();
+    return r === "erheblich" || r === "beträchtlich" || r === "gering"
+        || r.startsWith("nicht quantifizierbar") || r === "gilt als belegt";
+}
+
+function isGBANegative(rating) {
+    const r = (rating || "").toLowerCase();
+    return r === "kein zusatznutzen" || r === "geringerer nutzen"
+        || r === "ist nicht belegt" || r === "gilt als nicht belegt";
+}
+
+/** P&MA terms reference for Germany benefit ratings. */
+const GBA_PMA_TERMS = {
+    "erheblich": {
+        label: "Major added benefit (erheblich)",
+        explanation: "Highest benefit rating; major improvement in patient-relevant endpoints vs. ACT",
+        price_implication: "Price negotiated at a significant premium to brand and/or generic ACT",
+    },
+    "beträchtlich": {
+        label: "Considerable added benefit (beträchtlich)",
+        explanation: "Second highest benefit rating; significant improvement in patient-relevant endpoints vs. ACT",
+        price_implication: "Price negotiated: Premium to brand and/or generic ACT",
+    },
+    "gering": {
+        label: "Minor added benefit (gering)",
+        explanation: "Moderate improvement in patient-relevant endpoints vs. ACT",
+        price_implication: "Price negotiated: Moderate premium possible depending on negotiation outcome",
+    },
+    "nicht quantifizierbar": {
+        label: "Non-quantifiable added benefit (nicht quantifizierbar)",
+        explanation: "Added benefit acknowledged but scientific evidence does not allow quantification",
+        price_implication: "Price negotiated on case-by-case basis depending on evidence strength",
+    },
+    "kein Zusatznutzen": {
+        label: "No added benefit (kein Zusatznutzen)",
+        explanation: "Available evidence does not show the new drug to be better than ACT in patient-relevant outcomes",
+        price_implication: "With a branded ACT: \u226510% discount; with a generic ACT: price would not exceed that of the comparator",
+    },
+    "geringerer Nutzen": {
+        label: "Lesser benefit (geringerer Nutzen)",
+        explanation: "Evidence shows the new drug to be worse than ACT in patient-relevant outcomes",
+        price_implication: "Unfavorable pricing position; potential for significant discounting or market withdrawal",
+    },
+    "ist nicht belegt": {
+        label: "Added benefit not proven (ist nicht belegt)",
+        explanation: "Insufficient evidence submitted to demonstrate superiority over ACT",
+        price_implication: "Treated as no added benefit; same pricing constraints as 'kein Zusatznutzen'",
+    },
+    "gilt als belegt": {
+        label: "Benefit deemed proven \u2014 orphan drug (gilt als belegt)",
+        explanation: "Orphan drug benefit deemed proven per \u00a735a(1) SGB V (revenue < \u20ac50M)",
+        price_implication: "Price negotiated based on acknowledged benefit; exempt from standard AMNOG assessment",
+    },
+    "gilt als nicht belegt": {
+        label: "Benefit not confirmed \u2014 orphan >\u20ac50M (gilt als nicht belegt)",
+        explanation: "Orphan drug exceeding \u20ac50M revenue — benefit not proven after full assessment",
+        price_implication: "Standard AMNOG pricing applies; follows evidence-based assessment outcome",
+    },
+};
 
 function renderSingleAssessment(a) {
     // France (HAS) badges

@@ -3049,6 +3049,303 @@ footer a:hover {
     margin-bottom: 8px;
 }
 
+/* ── Enhanced Germany G-BA analysis styles ─────────────────────── */
+
+/* Enhanced assessment card (structured analysis format) */
+.gba-enhanced-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: var(--card-bg);
+}
+
+.gba-enhanced-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gba-enhanced-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.gba-enhanced-date {
+    font-size: 0.82rem;
+    opacity: 0.85;
+    white-space: nowrap;
+}
+
+/* Collapsible sections */
+.gba-section {
+    border-bottom: 1px solid var(--border);
+}
+
+.gba-section:last-of-type {
+    border-bottom: none;
+}
+
+.gba-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: #f7f9fb;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+
+.gba-section-header:hover {
+    background: #eef2f7;
+}
+
+.gba-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.gba-section-chevron {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--text-light);
+    transition: transform 0.2s;
+}
+
+.gba-section.collapsed .gba-section-chevron {
+    transform: rotate(-90deg);
+}
+
+.gba-section.collapsed .gba-section-body {
+    display: none;
+}
+
+.gba-section-body {
+    padding: 16px 20px;
+}
+
+/* Decision Summary blocks (Drivers / Barriers / P&MA) */
+.gba-summary-block {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border-left: 4px solid var(--border);
+}
+
+.gba-summary-block:last-child {
+    margin-bottom: 0;
+}
+
+.gba-summary-drivers {
+    background: #f0faf4;
+    border-left-color: #27ae60;
+}
+
+.gba-summary-barriers {
+    background: #fef5f5;
+    border-left-color: #e74c3c;
+}
+
+.gba-summary-pma {
+    background: #f5f7ff;
+    border-left-color: var(--primary);
+}
+
+.gba-summary-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+}
+
+.gba-summary-drivers .gba-summary-label {
+    color: #1e8449;
+}
+
+.gba-summary-barriers .gba-summary-label {
+    color: #c0392b;
+}
+
+.gba-summary-pma .gba-summary-label {
+    color: var(--primary);
+}
+
+.gba-summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.gba-summary-list li {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    padding: 4px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.gba-summary-text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+/* Positive/Negative indicators (arrows in circles) */
+.gba-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.gba-indicator::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.gba-indicator-positive {
+    background: #27ae60;
+}
+
+.gba-indicator-positive::after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid #fff;
+}
+
+.gba-indicator-negative {
+    background: #e74c3c;
+}
+
+.gba-indicator-negative::after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid #fff;
+}
+
+.gba-indicator-neutral {
+    background: #f39c12;
+}
+
+.gba-indicator-neutral::after {
+    width: 8px;
+    height: 3px;
+    background: #fff;
+    border-radius: 1px;
+}
+
+/* G-BA Recommendation section */
+.gba-rec-summary {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eef0f3;
+}
+
+.gba-rec-subpops {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.gba-rec-subpop-item {
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: #f7f9fb;
+    border: 1px solid #eef0f3;
+}
+
+.gba-rec-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.gba-rec-pop {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.gba-rec-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
+.gba-rec-detail strong {
+    color: var(--text);
+}
+
+.gba-rec-indication {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #eef0f3;
+}
+
+/* P&MA Terms table */
+.gba-pma-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.gba-pma-table th {
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+}
+
+.gba-pma-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eef0f3;
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.gba-pma-table tr:last-child td {
+    border-bottom: none;
+}
+
+.gba-pma-rating {
+    white-space: nowrap;
+}
+
 /* ── France HAS Deep-Dive styles ─────────────────────────────── */
 
 /* SMR rating badges */
