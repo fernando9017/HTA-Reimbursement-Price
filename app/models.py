@@ -506,7 +506,9 @@ class GBAAssessmentAnalysis(BaseModel):
     overall_summary: str = ""           # 2-3 sentence summary
     clinical_context: str = ""          # Disease context / unmet need
     market_implications: str = ""       # Pricing / market access implications
-    clinical_evidence: GBAClinicalEvidence | None = None  # Pivotal trial data
+    clinical_evidence: GBAClinicalEvidence | None = None  # Legacy pivotal trial data
+    clinical_evidence_text: str = ""    # Text-based clinical evidence summary
+    evidence_limitations: list[str] = []  # Caveats about evidence interpretation
     ai_model: str = ""                  # Which model generated the analysis
     cached: bool = False                # Whether result came from cache
 
