@@ -653,5 +653,42 @@ async def test_search_uses_english_translations():
     assert r.patient_group == "Adults with melanoma"
 
 
+@pytest.mark.asyncio
+async def test_search_by_trade_name_as_substance():
+    """Searching by trade name (e.g. 'Sotyktu') as the active_substance param should find results.
+
+    Previously, only INN substance names matched — trade names were only
+    checked when product_name was provided, so searching 'Sotyktu' returned 0.
+    """
+    service = GermanyGBA()
+    service._decisions = [{
+        "decision_id": "2023-05-01-D-700",
+        "procedure_id": "700",
+        "url": "",
+        "trade_names": ["Sotyktu"],
+        "indication": "Plaque-Psoriasis",
+        "substances": ["Deucravacitinib"],
+        "decision_date": "2023-10-05",
+        "patient_group": "Erwachsene mit Psoriasis",
+        "benefit_rating": "ist nicht belegt",
+        "evidence_level": "",
+        "comparator": "Adalimumab",
+    }]
+    service._loaded = True
+    # Searching by trade name as substance should work now
+    results = await service.search_assessments("Sotyktu")
+    assert len(results) == 1
+    assert results[0].product_name == "Sotyktu"
+    assert results[0].comparator == "Adalimumab"
+
+    # Searching by INN should still work
+    results = await service.search_assessments("Deucravacitinib")
+    assert len(results) == 1
+
+    # Case insensitive
+    results = await service.search_assessments("sotyktu")
+    assert len(results) == 1
+
+
 # Need to import ET for the unit tests
 import xml.etree.ElementTree as ET

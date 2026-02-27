@@ -174,7 +174,9 @@ class GermanyGBA(HTAAgency):
 
         Matches against substance names, trade names, **and** the indication
         text (AWG) to catch cases where a drug name appears only in the
-        indication description.
+        indication description.  The active_substance query is checked
+        against both INN substances *and* trade names so that users can
+        search by either (e.g. "deucravacitinib" or "Sotyktu").
         """
         if not self._loaded:
             return []
@@ -187,11 +189,19 @@ class GermanyGBA(HTAAgency):
             substance_match = False
             product_match = False
 
-            # Match active substance
+            # Match active substance against INN substance names
             for ws in dec.get("substances", []):
                 if substance_lower in ws.lower() or ws.lower() in substance_lower:
                     substance_match = True
                     break
+
+            # Also match active_substance query against trade names — users
+            # often search by brand name (e.g. "Sotyktu" not "deucravacitinib")
+            if not substance_match:
+                for hn in dec.get("trade_names", []):
+                    if substance_lower in hn.lower() or hn.lower() in substance_lower:
+                        substance_match = True
+                        break
 
             # Match trade name (against both product_name param and indication text)
             if product_lower:
@@ -529,17 +539,32 @@ class GermanyGBA(HTAAgency):
         if not patient_group:
             patient_group = self._get_text(pg_elem, ["ID_PAT_GR"])
 
-        # Benefit extent: ZN_A = Ausmaß (real) or ZN_W/ZUSATZNUTZEN (legacy)
-        benefit = self._get_text(pg_elem, ["ZN_A", "ZN_W", "ZUSATZNUTZEN"])
+        # ── Benefit extent & evidence certainty ──
+        # Two XML formats exist:
+        #   Real AIS: ZN_A = benefit (Ausmaß), ZN_W = evidence (Wahrscheinlichkeit)
+        #   Legacy:   ZN_W = benefit,           AUSSAGESICHERHEIT = evidence
+        #
+        # Strategy: Read ZN_A first for benefit. Then classify ZN_W by its
+        # content — evidence values go to evidence, anything else to benefit.
+        _EVIDENCE_VALUES = {"Beleg", "Hinweis", "Anhaltspunkt"}
 
-        # Evidence certainty: ZN_W = Wahrscheinlichkeit (real) or AUSSAGESICHERHEIT (legacy)
+        benefit = self._get_text(pg_elem, ["ZN_A"])
         evidence = self._get_text(pg_elem, ["AUSSAGESICHERHEIT"])
-        # In real AIS XML, ZN_W holds evidence (only 527/1658 have it)
-        if not evidence:
-            zn_w = self._get_text(pg_elem, ["ZN_W"])
-            # ZN_W values are evidence levels: Beleg, Hinweis, Anhaltspunkt
-            if zn_w in ("Beleg", "Hinweis", "Anhaltspunkt"):
-                evidence = zn_w
+
+        zn_w = self._get_text(pg_elem, ["ZN_W"])
+        if zn_w:
+            if zn_w in _EVIDENCE_VALUES:
+                # ZN_W contains evidence level (real AIS format)
+                if not evidence:
+                    evidence = zn_w
+            else:
+                # ZN_W contains benefit rating (legacy format)
+                if not benefit:
+                    benefit = zn_w
+
+        # Final fallback for benefit from ZUSATZNUTZEN tag
+        if not benefit:
+            benefit = self._get_text(pg_elem, ["ZUSATZNUTZEN"])
 
         # Comparator therapy
         comparator = ""
