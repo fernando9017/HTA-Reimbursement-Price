@@ -1,0 +1,1091 @@
+{
+  "country": "FR",
+  "agency": "HAS",
+  "updated_at": "2026-02-27T04:13:17",
+  "record_count": 5,
+  "data": {
+    "medicines": {
+      "60000001": "KEYTRUDA 25 mg/mL, solution à diluer pour perfusion",
+      "60000002": "OPDIVO 10 mg/mL, solution à diluer pour perfusion",
+      "60000003": "TECENTRIQ 1200 mg, solution à diluer pour perfusion",
+      "60000004": "PADCEV 20 mg, poudre pour solution à diluer pour perfusion",
+      "60000005": "BAVENCIO 20 mg/mL, solution à diluer pour perfusion",
+      "60000006": "DARZALEX 20 mg/mL, solution à diluer pour perfusion",
+      "60000007": "IMBRUVICA 140 mg, gélules",
+      "60000008": "CALQUENCE 100 mg, gélules",
+      "60000009": "SPINRAZA 12 mg, solution injectable",
+      "60000010": "ZOLGENSMA 2 × 10^13 vg/mL, solution pour perfusion",
+      "60000011": "EVRYSDI 0,75 mg/mL, poudre pour solution buvable",
+      "60000012": "DUPIXENT 200 mg, solution injectable en seringue préremplie",
+      "60000013": "HUMIRA 40 mg, solution injectable en seringue préremplie",
+      "60000014": "COSENTYX 150 mg, solution injectable en seringue préremplie",
+      "60000015": "ENTRESTO 97 mg/103 mg, comprimé pelliculé",
+      "60000016": "JARDIANCE 10 mg, comprimé pelliculé",
+      "60000017": "KYMRIAH, dispersion pour perfusion",
+      "60000018": "YESCARTA, dispersion pour perfusion",
+      "60000019": "OCREVUS 300 mg, solution à diluer pour perfusion",
+      "60000020": "LEQEMBI 100 mg/mL, solution à diluer pour perfusion",
+      "60000021": "TAGRISSO 80 mg, comprimé pelliculé",
+      "60000022": "LYNPARZA 100 mg, comprimé pelliculé",
+      "60000023": "ENHERTU 100 mg, poudre pour solution à diluer pour perfusion",
+      "60000024": "TRODELVY 200 mg, poudre pour solution à diluer pour perfusion",
+      "60000025": "OZEMPIC 1 mg, solution injectable en stylo prérempli",
+      "60000026": "MOUNJARO 5 mg, solution injectable en stylo prérempli",
+      "60000027": "PAXLOVID 150 mg/100 mg, comprimés pelliculés",
+      "60000028": "EYLEA 40 mg/mL, solution injectable",
+      "60000029": "VABYSMO 120 mg/mL, solution injectable",
+      "60000030": "TRIKAFTA 100 mg/50 mg/75 mg, comprimés pelliculés"
+    },
+    "compositions": {
+      "60000001": [
+        "Pembrolizumab"
+      ],
+      "60000002": [
+        "Nivolumab"
+      ],
+      "60000003": [
+        "Atezolizumab"
+      ],
+      "60000004": [
+        "Enfortumab vedotin"
+      ],
+      "60000005": [
+        "Avelumab"
+      ],
+      "60000006": [
+        "Daratumumab"
+      ],
+      "60000007": [
+        "Ibrutinib"
+      ],
+      "60000008": [
+        "Acalabrutinib"
+      ],
+      "60000009": [
+        "Nusinersen"
+      ],
+      "60000010": [
+        "Onasemnogene abeparvovec"
+      ],
+      "60000011": [
+        "Risdiplam"
+      ],
+      "60000012": [
+        "Dupilumab"
+      ],
+      "60000013": [
+        "Adalimumab"
+      ],
+      "60000014": [
+        "Secukinumab"
+      ],
+      "60000015": [
+        "Sacubitril, Valsartan"
+      ],
+      "60000016": [
+        "Empagliflozin"
+      ],
+      "60000017": [
+        "Tisagenlecleucel"
+      ],
+      "60000018": [
+        "Axicabtagene ciloleucel"
+      ],
+      "60000019": [
+        "Ocrelizumab"
+      ],
+      "60000020": [
+        "Lecanemab"
+      ],
+      "60000021": [
+        "Osimertinib"
+      ],
+      "60000022": [
+        "Olaparib"
+      ],
+      "60000023": [
+        "Trastuzumab deruxtecan"
+      ],
+      "60000024": [
+        "Sacituzumab govitecan"
+      ],
+      "60000025": [
+        "Semaglutide"
+      ],
+      "60000026": [
+        "Tirzepatide"
+      ],
+      "60000027": [
+        "Nirmatrelvir, Ritonavir"
+      ],
+      "60000028": [
+        "Aflibercept"
+      ],
+      "60000029": [
+        "Faricimab"
+      ],
+      "60000030": [
+        "Elexacaftor, Tezacaftor, Ivacaftor"
+      ]
+    },
+    "smr": {
+      "60000001": [
+        {
+          "dossier_code": "CT-20170",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2017-01-18",
+          "value": "Important",
+          "label": "Le service médical rendu par KEYTRUDA est important dans le mélanome non résécable ou métastatique."
+        },
+        {
+          "dossier_code": "CT-20190",
+          "motif": "Extension d'indication",
+          "date": "2019-03-06",
+          "value": "Important",
+          "label": "Le service médical rendu par KEYTRUDA est important dans le cancer bronchique non à petites cellules."
+        },
+        {
+          "dossier_code": "CT-20210",
+          "motif": "Extension d'indication",
+          "date": "2021-06-16",
+          "value": "Important",
+          "label": "Le service médical rendu par KEYTRUDA est important dans le cancer du rein."
+        },
+        {
+          "dossier_code": "CT-20230",
+          "motif": "Extension d'indication",
+          "date": "2023-09-20",
+          "value": "Important",
+          "label": "Le service médical rendu par KEYTRUDA est important dans le cancer de l'endomètre."
+        },
+        {
+          "dossier_code": "CT-20240",
+          "motif": "Extension d'indication",
+          "date": "2024-03-13",
+          "value": "Important",
+          "label": "Le service médical rendu par KEYTRUDA est important dans les tumeurs à haute instabilité des microsatellites."
+        }
+      ],
+      "60000002": [
+        {
+          "dossier_code": "CT-20160",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2016-03-02",
+          "value": "Important",
+          "label": "Le service médical rendu par OPDIVO est important dans le mélanome avancé."
+        },
+        {
+          "dossier_code": "CT-20180",
+          "motif": "Extension d'indication",
+          "date": "2018-07-11",
+          "value": "Important",
+          "label": "Le service médical rendu par OPDIVO est important dans le cancer bronchique non à petites cellules."
+        },
+        {
+          "dossier_code": "CT-20200",
+          "motif": "Extension d'indication",
+          "date": "2020-01-15",
+          "value": "Important",
+          "label": "Le service médical rendu par OPDIVO est important dans le cancer du rein avancé."
+        },
+        {
+          "dossier_code": "CT-20220",
+          "motif": "Extension d'indication",
+          "date": "2022-05-18",
+          "value": "Important",
+          "label": "Le service médical rendu par OPDIVO est important dans le carcinome hépatocellulaire."
+        }
+      ],
+      "60000003": [
+        {
+          "dossier_code": "CT-20180B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-10-03",
+          "value": "Important",
+          "label": "Le service médical rendu par TECENTRIQ est important dans le cancer urothélial localement avancé ou métastatique."
+        },
+        {
+          "dossier_code": "CT-20200B",
+          "motif": "Extension d'indication",
+          "date": "2020-04-01",
+          "value": "Important",
+          "label": "Le service médical rendu par TECENTRIQ est important dans le CBNPC en association."
+        },
+        {
+          "dossier_code": "CT-20220B",
+          "motif": "Extension d'indication",
+          "date": "2022-11-09",
+          "value": "Important",
+          "label": "Le service médical rendu par TECENTRIQ est important dans le carcinome hépatocellulaire."
+        }
+      ],
+      "60000004": [
+        {
+          "dossier_code": "CT-20240B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2024-06-12",
+          "value": "Important",
+          "label": "Le service médical rendu par PADCEV est important dans le carcinome urothélial localement avancé ou métastatique."
+        }
+      ],
+      "60000005": [
+        {
+          "dossier_code": "CT-20200C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2020-07-08",
+          "value": "Important",
+          "label": "Le service médical rendu par BAVENCIO est important dans le carcinome à cellules de Merkel métastatique."
+        },
+        {
+          "dossier_code": "CT-20210C",
+          "motif": "Extension d'indication",
+          "date": "2021-09-22",
+          "value": "Important",
+          "label": "Le service médical rendu par BAVENCIO est important dans le carcinome urothélial en maintenance."
+        }
+      ],
+      "60000006": [
+        {
+          "dossier_code": "CT-20170B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2017-06-14",
+          "value": "Important",
+          "label": "Le service médical rendu par DARZALEX est important dans le myélome multiple."
+        },
+        {
+          "dossier_code": "CT-20190B",
+          "motif": "Extension d'indication",
+          "date": "2019-11-06",
+          "value": "Important",
+          "label": "Le service médical rendu par DARZALEX est important dans le myélome multiple en première ligne."
+        },
+        {
+          "dossier_code": "CT-20230B",
+          "motif": "Extension d'indication",
+          "date": "2023-03-22",
+          "value": "Important",
+          "label": "Le service médical rendu par DARZALEX est important dans l'amylose à chaînes légères."
+        }
+      ],
+      "60000007": [
+        {
+          "dossier_code": "CT-20150",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2015-04-01",
+          "value": "Important",
+          "label": "Le service médical rendu par IMBRUVICA est important dans la leucémie lymphoïde chronique."
+        },
+        {
+          "dossier_code": "CT-20170C",
+          "motif": "Extension d'indication",
+          "date": "2017-12-06",
+          "value": "Important",
+          "label": "Le service médical rendu par IMBRUVICA est important dans le lymphome à cellules du manteau."
+        }
+      ],
+      "60000008": [
+        {
+          "dossier_code": "CT-20210D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2021-12-01",
+          "value": "Important",
+          "label": "Le service médical rendu par CALQUENCE est important dans la leucémie lymphoïde chronique."
+        }
+      ],
+      "60000009": [
+        {
+          "dossier_code": "CT-20180C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-05-16",
+          "value": "Important",
+          "label": "Le service médical rendu par SPINRAZA est important dans l'amyotrophie spinale."
+        }
+      ],
+      "60000010": [
+        {
+          "dossier_code": "CT-20210E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2021-03-10",
+          "value": "Important",
+          "label": "Le service médical rendu par ZOLGENSMA est important dans l'amyotrophie spinale de type 1."
+        }
+      ],
+      "60000011": [
+        {
+          "dossier_code": "CT-20220C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2022-01-19",
+          "value": "Important",
+          "label": "Le service médical rendu par EVRYSDI est important dans l'amyotrophie spinale."
+        }
+      ],
+      "60000012": [
+        {
+          "dossier_code": "CT-20180D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-02-07",
+          "value": "Important",
+          "label": "Le service médical rendu par DUPIXENT est important dans la dermatite atopique sévère."
+        },
+        {
+          "dossier_code": "CT-20200D",
+          "motif": "Extension d'indication",
+          "date": "2020-10-14",
+          "value": "Important",
+          "label": "Le service médical rendu par DUPIXENT est important dans l'asthme sévère."
+        },
+        {
+          "dossier_code": "CT-20230C",
+          "motif": "Extension d'indication",
+          "date": "2023-06-14",
+          "value": "Important",
+          "label": "Le service médical rendu par DUPIXENT est important dans la rhinosinusite chronique avec polypes nasaux."
+        }
+      ],
+      "60000013": [
+        {
+          "dossier_code": "CT-20050",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2005-03-16",
+          "value": "Important",
+          "label": "Le service médical rendu par HUMIRA est important dans la polyarthrite rhumatoïde."
+        },
+        {
+          "dossier_code": "CT-20080",
+          "motif": "Extension d'indication",
+          "date": "2008-09-10",
+          "value": "Important",
+          "label": "Le service médical rendu par HUMIRA est important dans la maladie de Crohn."
+        },
+        {
+          "dossier_code": "CT-20120",
+          "motif": "Extension d'indication",
+          "date": "2012-01-18",
+          "value": "Important",
+          "label": "Le service médical rendu par HUMIRA est important dans le psoriasis."
+        },
+        {
+          "dossier_code": "CT-20160B",
+          "motif": "Réévaluation",
+          "date": "2016-06-15",
+          "value": "Important",
+          "label": "Le service médical rendu par HUMIRA reste important dans la polyarthrite rhumatoïde."
+        }
+      ],
+      "60000014": [
+        {
+          "dossier_code": "CT-20160C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2016-09-21",
+          "value": "Important",
+          "label": "Le service médical rendu par COSENTYX est important dans le psoriasis en plaques modéré à sévère."
+        },
+        {
+          "dossier_code": "CT-20190C",
+          "motif": "Extension d'indication",
+          "date": "2019-04-10",
+          "value": "Important",
+          "label": "Le service médical rendu par COSENTYX est important dans la spondylarthrite ankylosante."
+        }
+      ],
+      "60000015": [
+        {
+          "dossier_code": "CT-20160D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2016-11-16",
+          "value": "Important",
+          "label": "Le service médical rendu par ENTRESTO est important dans l'insuffisance cardiaque chronique."
+        }
+      ],
+      "60000016": [
+        {
+          "dossier_code": "CT-20150B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2015-07-15",
+          "value": "Modéré",
+          "label": "Le service médical rendu par JARDIANCE est modéré dans le diabète de type 2."
+        },
+        {
+          "dossier_code": "CT-20220D",
+          "motif": "Extension d'indication",
+          "date": "2022-06-01",
+          "value": "Important",
+          "label": "Le service médical rendu par JARDIANCE est important dans l'insuffisance cardiaque chronique."
+        }
+      ],
+      "60000017": [
+        {
+          "dossier_code": "CT-20190D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2019-01-23",
+          "value": "Important",
+          "label": "Le service médical rendu par KYMRIAH est important dans la LAL à cellules B réfractaire."
+        },
+        {
+          "dossier_code": "CT-20200E",
+          "motif": "Extension d'indication",
+          "date": "2020-11-18",
+          "value": "Important",
+          "label": "Le service médical rendu par KYMRIAH est important dans le lymphome diffus à grandes cellules B."
+        }
+      ],
+      "60000018": [
+        {
+          "dossier_code": "CT-20190E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2019-05-15",
+          "value": "Important",
+          "label": "Le service médical rendu par YESCARTA est important dans le lymphome diffus à grandes cellules B."
+        }
+      ],
+      "60000019": [
+        {
+          "dossier_code": "CT-20180E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-12-05",
+          "value": "Important",
+          "label": "Le service médical rendu par OCREVUS est important dans la sclérose en plaques récurrente."
+        }
+      ],
+      "60000020": [
+        {
+          "dossier_code": "CT-20250",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2025-06-11",
+          "value": "Insuffisant",
+          "label": "Le service médical rendu par LEQEMBI est insuffisant dans la maladie d'Alzheimer précoce."
+        }
+      ],
+      "60000021": [
+        {
+          "dossier_code": "CT-20170D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2017-04-19",
+          "value": "Important",
+          "label": "Le service médical rendu par TAGRISSO est important dans le CBNPC EGFR T790M+."
+        },
+        {
+          "dossier_code": "CT-20210F",
+          "motif": "Extension d'indication",
+          "date": "2021-01-20",
+          "value": "Important",
+          "label": "Le service médical rendu par TAGRISSO est important dans le CBNPC EGFR+ en adjuvant."
+        }
+      ],
+      "60000022": [
+        {
+          "dossier_code": "CT-20190F",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2019-02-13",
+          "value": "Important",
+          "label": "Le service médical rendu par LYNPARZA est important dans le cancer de l'ovaire BRCA muté."
+        },
+        {
+          "dossier_code": "CT-20210G",
+          "motif": "Extension d'indication",
+          "date": "2021-07-07",
+          "value": "Important",
+          "label": "Le service médical rendu par LYNPARZA est important dans le cancer du sein BRCA muté."
+        },
+        {
+          "dossier_code": "CT-20230D",
+          "motif": "Extension d'indication",
+          "date": "2023-01-11",
+          "value": "Important",
+          "label": "Le service médical rendu par LYNPARZA est important dans le cancer de la prostate HRR muté."
+        }
+      ],
+      "60000023": [
+        {
+          "dossier_code": "CT-20230E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2023-04-05",
+          "value": "Important",
+          "label": "Le service médical rendu par ENHERTU est important dans le cancer du sein HER2+ métastatique."
+        },
+        {
+          "dossier_code": "CT-20240C",
+          "motif": "Extension d'indication",
+          "date": "2024-01-17",
+          "value": "Important",
+          "label": "Le service médical rendu par ENHERTU est important dans le cancer du sein HER2-low."
+        }
+      ],
+      "60000024": [
+        {
+          "dossier_code": "CT-20230F",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2023-07-12",
+          "value": "Important",
+          "label": "Le service médical rendu par TRODELVY est important dans le cancer du sein triple négatif métastatique."
+        }
+      ],
+      "60000025": [
+        {
+          "dossier_code": "CT-20200F",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2020-02-05",
+          "value": "Important",
+          "label": "Le service médical rendu par OZEMPIC est important dans le diabète de type 2."
+        }
+      ],
+      "60000026": [
+        {
+          "dossier_code": "CT-20240D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2024-04-10",
+          "value": "Important",
+          "label": "Le service médical rendu par MOUNJARO est important dans le diabète de type 2."
+        }
+      ],
+      "60000027": [
+        {
+          "dossier_code": "CT-20220E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2022-04-06",
+          "value": "Important",
+          "label": "Le service médical rendu par PAXLOVID est important dans le traitement du COVID-19."
+        }
+      ],
+      "60000028": [
+        {
+          "dossier_code": "CT-20140",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2014-03-12",
+          "value": "Important",
+          "label": "Le service médical rendu par EYLEA est important dans la DMLA exsudative."
+        },
+        {
+          "dossier_code": "CT-20160E",
+          "motif": "Extension d'indication",
+          "date": "2016-02-10",
+          "value": "Important",
+          "label": "Le service médical rendu par EYLEA est important dans l'œdème maculaire diabétique."
+        }
+      ],
+      "60000029": [
+        {
+          "dossier_code": "CT-20230G",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2023-10-04",
+          "value": "Important",
+          "label": "Le service médical rendu par VABYSMO est important dans la DMLA néovasculaire."
+        }
+      ],
+      "60000030": [
+        {
+          "dossier_code": "CT-20210H",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2021-10-20",
+          "value": "Important",
+          "label": "Le service médical rendu par TRIKAFTA est important dans la mucoviscidose."
+        }
+      ]
+    },
+    "asmr": {
+      "60000001": [
+        {
+          "dossier_code": "CT-20170",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2017-01-18",
+          "value": "III",
+          "label": "KEYTRUDA apporte une amélioration du service médical rendu modérée (ASMR III) dans le mélanome."
+        },
+        {
+          "dossier_code": "CT-20190",
+          "motif": "Extension d'indication",
+          "date": "2019-03-06",
+          "value": "IV",
+          "label": "KEYTRUDA apporte une amélioration du service médical rendu mineure (ASMR IV) dans le CBNPC."
+        },
+        {
+          "dossier_code": "CT-20210",
+          "motif": "Extension d'indication",
+          "date": "2021-06-16",
+          "value": "IV",
+          "label": "KEYTRUDA apporte une amélioration du service médical rendu mineure (ASMR IV) dans le cancer du rein."
+        },
+        {
+          "dossier_code": "CT-20230",
+          "motif": "Extension d'indication",
+          "date": "2023-09-20",
+          "value": "IV",
+          "label": "KEYTRUDA apporte une amélioration du service médical rendu mineure (ASMR IV) dans le cancer de l'endomètre."
+        },
+        {
+          "dossier_code": "CT-20240",
+          "motif": "Extension d'indication",
+          "date": "2024-03-13",
+          "value": "IV",
+          "label": "KEYTRUDA apporte une amélioration du service médical rendu mineure (ASMR IV) dans les tumeurs MSI-H."
+        }
+      ],
+      "60000002": [
+        {
+          "dossier_code": "CT-20160",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2016-03-02",
+          "value": "III",
+          "label": "OPDIVO apporte une amélioration du service médical rendu modérée (ASMR III) dans le mélanome."
+        },
+        {
+          "dossier_code": "CT-20180",
+          "motif": "Extension d'indication",
+          "date": "2018-07-11",
+          "value": "IV",
+          "label": "OPDIVO apporte une amélioration du service médical rendu mineure (ASMR IV) dans le CBNPC."
+        },
+        {
+          "dossier_code": "CT-20200",
+          "motif": "Extension d'indication",
+          "date": "2020-01-15",
+          "value": "V",
+          "label": "OPDIVO n'apporte pas d'amélioration du service médical rendu (ASMR V) dans le cancer du rein."
+        },
+        {
+          "dossier_code": "CT-20220",
+          "motif": "Extension d'indication",
+          "date": "2022-05-18",
+          "value": "IV",
+          "label": "OPDIVO apporte une amélioration du service médical rendu mineure (ASMR IV) dans le CHC."
+        }
+      ],
+      "60000003": [
+        {
+          "dossier_code": "CT-20180B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-10-03",
+          "value": "V",
+          "label": "TECENTRIQ n'apporte pas d'amélioration du service médical rendu (ASMR V) dans le cancer urothélial."
+        },
+        {
+          "dossier_code": "CT-20200B",
+          "motif": "Extension d'indication",
+          "date": "2020-04-01",
+          "value": "IV",
+          "label": "TECENTRIQ apporte une amélioration du service médical rendu mineure (ASMR IV) dans le CBNPC en association."
+        },
+        {
+          "dossier_code": "CT-20220B",
+          "motif": "Extension d'indication",
+          "date": "2022-11-09",
+          "value": "IV",
+          "label": "TECENTRIQ apporte une amélioration du service médical rendu mineure (ASMR IV) dans le CHC."
+        }
+      ],
+      "60000004": [
+        {
+          "dossier_code": "CT-20240B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2024-06-12",
+          "value": "III",
+          "label": "PADCEV apporte une amélioration du service médical rendu modérée (ASMR III) dans le carcinome urothélial."
+        }
+      ],
+      "60000005": [
+        {
+          "dossier_code": "CT-20200C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2020-07-08",
+          "value": "III",
+          "label": "BAVENCIO apporte une amélioration du service médical rendu modérée (ASMR III) dans le carcinome de Merkel."
+        },
+        {
+          "dossier_code": "CT-20210C",
+          "motif": "Extension d'indication",
+          "date": "2021-09-22",
+          "value": "IV",
+          "label": "BAVENCIO apporte une amélioration du service médical rendu mineure (ASMR IV) dans le carcinome urothélial."
+        }
+      ],
+      "60000006": [
+        {
+          "dossier_code": "CT-20170B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2017-06-14",
+          "value": "III",
+          "label": "DARZALEX apporte une ASMR modérée (ASMR III) dans le myélome multiple en rechute."
+        },
+        {
+          "dossier_code": "CT-20190B",
+          "motif": "Extension d'indication",
+          "date": "2019-11-06",
+          "value": "III",
+          "label": "DARZALEX apporte une ASMR modérée (ASMR III) dans le myélome multiple en première ligne."
+        },
+        {
+          "dossier_code": "CT-20230B",
+          "motif": "Extension d'indication",
+          "date": "2023-03-22",
+          "value": "IV",
+          "label": "DARZALEX apporte une ASMR mineure (ASMR IV) dans l'amylose AL."
+        }
+      ],
+      "60000007": [
+        {
+          "dossier_code": "CT-20150",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2015-04-01",
+          "value": "III",
+          "label": "IMBRUVICA apporte une ASMR modérée (ASMR III) dans la LLC."
+        },
+        {
+          "dossier_code": "CT-20170C",
+          "motif": "Extension d'indication",
+          "date": "2017-12-06",
+          "value": "IV",
+          "label": "IMBRUVICA apporte une ASMR mineure (ASMR IV) dans le lymphome du manteau."
+        }
+      ],
+      "60000008": [
+        {
+          "dossier_code": "CT-20210D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2021-12-01",
+          "value": "V",
+          "label": "CALQUENCE n'apporte pas d'amélioration du service médical rendu (ASMR V) par rapport à IMBRUVICA dans la LLC."
+        }
+      ],
+      "60000009": [
+        {
+          "dossier_code": "CT-20180C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-05-16",
+          "value": "II",
+          "label": "SPINRAZA apporte une amélioration du service médical rendu importante (ASMR II) dans l'amyotrophie spinale."
+        }
+      ],
+      "60000010": [
+        {
+          "dossier_code": "CT-20210E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2021-03-10",
+          "value": "II",
+          "label": "ZOLGENSMA apporte une ASMR importante (ASMR II) dans l'amyotrophie spinale de type 1."
+        }
+      ],
+      "60000011": [
+        {
+          "dossier_code": "CT-20220C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2022-01-19",
+          "value": "V",
+          "label": "EVRYSDI n'apporte pas d'amélioration du service médical rendu (ASMR V) par rapport à SPINRAZA."
+        }
+      ],
+      "60000012": [
+        {
+          "dossier_code": "CT-20180D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-02-07",
+          "value": "III",
+          "label": "DUPIXENT apporte une ASMR modérée (ASMR III) dans la dermatite atopique sévère."
+        },
+        {
+          "dossier_code": "CT-20200D",
+          "motif": "Extension d'indication",
+          "date": "2020-10-14",
+          "value": "IV",
+          "label": "DUPIXENT apporte une ASMR mineure (ASMR IV) dans l'asthme sévère."
+        },
+        {
+          "dossier_code": "CT-20230C",
+          "motif": "Extension d'indication",
+          "date": "2023-06-14",
+          "value": "IV",
+          "label": "DUPIXENT apporte une ASMR mineure (ASMR IV) dans la rhinosinusite avec polypes."
+        }
+      ],
+      "60000013": [
+        {
+          "dossier_code": "CT-20050",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2005-03-16",
+          "value": "IV",
+          "label": "HUMIRA apporte une ASMR mineure (ASMR IV) dans la polyarthrite rhumatoïde."
+        },
+        {
+          "dossier_code": "CT-20080",
+          "motif": "Extension d'indication",
+          "date": "2008-09-10",
+          "value": "IV",
+          "label": "HUMIRA apporte une ASMR mineure (ASMR IV) dans la maladie de Crohn."
+        },
+        {
+          "dossier_code": "CT-20120",
+          "motif": "Extension d'indication",
+          "date": "2012-01-18",
+          "value": "V",
+          "label": "HUMIRA n'apporte pas d'ASMR (ASMR V) dans le psoriasis."
+        }
+      ],
+      "60000014": [
+        {
+          "dossier_code": "CT-20160C",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2016-09-21",
+          "value": "IV",
+          "label": "COSENTYX apporte une ASMR mineure (ASMR IV) dans le psoriasis."
+        },
+        {
+          "dossier_code": "CT-20190C",
+          "motif": "Extension d'indication",
+          "date": "2019-04-10",
+          "value": "V",
+          "label": "COSENTYX n'apporte pas d'ASMR (ASMR V) dans la spondylarthrite ankylosante."
+        }
+      ],
+      "60000015": [
+        {
+          "dossier_code": "CT-20160D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2016-11-16",
+          "value": "III",
+          "label": "ENTRESTO apporte une ASMR modérée (ASMR III) dans l'insuffisance cardiaque."
+        }
+      ],
+      "60000016": [
+        {
+          "dossier_code": "CT-20150B",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2015-07-15",
+          "value": "V",
+          "label": "JARDIANCE n'apporte pas d'ASMR (ASMR V) dans le diabète de type 2."
+        },
+        {
+          "dossier_code": "CT-20220D",
+          "motif": "Extension d'indication",
+          "date": "2022-06-01",
+          "value": "IV",
+          "label": "JARDIANCE apporte une ASMR mineure (ASMR IV) dans l'insuffisance cardiaque."
+        }
+      ],
+      "60000017": [
+        {
+          "dossier_code": "CT-20190D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2019-01-23",
+          "value": "II",
+          "label": "KYMRIAH apporte une ASMR importante (ASMR II) dans la LAL-B."
+        },
+        {
+          "dossier_code": "CT-20200E",
+          "motif": "Extension d'indication",
+          "date": "2020-11-18",
+          "value": "III",
+          "label": "KYMRIAH apporte une ASMR modérée (ASMR III) dans le LDGCB."
+        }
+      ],
+      "60000018": [
+        {
+          "dossier_code": "CT-20190E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2019-05-15",
+          "value": "III",
+          "label": "YESCARTA apporte une ASMR modérée (ASMR III) dans le LDGCB en rechute/réfractaire."
+        }
+      ],
+      "60000019": [
+        {
+          "dossier_code": "CT-20180E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2018-12-05",
+          "value": "IV",
+          "label": "OCREVUS apporte une ASMR mineure (ASMR IV) dans la SEP récurrente."
+        }
+      ],
+      "60000020": [
+        {
+          "dossier_code": "CT-20250",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2025-06-11",
+          "value": "V",
+          "label": "LEQEMBI n'apporte pas d'ASMR (ASMR V). La Commission considère que le bénéfice clinique n'est pas suffisamment démontré."
+        }
+      ],
+      "60000021": [
+        {
+          "dossier_code": "CT-20170D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2017-04-19",
+          "value": "III",
+          "label": "TAGRISSO apporte une ASMR modérée (ASMR III) dans le CBNPC EGFR T790M+."
+        },
+        {
+          "dossier_code": "CT-20210F",
+          "motif": "Extension d'indication",
+          "date": "2021-01-20",
+          "value": "III",
+          "label": "TAGRISSO apporte une ASMR modérée (ASMR III) en adjuvant."
+        }
+      ],
+      "60000022": [
+        {
+          "dossier_code": "CT-20190F",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2019-02-13",
+          "value": "III",
+          "label": "LYNPARZA apporte une ASMR modérée (ASMR III) dans le cancer de l'ovaire."
+        },
+        {
+          "dossier_code": "CT-20210G",
+          "motif": "Extension d'indication",
+          "date": "2021-07-07",
+          "value": "IV",
+          "label": "LYNPARZA apporte une ASMR mineure (ASMR IV) dans le cancer du sein."
+        },
+        {
+          "dossier_code": "CT-20230D",
+          "motif": "Extension d'indication",
+          "date": "2023-01-11",
+          "value": "IV",
+          "label": "LYNPARZA apporte une ASMR mineure (ASMR IV) dans le cancer de la prostate."
+        }
+      ],
+      "60000023": [
+        {
+          "dossier_code": "CT-20230E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2023-04-05",
+          "value": "III",
+          "label": "ENHERTU apporte une ASMR modérée (ASMR III) dans le cancer du sein HER2+."
+        },
+        {
+          "dossier_code": "CT-20240C",
+          "motif": "Extension d'indication",
+          "date": "2024-01-17",
+          "value": "III",
+          "label": "ENHERTU apporte une ASMR modérée (ASMR III) dans le cancer du sein HER2-low."
+        }
+      ],
+      "60000024": [
+        {
+          "dossier_code": "CT-20230F",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2023-07-12",
+          "value": "III",
+          "label": "TRODELVY apporte une ASMR modérée (ASMR III) dans le cancer du sein triple négatif."
+        }
+      ],
+      "60000025": [
+        {
+          "dossier_code": "CT-20200F",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2020-02-05",
+          "value": "V",
+          "label": "OZEMPIC n'apporte pas d'ASMR (ASMR V) dans le diabète de type 2."
+        }
+      ],
+      "60000026": [
+        {
+          "dossier_code": "CT-20240D",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2024-04-10",
+          "value": "IV",
+          "label": "MOUNJARO apporte une ASMR mineure (ASMR IV) dans le diabète de type 2."
+        }
+      ],
+      "60000027": [
+        {
+          "dossier_code": "CT-20220E",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2022-04-06",
+          "value": "III",
+          "label": "PAXLOVID apporte une ASMR modérée (ASMR III) dans le COVID-19."
+        }
+      ],
+      "60000028": [
+        {
+          "dossier_code": "CT-20140",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2014-03-12",
+          "value": "V",
+          "label": "EYLEA n'apporte pas d'ASMR (ASMR V) par rapport à LUCENTIS dans la DMLA exsudative."
+        },
+        {
+          "dossier_code": "CT-20160E",
+          "motif": "Extension d'indication",
+          "date": "2016-02-10",
+          "value": "V",
+          "label": "EYLEA n'apporte pas d'ASMR (ASMR V) dans l'OMD."
+        }
+      ],
+      "60000029": [
+        {
+          "dossier_code": "CT-20230G",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2023-10-04",
+          "value": "V",
+          "label": "VABYSMO n'apporte pas d'ASMR (ASMR V) par rapport à EYLEA dans la DMLA néovasculaire."
+        }
+      ],
+      "60000030": [
+        {
+          "dossier_code": "CT-20210H",
+          "motif": "Inscription (Première évaluation)",
+          "date": "2021-10-20",
+          "value": "II",
+          "label": "TRIKAFTA apporte une ASMR importante (ASMR II) dans la mucoviscidose."
+        }
+      ]
+    },
+    "ct_links": {
+      "CT-20170": "https://www.has-sante.fr/jcms/p_0000/CT-20170",
+      "CT-20190": "https://www.has-sante.fr/jcms/p_0000/CT-20190",
+      "CT-20210": "https://www.has-sante.fr/jcms/p_0000/CT-20210",
+      "CT-20230": "https://www.has-sante.fr/jcms/p_0000/CT-20230",
+      "CT-20240": "https://www.has-sante.fr/jcms/p_0000/CT-20240",
+      "CT-20160": "https://www.has-sante.fr/jcms/p_0000/CT-20160",
+      "CT-20180": "https://www.has-sante.fr/jcms/p_0000/CT-20180",
+      "CT-20200": "https://www.has-sante.fr/jcms/p_0000/CT-20200",
+      "CT-20220": "https://www.has-sante.fr/jcms/p_0000/CT-20220",
+      "CT-20180B": "https://www.has-sante.fr/jcms/p_0000/CT-20180B",
+      "CT-20200B": "https://www.has-sante.fr/jcms/p_0000/CT-20200B",
+      "CT-20220B": "https://www.has-sante.fr/jcms/p_0000/CT-20220B",
+      "CT-20240B": "https://www.has-sante.fr/jcms/p_0000/CT-20240B",
+      "CT-20200C": "https://www.has-sante.fr/jcms/p_0000/CT-20200C",
+      "CT-20210C": "https://www.has-sante.fr/jcms/p_0000/CT-20210C",
+      "CT-20170B": "https://www.has-sante.fr/jcms/p_0000/CT-20170B",
+      "CT-20190B": "https://www.has-sante.fr/jcms/p_0000/CT-20190B",
+      "CT-20230B": "https://www.has-sante.fr/jcms/p_0000/CT-20230B",
+      "CT-20150": "https://www.has-sante.fr/jcms/p_0000/CT-20150",
+      "CT-20170C": "https://www.has-sante.fr/jcms/p_0000/CT-20170C",
+      "CT-20210D": "https://www.has-sante.fr/jcms/p_0000/CT-20210D",
+      "CT-20180C": "https://www.has-sante.fr/jcms/p_0000/CT-20180C",
+      "CT-20210E": "https://www.has-sante.fr/jcms/p_0000/CT-20210E",
+      "CT-20220C": "https://www.has-sante.fr/jcms/p_0000/CT-20220C",
+      "CT-20180D": "https://www.has-sante.fr/jcms/p_0000/CT-20180D",
+      "CT-20200D": "https://www.has-sante.fr/jcms/p_0000/CT-20200D",
+      "CT-20230C": "https://www.has-sante.fr/jcms/p_0000/CT-20230C",
+      "CT-20050": "https://www.has-sante.fr/jcms/p_0000/CT-20050",
+      "CT-20080": "https://www.has-sante.fr/jcms/p_0000/CT-20080",
+      "CT-20120": "https://www.has-sante.fr/jcms/p_0000/CT-20120",
+      "CT-20160B": "https://www.has-sante.fr/jcms/p_0000/CT-20160B",
+      "CT-20160C": "https://www.has-sante.fr/jcms/p_0000/CT-20160C",
+      "CT-20190C": "https://www.has-sante.fr/jcms/p_0000/CT-20190C",
+      "CT-20160D": "https://www.has-sante.fr/jcms/p_0000/CT-20160D",
+      "CT-20150B": "https://www.has-sante.fr/jcms/p_0000/CT-20150B",
+      "CT-20220D": "https://www.has-sante.fr/jcms/p_0000/CT-20220D",
+      "CT-20190D": "https://www.has-sante.fr/jcms/p_0000/CT-20190D",
+      "CT-20200E": "https://www.has-sante.fr/jcms/p_0000/CT-20200E",
+      "CT-20190E": "https://www.has-sante.fr/jcms/p_0000/CT-20190E",
+      "CT-20180E": "https://www.has-sante.fr/jcms/p_0000/CT-20180E",
+      "CT-20250": "https://www.has-sante.fr/jcms/p_0000/CT-20250",
+      "CT-20170D": "https://www.has-sante.fr/jcms/p_0000/CT-20170D",
+      "CT-20210F": "https://www.has-sante.fr/jcms/p_0000/CT-20210F",
+      "CT-20190F": "https://www.has-sante.fr/jcms/p_0000/CT-20190F",
+      "CT-20210G": "https://www.has-sante.fr/jcms/p_0000/CT-20210G",
+      "CT-20230D": "https://www.has-sante.fr/jcms/p_0000/CT-20230D",
+      "CT-20230E": "https://www.has-sante.fr/jcms/p_0000/CT-20230E",
+      "CT-20240C": "https://www.has-sante.fr/jcms/p_0000/CT-20240C",
+      "CT-20230F": "https://www.has-sante.fr/jcms/p_0000/CT-20230F",
+      "CT-20200F": "https://www.has-sante.fr/jcms/p_0000/CT-20200F",
+      "CT-20240D": "https://www.has-sante.fr/jcms/p_0000/CT-20240D",
+      "CT-20220E": "https://www.has-sante.fr/jcms/p_0000/CT-20220E",
+      "CT-20140": "https://www.has-sante.fr/jcms/p_0000/CT-20140",
+      "CT-20160E": "https://www.has-sante.fr/jcms/p_0000/CT-20160E",
+      "CT-20230G": "https://www.has-sante.fr/jcms/p_0000/CT-20230G",
+      "CT-20210H": "https://www.has-sante.fr/jcms/p_0000/CT-20210H"
+    }
+  }
+}

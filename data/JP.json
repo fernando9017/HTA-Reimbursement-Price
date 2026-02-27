@@ -1,0 +1,643 @@
+{
+  "country": "JP",
+  "agency": "MHLW",
+  "updated_at": "2026-02-27T04:13:17",
+  "record_count": 49,
+  "data": [
+    {
+      "kegg_id": "dr:D10574",
+      "names_display": [
+        "Pembrolizumab",
+        "Keytruda"
+      ],
+      "japic_code": "J20160087",
+      "names_lower": [
+        "pembrolizumab",
+        "keytruda"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160087"
+    },
+    {
+      "kegg_id": "dr:D10316",
+      "names_display": [
+        "Nivolumab",
+        "Opdivo"
+      ],
+      "japic_code": "J20140092",
+      "names_lower": [
+        "nivolumab",
+        "opdivo"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140092"
+    },
+    {
+      "kegg_id": "dr:D10773",
+      "names_display": [
+        "Atezolizumab",
+        "Tecentriq"
+      ],
+      "japic_code": "J20180045",
+      "names_lower": [
+        "atezolizumab",
+        "tecentriq"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180045"
+    },
+    {
+      "kegg_id": "dr:D11678",
+      "names_display": [
+        "Enfortumab vedotin",
+        "Padcev"
+      ],
+      "japic_code": "J20210034",
+      "names_lower": [
+        "enfortumab vedotin",
+        "padcev"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210034"
+    },
+    {
+      "kegg_id": "dr:D10761",
+      "names_display": [
+        "Avelumab",
+        "Bavencio"
+      ],
+      "japic_code": "J20170098",
+      "names_lower": [
+        "avelumab",
+        "bavencio"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170098"
+    },
+    {
+      "kegg_id": "dr:D11230",
+      "names_display": [
+        "Durvalumab",
+        "Imfinzi"
+      ],
+      "japic_code": "J20180072",
+      "names_lower": [
+        "durvalumab",
+        "imfinzi"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180072"
+    },
+    {
+      "kegg_id": "dr:D10766",
+      "names_display": [
+        "Osimertinib",
+        "Tagrisso"
+      ],
+      "japic_code": "J20160023",
+      "names_lower": [
+        "osimertinib",
+        "tagrisso"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160023"
+    },
+    {
+      "kegg_id": "dr:D09855",
+      "names_display": [
+        "Olaparib",
+        "Lynparza"
+      ],
+      "japic_code": "J20180015",
+      "names_lower": [
+        "olaparib",
+        "lynparza"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180015"
+    },
+    {
+      "kegg_id": "dr:D10963",
+      "names_display": [
+        "Trastuzumab deruxtecan",
+        "Enhertu"
+      ],
+      "japic_code": "J20200012",
+      "names_lower": [
+        "trastuzumab deruxtecan",
+        "enhertu"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200012"
+    },
+    {
+      "kegg_id": "dr:D11268",
+      "names_display": [
+        "Sacituzumab govitecan",
+        "Trodelvy"
+      ],
+      "japic_code": "J20230008",
+      "names_lower": [
+        "sacituzumab govitecan",
+        "trodelvy"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230008"
+    },
+    {
+      "kegg_id": "dr:D08066",
+      "names_display": [
+        "Imatinib",
+        "Glivec"
+      ],
+      "japic_code": "J20010045",
+      "names_lower": [
+        "imatinib",
+        "glivec"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20010045"
+    },
+    {
+      "kegg_id": "dr:D06407",
+      "names_display": [
+        "Gefitinib",
+        "Iressa"
+      ],
+      "japic_code": "J20020078",
+      "names_lower": [
+        "gefitinib",
+        "iressa"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20020078"
+    },
+    {
+      "kegg_id": "dr:D06068",
+      "names_display": [
+        "Erlotinib",
+        "Tarceva"
+      ],
+      "japic_code": "J20070034",
+      "names_lower": [
+        "erlotinib",
+        "tarceva"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20070034"
+    },
+    {
+      "kegg_id": "dr:D09724",
+      "names_display": [
+        "Crizotinib",
+        "Xalkori"
+      ],
+      "japic_code": "J20120056",
+      "names_lower": [
+        "crizotinib",
+        "xalkori"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120056"
+    },
+    {
+      "kegg_id": "dr:D10028",
+      "names_display": [
+        "Lenvatinib",
+        "Lenvima"
+      ],
+      "japic_code": "J20150023",
+      "names_lower": [
+        "lenvatinib",
+        "lenvima"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150023"
+    },
+    {
+      "kegg_id": "dr:D10137",
+      "names_display": [
+        "Cabozantinib",
+        "Cabometyx"
+      ],
+      "japic_code": "J20200078",
+      "names_lower": [
+        "cabozantinib",
+        "cabometyx"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200078"
+    },
+    {
+      "kegg_id": "dr:D10777",
+      "names_display": [
+        "Daratumumab",
+        "Darzalex"
+      ],
+      "japic_code": "J20170056",
+      "names_lower": [
+        "daratumumab",
+        "darzalex"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170056"
+    },
+    {
+      "kegg_id": "dr:D10099",
+      "names_display": [
+        "Ibrutinib",
+        "Imbruvica"
+      ],
+      "japic_code": "J20160034",
+      "names_lower": [
+        "ibrutinib",
+        "imbruvica"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160034"
+    },
+    {
+      "kegg_id": "dr:D10967",
+      "names_display": [
+        "Acalabrutinib",
+        "Calquence"
+      ],
+      "japic_code": "J20210056",
+      "names_lower": [
+        "acalabrutinib",
+        "calquence"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210056"
+    },
+    {
+      "kegg_id": "dr:D06320",
+      "names_display": [
+        "Bortezomib",
+        "Velcade"
+      ],
+      "japic_code": "J20060089",
+      "names_lower": [
+        "bortezomib",
+        "velcade"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20060089"
+    },
+    {
+      "kegg_id": "dr:D09925",
+      "names_display": [
+        "Lenalidomide",
+        "Revlimid"
+      ],
+      "japic_code": "J20100045",
+      "names_lower": [
+        "lenalidomide",
+        "revlimid"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20100045"
+    },
+    {
+      "kegg_id": "dr:D10579",
+      "names_display": [
+        "Pomalidomide",
+        "Pomalyst"
+      ],
+      "japic_code": "J20150067",
+      "names_lower": [
+        "pomalidomide",
+        "pomalyst"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150067"
+    },
+    {
+      "kegg_id": "dr:D11078",
+      "names_display": [
+        "Tisagenlecleucel",
+        "Kymriah"
+      ],
+      "japic_code": "J20190034",
+      "names_lower": [
+        "tisagenlecleucel",
+        "kymriah"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20190034"
+    },
+    {
+      "kegg_id": "dr:D11149",
+      "names_display": [
+        "Axicabtagene ciloleucel",
+        "Yescarta"
+      ],
+      "japic_code": "J20210012",
+      "names_lower": [
+        "axicabtagene ciloleucel",
+        "yescarta"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210012"
+    },
+    {
+      "kegg_id": "dr:D10726",
+      "names_display": [
+        "Nusinersen",
+        "Spinraza"
+      ],
+      "japic_code": "J20170089",
+      "names_lower": [
+        "nusinersen",
+        "spinraza"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20170089"
+    },
+    {
+      "kegg_id": "dr:D11153",
+      "names_display": [
+        "Onasemnogene abeparvovec",
+        "Zolgensma"
+      ],
+      "japic_code": "J20200089",
+      "names_lower": [
+        "onasemnogene abeparvovec",
+        "zolgensma"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200089"
+    },
+    {
+      "kegg_id": "dr:D11350",
+      "names_display": [
+        "Risdiplam",
+        "Evrysdi"
+      ],
+      "japic_code": "J20210078",
+      "names_lower": [
+        "risdiplam",
+        "evrysdi"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20210078"
+    },
+    {
+      "kegg_id": "dr:D10867",
+      "names_display": [
+        "Dupilumab",
+        "Dupixent"
+      ],
+      "japic_code": "J20180089",
+      "names_lower": [
+        "dupilumab",
+        "dupixent"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180089"
+    },
+    {
+      "kegg_id": "dr:D03235",
+      "names_display": [
+        "Adalimumab",
+        "Humira"
+      ],
+      "japic_code": "J20080012",
+      "names_lower": [
+        "adalimumab",
+        "humira"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20080012"
+    },
+    {
+      "kegg_id": "dr:D09967",
+      "names_display": [
+        "Secukinumab",
+        "Cosentyx"
+      ],
+      "japic_code": "J20150089",
+      "names_lower": [
+        "secukinumab",
+        "cosentyx"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150089"
+    },
+    {
+      "kegg_id": "dr:D08954",
+      "names_display": [
+        "Ustekinumab",
+        "Stelara"
+      ],
+      "japic_code": "J20110023",
+      "names_lower": [
+        "ustekinumab",
+        "stelara"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20110023"
+    },
+    {
+      "kegg_id": "dr:D06890",
+      "names_display": [
+        "Infliximab",
+        "Remicade"
+      ],
+      "japic_code": "J20020034",
+      "names_lower": [
+        "infliximab",
+        "remicade"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20020034"
+    },
+    {
+      "kegg_id": "dr:D10620",
+      "names_display": [
+        "Sacubitril valsartan",
+        "Entresto"
+      ],
+      "japic_code": "J20200056",
+      "names_lower": [
+        "sacubitril valsartan",
+        "entresto"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200056"
+    },
+    {
+      "kegg_id": "dr:D09038",
+      "names_display": [
+        "Empagliflozin",
+        "Jardiance"
+      ],
+      "japic_code": "J20150012",
+      "names_lower": [
+        "empagliflozin",
+        "jardiance"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150012"
+    },
+    {
+      "kegg_id": "dr:D10033",
+      "names_display": [
+        "Dapagliflozin",
+        "Forxiga"
+      ],
+      "japic_code": "J20140034",
+      "names_lower": [
+        "dapagliflozin",
+        "forxiga"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20140034"
+    },
+    {
+      "kegg_id": "dr:D10962",
+      "names_display": [
+        "Semaglutide",
+        "Ozempic",
+        "Rybelsus"
+      ],
+      "japic_code": "J20200023",
+      "names_lower": [
+        "semaglutide",
+        "ozempic",
+        "rybelsus"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20200023"
+    },
+    {
+      "kegg_id": "dr:D11586",
+      "names_display": [
+        "Tirzepatide",
+        "Mounjaro"
+      ],
+      "japic_code": "J20230034",
+      "names_lower": [
+        "tirzepatide",
+        "mounjaro"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230034"
+    },
+    {
+      "kegg_id": "dr:D09889",
+      "names_display": [
+        "Dulaglutide",
+        "Trulicity"
+      ],
+      "japic_code": "J20150045",
+      "names_lower": [
+        "dulaglutide",
+        "trulicity"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20150045"
+    },
+    {
+      "kegg_id": "dr:D10762",
+      "names_display": [
+        "Ocrelizumab",
+        "Ocrevus"
+      ],
+      "japic_code": "J20220023",
+      "names_lower": [
+        "ocrelizumab",
+        "ocrevus"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220023"
+    },
+    {
+      "kegg_id": "dr:D11827",
+      "names_display": [
+        "Lecanemab",
+        "Leqembi"
+      ],
+      "japic_code": "J20230089",
+      "names_lower": [
+        "lecanemab",
+        "leqembi"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20230089"
+    },
+    {
+      "kegg_id": "dr:D11419",
+      "names_display": [
+        "Elexacaftor",
+        "Trikafta"
+      ],
+      "japic_code": "",
+      "names_lower": [
+        "elexacaftor",
+        "trikafta"
+      ],
+      "japic_url": ""
+    },
+    {
+      "kegg_id": "dr:D09574",
+      "names_display": [
+        "Aflibercept",
+        "Eylea"
+      ],
+      "japic_code": "J20120089",
+      "names_lower": [
+        "aflibercept",
+        "eylea"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20120089"
+    },
+    {
+      "kegg_id": "dr:D11474",
+      "names_display": [
+        "Faricimab",
+        "Vabysmo"
+      ],
+      "japic_code": "J20220056",
+      "names_lower": [
+        "faricimab",
+        "vabysmo"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220056"
+    },
+    {
+      "kegg_id": "dr:D05099",
+      "names_display": [
+        "Ranibizumab",
+        "Lucentis"
+      ],
+      "japic_code": "J20090034",
+      "names_lower": [
+        "ranibizumab",
+        "lucentis"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20090034"
+    },
+    {
+      "kegg_id": "dr:D09988",
+      "names_display": [
+        "Mepolizumab",
+        "Nucala"
+      ],
+      "japic_code": "J20160056",
+      "names_lower": [
+        "mepolizumab",
+        "nucala"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20160056"
+    },
+    {
+      "kegg_id": "dr:D10682",
+      "names_display": [
+        "Benralizumab",
+        "Fasenra"
+      ],
+      "japic_code": "J20180023",
+      "names_lower": [
+        "benralizumab",
+        "fasenra"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20180023"
+    },
+    {
+      "kegg_id": "dr:D12084",
+      "names_display": [
+        "Nirmatrelvir",
+        "Paxlovid"
+      ],
+      "japic_code": "J20220012",
+      "names_lower": [
+        "nirmatrelvir",
+        "paxlovid"
+      ],
+      "japic_url": "https://www.kegg.jp/medicus-bin/japic_med?japic_code=J20220012"
+    },
+    {
+      "kegg_id": "dr:D99001",
+      "names_display": [
+        "Experimental Drug A"
+      ],
+      "japic_code": "",
+      "names_lower": [
+        "experimental drug a"
+      ],
+      "japic_url": ""
+    },
+    {
+      "kegg_id": "dr:D99002",
+      "names_display": [
+        "Investigational Agent B"
+      ],
+      "japic_code": "",
+      "names_lower": [
+        "investigational agent b"
+      ],
+      "japic_url": ""
+    }
+  ]
+}
