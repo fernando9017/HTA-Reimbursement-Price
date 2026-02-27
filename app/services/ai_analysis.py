@@ -157,52 +157,36 @@ Produce a JSON response with this exact structure:
       "patient_group": "<patient group description in English>",
       "line_of_therapy": "<e.g., First-line, Second-line, Post-CRT, Adjuvant>",
       "indication_detail": "<refined indication description in English>",
-      "outcome_en": "<benefit outcome in English>",
-      "comparator": "<comparator therapy>",
-      "positive_arguments": ["<argument 1>", "<argument 2>", ...],
-      "negative_arguments": ["<argument 1>", "<argument 2>", ...],
-      "key_trials": ["<trial name if mentioned>"]
+      "outcome_en": "<benefit outcome in English, including evidence level>",
+      "comparator": "<comparator therapy in English>",
+      "positive_arguments": ["<argument 1>", "<argument 2>"],
+      "negative_arguments": ["<argument 1>", "<argument 2>"],
+      "key_trials": ["<trial name ONLY if clearly identifiable from the assessment context>"]
     }}
   ],
-  "clinical_evidence": {{
-    "pivotal_trials": [
-      {{
-        "trial_name": "<trial name, e.g. KEYNOTE-189>",
-        "nct_number": "<NCT number if known, e.g. NCT02578680, or empty string>",
-        "trial_design": "<e.g. Phase III, randomized, double-blind>",
-        "enrollment": <total enrollment number or null if unknown>,
-        "trial_comparator": "<comparator arm description>",
-        "key_endpoints": [
-          {{
-            "name": "<endpoint name, e.g. Overall Survival>",
-            "abbreviation": "<e.g. OS, PFS, ORR>",
-            "treatment_result": "<e.g. 22.0 months>",
-            "comparator_result": "<e.g. 10.6 months>",
-            "effect_measure": "<e.g. HR, OR, RR>",
-            "effect_value": "<e.g. 0.56>",
-            "ci_95": "<e.g. 0.45-0.70>",
-            "p_value": "<e.g. <0.001>",
-            "statistically_significant": true
-          }}
-        ],
-        "confidence": "<high, moderate, or low>"
-      }}
-    ],
-    "indirect_comparisons": "<describe if indirect treatment comparisons were likely submitted, or empty string>",
-    "subpopulation_analyses_note": "<describe if pre-specified subgroup analyses were conducted, or empty string>",
-    "evidence_limitations": ["<limitation 1>", "<limitation 2>"]
-  }},
-  "overall_summary": "<2-3 sentence English summary of the assessment>",
+  "clinical_evidence_text": "<paragraph summarizing the clinical evidence basis — see rules below>",
+  "evidence_limitations": ["<limitation 1>", "<limitation 2>"],
+  "overall_summary": "<MUST cover ALL subpopulations — see rules below>",
   "clinical_context": "<1-2 sentences about the disease context and unmet need>",
   "market_implications": "<1-2 sentences about pricing/market access implications>"
 }}
 
+CRITICAL rules for overall_summary:
+- The summary MUST describe the outcomes for EVERY subpopulation listed in the \
+assessment data above. Do NOT focus on just one subpopulation.
+- If there are multiple subpopulations with different benefit ratings, the summary \
+must explicitly mention each one and its outcome. For example: \
+"Subpopulation A received [rating], while Subpopulation B received [different rating]."
+- The summary should be 2-4 sentences, covering all subpopulations comprehensively.
+
 Guidelines:
 - Translate all German text to English
-- For positive_arguments: focus on efficacy signals (OS, PFS improvements), \
-favorable safety, QoL improvements
-- For negative_arguments: focus on limitations (immature data, adverse events, \
-QoL concerns, study design issues)
+- There MUST be exactly one entry in subpopulation_analyses for EACH subpopulation \
+listed in the assessment data above. Do not merge or skip subpopulations.
+- For positive_arguments: focus on what the benefit rating and evidence level imply — \
+what the G-BA acknowledged (e.g., acknowledged benefit at indication-level evidence)
+- For negative_arguments: focus on why the benefit was limited or non-quantifiable — \
+evidence limitations, study design issues noted by the G-BA, comparator choice concerns
 - For line_of_therapy: infer from the indication text (e.g., "Erstlinie" = First-line, \
 "nach Chemotherapie" = Post-chemotherapy, "adjuvant" = Adjuvant)
 - The benefit ratings translate as: erheblich = Major added benefit, \
@@ -212,25 +196,35 @@ precisely ranked), kein Zusatznutzen = No added benefit (vs. comparator), \
 geringerer Nutzen = Lesser benefit (worse than comparator)
 - Evidence levels: Beleg = Proof, Hinweis = Indication, Anhaltspunkt = Hint
 
-CRITICAL rules for clinical_evidence:
-- Include the pivotal trial(s) that supported the G-BA assessment outcome. \
-Infer the trial name and key endpoints from the drug name, indication, comparator, \
-and your knowledge of major clinical trials.
-- NEVER fabricate specific numerical values (HR, median OS/PFS, p-values, enrollment). \
-If you are confident in the values, include them. If uncertain, use empty strings \
-for the specific fields you are unsure about. Set confidence accordingly.
-- confidence levels: "high" = trial name and key endpoints are well-established; \
-"moderate" = trial name is likely correct but some endpoint details uncertain; \
-"low" = trial identification is tentative.
-- For key_endpoints, focus on the 3-5 most clinically relevant endpoints \
-(OS, PFS, ORR, DFS, EFS, safety). Do not include more than 5 endpoints.
-- For indirect_comparisons: note if the indication or comparator suggests the \
-manufacturer likely submitted indirect treatment comparisons (e.g., network \
-meta-analysis, Bucher method) rather than head-to-head trial data.
-- For subpopulation_analyses_note: note if the assessment involves pre-specified \
-subgroup analyses (e.g., by biomarker, prior therapy, disease stage).
-- evidence_limitations should note what could not be reliably determined from the \
-assessment data alone.
+CRITICAL rules for clinical_evidence_text:
+- This field provides a TEXT paragraph (not a table) summarizing the clinical evidence.
+- Base your analysis ONLY on what can be inferred from the assessment data provided \
+(drug name, indication, comparator, benefit rating, evidence level, patient groups).
+- You may mention the likely pivotal trial name if you are highly confident about which \
+trial supported this specific indication and comparator. But ONLY if you are highly \
+confident — if unsure, say "the pivotal trial supporting this assessment" without naming it.
+- NEVER fabricate or infer specific numerical endpoint values (HR, median OS, median PFS, \
+p-values, confidence intervals, enrollment numbers). The G-BA assessment data provided \
+does not contain these values, so inventing them would be misleading.
+- Instead, describe the evidence qualitatively: what the benefit rating and evidence level \
+tell us about the strength of the evidence (e.g., "The 'Hinweis' (indication) level \
+evidence certainty suggests the data came from an RCT with some methodological limitations").
+- If the assessment has multiple subpopulations with different evidence levels, explain \
+what this means for the overall evidence package.
+- Note if indirect treatment comparisons were likely needed (e.g., when the comparator \
+differs from what was studied in the trial).
+
+CRITICAL rules for evidence_limitations:
+- Note that specific clinical endpoints and numerical values cannot be determined from \
+the G-BA structured assessment data alone.
+- Note any other limitations apparent from the assessment context.
+
+CRITICAL rules for key_trials (in subpopulation_analyses):
+- ONLY include a trial name if you are highly confident it is the specific trial that \
+supported THIS G-BA assessment for THIS indication and comparator.
+- Do NOT guess trial names based on general drug knowledge — the G-BA assessment may \
+have been based on a different trial than you expect.
+- If uncertain, leave the key_trials array empty. An empty array is better than a wrong trial name.
 
 CRITICAL rules for market_implications:
 - "Kein Zusatznutzen" (no added benefit) does NOT restrict prescribing, patient access, \
@@ -247,6 +241,8 @@ proportional to the benefit extent and evidence certainty.
 the manufacturer can still negotiate a price above comparator cost.
 - Manufacturers may voluntarily withdraw from the German market if the negotiated \
 price is commercially unviable, but this is a business decision, not an access restriction.
+- When multiple subpopulations have different outcomes, explain the combined pricing \
+implications.
 
 Respond with ONLY the JSON object, no other text."""
 
@@ -413,8 +409,12 @@ async def analyze_assessment(
             key_trials=sp.get("key_trials", []),
         ))
 
-    # Build clinical evidence
+    # Build clinical evidence — support both new text format and legacy table format
     clinical_evidence = None
+    clinical_evidence_text = parsed.get("clinical_evidence_text", "")
+    evidence_limitations = parsed.get("evidence_limitations", [])
+
+    # Legacy: if the AI returned the old clinical_evidence object, parse it
     ce_raw = parsed.get("clinical_evidence")
     if ce_raw and isinstance(ce_raw, dict):
         trials = []
@@ -447,6 +447,9 @@ async def analyze_assessment(
             subpopulation_analyses_note=ce_raw.get("subpopulation_analyses_note", ""),
             evidence_limitations=ce_raw.get("evidence_limitations", []),
         )
+        # Merge evidence_limitations from legacy structure if not set at top level
+        if not evidence_limitations and clinical_evidence.evidence_limitations:
+            evidence_limitations = clinical_evidence.evidence_limitations
 
     analysis = GBAAssessmentAnalysis(
         decision_id=decision_id,
@@ -460,6 +463,8 @@ async def analyze_assessment(
         clinical_context=parsed.get("clinical_context", ""),
         market_implications=parsed.get("market_implications", ""),
         clinical_evidence=clinical_evidence,
+        clinical_evidence_text=clinical_evidence_text,
+        evidence_limitations=evidence_limitations,
         ai_model=AI_MODEL,
         cached=False,
     )

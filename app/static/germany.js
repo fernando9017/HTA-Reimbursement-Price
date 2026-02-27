@@ -479,8 +479,10 @@ function renderAIAnalysis(analysis, container) {
         html += '</div>';
     }
 
-    // Clinical evidence (pivotal trials)
-    if (analysis.clinical_evidence) {
+    // Clinical evidence — prefer text summary over legacy table
+    if (analysis.clinical_evidence_text) {
+        html += renderClinicalEvidenceText(analysis.clinical_evidence_text, analysis.evidence_limitations || []);
+    } else if (analysis.clinical_evidence) {
         html += renderClinicalEvidence(analysis.clinical_evidence);
     }
 
@@ -570,7 +572,27 @@ function renderAIAnalysis(analysis, container) {
     container.innerHTML = html;
 }
 
-// ── Clinical Evidence renderer ──────────────────────────────────────
+// ── Clinical Evidence Text renderer (new format) ────────────────────
+
+function renderClinicalEvidenceText(text, limitations) {
+    if (!text) return '';
+
+    let html = '<div class="gba-ai-section gba-ce-section">';
+    html += '<div class="gba-ai-section-label">CLINICAL EVIDENCE</div>';
+    html += `<div class="gba-ai-section-text">${esc(text)}</div>`;
+
+    if (limitations && limitations.length > 0) {
+        html += '<div class="gba-ce-limitations">';
+        html += '<span class="gba-ce-limitations-label">Note:</span> ';
+        html += esc(limitations.join(". "));
+        html += '</div>';
+    }
+
+    html += '</div>';
+    return html;
+}
+
+// ── Clinical Evidence renderer (legacy table format) ────────────────
 
 function renderClinicalEvidence(ce) {
     const trials = ce.pivotal_trials || [];
