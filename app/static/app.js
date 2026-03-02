@@ -358,11 +358,15 @@ function renderAssessments(data) {
     assessmentResults.classList.remove("hidden");
 
     const isGermany = data.country_code === "DE";
+    const isFrance = data.country_code === "FR";
 
     let cardsHtml;
     if (isGermany && data.assessments.some(a => a.dossier_code)) {
         // Group Germany assessments by decision_id for a structured view
         cardsHtml = renderGermanyGroupedAssessments(data.assessments);
+    } else if (isFrance && data.assessments.some(a => a.dossier_code)) {
+        // Group France assessments by dossier_code for a structured view
+        cardsHtml = renderFranceGroupedAssessments(data.assessments, data.active_substance);
     } else {
         cardsHtml = data.assessments.map(renderSingleAssessment).join("");
     }
@@ -377,7 +381,7 @@ function renderAssessments(data) {
 
     assessmentResults.scrollIntoView({ behavior: "smooth", block: "start" });
 
-    // Toggle collapsible sections
+    // Toggle collapsible sections (G-BA and France cards share the same mechanism)
     assessmentResults.querySelectorAll(".gba-section-toggle").forEach(toggle => {
         toggle.addEventListener("click", () => {
             const section = toggle.closest(".gba-section");
@@ -630,6 +634,338 @@ const GBA_PMA_TERMS = {
         label: "Benefit not confirmed \u2014 orphan >\u20ac50M (gilt als nicht belegt)",
         explanation: "Orphan drug exceeding \u20ac50M revenue — benefit not proven after full assessment",
         price_implication: "Standard AMNOG pricing applies; follows evidence-based assessment outcome",
+    },
+};
+
+// ── France (HAS) Grouped Card Renderer ───────────────────────────────
+
+/**
+ * Group France (HAS) assessments by dossier_code and render them in
+ * the enhanced structured format with Decision Summary, HAS Recommendation,
+ * and P&MA Terms — mirroring the Germany (G-BA) card design.
+ */
+function renderFranceGroupedAssessments(assessments, activeSubstance) {
+    // Group by dossier_code
+    const groups = {};
+    const order = [];
+    for (const a of assessments) {
+        const key = a.dossier_code || a.opinion_date + "_" + a.product_name;
+        if (!groups[key]) {
+            groups[key] = [];
+            order.push(key);
+        }
+        groups[key].push(a);
+    }
+
+    let html = "";
+    for (const key of order) {
+        const group = groups[key];
+        html += renderFranceDecisionCard(group, activeSubstance);
+    }
+    return html;
+}
+
+/**
+ * Render one grouped France HAS decision card.
+ */
+function renderFranceDecisionCard(assessments, activeSubstance) {
+    const first = assessments[0];
+    const tradeName = _extractTradeName(first.product_name);
+    const fullProductName = first.product_name;
+    const date = first.opinion_date;
+    const dossierCode = first.dossier_code;
+    const motif = first.evaluation_reason;
+    const url = first.assessment_url;
+    const indication = first.indication || "";
+    const smrValue = first.smr_value || "";
+    const asmrValue = first.asmr_value || "";
+    const smrDesc = first.smr_description || "";
+    const asmrDesc = first.asmr_description || "";
+
+    // Determine SMR/ASMR sentiment
+    const smrPositive = isSMRPositive(smrValue);
+    const smrNegative = isSMRNegative(smrValue);
+    const asmrPositive = isASMRPositive(asmrValue);
+    const asmrNegative = isASMRNegative(asmrValue);
+
+    // Build drivers/barriers
+    const drivers = [];
+    const barriers = [];
+
+    if (smrPositive) {
+        const smrEn = HAS_SMR_EN[smrValue] || smrValue;
+        drivers.push(`SMR: ${smrEn} (${smrValue}) — eligible for reimbursement`);
+    } else if (smrNegative) {
+        const smrEn = HAS_SMR_EN[smrValue] || smrValue;
+        barriers.push(`SMR: ${smrEn} (${smrValue}) — not eligible for reimbursement`);
+    }
+
+    if (asmrPositive) {
+        const asmrEn = HAS_ASMR_EN[asmrValue] || `ASMR ${asmrValue}`;
+        drivers.push(`ASMR ${asmrValue}: ${asmrEn} over existing treatments`);
+    } else if (asmrNegative) {
+        const asmrEn = HAS_ASMR_EN[asmrValue] || `ASMR ${asmrValue}`;
+        barriers.push(`ASMR ${asmrValue}: ${asmrEn} — no improvement over existing treatments`);
+    }
+
+    let html = '<div class="gba-enhanced-card">';
+
+    // ── Header ──
+    html += '<div class="gba-enhanced-header">';
+    html += `<div class="gba-enhanced-title">${esc(tradeName)} EVALUATION IN FRA (HAS)</div>`;
+    html += `<div class="gba-enhanced-date">Published ${esc(date)}</div>`;
+    html += '</div>';
+
+    // ── Decision Summary ──
+    if (drivers.length > 0 || barriers.length > 0) {
+        html += '<div class="gba-section">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Decision Summary</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+
+        if (drivers.length > 0) {
+            html += '<div class="gba-summary-block gba-summary-drivers">';
+            html += '<div class="gba-summary-label">Drivers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const d of drivers) {
+                html += `<li><span class="gba-indicator gba-indicator-positive"></span>${esc(d)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        if (barriers.length > 0) {
+            html += '<div class="gba-summary-block gba-summary-barriers">';
+            html += '<div class="gba-summary-label">Barriers</div>';
+            html += '<ul class="gba-summary-list">';
+            for (const b of barriers) {
+                html += `<li><span class="gba-indicator gba-indicator-negative"></span>${esc(b)}</li>`;
+            }
+            html += '</ul></div>';
+        }
+
+        html += '</div></div>';
+    }
+
+    // ── HAS Recommendation ──
+    html += '<div class="gba-section">';
+    html += '<div class="gba-section-header gba-section-toggle">';
+    html += '<span class="gba-section-title">HAS Recommendation</span>';
+    html += '<span class="gba-section-chevron"></span>';
+    html += '</div>';
+    html += '<div class="gba-section-body">';
+
+    // Active substance and trade name
+    if (activeSubstance) {
+        html += `<div class="gba-rec-indication" style="margin-bottom:6px"><strong>Active Substance:</strong> ${esc(activeSubstance)}</div>`;
+    }
+    html += `<div class="gba-rec-indication" style="margin-bottom:6px"><strong>Trade Name:</strong> ${esc(fullProductName)}</div>`;
+
+    // Indication
+    if (indication) {
+        html += `<div class="gba-rec-indication" style="margin-bottom:6px"><strong>Indication:</strong> ${esc(indication)}</div>`;
+    }
+
+    // Evaluation reason (motif)
+    if (motif) {
+        const motifEn = HAS_MOTIF_EN[motif] || motif;
+        html += `<div class="gba-rec-indication" style="margin-bottom:12px"><strong>Evaluation Purpose:</strong> ${esc(motifEn)} <span style="font-size:0.8rem;color:var(--text-light)">(${esc(motif)})</span></div>`;
+    }
+
+    // Dossier code
+    if (dossierCode) {
+        html += `<div class="gba-rec-indication" style="margin-bottom:12px"><strong>Dossier:</strong> ${esc(dossierCode)}</div>`;
+    }
+
+    // SMR rating
+    html += '<div class="gba-rec-subpops">';
+    if (smrValue) {
+        const smrIndicator = smrPositive ? "gba-indicator-positive" : smrNegative ? "gba-indicator-negative" : "gba-indicator-neutral";
+        html += '<div class="gba-rec-subpop-item">';
+        html += '<div class="gba-rec-rating-row">';
+        html += `<span class="gba-indicator ${smrIndicator}"></span>`;
+        html += `<span class="badge badge-smr ${smrClass(smrValue)}">`;
+        html += `<span class="label">SMR:</span> ${esc(smrValue)}</span>`;
+        const smrEn = HAS_SMR_EN[smrValue];
+        if (smrEn) {
+            html += `<span style="margin-left:8px;font-size:0.85rem;color:var(--text-light)">${esc(smrEn)}</span>`;
+        }
+        html += '</div>';
+        if (smrDesc) {
+            html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(smrDesc)}</div>`;
+        }
+        html += '</div>';
+    }
+
+    // ASMR rating
+    if (asmrValue) {
+        const asmrIndicator = asmrPositive ? "gba-indicator-positive" : asmrNegative ? "gba-indicator-negative" : "gba-indicator-neutral";
+        html += '<div class="gba-rec-subpop-item">';
+        html += '<div class="gba-rec-rating-row">';
+        html += `<span class="gba-indicator ${asmrIndicator}"></span>`;
+        html += `<span class="badge badge-asmr">`;
+        html += `<span class="label">ASMR:</span> ${esc(asmrValue)}</span>`;
+        const asmrEn = HAS_ASMR_EN[asmrValue];
+        if (asmrEn) {
+            html += `<span style="margin-left:8px;font-size:0.85rem;color:var(--text-light)">${esc(asmrEn)}</span>`;
+        }
+        html += '</div>';
+        if (asmrDesc) {
+            html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(asmrDesc)}</div>`;
+        }
+        html += '</div>';
+    }
+
+    html += '</div>';
+    html += '</div></div>';
+
+    // ── P&MA Terms (France) ──
+    const relevantTerms = [];
+    if (smrValue && HAS_PMA_SMR_TERMS[smrValue]) relevantTerms.push({ type: "SMR", key: smrValue, ...HAS_PMA_SMR_TERMS[smrValue] });
+    if (asmrValue && HAS_PMA_ASMR_TERMS[asmrValue]) relevantTerms.push({ type: "ASMR", key: asmrValue, ...HAS_PMA_ASMR_TERMS[asmrValue] });
+
+    if (relevantTerms.length > 0) {
+        html += '<div class="gba-section collapsed">';
+        html += '<div class="gba-section-header gba-section-toggle">';
+        html += '<span class="gba-section-title">Key P&amp;MA Terms (France)</span>';
+        html += '<span class="gba-section-chevron"></span>';
+        html += '</div>';
+        html += '<div class="gba-section-body">';
+        html += '<table class="gba-pma-table"><thead><tr>';
+        html += '<th>Rating</th><th>Explanation</th><th>Price Implication</th>';
+        html += '</tr></thead><tbody>';
+        for (const t of relevantTerms) {
+            html += '<tr>';
+            if (t.type === "SMR") {
+                html += `<td class="gba-pma-rating"><span class="badge badge-smr ${smrClass(t.key)}">${esc(t.label)}</span></td>`;
+            } else {
+                html += `<td class="gba-pma-rating"><span class="badge badge-asmr">${esc(t.label)}</span></td>`;
+            }
+            html += `<td>${esc(t.explanation)}</td>`;
+            html += `<td>${esc(t.price_implication)}</td>`;
+            html += '</tr>';
+        }
+        html += '</tbody></table></div></div>';
+    }
+
+    // ── Action bar ──
+    html += '<div class="gba-action-bar">';
+    if (url) {
+        html += `<a class="gba-source-btn" href="${esc(url)}" target="_blank" rel="noopener">View on HAS &rarr;</a>`;
+    }
+    html += '</div>';
+
+    html += '</div>';
+    return html;
+}
+
+/** Extract trade name from full BDPM denomination (e.g. "KEYTRUDA 25 mg/mL, solution..."). */
+function _extractTradeName(denomination) {
+    if (!denomination) return "";
+    // BDPM names start with the trade name in CAPS, followed by dosage
+    const match = denomination.match(/^([A-ZÀ-Ü][A-ZÀ-Ü\s/.-]+?)(?:\s+\d|\s*,|$)/);
+    return match ? match[1].trim() : denomination.split(",")[0].trim();
+}
+
+/** SMR sentiment helpers. */
+function isSMRPositive(v) {
+    const s = (v || "").toLowerCase();
+    return s === "important" || s === "modéré" || s === "modere";
+}
+function isSMRNegative(v) {
+    const s = (v || "").toLowerCase();
+    return s === "insuffisant";
+}
+
+/** ASMR sentiment helpers. */
+function isASMRPositive(v) {
+    return ["I", "II", "III", "IV"].includes(v);
+}
+function isASMRNegative(v) {
+    return v === "V" || v === "Sans objet";
+}
+
+/** English translations for display in France cards. */
+const HAS_SMR_EN = {
+    "Important": "Major clinical benefit",
+    "Modéré": "Moderate clinical benefit",
+    "Faible": "Minor clinical benefit",
+    "Insuffisant": "Insufficient clinical benefit",
+};
+
+const HAS_ASMR_EN = {
+    "I": "Major therapeutic improvement",
+    "II": "Important therapeutic improvement",
+    "III": "Moderate therapeutic improvement",
+    "IV": "Minor therapeutic improvement",
+    "V": "No therapeutic improvement",
+};
+
+const HAS_MOTIF_EN = {
+    "Inscription": "Initial registration",
+    "Inscription (première évaluation)": "Initial registration (first evaluation)",
+    "Inscription (collectivités)": "Registration (hospital use)",
+    "Renouvellement": "Renewal",
+    "Renouvellement d'inscription": "Registration renewal",
+    "Extension d'indication": "Indication extension",
+    "Modification": "Modification",
+    "Modification des conditions d'inscription": "Registration conditions modification",
+    "Réévaluation": "Re-evaluation",
+    "Réévaluation SMR et ASMR": "SMR and ASMR re-evaluation",
+    "Radiation": "Delisting",
+    "Rectificatif": "Correction",
+};
+
+/** P&MA terms reference tables for France HAS ratings. */
+const HAS_PMA_SMR_TERMS = {
+    "Important": {
+        label: "SMR Important",
+        explanation: "Highest clinical benefit level; the medicine treats a serious condition with demonstrated therapeutic benefit and limited alternatives",
+        price_implication: "Eligible for reimbursement at 65% rate; price negotiated with CEPS",
+    },
+    "Modéré": {
+        label: "SMR Modéré",
+        explanation: "Moderate clinical benefit; the medicine addresses a less serious condition or has alternatives available",
+        price_implication: "Eligible for reimbursement at 30% rate; price negotiated with CEPS at a lower level",
+    },
+    "Faible": {
+        label: "SMR Faible",
+        explanation: "Minor clinical benefit; limited added value in the therapeutic strategy",
+        price_implication: "Eligible for reimbursement at 15% rate; likely subject to price reduction or generic tariff (TFR)",
+    },
+    "Insuffisant": {
+        label: "SMR Insuffisant",
+        explanation: "Insufficient clinical benefit to justify reimbursement by the French social security system",
+        price_implication: "Not eligible for reimbursement; may be removed from reimbursement list if previously listed",
+    },
+};
+
+const HAS_PMA_ASMR_TERMS = {
+    "I": {
+        label: "ASMR I — Major",
+        explanation: "Major therapeutic improvement: breakthrough in pharmacotherapy (e.g. first effective treatment for a disease)",
+        price_implication: "Maximum pricing freedom; price set freely by manufacturer; strong negotiating position with CEPS",
+    },
+    "II": {
+        label: "ASMR II — Important",
+        explanation: "Important therapeutic improvement: significant efficacy and/or safety improvement vs. existing treatments",
+        price_implication: "High pricing power; price generally at or above European comparators",
+    },
+    "III": {
+        label: "ASMR III — Moderate",
+        explanation: "Moderate therapeutic improvement: meaningful but modest improvement in efficacy, safety, or convenience",
+        price_implication: "Moderate pricing premium; price negotiated with reference to European price levels",
+    },
+    "IV": {
+        label: "ASMR IV — Minor",
+        explanation: "Minor therapeutic improvement: small improvement in convenience, tolerability, or a subpopulation",
+        price_implication: "Limited pricing premium; price typically must not exceed lowest European price",
+    },
+    "V": {
+        label: "ASMR V — None",
+        explanation: "No therapeutic improvement over existing treatments; comparable to available alternatives",
+        price_implication: "Price must be at or below existing comparators; potential generic tariff (TFR) application",
     },
 };
 

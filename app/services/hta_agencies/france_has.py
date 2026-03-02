@@ -67,9 +67,16 @@ _MOTIF_EN: dict[str, str] = {
 }
 
 
-def _build_summary_en(smr_value: str, asmr_value: str, motif: str) -> str:
+def _build_summary_en(
+    smr_value: str,
+    asmr_value: str,
+    motif: str,
+    indication: str = "",
+) -> str:
     """Compose a concise English summary from French HAS rating codes."""
     parts: list[str] = []
+    if indication:
+        parts.append(f"Indication: {indication}")
     if smr_value:
         label = _SMR_EN.get(smr_value, smr_value)
         parts.append(f"SMR: {label}")
@@ -258,21 +265,24 @@ class FranceHAS(HTAAgency):
                     dossier_assessments[key]["asmr_value"] = asmr["value"]
                     dossier_assessments[key]["asmr_description"] = asmr["label"]
 
-        results = [
-            AssessmentResult(
-                **data,
-                indication=_extract_indication(
-                    data.get("smr_description", ""),
-                    data.get("asmr_description", ""),
-                ),
-                summary_en=_build_summary_en(
-                    data.get("smr_value", ""),
-                    data.get("asmr_value", ""),
-                    data.get("evaluation_reason", ""),
-                ),
+        results = []
+        for data in dossier_assessments.values():
+            indication = _extract_indication(
+                data.get("smr_description", ""),
+                data.get("asmr_description", ""),
             )
-            for data in dossier_assessments.values()
-        ]
+            results.append(
+                AssessmentResult(
+                    **data,
+                    indication=indication,
+                    summary_en=_build_summary_en(
+                        data.get("smr_value", ""),
+                        data.get("asmr_value", ""),
+                        data.get("evaluation_reason", ""),
+                        indication,
+                    ),
+                )
+            )
         # Sort by opinion date descending (most recent first)
         results.sort(key=lambda r: r.opinion_date, reverse=True)
         return results
@@ -459,6 +469,10 @@ def _extract_indication(smr_label: str, asmr_label: str) -> str:
     - "Le service médical rendu par KEYTRUDA est important dans le mélanome avancé"
     - "SMR important dans le cancer urothélial"
     - "ASMR modérée dans le mélanome"
+    - "...dans le traitement du cancer du poumon non à petites cellules (CBNPC)"
+    - "...en monothérapie dans le cancer du sein HER2-positif"
+    - "...en association avec le carboplatine dans le cancer de l'ovaire"
+    - "...chez les patients adultes atteints de mélanome avancé"
 
     Returns the indication text, or empty string if it cannot be extracted.
     """
@@ -466,7 +480,7 @@ def _extract_indication(smr_label: str, asmr_label: str) -> str:
         if not label:
             continue
 
-        # Pattern: "dans le/la/l'/les [indication]" — extract everything after "dans"
+        # Pattern 1: "dans le/la/l'/les [indication]" — most common format
         match = re.search(
             r"\bdans\s+(le |la |l['\u2019]|les |l\u2019|son |cette |)"
             r"(.+?)\.?\s*$",
@@ -475,12 +489,38 @@ def _extract_indication(smr_label: str, asmr_label: str) -> str:
         )
         if match:
             indication = (match.group(1) + match.group(2)).strip().rstrip(".")
-            # Skip generic descriptions like "l'indication évaluée"
+            # Skip generic descriptions
             if "indication évaluée" in indication.lower():
                 continue
             if "indication retenue" in indication.lower():
                 continue
             # Capitalize first letter
+            if indication:
+                indication = indication[0].upper() + indication[1:]
+            return indication
+
+        # Pattern 2: "chez les patients/adultes atteints de [disease]"
+        match = re.search(
+            r"\bchez\s+les\s+(?:patients?\s+)?(?:adultes?\s+)?atteints?\s+(?:de |d['\u2019])"
+            r"(.+?)\.?\s*$",
+            label,
+            re.IGNORECASE,
+        )
+        if match:
+            indication = match.group(1).strip().rstrip(".")
+            if indication:
+                indication = indication[0].upper() + indication[1:]
+            return indication
+
+        # Pattern 3: "pour le traitement de/du/des [indication]"
+        match = re.search(
+            r"\bpour\s+le\s+traitement\s+(?:de |du |des |d['\u2019])"
+            r"(.+?)\.?\s*$",
+            label,
+            re.IGNORECASE,
+        )
+        if match:
+            indication = match.group(1).strip().rstrip(".")
             if indication:
                 indication = indication[0].upper() + indication[1:]
             return indication
