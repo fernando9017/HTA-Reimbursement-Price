@@ -185,7 +185,8 @@ function renderHASDrugList(drugs, container) {
     let html = `<p class="results-summary">${drugs.length} assessed drug(s)</p>`;
     html += '<div class="analogue-table-wrapper"><table class="analogue-table"><thead><tr>';
     html += '<th>Active Substance</th><th>Trade Name(s)</th>';
-    html += '<th>Assessments</th><th>Best SMR</th><th>Best ASMR</th>';
+    html += '<th>Indication(s)</th><th>Assessments</th>';
+    html += '<th>Best SMR</th><th>Best ASMR</th>';
     html += '<th>Latest Date</th>';
     html += '</tr></thead><tbody>';
 
@@ -194,7 +195,8 @@ function renderHASDrugList(drugs, container) {
         const asmrClass = asmrBadgeClass(d.best_asmr);
         html += `<tr class="has-drug-row" data-substance="${esc(d.active_substance)}" style="cursor:pointer">`;
         html += `<td class="col-name"><strong>${esc(d.active_substance)}</strong></td>`;
-        html += `<td>${d.trade_names.map(n => esc(n)).join(", ").substring(0, 120) || "—"}</td>`;
+        html += `<td>${d.trade_names.map(n => esc(n)).join(", ") || "—"}</td>`;
+        html += `<td class="col-indication">${(d.indications_en || d.indications || []).map(i => esc(i)).join("; ") || "—"}</td>`;
         html += `<td style="text-align:center">${d.assessment_count}</td>`;
         html += `<td><span class="tag ${smrClass}">${esc(d.best_smr_en || d.best_smr || "—")}</span></td>`;
         html += `<td><span class="tag ${asmrClass}">${d.best_asmr ? "ASMR " + esc(d.best_asmr) : "—"}</span></td>`;

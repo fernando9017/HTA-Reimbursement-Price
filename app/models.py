@@ -623,6 +623,8 @@ class HASDrugListItem(BaseModel):
     best_smr_en: str = ""
     best_asmr: str = ""                 # Best (most favorable) ASMR
     best_asmr_en: str = ""
+    indications: list[str] = []         # Unique indications (French) across assessments
+    indications_en: list[str] = []      # English translations of indications
     evaluation_reasons: list[str] = []  # Unique motifs across assessments
 
 

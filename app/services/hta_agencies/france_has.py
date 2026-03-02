@@ -815,6 +815,30 @@ def _extract_indication(smr_label: str, asmr_label: str) -> str:
     return ""
 
 
+def _shorten_trade_name(denomination: str) -> str:
+    """Extract just the brand name from a BDPM denomination.
+
+    BDPM denominations include dosage, form, and route details, e.g.:
+      "KEYTRUDA 25 mg/mL, solution à diluer pour perfusion"
+      "OPDIVO 10 mg/mL, solution à diluer pour perfusion"
+      "HUMIRA 40 mg, solution injectable en seringue préremplie"
+
+    Returns just the brand name portion (e.g. "KEYTRUDA", "OPDIVO", "HUMIRA").
+    """
+    if not denomination:
+        return ""
+
+    # Strip at first comma (form/route details)
+    name = denomination.split(",")[0].strip()
+
+    # Strip at first numeric dosage pattern (e.g. "25 mg", "10 mg/mL", "0,5 mg")
+    match = re.match(r"^(.+?)\s+\d", name)
+    if match:
+        name = match.group(1).strip()
+
+    return name
+
+
 def _substance_matches(query: str, candidate: str) -> bool:
     """Check whether *query* matches *candidate* as a substance name.
 
