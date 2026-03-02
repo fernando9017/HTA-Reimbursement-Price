@@ -366,7 +366,9 @@ function renderAssessments(data) {
         cardsHtml = renderGermanyGroupedAssessments(data.assessments);
     } else if (isFrance && data.assessments.some(a => a.dossier_code)) {
         // Group France assessments by dossier_code for a structured view
-        cardsHtml = renderFranceGroupedAssessments(data.assessments, data.active_substance);
+        // Pass the EMA therapeutic indication as English fallback
+        const emaIndication = selectedMedicine ? selectedMedicine.therapeutic_indication : "";
+        cardsHtml = renderFranceGroupedAssessments(data.assessments, data.active_substance, emaIndication);
     } else {
         cardsHtml = data.assessments.map(renderSingleAssessment).join("");
     }
@@ -644,7 +646,7 @@ const GBA_PMA_TERMS = {
  * the enhanced structured format with Decision Summary, HAS Recommendation,
  * and P&MA Terms — mirroring the Germany (G-BA) card design.
  */
-function renderFranceGroupedAssessments(assessments, activeSubstance) {
+function renderFranceGroupedAssessments(assessments, activeSubstance, emaIndication) {
     // Group by dossier_code
     const groups = {};
     const order = [];
@@ -660,7 +662,7 @@ function renderFranceGroupedAssessments(assessments, activeSubstance) {
     let html = "";
     for (const key of order) {
         const group = groups[key];
-        html += renderFranceDecisionCard(group, activeSubstance);
+        html += renderFranceDecisionCard(group, activeSubstance, emaIndication);
     }
     return html;
 }
@@ -668,7 +670,7 @@ function renderFranceGroupedAssessments(assessments, activeSubstance) {
 /**
  * Render one grouped France HAS decision card.
  */
-function renderFranceDecisionCard(assessments, activeSubstance) {
+function renderFranceDecisionCard(assessments, activeSubstance, emaIndication) {
     const first = assessments[0];
     const tradeName = _extractTradeName(first.product_name);
     const fullProductName = first.product_name;
@@ -676,7 +678,8 @@ function renderFranceDecisionCard(assessments, activeSubstance) {
     const dossierCode = first.dossier_code;
     const motif = first.evaluation_reason;
     const url = first.assessment_url;
-    const indication = first.indication || "";
+    const indicationFr = first.indication || "";
+    const indicationEn = first.indication_en || "";
     const smrValue = first.smr_value || "";
     const asmrValue = first.asmr_value || "";
     const smrDesc = first.smr_description || "";
@@ -762,9 +765,20 @@ function renderFranceDecisionCard(assessments, activeSubstance) {
     }
     html += `<div class="gba-rec-indication" style="margin-bottom:6px"><strong>Trade Name:</strong> ${esc(fullProductName)}</div>`;
 
-    // Indication
-    if (indication) {
-        html += `<div class="gba-rec-indication" style="margin-bottom:6px"><strong>Indication:</strong> ${esc(indication)}</div>`;
+    // Indications — show English translation with French original, or EMA fallback
+    if (indicationEn && indicationEn !== indicationFr) {
+        // We have both French and a different English translation
+        html += `<div class="gba-rec-indication" style="margin-bottom:4px"><strong>Indication:</strong> ${esc(indicationEn)}</div>`;
+        html += `<div class="gba-rec-indication" style="margin-bottom:6px;font-size:0.82rem;color:var(--text-light)"><em>(FR)</em> ${esc(indicationFr)}</div>`;
+    } else if (indicationFr) {
+        // French only (no English translation available)
+        html += `<div class="gba-rec-indication" style="margin-bottom:4px"><strong>Indication:</strong> ${esc(indicationFr)}</div>`;
+        if (emaIndication) {
+            html += `<div class="gba-rec-indication" style="margin-bottom:6px;font-size:0.82rem;color:var(--text-light)"><em>(EMA)</em> ${esc(emaIndication)}</div>`;
+        }
+    } else if (emaIndication) {
+        // No BDPM indication extracted — use EMA therapeutic indication as fallback
+        html += `<div class="gba-rec-indication" style="margin-bottom:6px"><strong>Indication:</strong> ${esc(emaIndication)}</div>`;
     }
 
     // Evaluation reason (motif)
@@ -1118,12 +1132,18 @@ function renderSingleAssessment(a) {
            </div>`
         : "";
 
-    // France (HAS) indication — extracted from SMR/ASMR description
-    const indicationRow = a.indication
-        ? `<div style="font-size:0.85rem;color:var(--text);margin-bottom:8px;">
+    // France (HAS) indication — show English translation when available
+    let indicationRow = "";
+    if (a.indication_en && a.indication_en !== a.indication) {
+        indicationRow = `<div style="font-size:0.85rem;color:var(--text);margin-bottom:8px;">
+            <strong>Indication:</strong> ${esc(a.indication_en)}
+            <div style="font-size:0.82rem;color:var(--text-light)"><em>(FR)</em> ${esc(a.indication)}</div>
+           </div>`;
+    } else if (a.indication) {
+        indicationRow = `<div style="font-size:0.85rem;color:var(--text);margin-bottom:8px;">
             <strong>Indication:</strong> ${esc(a.indication)}
-           </div>`
-        : "";
+           </div>`;
+    }
 
     return `
         <div class="assessment-card">
