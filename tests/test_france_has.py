@@ -8,6 +8,7 @@ import pytest
 
 from app.services.hta_agencies.france_has import (
     FranceHAS,
+    _build_summary_en,
     _extract_indication,
     _format_date,
     _normalize_has_url,
@@ -424,3 +425,68 @@ def test_normalize_has_url_preserves_existing_fr():
 
 def test_normalize_has_url_empty():
     assert _normalize_has_url("") == ""
+
+
+# ── Enhanced indication extraction tests ───────────────────────────────
+
+
+def test_extract_indication_chez_les_patients():
+    """Pattern: 'chez les patients adultes atteints de [disease]'."""
+    indication = _extract_indication(
+        "Le SMR est important chez les patients adultes atteints de leucémie myéloïde chronique.",
+        "",
+    )
+    assert "leucémie myéloïde chronique" in indication.lower()
+
+
+def test_extract_indication_pour_le_traitement():
+    """Pattern: 'pour le traitement du [disease]'."""
+    indication = _extract_indication(
+        "KEYTRUDA est indiqué pour le traitement du mélanome avancé non résécable.",
+        "",
+    )
+    assert "mélanome avancé" in indication.lower()
+
+
+def test_extract_indication_prefers_dans_over_chez():
+    """'dans' pattern takes precedence when both are present."""
+    indication = _extract_indication(
+        "SMR important dans le cancer du poumon non à petites cellules.",
+        "",
+    )
+    assert "cancer du poumon" in indication.lower()
+
+
+def test_extract_indication_asmr_fallback():
+    """Falls back to ASMR label when SMR has no indication."""
+    indication = _extract_indication(
+        "Le service médical rendu est important.",
+        "ASMR modérée dans le cancer du sein HER2-positif.",
+    )
+    assert "cancer du sein" in indication.lower()
+
+
+# ── Summary builder tests ──────────────────────────────────────────────
+
+
+def test_build_summary_includes_indication():
+    summary = _build_summary_en("Important", "III", "Inscription", "Le mélanome avancé")
+    assert "Indication: Le mélanome avancé" in summary
+    assert "SMR: Major clinical benefit" in summary
+    assert "ASMR III: Moderate therapeutic improvement" in summary
+
+
+def test_build_summary_without_indication():
+    summary = _build_summary_en("Insuffisant", "V", "Renouvellement")
+    assert "Indication:" not in summary
+    assert "SMR: Insufficient clinical benefit" in summary
+
+
+@pytest.mark.asyncio
+async def test_search_results_summary_includes_indication(has_service):
+    """Assessments with extracted indication should include it in summary_en."""
+    results = await has_service.search_assessments("pembrolizumab")
+    # The melanoma assessment has indication "le mélanome" extractable
+    melanoma_results = [r for r in results if r.dossier_code == "CT-15432"]
+    assert len(melanoma_results) == 1
+    assert "Indication:" in melanoma_results[0].summary_en
