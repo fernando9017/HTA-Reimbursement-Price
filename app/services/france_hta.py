@@ -22,6 +22,10 @@ from app.services.hta_agencies.france_has import (
     _MOTIF_EN,
     _SMR_EN,
     FranceHAS,
+    _extract_indication,
+    _shorten_trade_name,
+    _translate_description,
+    _translate_indication,
 )
 
 logger = logging.getLogger(__name__)
@@ -94,6 +98,8 @@ class FranceHTAService:
                 best_smr_en=_SMR_EN.get(best_smr, best_smr),
                 best_asmr=best_asmr,
                 best_asmr_en=_ASMR_EN.get(best_asmr, best_asmr),
+                indications=profile.get("indications", []),
+                indications_en=profile.get("indications_en", []),
                 evaluation_reasons=profile["evaluation_reasons"],
             ))
 
@@ -271,17 +277,21 @@ class FranceHTAService:
             smr_ratings: list[str] = []
             asmr_ratings: list[str] = []
             evaluation_reasons: set[str] = set()
+            indications_fr: list[str] = []
+            indications_en: list[str] = []
+            seen_indications: set[str] = set()
             latest_date = ""
             seen_trades: set[str] = set()
 
             grouped: list[HASGroupedAssessment] = []
 
             for a in assessments:
-                # Collect trade names
+                # Collect shortened trade names (brand only, no dosage/form)
                 for name in a["product_names"]:
-                    if name not in seen_trades:
-                        trade_names.append(name)
-                        seen_trades.add(name)
+                    short = _shorten_trade_name(name)
+                    if short and short not in seen_trades:
+                        trade_names.append(short)
+                        seen_trades.add(short)
 
                 # Collect ratings
                 smr = a.get("smr_value", "")
@@ -299,10 +309,33 @@ class FranceHTAService:
                 if date > latest_date:
                     latest_date = date
 
+                # Extract and translate indication + descriptions
+                smr_desc = a.get("smr_description", "")
+                asmr_desc = a.get("asmr_description", "")
+                indication_fr = _extract_indication(smr_desc, asmr_desc)
+                indication_en = _translate_indication(indication_fr)
+                smr_desc_en = _translate_description(smr_desc)
+                asmr_desc_en = _translate_description(asmr_desc)
+
+                # Collect unique indications for the drug list
+                ind_key = (indication_en or indication_fr).lower()
+                if ind_key and ind_key not in seen_indications:
+                    seen_indications.add(ind_key)
+                    if indication_fr:
+                        indications_fr.append(indication_fr)
+                    if indication_en:
+                        indications_en.append(indication_en)
+
+                # Shorten product names for the grouped assessment card
+                short_names = sorted({
+                    _shorten_trade_name(n) for n in a["product_names"]
+                    if _shorten_trade_name(n)
+                })
+
                 # Build grouped assessment
                 grouped.append(HASGroupedAssessment(
                     dossier_code=a["dossier_code"],
-                    product_names=sorted(a["product_names"]),
+                    product_names=short_names,
                     active_substance=substance,
                     evaluation_reason=motif,
                     evaluation_reason_en=_MOTIF_EN.get(motif, motif),
@@ -310,10 +343,14 @@ class FranceHTAService:
                     assessment_url=self._has._ct_links.get(a["dossier_code"], ""),
                     smr_value=smr,
                     smr_value_en=_SMR_EN.get(smr, smr),
-                    smr_description=a.get("smr_description", ""),
+                    smr_description=smr_desc,
+                    smr_description_en=smr_desc_en,
                     asmr_value=asmr,
                     asmr_value_en=_ASMR_EN.get(asmr, asmr),
-                    asmr_description=a.get("asmr_description", ""),
+                    asmr_description=asmr_desc,
+                    asmr_description_en=asmr_desc_en,
+                    indication=indication_fr,
+                    indication_en=indication_en,
                 ))
 
             # Sort grouped assessments by date descending
@@ -333,6 +370,8 @@ class FranceHTAService:
                 "trade_names": trade_names,
                 "smr_ratings": smr_ratings,
                 "asmr_ratings": asmr_ratings,
+                "indications": indications_fr,
+                "indications_en": indications_en,
                 "evaluation_reasons": sorted(evaluation_reasons),
                 "latest_date": latest_date,
                 "assessment_count": unique_count or len(grouped),

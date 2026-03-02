@@ -185,7 +185,8 @@ function renderHASDrugList(drugs, container) {
     let html = `<p class="results-summary">${drugs.length} assessed drug(s)</p>`;
     html += '<div class="analogue-table-wrapper"><table class="analogue-table"><thead><tr>';
     html += '<th>Active Substance</th><th>Trade Name(s)</th>';
-    html += '<th>Assessments</th><th>Best SMR</th><th>Best ASMR</th>';
+    html += '<th>Indication(s)</th><th>Assessments</th>';
+    html += '<th>Best SMR</th><th>Best ASMR</th>';
     html += '<th>Latest Date</th>';
     html += '</tr></thead><tbody>';
 
@@ -194,7 +195,8 @@ function renderHASDrugList(drugs, container) {
         const asmrClass = asmrBadgeClass(d.best_asmr);
         html += `<tr class="has-drug-row" data-substance="${esc(d.active_substance)}" style="cursor:pointer">`;
         html += `<td class="col-name"><strong>${esc(d.active_substance)}</strong></td>`;
-        html += `<td>${d.trade_names.map(n => esc(n)).join(", ").substring(0, 120) || "—"}</td>`;
+        html += `<td>${d.trade_names.map(n => esc(n)).join(", ") || "—"}</td>`;
+        html += `<td class="col-indication">${(d.indications_en || d.indications || []).map(i => esc(i)).join("; ") || "—"}</td>`;
         html += `<td style="text-align:center">${d.assessment_count}</td>`;
         html += `<td><span class="tag ${smrClass}">${esc(d.best_smr_en || d.best_smr || "—")}</span></td>`;
         html += `<td><span class="tag ${asmrClass}">${d.best_asmr ? "ASMR " + esc(d.best_asmr) : "—"}</span></td>`;
@@ -289,6 +291,19 @@ function renderHASAssessments(profile, container) {
             html += `<div class="has-product-names">${displayNames}${more}</div>`;
         }
 
+        // Indication
+        if (a.indication_en || a.indication) {
+            html += '<div style="margin:6px 0;font-size:0.88rem">';
+            html += '<strong>Indication:</strong> ';
+            if (a.indication_en && a.indication_en !== a.indication) {
+                html += esc(a.indication_en);
+                html += ` <span style="color:var(--text-light);font-style:italic;font-size:0.82rem">(FR: ${esc(a.indication)})</span>`;
+            } else if (a.indication) {
+                html += esc(a.indication);
+            }
+            html += '</div>';
+        }
+
         // SMR / ASMR badges
         html += '<div class="has-rating-grid">';
 
@@ -308,14 +323,26 @@ function renderHASAssessments(profile, container) {
 
         html += '</div>'; // rating-grid
 
-        // Descriptions (collapsible)
+        // Descriptions — show English translation first, French below
         if (a.smr_description || a.asmr_description) {
             html += '<div class="has-descriptions">';
             if (a.smr_description) {
-                html += `<div class="has-desc-item"><strong>SMR:</strong> ${esc(a.smr_description)}</div>`;
+                const smrDescEn = a.smr_description_en || "";
+                if (smrDescEn && smrDescEn !== a.smr_description) {
+                    html += `<div class="has-desc-item"><strong>SMR:</strong> ${esc(smrDescEn)}</div>`;
+                    html += `<div class="has-desc-item" style="font-size:0.8rem;color:var(--text-light);font-style:italic;margin-top:2px">(FR) ${esc(a.smr_description)}</div>`;
+                } else {
+                    html += `<div class="has-desc-item"><strong>SMR:</strong> ${esc(a.smr_description)}</div>`;
+                }
             }
             if (a.asmr_description) {
-                html += `<div class="has-desc-item"><strong>ASMR:</strong> ${esc(a.asmr_description)}</div>`;
+                const asmrDescEn = a.asmr_description_en || "";
+                if (asmrDescEn && asmrDescEn !== a.asmr_description) {
+                    html += `<div class="has-desc-item"><strong>ASMR:</strong> ${esc(asmrDescEn)}</div>`;
+                    html += `<div class="has-desc-item" style="font-size:0.8rem;color:var(--text-light);font-style:italic;margin-top:2px">(FR) ${esc(a.asmr_description)}</div>`;
+                } else {
+                    html += `<div class="has-desc-item"><strong>ASMR:</strong> ${esc(a.asmr_description)}</div>`;
+                }
             }
             html += '</div>';
         }

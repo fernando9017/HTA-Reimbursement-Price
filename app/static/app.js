@@ -683,7 +683,9 @@ function renderFranceDecisionCard(assessments, activeSubstance, emaIndication) {
     const smrValue = first.smr_value || "";
     const asmrValue = first.asmr_value || "";
     const smrDesc = first.smr_description || "";
+    const smrDescEn = first.smr_description_en || "";
     const asmrDesc = first.asmr_description || "";
+    const asmrDescEn = first.asmr_description_en || "";
 
     // Determine SMR/ASMR sentiment
     const smrPositive = isSMRPositive(smrValue);
@@ -806,7 +808,10 @@ function renderFranceDecisionCard(assessments, activeSubstance, emaIndication) {
             html += `<span style="margin-left:8px;font-size:0.85rem;color:var(--text-light)">${esc(smrEn)}</span>`;
         }
         html += '</div>';
-        if (smrDesc) {
+        if (smrDescEn && smrDescEn !== smrDesc) {
+            html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(smrDescEn)}</div>`;
+            html += `<div style="font-size:0.78rem;color:var(--text-light);margin-top:2px;font-style:italic">(FR) ${esc(smrDesc)}</div>`;
+        } else if (smrDesc) {
             html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(smrDesc)}</div>`;
         }
         html += '</div>';
@@ -825,7 +830,10 @@ function renderFranceDecisionCard(assessments, activeSubstance, emaIndication) {
             html += `<span style="margin-left:8px;font-size:0.85rem;color:var(--text-light)">${esc(asmrEn)}</span>`;
         }
         html += '</div>';
-        if (asmrDesc) {
+        if (asmrDescEn && asmrDescEn !== asmrDesc) {
+            html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(asmrDescEn)}</div>`;
+            html += `<div style="font-size:0.78rem;color:var(--text-light);margin-top:2px;font-style:italic">(FR) ${esc(asmrDesc)}</div>`;
+        } else if (asmrDesc) {
             html += `<div style="font-size:0.82rem;color:var(--text-light);margin-top:4px">${esc(asmrDesc)}</div>`;
         }
         html += '</div>';
@@ -1100,18 +1108,34 @@ function renderSingleAssessment(a) {
             : "";
     }
 
-    // Descriptions
-    const smrDesc = a.smr_description
-        ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+    // Descriptions — show English translation when available
+    let smrDesc = "";
+    if (a.smr_description_en && a.smr_description_en !== a.smr_description) {
+        smrDesc = `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+            <strong>SMR:</strong> ${esc(a.smr_description_en)}
+           </div>
+           <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;font-style:italic">
+            (FR) ${esc(a.smr_description)}
+           </div>`;
+    } else if (a.smr_description) {
+        smrDesc = `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
             <strong>SMR:</strong> ${esc(a.smr_description)}
-           </div>`
-        : "";
+           </div>`;
+    }
 
-    const asmrDesc = a.asmr_description
-        ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+    let asmrDesc = "";
+    if (a.asmr_description_en && a.asmr_description_en !== a.asmr_description) {
+        asmrDesc = `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
+            <strong>ASMR:</strong> ${esc(a.asmr_description_en)}
+           </div>
+           <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;font-style:italic">
+            (FR) ${esc(a.asmr_description)}
+           </div>`;
+    } else if (a.asmr_description) {
+        asmrDesc = `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
             <strong>ASMR:</strong> ${esc(a.asmr_description)}
-           </div>`
-        : "";
+           </div>`;
+    }
 
     const benefitDesc = a.benefit_rating_description && a.benefit_rating_description !== a.benefit_rating
         ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:4px;">
