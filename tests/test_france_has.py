@@ -527,9 +527,11 @@ def test_translate_indication_empty():
 
 
 def test_translate_indication_no_match():
-    """Unknown terms should pass through unchanged."""
+    """Unknown medical terms pass through; common French words get translated."""
     result = _translate_indication("Une indication très spécifique")
-    assert result == "Une indication très spécifique"
+    # "Une" → "a", "très" → "very" via cleanup; "spécifique" has no entry
+    assert "spécifique" in result
+    assert "Une" not in result  # French article should be translated
 
 
 def test_translate_indication_sclerose_en_plaques():
