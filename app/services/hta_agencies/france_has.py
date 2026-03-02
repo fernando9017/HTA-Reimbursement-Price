@@ -66,6 +66,218 @@ _MOTIF_EN: dict[str, str] = {
     "Rectificatif": "Correction",
 }
 
+# French → English medical term translations for indication text.
+# Keys are lowercase French terms; values are English replacements.
+# Terms are applied via longest-match-first substitution.
+_INDICATION_FR_EN: dict[str, str] = {
+    # Oncology
+    "cancer du sein": "breast cancer",
+    "cancer du sein her2-positif": "HER2-positive breast cancer",
+    "cancer du sein triple négatif": "triple-negative breast cancer",
+    "cancer du poumon": "lung cancer",
+    "cancer du poumon non à petites cellules": "non-small cell lung cancer",
+    "cancer du poumon à petites cellules": "small cell lung cancer",
+    "cancer bronchique non à petites cellules": "non-small cell lung cancer",
+    "cancer de la prostate": "prostate cancer",
+    "cancer de la prostate résistant à la castration": "castration-resistant prostate cancer",
+    "cancer du rein": "renal cell carcinoma",
+    "cancer de l'ovaire": "ovarian cancer",
+    "cancer de l'estomac": "gastric cancer",
+    "cancer de la vessie": "bladder cancer",
+    "cancer urothélial": "urothelial cancer",
+    "cancer du côlon": "colon cancer",
+    "cancer colorectal": "colorectal cancer",
+    "cancer du pancréas": "pancreatic cancer",
+    "cancer du foie": "liver cancer",
+    "cancer de l'endomètre": "endometrial cancer",
+    "cancer de la thyroïde": "thyroid cancer",
+    "cancer du col de l'utérus": "cervical cancer",
+    "cancer gastrique": "gastric cancer",
+    "cancer de la tête et du cou": "head and neck cancer",
+    "carcinome hépatocellulaire": "hepatocellular carcinoma",
+    "carcinome épidermoïde": "squamous cell carcinoma",
+    "carcinome rénal": "renal cell carcinoma",
+    "carcinome basocellulaire": "basal cell carcinoma",
+    "carcinome urothélial": "urothelial carcinoma",
+    "mélanome": "melanoma",
+    "mélanome avancé": "advanced melanoma",
+    "mélanome métastatique": "metastatic melanoma",
+    "lymphome": "lymphoma",
+    "lymphome hodgkinien": "Hodgkin lymphoma",
+    "lymphome non hodgkinien": "non-Hodgkin lymphoma",
+    "lymphome diffus à grandes cellules b": "diffuse large B-cell lymphoma",
+    "lymphome à cellules du manteau": "mantle cell lymphoma",
+    "lymphome folliculaire": "follicular lymphoma",
+    "leucémie": "leukaemia",
+    "leucémie lymphoïde chronique": "chronic lymphocytic leukaemia",
+    "leucémie myéloïde chronique": "chronic myeloid leukaemia",
+    "leucémie myéloïde aiguë": "acute myeloid leukaemia",
+    "leucémie aiguë lymphoblastique": "acute lymphoblastic leukaemia",
+    "myélome multiple": "multiple myeloma",
+    "glioblastome": "glioblastoma",
+    "mésothéliome": "mesothelioma",
+    "sarcome": "sarcoma",
+    "neuroblastome": "neuroblastoma",
+    "tumeur stromale gastro-intestinale": "gastrointestinal stromal tumour",
+    "tumeurs solides": "solid tumours",
+    "tumeur neuroendocrine": "neuroendocrine tumour",
+    "cbnpc": "NSCLC",
+    # Haematology
+    "anémie": "anaemia",
+    "thrombocytopénie": "thrombocytopenia",
+    "hémophilie": "haemophilia",
+    "hémophilie a": "haemophilia A",
+    "hémophilie b": "haemophilia B",
+    "neutropénie": "neutropenia",
+    "drépanocytose": "sickle cell disease",
+    "thalassémie": "thalassaemia",
+    "maladie de von willebrand": "von Willebrand disease",
+    "purpura thrombopénique immunologique": "immune thrombocytopenic purpura",
+    # Immunology / Rheumatology
+    "polyarthrite rhumatoïde": "rheumatoid arthritis",
+    "rhumatisme psoriasique": "psoriatic arthritis",
+    "arthrite psoriasique": "psoriatic arthritis",
+    "spondylarthrite ankylosante": "ankylosing spondylitis",
+    "spondyloarthrite axiale": "axial spondyloarthritis",
+    "lupus érythémateux systémique": "systemic lupus erythematosus",
+    "sclérose en plaques": "multiple sclerosis",
+    "sclérodermie systémique": "systemic sclerosis",
+    "psoriasis": "psoriasis",
+    "psoriasis en plaques": "plaque psoriasis",
+    "dermatite atopique": "atopic dermatitis",
+    "maladie de crohn": "Crohn's disease",
+    "rectocolite hémorragique": "ulcerative colitis",
+    "colite ulcéreuse": "ulcerative colitis",
+    # Cardiology / Vascular
+    "insuffisance cardiaque": "heart failure",
+    "insuffisance cardiaque chronique": "chronic heart failure",
+    "hypertension artérielle": "arterial hypertension",
+    "hypertension artérielle pulmonaire": "pulmonary arterial hypertension",
+    "fibrillation auriculaire": "atrial fibrillation",
+    "infarctus du myocarde": "myocardial infarction",
+    "maladie coronarienne": "coronary artery disease",
+    "syndrome coronarien aigu": "acute coronary syndrome",
+    "embolie pulmonaire": "pulmonary embolism",
+    "thrombose veineuse profonde": "deep vein thrombosis",
+    "maladie thromboembolique veineuse": "venous thromboembolism",
+    "athérosclérose": "atherosclerosis",
+    "hypercholestérolémie": "hypercholesterolaemia",
+    "dyslipidémie": "dyslipidaemia",
+    # Endocrinology / Metabolic
+    "diabète de type 2": "type 2 diabetes",
+    "diabète de type 1": "type 1 diabetes",
+    "diabète": "diabetes",
+    "obésité": "obesity",
+    "hypothyroïdie": "hypothyroidism",
+    "hyperthyroïdie": "hyperthyroidism",
+    "maladie de gaucher": "Gaucher disease",
+    "maladie de fabry": "Fabry disease",
+    "maladie de pompe": "Pompe disease",
+    "mucopolysaccharidose": "mucopolysaccharidosis",
+    "phénylcétonurie": "phenylketonuria",
+    "hyperparathyroïdie": "hyperparathyroidism",
+    "acromégalie": "acromegaly",
+    # Neurology
+    "épilepsie": "epilepsy",
+    "maladie de parkinson": "Parkinson's disease",
+    "maladie d'alzheimer": "Alzheimer's disease",
+    "migraine": "migraine",
+    "sclérose latérale amyotrophique": "amyotrophic lateral sclerosis",
+    "neuropathie": "neuropathy",
+    "amyotrophie spinale": "spinal muscular atrophy",
+    "dystrophie musculaire de duchenne": "Duchenne muscular dystrophy",
+    "myasthénie": "myasthenia gravis",
+    # Respiratory
+    "asthme": "asthma",
+    "asthme sévère": "severe asthma",
+    "bronchopneumopathie chronique obstructive": "chronic obstructive pulmonary disease",
+    "bpco": "COPD",
+    "mucoviscidose": "cystic fibrosis",
+    "fibrose pulmonaire idiopathique": "idiopathic pulmonary fibrosis",
+    # Infectious diseases
+    "infection par le vih": "HIV infection",
+    "vih": "HIV",
+    "hépatite c": "hepatitis C",
+    "hépatite b": "hepatitis B",
+    "hépatite c chronique": "chronic hepatitis C",
+    "tuberculose": "tuberculosis",
+    "covid-19": "COVID-19",
+    # Ophthalmology
+    "dégénérescence maculaire liée à l'âge": "age-related macular degeneration",
+    "dmla": "AMD",
+    "œdème maculaire diabétique": "diabetic macular oedema",
+    "glaucome": "glaucoma",
+    "rétinopathie diabétique": "diabetic retinopathy",
+    # Nephrology
+    "insuffisance rénale chronique": "chronic kidney disease",
+    "glomérulonéphrite": "glomerulonephritis",
+    "néphropathie à iga": "IgA nephropathy",
+    "syndrome néphrotique": "nephrotic syndrome",
+    # Gastroenterology / Hepatology
+    "cirrhose": "cirrhosis",
+    "stéatohépatite non alcoolique": "non-alcoholic steatohepatitis",
+    "syndrome de l'intestin court": "short bowel syndrome",
+    # Rare diseases
+    "hémoglobinurie paroxystique nocturne": "paroxysmal nocturnal haemoglobinuria",
+    "syndrome hémolytique et urémique atypique": "atypical haemolytic uraemic syndrome",
+    "angio-œdème héréditaire": "hereditary angioedema",
+    "déficit immunitaire": "immunodeficiency",
+    # General medical terms (adjectives & qualifiers)
+    "avancé": "advanced",
+    "métastatique": "metastatic",
+    "localement avancé": "locally advanced",
+    "non résécable": "unresectable",
+    "récidivant": "recurrent",
+    "réfractaire": "refractory",
+    "récidivant ou réfractaire": "relapsed or refractory",
+    "chronique": "chronic",
+    "aigu": "acute",
+    "aiguë": "acute",
+    "sévère": "severe",
+    "modéré à sévère": "moderate to severe",
+    "en monothérapie": "as monotherapy",
+    "en association": "in combination",
+    "en première ligne": "first-line",
+    "en deuxième ligne": "second-line",
+    "de première ligne": "first-line",
+    "de deuxième ligne": "second-line",
+    "traitement adjuvant": "adjuvant treatment",
+    "traitement néoadjuvant": "neoadjuvant treatment",
+    "traitement de maintien": "maintenance treatment",
+    "traitement d'entretien": "maintenance therapy",
+    "chez l'adulte": "in adults",
+    "chez les adultes": "in adults",
+    "chez l'enfant": "in children",
+    "chez les enfants": "in children",
+    "pédiatrique": "paediatric",
+}
+
+
+def _translate_indication(french_text: str) -> str:
+    """Translate a French indication text to English using term dictionary.
+
+    Performs longest-match-first substitution of known French medical terms.
+    Returns the translated text, or the original if no translations apply.
+    """
+    if not french_text:
+        return ""
+
+    result = french_text
+    lower = result.lower()
+
+    # Sort terms by length (longest first) to match "cancer du sein her2-positif"
+    # before "cancer du sein"
+    for fr_term, en_term in sorted(
+        _INDICATION_FR_EN.items(), key=lambda x: len(x[0]), reverse=True
+    ):
+        # Case-insensitive find-and-replace preserving surrounding context
+        idx = lower.find(fr_term)
+        if idx != -1:
+            result = result[:idx] + en_term + result[idx + len(fr_term):]
+            lower = result.lower()
+
+    return result
+
 
 def _build_summary_en(
     smr_value: str,
@@ -267,19 +479,21 @@ class FranceHAS(HTAAgency):
 
         results = []
         for data in dossier_assessments.values():
-            indication = _extract_indication(
+            indication_fr = _extract_indication(
                 data.get("smr_description", ""),
                 data.get("asmr_description", ""),
             )
+            indication_en = _translate_indication(indication_fr)
             results.append(
                 AssessmentResult(
                     **data,
-                    indication=indication,
+                    indication=indication_fr,
+                    indication_en=indication_en,
                     summary_en=_build_summary_en(
                         data.get("smr_value", ""),
                         data.get("asmr_value", ""),
                         data.get("evaluation_reason", ""),
-                        indication,
+                        indication_en if indication_en != indication_fr else indication_fr,
                     ),
                 )
             )

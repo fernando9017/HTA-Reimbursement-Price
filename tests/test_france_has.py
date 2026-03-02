@@ -13,6 +13,7 @@ from app.services.hta_agencies.france_has import (
     _format_date,
     _normalize_has_url,
     _substance_matches,
+    _translate_indication,
 )
 
 
@@ -490,3 +491,79 @@ async def test_search_results_summary_includes_indication(has_service):
     melanoma_results = [r for r in results if r.dossier_code == "CT-15432"]
     assert len(melanoma_results) == 1
     assert "Indication:" in melanoma_results[0].summary_en
+
+
+# ── French-to-English indication translation tests ─────────────────────
+
+
+def test_translate_indication_melanome():
+    """'mélanome' should translate to 'melanoma'."""
+    result = _translate_indication("Le mélanome avancé")
+    assert "melanoma" in result.lower()
+    assert "advanced" in result.lower()
+
+
+def test_translate_indication_cancer_du_sein():
+    """'cancer du sein HER2-positif' should translate correctly."""
+    result = _translate_indication("Le cancer du sein HER2-positif")
+    assert "breast cancer" in result.lower()
+    assert "her2-positive" in result.lower()
+
+
+def test_translate_indication_cbnpc():
+    """'CBNPC' should translate to 'NSCLC'."""
+    result = _translate_indication("Le CBNPC")
+    assert "nsclc" in result.lower()
+
+
+def test_translate_indication_cancer_poumon():
+    """Full lung cancer term should translate."""
+    result = _translate_indication("Le cancer du poumon non à petites cellules")
+    assert "non-small cell lung cancer" in result.lower()
+
+
+def test_translate_indication_empty():
+    assert _translate_indication("") == ""
+
+
+def test_translate_indication_no_match():
+    """Unknown terms should pass through unchanged."""
+    result = _translate_indication("Une indication très spécifique")
+    assert result == "Une indication très spécifique"
+
+
+def test_translate_indication_sclerose_en_plaques():
+    """'sclérose en plaques' should translate to 'multiple sclerosis'."""
+    result = _translate_indication("La sclérose en plaques")
+    assert "multiple sclerosis" in result.lower()
+
+
+def test_translate_indication_polyarthrite():
+    """'polyarthrite rhumatoïde' should translate to 'rheumatoid arthritis'."""
+    result = _translate_indication("La polyarthrite rhumatoïde modéré à sévère")
+    assert "rheumatoid arthritis" in result.lower()
+    assert "moderate to severe" in result.lower()
+
+
+def test_translate_longest_match_first():
+    """Longer terms should match before shorter (e.g. 'cancer du sein her2-positif' before 'cancer du sein')."""
+    result = _translate_indication("Le cancer du sein her2-positif")
+    assert "her2-positive breast cancer" in result.lower()
+
+
+@pytest.mark.asyncio
+async def test_search_results_include_indication_en(has_service):
+    """Assessments should populate indication_en with English translation."""
+    results = await has_service.search_assessments("pembrolizumab")
+    melanoma_results = [r for r in results if r.dossier_code == "CT-15432"]
+    assert len(melanoma_results) == 1
+    # "le mélanome" should be translated to something containing "melanoma"
+    assert "melanoma" in melanoma_results[0].indication_en.lower()
+
+
+@pytest.mark.asyncio
+async def test_search_results_indication_en_cancer_du_sein(has_service):
+    """Trastuzumab assessment should translate 'cancer du sein' to 'breast cancer'."""
+    results = await has_service.search_assessments("trastuzumab")
+    assert len(results) >= 1
+    assert "breast cancer" in results[0].indication_en.lower()
