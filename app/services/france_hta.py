@@ -22,6 +22,9 @@ from app.services.hta_agencies.france_has import (
     _MOTIF_EN,
     _SMR_EN,
     FranceHAS,
+    _extract_indication,
+    _translate_description,
+    _translate_indication,
 )
 
 logger = logging.getLogger(__name__)
@@ -299,6 +302,14 @@ class FranceHTAService:
                 if date > latest_date:
                     latest_date = date
 
+                # Extract and translate indication + descriptions
+                smr_desc = a.get("smr_description", "")
+                asmr_desc = a.get("asmr_description", "")
+                indication_fr = _extract_indication(smr_desc, asmr_desc)
+                indication_en = _translate_indication(indication_fr)
+                smr_desc_en = _translate_description(smr_desc)
+                asmr_desc_en = _translate_description(asmr_desc)
+
                 # Build grouped assessment
                 grouped.append(HASGroupedAssessment(
                     dossier_code=a["dossier_code"],
@@ -310,10 +321,14 @@ class FranceHTAService:
                     assessment_url=self._has._ct_links.get(a["dossier_code"], ""),
                     smr_value=smr,
                     smr_value_en=_SMR_EN.get(smr, smr),
-                    smr_description=a.get("smr_description", ""),
+                    smr_description=smr_desc,
+                    smr_description_en=smr_desc_en,
                     asmr_value=asmr,
                     asmr_value_en=_ASMR_EN.get(asmr, asmr),
-                    asmr_description=a.get("asmr_description", ""),
+                    asmr_description=asmr_desc,
+                    asmr_description_en=asmr_desc_en,
+                    indication=indication_fr,
+                    indication_en=indication_en,
                 ))
 
             # Sort grouped assessments by date descending

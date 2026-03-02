@@ -289,6 +289,19 @@ function renderHASAssessments(profile, container) {
             html += `<div class="has-product-names">${displayNames}${more}</div>`;
         }
 
+        // Indication
+        if (a.indication_en || a.indication) {
+            html += '<div style="margin:6px 0;font-size:0.88rem">';
+            html += '<strong>Indication:</strong> ';
+            if (a.indication_en && a.indication_en !== a.indication) {
+                html += esc(a.indication_en);
+                html += ` <span style="color:var(--text-light);font-style:italic;font-size:0.82rem">(FR: ${esc(a.indication)})</span>`;
+            } else if (a.indication) {
+                html += esc(a.indication);
+            }
+            html += '</div>';
+        }
+
         // SMR / ASMR badges
         html += '<div class="has-rating-grid">';
 
@@ -308,14 +321,26 @@ function renderHASAssessments(profile, container) {
 
         html += '</div>'; // rating-grid
 
-        // Descriptions (collapsible)
+        // Descriptions — show English translation first, French below
         if (a.smr_description || a.asmr_description) {
             html += '<div class="has-descriptions">';
             if (a.smr_description) {
-                html += `<div class="has-desc-item"><strong>SMR:</strong> ${esc(a.smr_description)}</div>`;
+                const smrDescEn = a.smr_description_en || "";
+                if (smrDescEn && smrDescEn !== a.smr_description) {
+                    html += `<div class="has-desc-item"><strong>SMR:</strong> ${esc(smrDescEn)}</div>`;
+                    html += `<div class="has-desc-item" style="font-size:0.8rem;color:var(--text-light);font-style:italic;margin-top:2px">(FR) ${esc(a.smr_description)}</div>`;
+                } else {
+                    html += `<div class="has-desc-item"><strong>SMR:</strong> ${esc(a.smr_description)}</div>`;
+                }
             }
             if (a.asmr_description) {
-                html += `<div class="has-desc-item"><strong>ASMR:</strong> ${esc(a.asmr_description)}</div>`;
+                const asmrDescEn = a.asmr_description_en || "";
+                if (asmrDescEn && asmrDescEn !== a.asmr_description) {
+                    html += `<div class="has-desc-item"><strong>ASMR:</strong> ${esc(asmrDescEn)}</div>`;
+                    html += `<div class="has-desc-item" style="font-size:0.8rem;color:var(--text-light);font-style:italic;margin-top:2px">(FR) ${esc(a.asmr_description)}</div>`;
+                } else {
+                    html += `<div class="has-desc-item"><strong>ASMR:</strong> ${esc(a.asmr_description)}</div>`;
+                }
             }
             html += '</div>';
         }

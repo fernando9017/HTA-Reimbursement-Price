@@ -41,8 +41,10 @@ class AssessmentResult(BaseModel):
     # France (HAS)
     smr_value: str = ""
     smr_description: str = ""
+    smr_description_en: str = ""    # English translation of SMR description
     asmr_value: str = ""
     asmr_description: str = ""
+    asmr_description_en: str = ""   # English translation of ASMR description
     indication: str = ""            # Indication extracted from SMR/ASMR description text (French)
     indication_en: str = ""         # English translation of the indication
     # Germany (G-BA)
@@ -601,9 +603,13 @@ class HASGroupedAssessment(BaseModel):
     smr_value: str = ""
     smr_value_en: str = ""
     smr_description: str = ""
+    smr_description_en: str = ""     # English translation of SMR description
     asmr_value: str = ""
     asmr_value_en: str = ""
     asmr_description: str = ""
+    asmr_description_en: str = ""    # English translation of ASMR description
+    indication: str = ""             # Indication extracted from descriptions (French)
+    indication_en: str = ""          # English translation of the indication
 
 
 class HASDrugListItem(BaseModel):

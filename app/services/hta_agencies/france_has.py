@@ -279,6 +279,75 @@ def _translate_indication(french_text: str) -> str:
     return result
 
 
+# Additional French → English phrases for translating full description sentences.
+_DESCRIPTION_FR_EN: dict[str, str] = {
+    # SMR descriptions
+    "le service médical rendu par": "the clinical benefit of",
+    "le service médical rendu est": "the clinical benefit is",
+    "le service médical rendu de": "the clinical benefit of",
+    "service médical rendu": "clinical benefit (SMR)",
+    "est important": "is major",
+    "est modéré": "is moderate",
+    "est faible": "is minor",
+    "est insuffisant": "is insufficient",
+    # ASMR descriptions
+    "amélioration du service médical rendu": "therapeutic improvement (ASMR)",
+    "pas d'amélioration du service médical rendu": "no therapeutic improvement (ASMR V)",
+    "asmr modérée": "moderate therapeutic improvement (ASMR III)",
+    "asmr mineure": "minor therapeutic improvement (ASMR IV)",
+    "asmr majeure": "major therapeutic improvement (ASMR I)",
+    "asmr importante": "important therapeutic improvement (ASMR II)",
+    # Common connecting phrases
+    "dans le cadre de": "in the context of",
+    "dans le traitement": "in the treatment",
+    "en association avec": "in combination with",
+    "en monothérapie": "as monotherapy",
+    "par rapport à": "compared to",
+    "chez les patients": "in patients",
+    "chez les adultes": "in adults",
+    "chez l'adulte": "in adults",
+    "chez l'enfant": "in children",
+    "chez les enfants": "in children",
+    "non préalablement traités": "previously untreated",
+    "ayant reçu": "who have received",
+    "après échec": "after failure of",
+    "en première ligne": "first-line",
+    "en deuxième ligne": "second-line",
+    "de deuxième ligne": "second-line",
+    "de première ligne": "first-line",
+    "localement avancé ou métastatique": "locally advanced or metastatic",
+    "localement avancé": "locally advanced",
+    "non résécable": "unresectable",
+    "avancé ou métastatique": "advanced or metastatic",
+}
+
+
+def _translate_description(french_text: str) -> str:
+    """Translate a full French SMR/ASMR description to English.
+
+    Applies both the indication dictionary and the description-specific
+    phrases via longest-match-first substitution.
+    """
+    if not french_text:
+        return ""
+
+    result = french_text
+    lower = result.lower()
+
+    # Merge both dictionaries; description phrases first, then indication terms
+    combined = {**_DESCRIPTION_FR_EN, **_INDICATION_FR_EN}
+
+    for fr_term, en_term in sorted(
+        combined.items(), key=lambda x: len(x[0]), reverse=True
+    ):
+        idx = lower.find(fr_term)
+        if idx != -1:
+            result = result[:idx] + en_term + result[idx + len(fr_term):]
+            lower = result.lower()
+
+    return result
+
+
 def _build_summary_en(
     smr_value: str,
     asmr_value: str,
@@ -484,11 +553,15 @@ class FranceHAS(HTAAgency):
                 data.get("asmr_description", ""),
             )
             indication_en = _translate_indication(indication_fr)
+            smr_desc_en = _translate_description(data.get("smr_description", ""))
+            asmr_desc_en = _translate_description(data.get("asmr_description", ""))
             results.append(
                 AssessmentResult(
                     **data,
                     indication=indication_fr,
                     indication_en=indication_en,
+                    smr_description_en=smr_desc_en,
+                    asmr_description_en=asmr_desc_en,
                     summary_en=_build_summary_en(
                         data.get("smr_value", ""),
                         data.get("asmr_value", ""),
