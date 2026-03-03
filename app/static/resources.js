@@ -72,7 +72,7 @@ const REGION_ORDER = ["Americas", "Europe", "Asia-Pacific", "Middle East", "Afri
 // Batch 3 (done): SE, CH, PL, AT, IE, DK, NO, FI, PT, HU — Bavencio (avelumab) mUC
 // Batch 4 (done): CZ, RO, GR, IL, MX, TW, SG, TH, AR, CL — Keytruda (pembrolizumab)
 // Batch 5 (done): HK, TR, SA, AE, EG, CO, CN, ID, PH, VN — Keytruda (pembrolizumab)
-// Batch 6:        DZ, LB, PE, QA, OM, RU, HR, BG, SK, SI
+// Batch 6 (in progress): DZ (Truvada/TENOF EM), LB, PE, QA, OM, RU, HR, BG, SK, SI
 // Batch 7:        EE, LV, LT, LU, MT, CY, IS, ME, PR, KR(update)
 // (WIP countries deferred until primary data is complete)
 
@@ -89,68 +89,125 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "The ANPP (Agence Nationale des Produits Pharmaceutiques), established in 2018, handles marketing authorizations. Price agreement is required before MA is granted. The Nomenclature Nationale lists all registered medicines with prices and reimbursement status.",
+                body: "The ANPP (Agence Nationale des Produits Pharmaceutiques), established in 2018 under the MIPH (Ministry of Pharmaceutical Industry), handles marketing authorizations. Price agreement with the CEPS is required before MA is granted. The Nomenclature Nationale (updated December 2024, listing ~4,865 medicines) is the official register of all approved pharmaceutical products with registration numbers, dosages, prices, and reimbursement status. The DGPP (Direction Générale de la Pharmacie et des Produits) publishes the nomenclature as a downloadable Excel file.",
                 links: [
                     { label: "ANPP (National Agency for Pharmaceutical Products)", url: "https://anpp.dz/en/" },
-                    { label: "MIPH — Nomenclature Nationale (registered drugs with prices)", url: "https://www.miph.gov.dz/fr/nomenclature-nationale-des-produits-pharmaceutiques/" },
+                    { label: "ANPP — Medical Information & Downloads", url: "https://anpp.dz/en/medical-information/" },
+                    { label: "DGPP — Nomenclature Nationale (Dec 2024, Excel)", url: "https://dgpp.industrie.gov.dz/fr/wp-content/uploads/2025/02/DECEMBRE-2024.xlsx" },
+                    { label: "MIPH — Nomenclature Nationale (all versions)", url: "https://www.miph.gov.dz/fr/nomenclature-nationale-des-produits-pharmaceutiques/" },
+                    { label: "MIPH — List of Registered Medicines", url: "https://www.miph.gov.dz/fr/liste-des-medicaments-enregistres-en-algerie/" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "The CEPS (Comité Économique Intersectoriel des Médicaments) sets drug prices using External Reference Pricing based on the lowest ex-factory price from 8 reference countries (Belgium, France, Greece, Morocco, Spain, Tunisia, Turkey, UK) plus the country of origin.",
+                body: "The CEPS (Comité Économique Intersectoriel des Médicaments), housed within the ANPP, sets drug prices. In-patent medicines are priced using External Reference Pricing (ERP) based on the lowest ex-factory price from 8 reference countries (Belgium, France, Greece, Morocco, Spain, Tunisia, Turkey, UK) plus the country of origin. Generic prices use Internal Reference Pricing (IRP) and must be lower than the originator. Biosimilar prices must be 10–30% below the reference biologic depending on the price tier. Hospital-only products (e.g. antiretrovirals, oncology drugs) are procured centrally by the PCH (Pharmacie Centrale des Hôpitaux) and distributed free to patients through public hospitals.",
                 links: [
+                    { label: "DGPP (Direction Générale de la Pharmacie)", url: "https://dgpp.industrie.gov.dz/fr/" },
                     { label: "MIPH (Ministry of Pharmaceutical Industry)", url: "https://www.miph.gov.dz/fr/" },
                     { label: "MIPH — Regulatory Downloads", url: "https://www.miph.gov.dz/fr/telechargements/" },
+                    { label: "PCH (Pharmacie Centrale des Hôpitaux)", url: "https://www.pch.dz/" },
                     { label: "JORADP (Official Gazette — pricing decisions)", url: "https://www.joradp.dz/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "CNAS (Caisse Nationale des Assurances Sociales) covers ~85% of the population. Reimbursement is 100% for chronic disease medicines and 80% for others. A Tarif de Référence (reference tariff) aligned with the cheapest generic determines the reimbursement basis. The Chifa electronic card enables third-party payment at pharmacies.",
+                body: "Algeria is a predominantly reimbursed market. CNAS (Caisse Nationale des Assurances Sociales des Travailleurs Salariés) covers employed workers, CASNOS covers self-employed persons, and CNR covers retirees — together covering ~85% of the population via the El Chifa electronic card. Reimbursement is 100% for chronic disease medicines (including HIV/AIDS) and 80% for others (20% co-payment). A Tarif de Référence (reference tariff) aligned with the cheapest generic determines the reimbursement basis. The Reimbursement Committee under the Ministry of Labour decides formulary listing, relying heavily on international HTA evidence, especially France's HAS (SMR/ASMR opinions).",
                 links: [
                     { label: "CNAS (National Social Insurance Fund)", url: "https://cnas.dz/en/the-presentation-of-cnas/" },
                     { label: "MTESS (Ministry of Labour & Social Security)", url: "https://www.mtess.gov.dz/en/" },
-                    { label: "WHO — Reimbursable Medicines List 2023", url: "https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" },
+                    { label: "WHO — Algeria Reimbursable Medicines List 2023", url: "https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" },
+                    { label: "WHO — Algeria Essential Medicines & Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/dza" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "Ministry of Health", url: "http://www.sante.gov.dz/" },
-                    { label: "PharmNet — Algerian Drug Encyclopedia", url: "https://pharmnet-dz.com/alphabet.aspx" },
+                    { label: "Ministry of Health", url: "https://www.sante.gov.dz/" },
+                    { label: "PharmNet-DZ — Algerian Drug Encyclopedia (4,696+ medicines)", url: "https://pharmnet-dz.com/alphabet.aspx" },
+                    { label: "PharmNet-DZ — Search by INN (DCI)", url: "https://pharmnet-dz.com/dci.aspx" },
+                    { label: "MEDALgérie — Medicines & Medical Devices Platform", url: "https://www.medal-dz.com/" },
+                    { label: "Yashfine — Medicine Finder (Algeria)", url: "https://yashfine.com/en/findamedicine2" },
                     { label: "CLEISS — Social Security System Overview", url: "https://www.cleiss.fr/docs/regimes/regime_algerie_salaries.html" },
+                    { label: "Pricing & Reimbursement in Algeria, Morocco, Tunisia (PMC, 2023)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10443953/" },
+                    { label: "Open Data — Nomenclature des Médicaments (GitHub, SQL/JSON/XML)", url: "https://github.com/mahmoudBens/Nomenclature-des-medicaments-en-algerie" },
+                    { label: "Open Data — DZ-Pharma-Data (4,800+ drugs, JSON)", url: "https://github.com/fennecinspace/DZ-Pharma-Data" },
                 ],
             },
         ],
         tipsHtml: `
 <h4 class="tips-heading">Market Authorization &amp; Drug Registry</h4>
 <ol>
-    <li>Download the <a href="https://www.miph.gov.dz/fr/nomenclature-nationale-des-produits-pharmaceutiques/" target="_blank" rel="noopener">Nomenclature Nationale</a> (Excel file) from the Ministry of Pharmaceutical Industry — it contains every registered medicine with registration number, dosage, laboratory, price, and reimbursement status</li>
-    <li>The <a href="https://anpp.dz/en/" target="_blank" rel="noopener">ANPP</a> website provides information on registration procedures — note that price agreement is required <strong>before</strong> marketing authorization is granted</li>
-    <li>For an unofficial but searchable drug database, try <a href="https://pharmnet-dz.com/alphabet.aspx" target="_blank" rel="noopener">PharmNet</a> (4,600+ medicines across 171 pharmacological classes)</li>
+    <li>Download the <a href="https://dgpp.industrie.gov.dz/fr/wp-content/uploads/2025/02/DECEMBRE-2024.xlsx" target="_blank" rel="noopener">Nomenclature Nationale (December 2024)</a> directly as an Excel file from the DGPP &mdash; it contains every registered medicine (~4,865 products) with registration number, dosage, laboratory, price (PCSU in DA), and reimbursement status. Older versions are on the <a href="https://www.miph.gov.dz/fr/nomenclature-nationale-des-produits-pharmaceutiques/" target="_blank" rel="noopener">MIPH page</a></li>
+    <li>The <a href="https://anpp.dz/en/" target="_blank" rel="noopener">ANPP</a> website provides information on registration procedures &mdash; note that price agreement with the CEPS is required <strong>before</strong> marketing authorization is granted</li>
+    <li>For searchable online drug databases, try:
+        <ul>
+            <li><a href="https://pharmnet-dz.com/alphabet.aspx" target="_blank" rel="noopener">PharmNet-DZ</a> (4,696+ medicines across 171 pharmacological classes, 316 laboratories) &mdash; search by name or by <a href="https://pharmnet-dz.com/dci.aspx" target="_blank" rel="noopener">INN (DCI)</a></li>
+            <li><a href="https://www.medal-dz.com/" target="_blank" rel="noopener">MEDALgérie</a> &mdash; medicines, medical devices, reagents, and health equipment</li>
+            <li><a href="https://yashfine.com/en/findamedicine2" target="_blank" rel="noopener">Yashfine</a> &mdash; medicine finder with availability information</li>
+        </ul>
+    </li>
+    <li>For developers/researchers: two open-data GitHub repositories provide the nomenclature data as SQL, JSON, and XML &mdash; <a href="https://github.com/mahmoudBens/Nomenclature-des-medicaments-en-algerie" target="_blank" rel="noopener">mahmoudBens/Nomenclature</a> and <a href="https://github.com/fennecinspace/DZ-Pharma-Data" target="_blank" rel="noopener">fennecinspace/DZ-Pharma-Data</a> (4,800+ drugs)</li>
 </ol>
-<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in French (with Arabic versions). Search in French for best results — key terms: "nomenclature des médicaments," "tarif de référence," "liste des médicaments remboursables."</p>
+<p class="tips-note"><strong>Language note:</strong> All regulatory documents are in French (with Arabic versions). Search in French for best results &mdash; key terms: &ldquo;nomenclature des médicaments,&rdquo; &ldquo;tarif de référence,&rdquo; &ldquo;liste des médicaments remboursables.&rdquo;</p>
 
 <h4 class="tips-heading">Pricing</h4>
 <ol>
-    <li>Algeria uses <strong>External Reference Pricing (ERP)</strong> — the ex-factory price is set at the <strong>lowest</strong> price among 8 reference countries: Belgium, France, Greece, Morocco, Spain, Tunisia, Turkey, and the UK, plus the country of origin</li>
-    <li>Pricing decisions are published in the <a href="https://www.joradp.dz/" target="_blank" rel="noopener">JORADP (Journal Officiel)</a> — use third-party search tools like <a href="https://joradp.org/" target="_blank" rel="noopener">joradp.org</a> to search by keyword</li>
+    <li>Algeria uses <strong>External Reference Pricing (ERP)</strong> for in-patent medicines &mdash; the ex-factory price is set at the <strong>lowest</strong> price among 8 reference countries: Belgium, France, Greece, Morocco, Spain, Tunisia, Turkey, and the UK, plus the country of origin</li>
+    <li><strong>Generic prices</strong> use Internal Reference Pricing (IRP) and must be lower than the originator. <strong>Biosimilar prices</strong> must be 10&ndash;30% below the reference biologic (depending on the price tier)</li>
+    <li>Hospital-only products (antiretrovirals, oncology drugs, etc.) are procured centrally by the <a href="https://www.pch.dz/" target="_blank" rel="noopener">PCH (Pharmacie Centrale des Hôpitaux)</a> via tendering and distributed <strong>free</strong> to patients through public hospitals &mdash; these products show &ldquo;00 DA&rdquo; in the nomenclature (no retail price)</li>
+    <li>Pricing decisions are published in the <a href="https://www.joradp.dz/" target="_blank" rel="noopener">JORADP (Journal Officiel)</a> &mdash; use third-party search tools like <a href="https://joradp.org/" target="_blank" rel="noopener">joradp.org</a> to search by keyword</li>
     <li>The <a href="https://www.miph.gov.dz/fr/telechargements/" target="_blank" rel="noopener">MIPH downloads page</a> has key regulatory texts including the December 2020 ministerial order that established the current CEPS pricing procedure</li>
 </ol>
-<p class="tips-note"><strong>Tip:</strong> Generic prices are set using Internal Reference Pricing. Biosimilar prices must be 10–30% lower than the reference biologic (depending on the price tier).</p>
+<p class="tips-note"><strong>Tip:</strong> For a peer-reviewed overview of Algeria&rsquo;s pricing methodology, see <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10443953/" target="_blank" rel="noopener">Pharmaceutical pricing and reimbursement policies in Algeria, Morocco, and Tunisia (PMC, 2023)</a>.</p>
 
 <h4 class="tips-heading">Reimbursement</h4>
 <ol>
-    <li>The official reimbursable medicines list is published by the Ministry of Labour (MTESS) — the <a href="https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" target="_blank" rel="noopener">WHO hosts the 2023 version</a></li>
-    <li>Reimbursement rates: <strong>100%</strong> for chronic/NCD medicines, <strong>80%</strong> for all others (20% co-payment)</li>
-    <li>The <strong>Tarif de Référence</strong> aligns brand-name drug reimbursement with the cheapest generic on the market — published in the JORADP 3 months before implementation</li>
-    <li>The Reimbursement Committee relies heavily on international HTA evidence, especially <strong>France's HAS</strong> (SMR/ASMR opinions), as Algeria has no formal HTA body</li>
+    <li>The official reimbursable medicines list is published by the Ministry of Labour (MTESS) &mdash; the <a href="https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" target="_blank" rel="noopener">WHO hosts the 2023 version</a>. See also <a href="https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/dza" target="_blank" rel="noopener">WHO&rsquo;s Algeria country page</a> for national Essential Medicines List</li>
+    <li>Social security coverage: <strong>CNAS</strong> (employed workers via El Chifa card, ~80% of medicine cost), <strong>CASNOS</strong> (self-employed), <strong>CNR</strong> (retirees), <strong>CNAC</strong> (unemployed)</li>
+    <li>Reimbursement rates: <strong>100%</strong> for chronic/NCD medicines (including HIV/AIDS, cancer), <strong>80%</strong> for all others (20% co-payment)</li>
+    <li>The <strong>Tarif de Référence</strong> aligns brand-name drug reimbursement with the cheapest generic on the market &mdash; published in the JORADP 3 months before implementation</li>
+    <li>The Reimbursement Committee relies heavily on international HTA evidence, especially <strong>France&rsquo;s HAS</strong> (SMR/ASMR opinions), as Algeria has no formal HTA body</li>
 </ol>
-<p class="tips-note"><strong>Note:</strong> Algeria has no formal HTA agency. A sub-directorate of economic evaluation exists within the MIPH, and the 2020 ministerial order introduced a role for pharmacoeconomic studies in pricing, but systematic HTA is still in early development.</p>
+<p class="tips-note"><strong>Note:</strong> Algeria has no formal HTA agency. A sub-directorate of economic evaluation exists within the MIPH, and the 2020 ministerial order introduced a role for pharmacoeconomic studies in pricing, but systematic HTA is still in early development. For innovative medicines, access is mainly influenced by reimbursement listing and, for hospital products, by PCH procurement.</p>
         `,
+        drugExample: {
+            drug: "Truvada / TENOF EM",
+            inn: "emtricitabine / tenofovir disoproxil fumarate",
+            indication: "HIV-1 infection (treatment and pre-exposure prophylaxis); Algeria provides free antiretroviral treatment to all eligible patients since 1998",
+            steps: [
+                {
+                    title: "ANPP Registration",
+                    date: "2017",
+                    detail: 'TENOF EM (emtricitabine 200 mg / tenofovir disoproxil fumarate 300 mg, film-coated tablets, flask of 30) was registered in Algeria under registration number 524/13P481/17 by Hetero Labs Limited (India). Algeria does not require EMA or FDA approval as a prerequisite — it has its own national registration pathway through the ANPP. Generic versions of antiretrovirals are preferred to ensure affordability. A separate tenofovir-only product (TENOF 300 mg, registration 524/13P483/17) was also registered by the same manufacturer.',
+                    links: [
+                        { label: "ANPP — Official Website", url: "https://anpp.dz/en/" },
+                        { label: "PharmNet-DZ — TENOF EM listing", url: "https://pharmnet-dz.com/m-6090-tenof-em-200-mg-300mg--equivalent-%C3%A0-245-mg-de-tenofovir-disoproxil-cp-pell-fl-de-30" },
+                    ],
+                },
+                {
+                    title: "Pricing — Hospital Channel (PCH)",
+                    date: "2017–present",
+                    detail: 'TENOF EM is classified as a hospital-only product and does not carry a public retail price (listed as "00 DA" in the Nomenclature Nationale). Instead, it is procured centrally by the <strong>PCH (Pharmacie Centrale des Hôpitaux)</strong> through competitive tendering from generic manufacturers, primarily Indian suppliers. The PCH distributes antiretrovirals to public hospitals and treatment centres at no cost to patients. Algeria\'s antiretroviral procurement benefits from access to the <strong>Medicines Patent Pool (MPP)</strong> — in 2022, Algeria was added to the ViiV Healthcare/MPP licence for dolutegravir (DTG), enabling procurement of the fixed-dose combination TLD (tenofovir + lamivudine + dolutegravir) at reduced prices, expected to lower the national ART bill by ~20%.',
+                    links: [
+                        { label: "PCH (Pharmacie Centrale des Hôpitaux)", url: "https://www.pch.dz/" },
+                        { label: "Medicines Patent Pool — Algeria DTG Licence", url: "https://medicinespatentpool.org/news-publications-post/algeria-gains-access-to-mpp-dtg-adult-licence" },
+                    ],
+                },
+                {
+                    title: "Reimbursement & Patient Access",
+                    date: "Ongoing",
+                    detail: 'TENOF EM is listed as <strong>reimbursable</strong> in the Nomenclature Nationale. In practice, HIV treatment in Algeria is provided <strong>free of charge</strong> through the public health system — the government has offered free antiretroviral therapy since 1998, with ~97% of funding from domestic sources. Patients access treatment at designated public hospital centres. CNAS social security also covers outpatient medicines at 100% for chronic conditions including HIV/AIDS. Algeria is transitioning from older TDF/FTC-based regimens (like TENOF EM) to <strong>DTG-based regimens</strong> (TLD — tenofovir + lamivudine + dolutegravir) which offer improved efficacy and lower cost. Soon, up to 80% of people living with HIV in Algeria will be on DTG-based first-line treatment.',
+                    links: [
+                        { label: "CNAS (National Social Insurance Fund)", url: "https://cnas.dz/en/the-presentation-of-cnas/" },
+                        { label: "WHO — Algeria Reimbursable Medicines List", url: "https://www.who.int/publications/m/item/algeria--la-liste-des-m-dicaments-remboursables-par-la-s-curit--sociale-2023-(french)" },
+                    ],
+                },
+            ],
+            takeaway: 'Algeria illustrates a distinctive market access model for essential medicines: antiretrovirals like TENOF EM (generic Truvada) bypass standard retail pricing entirely and are procured centrally by the PCH through competitive tendering from generic manufacturers (primarily Indian). The resulting per-patient cost is a fraction of Western prices. Access to the Medicines Patent Pool licence for dolutegravir further reduces costs and is driving a transition to DTG-based regimens. While Algeria has no formal HTA agency, the ANPP registration + PCH procurement pathway enables rapid, affordable access to essential treatments — with free provision to patients funded almost entirely from domestic resources.',
+        },
     },
     {
         code: "AR",
