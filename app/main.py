@@ -1,5 +1,6 @@
 """FastAPI application for VAP Global Resources — Value, Access & Pricing."""
 
+import asyncio
 import json
 import logging
 import os
@@ -240,6 +241,35 @@ async def _build_hta_cross_reference() -> None:
 MAX_AGENCY_RETRIES = 2
 
 
+async def _background_ema_fetch(ema_cache_file: Path) -> None:
+    """Fetch EMA data from the network in the background.
+
+    Runs after the app is already serving so that the health check
+    can respond immediately with cached HTA agency data.
+    """
+    try:
+        await ema_service.load_data()
+        logger.info("Background EMA fetch complete: %d medicines", ema_service.medicine_count)
+        ema_service.save_to_file(ema_cache_file)
+        analogue_service.load_from_ema(ema_service.raw_medicines)
+        _data_loaded_at["EMA"] = datetime.now(timezone.utc).isoformat()
+
+        # Update NICE brand mapping now that EMA data is available
+        if hta_agencies["GB"].is_loaded:
+            try:
+                hta_agencies["GB"].set_brand_mapping(ema_service.raw_medicines)
+            except Exception:
+                logger.warning("Failed to set NICE brand mapping after EMA fetch", exc_info=True)
+
+        # Rebuild HTA cross-reference with EMA data
+        try:
+            await _build_hta_cross_reference()
+        except Exception:
+            logger.warning("Failed to rebuild HTA cross-reference after EMA fetch", exc_info=True)
+    except Exception:
+        logger.exception("Background EMA fetch failed — EMA search unavailable until reload")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load all data sources on startup.
@@ -255,29 +285,16 @@ async def lifespan(app: FastAPI):
     ema_cache_file = DATA_DIR / "EMA.json"
     now = datetime.now(timezone.utc).isoformat()
 
-    if OFFLINE_MODE:
-        # Offline: load exclusively from bundled files
-        if ema_service.load_from_file(ema_cache_file):
-            logger.info("EMA data loaded from bundle: %d medicines", ema_service.medicine_count)
-            analogue_service.load_from_ema(ema_service.raw_medicines)
-            _data_loaded_at["EMA"] = now + " (offline)"
-        else:
-            logger.error("No bundled EMA data — run download_databases.py to populate data/")
-    else:
-        try:
-            await ema_service.load_data()
-            logger.info("EMA data loaded: %d medicines", ema_service.medicine_count)
-            ema_service.save_to_file(ema_cache_file)
-            analogue_service.load_from_ema(ema_service.raw_medicines)
-            _data_loaded_at["EMA"] = now
-        except Exception:
-            logger.exception("Failed to fetch EMA data from remote source")
-            if ema_service.load_from_file(ema_cache_file):
-                logger.info("EMA data loaded from cache: %d medicines", ema_service.medicine_count)
-                analogue_service.load_from_ema(ema_service.raw_medicines)
-                _data_loaded_at["EMA"] = now + " (from cache)"
-            else:
-                logger.error("No EMA cache available — search will be unavailable until reload")
+    # 1) Try loading EMA from bundled/cached file first (fast, non-blocking)
+    ema_loaded_from_cache = False
+    if ema_service.load_from_file(ema_cache_file):
+        suffix = " (offline)" if OFFLINE_MODE else " (from cache)"
+        logger.info("EMA data loaded from cache: %d medicines", ema_service.medicine_count)
+        analogue_service.load_from_ema(ema_service.raw_medicines)
+        _data_loaded_at["EMA"] = now + suffix
+        ema_loaded_from_cache = True
+    elif OFFLINE_MODE:
+        logger.error("No bundled EMA data — run download_databases.py to populate data/")
 
     for code, agency in hta_agencies.items():
         data_file = DATA_DIR / f"{code}.json"
@@ -351,13 +368,20 @@ async def lifespan(app: FastAPI):
     else:
         logger.warning("Mexico procurement data not available")
 
-    # Build HTA cross-reference for analogue module
+    # Build HTA cross-reference for analogue module (using cached data)
     try:
         await _build_hta_cross_reference()
     except Exception:
         logger.exception("Failed to build HTA cross-reference")
 
-    logger.info("Startup complete.")
+    logger.info("Startup complete — app is ready to serve requests.")
+
+    # 2) Schedule background EMA network fetch if not loaded from cache
+    #    and not in offline mode.  This runs AFTER startup so the health
+    #    check can respond immediately using whatever cached data is available.
+    if not OFFLINE_MODE and not ema_loaded_from_cache:
+        asyncio.create_task(_background_ema_fetch(ema_cache_file))
+
     yield
 
 
