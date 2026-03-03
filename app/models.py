@@ -691,12 +691,15 @@ class NICEGuidanceItem(BaseModel):
     recommendation: str = ""            # Recommended, Not recommended, etc.
     published_date: str = ""            # YYYY-MM-DD
     assessment_url: str = ""            # Link to NICE guidance page
+    indication: str = ""                # Extracted indication from title
 
 
 class NICEDrugListItem(BaseModel):
     """Summary of a drug in the NICE guidance database for listing purposes."""
 
     active_substance: str
+    trade_names: list[str] = []         # Brand names from EMA mapping
+    indications: list[str] = []         # Unique indications across guidance items
     titles: list[str] = []              # All guidance titles for this substance
     guidance_count: int = 0
     latest_date: str = ""
@@ -708,6 +711,7 @@ class NICEDrugProfile(BaseModel):
     """Complete NICE guidance profile for one active substance."""
 
     active_substance: str
+    trade_names: list[str] = []         # Brand names from EMA mapping
     titles: list[str] = []
     total_guidance: int = 0
     guidance_items: list[NICEGuidanceItem] = []

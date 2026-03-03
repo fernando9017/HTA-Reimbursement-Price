@@ -7,6 +7,7 @@ Wraps the existing UKNICE adapter data to provide:
 """
 
 import logging
+import re
 from collections import defaultdict
 
 from app.models import (
@@ -29,6 +30,13 @@ RECOMMENDATION_ORDER = [
     "Awaiting development",
     "Not recommended",
 ]
+
+# Words that are NOT valid substance names (garbage from title parsing)
+_INVALID_SUBSTANCES = {
+    "overview", "introduction", "consultation", "evidence",
+    "final", "draft", "update", "addendum", "review",
+    "appraisal", "guidance", "technology", "committee",
+}
 
 
 class UKNICEHTAService:
@@ -95,6 +103,8 @@ class UKNICEHTAService:
 
             results.append(NICEDrugListItem(
                 active_substance=substance,
+                trade_names=profile.get("brand_names", []),
+                indications=profile.get("indications", []),
                 titles=profile["titles"][:3],
                 guidance_count=profile["guidance_count"],
                 latest_date=profile["latest_date"],
@@ -141,6 +151,7 @@ class UKNICEHTAService:
 
         return NICEDrugProfile(
             active_substance=matched_key,
+            trade_names=profile.get("brand_names", []),
             titles=profile["titles"],
             total_guidance=profile["guidance_count"],
             guidance_items=profile["guidance_items"],
@@ -187,7 +198,7 @@ class UKNICEHTAService:
                 rec = _normalize_recommendation(g.get("recommendation", ""))
 
                 # Try to extract substance from title
-                substance = self._extract_substance_from_title(g.get("title", ""))
+                substance = _extract_substance_from_title(g.get("title", ""))
 
                 return {
                     "guidance_reference": g.get("reference", ""),
@@ -216,7 +227,7 @@ class UKNICEHTAService:
         canonical_display: dict[str, str] = {}
 
         for g in self._nice._guidance_list:
-            substance = self._extract_substance_from_title(g.get("title", ""))
+            substance = _extract_substance_from_title(g.get("title", ""))
             if not substance:
                 substance = g.get("title", "Unknown")[:60]
             canonical = substance.lower().strip()
@@ -233,6 +244,8 @@ class UKNICEHTAService:
             titles: list[str] = []
             guidance_types: list[str] = []
             recommendations: list[str] = []
+            indications: list[str] = []
+            seen_indications: set[str] = set()
             latest_date = ""
             seen_titles: set[str] = set()
 
@@ -256,6 +269,15 @@ class UKNICEHTAService:
                 if date > latest_date:
                     latest_date = date
 
+                # Extract indication from title
+                indication = _extract_indication_from_title(title)
+
+                # Collect unique indications
+                ind_key = indication.lower()
+                if ind_key and ind_key not in seen_indications:
+                    seen_indications.add(ind_key)
+                    indications.append(indication)
+
                 guidance_items.append(NICEGuidanceItem(
                     guidance_reference=g.get("reference", ""),
                     title=title,
@@ -263,6 +285,7 @@ class UKNICEHTAService:
                     recommendation=rec,
                     published_date=date,
                     assessment_url=g.get("url", ""),
+                    indication=indication,
                 ))
 
             guidance_items.sort(key=lambda x: x.published_date, reverse=True)
@@ -274,6 +297,7 @@ class UKNICEHTAService:
                 "titles": titles,
                 "guidance_types": guidance_types,
                 "recommendations": recommendations,
+                "indications": indications,
                 "latest_date": latest_date,
                 "guidance_count": len(guidance_items),
                 "guidance_items": guidance_items,
@@ -298,47 +322,136 @@ class UKNICEHTAService:
                 best_val = r
         return best_val
 
-    def _extract_substance_from_title(self, title: str) -> str:
-        """Extract the active substance/drug name from a NICE guidance title.
 
-        NICE titles follow patterns like:
-          "Pembrolizumab for treating advanced melanoma after disease progression"
-          "Nivolumab with ipilimumab for untreated advanced renal cell carcinoma"
-        """
-        if not title:
-            return ""
+# ── Title parsing helpers (module-level) ──────────────────────────────
 
-        # Remove common NICE title prefixes
-        title_clean = title.strip()
 
-        # Pattern: "Drug for treating/for/with..."
-        import re
-        match = re.match(
-            r'^(.+?)\s+(?:for\s+(?:treating|the\s+treatment|previously|untreated|adjuvant|use)|'
-            r'with\s+(?:carboplatin|docetaxel|paclitaxel|gemcitabine|pemetrexed|'
-            r'bevacizumab|rituximab|trastuzumab|pertuzumab|cetuximab))',
-            title_clean, re.IGNORECASE,
+def _extract_substance_from_title(title: str) -> str:
+    """Extract the active substance/drug name from a NICE guidance title.
+
+    NICE titles follow patterns like:
+      "Pembrolizumab for treating advanced melanoma after disease progression"
+      "Nivolumab with ipilimumab for untreated advanced renal cell carcinoma"
+      "Trastuzumab deruxtecan for treating HER2-low metastatic breast cancer"
+    """
+    if not title:
+        return ""
+
+    title_clean = title.strip()
+
+    # Pattern 1: "Drug for treating/for/with..." (most common)
+    match = re.match(
+        r'^(.+?)\s+for\s+',
+        title_clean, re.IGNORECASE,
+    )
+    if match:
+        substance = match.group(1).strip()
+        # Clean up trailing conjunctions
+        substance = re.sub(
+            r'\s+(?:and|plus|in\s+combination)\s*$', '',
+            substance, flags=re.IGNORECASE,
         )
-        if match:
-            substance = match.group(1).strip()
-            # Remove trailing "and" or "plus" fragments
-            substance = re.sub(r'\s+(?:and|plus|in\s+combination)\s*$', '', substance, flags=re.IGNORECASE)
+        if _is_valid_substance(substance):
             return substance
 
-        # Pattern: "Drug with Drug2 for..."
-        match = re.match(
-            r'^(.+?)\s+for\s+',
-            title_clean, re.IGNORECASE,
-        )
-        if match:
-            return match.group(1).strip()
+    # Pattern 2: "Drug with Drug2 for..." (combination therapies)
+    match = re.match(
+        r'^(.+?)\s+(?:as|in|after|to)\s+',
+        title_clean, re.IGNORECASE,
+    )
+    if match:
+        substance = match.group(1).strip()
+        if _is_valid_substance(substance):
+            return substance
 
-        # Fallback: first few words (up to first preposition)
-        match = re.match(
-            r'^(.+?)\s+(?:for|as|in|after|to|with)\s+',
-            title_clean, re.IGNORECASE,
-        )
-        if match:
-            return match.group(1).strip()
+    # Pattern 3: "Drug - indication" (dash separator)
+    if " - " in title_clean or " – " in title_clean:
+        parts = re.split(r'\s+[-–]\s+', title_clean, maxsplit=1)
+        substance = parts[0].strip()
+        if _is_valid_substance(substance):
+            return substance
 
-        return title_clean[:60]
+    # Fallback: first word(s) up to 60 chars, only if they look like a drug name
+    substance = title_clean[:60]
+    if _is_valid_substance(substance):
+        return substance
+
+    return title_clean[:60]
+
+
+def _is_valid_substance(name: str) -> bool:
+    """Check whether extracted text looks like a valid substance name."""
+    if not name:
+        return False
+    # Reject known garbage words
+    if name.lower().strip() in _INVALID_SUBSTANCES:
+        return False
+    # Reject if it's all common English words (no drug-like tokens)
+    if len(name) < 3:
+        return False
+    return True
+
+
+def _extract_indication_from_title(title: str) -> str:
+    """Extract the therapeutic indication from a NICE guidance title.
+
+    NICE titles follow patterns like:
+      "Pembrolizumab for treating advanced melanoma after disease progression"
+      "Nivolumab with ipilimumab for untreated advanced renal cell carcinoma"
+      "Trastuzumab deruxtecan for treating HER2-positive unresectable breast cancer"
+      "Onasemnogene abeparvovec for treating spinal muscular atrophy"
+    """
+    if not title:
+        return ""
+
+    # Pattern 1: "Drug for treating [indication]"
+    match = re.search(
+        r'\bfor\s+treating\s+(.+?)$',
+        title, re.IGNORECASE,
+    )
+    if match:
+        return _clean_indication(match.group(1))
+
+    # Pattern 2: "Drug for the treatment of [indication]"
+    match = re.search(
+        r'\bfor\s+the\s+treatment\s+of\s+(.+?)$',
+        title, re.IGNORECASE,
+    )
+    if match:
+        return _clean_indication(match.group(1))
+
+    # Pattern 3: "Drug for [adjective] [indication]" (e.g., "for untreated advanced RCC")
+    match = re.search(
+        r'\bfor\s+(?:use\s+in\s+|previously\s+treated\s+|'
+        r'untreated\s+|adjuvant\s+treatment\s+of\s+|'
+        r'treating\s+previously\s+treated\s+)?(.+?)$',
+        title, re.IGNORECASE,
+    )
+    if match:
+        indication = match.group(1).strip()
+        if len(indication) > 10:  # Skip very short fragments
+            return _clean_indication(indication)
+
+    # Pattern 4: Generic "for [indication]"
+    match = re.search(
+        r'\bfor\s+(.+?)$',
+        title, re.IGNORECASE,
+    )
+    if match:
+        indication = match.group(1).strip()
+        if len(indication) > 10:
+            return _clean_indication(indication)
+
+    return ""
+
+
+def _clean_indication(text: str) -> str:
+    """Clean up an extracted indication string."""
+    # Remove trailing reference tags like [TA900]
+    text = re.sub(r'\s*\[(?:TA|HST)\d+\]\s*$', '', text)
+    # Strip whitespace and trailing punctuation
+    text = text.strip().rstrip(".")
+    # Capitalize first letter
+    if text:
+        text = text[0].upper() + text[1:]
+    return text

@@ -141,18 +141,19 @@ async function searchNICEDrugs() {
 function renderNICEDrugList(drugs, container) {
     let html = `<p class="results-summary">${drugs.length} drug(s) with NICE guidance</p>`;
     html += '<div class="analogue-table-wrapper"><table class="analogue-table"><thead><tr>';
-    html += '<th>Drug / Substance</th><th>Guidance</th>';
-    html += '<th>Best Recommendation</th><th>Types</th>';
-    html += '<th>Latest Date</th>';
+    html += '<th>Active Substance</th><th>Trade Name(s)</th>';
+    html += '<th>Indication(s)</th><th>Guidance</th>';
+    html += '<th>Best Recommendation</th><th>Latest Date</th>';
     html += '</tr></thead><tbody>';
 
     for (const d of drugs) {
         const recClass = recBadgeClass(d.best_recommendation);
         html += `<tr class="nice-drug-row" data-substance="${esc(d.active_substance)}" style="cursor:pointer">`;
         html += `<td class="col-name"><strong>${esc(d.active_substance)}</strong></td>`;
+        html += `<td>${(d.trade_names || []).map(n => esc(n)).join(", ") || "—"}</td>`;
+        html += `<td class="col-indication">${(d.indications || []).map(i => esc(i)).join("; ") || "—"}</td>`;
         html += `<td style="text-align:center">${d.guidance_count}</td>`;
         html += `<td><span class="tag ${recClass}">${esc(d.best_recommendation || "—")}</span></td>`;
-        html += `<td>${d.guidance_types.map(t => esc(t)).join(", ") || "—"}</td>`;
         html += `<td style="white-space:nowrap">${esc(d.latest_date)}</td>`;
         html += '</tr>';
     }
@@ -207,6 +208,9 @@ async function loadNICEDrugDetail(substance) {
 function renderNICEDrugHeader(profile) {
     let html = '<div class="gba-profile-header">';
     html += `<div class="gba-profile-substance">${esc(profile.active_substance)}</div>`;
+    if (profile.trade_names && profile.trade_names.length > 0) {
+        html += `<div class="gba-profile-trade">${profile.trade_names.map(n => esc(n)).join(", ")}</div>`;
+    }
     html += `<div class="gba-profile-meta">${profile.total_guidance} guidance item(s)</div>`;
     html += '</div>';
     return html;
@@ -225,14 +229,19 @@ function renderNICEGuidanceItems(profile, container) {
 
         html += '<div class="has-assessment-card">';
 
-        // Header: reference + date
+        // Header: reference + type + date
         html += '<div class="has-assessment-header">';
         html += `<div class="has-assessment-motif">${esc(g.guidance_reference)} — ${esc(g.guidance_type || "Technology Appraisal")}</div>`;
         html += `<div class="has-assessment-date">${esc(g.published_date)}</div>`;
         html += '</div>';
 
         // Title
-        html += `<div class="has-product-names">${esc(g.title)}</div>`;
+        html += `<div class="gba-enhanced-title">${esc(g.title)}</div>`;
+
+        // Indication (extracted from title)
+        if (g.indication) {
+            html += `<div class="has-product-names">Indication: ${esc(g.indication)}</div>`;
+        }
 
         // Recommendation badge
         html += '<div class="has-rating-grid">';
