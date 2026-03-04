@@ -374,6 +374,7 @@ class TestReloadEndpoint:
         assert data["success"] is True
         assert data["errors"] == []
 
+    @patch("app.main.OFFLINE_MODE", False)
     @patch("app.main._build_hta_cross_reference", new_callable=AsyncMock)
     @patch("app.main.hta_agencies")
     @patch("app.main.analogue_service")
@@ -391,6 +392,7 @@ class TestReloadEndpoint:
         assert data["success"] is False
         assert any("EMA" in e for e in data["errors"])
 
+    @patch("app.main.OFFLINE_MODE", False)
     @patch("app.main._build_hta_cross_reference", new_callable=AsyncMock)
     @patch("app.main.hta_agencies")
     @patch("app.main.analogue_service")

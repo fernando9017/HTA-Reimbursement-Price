@@ -4,10 +4,12 @@ import os
 
 # ── Offline mode ──────────────────────────────────────────────────────
 # When True, the app uses only the bundled JSON files in data/ and never
-# attempts to fetch from remote sources.  Set the environment variable
-# OFFLINE_MODE=1 (or "true") to enable, or leave unset for the default
-# behaviour (try cache first, fetch remote as fallback).
-OFFLINE_MODE = os.environ.get("OFFLINE_MODE", "").lower() in ("1", "true", "yes")
+# attempts to fetch from remote sources.  Enabled by default so that
+# startup is fast and reliable without depending on government websites
+# that may block automated requests.  Set OFFLINE_MODE=0 (or "false")
+# to re-enable live fetching from remote sources.
+_offline_env = os.environ.get("OFFLINE_MODE", "").lower()
+OFFLINE_MODE = _offline_env not in ("0", "false", "no") if _offline_env else True
 
 # EMA (European Medicines Agency) - JSON data updated twice daily
 EMA_MEDICINES_URL = (
