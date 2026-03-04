@@ -529,7 +529,20 @@ class SpainAEMPS(HTAAgency):
         payload = self._read_json_file(data_file)
         if not payload or not isinstance(payload.get("data"), list):
             return False
-        self._ipt_list = payload["data"]
+        raw = payload["data"]
+        # Filter out garbage entries that may have been scraped from
+        # WordPress page chrome (CSS, navigation, language selectors).
+        cleaned = [
+            item for item in raw
+            if not _is_garbage_entry(item.get("title", ""), item.get("url", ""))
+        ]
+        if len(cleaned) < len(raw):
+            logger.info(
+                "%s: filtered %d garbage entries from cached data (%d → %d)",
+                self.agency_abbreviation, len(raw) - len(cleaned),
+                len(raw), len(cleaned),
+            )
+        self._ipt_list = cleaned
         self._loaded = bool(self._ipt_list)
         if self._loaded:
             logger.info(
@@ -575,6 +588,13 @@ _GARBAGE_TITLES = {
     "utilice el buscador", "documentos de interés", "la aemps",
     "medicamentos de uso humano", "contacto", "aviso legal",
     "política de privacidad", "mapa del sitio",
+    # Non-drug documents that appear on the AEMPS IPT listing page
+    "documento de preguntas y respuestas frecuentes",
+    "notas informativas de las reuniones del gc de la revalmed sns",
+    "propuesta de colaboración para la elaboración de los informes de posicionamiento terapéutico de los medicamentos en el sns",
+    "reuniones del grupo de coordinación de posicionamiento terapéutico",
+    "plan de consolidación de los ipt de los medicamentos en el sns",
+    "pnt de evaluación clínica, económica y posicionamiento terapéutico para la redacción de los ipt",
 }
 
 # Patterns that indicate garbage content (CSS, HTML fragments, navigation)
@@ -618,6 +638,24 @@ def _is_garbage_entry(title: str, url: str) -> bool:
             ("informes-de-posicionamiento-terapeutico",
              "/ipt", "/tag/ipt", "/category/ipt")
         ):
+            return True
+
+        # Language selector URLs (?lang=XX)
+        if re.search(r"[?&]lang=\w{2,3}$", url_lower):
+            return True
+
+    # Generic non-drug documents (preguntas, reuniones, plan, etc.)
+    # that don't mention a specific drug or therapy
+    non_drug_keywords = [
+        "preguntas y respuestas",
+        "reuniones del grupo",
+        "plan de consolidación",
+        "pnt de evaluación",
+        "propuesta de colaboración",
+        "notas informativas de las reuniones",
+    ]
+    for keyword in non_drug_keywords:
+        if keyword in title_lower:
             return True
 
     return False

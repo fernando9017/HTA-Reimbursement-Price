@@ -485,6 +485,47 @@ def test_hta_service_brand_name_grouped_with_substance():
     assert nivo_items[0].ipt_count == 2
 
 
+def test_load_from_file_filters_garbage():
+    """load_from_file should discard garbage entries like CSS, nav, language selectors."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    service = SpainAEMPS()
+
+    data = {
+        "country": "ES",
+        "agency": "AEMPS",
+        "updated_at": "2026-03-04T00:00:00",
+        "record_count": 5,
+        "data": [
+            # Garbage: CSS content
+            {"reference": "", "title": "img:is([sizes=auto]){contain-intrinsic-size:3000px}", "url": "", "published_date": "", "positioning": ""},
+            # Garbage: language selector
+            {"reference": "", "title": "Castellano", "url": "?lang=es", "published_date": "", "positioning": ""},
+            # Garbage: FAQ document
+            {"reference": "", "title": "Documento de preguntas y respuestas frecuentes", "url": "https://example.com/faq.pdf", "published_date": "", "positioning": ""},
+            # Valid: actual IPT entry
+            {"reference": "IPT-23/2024", "title": "Pembrolizumab (Keytruda) en cáncer de pulmón", "url": "https://www.aemps.gob.es/ipt-23-2024.pdf", "published_date": "2024-05-15", "positioning": "favorable"},
+            # Valid: another IPT entry
+            {"reference": "IPT-18/2023", "title": "Nivolumab (Opdivo) en carcinoma urotelial", "url": "https://www.aemps.gob.es/ipt-18-2023.pdf", "published_date": "2023-09-10", "positioning": "favorable condicionado"},
+        ],
+    }
+
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+        json.dump(data, f)
+        tmpfile = Path(f.name)
+
+    try:
+        result = service.load_from_file(tmpfile)
+        assert result is True
+        assert len(service._ipt_list) == 2
+        assert service._ipt_list[0]["reference"] == "IPT-23/2024"
+        assert service._ipt_list[1]["reference"] == "IPT-18/2023"
+    finally:
+        tmpfile.unlink()
+
+
 def test_hta_service_extract_substance_with_hyphens():
     """Substance names with hyphens (e.g. trastuzumab-deruxtecan) should be extracted."""
     from app.services.spain_aemps_hta import SpainAEMPSHTAService
