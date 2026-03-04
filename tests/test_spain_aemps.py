@@ -256,6 +256,25 @@ def test_parse_html_with_no_ipt_links():
     assert result == []
 
 
+def test_parse_rejects_garbage_navigation():
+    """Ensure WordPress navigation, language selectors, and CSS are filtered out."""
+    service = SpainAEMPS()
+    garbage_html = """<html><body>
+    <a href="/es/informes-de-posicionamiento-terapeutico/">Castellano</a>
+    <a href="/ca/informes-de-posicionamiento-terapeutico/">Català</a>
+    <a href="/eu/informes-de-posicionamiento-terapeutico/">Euskera</a>
+    <a href="/gl/informes-de-posicionamiento-terapeutico/">Galego</a>
+    <a href="/va/informes-de-posicionamiento-terapeutico/">Valencià</a>
+    <a href="/en/informes-de-posicionamiento-terapeutico/">English</a>
+    <a href="/reuniones-del-grupo/">Reuniones del Grupo de Coordinación de Posicionamiento Terapéutico</a>
+    <a href="/propuesta/">Propuesta de colaboración para la elaboración de los informes de posicionamiento</a>
+    <a href="/plan/">Plan de consolidación</a>
+    <a href="/pnt/">PNT de evaluación</a>
+    </body></html>"""
+    result = service._parse_listing_page(garbage_html)
+    assert result == []
+
+
 # ── New tests for expanded functionality ──────────────────────────────
 
 
