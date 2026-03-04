@@ -1137,6 +1137,8 @@ class FranceHAS(HTAAgency):
         self._asmr: dict[str, list[dict]] = defaultdict(list)
         # HAS dossier code → URL
         self._ct_links: dict[str, str] = {}
+        # Reverse index: lowercase substance name → set of CIS codes
+        self._substance_index: dict[str, set[str]] = defaultdict(set)
         self._loaded = False
 
     @property
@@ -1202,6 +1204,7 @@ class FranceHAS(HTAAgency):
         if smr_count == 0 and asmr_count == 0:
             raise RuntimeError("BDPM SMR and ASMR files returned no records")
 
+        self._build_substance_index()
         self._loaded = True
         logger.info(
             "France HAS data loaded: %d medicines, %d compositions, "
@@ -1226,15 +1229,25 @@ class FranceHAS(HTAAgency):
         product_lower = product_name.lower().strip() if product_name else ""
 
         # Find all CIS codes where the active substance matches.
-        # Use word-boundary matching to avoid "trastuzumab" matching
-        # "trastuzumab deruxtecan" or "trastuzumab emtansine".
+        # Use the pre-built substance index for O(1) exact lookups,
+        # falling back to prefix matching for partial queries.
         matching_cis: set[str] = set()
 
-        for cis_code, substances in self._compositions.items():
-            for subst in substances:
-                if _substance_matches(substance_lower, subst.lower()):
-                    matching_cis.add(cis_code)
-                    break
+        # Try exact match in the index first
+        if substance_lower in self._substance_index:
+            matching_cis.update(self._substance_index[substance_lower])
+        else:
+            # Check comma/semicolon-separated parts of the query
+            query_parts = {p.strip() for p in re.split(r"[,;/+]", substance_lower) if p.strip()}
+            for qp in query_parts:
+                if qp in self._substance_index:
+                    matching_cis.update(self._substance_index[qp])
+
+            # Prefix/partial matching against indexed substance names
+            if not matching_cis:
+                for indexed_subst, cis_codes in self._substance_index.items():
+                    if _substance_matches(substance_lower, indexed_subst):
+                        matching_cis.update(cis_codes)
 
         # Also search by product name in medicine denominations
         if product_lower:
@@ -1375,6 +1388,17 @@ class FranceHAS(HTAAgency):
                 rows.append([field.strip() for field in line.split(BDPM_SEPARATOR)])
         return rows
 
+    def _build_substance_index(self) -> None:
+        """Build a reverse index from lowercase substance name to CIS codes.
+
+        This allows O(1) lookup by substance instead of scanning all
+        compositions on every search_assessments() call.
+        """
+        self._substance_index = defaultdict(set)
+        for cis_code, substances in self._compositions.items():
+            for subst in substances:
+                self._substance_index[subst.lower().strip()].add(cis_code)
+
     async def _load_medicines(self, client: httpx.AsyncClient) -> None:
         """Parse CIS_bdpm.txt: CIS code → denomination."""
         content = await self._fetch_file(client, "medicines")
@@ -1462,7 +1486,10 @@ class FranceHAS(HTAAgency):
         smr_count = sum(len(v) for v in self._smr.values())
         asmr_count = sum(len(v) for v in self._asmr.values())
         # Require medicines AND at least some SMR/ASMR records
-        self._loaded = bool(self._medicines) and (smr_count > 0 or asmr_count > 0)
+        loaded = bool(self._medicines) and (smr_count > 0 or asmr_count > 0)
+        if loaded:
+            self._build_substance_index()
+        self._loaded = loaded
         if self._loaded:
             logger.info(
                 "%s loaded from %s: %d medicines, %d SMR, %d ASMR, %d CT links",

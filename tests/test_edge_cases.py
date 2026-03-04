@@ -153,6 +153,7 @@ class TestFranceHASEdgeCases:
             ],
         })
         agency._ct_links = {"D1": "https://example.com"}
+        agency._build_substance_index()
         agency._loaded = True
 
         results = await agency.search_assessments("substance")
@@ -178,6 +179,7 @@ class TestFranceHASEdgeCases:
         })
         agency._asmr = defaultdict(list)
         agency._ct_links = {}
+        agency._build_substance_index()
         agency._loaded = True
 
         results = await agency.search_assessments("substance")
@@ -198,6 +200,7 @@ class TestFranceHASEdgeCases:
         })
         agency._asmr = defaultdict(list)
         agency._ct_links = {}
+        agency._build_substance_index()
         agency._loaded = True
 
         results = await agency.search_assessments("sub")

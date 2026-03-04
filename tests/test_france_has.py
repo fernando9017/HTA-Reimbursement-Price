@@ -177,6 +177,7 @@ def has_service():
         "CT-19000": "https://www.has-sante.fr/jcms/c_example5/fr/herceptin-sein",
     }
 
+    service._build_substance_index()
     service._loaded = True
     return service
 

@@ -367,6 +367,7 @@ class TestHASBavencio:
             ],
         })
         service._ct_links = {"CT-18500": "https://www.has-sante.fr/ct-18500"}
+        service._build_substance_index()
         service._loaded = True
         return service
 

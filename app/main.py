@@ -559,6 +559,9 @@ async def reload_data(request: Request):
     )
     logger.info("Cleared %d total AI analysis cache entries on reload", ai_cleared)
 
+    # Invalidate the France HTA substance profiles cache
+    france_hta_service.invalidate_cache()
+
     now = datetime.now(timezone.utc).isoformat()
 
     if OFFLINE_MODE:
