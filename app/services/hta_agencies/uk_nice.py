@@ -295,15 +295,19 @@ class UKNICE(HTAAgency):
                 summary_parts.append(ref)
 
             # Resolve a meaningful product/trade name for each guidance item.
-            # Extract the drug name from the guidance title and resolve to
-            # a brand name via the EMA mapping when available.
-            display_name = _extract_drug_name_from_title(g.get("title", ""))
-            if display_name:
-                brand = self._resolve_trade_name(display_name)
+            # Try brand mapping first; fall back to the EMA trade name
+            # (product_name) when brand mapping is unavailable (offline mode).
+            display_name = ""
+            drug_inn = _extract_drug_name_from_title(g.get("title", ""))
+            if drug_inn:
+                brand = self._resolve_trade_name(drug_inn)
                 if brand:
                     display_name = brand
+            # Prefer the EMA trade name over the raw INN from the title
+            if not display_name and product_name:
+                display_name = product_name
             if not display_name:
-                display_name = product_name or active_substance
+                display_name = drug_inn or active_substance
 
             results.append(
                 AssessmentResult(

@@ -382,26 +382,36 @@ class SpainAEMPS(HTAAgency):
         seen_refs: set[str] = set()
         seen_urls: set[str] = set()
 
-        # Pattern 1: Links to IPT PDFs or detail pages
-        # Match href containing "ipt" or "posicionamiento" with title text
-        ipt_links = re.findall(
-            r'href="([^"]*(?:ipt|IPT|posicionamiento|informe)[^"]*)"[^>]*>\s*'
-            r'(.*?)\s*</a>',
+        # Extract all links from the page
+        all_links = re.findall(
+            r'href="([^"]+)"[^>]*>\s*(.*?)\s*</a>',
             html, re.IGNORECASE | re.DOTALL,
         )
 
-        for url, title_raw in ipt_links:
+        for url, title_raw in all_links:
             title = _clean_html_text(title_raw)
             if not title or len(title) < 5:
                 continue
 
-            # Skip navigation / generic links that don't contain drug-related content
-            title_lower = title.lower()
-            if title_lower in ("informes de posicionamiento terapéutico", "ipt", "inicio"):
+            # Filter out known garbage: nav elements, language selectors, CSS
+            if _is_garbage_entry(title, url):
                 continue
 
-            # Extract IPT reference from URL or title
+            url_lower = url.lower()
+
+            # A valid IPT entry must have an IPT reference OR a URL pointing
+            # to an IPT PDF/detail page (not just the listing page).
             ref = _extract_ipt_reference(url) or _extract_ipt_reference(title)
+            is_ipt_pdf = url_lower.endswith(".pdf") and "ipt" in url_lower
+            is_ipt_detail = (
+                "/informe-de-" in url_lower
+                or "/ipt-" in url_lower
+                or re.search(r"/ipt\d", url_lower) is not None
+            )
+
+            if not ref and not is_ipt_pdf and not is_ipt_detail:
+                continue
+
             if ref and ref in seen_refs:
                 continue
             if ref:
@@ -411,15 +421,11 @@ class SpainAEMPS(HTAAgency):
             if url and not url.startswith("http"):
                 url = AEMPS_BASE_URL + (url if url.startswith("/") else "/" + url)
 
-            # De-duplicate by URL (some pages list same IPT via both PDF and HTML links)
             if url in seen_urls:
                 continue
             seen_urls.add(url)
 
-            # Try to extract date from nearby context
             date = self._extract_date_near(html, title_raw)
-
-            # Try to extract positioning from nearby context
             positioning = self._extract_positioning_near(html, title_raw)
 
             items.append({
@@ -449,7 +455,9 @@ class SpainAEMPS(HTAAgency):
                 title = _clean_html_text(match.group(2))
                 date_text = _clean_html_text(match.group(3))
 
-                # Try to find a link in the row
+                if _is_garbage_entry(title, ""):
+                    continue
+
                 link_match = re.search(r'href="([^"]+)"', match.group(0))
                 url = ""
                 if link_match:
@@ -463,51 +471,6 @@ class SpainAEMPS(HTAAgency):
                     "url": url,
                     "published_date": _parse_spanish_date(date_text),
                     "positioning": "",
-                })
-
-        # Pattern 3: WordPress block/card layouts (newer AEMPS site)
-        # <div class="wp-block-..."><a href="...">Drug (IPT-XX/YYYY)</a><time>date</time></div>
-        if not items:
-            wp_pattern = re.compile(
-                r'<a\s+href="([^"]*)"[^>]*>\s*(.*?)</a>.*?'
-                r'(?:<time[^>]*>([^<]*)</time>)?',
-                re.IGNORECASE | re.DOTALL,
-            )
-            for match in wp_pattern.finditer(html):
-                url = match.group(1)
-                title_raw = match.group(2)
-                date_text = match.group(3) or ""
-
-                title = _clean_html_text(title_raw)
-                if not title or len(title) < 5:
-                    continue
-
-                # Check if this looks like an IPT link
-                ref = _extract_ipt_reference(url) or _extract_ipt_reference(title)
-                if not ref:
-                    # Also check if URL contains IPT-related keywords
-                    url_lower = url.lower()
-                    if not any(kw in url_lower for kw in ("ipt", "posicionamiento", "informe")):
-                        continue
-
-                if ref and ref in seen_refs:
-                    continue
-                if ref:
-                    seen_refs.add(ref)
-
-                if url and not url.startswith("http"):
-                    url = AEMPS_BASE_URL + (url if url.startswith("/") else "/" + url)
-
-                if url in seen_urls:
-                    continue
-                seen_urls.add(url)
-
-                items.append({
-                    "reference": ref or "",
-                    "title": title,
-                    "url": url,
-                    "published_date": _parse_spanish_date(date_text.strip()) if date_text else "",
-                    "positioning": self._extract_positioning_near(html, title_raw),
                 })
 
         return items
@@ -601,6 +564,63 @@ def _clean_html_text(text: str) -> str:
     text = re.sub(r"&#\d+;", "", text)
     text = re.sub(r"\s+", " ", text)
     return text.strip()
+
+
+# Language selectors and navigation items commonly found on AEMPS WordPress pages
+_GARBAGE_TITLES = {
+    "castellano", "català", "euskera", "galego", "valencià", "english",
+    "inicio", "ipt", "informes de posicionamiento terapéutico",
+    "notas informativas", "reuniones del grupo", "propuesta de colaboración",
+    "plan de consolidación", "pnt de evaluación", "preguntas frecuentes",
+    "utilice el buscador", "documentos de interés", "la aemps",
+    "medicamentos de uso humano", "contacto", "aviso legal",
+    "política de privacidad", "mapa del sitio",
+}
+
+# Patterns that indicate garbage content (CSS, HTML fragments, navigation)
+_GARBAGE_PATTERNS = re.compile(
+    r"(?:css|stylesheet|font-size|background|margin|padding|display:|"
+    r"wp-block|wp-element|sourceURL|screen-reader|:root|--wp-|"
+    r"\.has-|border-radius|img\{|img\.wp|contain-intrinsic)",
+    re.IGNORECASE,
+)
+
+
+def _is_garbage_entry(title: str, url: str) -> bool:
+    """Filter out navigation elements, language selectors, and CSS content."""
+    title_lower = title.lower().strip()
+
+    # Titles containing an IPT reference (IPT-XX/YYYY) are always valid
+    if re.search(r"ipt[- ]?\d+/\d{4}", title_lower):
+        return False
+
+    # Exact match against known garbage
+    if title_lower in _GARBAGE_TITLES:
+        return True
+
+    # Starts with a known garbage pattern
+    for garbage in _GARBAGE_TITLES:
+        if title_lower.startswith(garbage):
+            return True
+
+    # Contains CSS or HTML fragment indicators
+    if _GARBAGE_PATTERNS.search(title):
+        return True
+
+    # Very short single-word titles are likely navigation
+    if len(title) < 10 and " " not in title.strip():
+        return True
+
+    # URL points to the listing page itself or a non-IPT section
+    if url:
+        url_lower = url.lower()
+        if url_lower.rstrip("/").endswith(
+            ("informes-de-posicionamiento-terapeutico",
+             "/ipt", "/tag/ipt", "/category/ipt")
+        ):
+            return True
+
+    return False
 
 
 def _extract_ipt_reference(text: str) -> str:

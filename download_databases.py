@@ -158,7 +158,9 @@ async def main():
 
     # Determine which countries to download
     requested = [c.upper() for c in sys.argv[1:]] if len(sys.argv) > 1 else []
-    download_ema_flag = not requested  # download EMA only when doing all
+    # Download EMA when doing all, or when explicitly requested
+    download_ema_flag = not requested or "EMA" in requested
+    requested = [c for c in requested if c != "EMA"]
 
     if requested:
         codes_to_download = [c for c in requested if c in AGENCIES]
