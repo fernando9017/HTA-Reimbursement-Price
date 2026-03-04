@@ -748,8 +748,10 @@ def _cleanup_french_remnants(text: str) -> str:
 
 
 # Additional French → English phrases for translating full description sentences.
+# Keys are lowercase French terms; values are English replacements.
+# Terms are applied via longest-match-first substitution.
 _DESCRIPTION_FR_EN: dict[str, str] = {
-    # SMR descriptions
+    # ── SMR descriptions ─────────────────────────────────────────────
     "le service médical rendu par": "the clinical benefit of",
     "le service médical rendu est": "the clinical benefit is",
     "le service médical rendu de": "the clinical benefit of",
@@ -758,35 +760,312 @@ _DESCRIPTION_FR_EN: dict[str, str] = {
     "est modéré": "is moderate",
     "est faible": "is minor",
     "est insuffisant": "is insufficient",
-    # ASMR descriptions
+
+    # ── ASMR descriptions ────────────────────────────────────────────
     "amélioration du service médical rendu": "therapeutic improvement (ASMR)",
     "pas d'amélioration du service médical rendu": "no therapeutic improvement (ASMR V)",
+    "apporte une amélioration du service médical rendu": "provides a therapeutic improvement (ASMR)",
+    "n'apporte pas d'amélioration du service médical rendu": "does not provide a therapeutic improvement (ASMR V)",
     "asmr modérée": "moderate therapeutic improvement (ASMR III)",
     "asmr mineure": "minor therapeutic improvement (ASMR IV)",
     "asmr majeure": "major therapeutic improvement (ASMR I)",
     "asmr importante": "important therapeutic improvement (ASMR II)",
-    # Common connecting phrases
+
+    # ── Commission / committee phrases ───────────────────────────────
+    "la commission considère que": "the Committee considers that",
+    "la commission de la transparence": "the Transparency Committee",
+    "la commission estime que": "the Committee considers that",
+    "commission de la transparence": "Transparency Committee",
+    "compte tenu": "considering",
+    "compte-tenu": "considering",
+
+    # ── Study design & evidence ──────────────────────────────────────
+    "dans une étude de phase iii randomisée en ouvert": "in an open-label randomised phase III study",
+    "dans une étude de phase iii randomisée en double aveugle": "in a double-blind randomised phase III study",
+    "dans une étude de phase iii randomisée": "in a randomised phase III study",
+    "dans une étude de phase ii randomisée": "in a randomised phase II study",
+    "dans une étude de phase iii": "in a phase III study",
+    "dans une étude de phase ii": "in a phase II study",
+    "dans une étude randomisée": "in a randomised study",
+    "étude de phase iii": "phase III study",
+    "étude de phase ii": "phase II study",
+    "étude de phase i": "phase I study",
+    "étude randomisée en ouvert": "open-label randomised study",
+    "étude randomisée en double aveugle": "double-blind randomised study",
+    "étude randomisée": "randomised study",
+    "randomisée en ouvert": "open-label randomised",
+    "randomisée en double aveugle": "double-blind randomised",
+    "en ouvert": "open-label",
+    "en double aveugle": "double-blind",
+    "en simple aveugle": "single-blind",
+    "essai clinique": "clinical trial",
+    "essai contrôlé randomisé": "randomised controlled trial",
+
+    # ── Efficacy / survival endpoints ────────────────────────────────
+    "en termes de survie globale": "in terms of overall survival",
+    "en termes de survie sans progression": "in terms of progression-free survival",
+    "en termes de": "in terms of",
+    "survie globale": "overall survival",
+    "survie sans progression": "progression-free survival",
+    "survie sans récidive": "recurrence-free survival",
+    "survie sans événement": "event-free survival",
+    "survie sans maladie": "disease-free survival",
+    "taux de réponse globale": "overall response rate",
+    "taux de réponse objective": "objective response rate",
+    "taux de réponse": "response rate",
+    "taux de réponse complète": "complete response rate",
+    "réponse complète": "complete response",
+    "réponse partielle": "partial response",
+    "durée de réponse": "duration of response",
+    "durée médiane de réponse": "median duration of response",
+    "médiane de survie globale": "median overall survival",
+    "médiane de survie sans progression": "median progression-free survival",
+    "temps jusqu'à progression": "time to progression",
+    "temps jusqu'à progression de la douleur": "time to pain progression",
+    "le temps jusqu'à progression": "time to progression",
+
+    # ── Statistical terms ────────────────────────────────────────────
+    "de la démonstration de la supériorité de": "the demonstrated superiority of",
+    "de la démonstration de la non-infériorité de": "the demonstrated non-inferiority of",
+    "démonstration de la supériorité": "demonstrated superiority",
+    "démonstration de la non-infériorité": "demonstrated non-inferiority",
+    "la supériorité de": "the superiority of",
+    "la non-infériorité de": "the non-inferiority of",
+    "différence statistiquement significative": "statistically significant difference",
+    "statistiquement significative": "statistically significant",
+    "statistiquement significatif": "statistically significant",
+    "intervalle de confiance": "confidence interval",
+    "hazard ratio": "hazard ratio",
+    "rapport de risque": "hazard ratio",
+    "critère de jugement principal": "primary endpoint",
+    "critère principal": "primary endpoint",
+    "critères secondaires": "secondary endpoints",
+    "critère secondaire": "secondary endpoint",
+    "critère exploratoire": "exploratory endpoint",
+    "critères exploratoires": "exploratory endpoints",
+    "critère de jugement": "endpoint",
+    "bras contrôle": "control arm",
+    "bras expérimental": "experimental arm",
+    "groupe contrôle": "control group",
+    "groupe traité": "treatment group",
+
+    # ── Connecting phrases / sentence structure ──────────────────────
     "dans le cadre de": "in the context of",
     "dans le traitement": "in the treatment",
+    "dans le traitement de": "in the treatment of",
     "en association avec": "in combination with",
+    "en association au": "in combination with",
+    "en association à": "in combination with",
+    "en association": "in combination",
     "en monothérapie": "as monotherapy",
     "par rapport à": "compared to",
+    "par rapport au": "compared to",
+    "par rapport aux": "compared to",
+    "à base de sels de platine": "platinum-based",
+    "à base de platine": "platinum-based",
+    "sels de platine": "platinum salts",
+    "chez les patients adultes": "in adult patients",
     "chez les patients": "in patients",
     "chez les adultes": "in adults",
     "chez l'adulte": "in adults",
     "chez l'enfant": "in children",
     "chez les enfants": "in children",
+    "chez les adolescents": "in adolescents",
+    "chez les patients âgés": "in elderly patients",
+    "chez des patients": "in patients",
     "non préalablement traités": "previously untreated",
+    "préalablement traités": "previously treated",
+    "ayant reçu au moins": "who have received at least",
     "ayant reçu": "who have received",
+    "n'ayant pas reçu": "who have not received",
+    "après échec de": "after failure of",
     "après échec": "after failure of",
+    "après progression": "after progression",
+    "en cas d'échec": "in case of failure",
+    "en première ligne de traitement": "as first-line treatment",
+    "en deuxième ligne de traitement": "as second-line treatment",
+    "en troisième ligne de traitement": "as third-line treatment",
     "en première ligne": "first-line",
     "en deuxième ligne": "second-line",
+    "en troisième ligne": "third-line",
     "de deuxième ligne": "second-line",
     "de première ligne": "first-line",
+    "de troisième ligne": "third-line",
     "localement avancé ou métastatique": "locally advanced or metastatic",
     "localement avancé": "locally advanced",
     "non résécable": "unresectable",
     "avancé ou métastatique": "advanced or metastatic",
+    "inopérable ou métastatique": "inoperable or metastatic",
+
+    # ── Safety / tolerability phrases ────────────────────────────────
+    "et malgré": "and despite",
+    "malgré": "despite",
+    "une absence de gain démontré sur": "no demonstrated gain in",
+    "une absence de gain sur": "no gain in",
+    "absence de gain": "no gain",
+    "absence de données": "lack of data",
+    "absence de démonstration": "lack of evidence",
+    "un profil de toxicité marqué": "a notable toxicity profile",
+    "un profil de toxicité": "a toxicity profile",
+    "profil de tolérance": "tolerability profile",
+    "profil de toxicité": "toxicity profile",
+    "profil d'effets indésirables": "adverse event profile",
+    "la survenue fréquente": "frequent occurrence",
+    "survenue fréquente": "frequent occurrence",
+    "effets indésirables": "adverse events",
+    "effets indésirables graves": "serious adverse events",
+    "événements indésirables": "adverse events",
+    "événements indésirables graves": "serious adverse events",
+    "événement indésirable": "adverse event",
+    "événement indésirable grave": "serious adverse event",
+    "arrêts de traitement pour événement indésirable": "treatment discontinuations due to adverse events",
+    "arrêts de traitement pour événements indésirables": "treatment discontinuations due to adverse events",
+    "arrêts de traitement": "treatment discontinuations",
+    "arrêt de traitement": "treatment discontinuation",
+    "atteintes cutanées": "skin disorders",
+    "neuropathies sensorielles périphériques": "peripheral sensory neuropathies",
+    "neuropathie sensorielle périphérique": "peripheral sensory neuropathy",
+    "neuropathie périphérique": "peripheral neuropathy",
+    "neuropathies périphériques": "peripheral neuropathies",
+    "pour événement indésirable": "due to adverse events",
+    "pour événements indésirables": "due to adverse events",
+    "toxicité": "toxicity",
+    "tolérance": "tolerability",
+    "toxicités": "toxicities",
+
+    # ── Quality of life / PROs ───────────────────────────────────────
+    "qualité de vie": "quality of life",
+    "qualité de vie liée à la santé": "health-related quality of life",
+    "données de qualité de vie": "quality of life data",
+    "gain en qualité de vie": "quality of life gain",
+    "maintien de la qualité de vie": "maintenance of quality of life",
+    "résultats rapportés par les patients": "patient-reported outcomes",
+
+    # ── Treatment descriptions ───────────────────────────────────────
+    "chimiothérapie": "chemotherapy",
+    "chimiothérapies": "chemotherapies",
+    "chimiothérapies à base de": "chemotherapy regimens based on",
+    "chimiothérapie à base de": "chemotherapy based on",
+    "immunothérapie": "immunotherapy",
+    "thérapie ciblée": "targeted therapy",
+    "radiothérapie": "radiotherapy",
+    "hormonothérapie": "hormone therapy",
+    "corticothérapie": "corticosteroid therapy",
+    "traitement de référence": "standard of care",
+    "traitement standard": "standard treatment",
+    "traitement conventionnel": "conventional treatment",
+    "traitement symptomatique": "symptomatic treatment",
+    "meilleur traitement de support": "best supportive care",
+    "soins de support": "supportive care",
+    "traitement de support": "supportive care",
+    "traitement adjuvant": "adjuvant treatment",
+    "traitement néoadjuvant": "neoadjuvant treatment",
+    "traitement d'entretien": "maintenance treatment",
+    "traitement de maintenance": "maintenance treatment",
+    "traitement de consolidation": "consolidation treatment",
+    "prise en charge thérapeutique": "therapeutic management",
+    "prise en charge": "management",
+    "stratégie thérapeutique": "therapeutic strategy",
+    "arsenal thérapeutique": "therapeutic arsenal",
+    "alternative thérapeutique": "therapeutic alternative",
+    "alternatives thérapeutiques": "therapeutic alternatives",
+    "besoin thérapeutique": "therapeutic need",
+    "besoin médical": "medical need",
+    "place dans la stratégie thérapeutique": "place in the therapeutic strategy",
+
+    # ── Drug forms / pharmaceutical terms ────────────────────────────
+    "poudre pour solution à diluer pour perfusion": "powder for concentrate for solution for infusion",
+    "solution à diluer pour perfusion": "concentrate for solution for infusion",
+    "solution pour perfusion": "solution for infusion",
+    "solution injectable": "solution for injection",
+    "solution injectable en seringue préremplie": "solution for injection in pre-filled syringe",
+    "solution injectable en stylo prérempli": "solution for injection in pre-filled pen",
+    "comprimé pelliculé": "film-coated tablet",
+    "comprimés pelliculés": "film-coated tablets",
+    "gélule": "capsule",
+    "gélules": "capsules",
+    "comprimé": "tablet",
+    "comprimés": "tablets",
+
+    # ── General HTA / regulatory phrases ─────────────────────────────
+    "apporte une": "provides a",
+    "n'apporte pas de": "does not provide",
+    "inscription": "registration",
+    "première évaluation": "first evaluation",
+    "extension d'indication": "indication extension",
+    "renouvellement d'inscription": "registration renewal",
+    "population cible": "target population",
+    "population concernée": "concerned population",
+    "indication évaluée": "evaluated indication",
+    "indication retenue": "approved indication",
+    "données cliniques": "clinical data",
+    "données disponibles": "available data",
+    "données insuffisantes": "insufficient data",
+    "rapport efficacité/tolérance": "efficacy/tolerability ratio",
+    "rapport bénéfice/risque": "benefit/risk ratio",
+    "bénéfice clinique": "clinical benefit",
+    "intérêt de santé publique": "public health interest",
+    "progrès thérapeutique": "therapeutic progress",
+    "comparateur cliniquement pertinent": "clinically relevant comparator",
+    "comparaison indirecte": "indirect comparison",
+    "comparaison directe": "direct comparison",
+    "en l'absence de": "in the absence of",
+    "en l'état actuel des données": "based on currently available data",
+    "au regard de": "in light of",
+    "au vu de": "in view of",
+
+    # ── Prepositions / connectors common in descriptions ─────────────
+    "notamment par": "notably by",
+    "notamment": "notably",
+    "cependant": "however",
+    "toutefois": "however",
+    "néanmoins": "nevertheless",
+    "en revanche": "on the other hand",
+    "par ailleurs": "furthermore",
+    "en effet": "indeed",
+    "ainsi": "thus",
+    "de plus": "furthermore",
+    "en outre": "moreover",
+    "c'est-à-dire": "i.e.",
+    "à savoir": "namely",
+    "selon": "according to",
+    "d'après": "according to",
+    "afin de": "in order to",
+    "au cours de": "during",
+    "au cours du traitement": "during treatment",
+    "lors de": "during",
+    "lors du traitement": "during treatment",
+    "à long terme": "long-term",
+    "à court terme": "short-term",
+    "à ce jour": "to date",
+    "sous traitement": "under treatment",
+    "versus": "versus",
+    "et": "and",
+    "ou": "or",
+    "mais": "but",
+    "donc": "therefore",
+    "car": "because",
+    "si": "if",
+    "avec": "with",
+    "sans": "without",
+    "pour": "for",
+    "dans": "in",
+    "sur": "on",
+    "entre": "between",
+    "après": "after",
+    "avant": "before",
+    "depuis": "since",
+    "pendant": "during",
+    "contre": "against",
+    "comme": "as",
+    "dont": "of which",
+    "chez": "in",
+    "dès": "from",
+    "sous": "under",
+    "hors": "outside of",
+    "parmi": "among",
+    "environ": "approximately",
+    "également": "also",
 }
 
 
@@ -794,7 +1073,8 @@ def _translate_description(french_text: str) -> str:
     """Translate a full French SMR/ASMR description to English.
 
     Applies both the indication dictionary and the description-specific
-    phrases via longest-match-first substitution.
+    phrases via longest-match-first substitution, then cleans up any
+    remaining French articles/prepositions.
     """
     if not french_text:
         return ""
@@ -802,16 +1082,21 @@ def _translate_description(french_text: str) -> str:
     result = french_text
     lower = result.lower()
 
-    # Merge both dictionaries; description phrases first, then indication terms
-    combined = {**_DESCRIPTION_FR_EN, **_INDICATION_FR_EN}
+    # Merge both dictionaries; description phrases take priority for overlapping keys
+    combined = {**_INDICATION_FR_EN, **_DESCRIPTION_FR_EN}
 
     for fr_term, en_term in sorted(
         combined.items(), key=lambda x: len(x[0]), reverse=True
     ):
         idx = lower.find(fr_term)
-        if idx != -1:
+        while idx != -1:
             result = result[:idx] + en_term + result[idx + len(fr_term):]
             lower = result.lower()
+            # Search for further occurrences after the replacement
+            idx = lower.find(fr_term, idx + len(en_term))
+
+    # Clean up remaining French articles/prepositions
+    result = _cleanup_french_remnants(result)
 
     return result
 
