@@ -574,3 +574,119 @@ def test_hta_service_get_drug_profile_by_brand_name():
     profile = hta.get_drug_profile("Keytruda")
     assert profile is not None
     assert profile.total_guidance >= 1
+
+
+# ── Deduplication tests ──────────────────────────────────────────────
+
+
+def test_deduplicate_by_reference():
+    """Should remove duplicate guidance entries by reference."""
+    from app.services.hta_agencies.uk_nice import _deduplicate_by_reference
+
+    items = [
+        {"reference": "TA900", "title": "Drug A"},
+        {"reference": "TA900", "title": "Drug A (dup)"},
+        {"reference": "TA900", "title": "Drug A (dup2)"},
+        {"reference": "TA850", "title": "Drug B"},
+        {"reference": "TA850", "title": "Drug B (dup)"},
+    ]
+    result = _deduplicate_by_reference(items)
+    assert len(result) == 2
+    refs = [g["reference"] for g in result]
+    assert refs == ["TA900", "TA850"]
+    # Should keep the first occurrence
+    assert result[0]["title"] == "Drug A"
+    assert result[1]["title"] == "Drug B"
+
+
+def test_deduplicate_preserves_order():
+    """Dedup should preserve the order of first occurrences."""
+    from app.services.hta_agencies.uk_nice import _deduplicate_by_reference
+
+    items = [
+        {"reference": "TA100", "title": "First"},
+        {"reference": "TA200", "title": "Second"},
+        {"reference": "TA100", "title": "Duplicate of First"},
+        {"reference": "TA300", "title": "Third"},
+    ]
+    result = _deduplicate_by_reference(items)
+    assert len(result) == 3
+    assert [g["reference"] for g in result] == ["TA100", "TA200", "TA300"]
+
+
+def test_load_from_file_deduplicates(nice_service):
+    """load_from_file should remove duplicates from saved data."""
+    import json
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        data_file = Path(tmp) / "GB.json"
+        # Save valid data first
+        nice_service.save_to_file(data_file)
+
+        # Now corrupt the file by duplicating entries
+        with open(data_file) as f:
+            payload = json.load(f)
+        original_count = len(payload["data"])
+        payload["data"] = payload["data"] * 3  # Triple the entries
+        payload["record_count"] = len(payload["data"])
+        with open(data_file, "w") as f:
+            json.dump(payload, f)
+
+        # Load should deduplicate
+        fresh = UKNICE()
+        result = fresh.load_from_file(data_file)
+        assert result is True
+        assert len(fresh._guidance_list) == original_count
+
+
+# ── Trade name extraction tests ──────────────────────────────────────
+
+
+def test_extract_drug_name_from_title():
+    """Should extract the drug name from NICE guidance titles."""
+    from app.services.hta_agencies.uk_nice import _extract_drug_name_from_title
+
+    assert _extract_drug_name_from_title(
+        "Pembrolizumab for untreated PD-L1-positive locally advanced NSCLC"
+    ) == "Pembrolizumab"
+    assert _extract_drug_name_from_title(
+        "Nivolumab with ipilimumab for untreated advanced renal cell carcinoma"
+    ) == "Nivolumab with ipilimumab"
+    assert _extract_drug_name_from_title("") == ""
+    assert _extract_drug_name_from_title(
+        "Trastuzumab deruxtecan for treating HER2-positive breast cancer"
+    ) == "Trastuzumab deruxtecan"
+
+
+@pytest.mark.asyncio
+async def test_search_resolves_trade_name_from_title():
+    """search_assessments should extract trade name from guidance title via EMA mapping."""
+    service = UKNICE()
+    items = service._parse_listing_page(SAMPLE_LISTING_HTML, "Technology appraisal guidance")
+    service._guidance_list = items
+    service._loaded = True
+
+    # Set up brand mapping
+    service.set_brand_mapping([
+        {"medicineName": "Keytruda", "activeSubstance": "Pembrolizumab"},
+    ])
+
+    results = await service.search_assessments("Pembrolizumab")
+    assert len(results) == 1
+    # product_name should be resolved to the brand name "Keytruda"
+    assert results[0].product_name == "Keytruda"
+
+
+@pytest.mark.asyncio
+async def test_search_uses_substance_when_no_brand_mapping():
+    """Without brand mapping, product_name should be the drug name from the title."""
+    service = UKNICE()
+    items = service._parse_listing_page(SAMPLE_LISTING_HTML, "Technology appraisal guidance")
+    service._guidance_list = items
+    service._loaded = True
+
+    results = await service.search_assessments("Pembrolizumab")
+    assert len(results) == 1
+    # No brand mapping — should use the extracted drug name from the title
+    assert results[0].product_name == "Pembrolizumab"

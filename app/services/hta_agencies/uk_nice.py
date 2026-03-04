@@ -174,6 +174,10 @@ class UKNICE(HTAAgency):
                 "https://www.nice.org.uk/guidance/published"
             )
 
+        # Final deduplication by reference — belt-and-suspenders to catch
+        # any duplicates that slipped through strategy-level dedup.
+        all_guidance = _deduplicate_by_reference(all_guidance)
+
         self._guidance_list = all_guidance
         self._loaded = True
         ta_count = sum(1 for g in all_guidance if g.get("reference", "").startswith("TA"))
@@ -287,9 +291,20 @@ class UKNICE(HTAAgency):
             if ref:
                 summary_parts.append(ref)
 
+            # Resolve a meaningful product/trade name for each guidance item.
+            # Extract the drug name from the guidance title and resolve to
+            # a brand name via the EMA mapping when available.
+            display_name = _extract_drug_name_from_title(g.get("title", ""))
+            if display_name:
+                brand = self._resolve_trade_name(display_name)
+                if brand:
+                    display_name = brand
+            if not display_name:
+                display_name = product_name or active_substance
+
             results.append(
                 AssessmentResult(
-                    product_name=product_name or active_substance,
+                    product_name=display_name,
                     evaluation_reason=g.get("title", ""),
                     opinion_date=g.get("published_date", ""),
                     assessment_url=g.get("url", ""),
@@ -472,6 +487,7 @@ class UKNICE(HTAAgency):
     ) -> list[dict]:
         """Fetch all pages of a NICE published guidance listing."""
         all_items: list[dict] = []
+        seen_refs: set[str] = set()
 
         for page in range(1, NICE_MAX_PAGES + 1):
             params = {
@@ -495,8 +511,20 @@ class UKNICE(HTAAgency):
             if not items:
                 break  # No more results on this page
 
-            all_items.extend(items)
-            logger.debug("NICE %s page %d: %d items", programme_type, page, len(items))
+            # Deduplicate across pages — if pagination is broken and the
+            # same page content is returned repeatedly, skip duplicates.
+            new_items = []
+            for item in items:
+                ref = item.get("reference", "")
+                if ref and ref not in seen_refs:
+                    seen_refs.add(ref)
+                    new_items.append(item)
+
+            if not new_items:
+                break  # All items on this page were already seen — stop
+
+            all_items.extend(new_items)
+            logger.debug("NICE %s page %d: %d items (%d new)", programme_type, page, len(items), len(new_items))
 
         return all_items
 
@@ -816,13 +844,27 @@ class UKNICE(HTAAgency):
 
         return ""
 
+    def _resolve_trade_name(self, drug_name: str) -> str:
+        """Resolve a drug name (INN) to a brand/trade name via EMA mapping.
+
+        Returns the capitalised brand name if found, empty string otherwise.
+        """
+        name_lower = drug_name.lower().strip()
+        brands = self._substance_to_brands.get(name_lower, set())
+        if brands:
+            # Return the first (alphabetically) brand name, capitalised
+            brand = sorted(brands)[0]
+            return brand.title()
+        return ""
+
     # ── File-based caching ────────────────────────────────────────────
 
     def load_from_file(self, data_file: Path) -> bool:
         payload = self._read_json_file(data_file)
         if not payload or not isinstance(payload.get("data"), list):
             return False
-        self._guidance_list = payload["data"]
+        # Deduplicate on load to fix any previously-saved data with duplicates
+        self._guidance_list = _deduplicate_by_reference(payload["data"])
         self._loaded = bool(self._guidance_list)
         if self._loaded:
             logger.info(
@@ -839,6 +881,52 @@ class UKNICE(HTAAgency):
             "%s saved %d guidance entries to %s",
             self.agency_abbreviation, len(self._guidance_list), data_file,
         )
+
+
+def _extract_drug_name_from_title(title: str) -> str:
+    """Extract the drug/substance name from a NICE guidance title.
+
+    NICE titles follow patterns like:
+      "Pembrolizumab for treating advanced melanoma..."
+      "Nivolumab with ipilimumab for untreated advanced RCC..."
+    Returns the drug name portion before 'for'.
+    """
+    if not title:
+        return ""
+    match = re.match(r'^(.+?)\s+for\s+', title.strip(), re.IGNORECASE)
+    if match:
+        name = match.group(1).strip()
+        # Remove trailing conjunctions / combination noise
+        name = re.sub(
+            r'\s+(?:and|plus|in\s+combination)\s*$', '',
+            name, flags=re.IGNORECASE,
+        )
+        if len(name) >= 3:
+            return name
+    return ""
+
+
+def _deduplicate_by_reference(items: list[dict]) -> list[dict]:
+    """Remove duplicate guidance entries, keeping the first occurrence.
+
+    Duplicates can arise when NICE pagination is broken (same page content
+    returned for multiple page numbers) or when multiple data-loading
+    strategies return overlapping results.
+    """
+    seen: set[str] = set()
+    unique: list[dict] = []
+    for item in items:
+        ref = item.get("reference", "")
+        if not ref or ref not in seen:
+            if ref:
+                seen.add(ref)
+            unique.append(item)
+    if len(unique) < len(items):
+        logger.info(
+            "NICE dedup: removed %d duplicate entries (%d → %d)",
+            len(items) - len(unique), len(items), len(unique),
+        )
+    return unique
 
 
 def _clean_html_text(text: str) -> str:
