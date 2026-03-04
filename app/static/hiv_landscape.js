@@ -145,7 +145,7 @@ const HIV_COUNTRIES = [
                 title: "Pricing & Procurement",
                 body: "Brazil is a global pioneer in ARV procurement negotiation. The Ministry of Health's DATHI (formerly DIAHV) centrally procures all ARVs. Brazil has used compulsory licensing (efavirenz, 2007) and voluntary licensing to drive down prices. TDF/FTC per-pill price through SUS decreased from R$2.63 to R$2.25 (~USD 0.44/pill, ~USD 13/month for 30 tablets). Farmanguinhos/Fiocruz began domestic TDF/FTC production in 2020, further reducing costs. The CMED regulates maximum retail prices, but public procurement prices are significantly lower. Generic drug prices must be at least 35% cheaper than the reference product by law.",
                 links: [
-                    { label: "DATHI — Department of HIV/AIDS, Tuberculosis and Hepatitis", url: "https://www.gov.br/saude/pt-br/composicao/svsa/departamento-de-hiv-aids-tuberculose-hepatites-virais-e-infeccoes-sexualmente-transmissiveis-dathi" },
+                    { label: "DATHI — Department of HIV/AIDS, Tuberculosis and Hepatitis", url: "https://www.gov.br/aids/pt-br" },
                     { label: "CMED — Price Regulation", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed" },
                     { label: "BPS — Banco de Preços em Saúde (Public Procurement Prices)", url: "https://bps.saude.gov.br/" },
                 ],
@@ -165,7 +165,7 @@ const HIV_COUNTRIES = [
                 title: "PrEP Availability",
                 body: "Brazil was the first country in Latin America to offer free PrEP through the public health system, starting in December 2017 (Ordinance 2,467/2017). PrEP with TDF/FTC is available free of charge through SUS at designated health centres for key populations. In 2023, Brazil expanded PrEP eligibility and introduced injectable PrEP (cabotegravir) as an additional option. The PrEP programme has enrolled over 100,000 users as of 2024.",
                 links: [
-                    { label: "Ministry of Health — PrEP Information", url: "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/p/prep" },
+                    { label: "Ministry of Health — PrEP Information", url: "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/a/aids-hiv/prep" },
                 ],
             },
         ],
@@ -250,7 +250,7 @@ const HIV_COUNTRIES = [
                 body: "Truvada and generic emtricitabine/tenofovir are registered in Colombia through INVIMA (Instituto Nacional de Vigilancia de Medicamentos y Alimentos). Multiple generic versions are available. INVIMA maintains a searchable drug registry. Colombia also has significant generic pharmaceutical manufacturing capacity.",
                 links: [
                     { label: "INVIMA — Official Website", url: "https://www.invima.gov.co/" },
-                    { label: "INVIMA — Drug Registry Search", url: "https://www.invima.gov.co/consultas-registros-sanitarios" },
+                    { label: "INVIMA — Drug Registry Search", url: "https://www.invima.gov.co/consulta-registros-sanitarios" },
                 ],
             },
             {
@@ -258,7 +258,7 @@ const HIV_COUNTRIES = [
                 title: "Pricing & Procurement",
                 body: "Colombia uses regulated maximum prices through SISMED. ARVs are included in the PBS medicines list. Generic TDF/FTC is available from multiple manufacturers (Aurobindo ~COP 142,000/month, Saluspharma ~COP 133,200/month, Emtrivir Teva ~COP 240,000/month — approximately USD 31–56). In a landmark move, Colombia issued its first-ever compulsory licence for dolutegravir (DTG) in April 2024, overriding ViiV Healthcare's patent and reducing DTG cost from USD 1,224 to USD 44 per patient per year — enabling treatment of 27 people for the previous cost of one.",
                 links: [
-                    { label: "SISMED — Drug Price Information System", url: "https://www.sispro.gov.co/central-prestadores-de-servicios/Pages/SISMED.aspx" },
+                    { label: "SISMED — Drug Price Information System", url: "https://www.sispro.gov.co/central-prestadores-de-servicios/Pages/SISMED-Sistema-de-Informacion-de-Precios-de-Medicamentos.aspx" },
                     { label: "Ministry of Health — PBS Medicines List", url: "https://www.minsalud.gov.co/" },
                     { label: "PAHO Strategic Fund", url: "https://www.paho.org/en/paho-strategic-fund" },
                 ],
@@ -268,7 +268,7 @@ const HIV_COUNTRIES = [
                 title: "Public Health Programme & Reimbursement",
                 body: "Colombia's SGSSS (Sistema General de Seguridad Social en Salud) provides ARV coverage through the PBS (Plan de Beneficios en Salud), which is mandatory for both contributory (EPS) and subsidised regimes. ARVs are provided free of charge to all PLHIV through their EPS (Entidad Promotora de Salud). The national HIV/AIDS programme operates under the Ministry of Health, with the national clinical guideline (Guía de Práctica Clínica) recommending DTG-based first-line regimens since 2020. Colombia's Cuenta de Alto Costo (High-Cost Diseases Account) tracks HIV outcomes nationally.",
                 links: [
-                    { label: "Cuenta de Alto Costo — HIV/AIDS Data", url: "https://cuentadealtocosto.org/site/vih/" },
+                    { label: "Cuenta de Alto Costo — HIV/AIDS Data", url: "https://cuentadealtocosto.org/vih/" },
                     { label: "Ministry of Health — HIV/AIDS", url: "https://www.minsalud.gov.co/salud/publica/ssr/Paginas/programa-nacional-prevencion-y-control-vih-sida.aspx" },
                     { label: "UNAIDS — Colombia", url: "https://www.unaids.org/en/regionscountries/countries/colombia" },
                 ],
@@ -307,7 +307,7 @@ const HIV_COUNTRIES = [
                 body: "Truvada and generic ARVs are registered in Guatemala through the MSPAS (Ministerio de Salud Pública y Asistencia Social) via the Departamento de Regulación y Control de Productos Farmacéuticos y Afines (DRCPFA). Generic TDF/FTC is available from multiple manufacturers, primarily Indian generics. The national essential medicines list includes TDF-based regimens.",
                 links: [
                     { label: "MSPAS — Ministry of Health", url: "https://www.mspas.gob.gt/" },
-                    { label: "DRCPFA — Drug Regulation", url: "https://dfrg.mspas.gob.gt/" },
+                    { label: "DRCPFA — Medicines Portal", url: "https://medicamentos.mspas.gob.gt/" },
                 ],
             },
             {
@@ -325,7 +325,7 @@ const HIV_COUNTRIES = [
                 title: "Public Health Programme & Reimbursement",
                 body: "ARV treatment is provided free of charge through 16 UAIs (Unidades de Atención Integral) under MSPAS and through IGSS. AHF Guatemala supports 11 of 17 HIV clinics, covering ~14,865 patients. ART coverage is approximately 73% of PLHIV. Treatment schemes were simplified from over 200 to fewer than 65 with TLD adoption. Guatemala achieved 95-95-93 targets in 2022, though 2023 saw regression to 87-83-81 due to PEPFAR funding disruptions. Treatment is concentrated in Guatemala City, with limited access in rural and indigenous areas.",
                 links: [
-                    { label: "IGSS — Social Security", url: "https://www.igss.gt/" },
+                    { label: "IGSS — Social Security", url: "https://www.igssgt.org/" },
                     { label: "UNAIDS — Guatemala", url: "https://www.unaids.org/en/regionscountries/countries/guatemala" },
                 ],
             },
@@ -363,7 +363,7 @@ const HIV_COUNTRIES = [
                 body: "Truvada and generic emtricitabine/tenofovir are registered in Mexico through COFEPRIS (Comisión Federal para la Protección contra Riesgos Sanitarios). Multiple generic versions are available from manufacturers including Stendhal, Teva, and Cipla. COFEPRIS maintains a searchable drug registry. Mexico has a robust generic pharmaceutical industry.",
                 links: [
                     { label: "COFEPRIS — Official Website", url: "https://www.gob.mx/cofepris" },
-                    { label: "COFEPRIS — Drug Registry Search", url: "https://www.gob.mx/cofepris/acciones-y-programas/registros-sanitarios-702" },
+                    { label: "COFEPRIS — Drug Registry Search", url: "https://www.gob.mx/cofepris/acciones-y-programas/registros-sanitarios-89343" },
                 ],
             },
             {
@@ -420,7 +420,7 @@ const HIV_COUNTRIES = [
                 body: "ARVs including TDF/FTC are registered in Panama through the Dirección Nacional de Farmacia y Drogas (DNFD) under MINSA (Ministerio de Salud). Generic versions from Indian and Latin American manufacturers are available. The national essential medicines list (Cuadro Básico) includes TDF-based regimens.",
                 links: [
                     { label: "MINSA — Ministry of Health", url: "https://www.minsa.gob.pa/" },
-                    { label: "DNFD — National Pharmacy Directorate", url: "https://www.minsa.gob.pa/direccion/direccion-nacional-de-farmacia-y-drogas" },
+                    { label: "DNFD — National Pharmacy Directorate", url: "https://dnfd.minsa.gob.pa/" },
                 ],
             },
             {
@@ -472,7 +472,7 @@ const HIV_COUNTRIES = [
                 title: "Drug Registration & Availability",
                 body: "Truvada and generic TDF/FTC are registered in Peru through DIGEMID (Dirección General de Medicamentos, Insumos y Drogas) under MINSA. DIGEMID maintains a searchable drug registry (Perudis/SINAMEC). Generic versions from Indian manufacturers and regional producers are available. Peru relies heavily on generic ARVs procured through international mechanisms.",
                 links: [
-                    { label: "DIGEMID — Drug Regulatory Authority", url: "http://www.digemid.minsa.gob.pe/" },
+                    { label: "DIGEMID — Drug Regulatory Authority", url: "https://www.digemid.minsa.gob.pe/webDigemid/" },
                     { label: "MINSA — Ministry of Health", url: "https://www.gob.pe/minsa" },
                 ],
             },
@@ -481,9 +481,9 @@ const HIV_COUNTRIES = [
                 title: "Pricing & Procurement",
                 body: "Peru uses a combination of PAHO Strategic Fund pooled procurement and national competitive bidding through CENARES (Centro Nacional de Abastecimiento de Recursos Estratégicos en Salud) for ARV procurement. Generic TDF/FTC is procured at approximately USD 3–6 per patient per month. The Observatorio Peruano de Productos Farmacéuticos tracks medicine prices. Peru has also used TRIPS flexibilities for compulsory licensing discussions.",
                 links: [
-                    { label: "CENARES — National Strategic Health Supply Centre", url: "https://www.cenares.minsa.gob.pe/" },
+                    { label: "CENARES — National Strategic Health Supply Centre", url: "https://www.gob.pe/cenares" },
                     { label: "PAHO Strategic Fund", url: "https://www.paho.org/en/paho-strategic-fund" },
-                    { label: "OPMF — Drug Price Observatory", url: "http://observatorio.digemid.minsa.gob.pe/" },
+                    { label: "OPPF — Drug Price Observatory", url: "https://opm-digemid.minsa.gob.pe/" },
                 ],
             },
             {
@@ -492,7 +492,7 @@ const HIV_COUNTRIES = [
                 body: "Peru provides free ARV treatment through the public health system under Law 26,626 (CONTRASIDA Law). The national HIV programme (ESNITSS — Estrategia Sanitaria Nacional de Prevención y Control de ITS, VIH y Sida) coordinates treatment delivery through MINSA hospitals and health centres. SIS (Seguro Integral de Salud) covers the uninsured, while EsSalud covers formal workers. Both provide ARVs free of charge. Peru adopted DTG-based first-line regimens in 2020.",
                 links: [
                     { label: "SIS — Integral Health Insurance", url: "https://www.gob.pe/sis" },
-                    { label: "EsSalud — Social Security", url: "http://www.essalud.gob.pe/" },
+                    { label: "EsSalud — Social Security", url: "https://www.gob.pe/essalud" },
                     { label: "UNAIDS — Peru", url: "https://www.unaids.org/en/regionscountries/countries/peru" },
                 ],
             },
@@ -530,7 +530,7 @@ const HIV_COUNTRIES = [
                 body: "Truvada and generic TDF/FTC are registered in Serbia through ALIMS (Agencija za Lekove i Medicinska Sredstva Srbije — Medicines and Medical Devices Agency of Serbia). ALIMS maintains a searchable drug registry. Generic versions from European and Indian manufacturers are available. Serbia follows a largely EMA-aligned regulatory pathway for drug approval.",
                 links: [
                     { label: "ALIMS — Medicines Agency of Serbia", url: "https://www.alims.gov.rs/" },
-                    { label: "ALIMS — Drug Registry Search", url: "https://www.alims.gov.rs/eng/medicinal-products/search-for-human-medicines/" },
+                    { label: "ALIMS — Drug Registry Search", url: "https://www.alims.gov.rs/english/medicinal-products/search-for-human-medicines/" },
                 ],
             },
             {
@@ -539,7 +539,7 @@ const HIV_COUNTRIES = [
                 body: "Serbia uses external reference pricing with a basket of reference countries for setting medicine prices. ARVs are procured centrally by the RFZO (Republički Fond za Zdravstveno Osiguranje — Republic Fund for Health Insurance). Generic TDF/FTC is available at regulated prices. Serbia participates in regional procurement initiatives. The RFZO publishes a medicines price list (Lista Lekova) that includes reimbursement prices.",
                 links: [
                     { label: "RFZO — Health Insurance Fund", url: "https://www.rfzo.rs/" },
-                    { label: "RFZO — List of Medicines", url: "https://www.rfzo.rs/index.php/osiguranim-licima/lekovi-info" },
+                    { label: "RFZO — List of Medicines", url: "https://www.rfzo.rs/index.php/osiguranalica/lekovi-info" },
                 ],
             },
             {
@@ -547,7 +547,7 @@ const HIV_COUNTRIES = [
                 title: "Public Health Programme & Reimbursement",
                 body: "Serbia has provided free ARV treatment since 1997 (HAART introduction), funded by the RFZO (mandatory health insurance, ~95% of population). Treatment is available at four clinical centres: Belgrade, Novi Sad, Niš, and Kragujevac. 4,903 cumulative HIV cases registered (1985–2024), with ~3,427 diagnosed PLHIV as of end 2023. Prescriptions valid up to 6 months with monthly dispensing at pharmacies. Serbia follows EACS guidelines for treatment decisions. Continuous insurance enrollment of 3+ months is required for non-emergency access.",
                 links: [
-                    { label: "Batut Institute — Public Health", url: "https://www.batut.org.rs/index.php?lang=en" },
+                    { label: "Batut Institute — Public Health", url: "https://www.batut.org.rs/index.php?lang=2" },
                     { label: "UNAIDS — Serbia", url: "https://www.unaids.org/en/regionscountries/countries/serbia" },
                 ],
             },
@@ -602,7 +602,7 @@ const HIV_COUNTRIES = [
                 body: "Thailand provides universal free ARV treatment through the UCS (Universal Coverage Scheme), managed by NHSO, which covers ~75% of the population. CSMBS (Civil Servant Medical Benefit Scheme) and SSS (Social Security Scheme) cover the remaining formal-sector population. Thailand achieved near-universal ART access since 2003 and was the first country in Asia to offer PMTCT (prevention of mother-to-child transmission) nationally. Thailand has achieved 82% ART coverage with strong viral suppression rates. The country adopted DTG-based first-line regimens in 2019 and TLD is now standard first-line.",
                 links: [
                     { label: "NHSO — Universal Coverage Scheme", url: "https://eng.nhso.go.th/" },
-                    { label: "Division of AIDS and STIs — Department of Disease Control", url: "https://ddc.moph.go.th/das/" },
+                    { label: "HIV Hub — Department of Disease Control", url: "https://hivhub.ddc.moph.go.th/" },
                     { label: "UNAIDS — Thailand", url: "https://www.unaids.org/en/regionscountries/countries/thailand" },
                 ],
             },
