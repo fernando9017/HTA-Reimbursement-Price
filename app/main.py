@@ -63,6 +63,7 @@ from app.services.hta_agencies.france_has import FranceHAS
 from app.services.hta_agencies.germany_gba import GermanyGBA
 from app.services.hta_agencies.japan_pmda import JapanPMDA
 from app.services.hta_agencies.spain_aemps import SpainAEMPS
+from app.services.hta_agencies.italy_aifa import ItalyAIFA
 from app.services.hta_agencies.uk_nice import UKNICE
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -84,6 +85,7 @@ hta_agencies: dict[str, HTAAgency] = {
     "DE": GermanyGBA(),
     "GB": UKNICE(),
     "ES": SpainAEMPS(),
+    "IT": ItalyAIFA(),
     "JP": JapanPMDA(),
 }
 

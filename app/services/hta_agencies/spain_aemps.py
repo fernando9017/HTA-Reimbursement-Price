@@ -177,6 +177,10 @@ class SpainAEMPS(HTAAgency):
             if ref:
                 summary_parts.append(ref)
 
+            # Bifimed financing fields
+            bifimed_status = ipt.get("bifimed_status", "")
+            bifimed_url = ipt.get("bifimed_url", "")
+
             results.append(
                 AssessmentResult(
                     product_name=product_name or active_substance,
@@ -185,6 +189,8 @@ class SpainAEMPS(HTAAgency):
                     assessment_url=_normalize_aemps_url(ipt.get("url", ""), ref),
                     ipt_reference=ref,
                     therapeutic_positioning=pos_display,
+                    bifimed_reimbursed=bifimed_status,
+                    bifimed_url=bifimed_url,
                     summary_en=" | ".join(summary_parts),
                 )
             )
@@ -282,6 +288,17 @@ class SpainAEMPS(HTAAgency):
                     # Try alternative field names
                     inn = (med.get("principiosActivos", "") or "").lower().strip()
                 if inn:
+                    # Extract financing-related fields from CIMA response
+                    comerc = med.get("comerc", False)
+                    receta = med.get("receta", False)
+                    cpresc = med.get("cpresc", "")
+                    # Extract CN (código nacional) from presentations if available
+                    presentaciones = med.get("presentaciones", [])
+                    cn_codes = []
+                    for pres in (presentaciones or []):
+                        cn = pres.get("cn", "")
+                        if cn:
+                            cn_codes.append(cn)
                     self._cima_medicines[inn] = {
                         "nregistro": med.get("nregistro", ""),
                         "nombre": med.get("nombre", ""),
@@ -289,6 +306,10 @@ class SpainAEMPS(HTAAgency):
                         "laboratorio": med.get("labtitular", ""),
                         "estado": med.get("estado", {}).get("nombre", ""),
                         "atc": med.get("atc", {}).get("codigo", ""),
+                        "comerc": comerc,
+                        "receta": receta,
+                        "cpresc": cpresc,
+                        "cn_codes": cn_codes,
                     }
 
             total_loaded += len(results)
@@ -305,7 +326,11 @@ class SpainAEMPS(HTAAgency):
             )
 
     def _enrich_ipts_with_cima(self, items: list[dict]) -> None:
-        """Enrich IPT entries with CIMA medicine data where available."""
+        """Enrich IPT entries with CIMA medicine data where available.
+
+        Adds CIMA metadata including brand name, ATC code, laboratory,
+        and Bifimed (SNS financing) status derived from CIMA fields.
+        """
         enriched = 0
         for ipt in items:
             title_lower = ipt.get("title", "").lower()
@@ -316,6 +341,25 @@ class SpainAEMPS(HTAAgency):
                     ipt["cima_nombre"] = cima_data.get("nombre", "")
                     ipt["cima_laboratorio"] = cima_data.get("laboratorio", "")
                     ipt["cima_atc"] = cima_data.get("atc", "")
+                    # Bifimed / financing enrichment
+                    ipt["cima_comerc"] = cima_data.get("comerc", False)
+                    ipt["cima_estado"] = cima_data.get("estado", "")
+                    cn_codes = cima_data.get("cn_codes", [])
+                    if cn_codes:
+                        ipt["bifimed_cn"] = cn_codes[0]
+                        ipt["bifimed_url"] = _build_bifimed_url(cn_codes[0])
+                    # Derive financing status from CIMA authorization state
+                    estado = cima_data.get("estado", "").lower()
+                    if "autorizado" in estado and cima_data.get("comerc", False):
+                        ipt["bifimed_status"] = "Commercialised (Autorizado)"
+                    elif "autorizado" in estado:
+                        ipt["bifimed_status"] = "Authorised, not commercialised"
+                    elif "suspendido" in estado:
+                        ipt["bifimed_status"] = "Suspended (Suspendido)"
+                    elif "anulado" in estado or "revocado" in estado:
+                        ipt["bifimed_status"] = "Revoked (Anulado)"
+                    else:
+                        ipt["bifimed_status"] = estado or ""
                     enriched += 1
                     break
 
@@ -671,3 +715,18 @@ def _build_aemps_search_url(ipt_reference: str) -> str:
     """Build an AEMPS search URL from an IPT reference like 'IPT-23/2024'."""
     # Point to the AEMPS IPT tag page which lists all IPTs
     return "https://www.aemps.gob.es/tag/ipt/"
+
+
+def _build_bifimed_url(cn: str) -> str:
+    """Build a Bifimed (SNS financing database) URL from a Código Nacional.
+
+    Bifimed is accessed via the Ministry of Health's web interface at
+    ``sanidad.gob.es/profesionales/medicamentos.do`` with a ``cn`` parameter
+    for the detail view.
+    """
+    if not cn:
+        return ""
+    return (
+        f"https://www.sanidad.gob.es/profesionales/"
+        f"medicamentos.do?metodo=verDetalle&cn={cn}"
+    )

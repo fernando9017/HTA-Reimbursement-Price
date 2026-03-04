@@ -34,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from app.services.ema_service import EMAService
 from app.services.hta_agencies.france_has import FranceHAS
 from app.services.hta_agencies.germany_gba import GermanyGBA
+from app.services.hta_agencies.italy_aifa import ItalyAIFA
 from app.services.hta_agencies.japan_pmda import JapanPMDA
 from app.services.hta_agencies.spain_aemps import SpainAEMPS
 from app.services.hta_agencies.uk_nice import UKNICE
@@ -53,6 +54,7 @@ AGENCIES = {
     "DE": GermanyGBA,
     "GB": UKNICE,
     "ES": SpainAEMPS,
+    "IT": ItalyAIFA,
     "JP": JapanPMDA,
 }
 
@@ -143,6 +145,8 @@ def _get_agency_data(agency):
         return agency._guidance_list
     elif isinstance(agency, SpainAEMPS):
         return agency._ipt_list
+    elif isinstance(agency, ItalyAIFA):
+        return agency._drug_list
     elif isinstance(agency, JapanPMDA):
         return agency._drug_list
     else:

@@ -112,6 +112,19 @@ MHLW_PRICING_URL = (
     "iryouhoken/newpage_00037.html"
 )
 
+# AIFA (Agenzia Italiana del Farmaco) - Italy
+# Transparency Lists — Class A and H medicines reimbursed by the SSN.
+# Published monthly as CSV files (semicolon-delimited).
+# The listing page contains links to the latest downloadable files.
+AIFA_BASE_URL = "https://www.aifa.gov.it"
+AIFA_LISTS_PAGE_URL = "https://www.aifa.gov.it/en/liste-farmaci-a-h"
+AIFA_TRANSPARENCY_PAGE_URL = "https://www.aifa.gov.it/en/liste-di-trasparenza"
+# Direct download URL patterns for transparency list CSV files.
+# The date portion changes with each update, so the adapter scrapes the page
+# to find the current download links.
+AIFA_CLASS_A_CSV_PATTERN = "Classe_A_per_Principio_Attivo"
+AIFA_CLASS_H_CSV_PATTERN = "Classe_H_per_Principio_Attivo"
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0
 

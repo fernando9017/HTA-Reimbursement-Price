@@ -62,6 +62,10 @@ class AssessmentResult(BaseModel):
     therapeutic_positioning: str = ""
     bifimed_reimbursed: str = ""    # SNS reimbursement status: "Yes", "No", or ""
     bifimed_url: str = ""           # URL to the Bifimed (SNS financing database) entry
+    # Italy (AIFA)
+    aifa_class: str = ""                # Reimbursement class: "A" (SSN outpatient), "H" (hospital), "C" (not reimbursed)
+    aifa_aic_code: str = ""             # Italian marketing authorization code (AIC)
+    aifa_price: str = ""                # Public price (prezzo al pubblico)
     # Japan (MHLW / KEGG JAPIC)
     pmda_review_type: str = ""      # reimbursement status: "Reimbursed (NHI)" or "Not in NHI price list"
     japan_mhlw_url: str = ""        # MHLW price-setting notification PDF or page URL
