@@ -60,7 +60,7 @@ NICE_PROGRAMME_TYPES = [
 NICE_MAX_PAGES = 50
 # Known upper bounds for TA/HST numbers — used for gap-filling after listing
 # scrape to ensure 100% coverage of all published guidance.
-NICE_TA_MAX_NUMBER = 1100   # TAs numbered ta1 through ~ta1050+ (as of 2026)
+NICE_TA_MAX_NUMBER = 1150   # TAs numbered ta1 through ~ta1140+ (as of 2026)
 NICE_HST_MAX_NUMBER = 55    # HSTs numbered hst1 through ~hst50
 # Max concurrent requests when gap-filling individual guidance pages
 NICE_GAP_FILL_CONCURRENCY = 10
