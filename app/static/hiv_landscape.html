@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global HIV Landscape — VAP Global Resources</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-WicLt2ziy4Y9gaHl7hJ8s.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Global HIV Landscape</h1>
+            <p class="subtitle">HIV medication access, pricing &amp; reimbursement across key markets — Truvada / TDF+FTC focus</p>
+        </div>
+    </header>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Home</a>
+            <span class="page-title">Global HIV Landscape</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Overview panel -->
+        <section class="card" id="hiv-overview">
+            <h2>Overview</h2>
+            <p class="resource-intro">This module provides a country-by-country overview of the HIV treatment landscape across <strong id="hiv-country-count"></strong> markets, focused on access, pricing, and reimbursement for <strong>Truvada (emtricitabine/tenofovir disoproxil fumarate)</strong> and its generic equivalents. Each country profile covers regulatory registration, procurement pricing, public health programmes, PrEP availability, and the transition to newer DTG-based regimens.</p>
+            <div class="hiv-key-facts" id="hiv-key-facts">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Country selector -->
+        <section class="card">
+            <h2>Select a Country</h2>
+            <div class="resource-toolbar">
+                <div class="resource-search-row">
+                    <input type="text" id="country-search" class="resource-search-input" placeholder="Filter countries…" autocomplete="off" aria-label="Filter countries">
+                </div>
+            </div>
+            <div class="country-flag-grid" id="country-grid">
+                <!-- Populated by hiv_landscape.js -->
+            </div>
+            <p class="country-no-results hidden" id="country-no-results">No countries match your filter.</p>
+        </section>
+
+        <!-- Detail panel — shown when a country is selected -->
+        <section class="card hidden" id="hiv-detail">
+            <div class="resource-detail-header">
+                <div class="resource-country-title">
+                    <span class="resource-flag" id="detail-flag"></span>
+                    <h2 id="detail-country-name"></h2>
+                </div>
+                <button class="btn-secondary btn-close" id="detail-close">Close</button>
+            </div>
+
+            <div class="resource-sections" id="detail-sections">
+                <!-- Populated by hiv_landscape.js -->
+            </div>
+        </section>
+
+        <!-- Comparison table -->
+        <section class="card" id="hiv-comparison">
+            <h2>Cross-Country Comparison</h2>
+            <p class="resource-intro">Side-by-side summary of Truvada/TDF+FTC access across all covered markets.</p>
+            <div class="table-scroll">
+                <table class="hiv-comparison-table" id="comparison-table">
+                    <!-- Populated by hiv_landscape.js -->
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Data sources: <a href="https://www.unaids.org" target="_blank" rel="noopener">UNAIDS</a> &middot;
+            <a href="https://www.who.int" target="_blank" rel="noopener">WHO</a> &middot;
+            <a href="https://medicinespatentpool.org" target="_blank" rel="noopener">MPP</a> &middot;
+            National regulatory agencies &amp; pharmacovigilance databases</p>
+            <p>&copy; 2026 Fernando Rosas. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/shared.js"></script>
+    <script src="/static/hiv_landscape.js"></script>
+</body>
+</html>
