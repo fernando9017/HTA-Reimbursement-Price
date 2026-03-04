@@ -92,6 +92,7 @@ class TestFranceHASMalformedData:
         })
         agency._asmr = defaultdict(list)
         agency._ct_links = {}
+        agency._build_substance_index()
         agency._loaded = True
 
         results = await agency.search_assessments("substanceX")
@@ -112,6 +113,7 @@ class TestFranceHASMalformedData:
         })
         agency._asmr = defaultdict(list)
         agency._ct_links = {}
+        agency._build_substance_index()
         agency._loaded = True
 
         results = await agency.search_assessments("parac\u00e9tamol")
@@ -131,6 +133,7 @@ class TestFranceHASMalformedData:
         })
         agency._asmr = defaultdict(list)
         agency._ct_links = {}
+        agency._build_substance_index()
         agency._loaded = True
 
         # Short query matching part of substance

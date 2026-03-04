@@ -42,10 +42,15 @@ class FranceHTAService:
 
     def __init__(self, has_adapter: FranceHAS) -> None:
         self._has = has_adapter
+        self._cached_profiles: dict[str, dict] | None = None
 
     @property
     def is_loaded(self) -> bool:
         return self._has.is_loaded
+
+    def invalidate_cache(self) -> None:
+        """Clear the cached substance profiles (call after data reload)."""
+        self._cached_profiles = None
 
     # ── Drug listing / search ─────────────────────────────────────────
 
@@ -203,8 +208,11 @@ class FranceHTAService:
         """Group assessments by substance and build profiles.
 
         For each substance, collects all dossier-based assessments with
-        merged SMR/ASMR data.
+        merged SMR/ASMR data.  Results are cached until invalidate_cache()
+        is called (e.g. after a data reload).
         """
+        if self._cached_profiles is not None:
+            return self._cached_profiles
         # Step 1: Build dossier → assessment mapping across all CIS codes
         # Key: (substance, dossier_code, date) → merged assessment data
         dossier_map: dict[str, dict] = {}
@@ -378,6 +386,7 @@ class FranceHTAService:
                 "grouped_assessments": grouped,
             }
 
+        self._cached_profiles = profiles
         return profiles
 
     def _best_smr(self, ratings: list[str]) -> str:
