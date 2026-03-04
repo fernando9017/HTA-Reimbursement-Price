@@ -76,9 +76,21 @@ AEMPS_IPT_LISTING_URL = (
 # Additional IPT listing URLs — tried as fallbacks when primary fails.
 # Includes the Ministry of Health portal and alternative AEMPS URL paths.
 AEMPS_IPT_LISTING_URLS = [
+    # Primary AEMPS listing page
     "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
     "informes-de-posicionamiento-terapeutico/",
+    # WordPress category pages (current site structure since ~2024)
+    "https://www.aemps.gob.es/category/informa/"
+    "informes-de-posicionamiento-terapeutico/",
+    "https://www.aemps.gob.es/category/informa/notasinformativas/"
+    "medicamentosusohumano-3/comiteEvaluacion/ipt/",
+    # IPTs organised by disease area
+    "https://www.aemps.gob.es/medicamentos-de-uso-humano/"
+    "informes-de-posicionamiento-terapeutico/"
+    "informes-de-posicionamiento-terapeutico-enfermedad/",
+    # Ministry of Health portal fallback
     "https://www.sanidad.gob.es/areas/farmacia/infoMedicamentos/IPT/home.htm",
+    # Alternative AEMPS URL paths
     "https://www.aemps.gob.es/la-aemps/informes-de-posicionamiento-terapeutico/",
     "https://www.aemps.gob.es/medicamentos-de-uso-humano/ipt/",
 ]
