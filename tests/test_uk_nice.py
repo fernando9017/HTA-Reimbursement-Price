@@ -690,3 +690,87 @@ async def test_search_uses_substance_when_no_brand_mapping():
     assert len(results) == 1
     # No brand mapping — should use the extracted drug name from the title
     assert results[0].product_name == "Pembrolizumab"
+
+
+# ── Trade name resolution for combination therapies ──────────────────
+
+
+def test_hta_service_trade_names_combination_therapy():
+    """Deep-dive should resolve trade names for combination therapies.
+
+    NICE titles use "with" separators (e.g. "nivolumab with ipilimumab")
+    while EMA stores substances with comma separators.  The deep-dive
+    should resolve individual components to brand names.
+    """
+    from app.services.uk_nice_hta import UKNICEHTAService
+
+    service = UKNICE()
+    service._guidance_list = [
+        {
+            "reference": "TA820",
+            "title": "Atezolizumab with bevacizumab for treating advanced hepatocellular carcinoma",
+            "url": "https://www.nice.org.uk/guidance/ta820",
+            "published_date": "2022-11-10",
+            "guidance_type": "Technology appraisal guidance",
+            "recommendation": "recommended with restrictions",
+        },
+    ]
+    service._loaded = True
+    service.set_brand_mapping([
+        {"medicineName": "Tecentriq", "activeSubstance": "Atezolizumab"},
+        {"medicineName": "Avastin", "activeSubstance": "Bevacizumab"},
+    ])
+
+    hta = UKNICEHTAService(service)
+    result = hta.search_drugs()
+    assert result.total >= 1
+    drug = result.results[0]
+    # Should resolve both components to brand names
+    assert len(drug.trade_names) == 2
+    assert "Avastin" in drug.trade_names
+    assert "Tecentriq" in drug.trade_names
+
+
+def test_hta_service_best_recommendation_populated():
+    """best_recommendation should be populated when guidance has recommendations."""
+    from app.services.uk_nice_hta import UKNICEHTAService
+
+    service = UKNICE()
+    service._guidance_list = [
+        {
+            "reference": "TA900",
+            "title": "Pembrolizumab for untreated PD-L1-positive NSCLC",
+            "url": "https://www.nice.org.uk/guidance/ta900",
+            "published_date": "2024-01-15",
+            "guidance_type": "Technology appraisal guidance",
+            "recommendation": "recommended",
+        },
+    ]
+    service._loaded = True
+
+    hta = UKNICEHTAService(service)
+    result = hta.search_drugs()
+    assert result.total >= 1
+    assert result.results[0].best_recommendation == "Recommended"
+
+
+def test_normalize_recommendation_terminated():
+    """Should normalise 'terminated' to 'Terminated appraisal'."""
+    assert _normalize_recommendation("terminated") == "Terminated appraisal"
+
+
+def test_normalize_recommendation_managed_access():
+    """Should normalise 'managed access' to Optimised."""
+    assert _normalize_recommendation("managed access") == "Recommended with restrictions (Optimised)"
+
+
+def test_extract_from_guidance_page_badge_pattern():
+    """Should extract recommendation from structured badge markup."""
+    html = """
+    <html><body>
+    <span class="recommendation-status">Recommended</span>
+    <p>Details about the guidance...</p>
+    </body></html>
+    """
+    rec, _ = _extract_from_guidance_page(html)
+    assert rec in ("recommended", "Recommended")

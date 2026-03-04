@@ -6,6 +6,7 @@ Wraps the existing UKNICE adapter data to provide:
  - Links to source NICE guidance pages
 """
 
+import asyncio
 import logging
 import re
 from collections import defaultdict
@@ -290,8 +291,15 @@ class UKNICEHTAService:
 
             guidance_items.sort(key=lambda x: x.published_date, reverse=True)
 
-            # Collect brand names for this substance from EMA mapping
-            brand_names = sorted(sub_to_brands.get(canonical, set()))
+            # Collect brand names for this substance from EMA mapping.
+            # Try multiple matching strategies:
+            #  1. Exact match on canonical substance name
+            #  2. Normalise separators ("with"/"and"/"plus" ↔ ", ")
+            #  3. Try individual components of combination therapies
+            brand_names = sorted(
+                b.title()
+                for b in self._resolve_brand_names_for_substance(canonical, sub_to_brands)
+            )
 
             profiles[display_name] = {
                 "titles": titles,
@@ -305,6 +313,48 @@ class UKNICEHTAService:
             }
 
         return profiles
+
+    def _resolve_brand_names_for_substance(
+        self,
+        canonical: str,
+        sub_to_brands: dict[str, set[str]],
+    ) -> set[str]:
+        """Resolve brand/trade names for a substance with flexible matching.
+
+        Handles combination therapies where NICE titles use "with"/"and"/"plus"
+        but EMA stores substances with comma separators, and vice-versa.
+        """
+        # Strategy 1: exact match
+        brands = sub_to_brands.get(canonical, set())
+        if brands:
+            return set(brands)
+
+        # Strategy 2: normalise separators and retry
+        # NICE: "nivolumab with ipilimumab" → EMA: "nivolumab, ipilimumab"
+        normalised = _normalise_substance_separators(canonical)
+        if normalised != canonical:
+            brands = sub_to_brands.get(normalised, set())
+            if brands:
+                return set(brands)
+
+        # Strategy 3: split combination therapies and look up each component
+        # individually; combine all found brand names
+        components = _split_substance_components(canonical)
+        if len(components) > 1:
+            combined: set[str] = set()
+            for comp in components:
+                comp_brands = sub_to_brands.get(comp.strip(), set())
+                combined.update(comp_brands)
+            if combined:
+                return combined
+
+        # Strategy 4: try partial match — check if any EMA substance key
+        # contains the canonical or vice-versa (useful for slight name variants)
+        for ema_sub, ema_brands in sub_to_brands.items():
+            if canonical in ema_sub or ema_sub in canonical:
+                return set(ema_brands)
+
+        return set()
 
     def _best_recommendation(self, recommendations: list[str]) -> str:
         """Return the best (most favorable) recommendation from a list."""
@@ -322,8 +372,94 @@ class UKNICEHTAService:
                 best_val = r
         return best_val
 
+    async def fetch_missing_recommendations(self, max_fetches: int = 20) -> int:
+        """Fetch recommendations for guidance items that are missing them.
+
+        Makes HTTP requests to individual NICE guidance pages to extract
+        the recommendation status.  Updates the underlying adapter data
+        in-place so subsequent calls benefit from the enriched data.
+
+        Returns the number of recommendations successfully fetched.
+        """
+        import httpx
+
+        from app.config import REQUEST_TIMEOUT, SSL_VERIFY
+        from app.services.hta_agencies.uk_nice import _extract_from_guidance_page
+
+        needs_fetch = [
+            g for g in self._nice._guidance_list
+            if not g.get("recommendation") and g.get("url")
+        ]
+
+        if not needs_fetch:
+            return 0
+
+        to_fetch = needs_fetch[:max_fetches]
+        fetched = 0
+
+        async with httpx.AsyncClient(
+            timeout=REQUEST_TIMEOUT,
+            follow_redirects=True,
+            verify=SSL_VERIFY,
+            headers={
+                "User-Agent": "VAP-Global-Resources/0.1 (research tool)",
+                "Accept": "text/html",
+            },
+        ) as client:
+            sem = asyncio.Semaphore(5)
+
+            async def _fetch_one(g: dict) -> bool:
+                async with sem:
+                    try:
+                        resp = await client.get(g["url"])
+                        resp.raise_for_status()
+                        rec, date = _extract_from_guidance_page(resp.text)
+                        if rec:
+                            g["recommendation"] = rec
+                        if date and not g.get("published_date"):
+                            g["published_date"] = date
+                        return bool(rec)
+                    except Exception:
+                        return False
+
+            results = await asyncio.gather(*[_fetch_one(g) for g in to_fetch])
+            fetched = sum(1 for r in results if r)
+
+        if fetched:
+            logger.info(
+                "NICE deep-dive: fetched %d/%d missing recommendations",
+                fetched, len(to_fetch),
+            )
+
+        return fetched
+
 
 # ── Title parsing helpers (module-level) ──────────────────────────────
+
+
+def _normalise_substance_separators(substance: str) -> str:
+    """Normalise combination therapy separators.
+
+    Converts "drug1 with drug2", "drug1 and drug2", "drug1 plus drug2"
+    to "drug1, drug2" to match EMA's comma-separated convention.
+    """
+    return re.sub(
+        r'\s+(?:with|and|plus|in\s+combination\s+with)\s+',
+        ', ',
+        substance,
+        flags=re.IGNORECASE,
+    ).strip()
+
+
+def _split_substance_components(substance: str) -> list[str]:
+    """Split a combination substance into individual components.
+
+    Handles both NICE-style ("drug1 with drug2") and EMA-style ("drug1, drug2").
+    """
+    # First normalise to comma-separated
+    normalised = _normalise_substance_separators(substance)
+    parts = [p.strip() for p in normalised.split(',') if p.strip()]
+    return parts
 
 
 def _extract_substance_from_title(title: str) -> str:

@@ -358,6 +358,17 @@ async def lifespan(app: FastAPI):
         except Exception:
             logger.warning("Failed to set NICE brand mapping from EMA data", exc_info=True)
 
+    # Fetch missing NICE recommendations in background (enriches deep-dive data)
+    if hta_agencies["GB"].is_loaded:
+        try:
+            fetched = await uk_nice_hta_service.fetch_missing_recommendations(max_fetches=30)
+            if fetched:
+                # Re-save enriched data to cache
+                data_file = DATA_DIR / "GB.json"
+                hta_agencies["GB"].save_to_file(data_file)
+        except Exception:
+            logger.warning("Failed to fetch missing NICE recommendations", exc_info=True)
+
     # Load curated assessment data (supplements live-scraped data)
     load_curated_assessments()
 
@@ -1113,6 +1124,17 @@ async def uk_nice_drug_profile(substance: str):
     profile = uk_nice_hta_service.get_drug_profile(substance)
     if profile is None:
         raise HTTPException(404, f"No NICE guidance found for '{substance}'.")
+
+    # If any guidance items have missing recommendations, try to fetch them
+    # on demand (at most 5 per request to keep response time reasonable).
+    missing_recs = [
+        g for g in profile.guidance_items if not g.recommendation
+    ]
+    if missing_recs:
+        await uk_nice_hta_service.fetch_missing_recommendations(max_fetches=5)
+        # Rebuild profile with updated data
+        profile = uk_nice_hta_service.get_drug_profile(substance) or profile
+
     return profile
 
 

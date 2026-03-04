@@ -47,7 +47,10 @@ RECOMMENDATION_DISPLAY = {
     "not recommended": "Not recommended",
     "only in research": "Only in research",
     "terminated appraisal": "Terminated appraisal",
+    "terminated": "Terminated appraisal",
     "awaiting development": "Awaiting development",
+    "suspended": "Awaiting development",
+    "managed access": "Recommended with restrictions (Optimised)",
 }
 
 
@@ -829,15 +832,18 @@ class UKNICE(HTAAgency):
             context = html[after_match.end():after_match.end() + 800].lower()
 
             # Look for common recommendation text patterns
+            # Order matters: check more specific/longer patterns first
             for keyword in [
                 "not recommended",
+                "recommended for use in the nhs",
                 "recommended for use",
                 "recommended with restrictions",
                 "recommended as an option",
-                "recommended",
-                "optimised",
+                "awaiting development",
+                "terminated appraisal",
                 "only in research",
-                "terminated",
+                "optimised",
+                "recommended",
             ]:
                 if keyword in context:
                     return keyword
@@ -1008,30 +1014,72 @@ def _extract_from_guidance_page(html: str) -> tuple[str, str]:
         (r"not\s+recommended", "not recommended"),
         (r"recommended\s+for\s+use\s+in\s+the\s+nhs", "recommended"),
         (r"recommended\s+with\s+(?:restrictions|managed\s+access)", "recommended with restrictions"),
+        (r"managed\s+access\s+(?:agreement|arrangement)", "recommended with restrictions"),
         (r"recommended\s+as\s+an\s+option", "recommended"),
+        (r"recommended,?\s+with\s+(?:a\s+)?managed\s+access", "recommended with restrictions"),
         (r"terminated\s+appraisal", "terminated"),
         (r"only\s+in\s+research", "only in research"),
         (r"optimised", "optimised"),
     ]
 
-    # First try in metadata / structured markup
-    # NICE pages often have: <span class="...">Recommended</span> or similar
-    meta_section = ""
-    # Look for recommendation in first 20k chars (header/summary area)
-    meta_section = lower[:20000]
+    # Strategy A: Look for structured recommendation badges / labels
+    # Modern NICE pages often have recommendation in structured markup
+    # with specific class names or data attributes.
+    badge_patterns = [
+        # Pattern: class="...recommendation..." with text content
+        (r'class="[^"]*recommendation[^"]*"[^>]*>\s*([^<]+)<', None),
+        # Pattern: data-recommendation="..."
+        (r'data-recommendation="([^"]+)"', None),
+        # Pattern: "Recommendation status: ..."
+        (r'recommendation\s+status\s*:\s*([^<\n]{3,40})', None),
+    ]
 
-    for pattern, value in rec_patterns:
-        if re.search(pattern, meta_section):
-            recommendation = value
-            break
+    for bp, _ in badge_patterns:
+        match = re.search(bp, lower)
+        if match:
+            badge_text = match.group(1).strip()
+            norm = _normalize_recommendation(badge_text)
+            if norm:
+                recommendation = badge_text
+                break
 
-    # If not found in meta, try the full page but with stricter context
+    # Strategy B: Look for recommendation keywords in header/summary
+    if not recommendation:
+        # Check first 20k chars (header/summary area)
+        meta_section = lower[:20000]
+
+        for pattern, value in rec_patterns:
+            if re.search(pattern, meta_section):
+                recommendation = value
+                break
+
+    # Strategy C: Full-page search with stricter context
     if not recommendation:
         # Look for "is recommended" / "is not recommended" patterns
         if re.search(r"\bis\s+not\s+recommended\b", lower):
             recommendation = "not recommended"
         elif re.search(r"\bis\s+recommended\b", lower):
             recommendation = "recommended"
+
+    # Strategy D: Look for recommendation in JSON-LD structured data
+    if not recommendation:
+        json_ld_match = re.search(
+            r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>',
+            html, re.DOTALL | re.IGNORECASE,
+        )
+        if json_ld_match:
+            try:
+                ld_data = json.loads(json_ld_match.group(1))
+                if isinstance(ld_data, dict):
+                    ld_rec = (
+                        ld_data.get("recommendation", "")
+                        or ld_data.get("recommendationStatus", "")
+                        or ld_data.get("status", "")
+                    )
+                    if ld_rec and isinstance(ld_rec, str):
+                        recommendation = ld_rec.lower()
+            except (json.JSONDecodeError, ValueError):
+                pass
 
     # --- Published date ---
     date_match = re.search(
