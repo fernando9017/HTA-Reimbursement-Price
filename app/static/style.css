@@ -3521,3 +3521,157 @@ footer a:hover {
         align-items: flex-start;
     }
 }
+
+/* ── Global HIV Landscape module ────────────────────────────────── */
+
+.hiv-key-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.hiv-fact-card {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--primary-light);
+}
+
+.hiv-fact-card .fact-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-light);
+    margin-bottom: 4px;
+}
+
+.hiv-fact-card .fact-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.hiv-fact-card .fact-detail {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.hiv-snapshot {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+    padding: 16px;
+    background: var(--bg);
+    border-radius: 8px;
+}
+
+.hiv-snapshot-item {
+    text-align: center;
+}
+
+.hiv-snapshot-item .snap-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-light);
+}
+
+.hiv-snapshot-item .snap-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.hiv-section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+}
+
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 16px 0;
+}
+
+.hiv-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    min-width: 900px;
+}
+
+.hiv-comparison-table th,
+.hiv-comparison-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+
+.hiv-comparison-table th {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+}
+
+.hiv-comparison-table tbody tr:hover {
+    background: #f0f4f8;
+}
+
+.hiv-comparison-table .country-cell {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.hiv-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.hiv-badge--free {
+    background: #d5f5e3;
+    color: #1e8449;
+}
+
+.hiv-badge--partial {
+    background: #fef9e7;
+    color: #b7950b;
+}
+
+.hiv-badge--available {
+    background: #d4efdf;
+    color: #1e8449;
+}
+
+.hiv-badge--limited {
+    background: #fdebd0;
+    color: #ca6f1e;
+}
+
+.hiv-badge--unavailable {
+    background: #fadbd8;
+    color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .hiv-key-facts {
+        grid-template-columns: 1fr 1fr;
+    }
+    .hiv-snapshot {
+        grid-template-columns: 1fr 1fr;
+    }
+}

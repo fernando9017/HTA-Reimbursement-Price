@@ -459,6 +459,12 @@ async def spain_aemps_page():
     return FileResponse(str(STATIC_DIR / "spain_aemps.html"))
 
 
+@app.get("/hiv-landscape")
+async def hiv_landscape_page():
+    """Serve the Global HIV Landscape module page."""
+    return FileResponse(str(STATIC_DIR / "hiv_landscape.html"))
+
+
 @app.get("/api/search", response_model=list[MedicineResult])
 @limiter.limit("30/minute")
 async def search_medicines(
