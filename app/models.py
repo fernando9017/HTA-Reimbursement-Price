@@ -178,6 +178,56 @@ class AnalogueResponse(BaseModel):
     results: list[AnalogueResult]
 
 
+class AnalogueChatMessage(BaseModel):
+    """A single message in the analogue chatbot conversation."""
+
+    role: str  # "user" or "assistant"
+    content: str
+
+
+class AnalogueChatRequest(BaseModel):
+    """Request body for the analogue AI chatbot."""
+
+    message: str
+    history: list[AnalogueChatMessage] = []
+
+
+class AnalogueChatFilters(BaseModel):
+    """Filters extracted by AI from the user's natural language description."""
+
+    therapeutic_category: str = ""
+    therapeutic_subcategory: str = ""
+    orphan: str = ""
+    years: int = 0
+    first_approval: str = ""
+    status: str = ""
+    substance: str = ""
+    indication_keyword: str = ""
+    exclude_generics: bool = False
+    exclude_biosimilars: bool = False
+    atc_code: str = ""
+    mah: str = ""
+    conditional_approval: str = ""
+    exceptional_circumstances: str = ""
+    accelerated_assessment: str = ""
+    new_active_substance: str = ""
+    prevalence_category: str = ""
+    line_of_therapy: str = ""
+    treatment_setting: str = ""
+    evidence_tier: str = ""
+    hta_country: str = ""
+
+
+class AnalogueChatResponse(BaseModel):
+    """Response from the analogue AI chatbot."""
+
+    ai_message: str
+    filters_applied: AnalogueChatFilters | None = None
+    results: list[AnalogueResult] = []
+    total: int = 0
+    ai_model: str = ""
+
+
 # ── Mexico Pharma Procurement models ───────────────────────────────
 
 
