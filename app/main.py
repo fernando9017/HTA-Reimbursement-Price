@@ -820,7 +820,10 @@ async def analogue_chat(request: Request, req: AnalogueChatRequest):
     if not analogue_service.is_loaded:
         raise HTTPException(503, "Analogue data is still loading. Please try again shortly.")
 
-    import anthropic
+    try:
+        import anthropic
+    except ImportError:
+        raise HTTPException(503, "AI chatbot dependency 'anthropic' is not installed. Run: pip install anthropic")
 
     client = anthropic.Anthropic(api_key=api_key)
 
