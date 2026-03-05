@@ -1,10 +1,34 @@
 /**
  * Analogue Selection module — Frontend logic.
  *
- * Filters EMA medicines by therapeutic category, orphan status, approval date,
- * line of therapy, treatment setting, evidence tier, HTA outcomes, and more.
+ * Two modes:
+ *   1. Manual Filters: Filter EMA medicines by therapeutic category, orphan status, etc.
+ *   2. AI Chatbot: Describe your product in natural language and let AI find analogues.
+ *
  * Depends on shared.js for: esc, showStatus, hideStatus
  */
+
+// ── Mode Switcher ─────────────────────────────────────────────────────
+
+const modeFiltersTab = document.getElementById("mode-filters-tab");
+const modeChatbotTab = document.getElementById("mode-chatbot-tab");
+const filtersSection = document.getElementById("filters-section");
+const chatbotSection = document.getElementById("chatbot-section");
+const analogueResultsSection = document.getElementById("analogue-results-section");
+
+modeFiltersTab.addEventListener("click", () => switchMode("filters"));
+modeChatbotTab.addEventListener("click", () => switchMode("chatbot"));
+
+function switchMode(mode) {
+    modeFiltersTab.classList.toggle("active", mode === "filters");
+    modeChatbotTab.classList.toggle("active", mode === "chatbot");
+    modeFiltersTab.setAttribute("aria-selected", mode === "filters");
+    modeChatbotTab.setAttribute("aria-selected", mode === "chatbot");
+    filtersSection.classList.toggle("hidden", mode !== "filters");
+    chatbotSection.classList.toggle("hidden", mode !== "chatbot");
+    // Show manual results section only in filters mode
+    analogueResultsSection.classList.toggle("hidden", mode !== "filters");
+}
 
 // ── DOM Elements ──────────────────────────────────────────────────────
 
@@ -511,4 +535,276 @@ function exportToExcel() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+
+// ══════════════════════════════════════════════════════════════════════
+// ── AI Chatbot ───────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════
+
+const chatMessages = document.getElementById("chatbot-messages");
+const chatInput = document.getElementById("chatbot-input");
+const chatSendBtn = document.getElementById("chatbot-send-btn");
+const chatResultsSection = document.getElementById("chatbot-results-section");
+const chatFiltersDisplay = document.getElementById("chatbot-filters-display");
+const chatStatus = document.getElementById("chatbot-status");
+const chatResultsDiv = document.getElementById("chatbot-results");
+
+let chatHistory = []; // [{role, content}]
+let chatSearchResults = []; // For export
+
+// ── Event listeners ──────────────────────────────────────────────────
+
+chatSendBtn.addEventListener("click", sendChatMessage);
+chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChatMessage();
+    }
+});
+
+// Auto-resize textarea
+chatInput.addEventListener("input", () => {
+    chatInput.style.height = "auto";
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + "px";
+});
+
+// Clickable example queries
+chatMessages.addEventListener("click", (e) => {
+    const li = e.target.closest(".chat-examples-list li");
+    if (li) {
+        chatInput.value = li.textContent;
+        sendChatMessage();
+    }
+});
+
+// ── Send message ─────────────────────────────────────────────────────
+
+let chatSending = false;
+
+async function sendChatMessage() {
+    const message = chatInput.value.trim();
+    if (!message || chatSending) return;
+
+    // Lock UI while sending
+    chatSending = true;
+    chatSendBtn.disabled = true;
+    chatInput.disabled = true;
+
+    // Add user message to UI
+    appendChatMessage("user", message);
+    chatInput.value = "";
+    chatInput.style.height = "auto";
+
+    // Show typing indicator
+    const typingId = appendTypingIndicator();
+
+    // Hide previous results
+    chatResultsSection.classList.add("hidden");
+
+    try {
+        const resp = await fetch("/api/analogues/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: message,
+                history: chatHistory.slice(-10),
+            }),
+        });
+
+        removeTypingIndicator(typingId);
+
+        if (!resp.ok) {
+            const err = await resp.json().catch(() => ({}));
+            const errMsg = err.detail || `Server error (${resp.status})`;
+            appendChatMessage("assistant", `Sorry, I encountered an error: ${errMsg}`);
+            return;
+        }
+
+        const data = await resp.json();
+
+        // Add AI response to chat
+        chatHistory.push({ role: "user", content: message });
+        chatHistory.push({ role: "assistant", content: data.ai_message });
+
+        // Build the assistant message with model badge
+        let aiContent = data.ai_message;
+        if (data.ai_model) {
+            aiContent += `\n\n<span class="chat-model-badge">Powered by ${esc(data.ai_model)}</span>`;
+        }
+        appendChatMessage("assistant", aiContent, true);
+
+        // Show filters applied
+        if (data.filters_applied) {
+            renderChatFilters(data.filters_applied);
+        }
+
+        // Show results
+        if (data.total > 0) {
+            chatSearchResults = data.results;
+            renderChatResults(data);
+        } else if (data.filters_applied) {
+            chatResultsSection.classList.remove("hidden");
+            showStatus(chatStatus, "No medicines found matching the AI-selected criteria. Try rephrasing your description.", "info");
+            chatResultsDiv.innerHTML = "";
+        }
+    } catch (err) {
+        removeTypingIndicator(typingId);
+        appendChatMessage("assistant", `Sorry, I couldn't connect to the AI service: ${err.message}`);
+    } finally {
+        // Unlock UI
+        chatSending = false;
+        chatSendBtn.disabled = false;
+        chatInput.disabled = false;
+        chatInput.focus();
+    }
+}
+
+// ── Chat UI helpers ──────────────────────────────────────────────────
+
+function appendChatMessage(role, content, isHtml = false) {
+    const wrapper = document.createElement("div");
+    wrapper.className = `chat-message ${role}`;
+
+    const avatar = document.createElement("div");
+    avatar.className = "chat-avatar";
+    avatar.textContent = role === "user" ? "You" : "AI";
+
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble";
+
+    if (isHtml) {
+        bubble.innerHTML = formatChatContent(content);
+    } else {
+        bubble.innerHTML = formatChatContent(esc(content));
+    }
+
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function formatChatContent(text) {
+    // Convert markdown-like formatting to HTML
+    return "<p>" + text
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, "<em>$1</em>")
+        .replace(/\n\n/g, "</p><p>")
+        .replace(/\n/g, "<br>")
+    + "</p>";
+}
+
+function appendTypingIndicator() {
+    const id = "typing-" + Date.now();
+    const wrapper = document.createElement("div");
+    wrapper.className = "chat-message assistant";
+    wrapper.id = id;
+
+    const avatar = document.createElement("div");
+    avatar.className = "chat-avatar";
+    avatar.textContent = "AI";
+
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble typing-indicator";
+    bubble.innerHTML = '<span></span><span></span><span></span>';
+
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return id;
+}
+
+function removeTypingIndicator(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+}
+
+// ── Render AI-selected filters ───────────────────────────────────────
+
+function renderChatFilters(filters) {
+    const tags = [];
+    if (filters.therapeutic_category) tags.push(`<span class="chat-filter-tag">Category: ${esc(filters.therapeutic_category)}</span>`);
+    if (filters.therapeutic_subcategory) tags.push(`<span class="chat-filter-tag">Sub: ${esc(filters.therapeutic_subcategory)}</span>`);
+    if (filters.indication_keyword) tags.push(`<span class="chat-filter-tag">Indication: ${esc(filters.indication_keyword)}</span>`);
+    if (filters.orphan) tags.push(`<span class="chat-filter-tag">Orphan: ${esc(filters.orphan)}</span>`);
+    if (filters.prevalence_category) tags.push(`<span class="chat-filter-tag">Prevalence: ${esc(filters.prevalence_category)}</span>`);
+    if (filters.years) tags.push(`<span class="chat-filter-tag">Last ${filters.years} years</span>`);
+    if (filters.line_of_therapy) tags.push(`<span class="chat-filter-tag">LoT: ${esc(filters.line_of_therapy)}</span>`);
+    if (filters.treatment_setting) tags.push(`<span class="chat-filter-tag">Setting: ${esc(filters.treatment_setting)}</span>`);
+    if (filters.evidence_tier) tags.push(`<span class="chat-filter-tag">Evidence: ${esc(filters.evidence_tier)}</span>`);
+    if (filters.substance) tags.push(`<span class="chat-filter-tag">Substance: ${esc(filters.substance)}</span>`);
+    if (filters.atc_code) tags.push(`<span class="chat-filter-tag">ATC: ${esc(filters.atc_code)}</span>`);
+    if (filters.mah) tags.push(`<span class="chat-filter-tag">MAH: ${esc(filters.mah)}</span>`);
+    if (filters.hta_country) tags.push(`<span class="chat-filter-tag">HTA: ${esc(filters.hta_country)}</span>`);
+    if (filters.conditional_approval === "yes") tags.push('<span class="chat-filter-tag">Conditional MA</span>');
+    if (filters.accelerated_assessment === "yes") tags.push('<span class="chat-filter-tag">Accelerated</span>');
+    if (filters.new_active_substance === "yes") tags.push('<span class="chat-filter-tag">New Substance</span>');
+    if (filters.exclude_generics) tags.push('<span class="chat-filter-tag">Excl. Generics</span>');
+    if (filters.exclude_biosimilars) tags.push('<span class="chat-filter-tag">Excl. Biosimilars</span>');
+
+    if (tags.length > 0) {
+        chatFiltersDisplay.innerHTML = `
+            <div class="chat-filters-applied">
+                <span class="chat-filters-label">Filters applied by AI:</span>
+                ${tags.join("")}
+            </div>
+        `;
+    } else {
+        chatFiltersDisplay.innerHTML = "";
+    }
+}
+
+// ── Render chatbot results ───────────────────────────────────────────
+
+function renderChatResults(data) {
+    chatResultsSection.classList.remove("hidden");
+    hideStatus(chatStatus);
+
+    // Reuse the same table rendering from manual mode
+    const hasHTA = data.results.some(m => m.hta_summaries && m.hta_summaries.length > 0);
+    const hasIndicationSegments = data.results.some(m => m.indication_segment);
+
+    const header = `
+        <div class="results-header">
+            <p class="results-summary">
+                Found <strong>${data.total}</strong> analogue(s) matching your description
+            </p>
+            <button class="btn-export" id="export-chat-excel-btn" title="Export results to CSV">Export to CSV</button>
+        </div>
+    `;
+
+    const table = `
+        <div class="analogue-table-wrapper">
+        <table class="analogue-table">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Active Substance</th>
+                    ${hasIndicationSegments ? '<th>Matching Indication</th>' : '<th>Indication</th>'}
+                    <th>MAH</th>
+                    <th>Auth. Date</th>
+                    <th>LoT / Setting</th>
+                    <th>Evidence</th>
+                    ${hasHTA ? '<th>HTA Outcomes</th>' : ''}
+                    <th>Attributes</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.results.map(med => renderAnalogueRow(med, hasHTA, hasIndicationSegments)).join("")}
+            </tbody>
+        </table>
+        </div>
+    `;
+
+    chatResultsDiv.innerHTML = header + table;
+
+    document.getElementById("export-chat-excel-btn").addEventListener("click", () => {
+        // Temporarily swap results for export
+        const saved = lastSearchResults;
+        lastSearchResults = chatSearchResults;
+        exportToExcel();
+        lastSearchResults = saved;
+    });
 }

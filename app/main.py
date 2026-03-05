@@ -22,6 +22,9 @@ from app.models import (
     AEMPSDrugProfile,
     AEMPSFilterOptions,
     AEMPSSearchResponse,
+    AnalogueChatFilters,
+    AnalogueChatRequest,
+    AnalogueChatResponse,
     AnalogueResponse,
     AnalogueResult,
     AssessmentResponse,
@@ -803,6 +806,168 @@ async def search_analogues(
     return AnalogueResponse(
         total=len(results),
         results=[AnalogueResult(**r) for r in results],
+    )
+
+
+@app.post("/api/analogues/chat", response_model=AnalogueChatResponse)
+@limiter.limit("10/minute")
+async def analogue_chat(request: Request, req: AnalogueChatRequest):
+    """AI chatbot for analogue selection — describe your asset and get matching analogues."""
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        raise HTTPException(503, "AI chatbot is not configured. Set the ANTHROPIC_API_KEY environment variable.")
+
+    if not analogue_service.is_loaded:
+        raise HTTPException(503, "Analogue data is still loading. Please try again shortly.")
+
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=api_key)
+
+    # Build the system prompt with available filter options
+    filter_opts = analogue_service.get_filter_options()
+    categories = [t.category for t in filter_opts.therapeutic_taxonomy]
+    taxonomy_desc = "; ".join(
+        f"{t.category} (sub: {', '.join(t.subcategories[:5])}{'...' if len(t.subcategories) > 5 else ''})"
+        for t in filter_opts.therapeutic_taxonomy[:10]
+    )
+
+    system_prompt = f"""You are an expert pharmaceutical analyst assistant specializing in analogue selection for Health Technology Assessment (HTA) and market access. Your role is to help users identify comparable medicines (analogues) from the EMA (European Medicines Agency) database based on their natural language descriptions.
+
+When the user describes their product, therapeutic context, or the type of analogues they want to find, you must:
+
+1. UNDERSTAND their request — what kind of medicines they're looking for and why
+2. EXTRACT structured search filters from their description
+3. EXPLAIN your reasoning — which filters you chose and why
+
+You MUST respond with a JSON block containing the filters, wrapped in ```json ... ``` markers. The JSON must have these fields (all optional — only include fields relevant to the user's request):
+
+{{
+    "therapeutic_category": "",       // One of: {', '.join(categories)}
+    "therapeutic_subcategory": "",    // Sub-category within the chosen category
+    "orphan": "",                     // "yes", "no", or "" (any)
+    "years": 0,                      // 0=all time, 3, 5, 10, or 15
+    "first_approval": "",            // "yes", "no", or ""
+    "status": "",                    // "Authorised", "Withdrawn", "Refused", "Suspended"
+    "substance": "",                 // Active substance name (partial match)
+    "indication_keyword": "",        // Keyword to search in indication text (e.g. "melanoma", "breast cancer", "SMA")
+    "exclude_generics": false,       // true to exclude generics
+    "exclude_biosimilars": false,    // true to exclude biosimilars
+    "atc_code": "",                  // ATC code prefix (e.g. "L01" for antineoplastics)
+    "mah": "",                       // Marketing Authorisation Holder (company name, partial match)
+    "conditional_approval": "",      // "yes", "no", or ""
+    "exceptional_circumstances": "", // "yes", "no", or ""
+    "accelerated_assessment": "",    // "yes", "no", or ""
+    "new_active_substance": "",      // "yes", "no", or ""
+    "prevalence_category": "",       // "ultra-rare", "rare", "non-rare", or ""
+    "line_of_therapy": "",           // "1L / First-line", "2L / Second-line", "3L+ / Later-line", "Adjuvant", "Neoadjuvant", "Maintenance"
+    "treatment_setting": "",         // "Monotherapy", "Combination"
+    "evidence_tier": "",             // "Standard", "Conditional", "Exceptional", "Accelerated", "Orphan"
+    "hta_country": ""                // Country code: "FR", "DE", "GB", "ES", "JP"
+}}
+
+Available therapeutic categories and sub-categories:
+{taxonomy_desc}
+
+Available HTA countries: {', '.join(filter_opts.hta_countries) if filter_opts.hta_countries else 'FR, DE, GB, ES'}
+
+Guidelines:
+- Be conversational and helpful. Explain your filter choices.
+- If the user's request is vague, ask clarifying questions but still try to provide initial results with reasonable defaults.
+- When the user mentions a specific disease (e.g., "non-small cell lung cancer"), use indication_keyword.
+- When they mention a drug class (e.g., "checkpoint inhibitors", "PD-1/PD-L1"), use indication_keyword or atc_code.
+- When they mention regulatory characteristics (orphan, conditional approval), set those filters.
+- Always exclude generics and biosimilars by default unless the user specifically asks for them.
+- Set new_active_substance to "yes" by default to focus on innovative medicines, unless context suggests otherwise.
+- For oncology drugs, consider setting the therapeutic_category to "Oncology".
+- If the user mentions "recent" approvals, set years to 5 (or 3 for "very recent").
+- The JSON block must be valid JSON. Do NOT include comments in the JSON. Include the JSON block in your response alongside your explanation.
+- If the user is just chatting or asking a question without requesting a search, respond conversationally without a JSON block.
+- Always respond in English.
+- After the JSON block, briefly summarize what you're searching for."""
+
+    # Build message history
+    messages = []
+    for msg in req.history[-10:]:  # Keep last 10 messages for context
+        messages.append({"role": msg.role, "content": msg.content})
+    messages.append({"role": "user", "content": req.message})
+
+    ai_model = ""
+    try:
+        model_id = os.environ.get("ANTHROPIC_CHAT_MODEL", "claude-sonnet-4-6-20250514")
+        response = client.messages.create(
+            model=model_id,
+            max_tokens=1500,
+            system=system_prompt,
+            messages=messages,
+        )
+        ai_text = response.content[0].text
+        ai_model = response.model
+    except anthropic.APIError as e:
+        logger.error("Anthropic API error in analogue chat: %s", e)
+        err_msg = getattr(e, "message", str(e))
+        raise HTTPException(502, f"AI service error: {err_msg}")
+    except Exception as e:
+        logger.error("Unexpected error in analogue chat: %s", e)
+        raise HTTPException(502, f"AI service error: {str(e)}")
+
+    # Extract JSON filters from the AI response — use greedy match to handle nested braces
+    filters = None
+    results = []
+    total = 0
+
+    json_match = re.search(r"```json\s*(\{[^`]*\})\s*```", ai_text, re.DOTALL)
+    if json_match:
+        try:
+            raw_json = json_match.group(1)
+            # Strip trailing commas before closing braces (common AI quirk)
+            raw_json = re.sub(r",\s*}", "}", raw_json)
+            # Strip single-line // comments (common AI quirk)
+            raw_json = re.sub(r"\s*//[^\n]*", "", raw_json)
+            filter_dict = json.loads(raw_json)
+            filters = AnalogueChatFilters(**filter_dict)
+
+            # Run the search using extracted filters
+            search_results = analogue_service.search(
+                therapeutic_category=filters.therapeutic_category,
+                therapeutic_subcategory=filters.therapeutic_subcategory,
+                orphan=filters.orphan,
+                years_since_approval=filters.years,
+                first_approval=filters.first_approval,
+                status=filters.status,
+                substance=filters.substance,
+                indication_keyword=filters.indication_keyword,
+                exclude_generics=filters.exclude_generics,
+                exclude_biosimilars=filters.exclude_biosimilars,
+                atc_code=filters.atc_code,
+                mah=filters.mah,
+                conditional_approval=filters.conditional_approval,
+                exceptional_circumstances=filters.exceptional_circumstances,
+                accelerated_assessment=filters.accelerated_assessment,
+                new_active_substance=filters.new_active_substance,
+                prevalence_category=filters.prevalence_category,
+                line_of_therapy=filters.line_of_therapy,
+                treatment_setting=filters.treatment_setting,
+                evidence_tier=filters.evidence_tier,
+                hta_country=filters.hta_country,
+                limit=200,
+            )
+            results = [AnalogueResult(**r) for r in search_results]
+            total = len(results)
+        except json.JSONDecodeError as e:
+            logger.warning("Failed to parse AI chat JSON filters: %s", e)
+        except Exception as e:
+            logger.warning("Failed to apply AI chat filters: %s", e)
+
+    # Clean the AI message — remove the JSON block for display
+    display_message = re.sub(r"```json\s*\{[^`]*\}\s*```", "", ai_text, flags=re.DOTALL).strip()
+
+    return AnalogueChatResponse(
+        ai_message=display_message,
+        filters_applied=filters,
+        results=results,
+        total=total,
+        ai_model=ai_model,
     )
 
 
