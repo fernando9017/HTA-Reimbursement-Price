@@ -829,10 +829,11 @@ async def analogue_chat(request: Request, req: AnalogueChatRequest):
 
     # Build the system prompt with available filter options
     filter_opts = analogue_service.get_filter_options()
-    categories = [t.category for t in filter_opts.therapeutic_taxonomy]
+    taxonomy = filter_opts.get("therapeutic_taxonomy", [])
+    categories = [t["category"] for t in taxonomy]
     taxonomy_desc = "; ".join(
-        f"{t.category} (sub: {', '.join(t.subcategories[:5])}{'...' if len(t.subcategories) > 5 else ''})"
-        for t in filter_opts.therapeutic_taxonomy[:10]
+        f"{t['category']} (sub: {', '.join(t['subcategories'][:5])}{'...' if len(t['subcategories']) > 5 else ''})"
+        for t in taxonomy[:10]
     )
 
     system_prompt = f"""You are an expert pharmaceutical analyst assistant specializing in analogue selection for Health Technology Assessment (HTA) and market access. Your role is to help users identify comparable medicines (analogues) from the EMA (European Medicines Agency) database based on their natural language descriptions.
@@ -872,7 +873,7 @@ You MUST respond with a JSON block containing the filters, wrapped in ```json ..
 Available therapeutic categories and sub-categories:
 {taxonomy_desc}
 
-Available HTA countries: {', '.join(filter_opts.hta_countries) if filter_opts.hta_countries else 'FR, DE, GB, ES'}
+Available HTA countries: {', '.join(filter_opts.get('hta_countries', [])) or 'FR, DE, GB, ES'}
 
 Guidelines:
 - Be conversational and helpful. Explain your filter choices.
