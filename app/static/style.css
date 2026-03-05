@@ -3939,9 +3939,19 @@ footer a:hover {
     flex-shrink: 0;
 }
 
-.chatbot-input-area button:hover {
+.chatbot-input-area button:hover:not(:disabled) {
     background: var(--primary-light);
     transform: scale(1.05);
+}
+
+.chatbot-input-area button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chatbot-input-area textarea:disabled {
+    background: #f4f6f9;
+    color: var(--text-light);
 }
 
 /* Model badge in chat */

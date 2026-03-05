@@ -810,7 +810,8 @@ async def search_analogues(
 
 
 @app.post("/api/analogues/chat", response_model=AnalogueChatResponse)
-async def analogue_chat(req: AnalogueChatRequest):
+@limiter.limit("10/minute")
+async def analogue_chat(request: Request, req: AnalogueChatRequest):
     """AI chatbot for analogue selection — describe your asset and get matching analogues."""
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
@@ -880,7 +881,7 @@ Guidelines:
 - Set new_active_substance to "yes" by default to focus on innovative medicines, unless context suggests otherwise.
 - For oncology drugs, consider setting the therapeutic_category to "Oncology".
 - If the user mentions "recent" approvals, set years to 5 (or 3 for "very recent").
-- The JSON block must be valid JSON. Include it in your response alongside your explanation.
+- The JSON block must be valid JSON. Do NOT include comments in the JSON. Include the JSON block in your response alongside your explanation.
 - If the user is just chatting or asking a question without requesting a search, respond conversationally without a JSON block.
 - Always respond in English.
 - After the JSON block, briefly summarize what you're searching for."""
@@ -891,9 +892,11 @@ Guidelines:
         messages.append({"role": msg.role, "content": msg.content})
     messages.append({"role": "user", "content": req.message})
 
+    ai_model = ""
     try:
+        model_id = os.environ.get("ANTHROPIC_CHAT_MODEL", "claude-sonnet-4-6-20250514")
         response = client.messages.create(
-            model="claude-opus-4-6-20250219",
+            model=model_id,
             max_tokens=1500,
             system=system_prompt,
             messages=messages,
@@ -902,17 +905,26 @@ Guidelines:
         ai_model = response.model
     except anthropic.APIError as e:
         logger.error("Anthropic API error in analogue chat: %s", e)
-        raise HTTPException(502, f"AI service error: {e.message}")
+        err_msg = getattr(e, "message", str(e))
+        raise HTTPException(502, f"AI service error: {err_msg}")
+    except Exception as e:
+        logger.error("Unexpected error in analogue chat: %s", e)
+        raise HTTPException(502, f"AI service error: {str(e)}")
 
-    # Extract JSON filters from the AI response
+    # Extract JSON filters from the AI response — use greedy match to handle nested braces
     filters = None
     results = []
     total = 0
 
-    json_match = re.search(r"```json\s*(\{.*?\})\s*```", ai_text, re.DOTALL)
+    json_match = re.search(r"```json\s*(\{[^`]*\})\s*```", ai_text, re.DOTALL)
     if json_match:
         try:
-            filter_dict = json.loads(json_match.group(1))
+            raw_json = json_match.group(1)
+            # Strip trailing commas before closing braces (common AI quirk)
+            raw_json = re.sub(r",\s*}", "}", raw_json)
+            # Strip single-line // comments (common AI quirk)
+            raw_json = re.sub(r"\s*//[^\n]*", "", raw_json)
+            filter_dict = json.loads(raw_json)
             filters = AnalogueChatFilters(**filter_dict)
 
             # Run the search using extracted filters
@@ -942,18 +954,20 @@ Guidelines:
             )
             results = [AnalogueResult(**r) for r in search_results]
             total = len(results)
-        except (json.JSONDecodeError, Exception) as e:
-            logger.warning("Failed to parse AI chat filters: %s", e)
+        except json.JSONDecodeError as e:
+            logger.warning("Failed to parse AI chat JSON filters: %s", e)
+        except Exception as e:
+            logger.warning("Failed to apply AI chat filters: %s", e)
 
     # Clean the AI message — remove the JSON block for display
-    display_message = re.sub(r"```json\s*\{.*?\}\s*```", "", ai_text, flags=re.DOTALL).strip()
+    display_message = re.sub(r"```json\s*\{[^`]*\}\s*```", "", ai_text, flags=re.DOTALL).strip()
 
     return AnalogueChatResponse(
         ai_message=display_message,
         filters_applied=filters,
         results=results,
         total=total,
-        ai_model=ai_model if 'ai_model' in dir() else "",
+        ai_model=ai_model,
     )
 
 

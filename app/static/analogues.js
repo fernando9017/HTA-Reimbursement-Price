@@ -22,6 +22,8 @@ modeChatbotTab.addEventListener("click", () => switchMode("chatbot"));
 function switchMode(mode) {
     modeFiltersTab.classList.toggle("active", mode === "filters");
     modeChatbotTab.classList.toggle("active", mode === "chatbot");
+    modeFiltersTab.setAttribute("aria-selected", mode === "filters");
+    modeChatbotTab.setAttribute("aria-selected", mode === "chatbot");
     filtersSection.classList.toggle("hidden", mode !== "filters");
     chatbotSection.classList.toggle("hidden", mode !== "chatbot");
     // Show manual results section only in filters mode
@@ -578,9 +580,16 @@ chatMessages.addEventListener("click", (e) => {
 
 // ── Send message ─────────────────────────────────────────────────────
 
+let chatSending = false;
+
 async function sendChatMessage() {
     const message = chatInput.value.trim();
-    if (!message) return;
+    if (!message || chatSending) return;
+
+    // Lock UI while sending
+    chatSending = true;
+    chatSendBtn.disabled = true;
+    chatInput.disabled = true;
 
     // Add user message to UI
     appendChatMessage("user", message);
@@ -642,6 +651,12 @@ async function sendChatMessage() {
     } catch (err) {
         removeTypingIndicator(typingId);
         appendChatMessage("assistant", `Sorry, I couldn't connect to the AI service: ${err.message}`);
+    } finally {
+        // Unlock UI
+        chatSending = false;
+        chatSendBtn.disabled = false;
+        chatInput.disabled = false;
+        chatInput.focus();
     }
 }
 
@@ -672,13 +687,12 @@ function appendChatMessage(role, content, isHtml = false) {
 
 function formatChatContent(text) {
     // Convert markdown-like formatting to HTML
-    return text
+    return "<p>" + text
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, "<em>$1</em>")
         .replace(/\n\n/g, "</p><p>")
         .replace(/\n/g, "<br>")
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/^/, "<p>")
-        .replace(/$/, "</p>");
+    + "</p>";
 }
 
 function appendTypingIndicator() {

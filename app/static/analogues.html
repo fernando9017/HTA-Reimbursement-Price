@@ -29,44 +29,44 @@
 
     <main class="container">
         <!-- Mode switcher: Manual Filters vs AI Chatbot -->
-        <div class="analogue-mode-switcher">
-            <button class="mode-tab active" data-mode="filters" id="mode-filters-tab">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        <div class="analogue-mode-switcher" role="tablist" aria-label="Search mode">
+            <button class="mode-tab active" data-mode="filters" id="mode-filters-tab" role="tab" aria-selected="true" aria-controls="filters-section">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
                 Manual Filters
             </button>
-            <button class="mode-tab" data-mode="chatbot" id="mode-chatbot-tab">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <button class="mode-tab" data-mode="chatbot" id="mode-chatbot-tab" role="tab" aria-selected="false" aria-controls="chatbot-section">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 AI Chatbot
                 <span class="mode-badge">Powered by Claude</span>
             </button>
         </div>
 
         <!-- AI Chatbot panel -->
-        <section class="card chatbot-section hidden" id="chatbot-section">
+        <section class="card chatbot-section hidden" id="chatbot-section" role="tabpanel" aria-labelledby="mode-chatbot-tab">
             <h2>AI Analogue Finder</h2>
             <p class="filter-description">Describe your product or the type of analogues you're looking for, and AI will find matching medicines from the EMA database.</p>
 
             <div class="chatbot-container">
-                <div class="chatbot-messages" id="chatbot-messages">
+                <div class="chatbot-messages" id="chatbot-messages" role="log" aria-live="polite" aria-label="Chat messages">
                     <div class="chat-message assistant">
-                        <div class="chat-avatar">AI</div>
+                        <div class="chat-avatar" aria-hidden="true">AI</div>
                         <div class="chat-bubble">
                             <p>Hello! I'm your AI-powered analogue finder. Describe your product or the type of comparable medicines you're looking for, and I'll search the EMA database for you.</p>
-                            <p class="chat-examples"><strong>Example queries:</strong></p>
+                            <p class="chat-examples"><strong>Example queries you can click:</strong></p>
                             <ul class="chat-examples-list">
-                                <li>"I'm looking for analogues for an orphan oncology drug targeting non-small cell lung cancer, approved in the last 5 years"</li>
-                                <li>"Find me checkpoint inhibitors (PD-1/PD-L1) used as first-line monotherapy in solid tumours"</li>
-                                <li>"What rare disease treatments have been approved with conditional marketing authorisation?"</li>
-                                <li>"Show me gene therapies for inherited retinal diseases assessed by NICE"</li>
+                                <li>I'm looking for analogues for an orphan oncology drug targeting non-small cell lung cancer, approved in the last 5 years</li>
+                                <li>Find me checkpoint inhibitors (PD-1/PD-L1) used as first-line monotherapy in solid tumours</li>
+                                <li>What rare disease treatments have been approved with conditional marketing authorisation?</li>
+                                <li>Show me gene therapies for inherited retinal diseases assessed by NICE</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="chatbot-input-area">
-                    <textarea id="chatbot-input" placeholder="Describe your product or the analogues you want to find..." rows="2"></textarea>
-                    <button id="chatbot-send-btn" title="Send message">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    <textarea id="chatbot-input" placeholder="Describe your product or the analogues you want to find..." rows="2" aria-label="Describe your product or the analogues you want to find" maxlength="2000"></textarea>
+                    <button id="chatbot-send-btn" title="Send message" aria-label="Send message">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
                 </div>
             </div>
@@ -81,7 +81,7 @@
         </section>
 
         <!-- Filters panel (manual mode) -->
-        <section class="card" id="filters-section">
+        <section class="card" id="filters-section" role="tabpanel" aria-labelledby="mode-filters-tab">
             <h2>Filter Criteria</h2>
             <p class="filter-description">Select criteria to find analogue medicines from the EMA database.</p>
 

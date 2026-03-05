@@ -1,6 +1,6 @@
 """Pydantic models for API requests and responses."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MedicineResult(BaseModel):
@@ -181,15 +181,15 @@ class AnalogueResponse(BaseModel):
 class AnalogueChatMessage(BaseModel):
     """A single message in the analogue chatbot conversation."""
 
-    role: str  # "user" or "assistant"
-    content: str
+    role: str = Field(..., pattern=r"^(user|assistant)$")
+    content: str = Field(..., min_length=1, max_length=5000)
 
 
 class AnalogueChatRequest(BaseModel):
     """Request body for the analogue AI chatbot."""
 
-    message: str
-    history: list[AnalogueChatMessage] = []
+    message: str = Field(..., min_length=2, max_length=2000)
+    history: list[AnalogueChatMessage] = Field(default=[], max_length=20)
 
 
 class AnalogueChatFilters(BaseModel):
