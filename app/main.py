@@ -898,7 +898,7 @@ Guidelines:
 
     ai_model = ""
     try:
-        model_id = os.environ.get("ANTHROPIC_CHAT_MODEL", "claude-3-5-sonnet-20241022")
+        model_id = os.environ.get("ANTHROPIC_CHAT_MODEL", "claude-sonnet-4-5-20241022")
         response = client.messages.create(
             model=model_id,
             max_tokens=1500,
