@@ -45,7 +45,7 @@ def clear_cache() -> int:
     logger.info("Cleared %d AI analysis cache entries (France)", count)
     return count
 
-AI_MODEL = "claude-sonnet-4-5-20241022"
+AI_MODEL = "claude-3-5-sonnet-20241022"
 
 SYSTEM_PROMPT = """\
 You are a senior HTA (Health Technology Assessment) analyst specializing in \
