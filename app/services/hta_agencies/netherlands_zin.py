@@ -5,12 +5,20 @@ Data sources:
    the National Health Care Institute for drugs seeking GVS reimbursement.
 2. GVS (Geneesmiddelen Vergoedings Systeem) — the drug reimbursement
    system listing (via medicijnkosten.nl).
+3. Sluismiddelen — premium medicines lock (sluis) for expensive new drugs
+   requiring price negotiation before reimbursement (budget impact ≥€20M).
 
 ZIN assessment outcomes:
 - Positive (included in basic package)
 - Positive with conditions
 - Negative (not included)
-- Conditionally included (outcomes research required)
+- Conditionally included (coverage with evidence development)
+- Sluismiddel (premium medicine, pending price negotiation)
+
+ZIN uses a severity-adjusted WTP framework (since 2015):
+- Severity 0.10–0.40 → €20,000/QALY
+- Severity 0.41–0.70 → €50,000/QALY
+- Severity 0.71–1.00 → €80,000/QALY
 
 No authentication required for the public website.
 """
@@ -28,6 +36,8 @@ from app.config import (
     SSL_VERIFY,
     ZIN_ASSESSMENTS_URL,
     ZIN_BASE_URL,
+    ZIN_GVS_ASSESSMENTS_URL,
+    ZIN_SLUISMIDDELEN_URL,
 )
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
@@ -48,6 +58,8 @@ RECOMMENDATION_MAP = {
     "niet vergoed": "Not reimbursed",
     "reimbursed": "Reimbursed (GVS)",
     "not reimbursed": "Not reimbursed",
+    "sluismiddel": "Sluismiddel (premium medicine lock)",
+    "sluis": "Sluismiddel (premium medicine lock)",
 }
 
 

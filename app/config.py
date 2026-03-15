@@ -178,14 +178,28 @@ PBS_BROWSE_URL = "https://www.pbs.gov.au/browse/medicine-listing"
 # and manages the GVS (Geneesmiddelen Vergoedings Systeem).
 ZIN_BASE_URL = "https://www.zorginstituutnederland.nl"
 ZIN_ASSESSMENTS_URL = (
-    "https://www.zorginstituutnederland.nl/publicaties"
+    "https://www.zorginstituutnederland.nl/werkagenda/overzicht-pakketadviezen"
+)
+# GVS assessments overview (outpatient medicines reimbursement)
+ZIN_GVS_ASSESSMENTS_URL = (
+    "https://www.zorginstituutnederland.nl/werkagenda/overzicht-gvs-adviezen"
+)
+# Sluismiddelen (premium medicines lock) — expensive new medicines
+# requiring price negotiation before reimbursement.
+ZIN_SLUISMIDDELEN_URL = (
+    "https://www.zorginstituutnederland.nl/over-ons/"
+    "programmas-en-samenwerkingsverbanden/"
+    "horizonscan-geneesmiddelen/sluis-voor-dure-geneesmiddelen/"
+    "overzicht-sluismiddelen-waarover-het-zorginstituut-heeft-geadviseerd"
 )
 # Farmacotherapeutisch Kompas — clinical drug information database
 FK_BASE_URL = "https://www.farmacotherapeutischkompas.nl"
-# Medicijnkosten — GVS reimbursement price database
+# Medicijnkosten — GVS reimbursement price database (no public API)
 MEDICIJNKOSTEN_URL = "https://www.medicijnkosten.nl"
 # GVS reimbursement list search
 GVS_SEARCH_URL = "https://www.medicijnkosten.nl/zoeken"
+# Medicines Information Bank (CBG/MEB) — Dutch regulatory authority
+GENEESMIDDELENINFORMATIEBANK_URL = "https://www.geneesmiddeleninformatiebank.nl"
 
 # BAG (Bundesamt für Gesundheit / Federal Office of Public Health) - Switzerland
 # Spezialitätenliste (SL) — positive list of reimbursed medicines.
