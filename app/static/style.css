@@ -1078,6 +1078,9 @@ button:disabled {
 
 .resource-search-row {
     margin-bottom: 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .resource-search-input {
@@ -4015,3 +4018,80 @@ footer a:hover {
         max-height: 350px;
     }
 }
+
+/* ── Data Freshness Badges ──────────────────────────────────────────── */
+
+.freshness-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.freshness-recent {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.freshness-aging {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.freshness-stale {
+    background: #fce4ec;
+    color: #c62828;
+}
+
+.freshness-unknown {
+    background: var(--bg);
+    color: var(--text-light);
+}
+
+/* Link check status indicators */
+.link-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.link-status-ok {
+    background: #4caf50;
+}
+
+.link-status-broken {
+    background: #f44336;
+}
+
+.link-status-checking {
+    background: #ff9800;
+    animation: pulse-dot 1s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.link-check-btn {
+    padding: 4px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 8px;
+}
+
+.link-check-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+

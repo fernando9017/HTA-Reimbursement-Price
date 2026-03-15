@@ -50,6 +50,44 @@ const REGION_MAP = {
 // Ordered list of regions for display
 const REGION_ORDER = ["Americas", "Europe", "Asia-Pacific", "Middle East", "Africa"];
 
+// ── Data freshness — last verification date per country ─────────────
+// Format: "YYYY-MM" (month of last link verification).
+// Updated when links for a country are manually checked and confirmed working.
+const LAST_VERIFIED = {
+    DZ: "2025-02", AR: "2025-03", AU: "2025-03", AT: "2025-03", BD: "2026-02",
+    BE: "2025-03", BG: "2026-01", BR: "2025-03", CA: "2025-03", CH: "2025-03",
+    CL: "2025-03", CN: "2025-03", CO: "2025-03", CR: "2026-02", CY: "2025-12",
+    CZ: "2025-03", DE: "2025-03", DK: "2025-12", DZ: "2025-02", EC: "2026-02",
+    EE: "2026-01", EG: "2025-03", ES: "2025-03", FI: "2025-12", FR: "2025-03",
+    GB: "2025-03", GR: "2025-03", GT: "2026-02", HK: "2025-03", HR: "2026-01",
+    HU: "2025-03", ID: "2025-03", IE: "2025-03", IL: "2025-03", IN: "2026-02",
+    IS: "2026-01", IT: "2025-03", JO: "2026-02", JP: "2025-03", KE: "2026-02",
+    KR: "2025-03", KW: "2026-02", KZ: "2026-02", LB: "2026-01", LT: "2026-01",
+    LU: "2026-01", LV: "2026-01", MA: "2026-02", ME: "2026-01", MT: "2026-01",
+    MX: "2025-03", MY: "2026-02", NG: "2026-02", NL: "2025-03", NO: "2025-12",
+    NZ: "2026-02", OM: "2026-01", PE: "2026-01", PH: "2025-03", PK: "2026-02",
+    PL: "2025-03", PR: "2026-01", PT: "2025-03", QA: "2026-01", RO: "2025-03",
+    RS: "2026-02", RU: "2026-01", SA: "2025-03", SE: "2025-03", SG: "2025-03",
+    SI: "2026-01", SK: "2026-01", TH: "2025-03", TR: "2025-03", TW: "2025-03",
+    UA: "2026-02", AE: "2025-03", VN: "2025-03", ZA: "2026-02",
+};
+
+/**
+ * Return a human-readable freshness label and CSS class.
+ * @param {string} ym - "YYYY-MM" verification date
+ * @returns {{ label: string, cls: string }}
+ */
+function freshnessInfo(ym) {
+    if (!ym) return { label: "Not verified", cls: "freshness-unknown" };
+    const [y, m] = ym.split("-").map(Number);
+    const now = new Date();
+    const months = (now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m);
+    const dateLabel = new Date(y, m - 1).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    if (months <= 3) return { label: `Verified ${dateLabel}`, cls: "freshness-recent" };
+    if (months <= 9) return { label: `Verified ${dateLabel}`, cls: "freshness-aging" };
+    return { label: `Verified ${dateLabel}`, cls: "freshness-stale" };
+}
+
 // ── Worked Example Priority List ─────────────────────────────────────
 // Countries are enhanced in batches of 10 with detailed drugExample
 // timelines showing the full market access journey for a real drug.
@@ -5766,6 +5804,11 @@ function openDetail(country, activeBtn) {
 
     let html = "";
 
+    // Data freshness badge
+    const verifiedYm = LAST_VERIFIED[country.code];
+    const fresh = freshnessInfo(verifiedYm);
+    html += `<div class="freshness-badge ${fresh.cls}">${esc(fresh.label)}</div>`;
+
     if (country.wip) {
         html += `
             <div class="resource-wip-notice">
@@ -5790,7 +5833,7 @@ function openDetail(country, activeBtn) {
                     <ul class="resource-links">
                         ${s.links.map(l => `
                             <li>
-                                <a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} &rarr;</a>
+                                <a href="${esc(l.url)}" target="_blank" rel="noopener" class="resource-check-link">${esc(l.label)} &rarr;</a>
                             </li>
                         `).join("")}
                     </ul>
@@ -5861,4 +5904,85 @@ function openDetail(country, activeBtn) {
 detailClose.addEventListener("click", () => {
     resourceDetail.classList.add("hidden");
     countryGrid.querySelectorAll(".country-flag-card").forEach(b => b.classList.remove("active"));
+});
+
+// ── CSV Export for Resources ─────────────────────────────────────────
+
+document.getElementById("export-resources-btn").addEventListener("click", exportResourcesToCSV);
+
+function exportResourcesToCSV() {
+    const headers = ["Country", "Country Code", "Region", "Section", "Link Label", "URL"];
+    const rows = [];
+
+    COUNTRIES.forEach(c => {
+        const region = REGION_MAP[c.code] || "";
+        (c.sections || []).forEach(s => {
+            (s.links || []).forEach(l => {
+                rows.push([c.name, c.code, region, s.title, l.label, l.url]);
+            });
+        });
+    });
+
+    downloadCSV(headers, rows, `global_resources_${new Date().toISOString().slice(0, 10)}.csv`);
+}
+
+// ── Link Verification ────────────────────────────────────────────────
+
+const checkLinksBtn = document.getElementById("detail-check-links");
+
+checkLinksBtn.addEventListener("click", async () => {
+    // Collect all link URLs currently displayed in the detail panel
+    const linkEls = detailSections.querySelectorAll("a.resource-check-link");
+    if (linkEls.length === 0) return;
+
+    checkLinksBtn.disabled = true;
+    checkLinksBtn.textContent = "Checking…";
+
+    // Add pulsing dots to all links
+    linkEls.forEach(a => {
+        let dot = a.querySelector(".link-status");
+        if (!dot) {
+            dot = document.createElement("span");
+            dot.className = "link-status link-status-checking";
+            a.appendChild(dot);
+        } else {
+            dot.className = "link-status link-status-checking";
+        }
+    });
+
+    // Batch URLs (max 20 per request)
+    const urls = Array.from(linkEls).map(a => a.href);
+    const uniqueUrls = [...new Set(urls)];
+    const allResults = {};
+
+    for (let i = 0; i < uniqueUrls.length; i += 20) {
+        const batch = uniqueUrls.slice(i, i + 20);
+        try {
+            const params = batch.map(u => `urls=${encodeURIComponent(u)}`).join("&");
+            const resp = await fetch(`/api/check-links?${params}`, { method: "POST" });
+            if (resp.ok) {
+                Object.assign(allResults, await resp.json());
+            }
+        } catch { /* ignore batch errors */ }
+    }
+
+    // Update dots
+    linkEls.forEach(a => {
+        const dot = a.querySelector(".link-status");
+        if (!dot) return;
+        const status = allResults[a.href];
+        if (status >= 200 && status < 400) {
+            dot.className = "link-status link-status-ok";
+            dot.title = `OK (${status})`;
+        } else if (status === 0 || status === undefined) {
+            dot.className = "link-status link-status-broken";
+            dot.title = "Unreachable";
+        } else {
+            dot.className = "link-status link-status-broken";
+            dot.title = `HTTP ${status}`;
+        }
+    });
+
+    checkLinksBtn.disabled = false;
+    checkLinksBtn.textContent = "Check Links";
 });

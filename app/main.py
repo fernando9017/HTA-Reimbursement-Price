@@ -676,6 +676,41 @@ async def status():
     }
 
 
+# ── Link verification ────────────────────────────────────────────────
+
+
+@app.post("/api/check-links")
+@limiter.limit("5/minute")
+async def check_links(request: Request, urls: list[str] = Query(...)):
+    """Check reachability of up to 20 URLs.
+
+    Returns a dict mapping each URL to its HTTP status code (0 = unreachable).
+    Uses HEAD requests with a short timeout to minimise load on target servers.
+    """
+    import httpx
+    from app.config import SSL_VERIFY
+
+    if len(urls) > 20:
+        raise HTTPException(400, "Maximum 20 URLs per request.")
+
+    results: dict[str, int] = {}
+
+    async def _check(url: str) -> None:
+        try:
+            async with httpx.AsyncClient(
+                follow_redirects=True,
+                verify=SSL_VERIFY,
+                timeout=httpx.Timeout(10.0),
+            ) as client:
+                resp = await client.head(url, headers={"User-Agent": "VAP-LinkChecker/1.0"})
+                results[url] = resp.status_code
+        except Exception:
+            results[url] = 0
+
+    await asyncio.gather(*[_check(u) for u in urls])
+    return results
+
+
 # ── Indication filtering helper ──────────────────────────────────────
 
 # Common words to ignore when extracting keywords from indication text
