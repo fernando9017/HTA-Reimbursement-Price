@@ -208,12 +208,33 @@ GVS_SEARCH_URL = "https://www.medicijnkosten.nl/zoeken"
 GENEESMIDDELENINFORMATIEBANK_URL = "https://www.geneesmiddeleninformatiebank.nl"
 
 # BAG (Bundesamt für Gesundheit / Federal Office of Public Health) - Switzerland
-# Spezialitätenliste (SL) — positive list of reimbursed medicines.
-# Published as a searchable web interface and downloadable data.
+# Spezialitätenliste (SL) — positive list of reimbursed medicines in
+# Switzerland's mandatory health insurance (OKP/KVG).
+# Medicines must meet WZW criteria: Wirksamkeit (effectiveness),
+# Zweckmäßigkeit (appropriateness), Wirtschaftlichkeit (cost-effectiveness).
+# Published as searchable web interface, Excel/XML downloads, and (from 2026)
+# FHIR-based API via the new ePL (Elektronische Plattform Leistungen).
 BAG_BASE_URL = "https://www.bag.admin.ch"
 SL_BASE_URL = "http://www.spezialitaetenliste.ch"
-# SL search API for looking up medicines
+# SL search by substance
 SL_SEARCH_URL = "http://www.spezialitaetenliste.ch/ShowPreparations.aspx"
+# SL browse by IT code (therapeutic classification)
+SL_ITCODES_URL = "http://www.spezialitaetenliste.ch/ShowItCodes.aspx"
+# BAG publications page — XLSX files of recent SL changes
+BAG_SL_PUBLICATIONS_URL = (
+    "https://www.bag.admin.ch/de/"
+    "veroeffentlichungen-des-bag-zur-spezialitaetenliste"
+)
+# BAG notifications page — updates and SL changes
+BAG_SL_NOTIFICATIONS_URL = (
+    "https://www.bag.admin.ch/de/mitteilungen-zur-spezialitaetenliste-sl"
+)
+# New ePL (Elektronische Plattform Leistungen) — FHIR-based.
+# Live since January 5, 2026.  Last XML/Excel publication: April 1, 2026.
+# After that, FHIR format only via this platform.
+BAG_EPL_URL = "https://sl.bag.admin.ch"
+# FHIR Implementation Guide for SL data (IDMP-based)
+BAG_EPL_FHIR_GITHUB = "https://github.com/bag-epl/bag-epl-fhir"
 # BAG drug information page
 BAG_DRUGS_URL = (
     "https://www.bag.admin.ch/bag/de/home/versicherungen/"

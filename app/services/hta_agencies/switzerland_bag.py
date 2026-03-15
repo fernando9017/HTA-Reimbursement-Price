@@ -3,9 +3,18 @@
 Data sources:
 1. Spezialitätenliste (SL) — the positive list of reimbursed medicines in
    Switzerland's mandatory health insurance (OKP/KVG).  Searchable at
-   spezialitaetenliste.ch.
+   spezialitaetenliste.ch.  Available as Excel/XML downloads.
 2. BAG drug pricing decisions — new listings, price changes, and
    limitation modifications published on the BAG website.
+3. ePL (Elektronische Plattform Leistungen) — new FHIR-based platform
+   at sl.bag.admin.ch (live since Jan 5, 2026).  After April 1, 2026,
+   XML/Excel will cease; FHIR (IDMP-based) will be the only format.
+
+Medicines must meet WZW criteria for SL listing:
+- Wirksamkeit (effectiveness)
+- Zweckmäßigkeit (appropriateness)
+- Wirtschaftlichkeit (cost-effectiveness via foreign price comparison
+  and therapeutic cross-comparison)
 
 SL listing outcomes:
 - Listed (on the SL, reimbursed)
