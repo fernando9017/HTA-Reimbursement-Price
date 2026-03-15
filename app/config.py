@@ -139,6 +139,62 @@ AIFA_TRANSPARENCY_PAGE_URL = "https://www.aifa.gov.it/en/liste-di-trasparenza"
 AIFA_CLASS_A_CSV_PATTERN = "Classe_A_per_Principio_Attivo"
 AIFA_CLASS_H_CSV_PATTERN = "Classe_H_per_Principio_Attivo"
 
+# CADTH (Canadian Agency for Drugs and Technologies in Health) - Canada
+# Reimbursement reviews — public HTML listing of drug reviews with recommendations.
+# CADTH publishes reviews for both oncology (pCODR) and non-oncology drugs.
+CADTH_BASE_URL = "https://www.cadth.ca"
+CADTH_REVIEWS_URL = "https://www.cadth.ca/reimbursement-reviews"
+# CADTH search API (used for structured queries by drug name)
+CADTH_SEARCH_URL = "https://www.cadth.ca/search"
+# Recommendation display values
+CADTH_RECOMMENDATIONS = [
+    "Reimburse",
+    "Reimburse with clinical criteria and/or conditions",
+    "Do not reimburse",
+    "Unable to recommend",
+]
+
+# PBAC (Pharmaceutical Benefits Advisory Committee) - Australia
+# PBS (Pharmaceutical Benefits Scheme) public data.
+# PBAC outcomes are published after each meeting (~3 per year).
+PBAC_BASE_URL = "https://www.pbs.gov.au"
+PBAC_OUTCOMES_URL = (
+    "https://www.pbs.gov.au/info/industry/listing/elements/"
+    "pbac-meetings/pbac-outcomes"
+)
+# PBS item search API — returns medicines listed on the PBS
+PBS_SEARCH_URL = "https://www.pbs.gov.au/pbs/search"
+# PBS medicine listing browse page
+PBS_BROWSE_URL = "https://www.pbs.gov.au/browse/medicine-listing"
+
+# ZIN (Zorginstituut Nederland) - Netherlands
+# National Health Care Institute — publishes package advice (pakketadviezen)
+# and manages the GVS (Geneesmiddelen Vergoedings Systeem).
+ZIN_BASE_URL = "https://www.zorginstituutnederland.nl"
+ZIN_ASSESSMENTS_URL = (
+    "https://www.zorginstituutnederland.nl/publicaties"
+)
+# Farmacotherapeutisch Kompas — clinical drug information database
+FK_BASE_URL = "https://www.farmacotherapeutischkompas.nl"
+# Medicijnkosten — GVS reimbursement price database
+MEDICIJNKOSTEN_URL = "https://www.medicijnkosten.nl"
+# GVS reimbursement list search
+GVS_SEARCH_URL = "https://www.medicijnkosten.nl/zoeken"
+
+# BAG (Bundesamt für Gesundheit / Federal Office of Public Health) - Switzerland
+# Spezialitätenliste (SL) — positive list of reimbursed medicines.
+# Published as a searchable web interface and downloadable data.
+BAG_BASE_URL = "https://www.bag.admin.ch"
+SL_BASE_URL = "http://www.spezialitaetenliste.ch"
+# SL search API for looking up medicines
+SL_SEARCH_URL = "http://www.spezialitaetenliste.ch/ShowPreparations.aspx"
+# BAG drug information page
+BAG_DRUGS_URL = (
+    "https://www.bag.admin.ch/bag/de/home/versicherungen/"
+    "krankenversicherung/krankenversicherung-leistungen-tarife/"
+    "Arzneimittel.html"
+)
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0
 

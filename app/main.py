@@ -68,6 +68,10 @@ from app.services.hta_agencies.japan_pmda import JapanPMDA
 from app.services.hta_agencies.spain_aemps import SpainAEMPS
 from app.services.hta_agencies.italy_aifa import ItalyAIFA
 from app.services.hta_agencies.uk_nice import UKNICE
+from app.services.hta_agencies.canada_cadth import CanadaCADTH
+from app.services.hta_agencies.australia_pbac import AustraliaPBAC
+from app.services.hta_agencies.netherlands_zin import NetherlandsZIN
+from app.services.hta_agencies.switzerland_bag import SwitzerlandBAG
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -90,6 +94,10 @@ hta_agencies: dict[str, HTAAgency] = {
     "ES": SpainAEMPS(),
     "IT": ItalyAIFA(),
     "JP": JapanPMDA(),
+    "CA": CanadaCADTH(),
+    "AU": AustraliaPBAC(),
+    "NL": NetherlandsZIN(),
+    "CH": SwitzerlandBAG(),
 }
 
 # Germany HTA deep-dive service — wraps the G-BA adapter for richer analysis

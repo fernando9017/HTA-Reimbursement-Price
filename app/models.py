@@ -71,6 +71,24 @@ class AssessmentResult(BaseModel):
     japan_mhlw_url: str = ""        # MHLW price-setting notification PDF or page URL
     pricing_method: str = ""        # NHI pricing method: "Similar drug comparison (類似薬効比較方式)" or "Cost calculation (原価計算方式)"
     premium_type: str = ""          # Premium applied: "Innovation I (画期性加算I)", "Usefulness II (有用性加算II)", "Orphan (希少疾病用医薬品)", etc.
+    # Canada (CADTH)
+    cadth_recommendation: str = ""  # Reimburse, Reimburse with conditions, Do not reimburse
+    cadth_review_type: str = ""     # pCODR (oncology), non-oncology, etc.
+    cadth_project_number: str = ""  # e.g. "SR0711-000"
+    # Australia (PBAC)
+    pbac_recommendation: str = ""   # Recommended, Not recommended, Deferred
+    pbac_type: str = ""             # Major submission, Minor submission, etc.
+    pbs_code: str = ""              # PBS item code
+    pbac_meeting: str = ""          # Meeting date, e.g. "March 2025"
+    # Netherlands (ZIN)
+    zin_recommendation: str = ""    # Package advice outcome
+    gvs_cluster: str = ""           # GVS reimbursement cluster
+    gvs_reimbursed: str = ""        # "Yes", "No", or ""
+    # Switzerland (BAG)
+    sl_listed: str = ""             # "Yes" if on the Spezialitätenliste
+    sl_price: str = ""              # Public price in CHF
+    sl_limitation: str = ""         # Limitation text (reimbursement conditions)
+    bag_application_type: str = ""  # New listing, extension, price change, etc.
     # Translated summary (all countries)
     summary_en: str = ""
 
