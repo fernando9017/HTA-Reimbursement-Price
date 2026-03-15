@@ -139,11 +139,16 @@ AIFA_TRANSPARENCY_PAGE_URL = "https://www.aifa.gov.it/en/liste-di-trasparenza"
 AIFA_CLASS_A_CSV_PATTERN = "Classe_A_per_Principio_Attivo"
 AIFA_CLASS_H_CSV_PATTERN = "Classe_H_per_Principio_Attivo"
 
-# CADTH (Canadian Agency for Drugs and Technologies in Health) - Canada
+# CADTH / CDA-AMC (Canada's Drug Agency) - Canada
 # Reimbursement reviews — public HTML listing of drug reviews with recommendations.
-# CADTH publishes reviews for both oncology (pCODR) and non-oncology drugs.
+# CADTH rebranded to CDA-AMC but cadth.ca remains functional.
+# Covers both oncology (pCODR) and non-oncology drugs.
 CADTH_BASE_URL = "https://www.cadth.ca"
 CADTH_REVIEWS_URL = "https://www.cadth.ca/reimbursement-reviews"
+# CDA-AMC alternative URLs (post-rebrand)
+CDA_AMC_BASE_URL = "https://www.cda-amc.ca"
+CDA_AMC_REVIEWS_URL = "https://www.cda-amc.ca/reimbursement-review-reports"
+CDA_AMC_FIND_REPORTS_URL = "https://www.cda-amc.ca/find-reports"
 # CADTH search API (used for structured queries by drug name)
 CADTH_SEARCH_URL = "https://www.cadth.ca/search"
 # Recommendation display values
@@ -151,6 +156,7 @@ CADTH_RECOMMENDATIONS = [
     "Reimburse",
     "Reimburse with clinical criteria and/or conditions",
     "Do not reimburse",
+    "Time-limited recommendation",
     "Unable to recommend",
 ]
 

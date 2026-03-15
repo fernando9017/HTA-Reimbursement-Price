@@ -1,14 +1,18 @@
-"""Canada CADTH (Canadian Agency for Drugs and Technologies in Health) adapter.
+"""Canada CADTH / CDA-AMC (Canada's Drug Agency) adapter.
 
 Data sources:
-1. CADTH Reimbursement Reviews — HTML listing of drug reviews with
+1. CDA-AMC Reimbursement Reviews — HTML listing of drug reviews with
    recommendations.  Covers both oncology (pCODR) and non-oncology drugs.
 2. Individual review pages — scraped for recommendation details.
 
-CADTH recommendations:
+Note: CADTH rebranded to CDA-AMC (Canada's Drug Agency) but the CADTH
+name remains widely used.  Both URLs (cadth.ca, cda-amc.ca) are supported.
+
+CADTH/CDA-AMC recommendations:
 - Reimburse
 - Reimburse with clinical criteria and/or conditions
 - Do not reimburse
+- Time-limited recommendation (conditional early access, reassessment pending)
 - Unable to recommend
 
 No authentication required for the public website.
@@ -51,6 +55,9 @@ RECOMMENDATION_MAP = {
     "not recommended": "Do not reimburse",
     "unable to recommend": "Unable to recommend",
     "not reimbursed": "Do not reimburse",
+    "time-limited": "Time-limited recommendation",
+    "time-limited recommendation": "Time-limited recommendation",
+    "time limited": "Time-limited recommendation",
 }
 
 

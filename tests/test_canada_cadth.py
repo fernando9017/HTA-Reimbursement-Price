@@ -171,6 +171,11 @@ def test_normalise_unable():
     assert _normalise_recommendation("Unable to recommend") == "Unable to recommend"
 
 
+def test_normalise_time_limited():
+    assert _normalise_recommendation("Time-limited recommendation") == "Time-limited recommendation"
+    assert _normalise_recommendation("time-limited") == "Time-limited recommendation"
+
+
 def test_normalise_empty():
     assert _normalise_recommendation("") == ""
 
