@@ -2,16 +2,21 @@
 
 Data sources:
 1. PBAC Outcomes — public HTML pages listing PBAC meeting outcomes with
-   recommendation status for each drug submission.
+   recommendation status for each drug submission.  Outcomes published
+   6 weeks after each meeting (March, July, November + intracycle).
 2. PBS (Pharmaceutical Benefits Scheme) — public medicine listing database.
+3. PBS Public Data API (data-api-portal.health.gov.au) — structured JSON/CSV
+   REST API, no auth required, rate limit 1 req/20s, updated 1st of month.
+4. Medicine Status Website — tracks all submissions through the process.
 
 PBAC recommendations:
-- Recommended
-- Recommended (with restrictions/conditions)
-- Not recommended
-- Deferred
+- Recommended — positive recommendation, proceeds to PBS listing
+- Recommended (with restrictions) — listing with conditions
+- Not recommended — not final; applicant can resubmit
+- Deferred — decision delayed, additional information needed
 
-No authentication required for the public website.
+Public Summary Documents (PSDs) published ~4 months post-meeting.
+No authentication required for any of these data sources.
 """
 
 import logging

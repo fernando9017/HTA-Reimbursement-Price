@@ -162,12 +162,18 @@ CADTH_RECOMMENDATIONS = [
 
 # PBAC (Pharmaceutical Benefits Advisory Committee) - Australia
 # PBS (Pharmaceutical Benefits Scheme) public data.
-# PBAC outcomes are published after each meeting (~3 per year).
+# PBAC outcomes are published after each meeting (~3 per year: March, July, Nov).
 PBAC_BASE_URL = "https://www.pbs.gov.au"
 PBAC_OUTCOMES_URL = (
     "https://www.pbs.gov.au/info/industry/listing/elements/"
     "pbac-meetings/pbac-outcomes"
 )
+# Medicine Status Website — tracks all submission outcomes
+PBS_MEDICINE_STATUS_URL = "https://www.pbs.gov.au/medicinestatus/home.html"
+# PBS Public Data API — structured JSON/CSV, no auth required.
+# Rate limit: 1 request per 20 seconds.  Updated 1st of each month.
+PBS_API_BASE_URL = "https://data-api-portal.health.gov.au"
+PBS_API_DOCS_URL = "https://info.data.pbs.gov.au/api/open-api-v1-0-0/"
 # PBS item search API — returns medicines listed on the PBS
 PBS_SEARCH_URL = "https://www.pbs.gov.au/pbs/search"
 # PBS medicine listing browse page
