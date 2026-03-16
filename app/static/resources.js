@@ -50,6 +50,44 @@ const REGION_MAP = {
 // Ordered list of regions for display
 const REGION_ORDER = ["Americas", "Europe", "Asia-Pacific", "Middle East", "Africa"];
 
+// ── Data freshness — last verification date per country ─────────────
+// Format: "YYYY-MM" (month of last link verification).
+// Updated when links for a country are manually checked and confirmed working.
+const LAST_VERIFIED = {
+    DZ: "2025-02", AR: "2025-03", AU: "2025-03", AT: "2025-03", BD: "2026-03",
+    BE: "2025-03", BG: "2026-01", BR: "2025-03", CA: "2025-03", CH: "2026-03",
+    CL: "2025-03", CN: "2025-03", CO: "2025-03", CR: "2026-03", CY: "2025-12",
+    CZ: "2025-03", DE: "2026-03", DK: "2025-12", DZ: "2025-02", EC: "2026-03",
+    EE: "2026-01", EG: "2025-03", ES: "2026-03", FI: "2026-03", FR: "2026-03",
+    GB: "2026-03", GR: "2026-03", GT: "2026-03", HK: "2026-03", HR: "2026-03",
+    HU: "2026-03", ID: "2026-03", IE: "2026-03", IL: "2025-03", IN: "2026-03",
+    IS: "2026-03", IT: "2026-03", JO: "2026-03", JP: "2026-03", KE: "2026-03",
+    KR: "2026-03", KW: "2026-03", KZ: "2026-03", LB: "2026-03", LT: "2026-03",
+    LU: "2026-03", LV: "2026-03", MA: "2026-03", ME: "2026-01", MT: "2026-01",
+    MX: "2025-03", MY: "2026-03", NG: "2026-03", NL: "2025-03", NO: "2025-12",
+    NZ: "2026-03", OM: "2026-01", PE: "2026-01", PH: "2026-03", PK: "2026-03",
+    PL: "2026-03", PR: "2026-01", PT: "2025-03", QA: "2026-01", RO: "2026-03",
+    RS: "2026-03", RU: "2026-03", SA: "2026-03", SE: "2026-03", SG: "2026-03",
+    SI: "2026-03", SK: "2026-03", TH: "2025-03", TR: "2025-03", TW: "2025-03",
+    UA: "2026-03", AE: "2026-03", VN: "2025-03", ZA: "2026-03",
+};
+
+/**
+ * Return a human-readable freshness label and CSS class.
+ * @param {string} ym - "YYYY-MM" verification date
+ * @returns {{ label: string, cls: string }}
+ */
+function freshnessInfo(ym) {
+    if (!ym) return { label: "Not verified", cls: "freshness-unknown" };
+    const [y, m] = ym.split("-").map(Number);
+    const now = new Date();
+    const months = (now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m);
+    const dateLabel = new Date(y, m - 1).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    if (months <= 3) return { label: `Verified ${dateLabel}`, cls: "freshness-recent" };
+    if (months <= 9) return { label: `Verified ${dateLabel}`, cls: "freshness-aging" };
+    return { label: `Verified ${dateLabel}`, cls: "freshness-stale" };
+}
+
 // ── Worked Example Priority List ─────────────────────────────────────
 // Countries are enhanced in batches of 10 with detailed drugExample
 // timelines showing the full market access journey for a real drug.
@@ -229,6 +267,7 @@ const COUNTRIES = [
                 body: "Argentina does not have formal government price controls for most medicines. The Manual Farmac\u00e9utico (Kairos/Alfa Beta) publishes reference prices. In practice, drug prices are influenced by inflation adjustments, voluntary price agreements between the government and the pharmaceutical industry, and Obras Sociales negotiated discounts.",
                 links: [
                     { label: "Kairos \u2014 Manual Farmac\u00e9utico (reference prices)", url: "https://www.kairosweb.com/" },
+                    { label: "Buscador de Precios de Medicamentos (Gov.ar)", url: "https://www.argentina.gob.ar/buscador-de-precios-de-medicamentos" },
                 ],
             },
             {
@@ -329,6 +368,7 @@ const COUNTRIES = [
                 links: [
                     { label: "PBS — Ex-Manufacturer Price Lists", url: "https://www.pbs.gov.au/pbs/industry/pricing/ex-manufacturer-price" },
                     { label: "PBS — Dispensed Price for Maximum Quantity", url: "https://www.pbs.gov.au/browse/medicine-listing" },
+                    { label: "PBS — Schedule Downloads & API (with prices)", url: "https://www.pbs.gov.au/info/browse/download" },
                 ],
             },
             {
@@ -427,7 +467,18 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "Sozialversicherung \u2014 Drug Prices", url: "https://www.sozialversicherung.at/cdscontent/load?contentid=10008.784743&version=1703680781" }],
+                body: "Drug prices in Austria are published in the EKO (Erstattungskodex). The EKO Infotool shows the Kassenpreis (reimbursement price) alongside box colour and conditions. The eEKO (electronic EKO) is downloadable for comprehensive price analysis.",
+                links: [
+                    { label: "EKO Infotool — Drug Prices & Reimbursement", url: "https://www.sozialversicherung.at/oeko/views/index.xhtml" },
+                    { label: "eEKO — Electronic EKO Download", url: "https://www.sozialversicherung.at/cdscontent/?contentid=10007.844482" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                links: [
+                    { label: "AIHTA — Austrian Institute for Health Technology Assessment", url: "https://aihta.at/page/homepage/en" },
+                ],
             },
         ],
         tipsHtml: `
@@ -507,8 +558,10 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "The FPS Economy determines maximum ex-factory prices. The public price adds wholesaler margin, pharmacist margin, dispensing fee, and 6% VAT. Generic entry triggers a ~45% 'patent cliff' reduction on the originator's reimbursement basis.",
+                body: "The FPS Economy determines maximum ex-factory prices. The public price adds wholesaler margin, pharmacist margin, dispensing fee, and 6% VAT. Generic entry triggers a ~45% 'patent cliff' reduction on the originator's reimbursement basis. The SAM (Source Authentique des Médicaments) is the comprehensive medicines database.",
                 links: [
+                    { label: "SAM — Belgium Medicines Database (with Prices)", url: "https://medicinesdatabase.be/" },
+                    { label: "RIZIV/INAMI — SSP Drug Price Search", url: "https://webappsa.riziv-inami.fgov.be/ssp/ProductSearch" },
                     { label: "FPS Economy \u2014 Medicines Pricing", url: "https://economie.fgov.be/fr/themes/ventes/politique-des-prix/prix-reglementes/medicaments-usage-humain" },
                 ],
             },
@@ -634,6 +687,7 @@ const COUNTRIES = [
                 title: "Pricing",
                 links: [
                     { label: "CMED — Regulated Drug Prices (Preços Máximos)", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
+                    { label: "CMED — Official Price Lists (Excel/PDF)", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
                 ],
             },
         ],
@@ -708,13 +762,22 @@ const COUNTRIES = [
                 links: [{ label: "BDA \u2014 Drug Register", url: "https://www.bda.bg/bg/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D0%BB%D0%B5%D0%BA%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%B8-%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%B8" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "NCPRMP (National Council on Prices and Reimbursement of Medicinal Products) manages the Positive Drug List (PDL) with prices. The PDL has 4 annexes: Annex 1 (NHIF outpatient), Annex 2 (hospital budgets), Annex 3 (Ministry of Health), Annex 4 (rare diseases/HIV). Uses external reference pricing based on 10 EU countries.",
+                links: [
+                    { label: "NCPRMP — Drug Price Portal (PDL Search)", url: "https://portal.ncpr.bg/registers/pages/register/list-medicament.xhtml" },
+                    { label: "NCPRMP — Official Website", url: "https://ncpr.bg/en/" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
                 body: "NHIF (National Health Insurance Fund / НЗОК) maintains the positive drug list, updated quarterly. Reimbursement is grouped by therapeutic indication with three levels based on medical condition severity. Reference pricing against EU member states determines maximum reimbursable prices.",
                 links: [{ label: "NHIF \u2014 National Health Insurance Medicine List", url: "https://www.nhif.bg/bg/medicine_food/medical-list/2024" }],
             },
         ],
-        notes: "EMA centralised procedure is an alternative route to obtain marketing authorisation.",
+        notes: "EMA centralised procedure is an alternative route to obtain marketing authorisation. NCPRMP performs HTA for PDL inclusion (mandatory since 2015).",
         tipsHtml: `
 <h4 class="tips-heading">BDA Drug Register &amp; Marketing Authorization</h4>
 <ol>
@@ -758,6 +821,8 @@ const COUNTRIES = [
                 title: "Pricing",
                 links: [
                     { label: "PMPRB — Patented Medicine Prices Review Board", url: "https://www.canada.ca/en/patented-medicine-prices-review.html" },
+                    { label: "CDA-AMC (formerly CADTH) — Reimbursement Reviews", url: "https://www.cda-amc.ca/reimbursement-reviews" },
+                    { label: "pCPA — Pan-Canadian Pharmaceutical Alliance", url: "https://www.pcpacanada.ca/about" },
                 ],
             },
             {
@@ -855,6 +920,7 @@ const COUNTRIES = [
                     { label: "CENABAST (public-sector procurement)", url: "https://www.cenabast.cl/" },
                     { label: "CENABAST \u2014 Ley CENABAST Drug List", url: "https://www.cenabast.cl/lista-de-medicamentos-ley-cenabast/" },
                     { label: "Remedios M\u00e1s Baratos (pharmacy locator)", url: "https://www.remediosmasbaratos.cl/" },
+                    { label: "Remedios Más Baratos — Max Retail Prices", url: "https://www.remediosmasbaratos.cl/ListaMedicamentos" },
                 ],
             },
             {
@@ -1054,6 +1120,7 @@ const COUNTRIES = [
                     { label: "CNPMDM \u2014 Price Regulation", url: "https://minsalud.gov.co/salud/MT/paginas/medicamentos-regulacion-precios.aspx" },
                     { label: "SISMED \u2014 Public Price Data", url: "https://www.datos.gov.co/Salud-y-Protecci-n-Social/Consulta-p-blica-de-Precios-de-Medicamentos/3he6-m866" },
                     { label: "Term\u00f3metro de Precios (price comparison tool)", url: "https://www.minsalud.gov.co/salud/MT/Paginas/termometro-de-precios.aspx" },
+                    { label: "SISMED — Direct Price Query", url: "https://web.sispro.gov.co/WebPublico/Consultas/ConsultarCNPMCadenaComercializacionCircu2yPA_028_2_2.aspx" },
                 ],
             },
             {
@@ -1150,6 +1217,17 @@ const COUNTRIES = [
                 links: [{ label: "HZZO \u2014 Published Lists of Reimbursed Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "HALMED publishes drug prices in its database. HZZO reimbursement lists include maximum reimbursable prices. Croatia uses external reference pricing against a basket of EU countries.",
+                links: [
+                    { label: "HALMED \u2014 Drug Database (includes prices)", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" },
+                    { label: "HZZO \u2014 Published Drug Lists (with prices)", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" },
+                    { label: "HALMED — Maximum Wholesale Price Lists", url: "https://www.halmed.hr/Promet-proizvodnja-i-inspekcija/Najvisa-dozvoljena-cijena-lijeka-na-veliko/Popis-lijekova-s-odredenom-najvisom-dozvoljenom-cijenom-na-veliko-i-iznimno-visom-od-najvise-dozvoljene-cijene-na-veliko/" },
+                    { label: "HZZO — Drug Search (Tražilica za lijekove)", url: "https://hzzo.hr/trazilica-za-lijekove" },
+                ],
+            },
+            {
                 id: "additional",
                 title: "Additional Resources",
                 links: [{ label: "HZZO \u2014 Right to Use Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/pravo-na-koristenje-lijekova" }],
@@ -1185,7 +1263,12 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "MoH \u2014 Price of Medicinal Products", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" }],
+                body: "Drug prices are regulated by the Pharmaceutical Services department via external reference pricing. The official price list is published in the Official Gazette.",
+                links: [
+                    { label: "MoH \u2014 Price of Medicinal Products", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" },
+                    { label: "MoH — Searchable Drug Price List", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/dmlpricelist_en/dmlpricelist_en?OpenDocument" },
+                    { label: "GESY — Formulary & Coverage", url: "https://www.gesy.org.cy/en-us/hiopharmaciesmoreinformation" },
+                ],
             },
         ],
         tipsHtml: `
@@ -1214,10 +1297,20 @@ const COUNTRIES = [
                 links: [{ label: "S\u00daKL \u2014 Drug Register", url: "https://www.sukl.cz/modules/medication/search.php" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "SÚKL publishes monthly lists of reimbursed medicinal products with prices (max ex-factory and pharmacy retail). Available as downloadable Excel/CSV files. Uses external reference pricing against EU countries.",
+                links: [
+                    { label: "SÚKL — Monthly Reimbursed Drug Price Lists", url: "https://sukl.gov.cz/en/list-of-reimbursed-medicinal-products/" },
+                    { label: "SÚKL — Drug Search (with Prices)", url: "https://www.sukl.cz/modules/medication/search.php" },
+                    { label: "SÚKL — Drug Database (English)", url: "https://prehledy.sukl.cz/index_en.html" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                body: "S\u00daKL (State Institute for Drug Control) manages a single database covering marketing authorisation, reimbursement status, and regulated prices. Reimbursement decisions include indication-based conditions (IND codes) that restrict which patients are eligible. HTA is conducted by S\u00daKL\u2019s own assessment department.",
-                links: [{ label: "S\u00daKL \u2014 Reimbursed Drugs and Prices", url: "https://www.sukl.cz/modules/medication/search.php" }],
+                title: "Reimbursement",
+                body: "SÚKL manages reimbursement decisions with indication-based conditions (IND codes) that restrict which patients are eligible. HTA is conducted by SÚKL's own assessment department. Reimbursement levels depend on positioning within 195 reference groups of therapeutically interchangeable products.",
+                links: [{ label: "S\u00daKL \u2014 Reimbursed Drugs Search", url: "https://www.sukl.cz/modules/medication/search.php" }],
             },
         ],
         tipsHtml: `
@@ -1557,15 +1650,23 @@ const COUNTRIES = [
                 links: [{ label: "Ravimiregister", url: "https://www.ravimiregister.ee/" }],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                body: "Haigekassa (Estonian Health Insurance Fund, EHIF) manages three reimbursement tiers: 100% (severe chronic or rare conditions on the special conditions list), 75% (standard compensated medicines), and 50% (selected medicines). Individual compensation is possible for off-list drugs via application.",
-                links: [{ label: "Raviminfo \u2014 Reimbursed Drugs and Prices", url: "https://raviminfo.ee/apthkiri.php" }],
+                id: "pricing",
+                title: "Pricing",
+                body: "The Ravimiregister contains reference prices and discount rates. Tervisekassa (Estonian Health Insurance Fund) publishes the reimbursed pharmaceuticals list, amended quarterly, with discount rates of 50%, 75%, 90%, or 100%.",
+                links: [
+                    { label: "Ravimiregister — Drug Prices (English)", url: "https://www.ravimiregister.ee/en/default.aspx" },
+                    { label: "Raviminfo — Reimbursed Drug Prices", url: "https://raviminfo.ee/apthkiri.php" },
+                    { label: "Tervisekassa — Drug Price Calculation", url: "https://tervisekassa.ee/en/ravimi-hind" },
+                ],
             },
             {
-                id: "additional",
-                title: "Additional Resources",
-                links: [{ label: "Haigekassa \u2014 How Reimbursement Works", url: "https://www.haigekassa.ee/inimesele/ravimid" }],
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Tervisekassa (Estonian Health Insurance Fund, formerly Haigekassa/EHIF) manages reimbursement tiers: 100% (severe chronic or rare conditions), 75% (standard compensated), and 50% (selected medicines). Individual compensation is possible for off-list drugs via application.",
+                links: [
+                    { label: "Tervisekassa — Reimbursement of Pharmaceuticals", url: "https://tervisekassa.ee/en/people/benefits-provided-health-insurance-fund/reimbursement-pharmaceuticals" },
+                    { label: "Tervisekassa — Partner Medicinal Products", url: "https://tervisekassa.ee/en/partner/medicinal-products" },
+                ],
             },
         ],
         tipsHtml: `
@@ -1605,6 +1706,17 @@ const COUNTRIES = [
                 body: "FIMEA (Finnish Medicines Agency) conducts HTA assessments of medicines (rapid reviews and full assessments). Hila (Pharmaceutical Pricing Board) makes reimbursement and pricing decisions based on FIMEA assessments and company applications.",
                 links: [
                     { label: "FIMEA \u2014 HTA Assessments", url: "https://fimea.fi/laakehoidon-arviointi/arviointijulkaisut" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Hila (Pharmaceutical Pricing Board) sets wholesale prices for reimbursable medicines. Prices are based on cost-effectiveness assessments from FIMEA. Generic reference pricing applies within therapeutic groups.",
+                links: [
+                    { label: "Hila \u2014 Reimbursable Medicines & Prices", url: "https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" },
+                    { label: "Kela \u2014 Drug Price & Reimbursement Search", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" },
+                    { label: "Kela — Medicinal Products Database (prices & reimbursement)", url: "https://www.kela.fi/medicinal-products-database" },
+                    { label: "FimeaWeb — Medicines Database", url: "https://fimea.fi/en/databases_and_registers/fimeaweb" },
                 ],
             },
             {
@@ -1692,6 +1804,17 @@ const COUNTRIES = [
                     { label: "HAS (Haute Autorité de Santé)", url: "https://www.has-sante.fr/jcms/c_5443/en/has-haute-autorite-de-sante" },
                     { label: "Commission de la Transparence opinions", url: "https://www.has-sante.fr/jcms/c_452455/en/transparency-committee" },
                     { label: "BDPM (Public Medicines Database)", url: "https://base-donnees-publique.medicaments.gouv.fr" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Prices are negotiated with CEPS (Comité Économique des Produits de Santé) based on the ASMR rating. BDPM publishes official reimbursed prices for all listed medicines.",
+                links: [
+                    { label: "BDPM — Drug Price Search", url: "https://base-donnees-publique.medicaments.gouv.fr" },
+                    { label: "CEPS — Framework Agreements & Price Reports", url: "https://sante.gouv.fr/ministere/acteurs/instances-rattachees/comite-economique-des-produits-de-sante-ceps/" },
+                    { label: "Medicprix — Hospital Drug Price Database", url: "https://www.medicprix.fr/" },
+                    { label: "BDPM — Open Data Downloads (data.gouv.fr)", url: "https://www.data.gouv.fr/datasets/base-de-donnees-publique-des-medicaments-base-officielle" },
                 ],
             },
             {
@@ -1806,6 +1929,16 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "LAUER-TAXE is the official drug pricing database. During the first 12 months (free pricing period), the manufacturer sets the list price. After AMNOG assessment, GKV-Spitzenverband negotiates the Erstattungsbetrag (reimbursement amount).",
+                links: [
+                    { label: "LAUER-TAXE — Drug Pricing Database", url: "https://www.lauer-fischer.de" },
+                    { label: "GKV-Spitzenverband — Erstattungsbetrag Database", url: "https://www.gkv-spitzenverband.de/krankenversicherung/arzneimittel/verhandlungen_nach_amnog/erstattungsbetraege_nach_amnog.jsp" },
+                    { label: "Dimdi/BfArM — Drug Information System", url: "https://www.dimdi.de/dynamic/en/drugs/" },
+                ],
+            },
+            {
                 id: "access",
                 title: "Access & Pricing",
                 body: "Products are available at the manufacturer's list price immediately after launch (free pricing for 12 months). After G-BA assessment and price negotiation, a reimbursement amount (Erstattungsbetrag) is set retrospectively.",
@@ -1893,6 +2026,16 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 links: [{ label: "EOPYY — Medicine List", url: "https://eopyy.gov.gr/medicine/list" }],
             },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "EOF (National Organisation for Medicines) sets maximum prices via external reference pricing against EU member states. Greece has some of the lowest ex-factory prices in Europe following austerity-era cuts. Mandatory rebates and clawback mechanisms apply.",
+                links: [
+                    { label: "EOF — Drug Search (includes hospital & retail prices)", url: "https://services.eof.gr/human-search/home.xhtml" },
+                    { label: "Ministry of Health — Price Bulletins (Deltia Timon)", url: "https://www.moh.gov.gr/articles/times-farmakwn/deltia-timwn/" },
+                    { label: "Galinos.gr — Drug Prices Database (Greek)", url: "https://www.galinos.gr" },
+                ],
+            },
         ],
         notes: "The EOPYY list shows medicines submitted for reimbursement consideration — listing does not confirm reimbursement status. EOF discloses pricing information.",
         tipsHtml: `
@@ -1954,6 +2097,15 @@ const COUNTRIES = [
                 title: "Market Authorization",
                 body: "The Drug Office (Department of Health) regulates pharmaceuticals in Hong Kong under the Pharmacy and Poisons Ordinance. Since November 2023, a \u20181+\u2019 mechanism allows registration based on one reference agency approval (instead of two), cutting approval time from ~24 to ~7 months.",
                 links: [{ label: "Drug Office \u2014 Drug Registration Search", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are not directly regulated by law. The Hospital Authority (HA) procures drugs through centralised tenders. HA Drug Formulary includes drug classification and subsidisation status.",
+                links: [
+                    { label: "HA Drug Formulary — Drug Search (with tiers)", url: "https://www.ha.org.hk/hadf/en-us/Updated-HA-Drug-Formulary/Drug-Formulary.html" },
+                    { label: "Drug Office — Drug Registration Search", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -2020,8 +2172,19 @@ const COUNTRIES = [
         ema: true,
         sections: [
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are regulated through external reference pricing (IRP). NEAK publishes reference prices for reimbursed medicines.",
+                links: [
+                    { label: "NEAK — IRP Reference Prices", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" },
+                    { label: "NEAK — Drug Search (with prices)", url: "https://neak.gov.hu/felso_menu/lakossagnak/gyogszerkereso" },
+                    { label: "NEAK — PUPHA Public Medicine Database", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/pupha/Publikus_Gyogyszertorzs" },
+                    { label: "NEAK — PUPHA Downloads (Excel/ZIP, monthly)", url: "https://www.neak.gov.hu/letoltheto/ATFO_dok/gyogyszer/PUPHA" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "NEAK — IRP Reimbursed Drugs", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" }],
             },
             {
@@ -2094,8 +2257,18 @@ const COUNTRIES = [
                 links: [{ label: "Icelandic Medicines Agency (IMA)", url: "https://www.ima.is/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "IMA sets maximum prices using external reference pricing against Nordic countries. Iceland has some of the lowest prices in the Nordics.",
+                links: [
+                    { label: "IMA — Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" },
+                    { label: "Lyfjastofnun — Medicine Price Catalogue", url: "https://www.lyfjastofnun.is/verd-og-greidsluthatttaka/lyfjaverdskra/" },
+                    { label: "Serlyfjaskrifa — Prescription Medicines Database", url: "https://www.serlyfjaskra.is/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 body: "Iceland is an EEA member \u2014 EMA centrally authorised medicines are valid in Iceland. IMA sets maximum prices using external reference pricing against Nordic countries. Two reimbursement categories apply: Category A (fully reimbursed for specific conditions) and Category B (partial reimbursement). IMA conducts HTA assessments for new medicines.",
                 links: [{ label: "IMA \u2014 Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" }],
             },
@@ -2125,6 +2298,15 @@ const COUNTRIES = [
                 id: "marketing",
                 title: "Market Authorization",
                 links: [{ label: "BPOM — Drug Registry", url: "https://cekbpom.pom.go.id/search_home_produk" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "LKPP manages the e-Katalog government procurement system with published drug prices. HET (Harga Eceran Tertinggi) is the government-set maximum retail price for essential medicines.",
+                links: [
+                    { label: "E-Katalog — Government Drug Prices", url: "https://e-katalog.lkpp.go.id/" },
+                    { label: "BPOM — Drug Registry (includes pricing)", url: "https://cekbpom.pom.go.id/search_home_produk" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -2187,6 +2369,16 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 body: "HSE (Primary Care Reimbursement Service, PCRS) maintains the reimbursable items list. Under the Drugs Payment Scheme (DPS), patients pay a maximum of \u20ac80/month for approved medicines. High-tech drugs (biologics, oncologics) are dispensed through hospital pharmacies under separate High-Tech Arrangements.",
                 links: [{ label: "HSE \u2014 List of Reimbursable Items", url: "https://www.hse.ie/eng/staff/pcrs/items/" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Ireland negotiates prices under IPHA framework agreements. The HSE PCRS reimbursable items list includes ex-factory and retail prices. Ireland uses external reference pricing against a basket of 14 EU countries.",
+                links: [
+                    { label: "HSE PCRS \u2014 Reimbursable Items (with prices)", url: "https://www.hse.ie/eng/staff/pcrs/items/" },
+                    { label: "NCPE \u2014 Drug Evaluations (cost-effectiveness)", url: "https://www.ncpe.ie/drugs/" },
+                    { label: "SSPCRS — Searchable Drug Price List", url: "https://www.sspcrs.ie/druglist/pub" },
+                ],
             },
         ],
         tipsHtml: `
@@ -2337,6 +2529,17 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "AIFA negotiates prices through the CPR (Comitato Prezzi e Rimborso). Liste di Trasparenza publishes off-patent reference prices. Italy uses external reference pricing with a basket of EU countries.",
+                links: [
+                    { label: "AIFA — Trova Farmaco (drug search with prices)", url: "https://www.aifa.gov.it/en/trova-farmaco" },
+                    { label: "AIFA — Liste di Trasparenza (reference prices)", url: "https://www.aifa.gov.it/en/liste-di-trasparenza" },
+                    { label: "AIFA — Open Data", url: "https://www.aifa.gov.it/en/open-data" },
+                    { label: "AIFA — Ricerca Farmaco (new portal)", url: "https://medicinali.aifa.gov.it/" },
+                ],
+            },
+            {
                 id: "access",
                 title: "Access & Pricing",
                 body: "Prices are negotiated between AIFA (CPR committee) and the manufacturer. Italy uses external reference pricing with a basket of EU countries. Managed entry agreements (MEAs) including payment-by-result and risk-sharing are common.",
@@ -2437,25 +2640,40 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
+                body: "PMDA (Pharmaceuticals and Medical Devices Agency) reviews drug applications; MHLW (Ministry of Health, Labour and Welfare) grants marketing authorization. Japan has its own review process — EMA/FDA approvals do not provide expedited pathways, though international data is accepted. SAKIGAKE designation provides accelerated review for innovative products.",
                 links: [
                     { label: "PMDA (Pharmaceuticals and Medical Devices Agency)", url: "https://www.pmda.go.jp/" },
                     { label: "PMDA — New Drug Approvals (English)", url: "https://www.pmda.go.jp/english/review-services/reviews/approved-information/drugs/0002.html" },
+                    { label: "PMDA — Drug Approval Information Search", url: "https://www.pmda.go.jp/PmdaSearch/iyakuSearch/" },
                 ],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                id: "pricing",
+                title: "Pricing",
+                body: "Japan's NHI (National Health Insurance) drug price system is one of the world's most complex. New drug prices are set using rule-based algorithms: similar efficacy comparison (類似薬効比較方式) or cost calculation (原価計算方式). Premiums are available for innovativeness, pediatric, orphan, and SAKIGAKE designations. Biennial price revisions (yakka kaitei) reduce NHI prices. The NHI Drug Price List (薬価基準) is the definitive price reference.",
                 links: [
-                    { label: "MHLW — Shingi (includes drug pricing decisions)", url: "https://www.mhlw.go.jp/stf/shingi/indexshingi.html" },
                     { label: "NHI Drug Price List (薬価基準収載品目リスト)", url: "https://www.mhlw.go.jp/topics/2024/04/tp20240401-01.html" },
+                    { label: "MHLW — Drug Pricing (Chuikyo)", url: "https://www.mhlw.go.jp/stf/shingi/indexshingi.html" },
+                    { label: "JPMA — Drug Price System Overview", url: "https://www.jpma.or.jp/english/about_us/drug_pricing.html" },
+                    { label: "Kegg Medicus — Drug Price Database (Japanese)", url: "https://www.kegg.jp/medicus-bin/japic_med" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA (Cost-Effectiveness Evaluation)",
+                body: "Japan introduced formal cost-effectiveness evaluation (CEE) in 2019 for high-cost drugs (¥15B+ annual sales or meeting other criteria). CORE2 Health (under NIPH) conducts assessments. CEE can result in NHI price adjustments but does not determine listing — all approved drugs are listed on NHI. The Chuikyo (Central Social Insurance Medical Council) makes final pricing decisions.",
+                links: [
+                    { label: "CORE2 HTA (Cost-effectiveness evaluations)", url: "https://c2h.niph.go.jp/en/" },
+                    { label: "Chuikyo — Drug Pricing Committee", url: "https://www.mhlw.go.jp/stf/shingi/shingi-chuo_128154.html" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "CORE2 HTA (Cost-effectiveness evaluations)", url: "https://c2h.niph.go.jp/en/" },
-                    { label: "Trikipedia — Japan", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Japan.aspx" },
+                    { label: "JPMA — Japan Pharmaceutical Manufacturers Assoc.", url: "https://www.jpma.or.jp/english/" },
+                    { label: "MEDIS-DC — Standard Drug Master (Japanese)", url: "https://www.medis.or.jp/" },
+                    { label: "Pharmaceuticals & Medical Devices Safety Info", url: "https://www.info.pmda.go.jp/" },
                 ],
             },
         ],
@@ -2554,6 +2772,16 @@ const COUNTRIES = [
                 body: "NHS Latvia (National Health Service / VMNVD) manages the compensated medicines list. Three reimbursement tiers apply: 100% (severe chronic conditions), 75%, and 50%. Individual patient compensation is available for off-list drugs via application to NHS Latvia.",
                 links: [{ label: "VMNVD \u2014 National Health Service Compensated Medicines", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" }],
             },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "ZVA (State Agency of Medicines) maintains the drug register with pricing data. Latvia uses external reference pricing. VMNVD compensated medicines list includes reimbursement prices.",
+                links: [
+                    { label: "ZVA \u2014 DATI Drug Register (with prices)", url: "https://dati.zva.gov.lv/zalu-registrs/lv" },
+                    { label: "VMNVD \u2014 Compensated Medicines (with prices)", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" },
+                    { label: "VMNVD — Reimbursed Drug Lists (A/B/C/M/R)", url: "https://www.vmnvd.gov.lv/lv/kompensejamo-zalu-saraksti" },
+                ],
+            },
         ],
         tipsHtml: `
 <h4 class="tips-heading">Drug Register (ZVA)</h4>
@@ -2579,14 +2807,40 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "MoPH — Lebanon National Drugs Database", url: "https://www.moph.gov.lb/en/Drugs/index/3/4848/lebanon-national-drugs-database" }],
+                body: "The Ministry of Public Health (MoPH) handles drug registration through the Pharmaceutical Inspection department. Lebanon maintains a National Drugs Database listing all registered medicines. Drug registration follows a dossier-based evaluation. The Lebanese Pharmacy Order (OPL) is the professional regulatory body.",
+                links: [
+                    { label: "MoPH — Lebanon National Drugs Database", url: "https://www.moph.gov.lb/en/Drugs/index/3/4848/lebanon-national-drugs-database" },
+                    { label: "MoPH — Ministry of Public Health", url: "https://www.moph.gov.lb/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices in Lebanon are regulated by the MoPH based on the country-of-origin price plus exchange-rate adjustments. The Lebanon National Drug Index (LNDI) publishes official retail prices for all registered medicines. During the economic crisis (2019+), the MoPH introduced a multi-tier exchange rate system for drug pricing. Prices are periodically revised. Subsidized medicines (for chronic conditions) have separate controlled pricing.",
+                links: [
+                    { label: "MoPH — Lebanon National Drug Index (LNDI, with Prices)", url: "https://www.moph.gov.lb/en/Drugs/index/3/4848/lebanon-national-drug-index-lndi-" },
+                    { label: "MoPH — Drug Price Updates", url: "https://www.moph.gov.lb/en/Drugs" },
+                ],
             },
             {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                links: [{ label: "MoPH — Lebanon National Drug Index (LNDI)", url: "https://www.moph.gov.lb/en/Drugs/index/3/4848/lebanon-national-drug-index-lndi-" }],
+                title: "Reimbursement",
+                body: "Lebanon has multiple payers: NSSF (National Social Security Fund) for private-sector employees, CSC (Civil Servants Cooperative) for government employees, and the military fund. The MoPH covers uninsured patients at public hospitals. The economic crisis has severely affected drug availability and reimbursement. The MoPH manages a subsidized medicines programme for chronic diseases and cancer.",
+                links: [
+                    { label: "NSSF — National Social Security Fund", url: "https://www.cnss.gov.lb/" },
+                    { label: "MoPH — Subsidized Medicines List", url: "https://www.moph.gov.lb/en/Drugs" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "OPL — Lebanese Pharmacy Order", url: "https://www.opl.org.lb/" },
+                    { label: "WHO — Lebanon Country Profile", url: "https://www.who.int/countries/lbn" },
+                ],
             },
         ],
+        notes: "Lebanon has been experiencing a severe economic crisis since 2019 that has dramatically impacted drug availability and pricing. The LNDI is the key price reference. Drug shortages are common. The MoPH drug price database is regularly updated with exchange-rate adjustments. Arabic, French, and English are used in regulatory documents.",
     },
     {
         code: "LT",
@@ -2600,8 +2854,19 @@ const COUNTRIES = [
                 links: [{ label: "VVKT — Medicines (English)", url: "https://vapris.vvkt.lt/vvkt-web/public/medications?lang=en" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are regulated by the Ministry of Health via external reference pricing. VLK maintains compensated medicines lists with prices.",
+                links: [
+                    { label: "VLK — Compensated Medicines with Prices", url: "https://ligoniukasa.lrv.lt/" },
+                    { label: "VVKT — Medicines Database", url: "https://vapris.vvkt.lt/vvkt-web/public/medications?lang=en" },
+                    { label: "VLK — Reimbursable Pharmaceuticals (English)", url: "https://ligoniukasa.lrv.lt/en/sector-activities/servises-for-residents/medicines-and-medical-aids/" },
+                    { label: "VVKT — Health Technology Assessment", url: "https://vvkt.lrv.lt/en/health-technology-assessment/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "VLK — Compensated Medicines (Ligoniukasa)", url: "https://ligoniukasa.lrv.lt/" }],
             },
             {
@@ -2627,8 +2892,18 @@ const COUNTRIES = [
                 links: [{ label: "CNS — List of Marketed Medicines", url: "https://cns.public.lu/en/legislations/textes-coordonnes/liste-med-comm.html" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "CNS positive list includes Prix d\'achat pharmacie and Prix public for all reimbursed medicines. Luxembourg uses external reference pricing.",
+                links: [
+                    { label: "CNS — Positive List (with prices)", url: "https://cns.public.lu/en/professionnels-sante/medicaments/liste-positive.html" },
+                    { label: "CNS — List of Marketed Medicines", url: "https://cns.public.lu/en/legislations/textes-coordonnes/liste-med-comm.html" },
+                    { label: "CNS — Positive List CSV Download (with prices)", url: "https://cns.public.lu/fr/professionnels-sante/publications/legislations/textes-coordonnes/liste-positive-csv.html" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "CNS — Positive List (reimbursed drugs)", url: "https://cns.public.lu/en/professionnels-sante/medicaments/liste-positive.html" }],
             },
             {
@@ -2773,6 +3048,8 @@ const COUNTRIES = [
                     { label: "Compra Consolidada — Ministry of Health Procurement Portal", url: "https://compraconsolidada.salud.gob.mx/" },
                     { label: "BIRMEX — Laboratorios de Biológicos y Reactivos de México", url: "https://www.birmex.gob.mx/" },
                     { label: "IMSS Compras — IMSS Procurement Archive", url: "https://compras.imss.gob.mx/" },
+                    { label: "Compra Consolidada — Government Drug Procurement", url: "https://compraconsolidada.salud.gob.mx/" },
+                    { label: "Compendio Nacional de Insumos para la Salud 2025", url: "https://www.gob.mx/csg/articulos/medicamentos-compendio-nacional-de-insumos-para-la-salud-2025" },
                 ],
             },
         ],
@@ -3179,6 +3456,7 @@ const COUNTRIES = [
                     { label: "Observatorio de Precios (16,000+ products)", url: "https://opm-digemid.minsa.gob.pe/" },
                     { label: "CENARES (public procurement)", url: "https://www.gob.pe/cenares" },
                     { label: "SEACE (electronic procurement platform)", url: "https://apps.osce.gob.pe/" },
+                    { label: "DIGEMID — Observatorio de Precios de Medicamentos", url: "http://observatorio.digemid.minsa.gob.pe/" },
                 ],
             },
             {
@@ -3236,6 +3514,15 @@ const COUNTRIES = [
                 links: [{ label: "FDA Philippines — Drug Products List", url: "https://verification.fda.gov.ph/drug_productslist.php" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "DOH sets Maximum Drug Retail Prices (MDRP) for selected essential medicines. FDA Philippines publishes the Drug Price Reference Index (DPRI) for registered products.",
+                links: [
+                    { label: "DOH — Drug Price Reference Index (DPRI)", url: "https://dpri.doh.gov.ph/" },
+                    { label: "FDA Philippines — Drug Price Reference Index", url: "https://verification.fda.gov.ph/drug_productslist.php" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
                 links: [{ label: "Philippine National Formulary / EML (PDF)", url: "https://www.philhealth.gov.ph/partners/providers/pdf/PNF-EML_11022022.pdf" }],
@@ -3289,6 +3576,17 @@ const COUNTRIES = [
                 id: "marketing",
                 title: "Market Authorization",
                 links: [{ label: "e-Zdrowie — Register of Medicinal Products", url: "https://rejestrymedyczne.ezdrowie.gov.pl/rpl/search/public" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are set through ministerial reimbursement announcements (quarterly). AOTMiT conducts HTA evaluations informing pricing decisions.",
+                links: [
+                    { label: "Ministerstwo Zdrowia — Reimbursement List (with prices)", url: "https://www.gov.pl/web/zdrowie/leki-refundowane" },
+                    { label: "Lekinfo24 — Drug Price Search", url: "https://www.lekinfo24.pl" },
+                    { label: "AOTMiT — HTA Agency", url: "https://www.aotmit.gov.pl/en/" },
+                    { label: "Obwieszczenie — Reimbursed Drug Lists (Excel)", url: "https://www.gov.pl/web/zdrowie/obwieszczenia-ministra-zdrowia-lista-lekow-refundowanych" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -3662,8 +3960,17 @@ const COUNTRIES = [
                 links: [{ label: "ANM — Autorizare Medicamente", url: "https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "ANM sets drug prices via external reference pricing against EU member states. CNAS publishes the reimbursed medicines list with prices in RON.",
+                links: [
+                    { label: "CNAS — Drug Price Lists", url: "https://cnas.ro/lista-medicamente/" },
+                    { label: "CNAS — Medicamente (updated lists)", url: "https://cnas.ro/medicamente/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "CNAS — Liste de Medicamente", url: "https://cnas.ro/lista-medicamente/" }],
             },
             {
@@ -3730,17 +4037,41 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                links: [{ label: "GRLS — Rosminzdrav Drug Register", url: "https://grls.rosminzdrav.ru/GRLS.aspx" }],
+                body: "Drug registration is handled by the Ministry of Health (Rosminzdrav) via the Scientific Centre for Expert Evaluation of Medicinal Products. The GRLS (Gosudarstvennyy Reestr Lekarstvennykh Sredstv — State Register of Medicines) is the authoritative drug database. Russia is an EAEU member state, allowing unified registration across Eurasian Economic Union countries.",
+                links: [
+                    { label: "GRLS — State Drug Register (Rosminzdrav)", url: "https://grls.rosminzdrav.ru/GRLS.aspx" },
+                    { label: "Roszdravnadzor — Federal Service for Health Surveillance", url: "https://roszdravnadzor.gov.ru/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Russia maintains a VED (Vital and Essential Drugs) list with government-regulated maximum prices. Prices for VED-listed drugs are registered by the Federal Antimonopoly Service (FAS) and published in the GRLS. Maximum wholesale and retail mark-ups are set by regional authorities. For non-VED drugs, prices are market-driven. The VED price list is searchable in the GRLS database.",
+                links: [
+                    { label: "GRLS — VED Price List (ЖНВЛП)", url: "https://grls.rosminzdrav.ru/pricelims.aspx" },
+                    { label: "FAS — Federal Antimonopoly Service (Drug Pricing)", url: "https://fas.gov.ru/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Russia's VED (ЖНВЛП) list determines which medicines are available free of charge or at reduced prices in the public healthcare system. The federal programme DLO (Dopolnitelnoe Lekarstvennoe Obespechenie) provides free outpatient medicines for eligible patient categories (disabled, veterans, etc.). Regional programmes supplement federal coverage. The FFOMS (Federal Fund for Compulsory Medical Insurance) manages healthcare financing.",
+                links: [
+                    { label: "Ministry of Health — Russia", url: "https://minzdrav.gov.ru/" },
+                    { label: "FFOMS — Federal Compulsory Medical Insurance Fund", url: "https://www.ffoms.gov.ru/" },
+                ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
-                    { label: "LS Geotar (drug reference)", url: "https://www.lsgeotar.ru" },
-                    { label: "Trikipedia — Russia", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Russia.aspx" },
+                    { label: "LS Geotar (drug reference, Russian)", url: "https://www.lsgeotar.ru" },
+                    { label: "Vidal.ru — Drug Encyclopedia (Russia)", url: "https://www.vidal.ru/" },
+                    { label: "RLS.ru — Russian Drug Encyclopaedia", url: "https://www.rlsnet.ru/" },
                 ],
             },
         ],
+        notes: "Russia is one of the world's largest pharmaceutical markets (~145 million population). The VED list (~800+ drugs) is the key pricing reference. International sanctions (since 2022) have affected supply chains and parallel imports have been authorized for some medicines. Russian is the regulatory language.",
     },
     {
         code: "SA",
@@ -3749,8 +4080,18 @@ const COUNTRIES = [
         sections: [
             {
                 id: "marketing",
-                title: "Market Authorization & Pricing",
+                title: "Market Authorization",
                 links: [{ label: "SFDA — Drug Query (RSD portal)", url: "https://rsd.sfda.gov.sa/drug-query-en.html" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "SFDA regulates drug prices via International Reference Pricing (IRP) based on a basket of ~20 countries. SFDA requires Economic Evaluation Studies (EES) for new drug pricing applications since July 2025.",
+                links: [
+                    { label: "SFDA — Drug Query (includes pricing)", url: "https://rsd.sfda.gov.sa/drug-query-en.html" },
+                    { label: "SFDA — Pharmaceutical Pricing Rules (PDF)", url: "https://www.sfda.gov.sa/sites/default/files/2022-10/PharmaceuticalPricingRulesE.pdf" },
+                    { label: "CHI — Daman Drug Formulary (insurance)", url: "https://www.chi.gov.sa/en/Rules/Pages/DamanDrugFormulary.aspx" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -3821,6 +4162,16 @@ const COUNTRIES = [
                 id: "marketing",
                 title: "Market Authorization",
                 links: [{ label: "HSA — Drug Registration Search", url: "https://eservice.hsa.gov.sg/prism/common/enquirepublic/SearchDRBProduct.do?action=load" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are not centrally regulated in Singapore. Public hospitals use centralised group purchasing tenders (GPOs) for cost containment. ACE evaluates cost-effectiveness for subsidy decisions.",
+                links: [
+                    { label: "MOH — Subsidised Drug List (with prices)", url: "https://www.moh.gov.sg/managing-expenses/schemes-and-subsidies/list-of-subsidised-drugs" },
+                    { label: "ACE — Drug Guidance & Evaluations", url: "https://www.ace-hta.gov.sg/" },
+                    { label: "NDF — National Drug Formulary A-to-Z", url: "https://www.ndf.gov.sg/about-drugs/ndf-a-to-z-listing" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -3900,8 +4251,17 @@ const COUNTRIES = [
                 links: [{ label: "ŠÚKL — Slovak State Institute for Drug Control", url: "https://www.sukl.sk/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "The Ministry of Health sets categorised drug prices. The categorisation list includes maximum prices and reimbursement levels per therapeutic group.",
+                links: [
+                    { label: "Ministry of Health — Categorised Drug Prices", url: "https://www.health.gov.sk/?kategorizacia-a-uuc" },
+                    { label: "Kategorizácia — Searchable Drug Price Portal", url: "https://kategorizacia.mzsr.sk/Lieky/Common/Notices" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [
                     { label: "Ministry of Health — Kategorisation (List B = reimbursed)", url: "https://www.health.gov.sk/?kategorizacia-a-uuc" },
                     { label: "VŠZP — DRG Accruals", url: "https://www.vszp.sk/poskytovatelia/drg/" },
@@ -3932,9 +4292,20 @@ const COUNTRIES = [
                 links: [{ label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "JAZMP sets regulated maximum prices via external reference pricing against EU member states. The price list is published on the JAZMP website and updated periodically.",
+                links: [
+                    { label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" },
+                    { label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" },
+                    { label: "CBZ \u2014 Central Drug Database (Centralna baza zdravil)", url: "http://www.cbz.si" },
+                    { label: "JAZMP — Maximum Allowed Prices (MAP)", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/maximum-allowed-prices-of-medicinal-products-map/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                body: "ZZZS (Health Insurance Institute of Slovenia / Zavod za zdravstveno zavarovanje Slovenije) manages two reimbursement lists: List A (highest priority, 100% reimbursed) and List B (broader, partially reimbursed). JAZMP sets regulated maximum prices. Prior authorisation (predhodna odobritev) is required for restricted medicines.",
+                title: "Reimbursement",
+                body: "ZZZS (Health Insurance Institute of Slovenia / Zavod za zdravstveno zavarovanje Slovenije) manages two reimbursement lists: List A (highest priority, 100% reimbursed) and List B (broader, partially reimbursed). Prior authorisation (predhodna odobritev) is required for restricted medicines.",
                 links: [{ label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" }],
             },
         ],
@@ -3962,23 +4333,39 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
+                body: "MFDS (Ministry of Food and Drug Safety, 식약처) handles drug registration. South Korea accepts bridging studies from ICH countries. The National Drug Information System (nedrug) is the comprehensive drug registry.",
                 links: [
                     { label: "MFDS — National Drug Information System", url: "https://nedrug.mfds.go.kr/index" },
+                    { label: "MFDS — Official Website (English)", url: "https://www.mfds.go.kr/eng/index.do" },
                 ],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement",
+                id: "pricing",
+                title: "Pricing",
+                body: "South Korea's drug pricing follows a two-step process: HIRA (Health Insurance Review and Assessment Service) evaluates cost-effectiveness and negotiates prices, then NHIS (National Health Insurance Service) confirms listing. Prices are set using an A7 (Average of 7 lowest-priced OECD countries) external reference pricing approach. Biennial price cuts apply. The HIRA drug price list is the definitive price reference and is freely downloadable as Excel files.",
+                links: [
+                    { label: "HIRA — Reimbursed Drug Price List (Excel)", url: "https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" },
+                    { label: "HIRA — Drug Price Search", url: "https://www.hira.or.kr/rd/medicine/getmedicineList.do?pgmid=HIRAA030004010000" },
+                    { label: "NHIS — National Health Insurance Service", url: "https://www.nhis.or.kr/english/index.do" },
+                    { label: "nedrug — Drug Information Search", url: "https://nedrug.mfds.go.kr/searchDrug" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA & Reimbursement",
+                body: "HIRA's Drug Reimbursement Evaluation Committee evaluates clinical and cost-effectiveness. NECA (National Evidence-based Healthcare Collaborating Agency) provides independent HTA reports. The Positive List System (since 2007) means only drugs with proven cost-effectiveness are reimbursed. Risk-sharing agreements (RSAs) are common for high-cost drugs.",
                 links: [
                     { label: "HIRA — Insurance Coverage Criteria", url: "https://www.hira.or.kr/rc/insu/insuadtcrtr/InsuAdtCrtrList.do?pgmid=HIRAA030069000400" },
-                    { label: "HIRA — Reimbursed Drug Price List (Excel)", url: "https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" },
-                    { label: "NECA — HTA Reports", url: "https://www.neca.re.kr/eng/index.do" },
+                    { label: "NECA — HTA Reports (English)", url: "https://www.neca.re.kr/eng/index.do" },
                 ],
             },
             {
                 id: "additional",
                 title: "Additional Resources",
-                links: [{ label: "Trikipedia — South Korea", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/South%20Korea.aspx" }],
+                links: [
+                    { label: "KPMA — Korea Pharmaceutical Manufacturers Assoc.", url: "https://www.kpma.or.kr/english/" },
+                    { label: "MOHW — Ministry of Health and Welfare", url: "https://www.mohw.go.kr/eng/" },
+                ],
             },
         ],
         tipsHtml: `
@@ -4075,12 +4462,21 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Prices are negotiated centrally by CIPM (Comisión Interministerial de Precios). CIMA includes price data for all authorised medicines. The Nomenclátor de Facturación lists reimbursed products with NHS prices.",
+                links: [
+                    { label: "CIMA — Drug Prices & Reimbursement Status", url: "https://cima.aemps.es/cima/publico/home.html" },
+                    { label: "Nomenclátor de Facturación (NHS Price List)", url: "https://cima.aemps.es/cima/publico/nomenclator.html" },
+                    { label: "BOT Plus — Pharmacological Database (CGCOF)", url: "https://botplusweb.portalfarma.com/" },
+                ],
+            },
+            {
                 id: "access",
                 title: "Access & Pricing",
                 body: "Reimbursement and pricing decisions are centralised via CIPM. Autonomous communities may apply additional regional restrictions. Early access is available via Uso Compasivo / Acceso Anticipado.",
                 links: [
                     { label: "AEMPS — Compassionate Use (Uso Compasivo)", url: "https://www.aemps.gob.es/medicamentosUsoHumano/usoCompasivo/home.htm" },
-                    { label: "BOT Plus — Pharmacological Database (CGCOF)", url: "https://botplusweb.portalfarma.com/" },
                     { label: "Trikipedia — Spain", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Spain.aspx" },
                 ],
             },
@@ -4183,11 +4579,23 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "TLV sets reimbursement prices for outpatient drugs under the pharmaceutical benefit (förmånen). Hospital drugs are procured through regional tenders. FASS publishes both pharmacy retail prices (AUP/AIP) and hospital prices. The TLV database provides the official AIP (pharmacy purchase price) and AUP (pharmacy retail price) for all subsidised medicines.",
+                links: [
+                    { label: "TLV — Drug Price Database (Sök beslut)", url: "https://www.tlv.se/beslut/sok-i-databasen.html" },
+                    { label: "FASS — Drug Prices & Information (English)", url: "https://www.fass.se/LIF/startpage?lang=en" },
+                    { label: "eHälsomyndigheten — Drug Price List (VARA)", url: "https://www.ehalsomyndigheten.se/tjanster/vara/" },
+                    { label: "TLV — Prices Database (English)", url: "https://www.tlv.se/in-english/prices-in-our-database.html" },
+                ],
+            },
+            {
                 id: "additional",
                 title: "Additional Resources",
                 links: [
                     { label: "FASS \u2014 Swedish Drug Directory (English)", url: "https://www.fass.se/LIF/startpage?lang=en" },
                     { label: "Janusinfo (commercially independent drug information)", url: "https://janusinfo.se/" },
+                    { label: "NT-rådet — Hospital Drug Recommendations", url: "https://janusinfo.se/nationelltordnatintroduktion.html" },
                 ],
             },
         ],
@@ -4249,17 +4657,29 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
+                body: "Swissmedic is the Swiss regulatory authority, operating independently from EMA (Switzerland is not EU/EEA). Swissmedic increasingly recognises EMA/FDA assessments for expedited review pathways.",
                 links: [
                     { label: "Swissmedic — Lists and Registers", url: "https://www.swissmedic.ch/swissmedic/en/home/services/listen_neu.html" },
                     { label: "Swissmedic — Authorised Medicines (AIPS)", url: "https://www.swissmedicinfo.ch/" },
                 ],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                id: "pricing",
+                title: "Pricing",
+                body: "Swiss drug prices are set using TQV (therapeutic cross-comparison) and APV (international reference pricing against 9 countries: AT, BE, DK, FI, FR, DE, NL, SE, UK). The Spezialitätenliste (SL) publishes all reimbursed medicine prices including ex-factory (Fabrikabgabepreis) and public prices (Publikumspreis). Switzerland has among the highest drug prices in Europe. Mandatory price reviews occur every 3 years.",
                 links: [
-                    { label: "Spezialitätenliste (SL) — Reimbursed Drugs", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" },
+                    { label: "Spezialitätenliste (SL) — Drug Prices & Reimbursement", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" },
                     { label: "BAG — Federal Office of Public Health (SL management)", url: "https://www.bag.admin.ch/bag/en/home/versicherungen/krankenversicherung/krankenversicherung-leistungen-tarife/Arzneimittel.html" },
+                    { label: "Compendium.ch — Drug Reference with Prices", url: "https://compendium.ch/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Medicines on the SL are reimbursed under mandatory health insurance (OKP/LAMal). A Limitatio may restrict reimbursement to specific indications. Products not on the SL are not reimbursed — patients pay out-of-pocket or through supplementary insurance. Co-payment: 10% of costs (20% for generics if a cheaper alternative exists) plus a CHF 300 annual deductible.",
+                links: [
+                    { label: "Spezialitätenliste (SL) — Search by Substance", url: "https://www.spezialitätenliste.ch/ShowPreparations.aspx?searchType=SUBSTANCE" },
+                    { label: "BAG — Health Insurance Drug Coverage", url: "https://www.bag.admin.ch/bag/en/home/versicherungen/krankenversicherung/krankenversicherung-leistungen-tarife/Arzneimittel.html" },
                 ],
             },
         ],
@@ -4339,7 +4759,10 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "NDI — Drug Prices", url: "https://ndi.fda.moph.go.th/drug_value/index/public/" }],
+                links: [
+                    { label: "NDI — Drug Prices", url: "https://ndi.fda.moph.go.th/drug_value/index/public/" },
+                    { label: "DMSIC — Drug & Medical Supply Information Center", url: "https://dmsic.moph.go.th/" },
+                ],
             },
         ],
         tipsHtml: `
@@ -4415,7 +4838,9 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "NHI Drug Price Database", url: "https://www.nhi.gov.tw/QueryN/Query1.aspx" }],
+                links: [{ label: "NHI Drug Price Database", url: "https://www.nhi.gov.tw/QueryN/Query1.aspx" },
+                    { label: "NHI — Drug Item Online Query Service", url: "https://www.nhi.gov.tw/QueryN_New/QueryN/Query1" },
+                ],
             },
         ],
         tipsHtml: `
@@ -4600,10 +5025,21 @@ const COUNTRIES = [
         sections: [
             {
                 id: "marketing",
-                title: "Market Authorization & Pricing",
+                title: "Market Authorization",
                 links: [
                     { label: "MOHAP — Registered Medications List", url: "https://mohap.gov.ae/en/w/registered-medications-list" },
                     { label: "DoH (Abu Dhabi) — Drug Search", url: "https://www.doh.gov.ae/en/resources/drug-search-page" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug pricing is regulated across three authorities: MOHAP/EDE (federal), DHA (Dubai), and DoH (Abu Dhabi). Abu Dhabi\'s Shafafiya portal provides the most transparent drug price database.",
+                links: [
+                    { label: "DoH Shafafiya — Drug Prices (Abu Dhabi)", url: "https://www.doh.gov.ae/en/Shafafiya/prices" },
+                    { label: "DHA — Drug Control (Dubai)", url: "https://www.dha.gov.ae/en/HealthRegulationSector/DrugControl" },
+                    { label: "TAMM — Search DOH Approved Drugs (Abu Dhabi)", url: "https://www.tamm.abudhabi/services/community/doh/search-approved-drugs?lang=en" },
+                    { label: "EDE — Emirates Drug Establishment", url: "https://www.ede.gov.ae" },
                 ],
             },
             {
@@ -4692,6 +5128,19 @@ const COUNTRIES = [
                     { label: "NICE — Cancer Drugs Fund", url: "https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-technology-appraisal-guidance/cancer-drugs-fund" },
                     { label: "SMC (Scottish Medicines Consortium)", url: "https://www.scottishmedicines.org.uk" },
                     { label: "AWMSG (All Wales Medicines Strategy Group)", url: "https://awmsg.nhs.wales/medicines-appraisals-and-guidance/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "BNF (British National Formulary) lists indicative NHS prices. The NHS Drug Tariff sets reimbursement prices for community pharmacy. VPAS governs branded medicine pricing with a growth cap mechanism.",
+                links: [
+                    { label: "BNF — Drug Prices (British National Formulary)", url: "https://bnf.nice.org.uk/" },
+                    { label: "NHS Drug Tariff — Reimbursement Prices", url: "https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/drug-tariff" },
+                    { label: "NHSBSA — Prescription Cost Analysis", url: "https://www.nhsbsa.nhs.uk/statistical-collections/prescription-cost-analysis-england" },
+                    { label: "eMIT — Drugs & Pharmaceutical Electronic Market Information", url: "https://www.gov.uk/government/publications/drugs-and-pharmaceutical-electronic-market-information-emit" },
+                    { label: "NHS Electronic Drug Tariff (searchable)", url: "http://www.drugtariff.nhsbsa.nhs.uk/" },
+                    { label: "OpenPrescribing — Tariff Tool (historical prices)", url: "https://openprescribing.net/tariff/" },
                 ],
             },
             {
@@ -4814,6 +5263,7 @@ const COUNTRIES = [
                 links: [
                     { label: "DAV — Drug Price Declaration Portal", url: "https://dichvucong.dav.gov.vn/congbogiathuoc/index" },
                     { label: "NCDPC (National Centralized Drug Procurement Center)", url: "https://ncdp.vn/" },
+                    { label: "MOH — Drug Price Transparency Portal", url: "https://congkhaiyte.moh.gov.vn/?page=Project.MedicalPrice.Home.MedicalPrice.Drug.list" },
                 ],
             },
             {
@@ -4926,22 +5376,41 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "DRSA (Dirección de Regulación, Vigilancia y Control de la Salud) under MSPAS (Ministry of Health) handles the Registro Sanitario. Products approved by FDA, EMA, INVIMA (Colombia), or ANMAT (Argentina) may qualify for an abridged review.",
+                body: "DRSA (Dirección de Regulación, Vigilancia y Control de la Salud) under MSPAS (Ministry of Health) handles the Registro Sanitario. Products approved by FDA, EMA, INVIMA (Colombia), or ANMAT (Argentina) may qualify for an abridged review. Guatemala is also part of the RTCA (Reglamento Técnico Centroamericano) regional registration framework.",
                 links: [
                     { label: "DRSA — Registro Sanitario", url: "https://www.drsa.gob.gt/" },
                     { label: "MSPAS — Ministry of Health Guatemala", url: "https://www.mspas.gob.gt/" },
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Guatemala does not have a formal government-mandated drug pricing system for the private sector. Retail prices are market-driven. Public sector procurement is done through GUATECOMPRAS, the national e-procurement portal. IGSS and MoH hospitals procure through competitive tenders, often achieving prices below private-sector retail. The WHO/HAI Medicine Prices database provides price surveys for Guatemala.",
+                links: [
+                    { label: "GUATECOMPRAS — Public Procurement Portal", url: "https://www.guatecompras.gt/" },
+                    { label: "MSPAS — Compras y Contrataciones", url: "https://www.mspas.gob.gt/transparencia/compras-y-contrataciones.html" },
+                    { label: "Guatecompras — Public Drug Procurement Prices", url: "https://www.guatecompras.gt/" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "IGSS (Instituto Guatemalteco de Seguridad Social) covers formal-sector workers (~18% of population). The MoH hospital network provides medicines from a limited national formulary to the broader uninsured population. Most pharmaceutical spending is out-of-pocket.",
+                body: "IGSS (Instituto Guatemalteco de Seguridad Social) covers formal-sector workers (~18% of population). The MoH hospital network provides medicines from a limited national formulary (Listado Básico de Medicamentos) to the broader uninsured population. Most pharmaceutical spending is out-of-pocket (~65% of total health expenditure).",
                 links: [
                     { label: "IGSS — Guatemalan Social Security Institute", url: "https://www.igssgt.org/" },
+                    { label: "IGSS — Formulario Terapéutico", url: "https://www.igssgt.org/servicios-medicos/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PAHO/WHO — Guatemala Country Profile", url: "https://www.paho.org/en/guatemala" },
+                    { label: "WHO — Essential Medicines Country Lists (Guatemala)", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/gtm" },
                 ],
             },
         ],
-        notes: "Guatemala is a lower-middle income country. DRSA registration is required before market entry. The private pharmacy channel dominates. Spanish is the regulatory language.",
+        notes: "Guatemala is a lower-middle income country (~18 million population). DRSA registration is required before market entry. The private pharmacy channel dominates. Public procurement prices can be significantly lower than private retail. Spanish is the regulatory language.",
     },
     {
         code: "IN",
@@ -4952,34 +5421,53 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "CDSCO (Central Drugs Standard Control Organisation) under the Ministry of Health & Family Welfare handles drug registration, headed by the Drug Controller General of India (DCGI). New chemical entities require CDSCO approval, which can be granted in parallel with EMA/FDA approval (Section 26B waiver pathway).",
+                body: "CDSCO (Central Drugs Standard Control Organisation) under the Ministry of Health & Family Welfare handles drug registration, headed by the Drug Controller General of India (DCGI). New chemical entities require CDSCO approval, which can be granted in parallel with EMA/FDA approval (Section 26B waiver pathway). The Indian Pharmacopoeia Commission (IPC) publishes the Indian Pharmacopoeia.",
                 links: [
                     { label: "CDSCO — Central Drugs Standard Control Organisation", url: "https://cdsco.gov.in/opencms/opencms/en/Home/" },
                     { label: "SUGAM — Online Drug Registration Portal", url: "https://sugam.cdsco.gov.in/login" },
                     { label: "CDSCO — Approved Drugs Search", url: "https://cdsco.gov.in/opencms/opencms/en/Drugs/ApprovedDrugs/" },
+                    { label: "CDSCO — New Drug Approvals", url: "https://cdsco.gov.in/opencms/opencms/en/Approval_new/" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "NPPA (National Pharmaceutical Pricing Authority) regulates prices under the Drug Price Control Order (DPCO 2013). Medicines on the National List of Essential Medicines (NLEM) have ceiling prices set by NPPA using a market-based average approach. Non-NLEM medicines can increase by max 10%/year.",
+                body: "NPPA (National Pharmaceutical Pricing Authority) regulates prices under the Drug Price Control Order (DPCO 2013). Medicines on the National List of Essential Medicines (NLEM 2022, ~384 drugs) have ceiling prices set by NPPA using a market-based weighted average approach. Non-NLEM medicines can increase by max 10%/year. The Pharma Sahi Daam portal allows consumers to check ceiling prices. Jan Aushadhi Kendras sell quality generic medicines at up to 50-90% discount.",
                 links: [
                     { label: "NPPA — National Pharmaceutical Pricing Authority", url: "https://nppa.gov.in/" },
                     { label: "NPPA — Ceiling Prices & SRP List", url: "https://nppa.gov.in/ceiling_prices.html" },
+                    { label: "Pharma Sahi Daam — Drug Price Search", url: "https://www.pharmasahidaam.gov.in/" },
+                    { label: "NPPA — Price Monitoring Data", url: "https://nppa.gov.in/price-monitoring" },
+                    { label: "Jan Aushadhi — Generic Medicine Stores", url: "https://janaushadhi.gov.in/" },
+                    { label: "1mg / Tata Health — Medicine Price Comparison", url: "https://www.1mg.com/" },
+                    { label: "NPPA — Medicine Price Search (DPCO ceiling prices)", url: "https://nppaimis.nic.in/nppaprice/newmedicinepricesearch.aspx" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Multiple schemes co-exist: CGHS (central government employees), PMJAY/Ayushman Bharat (~500 million low-income beneficiaries, hospitalisation focus), ESI (formal private sector), and state-level schemes. HTAIn (under ICMR) conducts HTA for national priority medicines.",
+                body: "Multiple schemes co-exist: CGHS (central government employees), PMJAY/Ayushman Bharat (~500 million low-income beneficiaries, hospitalisation focus with INR 5 lakh/family/year cap), ESI (formal private sector), and state-level schemes. HTAIn (under ICMR) conducts HTA for national priority medicines. The NLEM guides public procurement and essential medicine availability.",
                 links: [
                     { label: "CGHS — Central Government Health Scheme", url: "https://cghs.gov.in/" },
+                    { label: "CGHS — Drug Formulary (Rate List)", url: "https://cghs.gov.in/formulary" },
                     { label: "PMJAY — Ayushman Bharat", url: "https://pmjay.gov.in/" },
                     { label: "HTAIn — HTA in India (ICMR)", url: "https://htain.icmr.org.in/" },
+                    { label: "NLEM 2022 — National List of Essential Medicines", url: "https://main.mohfw.gov.in/newshighlights-32" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "Ministry of Health & Family Welfare", url: "https://main.mohfw.gov.in/" },
+                    { label: "Department of Pharmaceuticals", url: "https://pharmaceuticals.gov.in/" },
+                    { label: "Indian Pharmacopoeia Commission", url: "https://www.ipc.gov.in/" },
+                    { label: "GeM — Government e-Marketplace (Pharma)", url: "https://gem.gov.in/" },
+                    { label: "WHO — India Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/ind" },
                 ],
             },
         ],
-        notes: "India is one of the world's largest pharmaceutical markets by volume, with major generic manufacturing. Out-of-pocket expenditure exceeds 50% of total health spending. Jan Aushadhi Kendras provide generic medicines at reduced prices. State-level procurement policies can differ significantly from central standards.",
+        notes: "India is one of the world's largest pharmaceutical markets by volume, with major generic manufacturing. Out-of-pocket expenditure exceeds 50% of total health spending. Jan Aushadhi Kendras provide generic medicines at reduced prices. State-level procurement policies can differ significantly from central standards. The Government e-Marketplace (GeM) is increasingly used for public procurement.",
     },
     {
         code: "JO",
@@ -4990,23 +5478,43 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "JFDA (Jordan Food and Drug Administration) handles drug registration. Jordan accepts dossiers from reference agencies (FDA, EMA, TGA) to support an abridged pathway. Jordan is a key pharmaceutical hub and re-export market for the wider MENA region.",
+                body: "JFDA (Jordan Food and Drug Administration) handles drug registration. Jordan accepts dossiers from reference agencies (FDA, EMA, TGA) to support an abridged pathway. Jordan is a key pharmaceutical hub and re-export market for the wider MENA region. The Jordanian pharmaceutical sector exports to over 60 countries.",
                 links: [
                     { label: "JFDA — Jordan Food and Drug Administration", url: "https://www.jfda.jo/" },
                     { label: "JFDA — Drug Registration", url: "https://www.jfda.jo/page/1/224" },
+                    { label: "JFDA — Registered Drugs Database", url: "https://www.jfda.jo/EchoBusV3.0/SystemAssets/SearchDrugs.aspx" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "JFDA sets drug prices using international reference pricing (IRP). The reference basket includes countries in the region and EU. Prices are published in the JFDA drug price list. Innovator prices are set based on the lowest price in the reference basket. Generic prices must be at least 20% below the innovator. Periodic price revisions are conducted.",
+                links: [
+                    { label: "JFDA — Drug Price List (Official)", url: "https://www.jfda.jo/page/1/58" },
+                    { label: "JFDA — Price Search", url: "https://www.jfda.jo/EchoBusV3.0/SystemAssets/SearchDrugs.aspx" },
+                    { label: "JFDA — Drug Prices Search", url: "http://www.jfda.jo/Pages/viewpage.aspx?pageID=184" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Key payers: Civil Insurance Programme (CIP) for civil servants, Royal Medical Services (RMS) for military, and MoH facilities for the broader population. Jordan uses international reference pricing for price-setting. JFDA maintains a publicly available drug price list.",
+                body: "Key payers: Civil Insurance Programme (CIP) for civil servants, Royal Medical Services (RMS) for military, and MoH facilities for the broader population. JUH (Jordan University Hospital) and King Hussein Cancer Center are key specialty centres with separate formularies. The national Essential Drug List guides public procurement.",
                 links: [
                     { label: "Ministry of Health — Jordan", url: "https://www.moh.gov.jo/" },
-                    { label: "JFDA — Drug Price List", url: "https://www.jfda.jo/page/1/58" },
+                    { label: "RMS — Royal Medical Services", url: "https://www.rms.jo/" },
+                    { label: "JONAP — Jordan National Aid Fund", url: "https://www.naf.gov.jo/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "JAPM — Jordanian Association of Pharmaceutical Manufacturers", url: "https://www.japm.com/" },
+                    { label: "WHO — Jordan Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/jor" },
                 ],
             },
         ],
-        notes: "Jordan is an important regional hub — many MENA market launches use Jordan registration as a reference or stepping stone. The pharmaceutical sector is well-developed with local generic manufacturers. Arabic and English are both used in regulatory documents.",
+        notes: "Jordan is an important regional hub — many MENA market launches use Jordan registration as a reference or stepping stone. The pharmaceutical sector is well-developed with local generic manufacturers exporting to 60+ countries. Arabic and English are both used in regulatory documents. The JFDA drug price list is publicly searchable.",
     },
     {
         code: "KZ",
@@ -5017,23 +5525,44 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "Drug registration is handled by the National Centre for Expertise of Medicines, Medical Devices and Medical Equipment (NCE). Kazakhstan is a member of the Eurasian Economic Union (EAEU) — products can be registered under the EAEU unified procedure and recognised across member states (Russia, Belarus, Armenia, Kyrgyzstan).",
+                body: "Drug registration is handled by the National Centre for Expertise of Medicines, Medical Devices and Medical Equipment (NCE) under the Ministry of Healthcare. Kazakhstan is a member of the Eurasian Economic Union (EAEU) — products can be registered under the EAEU unified procedure and recognised across member states (Russia, Belarus, Armenia, Kyrgyzstan). The State Drug Registry is maintained by the NCE.",
                 links: [
                     { label: "NCE — National Centre for Expertise", url: "https://www.nce.kz/" },
+                    { label: "NCE — State Drug Registry (Госреестр)", url: "https://www.ndda.kz/category/gosreestr" },
                     { label: "EAEU — Eurasian Medicines Registry", url: "https://portal.eaeunion.org/sites/odata/_layouts/15/portal.front/registry/registryreader.aspx#!ru-RU/RegistryReader/view/MEDICINES" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are regulated by the Ministry of Healthcare. The reference price is determined using external reference pricing (ERP) from a basket of comparable countries. Maximum wholesale and retail mark-ups are set by government decree. SK-Pharmacy publishes procurement prices and manages centralized purchasing. The eGov.kz portal provides access to pricing regulations.",
+                links: [
+                    { label: "SK-Pharmacy — Procurement Price Data", url: "https://www.sk-ph.kz/en" },
+                    { label: "eGov.kz — Pharmaceutical Price Regulations", url: "https://egov.kz/cms/en" },
+                    { label: "Ministry of Healthcare — Drug Pricing", url: "https://www.gov.kz/memleket/entities/dsm" },
+                    { label: "SK-Pharmacy — Unified Pharmaceutical Distributor", url: "https://sk-pharmacy.kz/eng/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Kazakhstan introduced mandatory social health insurance (MSHI) in 2020. The State Guaranteed Benefits Package (SGBP) covers essential medicines. Centralized procurement is managed through the Single Distributor (SK-Pharmacy). The National Formulary includes reimbursable medicines.",
+                body: "Kazakhstan introduced mandatory social health insurance (MSHI) in 2020 managed by the Social Health Insurance Fund (FOMS). The State Guaranteed Benefits Package (SGBP) covers essential medicines at no cost. Centralized procurement is managed through the Single Distributor (SK-Pharmacy). The Kazakhstan National Formulary (KNF) includes reimbursable medicines and is updated regularly.",
                 links: [
                     { label: "Ministry of Healthcare Kazakhstan", url: "https://www.gov.kz/memleket/entities/dsm" },
                     { label: "SK-Pharmacy — Single Distributor", url: "https://www.sk-ph.kz/en" },
+                    { label: "FOMS — Social Health Insurance Fund", url: "https://fms.kz/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "RCRZ — Republican Centre for Health Development", url: "https://www.rcrz.kz/" },
+                    { label: "WHO — Kazakhstan Country Profile", url: "https://www.who.int/countries/kaz" },
                 ],
             },
         ],
-        notes: "Kazakhstan is the largest economy in Central Asia. Regulatory language is Kazakh and Russian. EAEU membership enables regional registration. The government prioritizes domestic pharmaceutical production, which can affect market access for imported products.",
+        notes: "Kazakhstan is the largest economy in Central Asia (~19 million population). Regulatory language is Kazakh and Russian. EAEU membership enables regional registration. The government prioritizes domestic pharmaceutical production, which can affect market access for imported products. SK-Pharmacy is the single centralized buyer for the public sector.",
     },
     {
         code: "KW",
@@ -5044,22 +5573,41 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "Drug registration is handled by the Ministry of Health (MoH) Kuwait, Pharmaceutical Affairs Department. Kuwait participates in the Gulf Health Council (GCC) Drug Registration System, enabling shared registration across GCC member states.",
+                body: "Drug registration is handled by the Kuwait Drug and Food Control Administration (KDFCA) under the Ministry of Health (MoH). Kuwait participates in the Gulf Health Council (GCC) Drug Registration System, enabling shared registration across GCC member states. The KDFCA maintains the registered drugs database.",
                 links: [
                     { label: "Kuwait Ministry of Health", url: "https://www.moh.gov.kw/" },
+                    { label: "KDFCA — Drug Registration Portal", url: "https://www.moh.gov.kw/en/Online-Services" },
                     { label: "GCC Health Council — Drug Registration", url: "https://www.ghc.gulf-health-council.org/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices in Kuwait are set by the KDFCA based on the CIF (Cost, Insurance, Freight) price plus regulated mark-ups. Kuwait uses a reference pricing approach benchmarked against GCC countries and the country of origin. The Drug Price Committee reviews and approves prices before registration. Public sector procurement prices are set through MoH tenders.",
+                links: [
+                    { label: "MoH Kuwait — Drug Pricing", url: "https://www.moh.gov.kw/en/Pages/pharmaceuticals.aspx" },
+                    { label: "Central Agency for Public Tenders (CAPT)", url: "https://www.capt.gov.kw/" },
+                    { label: "MOH — Drug & Food Supplement Prices", url: "https://eservices.moh.gov.kw/SPCMS/Drugdetails.aspx" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Healthcare is provided free to Kuwaiti nationals through the MoH. Expatriates (majority of the ~4.7M population) use employer-provided or private insurance, or pay out-of-pocket. Medicines are procured centrally by the MoH through national tenders for public hospital formularies.",
+                body: "Healthcare is provided free to Kuwaiti nationals through the MoH. Expatriates (majority of the ~4.7M population) use employer-provided or private insurance, or pay out-of-pocket. Medicines are procured centrally by the MoH through national tenders for public hospital formularies. The Central Medical Stores manage distribution to all government health facilities.",
                 links: [
-                    { label: "MoH Kuwait — Pharmaceutical Affairs", url: "https://www.moh.gov.kw/en/Pages/pharmaceuticals.aspx" },
+                    { label: "MoH Kuwait — Pharmaceutical Services", url: "https://www.moh.gov.kw/en/Pages/pharmaceuticals.aspx" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "WHO — Kuwait Country Profile", url: "https://www.who.int/countries/kwt" },
+                    { label: "Kuwait Institute for Scientific Research", url: "https://www.kisr.edu.kw/" },
                 ],
             },
         ],
-        notes: "Kuwait has a small but high-income population. The GCC unified registration pathway allows a single dossier to cover all six GCC states (Kuwait, Saudi Arabia, UAE, Qatar, Bahrain, Oman). Procurement is primarily through MoH tenders for the public sector.",
+        notes: "Kuwait has a small but high-income population (~4.7 million). The GCC unified registration pathway allows a single dossier to cover all six GCC states (Kuwait, Saudi Arabia, UAE, Qatar, Bahrain, Oman). Procurement is primarily through MoH tenders for the public sector. KDFCA is the key regulatory contact.",
     },
     {
         code: "MY",
@@ -5070,10 +5618,23 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "NPRA (National Pharmaceutical Regulatory Agency, under Ministry of Health) handles drug registration via the QUEST3+ online portal. Products approved by reference agencies (EMA, FDA, TGA, HSA) may qualify for an abridged or verification pathway with reduced data requirements.",
+                body: "NPRA (National Pharmaceutical Regulatory Agency, under Ministry of Health) handles drug registration via the QUEST3+ online portal. Products approved by reference agencies (EMA, FDA, TGA, HSA) may qualify for an abridged or verification pathway with reduced data requirements. The NPRA maintains a searchable product registration database.",
                 links: [
                     { label: "NPRA — National Pharmaceutical Regulatory Agency", url: "https://www.npra.gov.my/" },
+                    { label: "NPRA — Product Registration Search", url: "https://www.npra.gov.my/easyarticles/search-registered-products.html" },
                     { label: "QUEST3+ — Drug Registration Portal", url: "https://quest3.bpfk.gov.my/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Malaysia does not have a formal government-mandated pricing system for the private sector. Public sector procurement prices are set through competitive tenders managed by the Pharmaceutical Services Programme (PSP). The MyPharma portal lists public procurement contracts and reference prices. APPL (Approved Product Purchase List) prices guide public hospital procurement.",
+                links: [
+                    { label: "PSP — Pharmaceutical Services Programme", url: "https://www.pharmacy.gov.my/" },
+                    { label: "MyPharma — Procurement Portal", url: "https://mypharma.pharmacy.gov.my/" },
+                    { label: "ePerolehan — Government Procurement Portal", url: "https://eperolehan.gov.my/" },
+                    { label: "MyPriMe — Medicine Price Guide", url: "https://pharmacy.moh.gov.my/en/apps/drug-price" },
+                    { label: "MaHTAS — Health Technology Assessment", url: "https://mymahtas.moh.gov.my/" },
                 ],
             },
             {
@@ -5082,18 +5643,27 @@ const COUNTRIES = [
                 body: "MaHTAS (Malaysian Health Technology Assessment Section) under the Ministry of Health conducts HTA evaluations and publishes Health Technology Assessment Reports and Decision Briefs. MaHTAS reports inform the MoH formulary and procurement decisions for the public health system.",
                 links: [
                     { label: "MaHTAS — HTA Reports & Decision Briefs", url: "https://www.moh.gov.my/index.php/pages/view/173" },
+                    { label: "MaHTAS — Technology Review Reports", url: "https://mahtas.moh.gov.my/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Malaysia has a dual public-private system. The MoH formulary (Senarai Ubat) covers medicines for public hospitals, procured through centralized tenders. Private sector drug prices are unregulated. National health financing reform (\"ReSPEKT\" scheme) has been proposed but not yet implemented.",
+                body: "Malaysia has a dual public-private system. The MoH formulary (Senarai Ubat KKM) covers medicines for public hospitals, procured through centralized tenders. Private sector drug prices are unregulated. MySalam and PeKa B40 provide targeted coverage for lower-income groups. National health financing reform has been proposed but not yet fully implemented.",
                 links: [
-                    { label: "MoH Malaysia — Drug Formulary (Senarai Ubat)", url: "https://www.moh.gov.my/index.php/pages/view/46" },
+                    { label: "MoH Malaysia — Drug Formulary (Senarai Ubat KKM)", url: "https://www.pharmacy.gov.my/v2/en/content/national-medicines-formulary-nmf.html" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PhIS — Pharmaceutical Information System", url: "https://www.pharmacy.gov.my/" },
+                    { label: "WHO — Malaysia Country Profile", url: "https://www.who.int/countries/mys" },
                 ],
             },
         ],
-        notes: "Malaysia is one of Southeast Asia's most developed pharmaceutical markets. Public sector access requires MoH formulary listing via MaHTAS review. Bahasa Malaysia and English are both used in regulatory documents.",
+        notes: "Malaysia is one of Southeast Asia's most developed pharmaceutical markets (~33 million population). Public sector access requires MoH formulary listing via MaHTAS review. Bahasa Malaysia and English are both used in regulatory documents. The PSP/MyPharma portal is the key source for public procurement prices.",
     },
     {
         code: "MA",
@@ -5104,23 +5674,44 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "DIMED (Division du Médicament et de la Pharmacie, under the Ministry of Health and Social Protection) handles the visa pharmaceutique (marketing authorization). Morocco references EMA, FDA, or other authority approvals as part of the dossier evaluation.",
+                body: "DIMED (Division du Médicament et de la Pharmacie, under the Ministry of Health and Social Protection) handles the visa pharmaceutique (marketing authorization). Morocco references EMA, FDA, or other authority approvals as part of the dossier evaluation. The Moroccan Pharmacopoeia is based on the European Pharmacopoeia.",
                 links: [
                     { label: "Ministry of Health — Morocco", url: "https://www.sante.gov.ma/" },
                     { label: "DIMED — Pharmaceutical Division", url: "https://www.sante.gov.ma/Pages/Medicaments.aspx" },
+                    { label: "Medicament.ma — Registered Drug Database", url: "https://www.medicament.ma/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug pricing in Morocco is regulated by the Ministry of Health via the Decree on Drug Pricing (2014 reform). Prices are set using external reference pricing (ERP) based on a basket including France, Belgium, Saudi Arabia, Spain, Turkey, Portugal, and the country of origin. Generic prices must be at least 40% below the originator. The Prix Public de Vente (PPV) is published for all registered medicines. Medicament.ma is the official public database showing all registered drug prices.",
+                links: [
+                    { label: "Medicament.ma — Drug Prices (Official Database)", url: "https://www.medicament.ma/" },
+                    { label: "Ministry of Health — Drug Price List", url: "https://www.sante.gov.ma/Pages/Medicaments.aspx" },
+                    { label: "MedicamentDB.ma — Drug Prices (5,400+ medicines)", url: "https://medicamentdb.ma/" },
+                    { label: "DMP — Official Medicines Search (with PPV prices)", url: "https://dmp.sante.gov.ma/recherche-medicaments" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Morocco's AMO (Assurance Maladie Obligatoire) is the compulsory health insurance framework. CNOPS covers public-sector employees; CNSS covers private-sector workers. RAMED covered the indigent population (now being restructured into AMO-Tadamon). Drug reimbursement is based on a positive list established by the Ministry of Health.",
+                body: "Morocco's AMO (Assurance Maladie Obligatoire) is the compulsory health insurance framework now targeting universal coverage. CNOPS covers public-sector employees; CNSS covers private-sector workers. AMO-Tadamon extends coverage to the previously uninsured poor population (formerly RAMED). Drug reimbursement is based on a positive list established by the Ministry of Health. Co-payment rates vary by category.",
                 links: [
                     { label: "CNOPS — Caisse Nationale des Organismes de Prévoyance Sociale", url: "https://www.cnops.org.ma/" },
                     { label: "CNSS — Caisse Nationale de Sécurité Sociale", url: "https://www.cnss.ma/" },
+                    { label: "ANAM — Agence Nationale de l'Assurance Maladie", url: "https://www.anam.ma/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "WHO — Morocco Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/mar" },
+                    { label: "Pricing & Reimbursement in Algeria, Morocco, Tunisia (PMC, 2023)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10443953/" },
                 ],
             },
         ],
-        notes: "Morocco is the largest pharmaceutical market in francophone Africa. Drug pricing is regulated by the Ministry of Health via a decree-based ceiling price system using international reference pricing. French and Arabic are the regulatory languages.",
+        notes: "Morocco is the largest pharmaceutical market in francophone Africa (~37 million population). Drug pricing is regulated via ceiling prices using international reference pricing. Medicament.ma is the key resource for checking registered drug prices. French and Arabic are the regulatory languages. Morocco is working towards universal health coverage via AMO expansion.",
     },
     {
         code: "NZ",
@@ -5131,10 +5722,21 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "Medsafe (NZ Medicines and Medical Devices Safety Authority) handles medicine consent. Products approved by EMA, FDA, TGA, or Health Canada may use the consent-based pathway. New Zealand and Australia have a joint trans-Tasman regulatory framework (ANZTPA) for some products.",
+                body: "Medsafe (NZ Medicines and Medical Devices Safety Authority) handles medicine consent. Products approved by EMA, FDA, TGA, or Health Canada may use the consent-based pathway. New Zealand and Australia cooperate on pharmacovigilance and regulatory sharing.",
                 links: [
                     { label: "Medsafe — Medicine Search", url: "https://www.medsafe.govt.nz/regulatory/DbSearch.asp" },
                     { label: "Medsafe — New Zealand Medicines Regulatory Authority", url: "https://www.medsafe.govt.nz/" },
+                    { label: "Medsafe — New Medicines Database", url: "https://www.medsafe.govt.nz/profs/datasheet/dsform.asp" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "PHARMAC negotiates prices directly with pharmaceutical companies for the Pharmaceutical Schedule. Listed prices are published in the Schedule online. PHARMAC uses competitive tendering (sole supply) to achieve significant discounts. The NZ Pharmaceutical Schedule includes subsidy amounts (effectively the reimbursement price) and manufacturer's listed price. Co-payment for subsidised medicines is NZD 5 per item (free for under-14s and Community Services Card holders).",
+                links: [
+                    { label: "PHARMAC — Pharmaceutical Schedule (with Prices)", url: "https://schedule.pharmac.govt.nz/" },
+                    { label: "PHARMAC — Online Schedule Search", url: "https://schedule.pharmac.govt.nz/ScheduleOnline.php" },
+                    { label: "PHARMAC — Tender Results", url: "https://www.pharmac.govt.nz/medicine-funding-and-supply/medicine-supply/tenders/" },
                 ],
             },
             {
@@ -5142,13 +5744,23 @@ const COUNTRIES = [
                 title: "HTA & Reimbursement (PHARMAC)",
                 body: "PHARMAC (Pharmaceutical Management Agency) is one of the world's most influential HTA and formulary management bodies. It manages the NZUL (NZ Pharmaceutical Schedule) with a strict cost-containment mandate. The PTAC (Pharmacology and Therapeutics Advisory Committee) provides clinical recommendations. The effective WTP threshold is informally estimated at NZD 20,000–60,000 per QALY — among the world's lowest.",
                 links: [
-                    { label: "PHARMAC — Pharmaceutical Schedule", url: "https://schedule.pharmac.govt.nz/" },
                     { label: "PHARMAC — Funding Decisions", url: "https://www.pharmac.govt.nz/medicine-funding-and-supply/medicine-funding/funding-decisions/" },
                     { label: "PHARMAC — PTAC Minutes & Reports", url: "https://www.pharmac.govt.nz/medicine-funding-and-supply/medicine-funding/evidence-assessment/minutes-and-reports/" },
+                    { label: "PHARMAC — Cost-Utility Analysis Guidelines", url: "https://www.pharmac.govt.nz/medicine-funding-and-supply/medicine-funding/evidence-assessment/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "NZULM — NZ Universal List of Medicines", url: "https://www.nzulm.org.nz/" },
+                    { label: "NZF — NZ Formulary (clinical drug information)", url: "https://nzf.org.nz/" },
+                    { label: "Te Whatu Ora — Health New Zealand", url: "https://www.tewhatuora.govt.nz/" },
+                    { label: "WHO — NZ Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/nzl" },
                 ],
             },
         ],
-        notes: "New Zealand has one of the most restrictive drug reimbursement environments globally. A positive PHARMAC listing is required for meaningful patient access — out-of-pocket costs for non-listed medicines are prohibitive. The PHARMAC model is frequently cited as a reference for HTA-driven cost control.",
+        notes: "New Zealand has one of the most restrictive drug reimbursement environments globally (~5.2 million population). A positive PHARMAC listing is required for meaningful patient access — out-of-pocket costs for non-listed medicines are prohibitive. The PHARMAC model is frequently cited as a reference for HTA-driven cost control. The Pharmaceutical Schedule is the definitive price source.",
     },
     {
         code: "NG",
@@ -5159,22 +5771,44 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "NAFDAC (National Agency for Food and Drug Administration and Control) handles drug registration in Nigeria. Products must be registered before importation, manufacture, advertisement, or sale. NAFDAC accepts eCTD-compatible dossiers and expedites review of products approved by EMA, FDA, or WHO prequalified.",
+                body: "NAFDAC (National Agency for Food and Drug Administration and Control) handles drug registration in Nigeria. Products must be registered before importation, manufacture, advertisement, or sale. NAFDAC accepts eCTD-compatible dossiers and expedites review of products approved by EMA, FDA, or WHO prequalified. NAFDAC's Green Book lists all registered pharmaceutical products.",
                 links: [
                     { label: "NAFDAC — National Agency for Food and Drug Administration", url: "https://www.nafdac.gov.ng/" },
                     { label: "NAFDAC — Product Registration Portal", url: "https://prodportal.nafdac.gov.ng/" },
+                    { label: "NAFDAC — Green Book (Registered Products)", url: "https://www.nafdac.gov.ng/resources/green-book/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Nigeria does not have a centralized drug pricing authority. Drug prices are market-driven in the private sector. Public sector procurement is done through state and federal tenders. The Federal Ministry of Health publishes Essential Medicines Lists with indicative procurement prices. The NPPMC (National Products Price Monitoring Committee) under NAFDAC monitors price compliance for regulated products.",
+                links: [
+                    { label: "Federal Ministry of Health", url: "https://www.health.gov.ng/" },
+                    { label: "BPP — Bureau of Public Procurement", url: "https://www.bpp.gov.ng/" },
+                    { label: "NHIA — Drug List and Prices", url: "https://www.nhia.gov.ng/nhia-drug-list-and-prices/" },
+                    { label: "NAFDAC — Greenbook (registered products)", url: "https://greenbook.nafdac.gov.ng/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "NHIA (National Health Insurance Authority, formerly NHIS) administers health insurance. The Basic Health Care Provision Fund (BHCPF) extends primary care coverage. Formal health insurance covers only ~5% of Nigeria's population of ~220 million, with the majority of pharmaceutical spending out-of-pocket.",
+                body: "NHIA (National Health Insurance Authority, formerly NHIS) administers health insurance, now expanding under the Nigeria Health Insurance Act 2022 mandating coverage. The Basic Health Care Provision Fund (BHCPF) extends primary care coverage. Formal health insurance covers only ~5% of Nigeria's population of ~220 million, but expansion is underway. Most pharmaceutical spending remains out-of-pocket.",
                 links: [
                     { label: "NHIA — National Health Insurance Authority", url: "https://www.nhia.gov.ng/" },
+                    { label: "NHIA — Essential Drug List", url: "https://www.nhia.gov.ng/Downloads" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PCN — Pharmacists Council of Nigeria", url: "https://www.pcn.gov.ng/" },
+                    { label: "WHO — Nigeria Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/nga" },
+                    { label: "PAHO/WHO — Nigeria Pharmaceutical Country Profile", url: "https://www.who.int/countries/nga" },
                 ],
             },
         ],
-        notes: "Nigeria is Africa's largest economy. The pharmaceutical market is dominated by generics and is highly price-sensitive. Distribution is complex, with informal channels significant outside major cities. Cold-chain reliability and counterfeit medicines are key market challenges.",
+        notes: "Nigeria is Africa's largest economy (~220 million population). The pharmaceutical market is dominated by generics and is highly price-sensitive. Distribution is complex, with informal channels significant outside major cities. The 2022 Health Insurance Act mandates coverage expansion. Cold-chain reliability and counterfeit medicines are key market challenges.",
     },
     {
         code: "PK",
@@ -5185,22 +5819,42 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "DRAP (Drug Regulatory Authority of Pakistan) handles drug registration via its ePortal. Pakistan references FDA, EMA, and WHO prequalification for expedited registration of essential and priority medicines. Clinical trial waiver provisions exist for products with recognized reference approvals.",
+                body: "DRAP (Drug Regulatory Authority of Pakistan) handles drug registration via its ePortal. Pakistan references FDA, EMA, and WHO prequalification for expedited registration of essential and priority medicines. Clinical trial waiver provisions exist for products with recognized reference approvals. The Drug Registration Board reviews applications.",
                 links: [
                     { label: "DRAP — Drug Regulatory Authority of Pakistan", url: "https://www.dra.gov.pk/" },
                     { label: "DRAP — ePortal (Online Registration)", url: "https://eportal.dra.gov.pk/" },
+                    { label: "DRAP — Registered Drug Database", url: "https://www.dra.gov.pk/registration/registered-drugs/" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "DRAP's Drug Pricing Committee sets the Maximum Retail Price (MRP) for registered drugs using a cost-plus methodology. Manufacturers must apply for price approval and cannot sell above the approved MRP. Price increases require DRAP approval.",
+                body: "DRAP's Drug Pricing Committee sets the Maximum Retail Price (MRP) for registered drugs using a cost-plus methodology. Manufacturers must apply for price approval and cannot sell above the approved MRP. Price increases require DRAP approval. The MRP list is published on the DRAP website and includes all registered drug prices. Hardship pricing provisions exist for essential medicines.",
                 links: [
-                    { label: "DRAP — Drug Prices", url: "https://www.dra.gov.pk/drug-pricing/" },
+                    { label: "DRAP — Drug Prices (MRP List)", url: "https://www.dra.gov.pk/drug-pricing/" },
+                    { label: "DRAP — Drug Price Search", url: "https://www.dra.gov.pk/drug-pricing/drug-price-search/" },
+                    { label: "DRAP — Search Maximum Retail Price (MRP)", url: "https://public.dra.gov.pk/cp/alien/" },
+                ],
+            },
+            {
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Pakistan has limited formal drug reimbursement. The Sehat Sahulat Programme (SSP) provides hospital-focused coverage for the poorest families (~87 million beneficiaries) with PKR 1 million annual family cover. Provincial health departments manage their own essential drug procurement. Over 70% of health spending is out-of-pocket. The Pakistan Essential Drug List guides public procurement priorities.",
+                links: [
+                    { label: "Sehat Sahulat Programme", url: "https://www.pmhealthprogram.gov.pk/" },
+                    { label: "Ministry of Health — Pakistan", url: "https://www.nhsrc.gov.pk/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PPA — Pakistan Pharmaceutical Manufacturers' Association", url: "https://www.ppma.org.pk/" },
+                    { label: "WHO — Pakistan Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/pak" },
                 ],
             },
         ],
-        notes: "Pakistan has a population of ~240 million and a large generic pharmaceutical market. Over 70% of health spending is out-of-pocket. The Sehat Sahulat Programme provides hospital-focused coverage for the poorest. Formal drug reimbursement infrastructure is limited. Urdu is the regulatory language.",
+        notes: "Pakistan has a population of ~240 million and a large generic pharmaceutical market. Over 70% of health spending is out-of-pocket. The Sehat Sahulat Programme provides hospital-focused coverage for the poorest. DRAP is the key regulatory and pricing authority. Urdu and English are the regulatory languages.",
     },
     {
         code: "ZA",
@@ -5211,32 +5865,47 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "SAHPRA (South African Health Products Regulatory Authority, successor to the MCC) handles medicine registration. Expedited pathways exist for products approved by reference agencies (FDA, EMA, TGA, Health Canada, WHO). SAHPRA has been working to reduce its historical application backlog.",
+                body: "SAHPRA (South African Health Products Regulatory Authority, successor to the MCC) handles medicine registration. Expedited pathways exist for products approved by reference agencies (FDA, EMA, TGA, Health Canada, WHO). SAHPRA has been working to reduce its historical application backlog through the SAHPRA Reliance Model.",
                 links: [
                     { label: "SAHPRA — Product Search", url: "https://www.sahpra.org.za/find-a-product/" },
                     { label: "SAHPRA — South African Health Products Regulatory Authority", url: "https://www.sahpra.org.za/" },
+                    { label: "SAHPRA — Online Portal", url: "https://sahpraonline.org.za/" },
                 ],
             },
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "The SEP (Single Exit Price) system governs drug pricing. All medicines must be sold at the manufacturer's single published price — no tiered pricing is permitted. SEP adjustments are allowed annually based on a formula. Dispensing fees are set separately by regulation.",
+                body: "The SEP (Single Exit Price) system governs drug pricing. All medicines must be sold at the manufacturer's single published price — no tiered pricing is permitted. SEP adjustments are allowed annually based on an exchange-rate/CPI formula. Dispensing fees are set separately by regulation. The SEP database is published by the NDoH and searchable online. The Database of Medicine Prices (DMP) maintained by NDoH includes SEP, logistics fees, and dispensing fees.",
                 links: [
                     { label: "NDoH — SEP Database (Single Exit Price)", url: "https://www.health.gov.za/sep/" },
+                    { label: "NDoH — Database of Medicine Prices", url: "https://health.gov.za/medicine-price-registry/" },
+                    { label: "MedPrices.co.za — Medicine Price Search", url: "https://www.medprices.co.za/" },
+                    { label: "Medicine Prices — Single Exit Price Search", url: "https://medicineprices.org.za/" },
+                    { label: "MPR — Medicine Price Registry (SEP schedules)", url: "http://www.mpr.gov.za/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "South Africa has a dual public-private system. The public sector (80%+ of population) uses the Essential Drugs Programme (EDP) formulary. The private sector is covered by ~80 medical aid schemes regulated by the Council for Medical Schemes. The NHI Act (signed 2023) aims for universal coverage but full implementation will take many years.",
+                body: "South Africa has a dual public-private system. The public sector (80%+ of population) uses the Essential Drugs Programme (EDP) with Standard Treatment Guidelines (STGs) and Essential Medicines Lists (EML). The private sector is covered by ~80 medical aid schemes regulated by the Council for Medical Schemes (CMS). The NHI Act (signed 2023) aims for universal coverage but full implementation will take many years.",
                 links: [
                     { label: "NDoH — National Department of Health", url: "https://www.health.gov.za/" },
+                    { label: "NDoH — Essential Medicines List & STGs", url: "https://www.health.gov.za/edp-essential-drugs-programme/" },
                     { label: "Council for Medical Schemes", url: "https://www.medicalschemes.co.za/" },
                     { label: "NHI — National Health Insurance NDoH", url: "https://www.health.gov.za/nhi/" },
                 ],
             },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "SAMF — SA Medicines Formulary (SAPC)", url: "https://www.sapc.za.org/" },
+                    { label: "WHO — South Africa Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/zaf" },
+                    { label: "Affordable Medicines — Pricing Regulations", url: "https://www.health.gov.za/affordable-medicines/" },
+                ],
+            },
         ],
-        notes: "South Africa is the largest pharmaceutical market in sub-Saharan Africa and a regional regulatory reference point. SAHPRA registration timelines have historically been long (2–5+ years), but reform is ongoing. The SEP database is the authoritative price reference.",
+        notes: "South Africa is the largest pharmaceutical market in sub-Saharan Africa (~60 million population) and a regional regulatory reference point. SAHPRA registration timelines have historically been long (2–5+ years), but reform is ongoing. The SEP database is the authoritative price reference. All medicine prices are publicly transparent via the Single Exit Price system.",
     },
     {
         code: "UA",
@@ -5247,24 +5916,45 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "The State Expert Centre (DEC) of the Ministry of Health of Ukraine handles drug registration. Ukraine uses a reference-based registration procedure — products approved by EMA, FDA, or other recognised agencies can use an accelerated pathway. Ukraine is an EU candidate and harmonising its pharmaceutical regulatory framework.",
+                body: "The State Expert Centre (DEC) of the Ministry of Health of Ukraine handles drug registration. Ukraine uses a reference-based registration procedure — products approved by EMA, FDA, or other recognised agencies can use an accelerated pathway. Ukraine is an EU candidate and harmonising its pharmaceutical regulatory framework. The State Drug Registry is publicly searchable.",
                 links: [
                     { label: "State Expert Centre — DEC (MoH Ukraine)", url: "https://www.dec.gov.ua/en" },
                     { label: "DEC — State Drug Registry Search", url: "https://www.dec.gov.ua/reg_info/list-for-medicines/" },
+                    { label: "Tabletki.ua — Drug Information Portal", url: "https://tabletki.ua/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Ukraine uses External Reference Pricing (ERP) for reimbursed medicines, benchmarked against 17 reference countries. Drug prices are declared in the State Drug Registry. The Cabinet of Ministers regulates wholesale and retail mark-ups. Liki24 and Tabletki.ua provide pharmacy-level retail price comparisons. The MoH publishes reference prices for the Affordable Medicines Programme.",
+                links: [
+                    { label: "DEC — Reference Pricing Data", url: "https://www.dec.gov.ua/en" },
+                    { label: "Liki24 — Pharmacy Price Comparison", url: "https://liki24.com/" },
+                    { label: "Tabletki.ua — Drug Price Search", url: "https://tabletki.ua/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "The Affordable Medicines Programme (AMP) provides reimbursement for selected therapeutic groups (cardiovascular, diabetes, asthma) at pharmacies via electronic prescription. The NHSU (National Health Service of Ukraine) manages healthcare financing. The Government-guaranteed benefits package covers primary care and hospital-based essential medicines.",
+                body: "The Affordable Medicines Programme (AMP / \"Dostupni Liky\") provides reimbursement for selected therapeutic groups (cardiovascular, diabetes, asthma, mental health) at pharmacies via electronic prescription. The NHSU (National Health Service of Ukraine) manages healthcare financing under the Programme of Medical Guarantees (PMG). The National Essential Medicines List guides procurement.",
                 links: [
                     { label: "Ministry of Health — Ukraine", url: "https://moz.gov.ua/en/" },
                     { label: "NHSU — National Health Service of Ukraine", url: "https://nszu.gov.ua/en" },
                     { label: "Affordable Medicines Programme", url: "https://moz.gov.ua/affordable-medicines" },
+                    { label: "ProZorro — Public Procurement (incl. Medicines)", url: "https://prozorro.gov.ua/en" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "DEC — HTA Unit (Ukraine)", url: "https://www.dec.gov.ua/en/hta/" },
+                    { label: "WHO — Ukraine Country Profile", url: "https://www.who.int/countries/ukr" },
+                    { label: "Compendium.com.ua — Drug Reference", url: "https://compendium.com.ua/" },
                 ],
             },
         ],
-        notes: "Ukraine is undergoing significant healthcare reform (since 2016). The ongoing conflict since 2022 has significantly disrupted the pharmaceutical market. As an EU candidate, Ukraine is aligning its pharmaceutical regulations with EU standards. Verify current market access conditions with local partners.",
+        notes: "Ukraine is undergoing significant healthcare reform (since 2016). The ongoing conflict since 2022 has significantly disrupted the pharmaceutical market. As an EU candidate, Ukraine is aligning its pharmaceutical regulations with EU standards, including introducing HTA. ProZorro is the key public procurement platform. Verify current market access conditions with local partners.",
     },
     {
         code: "BD",
@@ -5275,21 +5965,41 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "DGDA (Directorate General of Drug Administration) under the Ministry of Health handles drug registration. Bangladesh has a National Drug Policy and a local manufacturing base that is one of the largest generics exporters globally. Registration requires a local manufacturing partner or authorized agent.",
+                body: "DGDA (Directorate General of Drug Administration) under the Ministry of Health handles drug registration. Bangladesh has a National Drug Policy and a local manufacturing base that is one of the largest generics exporters globally. Registration requires a local manufacturing partner or authorized agent. The DGDA maintains a searchable database of all registered drugs.",
                 links: [
                     { label: "DGDA — Directorate General of Drug Administration", url: "https://www.dgda.gov.bd/" },
+                    { label: "DGDA — Drug Database Search", url: "https://www.dgda.gov.bd/index.php/site/drug-database" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "DGDA regulates drug prices in Bangladesh. Maximum Retail Prices (MRP) are set during registration and published in the DGDA drug database. Prices are controlled under the Drug (Control) Ordinance 1982. Bangladesh benefits from LDC TRIPS flexibilities, allowing local production of patented medicines at lower prices. Essential drugs in the public sector are procured centrally by CMSD (Central Medical Stores Depot) and distributed free through government health facilities.",
+                links: [
+                    { label: "DGDA — Drug Database (includes MRP)", url: "https://www.dgda.gov.bd/index.php/site/drug-database" },
+                    { label: "CMSD — Central Medical Stores Depot", url: "https://www.cmsd.gov.bd/" },
+                    { label: "DGDA — Search Maximum Retail Price", url: "https://dgda.gov.bd/index.php/search-price" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Bangladesh has limited formal drug reimbursement. Government hospitals provide medicines from the Essential Drugs List free of charge, but supply is inconsistent. Out-of-pocket expenditure accounts for ~70% of total health spending. The Directorate General of Health Services (DGHS) manages the public health system.",
+                body: "Bangladesh has limited formal drug reimbursement. Government hospitals provide medicines from the Essential Drugs List free of charge, but supply is inconsistent. Out-of-pocket expenditure accounts for ~70% of total health spending. The Directorate General of Health Services (DGHS) manages the public health system. The Shasthyo Surokhsha Karmasuchi (SSK) provides limited health coverage for the ultra-poor.",
                 links: [
                     { label: "DGHS — Directorate General of Health Services", url: "https://www.dghs.gov.bd/index.php/en" },
+                    { label: "Ministry of Health — Bangladesh", url: "https://www.mohfw.gov.bd/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "MedEx — Bangladesh Medicine Database", url: "https://medex.com.bd/" },
+                    { label: "WHO — Bangladesh Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/bgd" },
                 ],
             },
         ],
-        notes: "Bangladesh is an IQVIA pharmerging market with ~170 million population. It has a large, internationally recognized generic pharmaceutical manufacturing sector that exports to over 150 countries. Drug prices are regulated by DGDA. The primary market access challenge is distribution infrastructure outside major urban areas.",
+        notes: "Bangladesh is an IQVIA pharmerging market with ~170 million population. It has a large, internationally recognized generic pharmaceutical manufacturing sector that exports to over 150 countries. Drug prices are regulated by DGDA. LDC TRIPS flexibilities enable local production of patented medicines. The DGDA drug database is the key resource for checking registered drug prices.",
     },
     {
         code: "CR",
@@ -5300,23 +6010,41 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "The Ministry of Health (Ministerio de Salud) handles pharmaceutical registration via RTCA (Reglamento Técnico Centroamericano), the Central American regional technical standard. Products approved by FDA or EMA benefit from an expedited review pathway. The national medicines registry is managed by the Dirección de Regulación de Productos de Interés Sanitario (DRPIS).",
+                body: "The Ministry of Health (Ministerio de Salud) handles pharmaceutical registration via DRPIS (Dirección de Regulación de Productos de Interés Sanitario) using RTCA (Reglamento Técnico Centroamericano), the Central American regional technical standard. Products approved by FDA or EMA benefit from an expedited review pathway.",
                 links: [
                     { label: "Ministry of Health — Costa Rica", url: "https://www.ministeriodesalud.go.cr/" },
-                    { label: "RTCA — Central American Technical Regulation Framework", url: "https://www.minsa.gob.pa/rtca/" },
+                    { label: "DRPIS — Product Registration", url: "https://registrelo.go.cr/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices in the public sector (CCSS) are set through centralized procurement tenders via SICOP (Sistema Integrado de Compras Públicas). The CCSS is the dominant buyer, leveraging its monopsony power to negotiate prices. Private sector retail prices are regulated by MEIC (Ministerio de Economía) for essential medicines. Costa Rica also participates in COMISCA regional joint procurement initiatives.",
+                links: [
+                    { label: "SICOP — Public Procurement System", url: "https://www.sicop.go.cr/" },
+                    { label: "CCSS — Procurement & Supply", url: "https://www.ccss.sa.cr/" },
+                    { label: "CCSS — Lista Oficial de Medicamentos (LOM)", url: "https://www.ccss.sa.cr/lom" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement (CCSS)",
-                body: "Costa Rica's CCSS (Caja Costarricense de Seguro Social) provides near-universal healthcare coverage (~96% of the population). The CCSS maintains a centralized formulary (Lista Oficial de Medicamentos, LOM) and procures drugs centrally through CENDEISSS. CCSS listing is essential for access to the majority of patients.",
+                body: "Costa Rica's CCSS (Caja Costarricense de Seguro Social) provides near-universal healthcare coverage (~96% of the population). The CCSS maintains a centralized formulary (Lista Oficial de Medicamentos, LOM) and procures drugs centrally. CCSS listing is essential for access to the majority of patients. The Comité Central de Farmacoterapia evaluates new medicines for LOM inclusion.",
                 links: [
                     { label: "CCSS — Caja Costarricense de Seguro Social", url: "https://www.ccss.sa.cr/" },
                     { label: "CCSS — Medicines Formulary (LOM)", url: "https://www.ccss.sa.cr/farmacia" },
                 ],
             },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PAHO/WHO — Costa Rica Country Profile", url: "https://www.paho.org/en/costa-rica" },
+                    { label: "WHO — Costa Rica Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/cri" },
+                ],
+            },
         ],
-        notes: "Costa Rica has one of Latin America's strongest universal health systems. CCSS formulary listing is the primary access gate for the majority of the population. Drug prices are regulated. The market is small (~5 million population) but high-income and with a well-developed healthcare system.",
+        notes: "Costa Rica has one of Latin America's strongest universal health systems (~5 million population). CCSS formulary listing is the primary access gate for the majority of the population. Drug prices are effectively set through CCSS procurement. Spanish is the regulatory language.",
     },
     {
         code: "EC",
@@ -5327,23 +6055,43 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "ARCSA (Agencia Nacional de Regulación, Control y Vigilancia Sanitaria) handles drug registration in Ecuador. Ecuador accepts references to FDA or EMA approvals as part of an expedited registration pathway. Ecuador uses the dollarized economy (USD), which simplifies pricing.",
+                body: "ARCSA (Agencia Nacional de Regulación, Control y Vigilancia Sanitaria) handles drug registration in Ecuador. Ecuador accepts references to FDA or EMA approvals as part of an expedited registration pathway. Ecuador uses the dollarized economy (USD), which simplifies pricing. The ARCSA maintains a publicly searchable product registry.",
                 links: [
                     { label: "ARCSA — National Agency for Health Regulation", url: "https://www.controlsanitario.gob.ec/" },
+                    { label: "ARCSA — Product Registry Search", url: "https://aplicaciones.controlsanitario.gob.ec/" },
                     { label: "MSP — Ministerio de Salud Pública", url: "https://www.salud.gob.ec/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug pricing in Ecuador is regulated by the CNFPL (Consejo Nacional de Fijación y Revisión de Precios de Medicamentos de Uso Humano). Maximum prices are set using international reference pricing and cost-plus methodology. Public sector procurement uses the Subasta Inversa (reverse auction) mechanism via SERCOP. Ecuador's dollarized economy means prices are set directly in USD.",
+                links: [
+                    { label: "SERCOP — Public Procurement (Subasta Inversa)", url: "https://www.sercop.gob.ec/" },
+                    { label: "MSP — Drug Pricing Regulations", url: "https://www.salud.gob.ec/" },
+                    { label: "Consejo Nacional — Official Drug Price Lists", url: "https://www.salud.gob.ec/precios-de-medicamentos_-consejo-nacional-de-fijacion-y-revision-de-precios-de-medicamentos-de-uso-y-consumo-humano/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "The MSP (Ministerio de Salud Pública) manages the public health system with a Cuadro Nacional de Medicamentos Básicos (CNMB — essential medicines list). IESS (Instituto Ecuatoriano de Seguridad Social) covers formal-sector workers and their families. Drug pricing in the public sector is regulated through maximum reference prices.",
+                body: "The MSP (Ministerio de Salud Pública) manages the public health system with the CNMB (Cuadro Nacional de Medicamentos Básicos — essential medicines list, 10th revision). IESS (Instituto Ecuatoriano de Seguridad Social) covers formal-sector workers and their families (~40% of population). ISSFA (military) and ISSPOL (police) have their own formularies. The CNMB is freely downloadable.",
                 links: [
                     { label: "IESS — Instituto Ecuatoriano de Seguridad Social", url: "https://www.iess.gob.ec/" },
                     { label: "SERCOP — Public Procurement Portal", url: "https://www.sercop.gob.ec/" },
+                    { label: "MSP — CNMB (Essential Medicines List)", url: "https://www.salud.gob.ec/" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PAHO/WHO — Ecuador Country Profile", url: "https://www.paho.org/en/ecuador" },
+                    { label: "WHO — Ecuador Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/ecu" },
                 ],
             },
         ],
-        notes: "Ecuador has a dollarized economy (~17 million population). Public-sector procurement through IESS and MSP is centralized and uses maximum reference prices. The private market operates with limited price controls. Spanish is the regulatory language.",
+        notes: "Ecuador has a dollarized economy (~18 million population). Public-sector procurement through IESS and MSP uses maximum reference prices and reverse auctions. The private market operates with some price controls. Spanish is the regulatory language.",
     },
     {
         code: "KE",
@@ -5354,24 +6102,43 @@ const COUNTRIES = [
             {
                 id: "marketing",
                 title: "Market Authorization",
-                body: "The Pharmacy and Poisons Board (PPB) handles drug registration in Kenya. Kenya uses a dossier-based system and accepts references to WHO prequalification, EMA, FDA, or TGA approvals for an expedited pathway. Kenya is the East African regulatory reference market and a COMESA hub.",
+                body: "The Pharmacy and Poisons Board (PPB) handles drug registration in Kenya. Kenya uses a dossier-based system and accepts references to WHO prequalification, EMA, FDA, or TGA approvals for an expedited pathway. Kenya is the East African regulatory reference market, a COMESA hub, and participates in the African Medicines Regulatory Harmonisation (AMRH) initiative.",
                 links: [
                     { label: "PPB — Pharmacy and Poisons Board", url: "https://ppb.go.ke/" },
                     { label: "PPB — Registered Products Search", url: "https://ppb.go.ke/index.php/registered-products" },
+                    { label: "PPB — e-Services Portal", url: "https://pims.pharmacyboardkenya.org/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Kenya does not have a centralized drug pricing authority for the private sector. Public sector procurement prices are set through KEMSA's centralized tendering process. The Essential Drugs List guides public procurement priorities. Private sector retail prices are market-driven. KEMSA publishes tender prices for medicines in its catalogue.",
+                links: [
+                    { label: "KEMSA — Catalogue & Pricing", url: "https://kemsa.go.ke/" },
+                    { label: "PPOA — Public Procurement Oversight Authority", url: "https://ppra.go.ke/" },
                 ],
             },
             {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "Kenya transitioned from NHIF (National Hospital Insurance Fund) to SHA (Social Health Authority) in 2024 under the Affordable Care Act. SHA manages three funds: Primary Healthcare Fund, Social Health Insurance Fund (SHIF), and Emergency, Chronic and Critical Illness Fund (ECCIF). KEMSA (Kenya Medical Supplies Agency) handles centralized procurement for public facilities.",
+                body: "Kenya transitioned from NHIF (National Hospital Insurance Fund) to SHA (Social Health Authority) in 2024 under the Affordable Care Act. SHA manages three funds: Primary Healthcare Fund, Social Health Insurance Fund (SHIF), and Emergency, Chronic and Critical Illness Fund (ECCIF). KEMSA (Kenya Medical Supplies Agency) handles centralized procurement for public facilities. The KEML (Kenya Essential Medicines List) guides formulary decisions.",
                 links: [
                     { label: "SHA — Social Health Authority", url: "https://sha.go.ke/" },
                     { label: "KEMSA — Kenya Medical Supplies Agency", url: "https://kemsa.go.ke/" },
                     { label: "Ministry of Health — Kenya", url: "https://www.health.go.ke/" },
                 ],
             },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "PSK — Pharmaceutical Society of Kenya", url: "https://www.psk.or.ke/" },
+                    { label: "WHO — Kenya Country Lists", url: "https://www.who.int/teams/health-product-policy-and-standards/medicines-selection-ip-and-affordability/country-lists/ken" },
+                    { label: "EAC — East African Community Health", url: "https://www.eac.int/health" },
+                ],
+            },
         ],
-        notes: "Kenya is East Africa's largest pharmaceutical market and a regulatory hub for the region. A positive PPB registration is often used as a reference for other East African countries. Out-of-pocket spending remains significant despite expanding insurance coverage. The SHA reform (2024) represents a major shift in healthcare financing.",
+        notes: "Kenya is East Africa's largest pharmaceutical market (~55 million population) and a regulatory hub for the region. A positive PPB registration is often used as a reference for other East African countries. The SHA reform (2024) represents a major shift in healthcare financing. Out-of-pocket spending remains significant. English and Swahili are used in regulatory documents.",
     },
     {
         code: "RS",
@@ -5389,12 +6156,30 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices in Serbia are set via International Reference Pricing (IRP) using EU reference countries (Croatia, Italy, Slovenia, France, and the Czech Republic among others). The Ministry of Health publishes the official price list (Cenovnik lekova). Maximum wholesale and retail mark-ups are regulated. Prices are generally lower than EU averages due to the IRP methodology.",
+                links: [
+                    { label: "ALIMS — Drug Prices", url: "https://www.alims.gov.rs/eng/medicines/search-for-human-medicines/" },
+                    { label: "Ministry of Health — Serbia", url: "https://www.zdravlje.gov.rs/" },
+                    { label: "RFZO — List of Medicines Search (with prices)", url: "https://www.eng.rfzo.rs/index.php/useful-information/list-of-medicines-search" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
-                body: "RFZO (Republički fond za zdravstveno osiguranje — Republic Fund for Health Insurance) manages compulsory health insurance covering ~95% of the population. The Positive Drug List (Lista lekova) determines reimbursable medicines. Drug prices are set via IRP using EU reference countries. Prior authorization (saglasnost) is required for high-cost medicines.",
+                body: "RFZO (Republički fond za zdravstveno osiguranje — Republic Fund for Health Insurance) manages compulsory health insurance covering ~95% of the population. The Positive Drug List (Lista lekova) determines reimbursable medicines with tiered co-payments. Prior authorization (saglasnost) is required for high-cost medicines. Hospital drugs are funded separately through DRG and clinical protocols.",
                 links: [
                     { label: "RFZO — Republic Fund for Health Insurance", url: "https://www.rfzo.rs/index.php/en/" },
                     { label: "RFZO — Positive Drug List", url: "https://www.rfzo.rs/index.php/en/svi-propisi-en/lista-lekova-en" },
+                ],
+            },
+            {
+                id: "additional",
+                title: "Additional Resources",
+                links: [
+                    { label: "ALIMS — Pharmacovigilance Reports", url: "https://www.alims.gov.rs/eng/pharmacovigilance/" },
+                    { label: "WHO — Serbia Country Profile", url: "https://www.who.int/countries/srb" },
                 ],
             },
         ],
@@ -5766,6 +6551,11 @@ function openDetail(country, activeBtn) {
 
     let html = "";
 
+    // Data freshness badge
+    const verifiedYm = LAST_VERIFIED[country.code];
+    const fresh = freshnessInfo(verifiedYm);
+    html += `<div class="freshness-badge ${fresh.cls}">${esc(fresh.label)}</div>`;
+
     if (country.wip) {
         html += `
             <div class="resource-wip-notice">
@@ -5790,7 +6580,7 @@ function openDetail(country, activeBtn) {
                     <ul class="resource-links">
                         ${s.links.map(l => `
                             <li>
-                                <a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} &rarr;</a>
+                                <a href="${esc(l.url)}" target="_blank" rel="noopener" class="resource-check-link">${esc(l.label)} &rarr;</a>
                             </li>
                         `).join("")}
                     </ul>
@@ -5861,4 +6651,85 @@ function openDetail(country, activeBtn) {
 detailClose.addEventListener("click", () => {
     resourceDetail.classList.add("hidden");
     countryGrid.querySelectorAll(".country-flag-card").forEach(b => b.classList.remove("active"));
+});
+
+// ── CSV Export for Resources ─────────────────────────────────────────
+
+document.getElementById("export-resources-btn").addEventListener("click", exportResourcesToCSV);
+
+function exportResourcesToCSV() {
+    const headers = ["Country", "Country Code", "Region", "Section", "Link Label", "URL"];
+    const rows = [];
+
+    COUNTRIES.forEach(c => {
+        const region = REGION_MAP[c.code] || "";
+        (c.sections || []).forEach(s => {
+            (s.links || []).forEach(l => {
+                rows.push([c.name, c.code, region, s.title, l.label, l.url]);
+            });
+        });
+    });
+
+    downloadCSV(headers, rows, `global_resources_${new Date().toISOString().slice(0, 10)}.csv`);
+}
+
+// ── Link Verification ────────────────────────────────────────────────
+
+const checkLinksBtn = document.getElementById("detail-check-links");
+
+checkLinksBtn.addEventListener("click", async () => {
+    // Collect all link URLs currently displayed in the detail panel
+    const linkEls = detailSections.querySelectorAll("a.resource-check-link");
+    if (linkEls.length === 0) return;
+
+    checkLinksBtn.disabled = true;
+    checkLinksBtn.textContent = "Checking…";
+
+    // Add pulsing dots to all links
+    linkEls.forEach(a => {
+        let dot = a.querySelector(".link-status");
+        if (!dot) {
+            dot = document.createElement("span");
+            dot.className = "link-status link-status-checking";
+            a.appendChild(dot);
+        } else {
+            dot.className = "link-status link-status-checking";
+        }
+    });
+
+    // Batch URLs (max 20 per request)
+    const urls = Array.from(linkEls).map(a => a.href);
+    const uniqueUrls = [...new Set(urls)];
+    const allResults = {};
+
+    for (let i = 0; i < uniqueUrls.length; i += 20) {
+        const batch = uniqueUrls.slice(i, i + 20);
+        try {
+            const params = batch.map(u => `urls=${encodeURIComponent(u)}`).join("&");
+            const resp = await fetch(`/api/check-links?${params}`, { method: "POST" });
+            if (resp.ok) {
+                Object.assign(allResults, await resp.json());
+            }
+        } catch { /* ignore batch errors */ }
+    }
+
+    // Update dots
+    linkEls.forEach(a => {
+        const dot = a.querySelector(".link-status");
+        if (!dot) return;
+        const status = allResults[a.href];
+        if (status >= 200 && status < 400) {
+            dot.className = "link-status link-status-ok";
+            dot.title = `OK (${status})`;
+        } else if (status === 0 || status === undefined) {
+            dot.className = "link-status link-status-broken";
+            dot.title = "Unreachable";
+        } else {
+            dot.className = "link-status link-status-broken";
+            dot.title = `HTTP ${status}`;
+        }
+    });
+
+    checkLinksBtn.disabled = false;
+    checkLinksBtn.textContent = "Check Links";
 });

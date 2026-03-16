@@ -242,6 +242,8 @@ async function findAssessments() {
     }
 }
 
+let lastAssessmentData = null;
+
 function renderAssessments(data) {
     if (data.assessments.length === 0) {
         showStatus(
@@ -253,18 +255,77 @@ function renderAssessments(data) {
         return;
     }
 
+    lastAssessmentData = data;
     hideStatus(assessmentStatus);
     assessmentResults.classList.remove("hidden");
 
     assessmentResults.innerHTML = `
-        <p style="margin-bottom:8px;color:var(--text-light);font-size:0.9rem;">
-            Found <strong>${data.assessments.length}</strong> assessment(s) from
-            <strong>${esc(data.agency)}</strong> (${esc(data.country_name)})
-        </p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <p style="margin:0;color:var(--text-light);font-size:0.9rem;">
+                Found <strong>${data.assessments.length}</strong> assessment(s) from
+                <strong>${esc(data.agency)}</strong> (${esc(data.country_name)})
+            </p>
+            <button class="btn-export" id="export-hta-csv-btn" title="Export assessments to CSV (opens in Excel)">Export to CSV</button>
+        </div>
         ${data.assessments.map(renderSingleAssessment).join("")}
     `;
 
+    document.getElementById("export-hta-csv-btn").addEventListener("click", exportAssessmentsToCSV);
     assessmentResults.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ── CSV Export for HTA Assessments ───────────────────────────────────
+
+function exportAssessmentsToCSV() {
+    if (!lastAssessmentData || lastAssessmentData.assessments.length === 0) return;
+
+    const data = lastAssessmentData;
+    const headers = [
+        "Country", "Agency", "Active Substance",
+        "Product Name", "Opinion Date", "Evaluation Reason",
+        "SMR", "SMR Description", "ASMR", "ASMR Description",
+        "Benefit Rating (Zusatznutzen)", "Evidence Level", "Comparator", "Patient Group",
+        "NICE Recommendation", "Guidance Reference", "Guidance Type",
+        "IPT Positioning", "IPT Reference", "SNS Reimbursed",
+        "CADTH Recommendation", "PBAC Recommendation",
+        "ZIN Recommendation", "SL Listed", "SL Price",
+        "PMDA Review Type", "Pricing Method", "Premium Type",
+        "Assessment URL",
+    ];
+
+    const rows = data.assessments.map(a => [
+        data.country_name,
+        data.agency,
+        data.active_substance,
+        a.product_name,
+        a.opinion_date,
+        a.evaluation_reason,
+        a.smr_value,
+        a.smr_description,
+        a.asmr_value,
+        a.asmr_description,
+        a.benefit_rating,
+        a.evidence_level,
+        a.comparator,
+        a.patient_group,
+        a.nice_recommendation,
+        a.guidance_reference,
+        a.guidance_type,
+        a.therapeutic_positioning,
+        a.ipt_reference,
+        a.bifimed_reimbursed,
+        a.cadth_recommendation,
+        a.pbac_recommendation,
+        a.zin_recommendation,
+        a.sl_listed,
+        a.sl_price,
+        a.pmda_review_type,
+        a.pricing_method,
+        a.premium_type,
+        a.assessment_url,
+    ]);
+
+    downloadCSV(headers, rows, `hta_assessments_${data.country_code}_${new Date().toISOString().slice(0, 10)}.csv`);
 }
 
 function renderSingleAssessment(a) {

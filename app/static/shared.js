@@ -54,6 +54,36 @@ function niceRecClass(value) {
     return "";
 }
 
+// ── CSV download utility ─────────────────────────────────────────────
+
+/**
+ * Download an array of rows as a CSV file.
+ * Uses UTF-8 BOM so Excel auto-detects encoding.
+ * @param {string[]} headers - Column headers
+ * @param {any[][]} rows - Data rows (each an array of values)
+ * @param {string} filename - Output file name
+ */
+function downloadCSV(headers, rows, filename) {
+    const csvField = (v) => {
+        const s = String(v ?? "");
+        if (s.includes(",") || s.includes('"') || s.includes("\n") || s.includes("\r")) {
+            return '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+    };
+    const lines = [headers, ...rows].map(row => row.map(csvField).join(","));
+    const csv = "\uFEFF" + lines.join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
 function iptClass(value) {
     const v = value.toLowerCase();
     if (v.includes("unfavorable") || v.includes("desfavorable") || v.includes("no favorable")) return "unfavorable";

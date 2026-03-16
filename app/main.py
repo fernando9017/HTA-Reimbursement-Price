@@ -68,6 +68,10 @@ from app.services.hta_agencies.japan_pmda import JapanPMDA
 from app.services.hta_agencies.spain_aemps import SpainAEMPS
 from app.services.hta_agencies.italy_aifa import ItalyAIFA
 from app.services.hta_agencies.uk_nice import UKNICE
+from app.services.hta_agencies.canada_cadth import CanadaCADTH
+from app.services.hta_agencies.australia_pbac import AustraliaPBAC
+from app.services.hta_agencies.netherlands_zin import NetherlandsZIN
+from app.services.hta_agencies.switzerland_bag import SwitzerlandBAG
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -90,6 +94,10 @@ hta_agencies: dict[str, HTAAgency] = {
     "ES": SpainAEMPS(),
     "IT": ItalyAIFA(),
     "JP": JapanPMDA(),
+    "CA": CanadaCADTH(),
+    "AU": AustraliaPBAC(),
+    "NL": NetherlandsZIN(),
+    "CH": SwitzerlandBAG(),
 }
 
 # Germany HTA deep-dive service — wraps the G-BA adapter for richer analysis
@@ -666,6 +674,41 @@ async def status():
         },
         "data_loaded_at": _data_loaded_at,
     }
+
+
+# ── Link verification ────────────────────────────────────────────────
+
+
+@app.post("/api/check-links")
+@limiter.limit("5/minute")
+async def check_links(request: Request, urls: list[str] = Query(...)):
+    """Check reachability of up to 20 URLs.
+
+    Returns a dict mapping each URL to its HTTP status code (0 = unreachable).
+    Uses HEAD requests with a short timeout to minimise load on target servers.
+    """
+    import httpx
+    from app.config import SSL_VERIFY
+
+    if len(urls) > 20:
+        raise HTTPException(400, "Maximum 20 URLs per request.")
+
+    results: dict[str, int] = {}
+
+    async def _check(url: str) -> None:
+        try:
+            async with httpx.AsyncClient(
+                follow_redirects=True,
+                verify=SSL_VERIFY,
+                timeout=httpx.Timeout(10.0),
+            ) as client:
+                resp = await client.head(url, headers={"User-Agent": "VAP-LinkChecker/1.0"})
+                results[url] = resp.status_code
+        except Exception:
+            results[url] = 0
+
+    await asyncio.gather(*[_check(u) for u in urls])
+    return results
 
 
 # ── Indication filtering helper ──────────────────────────────────────

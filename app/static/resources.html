@@ -35,6 +35,7 @@
             <div class="resource-toolbar">
                 <div class="resource-search-row">
                     <input type="text" id="country-search" class="resource-search-input" placeholder="Filter countries…" autocomplete="off" aria-label="Filter countries">
+                    <button class="btn-export" id="export-resources-btn" title="Export all country resource links to CSV">Export to CSV</button>
                 </div>
                 <div class="display-toggle" role="radiogroup" aria-label="Display mode">
                     <button class="display-toggle-btn active" id="display-all-btn" aria-pressed="true" title="Display all countries">
@@ -70,7 +71,10 @@
                     <span class="resource-flag" id="detail-flag"></span>
                     <h2 id="detail-country-name"></h2>
                 </div>
-                <button class="btn-secondary btn-close" id="detail-close">Close</button>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <button class="link-check-btn" id="detail-check-links" title="Verify all links for this country">Check Links</button>
+                    <button class="btn-secondary btn-close" id="detail-close">Close</button>
+                </div>
             </div>
 
             <div class="resource-sections" id="detail-sections">

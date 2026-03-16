@@ -139,6 +139,109 @@ AIFA_TRANSPARENCY_PAGE_URL = "https://www.aifa.gov.it/en/liste-di-trasparenza"
 AIFA_CLASS_A_CSV_PATTERN = "Classe_A_per_Principio_Attivo"
 AIFA_CLASS_H_CSV_PATTERN = "Classe_H_per_Principio_Attivo"
 
+# CADTH / CDA-AMC (Canada's Drug Agency) - Canada
+# Reimbursement reviews — public HTML listing of drug reviews with recommendations.
+# CADTH rebranded to CDA-AMC but cadth.ca remains functional.
+# Covers both oncology (pCODR) and non-oncology drugs.
+CADTH_BASE_URL = "https://www.cadth.ca"
+CADTH_REVIEWS_URL = "https://www.cadth.ca/reimbursement-reviews"
+# CDA-AMC alternative URLs (post-rebrand)
+CDA_AMC_BASE_URL = "https://www.cda-amc.ca"
+CDA_AMC_REVIEWS_URL = "https://www.cda-amc.ca/reimbursement-review-reports"
+CDA_AMC_FIND_REPORTS_URL = "https://www.cda-amc.ca/find-reports"
+# CADTH search API (used for structured queries by drug name)
+CADTH_SEARCH_URL = "https://www.cadth.ca/search"
+# Recommendation display values
+CADTH_RECOMMENDATIONS = [
+    "Reimburse",
+    "Reimburse with clinical criteria and/or conditions",
+    "Do not reimburse",
+    "Time-limited recommendation",
+    "Unable to recommend",
+]
+
+# PBAC (Pharmaceutical Benefits Advisory Committee) - Australia
+# PBS (Pharmaceutical Benefits Scheme) public data.
+# PBAC outcomes are published after each meeting (~3 per year: March, July, Nov).
+PBAC_BASE_URL = "https://www.pbs.gov.au"
+PBAC_OUTCOMES_URL = (
+    "https://www.pbs.gov.au/info/industry/listing/elements/"
+    "pbac-meetings/pbac-outcomes"
+)
+# Medicine Status Website — tracks all submission outcomes
+PBS_MEDICINE_STATUS_URL = "https://www.pbs.gov.au/medicinestatus/home.html"
+# PBS Public Data API — structured JSON/CSV, no auth required.
+# Rate limit: 1 request per 20 seconds.  Updated 1st of each month.
+PBS_API_BASE_URL = "https://data-api-portal.health.gov.au"
+PBS_API_DOCS_URL = "https://info.data.pbs.gov.au/api/open-api-v1-0-0/"
+# PBS item search API — returns medicines listed on the PBS
+PBS_SEARCH_URL = "https://www.pbs.gov.au/pbs/search"
+# PBS medicine listing browse page
+PBS_BROWSE_URL = "https://www.pbs.gov.au/browse/medicine-listing"
+
+# ZIN (Zorginstituut Nederland) - Netherlands
+# National Health Care Institute — publishes package advice (pakketadviezen)
+# and manages the GVS (Geneesmiddelen Vergoedings Systeem).
+ZIN_BASE_URL = "https://www.zorginstituutnederland.nl"
+ZIN_ASSESSMENTS_URL = (
+    "https://www.zorginstituutnederland.nl/werkagenda/overzicht-pakketadviezen"
+)
+# GVS assessments overview (outpatient medicines reimbursement)
+ZIN_GVS_ASSESSMENTS_URL = (
+    "https://www.zorginstituutnederland.nl/werkagenda/overzicht-gvs-adviezen"
+)
+# Sluismiddelen (premium medicines lock) — expensive new medicines
+# requiring price negotiation before reimbursement.
+ZIN_SLUISMIDDELEN_URL = (
+    "https://www.zorginstituutnederland.nl/over-ons/"
+    "programmas-en-samenwerkingsverbanden/"
+    "horizonscan-geneesmiddelen/sluis-voor-dure-geneesmiddelen/"
+    "overzicht-sluismiddelen-waarover-het-zorginstituut-heeft-geadviseerd"
+)
+# Farmacotherapeutisch Kompas — clinical drug information database
+FK_BASE_URL = "https://www.farmacotherapeutischkompas.nl"
+# Medicijnkosten — GVS reimbursement price database (no public API)
+MEDICIJNKOSTEN_URL = "https://www.medicijnkosten.nl"
+# GVS reimbursement list search
+GVS_SEARCH_URL = "https://www.medicijnkosten.nl/zoeken"
+# Medicines Information Bank (CBG/MEB) — Dutch regulatory authority
+GENEESMIDDELENINFORMATIEBANK_URL = "https://www.geneesmiddeleninformatiebank.nl"
+
+# BAG (Bundesamt für Gesundheit / Federal Office of Public Health) - Switzerland
+# Spezialitätenliste (SL) — positive list of reimbursed medicines in
+# Switzerland's mandatory health insurance (OKP/KVG).
+# Medicines must meet WZW criteria: Wirksamkeit (effectiveness),
+# Zweckmäßigkeit (appropriateness), Wirtschaftlichkeit (cost-effectiveness).
+# Published as searchable web interface, Excel/XML downloads, and (from 2026)
+# FHIR-based API via the new ePL (Elektronische Plattform Leistungen).
+BAG_BASE_URL = "https://www.bag.admin.ch"
+SL_BASE_URL = "http://www.spezialitaetenliste.ch"
+# SL search by substance
+SL_SEARCH_URL = "http://www.spezialitaetenliste.ch/ShowPreparations.aspx"
+# SL browse by IT code (therapeutic classification)
+SL_ITCODES_URL = "http://www.spezialitaetenliste.ch/ShowItCodes.aspx"
+# BAG publications page — XLSX files of recent SL changes
+BAG_SL_PUBLICATIONS_URL = (
+    "https://www.bag.admin.ch/de/"
+    "veroeffentlichungen-des-bag-zur-spezialitaetenliste"
+)
+# BAG notifications page — updates and SL changes
+BAG_SL_NOTIFICATIONS_URL = (
+    "https://www.bag.admin.ch/de/mitteilungen-zur-spezialitaetenliste-sl"
+)
+# New ePL (Elektronische Plattform Leistungen) — FHIR-based.
+# Live since January 5, 2026.  Last XML/Excel publication: April 1, 2026.
+# After that, FHIR format only via this platform.
+BAG_EPL_URL = "https://sl.bag.admin.ch"
+# FHIR Implementation Guide for SL data (IDMP-based)
+BAG_EPL_FHIR_GITHUB = "https://github.com/bag-epl/bag-epl-fhir"
+# BAG drug information page
+BAG_DRUGS_URL = (
+    "https://www.bag.admin.ch/bag/de/home/versicherungen/"
+    "krankenversicherung/krankenversicherung-leistungen-tarife/"
+    "Arzneimittel.html"
+)
+
 # HTTP request settings
 REQUEST_TIMEOUT = 60.0
 
