@@ -267,6 +267,7 @@ const COUNTRIES = [
                 body: "Argentina does not have formal government price controls for most medicines. The Manual Farmac\u00e9utico (Kairos/Alfa Beta) publishes reference prices. In practice, drug prices are influenced by inflation adjustments, voluntary price agreements between the government and the pharmaceutical industry, and Obras Sociales negotiated discounts.",
                 links: [
                     { label: "Kairos \u2014 Manual Farmac\u00e9utico (reference prices)", url: "https://www.kairosweb.com/" },
+                    { label: "Buscador de Precios de Medicamentos (Gov.ar)", url: "https://www.argentina.gob.ar/buscador-de-precios-de-medicamentos" },
                 ],
             },
             {
@@ -685,6 +686,7 @@ const COUNTRIES = [
                 title: "Pricing",
                 links: [
                     { label: "CMED — Regulated Drug Prices (Preços Máximos)", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
+                    { label: "CMED — Official Price Lists (Excel/PDF)", url: "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos" },
                 ],
             },
         ],
@@ -818,6 +820,8 @@ const COUNTRIES = [
                 title: "Pricing",
                 links: [
                     { label: "PMPRB — Patented Medicine Prices Review Board", url: "https://www.canada.ca/en/patented-medicine-prices-review.html" },
+                    { label: "CDA-AMC (formerly CADTH) — Reimbursement Reviews", url: "https://www.cda-amc.ca/reimbursement-reviews" },
+                    { label: "pCPA — Pan-Canadian Pharmaceutical Alliance", url: "https://www.pcpacanada.ca/about" },
                 ],
             },
             {
@@ -915,6 +919,7 @@ const COUNTRIES = [
                     { label: "CENABAST (public-sector procurement)", url: "https://www.cenabast.cl/" },
                     { label: "CENABAST \u2014 Ley CENABAST Drug List", url: "https://www.cenabast.cl/lista-de-medicamentos-ley-cenabast/" },
                     { label: "Remedios M\u00e1s Baratos (pharmacy locator)", url: "https://www.remediosmasbaratos.cl/" },
+                    { label: "Remedios Más Baratos — Max Retail Prices", url: "https://www.remediosmasbaratos.cl/ListaMedicamentos" },
                 ],
             },
             {
@@ -1114,6 +1119,7 @@ const COUNTRIES = [
                     { label: "CNPMDM \u2014 Price Regulation", url: "https://minsalud.gov.co/salud/MT/paginas/medicamentos-regulacion-precios.aspx" },
                     { label: "SISMED \u2014 Public Price Data", url: "https://www.datos.gov.co/Salud-y-Protecci-n-Social/Consulta-p-blica-de-Precios-de-Medicamentos/3he6-m866" },
                     { label: "Term\u00f3metro de Precios (price comparison tool)", url: "https://www.minsalud.gov.co/salud/MT/Paginas/termometro-de-precios.aspx" },
+                    { label: "SISMED — Direct Price Query", url: "https://web.sispro.gov.co/WebPublico/Consultas/ConsultarCNPMCadenaComercializacionCircu2yPA_028_2_2.aspx" },
                 ],
             },
             {
@@ -3031,6 +3037,8 @@ const COUNTRIES = [
                     { label: "Compra Consolidada — Ministry of Health Procurement Portal", url: "https://compraconsolidada.salud.gob.mx/" },
                     { label: "BIRMEX — Laboratorios de Biológicos y Reactivos de México", url: "https://www.birmex.gob.mx/" },
                     { label: "IMSS Compras — IMSS Procurement Archive", url: "https://compras.imss.gob.mx/" },
+                    { label: "Compra Consolidada — Government Drug Procurement", url: "https://compraconsolidada.salud.gob.mx/" },
+                    { label: "Compendio Nacional de Insumos para la Salud 2025", url: "https://www.gob.mx/csg/articulos/medicamentos-compendio-nacional-de-insumos-para-la-salud-2025" },
                 ],
             },
         ],
@@ -3437,6 +3445,7 @@ const COUNTRIES = [
                     { label: "Observatorio de Precios (16,000+ products)", url: "https://opm-digemid.minsa.gob.pe/" },
                     { label: "CENARES (public procurement)", url: "https://www.gob.pe/cenares" },
                     { label: "SEACE (electronic procurement platform)", url: "https://apps.osce.gob.pe/" },
+                    { label: "DIGEMID — Observatorio de Precios de Medicamentos", url: "http://observatorio.digemid.minsa.gob.pe/" },
                 ],
             },
             {
@@ -5357,6 +5366,7 @@ const COUNTRIES = [
                 links: [
                     { label: "GUATECOMPRAS — Public Procurement Portal", url: "https://www.guatecompras.gt/" },
                     { label: "MSPAS — Compras y Contrataciones", url: "https://www.mspas.gob.gt/transparencia/compras-y-contrataciones.html" },
+                    { label: "Guatecompras — Public Drug Procurement Prices", url: "https://www.guatecompras.gt/" },
                 ],
             },
             {
@@ -5976,6 +5986,7 @@ const COUNTRIES = [
                 links: [
                     { label: "SICOP — Public Procurement System", url: "https://www.sicop.go.cr/" },
                     { label: "CCSS — Procurement & Supply", url: "https://www.ccss.sa.cr/" },
+                    { label: "CCSS — Lista Oficial de Medicamentos (LOM)", url: "https://www.ccss.sa.cr/lom" },
                 ],
             },
             {
@@ -6021,6 +6032,7 @@ const COUNTRIES = [
                 links: [
                     { label: "SERCOP — Public Procurement (Subasta Inversa)", url: "https://www.sercop.gob.ec/" },
                     { label: "MSP — Drug Pricing Regulations", url: "https://www.salud.gob.ec/" },
+                    { label: "Consejo Nacional — Official Drug Price Lists", url: "https://www.salud.gob.ec/precios-de-medicamentos_-consejo-nacional-de-fijacion-y-revision-de-precios-de-medicamentos-de-uso-y-consumo-humano/" },
                 ],
             },
             {
