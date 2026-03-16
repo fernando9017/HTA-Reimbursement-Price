@@ -67,9 +67,9 @@ const LAST_VERIFIED = {
     MX: "2025-03", MY: "2026-03", NG: "2026-03", NL: "2025-03", NO: "2025-12",
     NZ: "2026-03", OM: "2026-01", PE: "2026-01", PH: "2026-03", PK: "2026-03",
     PL: "2026-03", PR: "2026-01", PT: "2025-03", QA: "2026-01", RO: "2026-03",
-    RS: "2026-03", RU: "2026-03", SA: "2025-03", SE: "2026-03", SG: "2026-03",
+    RS: "2026-03", RU: "2026-03", SA: "2026-03", SE: "2026-03", SG: "2026-03",
     SI: "2026-03", SK: "2026-03", TH: "2025-03", TR: "2025-03", TW: "2025-03",
-    UA: "2026-03", AE: "2025-03", VN: "2025-03", ZA: "2026-03",
+    UA: "2026-03", AE: "2026-03", VN: "2025-03", ZA: "2026-03",
 };
 
 /**
@@ -4051,8 +4051,17 @@ const COUNTRIES = [
         sections: [
             {
                 id: "marketing",
-                title: "Market Authorization & Pricing",
+                title: "Market Authorization",
                 links: [{ label: "SFDA — Drug Query (RSD portal)", url: "https://rsd.sfda.gov.sa/drug-query-en.html" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "SFDA regulates drug prices via International Reference Pricing (IRP) based on a basket of ~20 countries. SFDA requires Economic Evaluation Studies (EES) for new drug pricing applications since July 2025.",
+                links: [
+                    { label: "SFDA — Drug Query (includes pricing)", url: "https://rsd.sfda.gov.sa/drug-query-en.html" },
+                    { label: "SFDA — Pharmaceutical Pricing Rules (PDF)", url: "https://www.sfda.gov.sa/sites/default/files/2022-10/PharmaceuticalPricingRulesE.pdf" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -4975,10 +4984,19 @@ const COUNTRIES = [
         sections: [
             {
                 id: "marketing",
-                title: "Market Authorization & Pricing",
+                title: "Market Authorization",
                 links: [
                     { label: "MOHAP — Registered Medications List", url: "https://mohap.gov.ae/en/w/registered-medications-list" },
                     { label: "DoH (Abu Dhabi) — Drug Search", url: "https://www.doh.gov.ae/en/resources/drug-search-page" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug pricing is regulated across three authorities: MOHAP/EDE (federal), DHA (Dubai), and DoH (Abu Dhabi). Abu Dhabi\'s Shafafiya portal provides the most transparent drug price database.",
+                links: [
+                    { label: "DoH Shafafiya — Drug Prices (Abu Dhabi)", url: "https://www.doh.gov.ae/en/Shafafiya/prices" },
+                    { label: "DHA — Drug Control (Dubai)", url: "https://www.dha.gov.ae/en/HealthRegulationSector/DrugControl" },
                 ],
             },
             {
