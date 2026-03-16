@@ -2773,6 +2773,7 @@ const COUNTRIES = [
                 links: [
                     { label: "ZVA \u2014 DATI Drug Register (with prices)", url: "https://dati.zva.gov.lv/zalu-registrs/lv" },
                     { label: "VMNVD \u2014 Compensated Medicines (with prices)", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" },
+                    { label: "VMNVD — Reimbursed Drug Lists (A/B/C/M/R)", url: "https://www.vmnvd.gov.lv/lv/kompensejamo-zalu-saraksti" },
                 ],
             },
         ],
@@ -2889,6 +2890,7 @@ const COUNTRIES = [
                 links: [
                     { label: "CNS — Positive List (with prices)", url: "https://cns.public.lu/en/professionnels-sante/medicaments/liste-positive.html" },
                     { label: "CNS — List of Marketed Medicines", url: "https://cns.public.lu/en/legislations/textes-coordonnes/liste-med-comm.html" },
+                    { label: "CNS — Positive List CSV Download (with prices)", url: "https://cns.public.lu/fr/professionnels-sante/publications/legislations/textes-coordonnes/liste-positive-csv.html" },
                 ],
             },
             {
@@ -3575,6 +3577,7 @@ const COUNTRIES = [
                     { label: "Ministerstwo Zdrowia — Reimbursement List (with prices)", url: "https://www.gov.pl/web/zdrowie/leki-refundowane" },
                     { label: "Lekinfo24 — Drug Price Search", url: "https://www.lekinfo24.pl" },
                     { label: "AOTMiT — HTA Agency", url: "https://www.aotmit.gov.pl/en/" },
+                    { label: "Obwieszczenie — Reimbursed Drug Lists (Excel)", url: "https://www.gov.pl/web/zdrowie/obwieszczenia-ministra-zdrowia-lista-lekow-refundowanych" },
                 ],
             },
             {
@@ -3954,6 +3957,7 @@ const COUNTRIES = [
                 body: "ANM sets drug prices via external reference pricing against EU member states. CNAS publishes the reimbursed medicines list with prices in RON.",
                 links: [
                     { label: "CNAS — Drug Price Lists", url: "https://cnas.ro/lista-medicamente/" },
+                    { label: "CNAS — Medicamente (updated lists)", url: "https://cnas.ro/medicamente/" },
                 ],
             },
             {
@@ -4287,6 +4291,7 @@ const COUNTRIES = [
                     { label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" },
                     { label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" },
                     { label: "CBZ \u2014 Central Drug Database (Centralna baza zdravil)", url: "http://www.cbz.si" },
+                    { label: "JAZMP — Maximum Allowed Prices (MAP)", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/maximum-allowed-prices-of-medicinal-products-map/" },
                 ],
             },
             {
@@ -4573,6 +4578,7 @@ const COUNTRIES = [
                     { label: "TLV — Drug Price Database (Sök beslut)", url: "https://www.tlv.se/beslut/sok-i-databasen.html" },
                     { label: "FASS — Drug Prices & Information (English)", url: "https://www.fass.se/LIF/startpage?lang=en" },
                     { label: "eHälsomyndigheten — Drug Price List (VARA)", url: "https://www.ehalsomyndigheten.se/tjanster/vara/" },
+                    { label: "TLV — Prices Database (English)", url: "https://www.tlv.se/in-english/prices-in-our-database.html" },
                 ],
             },
             {
@@ -6146,6 +6152,7 @@ const COUNTRIES = [
                 links: [
                     { label: "ALIMS — Drug Prices", url: "https://www.alims.gov.rs/eng/medicines/search-for-human-medicines/" },
                     { label: "Ministry of Health — Serbia", url: "https://www.zdravlje.gov.rs/" },
+                    { label: "RFZO — List of Medicines Search (with prices)", url: "https://www.eng.rfzo.rs/index.php/useful-information/list-of-medicines-search" },
                 ],
             },
             {
