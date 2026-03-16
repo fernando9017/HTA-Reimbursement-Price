@@ -368,6 +368,7 @@ const COUNTRIES = [
                 links: [
                     { label: "PBS — Ex-Manufacturer Price Lists", url: "https://www.pbs.gov.au/pbs/industry/pricing/ex-manufacturer-price" },
                     { label: "PBS — Dispensed Price for Maximum Quantity", url: "https://www.pbs.gov.au/browse/medicine-listing" },
+                    { label: "PBS — Schedule Downloads & API (with prices)", url: "https://www.pbs.gov.au/info/browse/download" },
                 ],
             },
             {
@@ -4157,6 +4158,7 @@ const COUNTRIES = [
                 links: [
                     { label: "MOH — Subsidised Drug List (with prices)", url: "https://www.moh.gov.sg/managing-expenses/schemes-and-subsidies/list-of-subsidised-drugs" },
                     { label: "ACE — Drug Guidance & Evaluations", url: "https://www.ace-hta.gov.sg/" },
+                    { label: "NDF — National Drug Formulary A-to-Z", url: "https://www.ndf.gov.sg/about-drugs/ndf-a-to-z-listing" },
                 ],
             },
             {
@@ -4332,6 +4334,7 @@ const COUNTRIES = [
                     { label: "HIRA — Reimbursed Drug Price List (Excel)", url: "https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA030014050000" },
                     { label: "HIRA — Drug Price Search", url: "https://www.hira.or.kr/rd/medicine/getmedicineList.do?pgmid=HIRAA030004010000" },
                     { label: "NHIS — National Health Insurance Service", url: "https://www.nhis.or.kr/english/index.do" },
+                    { label: "nedrug — Drug Information Search", url: "https://nedrug.mfds.go.kr/searchDrug" },
                 ],
             },
             {
@@ -5244,6 +5247,7 @@ const COUNTRIES = [
                 links: [
                     { label: "DAV — Drug Price Declaration Portal", url: "https://dichvucong.dav.gov.vn/congbogiathuoc/index" },
                     { label: "NCDPC (National Centralized Drug Procurement Center)", url: "https://ncdp.vn/" },
+                    { label: "MOH — Drug Price Transparency Portal", url: "https://congkhaiyte.moh.gov.vn/?page=Project.MedicalPrice.Home.MedicalPrice.Drug.list" },
                 ],
             },
             {
@@ -5420,6 +5424,7 @@ const COUNTRIES = [
                     { label: "NPPA — Price Monitoring Data", url: "https://nppa.gov.in/price-monitoring" },
                     { label: "Jan Aushadhi — Generic Medicine Stores", url: "https://janaushadhi.gov.in/" },
                     { label: "1mg / Tata Health — Medicine Price Comparison", url: "https://www.1mg.com/" },
+                    { label: "NPPA — Medicine Price Search (DPCO ceiling prices)", url: "https://nppaimis.nic.in/nppaprice/newmedicinepricesearch.aspx" },
                 ],
             },
             {
@@ -5519,6 +5524,7 @@ const COUNTRIES = [
                     { label: "SK-Pharmacy — Procurement Price Data", url: "https://www.sk-ph.kz/en" },
                     { label: "eGov.kz — Pharmaceutical Price Regulations", url: "https://egov.kz/cms/en" },
                     { label: "Ministry of Healthcare — Drug Pricing", url: "https://www.gov.kz/memleket/entities/dsm" },
+                    { label: "SK-Pharmacy — Unified Pharmaceutical Distributor", url: "https://sk-pharmacy.kz/eng/" },
                 ],
             },
             {
@@ -5611,6 +5617,8 @@ const COUNTRIES = [
                     { label: "PSP — Pharmaceutical Services Programme", url: "https://www.pharmacy.gov.my/" },
                     { label: "MyPharma — Procurement Portal", url: "https://mypharma.pharmacy.gov.my/" },
                     { label: "ePerolehan — Government Procurement Portal", url: "https://eperolehan.gov.my/" },
+                    { label: "MyPriMe — Medicine Price Guide", url: "https://pharmacy.moh.gov.my/en/apps/drug-price" },
+                    { label: "MaHTAS — Health Technology Assessment", url: "https://mymahtas.moh.gov.my/" },
                 ],
             },
             {
@@ -5809,6 +5817,7 @@ const COUNTRIES = [
                 links: [
                     { label: "DRAP — Drug Prices (MRP List)", url: "https://www.dra.gov.pk/drug-pricing/" },
                     { label: "DRAP — Drug Price Search", url: "https://www.dra.gov.pk/drug-pricing/drug-price-search/" },
+                    { label: "DRAP — Search Maximum Retail Price (MRP)", url: "https://public.dra.gov.pk/cp/alien/" },
                 ],
             },
             {
@@ -5953,6 +5962,7 @@ const COUNTRIES = [
                 links: [
                     { label: "DGDA — Drug Database (includes MRP)", url: "https://www.dgda.gov.bd/index.php/site/drug-database" },
                     { label: "CMSD — Central Medical Stores Depot", url: "https://www.cmsd.gov.bd/" },
+                    { label: "DGDA — Search Maximum Retail Price", url: "https://dgda.gov.bd/index.php/search-price" },
                 ],
             },
             {
