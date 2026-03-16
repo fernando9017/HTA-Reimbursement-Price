@@ -1224,6 +1224,7 @@ const COUNTRIES = [
                     { label: "HALMED \u2014 Drug Database (includes prices)", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" },
                     { label: "HZZO \u2014 Published Drug Lists (with prices)", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" },
                     { label: "HALMED — Maximum Wholesale Price Lists", url: "https://www.halmed.hr/Promet-proizvodnja-i-inspekcija/Najvisa-dozvoljena-cijena-lijeka-na-veliko/Popis-lijekova-s-odredenom-najvisom-dozvoljenom-cijenom-na-veliko-i-iznimno-visom-od-najvise-dozvoljene-cijene-na-veliko/" },
+                    { label: "HZZO — Drug Search (Tražilica za lijekove)", url: "https://hzzo.hr/trazilica-za-lijekove" },
                 ],
             },
             {
@@ -1715,6 +1716,7 @@ const COUNTRIES = [
                     { label: "Hila \u2014 Reimbursable Medicines & Prices", url: "https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" },
                     { label: "Kela \u2014 Drug Price & Reimbursement Search", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" },
                     { label: "Kela — Medicinal Products Database (prices & reimbursement)", url: "https://www.kela.fi/medicinal-products-database" },
+                    { label: "FimeaWeb — Medicines Database", url: "https://fimea.fi/en/databases_and_registers/fimeaweb" },
                 ],
             },
             {
@@ -1812,6 +1814,7 @@ const COUNTRIES = [
                     { label: "BDPM — Drug Price Search", url: "https://base-donnees-publique.medicaments.gouv.fr" },
                     { label: "CEPS — Framework Agreements & Price Reports", url: "https://sante.gouv.fr/ministere/acteurs/instances-rattachees/comite-economique-des-produits-de-sante-ceps/" },
                     { label: "Medicprix — Hospital Drug Price Database", url: "https://www.medicprix.fr/" },
+                    { label: "BDPM — Open Data Downloads (data.gouv.fr)", url: "https://www.data.gouv.fr/datasets/base-de-donnees-publique-des-medicaments-base-officielle" },
                 ],
             },
             {
@@ -2030,6 +2033,7 @@ const COUNTRIES = [
                 links: [
                     { label: "EOF — Drug Search (includes hospital & retail prices)", url: "https://services.eof.gr/human-search/home.xhtml" },
                     { label: "Ministry of Health — Price Bulletins (Deltia Timon)", url: "https://www.moh.gov.gr/articles/times-farmakwn/deltia-timwn/" },
+                    { label: "Galinos.gr — Drug Prices Database (Greek)", url: "https://www.galinos.gr" },
                 ],
             },
         ],
@@ -2175,6 +2179,7 @@ const COUNTRIES = [
                     { label: "NEAK — IRP Reference Prices", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" },
                     { label: "NEAK — Drug Search (with prices)", url: "https://neak.gov.hu/felso_menu/lakossagnak/gyogszerkereso" },
                     { label: "NEAK — PUPHA Public Medicine Database", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/pupha/Publikus_Gyogyszertorzs" },
+                    { label: "NEAK — PUPHA Downloads (Excel/ZIP, monthly)", url: "https://www.neak.gov.hu/letoltheto/ATFO_dok/gyogyszer/PUPHA" },
                 ],
             },
             {
@@ -2258,6 +2263,7 @@ const COUNTRIES = [
                 links: [
                     { label: "IMA — Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" },
                     { label: "Lyfjastofnun — Medicine Price Catalogue", url: "https://www.lyfjastofnun.is/verd-og-greidsluthatttaka/lyfjaverdskra/" },
+                    { label: "Serlyfjaskrifa — Prescription Medicines Database", url: "https://www.serlyfjaskra.is/" },
                 ],
             },
             {
@@ -2854,6 +2860,8 @@ const COUNTRIES = [
                 links: [
                     { label: "VLK — Compensated Medicines with Prices", url: "https://ligoniukasa.lrv.lt/" },
                     { label: "VVKT — Medicines Database", url: "https://vapris.vvkt.lt/vvkt-web/public/medications?lang=en" },
+                    { label: "VLK — Reimbursable Pharmaceuticals (English)", url: "https://ligoniukasa.lrv.lt/en/sector-activities/servises-for-residents/medicines-and-medical-aids/" },
+                    { label: "VVKT — Health Technology Assessment", url: "https://vvkt.lrv.lt/en/health-technology-assessment/" },
                 ],
             },
             {
@@ -5131,6 +5139,8 @@ const COUNTRIES = [
                     { label: "NHS Drug Tariff — Reimbursement Prices", url: "https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/drug-tariff" },
                     { label: "NHSBSA — Prescription Cost Analysis", url: "https://www.nhsbsa.nhs.uk/statistical-collections/prescription-cost-analysis-england" },
                     { label: "eMIT — Drugs & Pharmaceutical Electronic Market Information", url: "https://www.gov.uk/government/publications/drugs-and-pharmaceutical-electronic-market-information-emit" },
+                    { label: "NHS Electronic Drug Tariff (searchable)", url: "http://www.drugtariff.nhsbsa.nhs.uk/" },
+                    { label: "OpenPrescribing — Tariff Tool (historical prices)", url: "https://openprescribing.net/tariff/" },
                 ],
             },
             {
