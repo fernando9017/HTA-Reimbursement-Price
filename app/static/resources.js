@@ -1216,6 +1216,7 @@ const COUNTRIES = [
                 links: [
                     { label: "HALMED \u2014 Drug Database (includes prices)", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" },
                     { label: "HZZO \u2014 Published Drug Lists (with prices)", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" },
+                    { label: "HALMED — Maximum Wholesale Price Lists", url: "https://www.halmed.hr/Promet-proizvodnja-i-inspekcija/Najvisa-dozvoljena-cijena-lijeka-na-veliko/Popis-lijekova-s-odredenom-najvisom-dozvoljenom-cijenom-na-veliko-i-iznimno-visom-od-najvise-dozvoljene-cijene-na-veliko/" },
                 ],
             },
             {
@@ -1706,6 +1707,7 @@ const COUNTRIES = [
                 links: [
                     { label: "Hila \u2014 Reimbursable Medicines & Prices", url: "https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" },
                     { label: "Kela \u2014 Drug Price & Reimbursement Search", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" },
+                    { label: "Kela — Medicinal Products Database (prices & reimbursement)", url: "https://www.kela.fi/medicinal-products-database" },
                 ],
             },
             {
@@ -2020,6 +2022,7 @@ const COUNTRIES = [
                 body: "EOF (National Organisation for Medicines) sets maximum prices via external reference pricing against EU member states. Greece has some of the lowest ex-factory prices in Europe following austerity-era cuts. Mandatory rebates and clawback mechanisms apply.",
                 links: [
                     { label: "EOF — Drug Search (includes hospital & retail prices)", url: "https://services.eof.gr/human-search/home.xhtml" },
+                    { label: "Ministry of Health — Price Bulletins (Deltia Timon)", url: "https://www.moh.gov.gr/articles/times-farmakwn/deltia-timwn/" },
                 ],
             },
         ],
@@ -2164,6 +2167,7 @@ const COUNTRIES = [
                 links: [
                     { label: "NEAK — IRP Reference Prices", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" },
                     { label: "NEAK — Drug Search (with prices)", url: "https://neak.gov.hu/felso_menu/lakossagnak/gyogszerkereso" },
+                    { label: "NEAK — PUPHA Public Medicine Database", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/pupha/Publikus_Gyogyszertorzs" },
                 ],
             },
             {
@@ -2246,6 +2250,7 @@ const COUNTRIES = [
                 body: "IMA sets maximum prices using external reference pricing against Nordic countries. Iceland has some of the lowest prices in the Nordics.",
                 links: [
                     { label: "IMA — Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" },
+                    { label: "Lyfjastofnun — Medicine Price Catalogue", url: "https://www.lyfjastofnun.is/verd-og-greidsluthatttaka/lyfjaverdskra/" },
                 ],
             },
             {
@@ -2359,6 +2364,7 @@ const COUNTRIES = [
                 links: [
                     { label: "HSE PCRS \u2014 Reimbursable Items (with prices)", url: "https://www.hse.ie/eng/staff/pcrs/items/" },
                     { label: "NCPE \u2014 Drug Evaluations (cost-effectiveness)", url: "https://www.ncpe.ie/drugs/" },
+                    { label: "SSPCRS — Searchable Drug Price List", url: "https://www.sspcrs.ie/druglist/pub" },
                 ],
             },
         ],
@@ -2517,6 +2523,7 @@ const COUNTRIES = [
                     { label: "AIFA — Trova Farmaco (drug search with prices)", url: "https://www.aifa.gov.it/en/trova-farmaco" },
                     { label: "AIFA — Liste di Trasparenza (reference prices)", url: "https://www.aifa.gov.it/en/liste-di-trasparenza" },
                     { label: "AIFA — Open Data", url: "https://www.aifa.gov.it/en/open-data" },
+                    { label: "AIFA — Ricerca Farmaco (new portal)", url: "https://medicinali.aifa.gov.it/" },
                 ],
             },
             {
@@ -3491,7 +3498,7 @@ const COUNTRIES = [
                 title: "Pricing",
                 body: "DOH sets Maximum Drug Retail Prices (MDRP) for selected essential medicines. FDA Philippines publishes the Drug Price Reference Index (DPRI) for registered products.",
                 links: [
-                    { label: "DOH — Maximum Drug Retail Prices", url: "https://www.doh.gov.ph/" },
+                    { label: "DOH — Drug Price Reference Index (DPRI)", url: "https://dpri.doh.gov.ph/" },
                     { label: "FDA Philippines — Drug Price Reference Index", url: "https://verification.fda.gov.ph/drug_productslist.php" },
                 ],
             },
@@ -4225,6 +4232,7 @@ const COUNTRIES = [
                 body: "The Ministry of Health sets categorised drug prices. The categorisation list includes maximum prices and reimbursement levels per therapeutic group.",
                 links: [
                     { label: "Ministry of Health — Categorised Drug Prices", url: "https://www.health.gov.sk/?kategorizacia-a-uuc" },
+                    { label: "Kategorizácia — Searchable Drug Price Portal", url: "https://kategorizacia.mzsr.sk/Lieky/Common/Notices" },
                 ],
             },
             {
@@ -4266,6 +4274,7 @@ const COUNTRIES = [
                 links: [
                     { label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" },
                     { label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" },
+                    { label: "CBZ \u2014 Central Drug Database (Centralna baza zdravil)", url: "http://www.cbz.si" },
                 ],
             },
             {
@@ -4723,7 +4732,10 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "NDI — Drug Prices", url: "https://ndi.fda.moph.go.th/drug_value/index/public/" }],
+                links: [
+                    { label: "NDI — Drug Prices", url: "https://ndi.fda.moph.go.th/drug_value/index/public/" },
+                    { label: "DMSIC — Drug & Medical Supply Information Center", url: "https://dmsic.moph.go.th/" },
+                ],
             },
         ],
         tipsHtml: `
@@ -4799,7 +4811,9 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "NHI Drug Price Database", url: "https://www.nhi.gov.tw/QueryN/Query1.aspx" }],
+                links: [{ label: "NHI Drug Price Database", url: "https://www.nhi.gov.tw/QueryN/Query1.aspx" },
+                    { label: "NHI — Drug Item Online Query Service", url: "https://www.nhi.gov.tw/QueryN_New/QueryN/Query1" },
+                ],
             },
         ],
         tipsHtml: `
