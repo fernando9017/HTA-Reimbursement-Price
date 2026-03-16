@@ -4077,6 +4077,7 @@ const COUNTRIES = [
                 links: [
                     { label: "SFDA — Drug Query (includes pricing)", url: "https://rsd.sfda.gov.sa/drug-query-en.html" },
                     { label: "SFDA — Pharmaceutical Pricing Rules (PDF)", url: "https://www.sfda.gov.sa/sites/default/files/2022-10/PharmaceuticalPricingRulesE.pdf" },
+                    { label: "CHI — Daman Drug Formulary (insurance)", url: "https://www.chi.gov.sa/en/Rules/Pages/DamanDrugFormulary.aspx" },
                 ],
             },
             {
@@ -5020,6 +5021,8 @@ const COUNTRIES = [
                 links: [
                     { label: "DoH Shafafiya — Drug Prices (Abu Dhabi)", url: "https://www.doh.gov.ae/en/Shafafiya/prices" },
                     { label: "DHA — Drug Control (Dubai)", url: "https://www.dha.gov.ae/en/HealthRegulationSector/DrugControl" },
+                    { label: "TAMM — Search DOH Approved Drugs (Abu Dhabi)", url: "https://www.tamm.abudhabi/services/community/doh/search-approved-drugs?lang=en" },
+                    { label: "EDE — Emirates Drug Establishment", url: "https://www.ede.gov.ae" },
                 ],
             },
             {
@@ -5468,6 +5471,7 @@ const COUNTRIES = [
                 links: [
                     { label: "JFDA — Drug Price List (Official)", url: "https://www.jfda.jo/page/1/58" },
                     { label: "JFDA — Price Search", url: "https://www.jfda.jo/EchoBusV3.0/SystemAssets/SearchDrugs.aspx" },
+                    { label: "JFDA — Drug Prices Search", url: "http://www.jfda.jo/Pages/viewpage.aspx?pageID=184" },
                 ],
             },
             {
@@ -5561,6 +5565,7 @@ const COUNTRIES = [
                 links: [
                     { label: "MoH Kuwait — Drug Pricing", url: "https://www.moh.gov.kw/en/Pages/pharmaceuticals.aspx" },
                     { label: "Central Agency for Public Tenders (CAPT)", url: "https://www.capt.gov.kw/" },
+                    { label: "MOH — Drug & Food Supplement Prices", url: "https://eservices.moh.gov.kw/SPCMS/Drugdetails.aspx" },
                 ],
             },
             {
@@ -5659,6 +5664,8 @@ const COUNTRIES = [
                 links: [
                     { label: "Medicament.ma — Drug Prices (Official Database)", url: "https://www.medicament.ma/" },
                     { label: "Ministry of Health — Drug Price List", url: "https://www.sante.gov.ma/Pages/Medicaments.aspx" },
+                    { label: "MedicamentDB.ma — Drug Prices (5,400+ medicines)", url: "https://medicamentdb.ma/" },
+                    { label: "DMP — Official Medicines Search (with PPV prices)", url: "https://dmp.sante.gov.ma/recherche-medicaments" },
                 ],
             },
             {
@@ -5754,6 +5761,8 @@ const COUNTRIES = [
                 links: [
                     { label: "Federal Ministry of Health", url: "https://www.health.gov.ng/" },
                     { label: "BPP — Bureau of Public Procurement", url: "https://www.bpp.gov.ng/" },
+                    { label: "NHIA — Drug List and Prices", url: "https://www.nhia.gov.ng/nhia-drug-list-and-prices/" },
+                    { label: "NAFDAC — Greenbook (registered products)", url: "https://greenbook.nafdac.gov.ng/" },
                 ],
             },
             {
@@ -5846,6 +5855,8 @@ const COUNTRIES = [
                     { label: "NDoH — SEP Database (Single Exit Price)", url: "https://www.health.gov.za/sep/" },
                     { label: "NDoH — Database of Medicine Prices", url: "https://health.gov.za/medicine-price-registry/" },
                     { label: "MedPrices.co.za — Medicine Price Search", url: "https://www.medprices.co.za/" },
+                    { label: "Medicine Prices — Single Exit Price Search", url: "https://medicineprices.org.za/" },
+                    { label: "MPR — Medicine Price Registry (SEP schedules)", url: "http://www.mpr.gov.za/" },
                 ],
             },
             {
