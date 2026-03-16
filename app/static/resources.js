@@ -57,18 +57,18 @@ const LAST_VERIFIED = {
     DZ: "2025-02", AR: "2025-03", AU: "2025-03", AT: "2025-03", BD: "2026-03",
     BE: "2025-03", BG: "2026-01", BR: "2025-03", CA: "2025-03", CH: "2026-03",
     CL: "2025-03", CN: "2025-03", CO: "2025-03", CR: "2026-03", CY: "2025-12",
-    CZ: "2025-03", DE: "2025-03", DK: "2025-12", DZ: "2025-02", EC: "2026-03",
-    EE: "2026-01", EG: "2025-03", ES: "2025-03", FI: "2025-12", FR: "2025-03",
-    GB: "2025-03", GR: "2025-03", GT: "2026-03", HK: "2025-03", HR: "2026-01",
-    HU: "2025-03", ID: "2025-03", IE: "2025-03", IL: "2025-03", IN: "2026-03",
-    IS: "2026-01", IT: "2025-03", JO: "2026-03", JP: "2026-03", KE: "2026-03",
-    KR: "2026-03", KW: "2026-03", KZ: "2026-03", LB: "2026-03", LT: "2026-01",
-    LU: "2026-01", LV: "2026-01", MA: "2026-03", ME: "2026-01", MT: "2026-01",
+    CZ: "2025-03", DE: "2026-03", DK: "2025-12", DZ: "2025-02", EC: "2026-03",
+    EE: "2026-01", EG: "2025-03", ES: "2026-03", FI: "2026-03", FR: "2026-03",
+    GB: "2026-03", GR: "2026-03", GT: "2026-03", HK: "2026-03", HR: "2026-03",
+    HU: "2026-03", ID: "2026-03", IE: "2026-03", IL: "2025-03", IN: "2026-03",
+    IS: "2026-03", IT: "2026-03", JO: "2026-03", JP: "2026-03", KE: "2026-03",
+    KR: "2026-03", KW: "2026-03", KZ: "2026-03", LB: "2026-03", LT: "2026-03",
+    LU: "2026-03", LV: "2026-03", MA: "2026-03", ME: "2026-01", MT: "2026-01",
     MX: "2025-03", MY: "2026-03", NG: "2026-03", NL: "2025-03", NO: "2025-12",
-    NZ: "2026-03", OM: "2026-01", PE: "2026-01", PH: "2025-03", PK: "2026-03",
-    PL: "2025-03", PR: "2026-01", PT: "2025-03", QA: "2026-01", RO: "2025-03",
-    RS: "2026-03", RU: "2026-03", SA: "2025-03", SE: "2026-03", SG: "2025-03",
-    SI: "2026-01", SK: "2026-01", TH: "2025-03", TR: "2025-03", TW: "2025-03",
+    NZ: "2026-03", OM: "2026-01", PE: "2026-01", PH: "2026-03", PK: "2026-03",
+    PL: "2026-03", PR: "2026-01", PT: "2025-03", QA: "2026-01", RO: "2026-03",
+    RS: "2026-03", RU: "2026-03", SA: "2025-03", SE: "2026-03", SG: "2026-03",
+    SI: "2026-03", SK: "2026-03", TH: "2025-03", TR: "2025-03", TW: "2025-03",
     UA: "2026-03", AE: "2025-03", VN: "2025-03", ZA: "2026-03",
 };
 
@@ -1210,6 +1210,15 @@ const COUNTRIES = [
                 links: [{ label: "HZZO \u2014 Published Lists of Reimbursed Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "HALMED publishes drug prices in its database. HZZO reimbursement lists include maximum reimbursable prices. Croatia uses external reference pricing against a basket of EU countries.",
+                links: [
+                    { label: "HALMED \u2014 Drug Database (includes prices)", url: "https://www.halmed.hr/en/Lijekovi/Baza-lijekova/" },
+                    { label: "HZZO \u2014 Published Drug Lists (with prices)", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/objavljene-liste-lijekova" },
+                ],
+            },
+            {
                 id: "additional",
                 title: "Additional Resources",
                 links: [{ label: "HZZO \u2014 Right to Use Medicines", url: "https://hzzo.hr/zdravstvena-zastita/lijekovi/pravo-na-koristenje-lijekova" }],
@@ -1691,6 +1700,15 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Hila (Pharmaceutical Pricing Board) sets wholesale prices for reimbursable medicines. Prices are based on cost-effectiveness assessments from FIMEA. Generic reference pricing applies within therapeutic groups.",
+                links: [
+                    { label: "Hila \u2014 Reimbursable Medicines & Prices", url: "https://www.hila.fi/luettelot/korvattavat-myyntiluvalliset-laakevalmisteet/" },
+                    { label: "Kela \u2014 Drug Price & Reimbursement Search", url: "https://asiointi.kela.fi/laakekys_app/LaakekysApplication/Valmisteet" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
                 body: "Two reimbursement tiers: Basic reimbursement (40%) and Special reimbursement (65% or 100% for severe chronic conditions). Hila maintains the reimbursable medicines list. Kela (Social Insurance Institution) reimburses patients at the pharmacy.",
@@ -1775,6 +1793,16 @@ const COUNTRIES = [
                     { label: "HAS (Haute Autorité de Santé)", url: "https://www.has-sante.fr/jcms/c_5443/en/has-haute-autorite-de-sante" },
                     { label: "Commission de la Transparence opinions", url: "https://www.has-sante.fr/jcms/c_452455/en/transparency-committee" },
                     { label: "BDPM (Public Medicines Database)", url: "https://base-donnees-publique.medicaments.gouv.fr" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Prices are negotiated with CEPS (Comité Économique des Produits de Santé) based on the ASMR rating. BDPM publishes official reimbursed prices for all listed medicines.",
+                links: [
+                    { label: "BDPM — Drug Price Search", url: "https://base-donnees-publique.medicaments.gouv.fr" },
+                    { label: "CEPS — Framework Agreements & Price Reports", url: "https://sante.gouv.fr/ministere/acteurs/instances-rattachees/comite-economique-des-produits-de-sante-ceps/" },
+                    { label: "Medicprix — Hospital Drug Price Database", url: "https://www.medicprix.fr/" },
                 ],
             },
             {
@@ -1889,6 +1917,16 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "LAUER-TAXE is the official drug pricing database. During the first 12 months (free pricing period), the manufacturer sets the list price. After AMNOG assessment, GKV-Spitzenverband negotiates the Erstattungsbetrag (reimbursement amount).",
+                links: [
+                    { label: "LAUER-TAXE — Drug Pricing Database", url: "https://www.lauer-fischer.de" },
+                    { label: "GKV-Spitzenverband — Erstattungsbetrag Database", url: "https://www.gkv-spitzenverband.de/krankenversicherung/arzneimittel/verhandlungen_nach_amnog/erstattungsbetraege_nach_amnog.jsp" },
+                    { label: "Dimdi/BfArM — Drug Information System", url: "https://www.dimdi.de/dynamic/en/drugs/" },
+                ],
+            },
+            {
                 id: "access",
                 title: "Access & Pricing",
                 body: "Products are available at the manufacturer's list price immediately after launch (free pricing for 12 months). After G-BA assessment and price negotiation, a reimbursement amount (Erstattungsbetrag) is set retrospectively.",
@@ -1976,6 +2014,14 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 links: [{ label: "EOPYY — Medicine List", url: "https://eopyy.gov.gr/medicine/list" }],
             },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "EOF (National Organisation for Medicines) sets maximum prices via external reference pricing against EU member states. Greece has some of the lowest ex-factory prices in Europe following austerity-era cuts. Mandatory rebates and clawback mechanisms apply.",
+                links: [
+                    { label: "EOF — Drug Search (includes hospital & retail prices)", url: "https://services.eof.gr/human-search/home.xhtml" },
+                ],
+            },
         ],
         notes: "The EOPYY list shows medicines submitted for reimbursement consideration — listing does not confirm reimbursement status. EOF discloses pricing information.",
         tipsHtml: `
@@ -2037,6 +2083,15 @@ const COUNTRIES = [
                 title: "Market Authorization",
                 body: "The Drug Office (Department of Health) regulates pharmaceuticals in Hong Kong under the Pharmacy and Poisons Ordinance. Since November 2023, a \u20181+\u2019 mechanism allows registration based on one reference agency approval (instead of two), cutting approval time from ~24 to ~7 months.",
                 links: [{ label: "Drug Office \u2014 Drug Registration Search", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are not directly regulated by law. The Hospital Authority (HA) procures drugs through centralised tenders. HA Drug Formulary includes drug classification and subsidisation status.",
+                links: [
+                    { label: "HA Drug Formulary — Drug Search (with tiers)", url: "https://www.ha.org.hk/hadf/en-us/Updated-HA-Drug-Formulary/Drug-Formulary.html" },
+                    { label: "Drug Office — Drug Registration Search", url: "https://www.drugoffice.gov.hk/eps/do/en/pharmaceutical_trade/search_drug_database.html" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -2103,8 +2158,17 @@ const COUNTRIES = [
         ema: true,
         sections: [
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are regulated through external reference pricing (IRP). NEAK publishes reference prices for reimbursed medicines.",
+                links: [
+                    { label: "NEAK — IRP Reference Prices", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" },
+                    { label: "NEAK — Drug Search (with prices)", url: "https://neak.gov.hu/felso_menu/lakossagnak/gyogszerkereso" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "NEAK — IRP Reimbursed Drugs", url: "https://www.neak.gov.hu/felso_menu/szakmai_oldalak/gyogyszer_segedeszkoz_gyogyfurdo_tamogatas/egeszsegugyi_vallalkozasoknak/gyartok_forgalomba_hozok/dipc" }],
             },
             {
@@ -2177,8 +2241,16 @@ const COUNTRIES = [
                 links: [{ label: "Icelandic Medicines Agency (IMA)", url: "https://www.ima.is/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "IMA sets maximum prices using external reference pricing against Nordic countries. Iceland has some of the lowest prices in the Nordics.",
+                links: [
+                    { label: "IMA — Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 body: "Iceland is an EEA member \u2014 EMA centrally authorised medicines are valid in Iceland. IMA sets maximum prices using external reference pricing against Nordic countries. Two reimbursement categories apply: Category A (fully reimbursed for specific conditions) and Category B (partial reimbursement). IMA conducts HTA assessments for new medicines.",
                 links: [{ label: "IMA \u2014 Pricing and Reimbursement", url: "https://www.ima.is/home/pricing-and-reimbursement/" }],
             },
@@ -2208,6 +2280,15 @@ const COUNTRIES = [
                 id: "marketing",
                 title: "Market Authorization",
                 links: [{ label: "BPOM — Drug Registry", url: "https://cekbpom.pom.go.id/search_home_produk" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "LKPP manages the e-Katalog government procurement system with published drug prices. HET (Harga Eceran Tertinggi) is the government-set maximum retail price for essential medicines.",
+                links: [
+                    { label: "E-Katalog — Government Drug Prices", url: "https://e-katalog.lkpp.go.id/" },
+                    { label: "BPOM — Drug Registry (includes pricing)", url: "https://cekbpom.pom.go.id/search_home_produk" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -2270,6 +2351,15 @@ const COUNTRIES = [
                 title: "Reimbursement",
                 body: "HSE (Primary Care Reimbursement Service, PCRS) maintains the reimbursable items list. Under the Drugs Payment Scheme (DPS), patients pay a maximum of \u20ac80/month for approved medicines. High-tech drugs (biologics, oncologics) are dispensed through hospital pharmacies under separate High-Tech Arrangements.",
                 links: [{ label: "HSE \u2014 List of Reimbursable Items", url: "https://www.hse.ie/eng/staff/pcrs/items/" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Ireland negotiates prices under IPHA framework agreements. The HSE PCRS reimbursable items list includes ex-factory and retail prices. Ireland uses external reference pricing against a basket of 14 EU countries.",
+                links: [
+                    { label: "HSE PCRS \u2014 Reimbursable Items (with prices)", url: "https://www.hse.ie/eng/staff/pcrs/items/" },
+                    { label: "NCPE \u2014 Drug Evaluations (cost-effectiveness)", url: "https://www.ncpe.ie/drugs/" },
+                ],
             },
         ],
         tipsHtml: `
@@ -2417,6 +2507,16 @@ const COUNTRIES = [
                     { label: "AIFA — AIFA Notes (prescribing conditions)", url: "https://www.aifa.gov.it/en/note-aifa" },
                     { label: "AIFA — Registri di Monitoraggio", url: "https://www.aifa.gov.it/en/registri-farmaci-sottoposti-a-monitoraggio" },
                     { label: "AIFA — HTA & Drug Access Area", url: "https://www.aifa.gov.it/en/area-accesso-al-farmaco-e-hta" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "AIFA negotiates prices through the CPR (Comitato Prezzi e Rimborso). Liste di Trasparenza publishes off-patent reference prices. Italy uses external reference pricing with a basket of EU countries.",
+                links: [
+                    { label: "AIFA — Trova Farmaco (drug search with prices)", url: "https://www.aifa.gov.it/en/trova-farmaco" },
+                    { label: "AIFA — Liste di Trasparenza (reference prices)", url: "https://www.aifa.gov.it/en/liste-di-trasparenza" },
+                    { label: "AIFA — Open Data", url: "https://www.aifa.gov.it/en/open-data" },
                 ],
             },
             {
@@ -2652,6 +2752,15 @@ const COUNTRIES = [
                 body: "NHS Latvia (National Health Service / VMNVD) manages the compensated medicines list. Three reimbursement tiers apply: 100% (severe chronic conditions), 75%, and 50%. Individual patient compensation is available for off-list drugs via application to NHS Latvia.",
                 links: [{ label: "VMNVD \u2014 National Health Service Compensated Medicines", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" }],
             },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "ZVA (State Agency of Medicines) maintains the drug register with pricing data. Latvia uses external reference pricing. VMNVD compensated medicines list includes reimbursement prices.",
+                links: [
+                    { label: "ZVA \u2014 DATI Drug Register (with prices)", url: "https://dati.zva.gov.lv/zalu-registrs/lv" },
+                    { label: "VMNVD \u2014 Compensated Medicines (with prices)", url: "https://www.vmnvd.gov.lv/lv/kompensejamie-medikamenti" },
+                ],
+            },
         ],
         tipsHtml: `
 <h4 class="tips-heading">Drug Register (ZVA)</h4>
@@ -2724,8 +2833,17 @@ const COUNTRIES = [
                 links: [{ label: "VVKT — Medicines (English)", url: "https://vapris.vvkt.lt/vvkt-web/public/medications?lang=en" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are regulated by the Ministry of Health via external reference pricing. VLK maintains compensated medicines lists with prices.",
+                links: [
+                    { label: "VLK — Compensated Medicines with Prices", url: "https://ligoniukasa.lrv.lt/" },
+                    { label: "VVKT — Medicines Database", url: "https://vapris.vvkt.lt/vvkt-web/public/medications?lang=en" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "VLK — Compensated Medicines (Ligoniukasa)", url: "https://ligoniukasa.lrv.lt/" }],
             },
             {
@@ -2751,8 +2869,17 @@ const COUNTRIES = [
                 links: [{ label: "CNS — List of Marketed Medicines", url: "https://cns.public.lu/en/legislations/textes-coordonnes/liste-med-comm.html" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "CNS positive list includes Prix d\'achat pharmacie and Prix public for all reimbursed medicines. Luxembourg uses external reference pricing.",
+                links: [
+                    { label: "CNS — Positive List (with prices)", url: "https://cns.public.lu/en/professionnels-sante/medicaments/liste-positive.html" },
+                    { label: "CNS — List of Marketed Medicines", url: "https://cns.public.lu/en/legislations/textes-coordonnes/liste-med-comm.html" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "CNS — Positive List (reimbursed drugs)", url: "https://cns.public.lu/en/professionnels-sante/medicaments/liste-positive.html" }],
             },
             {
@@ -3360,6 +3487,15 @@ const COUNTRIES = [
                 links: [{ label: "FDA Philippines — Drug Products List", url: "https://verification.fda.gov.ph/drug_productslist.php" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "DOH sets Maximum Drug Retail Prices (MDRP) for selected essential medicines. FDA Philippines publishes the Drug Price Reference Index (DPRI) for registered products.",
+                links: [
+                    { label: "DOH — Maximum Drug Retail Prices", url: "https://www.doh.gov.ph/" },
+                    { label: "FDA Philippines — Drug Price Reference Index", url: "https://verification.fda.gov.ph/drug_productslist.php" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
                 links: [{ label: "Philippine National Formulary / EML (PDF)", url: "https://www.philhealth.gov.ph/partners/providers/pdf/PNF-EML_11022022.pdf" }],
@@ -3413,6 +3549,16 @@ const COUNTRIES = [
                 id: "marketing",
                 title: "Market Authorization",
                 links: [{ label: "e-Zdrowie — Register of Medicinal Products", url: "https://rejestrymedyczne.ezdrowie.gov.pl/rpl/search/public" }],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are set through ministerial reimbursement announcements (quarterly). AOTMiT conducts HTA evaluations informing pricing decisions.",
+                links: [
+                    { label: "Ministerstwo Zdrowia — Reimbursement List (with prices)", url: "https://www.gov.pl/web/zdrowie/leki-refundowane" },
+                    { label: "Lekinfo24 — Drug Price Search", url: "https://www.lekinfo24.pl" },
+                    { label: "AOTMiT — HTA Agency", url: "https://www.aotmit.gov.pl/en/" },
+                ],
             },
             {
                 id: "reimbursement",
@@ -3786,8 +3932,16 @@ const COUNTRIES = [
                 links: [{ label: "ANM — Autorizare Medicamente", url: "https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "ANM sets drug prices via external reference pricing against EU member states. CNAS publishes the reimbursed medicines list with prices in RON.",
+                links: [
+                    { label: "CNAS — Drug Price Lists", url: "https://cnas.ro/lista-medicamente/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [{ label: "CNAS — Liste de Medicamente", url: "https://cnas.ro/lista-medicamente/" }],
             },
             {
@@ -3971,6 +4125,15 @@ const COUNTRIES = [
                 links: [{ label: "HSA — Drug Registration Search", url: "https://eservice.hsa.gov.sg/prism/common/enquirepublic/SearchDRBProduct.do?action=load" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Drug prices are not centrally regulated in Singapore. Public hospitals use centralised group purchasing tenders (GPOs) for cost containment. ACE evaluates cost-effectiveness for subsidy decisions.",
+                links: [
+                    { label: "MOH — Subsidised Drug List (with prices)", url: "https://www.moh.gov.sg/managing-expenses/schemes-and-subsidies/list-of-subsidised-drugs" },
+                    { label: "ACE — Drug Guidance & Evaluations", url: "https://www.ace-hta.gov.sg/" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
                 links: [{ label: "MOH — List of Subsidised Drugs", url: "https://www.moh.gov.sg/managing-expenses/schemes-and-subsidies/list-of-subsidised-drugs" }],
@@ -4048,8 +4211,16 @@ const COUNTRIES = [
                 links: [{ label: "ŠÚKL — Slovak State Institute for Drug Control", url: "https://www.sukl.sk/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "The Ministry of Health sets categorised drug prices. The categorisation list includes maximum prices and reimbursement levels per therapeutic group.",
+                links: [
+                    { label: "Ministry of Health — Categorised Drug Prices", url: "https://www.health.gov.sk/?kategorizacia-a-uuc" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
+                title: "Reimbursement",
                 links: [
                     { label: "Ministry of Health — Kategorisation (List B = reimbursed)", url: "https://www.health.gov.sk/?kategorizacia-a-uuc" },
                     { label: "VŠZP — DRG Accruals", url: "https://www.vszp.sk/poskytovatelia/drg/" },
@@ -4080,9 +4251,18 @@ const COUNTRIES = [
                 links: [{ label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "JAZMP sets regulated maximum prices via external reference pricing against EU member states. The price list is published on the JAZMP website and updated periodically.",
+                links: [
+                    { label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" },
+                    { label: "JAZMP \u2014 Medicinal Products Database", url: "https://www.jazmp.si/en/human-medicines/data-on-medicinal-products/medicinal-products-database/" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                body: "ZZZS (Health Insurance Institute of Slovenia / Zavod za zdravstveno zavarovanje Slovenije) manages two reimbursement lists: List A (highest priority, 100% reimbursed) and List B (broader, partially reimbursed). JAZMP sets regulated maximum prices. Prior authorisation (predhodna odobritev) is required for restricted medicines.",
+                title: "Reimbursement",
+                body: "ZZZS (Health Insurance Institute of Slovenia / Zavod za zdravstveno zavarovanje Slovenije) manages two reimbursement lists: List A (highest priority, 100% reimbursed) and List B (broader, partially reimbursed). Prior authorisation (predhodna odobritev) is required for restricted medicines.",
                 links: [{ label: "JAZMP \u2014 List of Regulated Prices", url: "https://www.jazmp.si/en/human-medicines/pricing-of-medicinal-products/list-of-regulated-prices/" }],
             },
         ],
@@ -4238,12 +4418,21 @@ const COUNTRIES = [
                 ],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "Prices are negotiated centrally by CIPM (Comisión Interministerial de Precios). CIMA includes price data for all authorised medicines. The Nomenclátor de Facturación lists reimbursed products with NHS prices.",
+                links: [
+                    { label: "CIMA — Drug Prices & Reimbursement Status", url: "https://cima.aemps.es/cima/publico/home.html" },
+                    { label: "Nomenclátor de Facturación (NHS Price List)", url: "https://cima.aemps.es/cima/publico/nomenclator.html" },
+                    { label: "BOT Plus — Pharmacological Database (CGCOF)", url: "https://botplusweb.portalfarma.com/" },
+                ],
+            },
+            {
                 id: "access",
                 title: "Access & Pricing",
                 body: "Reimbursement and pricing decisions are centralised via CIPM. Autonomous communities may apply additional regional restrictions. Early access is available via Uso Compasivo / Acceso Anticipado.",
                 links: [
                     { label: "AEMPS — Compassionate Use (Uso Compasivo)", url: "https://www.aemps.gob.es/medicamentosUsoHumano/usoCompasivo/home.htm" },
-                    { label: "BOT Plus — Pharmacological Database (CGCOF)", url: "https://botplusweb.portalfarma.com/" },
                     { label: "Trikipedia — Spain", url: "https://tpius.sharepoint.com/sites/Trikipedia/Country/Spain.aspx" },
                 ],
             },
@@ -4878,6 +5067,17 @@ const COUNTRIES = [
                     { label: "NICE — Cancer Drugs Fund", url: "https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-technology-appraisal-guidance/cancer-drugs-fund" },
                     { label: "SMC (Scottish Medicines Consortium)", url: "https://www.scottishmedicines.org.uk" },
                     { label: "AWMSG (All Wales Medicines Strategy Group)", url: "https://awmsg.nhs.wales/medicines-appraisals-and-guidance/" },
+                ],
+            },
+            {
+                id: "pricing",
+                title: "Pricing",
+                body: "BNF (British National Formulary) lists indicative NHS prices. The NHS Drug Tariff sets reimbursement prices for community pharmacy. VPAS governs branded medicine pricing with a growth cap mechanism.",
+                links: [
+                    { label: "BNF — Drug Prices (British National Formulary)", url: "https://bnf.nice.org.uk/" },
+                    { label: "NHS Drug Tariff — Reimbursement Prices", url: "https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/drug-tariff" },
+                    { label: "NHSBSA — Prescription Cost Analysis", url: "https://www.nhsbsa.nhs.uk/statistical-collections/prescription-cost-analysis-england" },
+                    { label: "eMIT — Drugs & Pharmaceutical Electronic Market Information", url: "https://www.gov.uk/government/publications/drugs-and-pharmaceutical-electronic-market-information-emit" },
                 ],
             },
             {
