@@ -465,7 +465,18 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "Sozialversicherung \u2014 Drug Prices", url: "https://www.sozialversicherung.at/cdscontent/load?contentid=10008.784743&version=1703680781" }],
+                body: "Drug prices in Austria are published in the EKO (Erstattungskodex). The EKO Infotool shows the Kassenpreis (reimbursement price) alongside box colour and conditions. The eEKO (electronic EKO) is downloadable for comprehensive price analysis.",
+                links: [
+                    { label: "EKO Infotool — Drug Prices & Reimbursement", url: "https://www.sozialversicherung.at/oeko/views/index.xhtml" },
+                    { label: "eEKO — Electronic EKO Download", url: "https://www.sozialversicherung.at/cdscontent/?contentid=10007.844482" },
+                ],
+            },
+            {
+                id: "hta",
+                title: "HTA",
+                links: [
+                    { label: "AIHTA — Austrian Institute for Health Technology Assessment", url: "https://aihta.at/page/homepage/en" },
+                ],
             },
         ],
         tipsHtml: `
@@ -545,8 +556,10 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                body: "The FPS Economy determines maximum ex-factory prices. The public price adds wholesaler margin, pharmacist margin, dispensing fee, and 6% VAT. Generic entry triggers a ~45% 'patent cliff' reduction on the originator's reimbursement basis.",
+                body: "The FPS Economy determines maximum ex-factory prices. The public price adds wholesaler margin, pharmacist margin, dispensing fee, and 6% VAT. Generic entry triggers a ~45% 'patent cliff' reduction on the originator's reimbursement basis. The SAM (Source Authentique des Médicaments) is the comprehensive medicines database.",
                 links: [
+                    { label: "SAM — Belgium Medicines Database (with Prices)", url: "https://medicinesdatabase.be/" },
+                    { label: "RIZIV/INAMI — SSP Drug Price Search", url: "https://webappsa.riziv-inami.fgov.be/ssp/ProductSearch" },
                     { label: "FPS Economy \u2014 Medicines Pricing", url: "https://economie.fgov.be/fr/themes/ventes/politique-des-prix/prix-reglementes/medicaments-usage-humain" },
                 ],
             },
@@ -746,13 +759,22 @@ const COUNTRIES = [
                 links: [{ label: "BDA \u2014 Drug Register", url: "https://www.bda.bg/bg/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B8-%D0%BD%D0%B0-%D0%BB%D0%B5%D0%BA%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%B8-%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%B8" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "NCPRMP (National Council on Prices and Reimbursement of Medicinal Products) manages the Positive Drug List (PDL) with prices. The PDL has 4 annexes: Annex 1 (NHIF outpatient), Annex 2 (hospital budgets), Annex 3 (Ministry of Health), Annex 4 (rare diseases/HIV). Uses external reference pricing based on 10 EU countries.",
+                links: [
+                    { label: "NCPRMP — Drug Price Portal (PDL Search)", url: "https://portal.ncpr.bg/registers/pages/register/list-medicament.xhtml" },
+                    { label: "NCPRMP — Official Website", url: "https://ncpr.bg/en/" },
+                ],
+            },
+            {
                 id: "reimbursement",
                 title: "Reimbursement",
                 body: "NHIF (National Health Insurance Fund / НЗОК) maintains the positive drug list, updated quarterly. Reimbursement is grouped by therapeutic indication with three levels based on medical condition severity. Reference pricing against EU member states determines maximum reimbursable prices.",
                 links: [{ label: "NHIF \u2014 National Health Insurance Medicine List", url: "https://www.nhif.bg/bg/medicine_food/medical-list/2024" }],
             },
         ],
-        notes: "EMA centralised procedure is an alternative route to obtain marketing authorisation.",
+        notes: "EMA centralised procedure is an alternative route to obtain marketing authorisation. NCPRMP performs HTA for PDL inclusion (mandatory since 2015).",
         tipsHtml: `
 <h4 class="tips-heading">BDA Drug Register &amp; Marketing Authorization</h4>
 <ol>
@@ -1223,7 +1245,12 @@ const COUNTRIES = [
             {
                 id: "pricing",
                 title: "Pricing",
-                links: [{ label: "MoH \u2014 Price of Medicinal Products", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" }],
+                body: "Drug prices are regulated by the Pharmaceutical Services department via external reference pricing. The official price list is published in the Official Gazette.",
+                links: [
+                    { label: "MoH \u2014 Price of Medicinal Products", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/pricelist_en/pricelist_en?opendocument" },
+                    { label: "MoH — Searchable Drug Price List", url: "https://www.moh.gov.cy/moh/phs/phs.nsf/dmlpricelist_en/dmlpricelist_en?OpenDocument" },
+                    { label: "GESY — Formulary & Coverage", url: "https://www.gesy.org.cy/en-us/hiopharmaciesmoreinformation" },
+                ],
             },
         ],
         tipsHtml: `
@@ -1252,10 +1279,20 @@ const COUNTRIES = [
                 links: [{ label: "S\u00daKL \u2014 Drug Register", url: "https://www.sukl.cz/modules/medication/search.php" }],
             },
             {
+                id: "pricing",
+                title: "Pricing",
+                body: "SÚKL publishes monthly lists of reimbursed medicinal products with prices (max ex-factory and pharmacy retail). Available as downloadable Excel/CSV files. Uses external reference pricing against EU countries.",
+                links: [
+                    { label: "SÚKL — Monthly Reimbursed Drug Price Lists", url: "https://sukl.gov.cz/en/list-of-reimbursed-medicinal-products/" },
+                    { label: "SÚKL — Drug Search (with Prices)", url: "https://www.sukl.cz/modules/medication/search.php" },
+                    { label: "SÚKL — Drug Database (English)", url: "https://prehledy.sukl.cz/index_en.html" },
+                ],
+            },
+            {
                 id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                body: "S\u00daKL (State Institute for Drug Control) manages a single database covering marketing authorisation, reimbursement status, and regulated prices. Reimbursement decisions include indication-based conditions (IND codes) that restrict which patients are eligible. HTA is conducted by S\u00daKL\u2019s own assessment department.",
-                links: [{ label: "S\u00daKL \u2014 Reimbursed Drugs and Prices", url: "https://www.sukl.cz/modules/medication/search.php" }],
+                title: "Reimbursement",
+                body: "SÚKL manages reimbursement decisions with indication-based conditions (IND codes) that restrict which patients are eligible. HTA is conducted by SÚKL's own assessment department. Reimbursement levels depend on positioning within 195 reference groups of therapeutically interchangeable products.",
+                links: [{ label: "S\u00daKL \u2014 Reimbursed Drugs Search", url: "https://www.sukl.cz/modules/medication/search.php" }],
             },
         ],
         tipsHtml: `
@@ -1595,15 +1632,23 @@ const COUNTRIES = [
                 links: [{ label: "Ravimiregister", url: "https://www.ravimiregister.ee/" }],
             },
             {
-                id: "reimbursement",
-                title: "Reimbursement & Pricing",
-                body: "Haigekassa (Estonian Health Insurance Fund, EHIF) manages three reimbursement tiers: 100% (severe chronic or rare conditions on the special conditions list), 75% (standard compensated medicines), and 50% (selected medicines). Individual compensation is possible for off-list drugs via application.",
-                links: [{ label: "Raviminfo \u2014 Reimbursed Drugs and Prices", url: "https://raviminfo.ee/apthkiri.php" }],
+                id: "pricing",
+                title: "Pricing",
+                body: "The Ravimiregister contains reference prices and discount rates. Tervisekassa (Estonian Health Insurance Fund) publishes the reimbursed pharmaceuticals list, amended quarterly, with discount rates of 50%, 75%, 90%, or 100%.",
+                links: [
+                    { label: "Ravimiregister — Drug Prices (English)", url: "https://www.ravimiregister.ee/en/default.aspx" },
+                    { label: "Raviminfo — Reimbursed Drug Prices", url: "https://raviminfo.ee/apthkiri.php" },
+                    { label: "Tervisekassa — Drug Price Calculation", url: "https://tervisekassa.ee/en/ravimi-hind" },
+                ],
             },
             {
-                id: "additional",
-                title: "Additional Resources",
-                links: [{ label: "Haigekassa \u2014 How Reimbursement Works", url: "https://www.haigekassa.ee/inimesele/ravimid" }],
+                id: "reimbursement",
+                title: "Reimbursement",
+                body: "Tervisekassa (Estonian Health Insurance Fund, formerly Haigekassa/EHIF) manages reimbursement tiers: 100% (severe chronic or rare conditions), 75% (standard compensated), and 50% (selected medicines). Individual compensation is possible for off-list drugs via application.",
+                links: [
+                    { label: "Tervisekassa — Reimbursement of Pharmaceuticals", url: "https://tervisekassa.ee/en/people/benefits-provided-health-insurance-fund/reimbursement-pharmaceuticals" },
+                    { label: "Tervisekassa — Partner Medicinal Products", url: "https://tervisekassa.ee/en/partner/medicinal-products" },
+                ],
             },
         ],
         tipsHtml: `
