@@ -329,8 +329,8 @@ const PATHWAY_PROGRAMS = [
             "Multi-site consistency (Rochester, Phoenix, Jacksonville)",
             "NCCN member institution",
         ],
-        url: "https://www.mayoclinic.org/medical-professionals",
-        dataAvailability: "Not publicly available; internal EHR-integrated pathways",
+        url: "https://www.mayoclinicproceedings.org/article/S0025-6196(19)30070-9/fulltext",
+        dataAvailability: "Mayo Clinic Proceedings (2019) published NSCLC treatment algorithm; CancerNetwork (2024) panel reveals EGFR preferences; formal pathways internal only",
         lastChecked: "2026-03",
     },
     {
@@ -706,18 +706,20 @@ const DATA_METHODOLOGY = {
         dataInComparison: "Therapy positions are inferred from MSK's published research and NCCN contributions. Low confidence — these are educated estimates, not direct extractions.",
     },
     mayo: {
-        confidence: "low",
-        urlQuality: "Generic medical professionals portal — no pathway content visible",
+        confidence: "medium",
+        urlQuality: "Generic medical professionals portal; institutional preferences documented in published literature and expert panels",
         primarySources: [
-            "Mayo Clinic references to internal oncology pathways",
-            "NCCN membership documentation",
+            "Mayo Clinic Proceedings 2019: 'Non-Small Cell Lung Cancer: Epidemiology, Screening, Diagnosis, and Treatment' (Duma, Santana-Davila, Molina — Mayo Division of Medical Oncology) DOI: 10.1016/j.mayocp.2019.01.013 — includes treatment algorithm figures for metastatic NSCLC",
+            "CancerNetwork 2024: 'Mayo Clinic on AE Management Strategies for EGFR-Mutated NSCLC' (Leventakos, Mayo thoracic oncology) — states institutional preference for osimertinib + chemo over amivantamab + lazertinib in medically fit patients",
+            "PMC9425065: Mayo systematic review on ICI efficacy by PD-L1 status (Yang, Adjei, Leventakos, Duma, Molina et al.)",
         ],
         secondarySources: [
-            "Published research from Mayo on NSCLC treatment outcomes",
+            "Mayo Clinic Elsevier Pure: real-world ALK+ NSCLC treatment patterns study",
+            "NCCN member institution — contributes to national guideline panels",
         ],
-        methodology: "Mayo Clinic maintains internal EHR-integrated pathways confirmed by institutional descriptions and NCCN membership. No public-facing pathway content is available.",
-        limitations: "URL is the generic medical professionals portal with no pathway data. Mayo's pathways are entirely internal to their EHR system. Entry documents programme existence only.",
-        dataInComparison: "Therapy positions are inferred from NCCN alignment (Mayo is an NCCN member) and published research. Low confidence — should be treated as estimates.",
+        methodology: "Mayo does not publish formal institutional pathways, but specific therapy preferences are documented in published literature and expert panel discussions. EGFR treatment preferences (osimertinib + chemo preferred) confirmed from 2024 CancerNetwork panel featuring Mayo thoracic oncologists. Broader NSCLC treatment algorithm published in Mayo Clinic Proceedings (2019) with biomarker-driven sequencing. ICI biomarker selection data from Mayo systematic review.",
+        limitations: "No formal pathway document available publicly. Mayo Clinic Proceedings algorithm (2019) predates many current approvals (sotorasib, adagrasib, adjuvant osimertinib data, etc.). Specific preferences for KRAS G12C, ROS1, RET, MET, BRAF, or NTRK-driven NSCLC are not publicly documented. Immunotherapy regimen preferences (pembrolizumab vs. nivolumab/ipilimumab) for driver-negative NSCLC are not disclosed.",
+        dataInComparison: "EGFR therapy positions based on published Mayo expert preferences (high confidence for osimertinib/osimertinib+chemo). Other biomarker positions inferred from NCCN alignment and published systematic reviews. Medium overall confidence — some positions are well-sourced, others remain estimates.",
     },
     flatiron: {
         confidence: "medium",
@@ -1312,7 +1314,7 @@ const PATHWAY_INSTITUTIONS = [
     { id: "aetna", name: "Aetna", fullName: "Aetna / CVS Health Oncology", type: "payer", version: "2026", url: "https://www.aetna.com/health-care-professionals/clinical-policy-bulletins.html" },
     { id: "mdanderson", name: "MDA", fullName: "MD Anderson Clinical Algorithms", type: "academic", version: "2026", url: "https://www.mdanderson.org/for-physicians/clinical-tools-resources/clinical-practice-algorithms.html" },
     { id: "msk", name: "MSK", fullName: "Memorial Sloan Kettering Guidelines", type: "academic", version: "2026", url: "https://www.mskcc.org/clinical-trials/physicians" },
-    { id: "mayo", name: "Mayo", fullName: "Mayo Clinic Oncology Pathways", type: "academic", version: "2026", url: "https://www.mayoclinic.org/medical-professionals" },
+    { id: "mayo", name: "Mayo", fullName: "Mayo Clinic Oncology Pathways", type: "academic", version: "2026", url: "https://www.mayoclinicproceedings.org/article/S0025-6196(19)30070-9/fulltext" },
     { id: "clinicalpath", name: "ClinicalPath", fullName: "Elsevier ClinicalPath (Via Oncology)", type: "commercial", version: "2026", url: "https://www.elsevier.com/products/clinicalpath" },
     { id: "eviti", name: "eviti", fullName: "eviti Connect (NantHealth)", type: "commercial", version: "2026", url: "https://nanthealth.com/payers/eviti-connect/eviti-oncology/" },
     { id: "flatiron", name: "Flatiron", fullName: "Flatiron Health OncoEMR", type: "commercial", version: "2026", url: "https://flatiron.com/" },
@@ -1338,7 +1340,7 @@ const INSTITUTION_VERIFICATION = {
     humana:      { level: "inferred",  source: "Evolent Health partnership confirmed; no public regimen data; programme operates behind payer portal" },
     moffitt:     { level: "inferred",  source: "EvidenceCare/OncologyCare EHR partnership confirmed (AJMC); pathway page exists but content behind institutional credentials; no public regimen data" },
     msk:         { level: "inferred",  source: "NCCN founding member; MSK physicians contribute to national guidelines; no publicly available institutional pathway document" },
-    mayo:        { level: "inferred",  source: "NCCN member; no public pathway content found; internal EHR-integrated pathways only" },
+    mayo:        { level: "published", source: "Mayo Clinic Proceedings 2019 (Duma, Molina et al.) published NSCLC treatment algorithm; CancerNetwork 2024 panel: Mayo experts prefer osimertinib+chemo over amivantamab+lazertinib for EGFR 1L" },
     flatiron:    { level: "inferred",  source: "Flatiron RWE publications reflect treatment patterns, not explicit pathway positions; platform/analytics company" },
 };
 
