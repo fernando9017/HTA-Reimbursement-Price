@@ -297,8 +297,12 @@ const PATHWAY_PROGRAMS = [
             "Regularly updated with latest evidence",
             "Covers full treatment continuum from diagnosis to survivorship",
         ],
-        url: "https://www.mdanderson.org/for-physicians/clinical-tools-resources/clinical-practice-algorithms.html",
-        dataAvailability: "Algorithms freely available online; OEA platform subscription-based",
+        url: "https://www.mdanderson.org/for-physicians/clinical-tools-resources/clinical-practice-algorithms/cancer-treatment-algorithms.html",
+        pdfUrls: [
+            { label: "NSCLC Treatment Algorithm (may be under revision)", url: "https://www.mdanderson.org/documents/for-physicians/algorithms/cancer-treatment/ca-treatment-non-small-cell-web-algorithm.pdf" },
+            { label: "NSCLC Survivorship Algorithm", url: "https://www.mdanderson.org/content/dam/mdanderson/documents/for-physicians/algorithms/survivorship/survivorship-non-small-cell-web-algorithm.pdf" },
+        ],
+        dataAvailability: "Algorithm PDFs publicly hosted (no login) but may be under revision; NSCLC algorithm possibly placeholder due to rapid 2024-2025 FDA approvals",
         lastChecked: "2026-03",
     },
     {
