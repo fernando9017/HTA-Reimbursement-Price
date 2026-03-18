@@ -4544,3 +4544,499 @@ footer a:hover {
     }
 }
 
+/* ── Pathways Tab Navigation ──────────────────────────────────── */
+
+.pw-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+    overflow-x: auto;
+}
+
+.pw-tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.pw-tab-btn:hover {
+    color: var(--primary);
+    background: #f0f4f8;
+}
+
+.pw-tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+}
+
+.pw-tab-panel {
+    display: none;
+}
+
+.pw-tab-panel.active {
+    display: block;
+}
+
+/* ── NCCN Algorithm Visual ────────────────────────────────────── */
+
+.nccn-algo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.nccn-algo-version {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.nccn-algo-updated {
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
+.nccn-algo-section {
+    margin-bottom: 24px;
+}
+
+.nccn-algo-section-title {
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #d4e6f1;
+}
+
+.nccn-algo-tests {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+}
+
+.nccn-test-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: #f8fafe;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-light);
+}
+
+.nccn-test-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--text);
+}
+
+.nccn-test-method {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: right;
+}
+
+.nccn-algo-branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+}
+
+.nccn-branch-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    transition: box-shadow 0.2s;
+}
+
+.nccn-branch-card:hover {
+    box-shadow: var(--shadow);
+}
+
+.nccn-branch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.nccn-branch-driver {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary);
+}
+
+.nccn-branch-cat {
+    font-size: 0.72rem;
+    background: #eaf2f8;
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.nccn-branch-therapies {
+    font-size: 0.88rem;
+    line-height: 1.8;
+}
+
+.nccn-branch-other {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+}
+
+/* ── Comparison Matrix ────────────────────────────────────────── */
+
+.cmp-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cmp-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.cmp-toggle-label input[type="checkbox"] {
+    accent-color: var(--primary);
+}
+
+.cmp-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 10px 14px;
+    background: #f8fafe;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.82rem;
+}
+
+.cmp-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cmp-segment {
+    margin-bottom: 24px;
+}
+
+.cmp-segment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.cmp-biomarker {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary);
+}
+
+.cmp-line-badge {
+    font-size: 0.72rem;
+    background: #eaf2f8;
+    color: var(--primary);
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.cmp-table-wrapper {
+    overflow-x: auto;
+}
+
+.cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 700px;
+}
+
+.cmp-table th {
+    padding: 8px 10px;
+    background: #f0f4f8;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-align: center;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+}
+
+.cmp-table th.cmp-agent-col,
+.cmp-table th.cmp-brand-col {
+    text-align: left;
+}
+
+.cmp-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cmp-agent-cell {
+    text-align: left !important;
+}
+
+.cmp-brand-cell {
+    text-align: left !important;
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
+.cmp-agent-name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+.cmp-mfr {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--text-light);
+}
+
+.cmp-table tr:hover td {
+    background: #fafbfd;
+}
+
+.cmp-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.cmp-preferred {
+    background: #d5f5e3;
+    color: #1e8449;
+}
+
+.cmp-recommended {
+    background: #d6eaf8;
+    color: #2471a3;
+}
+
+.cmp-listed {
+    background: #fef9e7;
+    color: #b7950b;
+}
+
+.cmp-not-listed {
+    background: #f2f3f4;
+    color: #95a5a6;
+}
+
+.cmp-restricted {
+    background: #fadbd8;
+    color: #c0392b;
+}
+
+.cmp-unknown {
+    background: #e8daef;
+    color: #7d3c98;
+}
+
+.cmp-deviation {
+    background: #fef5e7 !important;
+}
+
+.cmp-deviation-marker,
+.cmp-deviation-marker-inline {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: #fef5e7;
+    border: 2px solid #e67e22;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.cmp-deviation-marker-inline {
+    margin: 0 2px;
+}
+
+.cmp-deviation-flag {
+    background: #e67e22 !important;
+    color: white !important;
+    border-radius: 4px !important;
+    width: auto !important;
+    padding: 2px 8px !important;
+    font-size: 0.68rem !important;
+}
+
+/* ── Institution Detail View ──────────────────────────────────── */
+
+.inst-selector-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.inst-selector-row label {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.inst-selector-row select {
+    flex: 1;
+    max-width: 400px;
+}
+
+.inst-header-card {
+    background: #f8fafe;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.inst-header-card h3 {
+    color: var(--primary);
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+}
+
+.inst-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.inst-version {
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
+.inst-desc {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 8px 0 0;
+}
+
+.inst-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.inst-segment {
+    margin-bottom: 20px;
+}
+
+.inst-segment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.inst-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.inst-table th {
+    padding: 8px 12px;
+    background: #f0f4f8;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+}
+
+.inst-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.inst-table tr:hover td {
+    background: #fafbfd;
+}
+
+.inst-table tr.cmp-deviation td {
+    background: #fef5e7;
+}
+
+.inst-note {
+    font-size: 0.76rem;
+    color: var(--text-light);
+}
+
+.inst-aligned {
+    font-size: 0.78rem;
+    color: #27ae60;
+    font-weight: 500;
+}
+
+/* ── Responsive: Tabs + Matrix ────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .pw-tabs {
+        gap: 0;
+    }
+    .pw-tab-btn {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+    .nccn-algo-tests {
+        grid-template-columns: 1fr;
+    }
+    .nccn-algo-branches {
+        grid-template-columns: 1fr;
+    }
+    .cmp-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .inst-selector-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .inst-selector-row select {
+        max-width: 100%;
+    }
+}
+
