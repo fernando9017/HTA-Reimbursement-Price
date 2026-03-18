@@ -54,81 +54,150 @@
             </div>
         </section>
 
-        <!-- Filter toolbar -->
-        <section class="card">
-            <h2>Pathway Programs Directory</h2>
-            <div class="resource-toolbar">
-                <div class="resource-search-row">
-                    <input type="text" id="pathway-search" class="resource-search-input" placeholder="Search pathway programs…" autocomplete="off" aria-label="Search pathway programs">
-                    <select id="pathway-type-filter" class="resource-select" aria-label="Filter by type">
-                        <option value="">All Types</option>
-                        <option value="payer">Payer-Driven</option>
-                        <option value="provider">Provider/Institution</option>
-                        <option value="public">Public/Government</option>
-                        <option value="commercial">Commercial Analytics</option>
+        <!-- Tab Navigation -->
+        <div class="pw-tabs">
+            <button class="pw-tab-btn active" data-tab="tab-directory">Programs Directory</button>
+            <button class="pw-tab-btn" data-tab="tab-nccn-algo">NCCN Guidelines</button>
+            <button class="pw-tab-btn" data-tab="tab-comparison">Therapy Comparison</button>
+            <button class="pw-tab-btn" data-tab="tab-institution">Institution Detail</button>
+        </div>
+
+        <!-- ═══ TAB 1: Programs Directory ═══ -->
+        <div class="pw-tab-panel active" id="tab-directory">
+            <!-- Filter toolbar -->
+            <section class="card">
+                <h2>Pathway Programs Directory</h2>
+                <div class="resource-toolbar">
+                    <div class="resource-search-row">
+                        <input type="text" id="pathway-search" class="resource-search-input" placeholder="Search pathway programs…" autocomplete="off" aria-label="Search pathway programs">
+                        <select id="pathway-type-filter" class="resource-select" aria-label="Filter by type">
+                            <option value="">All Types</option>
+                            <option value="payer">Payer-Driven</option>
+                            <option value="provider">Provider/Institution</option>
+                            <option value="academic">Academic/Cancer Centre</option>
+                            <option value="public">Public/Government</option>
+                            <option value="commercial">Commercial Analytics</option>
+                        </select>
+                        <select id="pathway-access-filter" class="resource-select" aria-label="Filter by data access">
+                            <option value="">All Access Levels</option>
+                            <option value="public">Public / Open</option>
+                            <option value="semi-public">Semi-Public (Registration)</option>
+                            <option value="proprietary">Proprietary / Subscription</option>
+                        </select>
+                        <button id="pathway-reset-filters" class="btn-reset" title="Reset all filters">Reset</button>
+                    </div>
+                    <div class="resource-results-row">
+                        <span id="pathway-results-count" class="results-count"></span>
+                    </div>
+                </div>
+                <div id="pathway-programs-grid" class="pathway-programs-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- VA Clinical Pathways (public data) -->
+            <section class="card" id="va-pathways-section">
+                <h2><span class="pathway-badge public">PUBLIC</span> VA Oncology — NSCLC Clinical Pathways</h2>
+                <p class="resource-intro">The VA (Department of Veterans Affairs) National Oncology Program publishes <strong>freely available</strong> clinical pathway PDFs that recommend standard treatments based on efficacy, toxicity, and cost. These are the most comprehensive publicly available US oncology pathways. Updated at least quarterly.</p>
+                <div class="va-pathway-details" id="va-pathway-details">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- NCI PDQ Reference -->
+            <section class="card" id="nci-section">
+                <h2><span class="pathway-badge public">PUBLIC</span> NCI PDQ — NSCLC Treatment Summary</h2>
+                <p class="resource-intro">The National Cancer Institute's <strong>Physician Data Query (PDQ)</strong> provides comprehensive, peer-reviewed, evidence-based treatment summaries that serve as a clinical reference standard. PDQ content is <strong>public domain</strong> (US government funded) and freely available.</p>
+                <div class="nci-reference" id="nci-reference">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- NCCN Reference -->
+            <section class="card" id="nccn-section">
+                <h2><span class="pathway-badge semi-public">REGISTRATION REQ</span> NCCN Guidelines — NSCLC</h2>
+                <p class="resource-intro">The <strong>National Comprehensive Cancer Network (NCCN)</strong> Clinical Practice Guidelines are the gold standard for US oncology treatment decisions. Free with registration, but copyrighted — cannot be scraped or reproduced. Current version: <strong>Version 5.2026</strong>.</p>
+                <div class="nccn-reference" id="nccn-reference">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Proprietary Monitoring Landscape -->
+            <section class="card" id="monitoring-section">
+                <h2>Commercial Pathway Monitoring Landscape</h2>
+                <p class="resource-intro">Several commercial platforms offer proprietary pathway monitoring services. While their data is not publicly accessible, understanding the landscape helps identify key information sources and decision-makers.</p>
+                <div class="monitoring-landscape" id="monitoring-landscape">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Key NSCLC Biomarker-Therapy Mapping -->
+            <section class="card" id="biomarker-section">
+                <h2>NSCLC Biomarker-Driven Therapy Landscape</h2>
+                <p class="resource-intro">Modern NSCLC treatment is highly <strong>biomarker-driven</strong>. Pathway programs typically stratify regimens by molecular targets. This reference maps key biomarkers to FDA-approved therapies commonly placed on pathways.</p>
+                <div class="biomarker-grid" id="biomarker-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 2: NCCN Guidelines Visual ═══ -->
+        <div class="pw-tab-panel" id="tab-nccn-algo">
+            <section class="card">
+                <h2>NCCN NSCLC Treatment Algorithm — Visual Overview</h2>
+                <p class="resource-intro">Structured view of the NCCN Clinical Practice Guidelines for NSCLC. Shows the decision flow from <strong>molecular testing</strong> through <strong>treatment selection</strong> by biomarker and PD-L1 status. Use this as the <strong>reference baseline</strong> when comparing pathway programs.</p>
+                <p class="resource-intro"><em>Note: This is a curated summary for access strategy reference. For complete prescribing guidance, consult the <a href="https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1450" target="_blank">official NCCN Guidelines</a>.</em></p>
+                <div id="nccn-algorithm-view">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 3: Therapy Comparison Matrix ═══ -->
+        <div class="pw-tab-panel" id="tab-comparison">
+            <section class="card">
+                <h2>Pathway Therapy Comparison Matrix</h2>
+                <p class="resource-intro">Compare how each pathway program positions therapies relative to the <strong>NCCN baseline</strong>. Cells highlighted in <span class="cmp-deviation-marker-inline">orange</span> indicate where a pathway <strong>deviates from NCCN</strong> (e.g., NCCN lists as preferred but the pathway does not).</p>
+
+                <div class="cmp-filters">
+                    <select id="cmp-biomarker-filter" class="resource-select" aria-label="Filter by biomarker">
+                        <option value="">All Biomarkers</option>
                     </select>
-                    <select id="pathway-access-filter" class="resource-select" aria-label="Filter by data access">
-                        <option value="">All Access Levels</option>
-                        <option value="public">Public / Open</option>
-                        <option value="semi-public">Semi-Public (Registration)</option>
-                        <option value="proprietary">Proprietary / Subscription</option>
+                    <select id="cmp-line-filter" class="resource-select" aria-label="Filter by line of therapy">
+                        <option value="">All Lines</option>
+                    </select>
+                    <label class="cmp-toggle-label">
+                        <input type="checkbox" id="cmp-deviation-toggle">
+                        Show deviations only
+                    </label>
+                    <button id="cmp-reset-filters" class="btn-reset" title="Reset all filters">Reset</button>
+                    <button id="cmp-export-csv" class="btn-export" title="Export current view as CSV">Export CSV</button>
+                </div>
+
+                <div id="comparison-matrix-view">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 4: Institution Detail ═══ -->
+        <div class="pw-tab-panel" id="tab-institution">
+            <section class="card">
+                <h2>Institution Pathway Detail</h2>
+                <p class="resource-intro">Drill down into a specific pathway program to see all tracked therapy positions, their alignment with NCCN, and where they differ. Useful for pre-launch access strategy and competitive intelligence.</p>
+
+                <div class="inst-selector-row">
+                    <label for="inst-selector"><strong>Select Institution:</strong></label>
+                    <select id="inst-selector" class="resource-select" aria-label="Select pathway institution">
+                        <option value="">— Choose a pathway program —</option>
                     </select>
                 </div>
-            </div>
-            <div id="pathway-programs-grid" class="pathway-programs-grid">
-                <!-- Populated by JS -->
-            </div>
-        </section>
 
-        <!-- VA Clinical Pathways (public data) -->
-        <section class="card" id="va-pathways-section">
-            <h2><span class="pathway-badge public">PUBLIC</span> VA Oncology — NSCLC Clinical Pathways</h2>
-            <p class="resource-intro">The VA (Department of Veterans Affairs) National Oncology Program publishes <strong>freely available</strong> clinical pathway PDFs that recommend standard treatments based on efficacy, toxicity, and cost. These are the most comprehensive publicly available US oncology pathways. Updated at least quarterly.</p>
-
-            <div class="va-pathway-details" id="va-pathway-details">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- NCI PDQ Reference -->
-        <section class="card" id="nci-section">
-            <h2><span class="pathway-badge public">PUBLIC</span> NCI PDQ — NSCLC Treatment Summary</h2>
-            <p class="resource-intro">The National Cancer Institute's <strong>Physician Data Query (PDQ)</strong> provides comprehensive, peer-reviewed, evidence-based treatment summaries that serve as a clinical reference standard. PDQ content is <strong>public domain</strong> (US government funded) and freely available.</p>
-
-            <div class="nci-reference" id="nci-reference">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- NCCN Reference -->
-        <section class="card" id="nccn-section">
-            <h2><span class="pathway-badge semi-public">REGISTRATION REQ</span> NCCN Guidelines — NSCLC</h2>
-            <p class="resource-intro">The <strong>National Comprehensive Cancer Network (NCCN)</strong> Clinical Practice Guidelines are the gold standard for US oncology treatment decisions. Free with registration, but copyrighted — cannot be scraped or reproduced. Current version: <strong>Version 5.2026</strong>.</p>
-
-            <div class="nccn-reference" id="nccn-reference">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- Proprietary Monitoring Landscape -->
-        <section class="card" id="monitoring-section">
-            <h2>Commercial Pathway Monitoring Landscape</h2>
-            <p class="resource-intro">Several commercial platforms offer proprietary pathway monitoring services. While their data is not publicly accessible, understanding the landscape helps identify key information sources and decision-makers.</p>
-
-            <div class="monitoring-landscape" id="monitoring-landscape">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- Key NSCLC Biomarker-Therapy Mapping -->
-        <section class="card" id="biomarker-section">
-            <h2>NSCLC Biomarker-Driven Therapy Landscape</h2>
-            <p class="resource-intro">Modern NSCLC treatment is highly <strong>biomarker-driven</strong>. Pathway programs typically stratify regimens by molecular targets. This reference maps key biomarkers to FDA-approved therapies commonly placed on pathways.</p>
-
-            <div class="biomarker-grid" id="biomarker-grid">
-                <!-- Populated by JS -->
-            </div>
-        </section>
+                <div id="institution-detail-view">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer>

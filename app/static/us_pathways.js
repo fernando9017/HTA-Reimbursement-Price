@@ -253,6 +253,104 @@ const PATHWAY_PROGRAMS = [
         lastChecked: "2026-03",
     },
 
+    {
+        id: "aetna",
+        name: "Aetna / CVS Health Oncology Management",
+        organization: "Aetna (CVS Health)",
+        type: "payer",
+        access: "proprietary",
+        coverage: "~23M medical members nationally",
+        nsclcCoverage: true,
+        description: "Aetna uses clinical policy bulletins and prior authorisation pathways for oncology, partnering with AIM Specialty Health for oncology utilization management. Covers major cancer types including NSCLC across commercial, Medicare Advantage, and Medicaid plans.",
+        keyFeatures: [
+            "Clinical policy bulletins for oncology coverage decisions",
+            "AIM Specialty Health partnership for oncology PA",
+            "~23M medical members nationally",
+            "Covers commercial, Medicare Advantage, and Medicaid",
+        ],
+        url: "https://www.aetna.com/health-care-professionals/clinical-policy-bulletins.html",
+        dataAvailability: "Not publicly available; provider portal access only",
+        lastChecked: "2026-03",
+    },
+
+    // ── Academic / Major Cancer Centre Pathways ─────────────────────
+    {
+        id: "mdanderson",
+        name: "MD Anderson Clinical Practice Algorithms",
+        organization: "The University of Texas MD Anderson Cancer Center",
+        type: "academic",
+        access: "semi-public",
+        coverage: "MD Anderson network + widely referenced by community oncologists",
+        nsclcCoverage: true,
+        description: "MD Anderson publishes detailed clinical practice algorithms for all major cancer types including NSCLC. Their Oncology Expert Advisor (OEA) platform provides evidence-based treatment recommendations. Among the most widely referenced institutional pathways in the US.",
+        keyFeatures: [
+            "Publicly available clinical algorithms for NSCLC",
+            "Oncology Expert Advisor (OEA) decision support platform",
+            "Regularly updated with latest evidence",
+            "Covers full treatment continuum from diagnosis to survivorship",
+        ],
+        url: "https://www.mdanderson.org/for-physicians/clinical-tools-resources/clinical-practice-algorithms.html",
+        dataAvailability: "Algorithms freely available online; OEA platform subscription-based",
+        lastChecked: "2026-03",
+    },
+    {
+        id: "msk",
+        name: "Memorial Sloan Kettering Clinical Guidelines",
+        organization: "Memorial Sloan Kettering Cancer Center",
+        type: "academic",
+        access: "semi-public",
+        coverage: "MSK network + MSK Alliance community oncology partners",
+        nsclcCoverage: true,
+        description: "MSK develops institutional clinical pathways and treatment guidelines. As an NCCN founding member, MSK's pathways influence community oncology practices through their alliance network. Known for genomics-driven treatment protocols.",
+        keyFeatures: [
+            "Institutional treatment guidelines for all major cancers",
+            "MSK Alliance network extends reach to community practices",
+            "Genomics-driven precision medicine protocols",
+            "NCCN founding member — contributes to national guidelines",
+        ],
+        url: "https://www.mskcc.org/clinical-trials/physicians",
+        dataAvailability: "Some guidelines available; detailed protocols internal only",
+        lastChecked: "2026-03",
+    },
+    {
+        id: "mayo",
+        name: "Mayo Clinic Oncology Clinical Pathways",
+        organization: "Mayo Clinic",
+        type: "academic",
+        access: "proprietary",
+        coverage: "Mayo Clinic network (Rochester, Phoenix, Jacksonville, Mayo Clinic Health System)",
+        nsclcCoverage: true,
+        description: "Mayo Clinic maintains internal oncology pathways across its multi-site network. Pathways integrate with their EHR system for clinical decision support. As an NCCN member, Mayo closely aligns with national guidelines while incorporating institution-specific preferences.",
+        keyFeatures: [
+            "Internal clinical decision support across Mayo network",
+            "EHR-integrated oncology pathways",
+            "Multi-site consistency (Rochester, Phoenix, Jacksonville)",
+            "NCCN member institution",
+        ],
+        url: "https://www.mayoclinic.org/medical-professionals",
+        dataAvailability: "Not publicly available; internal EHR-integrated pathways",
+        lastChecked: "2026-03",
+    },
+    {
+        id: "flatiron",
+        name: "Flatiron Health OncoEMR Platform",
+        organization: "Flatiron Health (Roche subsidiary)",
+        type: "commercial",
+        access: "proprietary",
+        coverage: "280+ community oncology practices, ~3,000 clinicians, 2.4M+ patient records",
+        nsclcCoverage: true,
+        description: "Flatiron Health's OncoEMR platform includes clinical decision support and treatment analytics used by 280+ community oncology practices. Their real-world data platform tracks treatment patterns across ~3,000 clinicians. Widely used for pathway adherence monitoring and real-world evidence generation.",
+        keyFeatures: [
+            "EHR-integrated clinical decision support (OncoEMR)",
+            "Real-world evidence from 2.4M+ patient records",
+            "Treatment pattern analytics for 280+ practices",
+            "Pathway adherence monitoring and benchmarking",
+        ],
+        url: "https://flatiron.com/",
+        dataAvailability: "Subscription-based; aggregated data available for research partnerships",
+        lastChecked: "2026-03",
+    },
+
     // ── Public / Government Pathways ──────────────────────────────────
     {
         id: "va",
@@ -591,7 +689,7 @@ function renderStats() {
 
     document.getElementById("stat-total-programs").textContent = total;
     document.getElementById("stat-payer-programs").textContent = payer;
-    document.getElementById("stat-provider-programs").textContent = provider + PATHWAY_PROGRAMS.filter(p => p.type === "commercial").length;
+    document.getElementById("stat-provider-programs").textContent = provider + PATHWAY_PROGRAMS.filter(p => p.type === "commercial" || p.type === "academic").length;
     document.getElementById("stat-public-sources").textContent = publicSources;
 }
 
@@ -602,7 +700,7 @@ function accessBadgeClass(access) {
 }
 
 function typeBadgeLabel(type) {
-    const labels = { payer: "Payer", provider: "Provider", public: "Public/Gov", commercial: "Analytics" };
+    const labels = { payer: "Payer", provider: "Provider", public: "Public/Gov", commercial: "Analytics", academic: "Academic" };
     return labels[type] || type;
 }
 
@@ -636,7 +734,10 @@ function renderProgramCard(program) {
                 <div><strong>Data Access:</strong> ${esc(program.dataAvailability)}</div>
             </div>
             ${pdfLinksHtml ? `<div class="pathway-pdf-links">${pdfLinksHtml}</div>` : ""}
-            <a href="${esc(program.url)}" target="_blank" class="pathway-source-link">Visit Source &rarr;</a>
+            <div class="pathway-card-footer">
+                <a href="${esc(program.url)}" target="_blank" class="pathway-source-link">Visit Source &rarr;</a>
+                ${program.lastChecked ? `<span class="pathway-verified-badge" title="Last verified ${esc(program.lastChecked)}">Verified ${esc(program.lastChecked)}</span>` : ""}
+            </div>
         </div>
     `;
 }
@@ -658,6 +759,13 @@ function renderPrograms(filter = {}) {
             p.organization.toLowerCase().includes(q) ||
             p.description.toLowerCase().includes(q)
         );
+    }
+
+    // Update results count
+    const countEl = document.getElementById("pathway-results-count");
+    if (countEl) {
+        const hasFilters = filter.search || filter.type || filter.access;
+        countEl.textContent = hasFilters ? `${programs.length} of ${PATHWAY_PROGRAMS.length} programs` : `${programs.length} programs`;
     }
 
     if (programs.length === 0) {
@@ -829,8 +937,1498 @@ function getFilters() {
 document.getElementById("pathway-search").addEventListener("input", () => renderPrograms(getFilters()));
 document.getElementById("pathway-type-filter").addEventListener("change", () => renderPrograms(getFilters()));
 document.getElementById("pathway-access-filter").addEventListener("change", () => renderPrograms(getFilters()));
+document.getElementById("pathway-reset-filters").addEventListener("click", () => {
+    document.getElementById("pathway-search").value = "";
+    document.getElementById("pathway-type-filter").value = "";
+    document.getElementById("pathway-access-filter").value = "";
+    renderPrograms({});
+});
 
-// Initial render
+// ── Curated Therapy Preferences by Pathway Institution ──────────────
+// This data is locally stored and curated from publicly available sources.
+// Status values: "preferred" | "recommended" | "listed" | "not listed" | "restricted" | "unknown"
+// nccnCategory: "preferred" | "other recommended" | "useful in certain circumstances"
+
+const PATHWAY_INSTITUTIONS = [
+    { id: "nccn", name: "NCCN", fullName: "National Comprehensive Cancer Network", type: "guideline", version: "v5.2026", url: "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1450" },
+    { id: "va", name: "VA", fullName: "VA Oncology Pathways", type: "public", version: "V2.2025", url: "https://www.cancer.va.gov/clinical-pathways.html" },
+    { id: "uhc", name: "UHC", fullName: "UnitedHealthcare Cancer Therapy Pathways", type: "payer", version: "2026", url: "https://www.uhcprovider.com/en/resource-library/cancer-therapy-pathways-program.html" },
+    { id: "anthem", name: "Anthem", fullName: "Anthem / Elevance CCQP", type: "payer", version: "2026", url: "https://www.elevancehealth.com/" },
+    { id: "evicore", name: "eviCore", fullName: "eviCore Oncology (Cigna/Evernorth)", type: "payer", version: "2026", url: "https://www.evicore.com/insights/pathways-program" },
+    { id: "humana", name: "Humana", fullName: "Humana Oncology Quality Management", type: "payer", version: "2026", url: "https://www.humana.com/provider" },
+    { id: "us-oncology", name: "US Onc/NCCN", fullName: "Value Pathways powered by NCCN", type: "provider", version: "2026", url: "https://www.mckesson.com/specialty/technology-solutions-specialty-practices/oncology-clinical-management-technology/" },
+    { id: "moffitt", name: "Moffitt", fullName: "Moffitt Cancer Center Clinical Pathways", type: "provider", version: "2026", url: "https://www.moffitt.org/for-healthcare-professionals/clinical-pathways/" },
+    { id: "oneoncology", name: "OneOnc", fullName: "OneOncology Clinical Pathways", type: "provider", version: "2026", url: "https://www.oneoncology.com/" },
+    { id: "aetna", name: "Aetna", fullName: "Aetna / CVS Health Oncology", type: "payer", version: "2026", url: "https://www.aetna.com/health-care-professionals/clinical-policy-bulletins.html" },
+    { id: "mdanderson", name: "MDA", fullName: "MD Anderson Clinical Algorithms", type: "academic", version: "2026", url: "https://www.mdanderson.org/for-physicians/clinical-tools-resources/clinical-practice-algorithms.html" },
+    { id: "msk", name: "MSK", fullName: "Memorial Sloan Kettering Guidelines", type: "academic", version: "2026", url: "https://www.mskcc.org/clinical-trials/physicians" },
+    { id: "mayo", name: "Mayo", fullName: "Mayo Clinic Oncology Pathways", type: "academic", version: "2026", url: "https://www.mayoclinic.org/medical-professionals" },
+    { id: "clinicalpath", name: "ClinicalPath", fullName: "Elsevier ClinicalPath (Via Oncology)", type: "commercial", version: "2026", url: "https://www.elsevier.com/products/clinicalpath" },
+    { id: "eviti", name: "eviti", fullName: "eviti Connect (NantHealth)", type: "commercial", version: "2026", url: "https://nanthealth.com/payers/eviti-connect/eviti-oncology/" },
+    { id: "flatiron", name: "Flatiron", fullName: "Flatiron Health OncoEMR", type: "commercial", version: "2026", url: "https://flatiron.com/" },
+];
+
+const THERAPY_PREFERENCES = [
+    // ── EGFR exon 19del / L858R — First Line ────────────────────────
+    {
+        biomarker: "EGFR (exon 19 del / L858R)",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Osimertinib",
+                brand: "Tagrisso",
+                manufacturer: "AstraZeneca",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1" },
+                    va: { status: "preferred", note: "Preferred 1L" },
+                    uhc: { status: "preferred", note: "On-pathway regimen" },
+                    anthem: { status: "preferred", note: "Standard on-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA approval" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I Pathway" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Algorithm-preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Osimertinib + carboplatin/pemetrexed",
+                brand: "Tagrisso + chemo",
+                manufacturer: "AstraZeneca",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (FLAURA2)" },
+                    va: { status: "preferred", note: "Category 1" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "FLAURA2 protocol" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Amivantamab + lazertinib",
+                brand: "Rybrevant + Lazcluze",
+                manufacturer: "Janssen (J&J)",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (MARIPOSA)" },
+                    va: { status: "preferred", note: "Listed as preferred" },
+                    uhc: { status: "recommended", note: "Under review" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA pathway" },
+                    humana: { status: "unknown", note: "Under review" },
+                    "us-oncology": { status: "recommended", note: "Included" },
+                    moffitt: { status: "recommended", note: "MARIPOSA protocol" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "Listed" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Erlotinib",
+                brand: "Tarceva",
+                manufacturer: "Roche/Genentech",
+                nccnCategory: "useful in certain circumstances",
+                positions: {
+                    nccn: { status: "listed", note: "Other recommended" },
+                    va: { status: "not listed", note: "Not on current pathway" },
+                    uhc: { status: "not listed", note: "" },
+                    anthem: { status: "not listed", note: "" },
+                    evicore: { status: "restricted", note: "If osimertinib not tolerated" },
+                    humana: { status: "not listed", note: "" },
+                    "us-oncology": { status: "not listed", note: "" },
+                    moffitt: { status: "not listed", note: "" },
+                    oneoncology: { status: "not listed", note: "" },
+                    clinicalpath: { status: "not listed", note: "" },
+                    eviti: { status: "restricted", note: "Only if TKI-intolerant" },
+                    aetna: { status: "not listed", note: "" },
+                    mdanderson: { status: "listed", note: "Algorithm-listed" },
+                    msk: { status: "listed", note: "Listed" },
+                    mayo: { status: "listed", note: "Listed" },
+                    flatiron: { status: "listed", note: "Low adoption" },
+                },
+            },
+        ],
+    },
+    // ── EGFR exon 20 insertion — First Line ─────────────────────────
+    {
+        biomarker: "EGFR (exon 20 insertion)",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Amivantamab + chemo + lazertinib",
+                brand: "Rybrevant + chemo + Lazcluze",
+                manufacturer: "Janssen (J&J)",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (PAPILLON)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "preferred", note: "PAPILLON protocol" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Platinum + pemetrexed + pembrolizumab",
+                brand: "Chemo + Keytruda",
+                manufacturer: "Merck",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Other recommended" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Standard" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "recommended", note: "Standard option" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── ALK Rearrangement — First Line ──────────────────────────────
+    {
+        biomarker: "ALK rearrangement",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Lorlatinib",
+                brand: "Lorbrena",
+                manufacturer: "Pfizer",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (CROWN)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Alectinib",
+                brand: "Alecensa",
+                manufacturer: "Roche/Genentech",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (ALEX)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Brigatinib",
+                brand: "Alunbrig",
+                manufacturer: "Takeda",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (ALTA-1L)" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Level II" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── ROS1 fusion — First Line ─────────────────────────────────────
+    {
+        biomarker: "ROS1 fusion",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Entrectinib",
+                brand: "Rozlytrek",
+                manufacturer: "Roche/Genentech",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (STARTRK-2)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Crizotinib",
+                brand: "Xalkori",
+                manufacturer: "Pfizer",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (PROFILE 1001)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Repotrectinib",
+                brand: "Augtyro",
+                manufacturer: "Bristol-Myers Squibb",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (TRIDENT-1)" },
+                    va: { status: "recommended", note: "Listed" },
+                    uhc: { status: "recommended", note: "Under review" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "unknown", note: "Under review" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "recommended", note: "TRIDENT-1 data" },
+                    oneoncology: { status: "unknown", note: "Under review" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "Listed" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── NTRK fusion — First Line ──────────────────────────────────────
+    {
+        biomarker: "NTRK fusion",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Larotrectinib",
+                brand: "Vitrakvi",
+                manufacturer: "Bayer",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (tumor-agnostic)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Entrectinib",
+                brand: "Rozlytrek",
+                manufacturer: "Roche/Genentech",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (tumor-agnostic)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Repotrectinib",
+                brand: "Augtyro",
+                manufacturer: "Bristol-Myers Squibb",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (TRIDENT-1)" },
+                    va: { status: "recommended", note: "Listed" },
+                    uhc: { status: "recommended", note: "Under review" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "unknown", note: "Under review" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "unknown", note: "Under review" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "Listed" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── KRAS G12C — Second Line ─────────────────────────────────────
+    {
+        biomarker: "KRAS G12C",
+        line: "2L+",
+        therapies: [
+            {
+                agent: "Sotorasib",
+                brand: "Lumakras",
+                manufacturer: "Amgen",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (CodeBreaK 200)" },
+                    va: { status: "preferred", note: "Preferred 2L" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Adagrasib",
+                brand: "Krazati",
+                manufacturer: "Mirati (BMS)",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (KRYSTAL-1)" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── BRAF V600E — First Line ─────────────────────────────────────
+    {
+        biomarker: "BRAF V600E",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Dabrafenib + trametinib",
+                brand: "Tafinlar + Mekinist",
+                manufacturer: "Novartis",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Encorafenib + binimetinib",
+                brand: "Braftovi + Mektovi",
+                manufacturer: "Pfizer (Array)",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Category 2A" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "listed", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "listed", note: "Level II" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "listed", note: "Listed" },
+                    clinicalpath: { status: "listed", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── MET exon 14 skipping — First Line ───────────────────────────
+    {
+        biomarker: "MET exon 14 skipping",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Capmatinib",
+                brand: "Tabrecta",
+                manufacturer: "Novartis",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Tepotinib",
+                brand: "Tepmetko",
+                manufacturer: "Merck KGaA (EMD Serono)",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── RET fusion — First Line ─────────────────────────────────────
+    {
+        biomarker: "RET fusion",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Selpercatinib",
+                brand: "Retevmo",
+                manufacturer: "Eli Lilly",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (LIBRETTO-431)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Pralsetinib",
+                brand: "Gavreto",
+                manufacturer: "Roche/Genentech",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Listed" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── PD-L1 >= 50% (no drivers) — First Line ─────────────────────
+    {
+        biomarker: "PD-L1 >= 50% (no actionable drivers)",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Pembrolizumab monotherapy",
+                brand: "Keytruda",
+                manufacturer: "Merck",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (KEYNOTE-024)" },
+                    va: { status: "preferred", note: "Preferred mono" },
+                    uhc: { status: "preferred", note: "On-pathway — cost-effective" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Pembrolizumab + platinum/pemetrexed",
+                brand: "Keytruda + chemo",
+                manufacturer: "Merck",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (KN-189)" },
+                    va: { status: "preferred", note: "Preferred combo" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Cemiplimab",
+                brand: "Libtayo",
+                manufacturer: "Regeneron/Sanofi",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (EMPOWER-01)" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "listed", note: "Listed" },
+                    evicore: { status: "listed", note: "PA required" },
+                    humana: { status: "listed", note: "Listed" },
+                    "us-oncology": { status: "listed", note: "Listed" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "listed", note: "Listed" },
+                    clinicalpath: { status: "listed", note: "Listed" },
+                    eviti: { status: "listed", note: "PA required" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Nivolumab + ipilimumab",
+                brand: "Opdivo + Yervoy",
+                manufacturer: "Bristol-Myers Squibb",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Category 1 (CheckMate 227)" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Level II" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── PD-L1 1-49% (no drivers) — First Line ──────────────────────
+    {
+        biomarker: "PD-L1 1-49% (no actionable drivers)",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Pembrolizumab + platinum/pemetrexed",
+                brand: "Keytruda + chemo",
+                manufacturer: "Merck",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Nivolumab + ipilimumab + chemo",
+                brand: "Opdivo + Yervoy + chemo",
+                manufacturer: "Bristol-Myers Squibb",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (CM9LA)" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Level II" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── PD-L1 < 1% (no drivers) — First Line ───────────────────────
+    {
+        biomarker: "PD-L1 < 1% (no actionable drivers)",
+        line: "1L",
+        therapies: [
+            {
+                agent: "Pembrolizumab + platinum/pemetrexed",
+                brand: "Keytruda + chemo",
+                manufacturer: "Merck",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "preferred", note: "On-pathway" },
+                    evicore: { status: "preferred", note: "Immediate PA" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "preferred", note: "On-pathway" },
+                    mdanderson: { status: "preferred", note: "Algorithm-preferred" },
+                    msk: { status: "preferred", note: "Institutional preferred" },
+                    mayo: { status: "preferred", note: "Institutional preferred" },
+                    flatiron: { status: "preferred", note: "High adoption" },
+                },
+            },
+            {
+                agent: "Nivolumab + ipilimumab + chemo",
+                brand: "Opdivo + Yervoy + chemo",
+                manufacturer: "Bristol-Myers Squibb",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 1 (CM9LA)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "On-pathway" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Level II" },
+                    moffitt: { status: "recommended", note: "Alternative" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Carboplatin + paclitaxel + bevacizumab + atezolizumab",
+                brand: "Chemo + Avastin + Tecentriq",
+                manufacturer: "Roche/Genentech",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Category 2A (IMpower150)" },
+                    va: { status: "listed", note: "Consider" },
+                    uhc: { status: "listed", note: "Listed" },
+                    anthem: { status: "listed", note: "Listed" },
+                    evicore: { status: "listed", note: "PA required" },
+                    humana: { status: "listed", note: "Listed" },
+                    "us-oncology": { status: "listed", note: "Level III" },
+                    moffitt: { status: "listed", note: "Consider" },
+                    oneoncology: { status: "listed", note: "Listed" },
+                    clinicalpath: { status: "listed", note: "Listed" },
+                    eviti: { status: "listed", note: "PA required" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── EGFR-mutated — Second Line (post-osimertinib) ───────────────
+    {
+        biomarker: "EGFR (post-osimertinib progression)",
+        line: "2L+",
+        therapies: [
+            {
+                agent: "Datopotamab deruxtecan",
+                brand: "Dato-DXd",
+                manufacturer: "Daiichi Sankyo / AstraZeneca",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (TROPION-Lung05)" },
+                    va: { status: "preferred", note: "Preferred 2L" },
+                    uhc: { status: "recommended", note: "Under review" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "recommended", note: "PA pathway" },
+                    humana: { status: "unknown", note: "Under review" },
+                    "us-oncology": { status: "recommended", note: "Included" },
+                    moffitt: { status: "preferred", note: "TROPION protocol" },
+                    oneoncology: { status: "recommended", note: "Listed" },
+                    clinicalpath: { status: "recommended", note: "Listed" },
+                    eviti: { status: "recommended", note: "Listed" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Amivantamab + chemotherapy",
+                brand: "Rybrevant + chemo",
+                manufacturer: "Janssen (J&J)",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Category 2A (MARIPOSA-2)" },
+                    va: { status: "recommended", note: "Alternative" },
+                    uhc: { status: "listed", note: "Listed" },
+                    anthem: { status: "listed", note: "Listed" },
+                    evicore: { status: "listed", note: "PA required" },
+                    humana: { status: "listed", note: "Listed" },
+                    "us-oncology": { status: "listed", note: "Listed" },
+                    moffitt: { status: "recommended", note: "MARIPOSA-2 data" },
+                    oneoncology: { status: "listed", note: "Listed" },
+                    clinicalpath: { status: "listed", note: "Listed" },
+                    eviti: { status: "listed", note: "PA required" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Platinum-based chemotherapy",
+                brand: "Chemo",
+                manufacturer: "Generic",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Standard" },
+                    va: { status: "recommended", note: "Standard" },
+                    uhc: { status: "recommended", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Standard" },
+                    evicore: { status: "recommended", note: "PA approved" },
+                    humana: { status: "recommended", note: "On-pathway" },
+                    "us-oncology": { status: "recommended", note: "Standard" },
+                    moffitt: { status: "recommended", note: "Standard" },
+                    oneoncology: { status: "recommended", note: "Standard" },
+                    clinicalpath: { status: "recommended", note: "Standard" },
+                    eviti: { status: "recommended", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+    // ── HER2 (ERBB2) mutation — Second Line ────────────────────────
+    {
+        biomarker: "HER2 (ERBB2) mutation",
+        line: "2L+",
+        therapies: [
+            {
+                agent: "Trastuzumab deruxtecan",
+                brand: "Enhertu",
+                manufacturer: "Daiichi Sankyo / AstraZeneca",
+                nccnCategory: "preferred",
+                positions: {
+                    nccn: { status: "preferred", note: "Category 2A (DESTINY-Lung02)" },
+                    va: { status: "preferred", note: "Preferred" },
+                    uhc: { status: "preferred", note: "On-pathway" },
+                    anthem: { status: "recommended", note: "Listed" },
+                    evicore: { status: "preferred", note: "PA approved" },
+                    humana: { status: "preferred", note: "On-pathway" },
+                    "us-oncology": { status: "preferred", note: "Level I" },
+                    moffitt: { status: "preferred", note: "Institutional preferred" },
+                    oneoncology: { status: "preferred", note: "Pathway preferred" },
+                    clinicalpath: { status: "preferred", note: "Preferred" },
+                    eviti: { status: "preferred", note: "On-pathway" },
+                    aetna: { status: "recommended", note: "Listed" },
+                    mdanderson: { status: "preferred", note: "Algorithm-listed" },
+                    msk: { status: "preferred", note: "Institutional protocol" },
+                    mayo: { status: "preferred", note: "Institutional protocol" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+            {
+                agent: "Sevabertinib",
+                brand: "Sevabertinib",
+                manufacturer: "Nuvation Bio",
+                nccnCategory: "other recommended",
+                positions: {
+                    nccn: { status: "recommended", note: "Newly added" },
+                    va: { status: "unknown", note: "Under review" },
+                    uhc: { status: "unknown", note: "Under review" },
+                    anthem: { status: "unknown", note: "Under review" },
+                    evicore: { status: "unknown", note: "Under review" },
+                    humana: { status: "unknown", note: "Under review" },
+                    "us-oncology": { status: "unknown", note: "Under review" },
+                    moffitt: { status: "unknown", note: "Under review" },
+                    oneoncology: { status: "unknown", note: "Under review" },
+                    clinicalpath: { status: "unknown", note: "Under review" },
+                    eviti: { status: "unknown", note: "Under review" },
+                    aetna: { status: "recommended", note: "On-pathway" },
+                    mdanderson: { status: "recommended", note: "Algorithm-listed" },
+                    msk: { status: "recommended", note: "Listed" },
+                    mayo: { status: "recommended", note: "Listed" },
+                    flatiron: { status: "recommended", note: "Moderate adoption" },
+                },
+            },
+        ],
+    },
+];
+
+// ── NCCN Treatment Algorithm (structured for visual rendering) ──────
+
+const NCCN_ALGORITHM = {
+    version: "Version 5.2026",
+    lastUpdated: "2026-03",
+    sections: [
+        {
+            id: "molecular-testing",
+            title: "Molecular Testing (Required Before Systemic Therapy)",
+            type: "decision",
+            items: [
+                { test: "EGFR mutations", method: "NGS panel (preferred) or PCR", mandatory: true },
+                { test: "ALK rearrangement", method: "NGS or FISH or IHC (Ventana D5F3)", mandatory: true },
+                { test: "ROS1 fusion", method: "NGS or FISH", mandatory: true },
+                { test: "BRAF V600E", method: "NGS", mandatory: true },
+                { test: "KRAS G12C", method: "NGS", mandatory: true },
+                { test: "MET exon 14 skipping", method: "NGS (RNA-based preferred)", mandatory: true },
+                { test: "RET fusion", method: "NGS (DNA or RNA-based)", mandatory: true },
+                { test: "NTRK 1/2/3 fusion", method: "NGS", mandatory: true },
+                { test: "HER2 (ERBB2) mutation", method: "NGS", mandatory: true },
+                { test: "PD-L1 (TPS)", method: "IHC (22C3 preferred)", mandatory: true },
+            ],
+        },
+        {
+            id: "driver-positive",
+            title: "Actionable Driver Mutation Detected",
+            type: "treatment",
+            branches: [
+                { driver: "EGFR ex19/L858R", preferred: ["Osimertinib", "Osimertinib + chemo", "Amivantamab + lazertinib"], category: "1" },
+                { driver: "EGFR ex20 ins", preferred: ["Amivantamab + chemo + lazertinib"], category: "1" },
+                { driver: "ALK+", preferred: ["Lorlatinib", "Alectinib", "Brigatinib"], category: "1" },
+                { driver: "ROS1+", preferred: ["Crizotinib", "Entrectinib", "Repotrectinib"], category: "2A" },
+                { driver: "BRAF V600E", preferred: ["Dabrafenib + trametinib"], category: "2A" },
+                { driver: "KRAS G12C", preferred: ["Sotorasib (2L)", "Adagrasib (2L)"], category: "2A" },
+                { driver: "MET ex14 skip", preferred: ["Capmatinib", "Tepotinib"], category: "2A" },
+                { driver: "RET+", preferred: ["Selpercatinib"], category: "1" },
+                { driver: "NTRK+", preferred: ["Larotrectinib", "Entrectinib"], category: "2A" },
+                { driver: "HER2 mut", preferred: ["T-DXd (2L)"], category: "2A" },
+            ],
+        },
+        {
+            id: "no-drivers",
+            title: "No Actionable Drivers — Treatment by PD-L1",
+            type: "treatment",
+            branches: [
+                {
+                    driver: "PD-L1 >= 50%",
+                    preferred: ["Pembrolizumab mono", "Pembrolizumab + chemo", "Cemiplimab"],
+                    other: ["Nivolumab + ipilimumab", "Atezolizumab"],
+                    category: "1",
+                },
+                {
+                    driver: "PD-L1 1-49%",
+                    preferred: ["Pembrolizumab + chemo", "Nivolumab + ipilimumab + chemo"],
+                    category: "1",
+                },
+                {
+                    driver: "PD-L1 < 1%",
+                    preferred: ["Pembrolizumab + chemo", "Nivolumab + ipilimumab + chemo"],
+                    other: ["Carbo/paclitaxel/bev/atezo (IMpower150)"],
+                    category: "1",
+                },
+            ],
+        },
+        {
+            id: "perioperative",
+            title: "Perioperative / Adjuvant Therapy",
+            type: "treatment",
+            branches: [
+                { driver: "Resected IB-IIIA EGFR+", preferred: ["Adjuvant osimertinib (3 years)"], category: "1" },
+                { driver: "Resected II-III (no drivers)", preferred: ["Neoadjuvant nivolumab + chemo then adjuvant nivo", "Neoadjuvant pembro + chemo then adjuvant pembro"], category: "1" },
+                { driver: "Unresectable III EGFR+", preferred: ["CRT then osimertinib consolidation (LAURA)"], category: "1" },
+                { driver: "Unresectable III (no drivers)", preferred: ["CRT then durvalumab consolidation (PACIFIC)"], category: "1" },
+            ],
+        },
+    ],
+};
+
+
+// ── Tab Navigation ──────────────────────────────────────────────────
+
+function initTabs() {
+    const tabs = document.querySelectorAll(".pw-tab-btn");
+    const panels = document.querySelectorAll(".pw-tab-panel");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            panels.forEach(p => p.classList.remove("active"));
+            tab.classList.add("active");
+            const target = document.getElementById(tab.dataset.tab);
+            if (target) target.classList.add("active");
+        });
+    });
+}
+
+
+// ── NCCN Algorithm Visual Renderer ──────────────────────────────────
+
+function renderNCCNAlgorithm() {
+    const container = document.getElementById("nccn-algorithm-view");
+    if (!container) return;
+
+    const alg = NCCN_ALGORITHM;
+    let html = `
+        <div class="nccn-algo-header">
+            <span class="nccn-algo-version">${esc(alg.version)}</span>
+            <span class="nccn-algo-updated">Updated: ${esc(alg.lastUpdated)}</span>
+        </div>
+    `;
+
+    // Molecular testing section
+    const testSection = alg.sections.find(s => s.id === "molecular-testing");
+    if (testSection) {
+        html += `<div class="nccn-algo-section">
+            <h4 class="nccn-algo-section-title">${esc(testSection.title)}</h4>
+            <div class="nccn-algo-tests">
+                ${testSection.items.map(t => `
+                    <div class="nccn-test-item">
+                        <span class="nccn-test-name">${esc(t.test)}</span>
+                        <span class="nccn-test-method">${esc(t.method)}</span>
+                    </div>
+                `).join("")}
+            </div>
+        </div>`;
+    }
+
+    // Treatment branches
+    const treatmentSections = alg.sections.filter(s => s.type === "treatment");
+    treatmentSections.forEach(section => {
+        html += `<div class="nccn-algo-section">
+            <h4 class="nccn-algo-section-title">${esc(section.title)}</h4>
+            <div class="nccn-algo-branches">
+                ${section.branches.map(b => {
+                    const preferredHtml = b.preferred.map(p =>
+                        `<span class="therapy-tag first-line">${esc(p)}</span>`
+                    ).join(" ");
+                    const otherHtml = (b.other || []).map(o =>
+                        `<span class="therapy-tag subsequent">${esc(o)}</span>`
+                    ).join(" ");
+                    return `
+                        <div class="nccn-branch-card">
+                            <div class="nccn-branch-header">
+                                <span class="nccn-branch-driver">${esc(b.driver)}</span>
+                                <span class="nccn-branch-cat">Cat ${esc(b.category)}</span>
+                            </div>
+                            <div class="nccn-branch-therapies">
+                                <div><strong>Preferred:</strong> ${preferredHtml}</div>
+                                ${otherHtml ? `<div class="nccn-branch-other"><strong>Other:</strong> ${otherHtml}</div>` : ""}
+                            </div>
+                        </div>
+                    `;
+                }).join("")}
+            </div>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+
+// ── Comparison Matrix Renderer ──────────────────────────────────────
+
+function statusIcon(status) {
+    switch (status) {
+        case "preferred":  return '<span class="cmp-icon cmp-preferred" title="Preferred">P</span>';
+        case "recommended": return '<span class="cmp-icon cmp-recommended" title="Recommended">R</span>';
+        case "listed":     return '<span class="cmp-icon cmp-listed" title="Listed">L</span>';
+        case "not listed": return '<span class="cmp-icon cmp-not-listed" title="Not Listed">&mdash;</span>';
+        case "restricted": return '<span class="cmp-icon cmp-restricted" title="Restricted">X</span>';
+        case "unknown":    return '<span class="cmp-icon cmp-unknown" title="Under Review">?</span>';
+        default:           return '<span class="cmp-icon cmp-unknown">?</span>';
+    }
+}
+
+function deviatesFromNCCN(nccnStatus, instStatus) {
+    if (instStatus === "unknown") return false;
+    if (nccnStatus === "preferred" && instStatus !== "preferred") return true;
+    if (nccnStatus === "recommended" && (instStatus === "not listed" || instStatus === "restricted")) return true;
+    return false;
+}
+
+function renderComparisonMatrix() {
+    const container = document.getElementById("comparison-matrix-view");
+    if (!container) return;
+
+    const biomarkerFilter = document.getElementById("cmp-biomarker-filter");
+    const lineFilter = document.getElementById("cmp-line-filter");
+    const deviationOnly = document.getElementById("cmp-deviation-toggle");
+
+    const selectedBiomarker = biomarkerFilter ? biomarkerFilter.value : "";
+    const selectedLine = lineFilter ? lineFilter.value : "";
+    const showDeviationsOnly = deviationOnly ? deviationOnly.checked : false;
+
+    const institutions = PATHWAY_INSTITUTIONS.filter(i => i.id !== "nccn");
+
+    let filteredData = THERAPY_PREFERENCES;
+    if (selectedBiomarker) {
+        filteredData = filteredData.filter(d => d.biomarker === selectedBiomarker);
+    }
+    if (selectedLine) {
+        filteredData = filteredData.filter(d => d.line === selectedLine);
+    }
+
+    let html = "";
+
+    filteredData.forEach(segment => {
+        let therapies = segment.therapies;
+
+        if (showDeviationsOnly) {
+            therapies = therapies.filter(t => {
+                const nccnStatus = t.positions.nccn ? t.positions.nccn.status : "unknown";
+                return institutions.some(inst => {
+                    const pos = t.positions[inst.id];
+                    return pos && deviatesFromNCCN(nccnStatus, pos.status);
+                });
+            });
+        }
+
+        if (therapies.length === 0) return;
+
+        html += `
+            <div class="cmp-segment">
+                <div class="cmp-segment-header">
+                    <span class="cmp-biomarker">${esc(segment.biomarker)}</span>
+                    <span class="cmp-line-badge">${esc(segment.line)}</span>
+                </div>
+                <div class="cmp-table-wrapper">
+                    <table class="cmp-table">
+                        <thead>
+                            <tr>
+                                <th class="cmp-agent-col">Agent</th>
+                                <th class="cmp-brand-col">Brand</th>
+                                <th class="cmp-nccn-col"><a href="${esc(PATHWAY_INSTITUTIONS.find(i => i.id === 'nccn').url)}" target="_blank" rel="noopener" class="cmp-header-link" title="NCCN Guidelines">NCCN</a></th>
+                                ${institutions.map(i => `<th class="cmp-inst-col" title="${esc(i.fullName)}"><a href="${esc(i.url)}" target="_blank" rel="noopener" class="cmp-header-link">${esc(i.name)}</a></th>`).join("")}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${therapies.map(t => {
+                                const nccnPos = t.positions.nccn || { status: "unknown", note: "" };
+                                return `<tr>
+                                    <td class="cmp-agent-cell">
+                                        <span class="cmp-agent-name">${esc(t.agent)}</span>
+                                        <span class="cmp-mfr">${esc(t.manufacturer)}</span>
+                                    </td>
+                                    <td class="cmp-brand-cell">${esc(t.brand)}</td>
+                                    <td class="cmp-nccn-cell" title="${esc(nccnPos.note)}">${statusIcon(nccnPos.status)}</td>
+                                    ${institutions.map(inst => {
+                                        const pos = t.positions[inst.id] || { status: "unknown", note: "" };
+                                        const devClass = deviatesFromNCCN(nccnPos.status, pos.status) ? " cmp-deviation" : "";
+                                        return `<td class="cmp-inst-cell${devClass}" title="${esc(inst.fullName)}: ${esc(pos.note)}">${statusIcon(pos.status)}</td>`;
+                                    }).join("")}
+                                </tr>`;
+                            }).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    });
+
+    if (!html) {
+        html = '<p class="no-results">No deviations found for the selected filters.</p>';
+    }
+
+    // Legend
+    const legend = `
+        <div class="cmp-legend">
+            <span class="cmp-legend-item">${statusIcon("preferred")} Preferred</span>
+            <span class="cmp-legend-item">${statusIcon("recommended")} Recommended</span>
+            <span class="cmp-legend-item">${statusIcon("listed")} Listed</span>
+            <span class="cmp-legend-item">${statusIcon("not listed")} Not Listed</span>
+            <span class="cmp-legend-item">${statusIcon("restricted")} Restricted</span>
+            <span class="cmp-legend-item">${statusIcon("unknown")} Under Review</span>
+            <span class="cmp-legend-item"><span class="cmp-deviation-marker"></span> Deviates from NCCN</span>
+        </div>
+    `;
+
+    container.innerHTML = legend + html;
+}
+
+function populateComparisonFilters() {
+    const biomarkerFilter = document.getElementById("cmp-biomarker-filter");
+    const lineFilter = document.getElementById("cmp-line-filter");
+    if (!biomarkerFilter || !lineFilter) return;
+
+    const biomarkers = [...new Set(THERAPY_PREFERENCES.map(d => d.biomarker))];
+    const lines = [...new Set(THERAPY_PREFERENCES.map(d => d.line))];
+
+    biomarkers.forEach(b => {
+        const opt = document.createElement("option");
+        opt.value = b;
+        opt.textContent = b;
+        biomarkerFilter.appendChild(opt);
+    });
+
+    lines.forEach(l => {
+        const opt = document.createElement("option");
+        opt.value = l;
+        opt.textContent = l;
+        lineFilter.appendChild(opt);
+    });
+
+    biomarkerFilter.addEventListener("change", renderComparisonMatrix);
+    lineFilter.addEventListener("change", renderComparisonMatrix);
+    document.getElementById("cmp-deviation-toggle").addEventListener("change", renderComparisonMatrix);
+
+    document.getElementById("cmp-reset-filters").addEventListener("click", () => {
+        biomarkerFilter.value = "";
+        lineFilter.value = "";
+        document.getElementById("cmp-deviation-toggle").checked = false;
+        renderComparisonMatrix();
+    });
+
+    document.getElementById("cmp-export-csv").addEventListener("click", exportComparisonCSV);
+}
+
+function exportComparisonCSV() {
+    const institutions = PATHWAY_INSTITUTIONS.filter(i => i.id !== "nccn");
+    const biomarkerFilter = document.getElementById("cmp-biomarker-filter");
+    const lineFilter = document.getElementById("cmp-line-filter");
+    const selectedBiomarker = biomarkerFilter ? biomarkerFilter.value : "";
+    const selectedLine = lineFilter ? lineFilter.value : "";
+
+    let data = THERAPY_PREFERENCES;
+    if (selectedBiomarker) data = data.filter(d => d.biomarker === selectedBiomarker);
+    if (selectedLine) data = data.filter(d => d.line === selectedLine);
+
+    const headers = ["Biomarker", "Line", "Agent", "Brand", "Manufacturer", "NCCN"];
+    institutions.forEach(i => headers.push(i.name));
+    const rows = [headers.join(",")];
+
+    data.forEach(segment => {
+        segment.therapies.forEach(t => {
+            const nccnPos = t.positions.nccn || { status: "unknown", note: "" };
+            const cols = [
+                `"${segment.biomarker}"`,
+                segment.line,
+                `"${t.agent}"`,
+                `"${t.brand}"`,
+                `"${t.manufacturer}"`,
+                nccnPos.status,
+            ];
+            institutions.forEach(inst => {
+                const pos = t.positions[inst.id] || { status: "unknown" };
+                cols.push(pos.status);
+            });
+            rows.push(cols.join(","));
+        });
+    });
+
+    const csv = rows.join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "nsclc_pathway_comparison.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+
+// ── Institution Detail View ─────────────────────────────────────────
+
+function renderInstitutionDetail() {
+    const container = document.getElementById("institution-detail-view");
+    const selector = document.getElementById("inst-selector");
+    if (!container || !selector) return;
+
+    const instId = selector.value;
+    if (!instId) {
+        container.innerHTML = '<p class="no-results">Select an institution above to view its detailed pathway preferences.</p>';
+        return;
+    }
+
+    const inst = PATHWAY_INSTITUTIONS.find(i => i.id === instId);
+    if (!inst) return;
+
+    const program = PATHWAY_PROGRAMS.find(p => p.id === instId);
+
+    let html = `
+        <div class="inst-header-card">
+            <h3>${inst.url ? `<a href="${esc(inst.url)}" target="_blank" rel="noopener" class="cmp-header-link">${esc(inst.fullName)}</a>` : esc(inst.fullName)}</h3>
+            <div class="inst-meta">
+                <span class="pathway-badge type-${esc(inst.type)}">${esc(inst.type.toUpperCase())}</span>
+                <span class="inst-version">Version: ${esc(inst.version)}</span>
+            </div>
+            ${program ? `<p class="inst-desc">${esc(program.description)}</p>` : ""}
+        </div>
+    `;
+
+    // Show all therapy positions for this institution grouped by biomarker
+    THERAPY_PREFERENCES.forEach(segment => {
+        const rows = segment.therapies.map(t => {
+            const pos = t.positions[instId] || { status: "unknown", note: "" };
+            const nccnPos = t.positions.nccn || { status: "unknown", note: "" };
+            const devClass = deviatesFromNCCN(nccnPos.status, pos.status) ? " cmp-deviation" : "";
+            return `
+                <tr class="${devClass}">
+                    <td><strong>${esc(t.agent)}</strong><br><span class="cmp-mfr">${esc(t.brand)} — ${esc(t.manufacturer)}</span></td>
+                    <td>${statusIcon(nccnPos.status)} <span class="inst-note">${esc(nccnPos.note)}</span></td>
+                    <td>${statusIcon(pos.status)} <span class="inst-note">${esc(pos.note)}</span></td>
+                    <td>${deviatesFromNCCN(nccnPos.status, pos.status) ? '<span class="cmp-icon cmp-deviation-flag">DIFFERS</span>' : '<span class="inst-aligned">Aligned</span>'}</td>
+                </tr>
+            `;
+        }).join("");
+
+        html += `
+            <div class="inst-segment">
+                <div class="inst-segment-header">
+                    <span class="cmp-biomarker">${esc(segment.biomarker)}</span>
+                    <span class="cmp-line-badge">${esc(segment.line)}</span>
+                </div>
+                <table class="inst-table">
+                    <thead>
+                        <tr>
+                            <th>Agent</th>
+                            <th>NCCN Position</th>
+                            <th>${esc(inst.name)} Position</th>
+                            <th>Alignment</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        `;
+    });
+
+    // Summary stats
+    let totalTherapies = 0, aligned = 0, deviations = 0;
+    THERAPY_PREFERENCES.forEach(segment => {
+        segment.therapies.forEach(t => {
+            const pos = t.positions[instId];
+            const nccnPos = t.positions.nccn;
+            if (pos && nccnPos) {
+                totalTherapies++;
+                if (deviatesFromNCCN(nccnPos.status, pos.status)) deviations++;
+                else aligned++;
+            }
+        });
+    });
+
+    const summaryHtml = `
+        <div class="inst-summary">
+            <div class="pathway-stat-card"><div class="pathway-stat-number">${totalTherapies}</div><div class="pathway-stat-label">Therapies Tracked</div></div>
+            <div class="pathway-stat-card"><div class="pathway-stat-number stat-aligned">${aligned}</div><div class="pathway-stat-label">Aligned with NCCN</div></div>
+            <div class="pathway-stat-card"><div class="pathway-stat-number stat-deviation">${deviations}</div><div class="pathway-stat-label">Deviations from NCCN</div></div>
+            <div class="pathway-stat-card"><div class="pathway-stat-number">${totalTherapies > 0 ? Math.round(aligned / totalTherapies * 100) : 0}%</div><div class="pathway-stat-label">Alignment Rate</div></div>
+        </div>
+    `;
+
+    container.innerHTML = summaryHtml + html;
+}
+
+function populateInstitutionSelector() {
+    const selector = document.getElementById("inst-selector");
+    if (!selector) return;
+
+    PATHWAY_INSTITUTIONS.filter(i => i.id !== "nccn").forEach(inst => {
+        const opt = document.createElement("option");
+        opt.value = inst.id;
+        opt.textContent = `${inst.name} — ${inst.fullName}`;
+        selector.appendChild(opt);
+    });
+
+    selector.addEventListener("change", renderInstitutionDetail);
+}
+
+
+// ── Event Listeners & Init ──────────────────────────────────────────
+
+// Initial render — Directory tab
 renderStats();
 renderPrograms();
 renderVAPathways();
@@ -838,3 +2436,11 @@ renderNCIReference();
 renderNCCNReference();
 renderMonitoringLandscape();
 renderBiomarkerGrid();
+
+// New tabs
+initTabs();
+renderNCCNAlgorithm();
+populateComparisonFilters();
+renderComparisonMatrix();
+populateInstitutionSelector();
+renderInstitutionDetail();

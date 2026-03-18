@@ -23,13 +23,20 @@ MHLW pricing notifications page (static reference for launch pricing PDFs):
   iryouhoken/newpage_00037.html
 """
 
+import contextlib
 import logging
 import re
 from pathlib import Path
 
 import httpx
 
-from app.config import KEGG_API_BASE, KEGG_JAPIC_BASE_URL, MHLW_PRICING_URL, REQUEST_TIMEOUT, SSL_VERIFY
+
+@contextlib.asynccontextmanager
+async def _noop_client():
+    """Yield None — used as a placeholder async context manager in offline mode."""
+    yield None
+
+from app.config import KEGG_API_BASE, KEGG_JAPIC_BASE_URL, MHLW_PRICING_URL, OFFLINE_MODE, REQUEST_TIMEOUT, SSL_VERIFY
 from app.models import AssessmentResult
 from app.services.hta_agencies.base import HTAAgency
 
@@ -183,15 +190,24 @@ class JapanPMDA(HTAAgency):
         matched = matched[:5]
 
         results: list[AssessmentResult] = []
-        async with httpx.AsyncClient(
-            timeout=30.0,
-            follow_redirects=True,
-            verify=SSL_VERIFY,
-            headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
-        ) as client:
+        # In offline mode, skip KEGG API calls for indication text — use cached data only
+        client_ctx = (
+            httpx.AsyncClient(
+                timeout=30.0,
+                follow_redirects=True,
+                verify=SSL_VERIFY,
+                headers={"User-Agent": "VAP-Global-Resources/0.1 (research tool)"},
+            )
+            if not OFFLINE_MODE
+            else None
+        )
+        async with client_ctx if client_ctx else _noop_client() as client:
             for drug in matched:
-                # Fetch indication text (cached after first lookup)
-                indication = await self._get_indication(client, drug["kegg_id"])
+                # Fetch indication text (cached after first lookup); skip network in offline mode
+                if OFFLINE_MODE:
+                    indication = self._disease_cache.get(drug["kegg_id"], "")
+                else:
+                    indication = await self._get_indication(client, drug["kegg_id"])
                 is_reimbursed = bool(drug["japic_code"])
 
                 # Use per-drug pricing PDF URL if available, fall back to MHLW index
