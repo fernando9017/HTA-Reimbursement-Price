@@ -507,8 +507,8 @@ const DATA_METHODOLOGY = {
             "PMC4570054: Anthem's Clinical Pathways Demonstrate Value — The Payer Perspective",
             "Carelon Research: P4P Program Boosted Evidence-Based Care",
         ],
-        methodology: "Programme structure confirmed from publicly accessible Carelon pages and FAQ PDFs. NSCLC-specific guidelines page confirmed to exist at Carelon's guidelines portal. Pathways developed by Carelon oncologists/pharmacists consulting with academic/community oncologist panel, based on NCCN guidelines. Updated at least quarterly. $350/month provider incentive with no off-pathway penalty.",
-        limitations: "NSCLC regimen list is behind the Carelon provider portal login. Specific preferred vs. alternate agent designations cannot be verified publicly. Updated URL now points to Carelon programme page rather than generic Elevance homepage.",
+        methodology: "Programme structure confirmed from publicly accessible Carelon pages and FAQ PDFs. NSCLC-specific pathway worksheet exists (Lung-NSCLC_WS_AIM_Eff-2025-04-21.pdf) but is 403-protected on the Carelon server. PMC4570054 reports 63% NSCLC on-pathway adherence and 60 programme-endorsed regimens out of 402 prescribed. Pathways developed by Carelon oncologists/pharmacists consulting with academic/community oncologist panel, based on NCCN guidelines. Updated at least quarterly. $350/month provider incentive with no off-pathway penalty (note: enhanced reimbursement discontinued in some states, e.g. Ohio Dec 2022).",
+        limitations: "NSCLC pathway worksheet PDF exists on Carelon server but returns 403 (requires provider login). Published literature reports aggregate adherence data (63% NSCLC on-pathway, 60 endorsed regimens) but does not enumerate specific regimen lists. $350/month enhanced reimbursement has been discontinued in some states.",
         dataInComparison: "Therapy positions based on Carelon's documented NCCN alignment and published adherence data. Medium confidence — programme is well-documented but regimen-level detail requires portal access.",
     },
     humana: {
