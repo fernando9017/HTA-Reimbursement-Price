@@ -28,6 +28,7 @@ from app.config import (
     NICE_PROGRAMME_TYPES,
     NICE_PUBLISHED_URL,
     NICE_TA_MAX_NUMBER,
+    OFFLINE_MODE,
     REQUEST_TIMEOUT,
     SSL_VERIFY,
 )
@@ -254,9 +255,9 @@ class UKNICE(HTAAgency):
 
         # For any matched guidance missing its recommendation, fetch the
         # individual guidance page to extract it.  Cap at 5 fetches to
-        # avoid excessive network calls.
+        # avoid excessive network calls.  Skip entirely in offline mode.
         needs_fetch = [g for g in matched if not g.get("recommendation")]
-        if needs_fetch:
+        if needs_fetch and not OFFLINE_MODE:
             async with httpx.AsyncClient(
                 timeout=REQUEST_TIMEOUT,
                 follow_redirects=True,

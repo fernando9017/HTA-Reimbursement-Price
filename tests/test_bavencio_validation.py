@@ -113,7 +113,8 @@ class TestNICEBavencio:
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=False)
 
-        with patch("app.services.hta_agencies.uk_nice.httpx.AsyncClient", return_value=mock_client):
+        with patch("app.services.hta_agencies.uk_nice.httpx.AsyncClient", return_value=mock_client), \
+             patch("app.services.hta_agencies.uk_nice.OFFLINE_MODE", False):
             results = await nice_service.search_assessments("avelumab")
 
         assert len(results) == 1
