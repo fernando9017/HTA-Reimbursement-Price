@@ -4125,6 +4125,45 @@ footer a:hover {
     margin-top: 4px;
 }
 
+.stat-aligned { color: #27ae60; }
+.stat-deviation { color: #e74c3c; }
+
+.btn-reset, .btn-export {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+.btn-reset {
+    background: #f8f9fa;
+    color: var(--text-light);
+}
+.btn-reset:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+.btn-export {
+    background: #eaf4fd;
+    color: var(--primary);
+    border-color: #b8d4e8;
+}
+.btn-export:hover {
+    background: #d4e8f8;
+    border-color: var(--primary-light);
+}
+
+.resource-results-row {
+    margin-top: 6px;
+}
+.results-count {
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
 .pathway-programs-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -4272,6 +4311,29 @@ footer a:hover {
 .pathway-source-link:hover {
     color: var(--primary);
     text-decoration: underline;
+}
+
+.pathway-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.pathway-verified-badge {
+    font-size: 0.72rem;
+    color: #27ae60;
+    background: #eafaf1;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid #c8e6d5;
+    white-space: nowrap;
+}
+
+.pathway-badge.type-academic {
+    background: #f4ecf7;
+    color: #7d3c98;
 }
 
 .pathway-pdf-link {

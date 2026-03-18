@@ -74,6 +74,7 @@
                             <option value="">All Types</option>
                             <option value="payer">Payer-Driven</option>
                             <option value="provider">Provider/Institution</option>
+                            <option value="academic">Academic/Cancer Centre</option>
                             <option value="public">Public/Government</option>
                             <option value="commercial">Commercial Analytics</option>
                         </select>
@@ -83,6 +84,10 @@
                             <option value="semi-public">Semi-Public (Registration)</option>
                             <option value="proprietary">Proprietary / Subscription</option>
                         </select>
+                        <button id="pathway-reset-filters" class="btn-reset" title="Reset all filters">Reset</button>
+                    </div>
+                    <div class="resource-results-row">
+                        <span id="pathway-results-count" class="results-count"></span>
                     </div>
                 </div>
                 <div id="pathway-programs-grid" class="pathway-programs-grid">
@@ -165,6 +170,8 @@
                         <input type="checkbox" id="cmp-deviation-toggle">
                         Show deviations only
                     </label>
+                    <button id="cmp-reset-filters" class="btn-reset" title="Reset all filters">Reset</button>
+                    <button id="cmp-export-csv" class="btn-export" title="Export current view as CSV">Export CSV</button>
                 </div>
 
                 <div id="comparison-matrix-view">

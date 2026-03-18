@@ -689,7 +689,7 @@ function renderStats() {
 
     document.getElementById("stat-total-programs").textContent = total;
     document.getElementById("stat-payer-programs").textContent = payer;
-    document.getElementById("stat-provider-programs").textContent = provider + PATHWAY_PROGRAMS.filter(p => p.type === "commercial").length;
+    document.getElementById("stat-provider-programs").textContent = provider + PATHWAY_PROGRAMS.filter(p => p.type === "commercial" || p.type === "academic").length;
     document.getElementById("stat-public-sources").textContent = publicSources;
 }
 
@@ -700,7 +700,7 @@ function accessBadgeClass(access) {
 }
 
 function typeBadgeLabel(type) {
-    const labels = { payer: "Payer", provider: "Provider", public: "Public/Gov", commercial: "Analytics" };
+    const labels = { payer: "Payer", provider: "Provider", public: "Public/Gov", commercial: "Analytics", academic: "Academic" };
     return labels[type] || type;
 }
 
@@ -734,7 +734,10 @@ function renderProgramCard(program) {
                 <div><strong>Data Access:</strong> ${esc(program.dataAvailability)}</div>
             </div>
             ${pdfLinksHtml ? `<div class="pathway-pdf-links">${pdfLinksHtml}</div>` : ""}
-            <a href="${esc(program.url)}" target="_blank" class="pathway-source-link">Visit Source &rarr;</a>
+            <div class="pathway-card-footer">
+                <a href="${esc(program.url)}" target="_blank" class="pathway-source-link">Visit Source &rarr;</a>
+                ${program.lastChecked ? `<span class="pathway-verified-badge" title="Last verified ${esc(program.lastChecked)}">Verified ${esc(program.lastChecked)}</span>` : ""}
+            </div>
         </div>
     `;
 }
@@ -756,6 +759,13 @@ function renderPrograms(filter = {}) {
             p.organization.toLowerCase().includes(q) ||
             p.description.toLowerCase().includes(q)
         );
+    }
+
+    // Update results count
+    const countEl = document.getElementById("pathway-results-count");
+    if (countEl) {
+        const hasFilters = filter.search || filter.type || filter.access;
+        countEl.textContent = hasFilters ? `${programs.length} of ${PATHWAY_PROGRAMS.length} programs` : `${programs.length} programs`;
     }
 
     if (programs.length === 0) {
@@ -927,6 +937,12 @@ function getFilters() {
 document.getElementById("pathway-search").addEventListener("input", () => renderPrograms(getFilters()));
 document.getElementById("pathway-type-filter").addEventListener("change", () => renderPrograms(getFilters()));
 document.getElementById("pathway-access-filter").addEventListener("change", () => renderPrograms(getFilters()));
+document.getElementById("pathway-reset-filters").addEventListener("click", () => {
+    document.getElementById("pathway-search").value = "";
+    document.getElementById("pathway-type-filter").value = "";
+    document.getElementById("pathway-access-filter").value = "";
+    renderPrograms({});
+});
 
 // ── Curated Therapy Preferences by Pathway Institution ──────────────
 // This data is locally stored and curated from publicly available sources.
@@ -2247,6 +2263,59 @@ function populateComparisonFilters() {
     biomarkerFilter.addEventListener("change", renderComparisonMatrix);
     lineFilter.addEventListener("change", renderComparisonMatrix);
     document.getElementById("cmp-deviation-toggle").addEventListener("change", renderComparisonMatrix);
+
+    document.getElementById("cmp-reset-filters").addEventListener("click", () => {
+        biomarkerFilter.value = "";
+        lineFilter.value = "";
+        document.getElementById("cmp-deviation-toggle").checked = false;
+        renderComparisonMatrix();
+    });
+
+    document.getElementById("cmp-export-csv").addEventListener("click", exportComparisonCSV);
+}
+
+function exportComparisonCSV() {
+    const institutions = PATHWAY_INSTITUTIONS.filter(i => i.id !== "nccn");
+    const biomarkerFilter = document.getElementById("cmp-biomarker-filter");
+    const lineFilter = document.getElementById("cmp-line-filter");
+    const selectedBiomarker = biomarkerFilter ? biomarkerFilter.value : "";
+    const selectedLine = lineFilter ? lineFilter.value : "";
+
+    let data = THERAPY_PREFERENCES;
+    if (selectedBiomarker) data = data.filter(d => d.biomarker === selectedBiomarker);
+    if (selectedLine) data = data.filter(d => d.line === selectedLine);
+
+    const headers = ["Biomarker", "Line", "Agent", "Brand", "Manufacturer", "NCCN"];
+    institutions.forEach(i => headers.push(i.name));
+    const rows = [headers.join(",")];
+
+    data.forEach(segment => {
+        segment.therapies.forEach(t => {
+            const nccnPos = t.positions.nccn || { status: "unknown", note: "" };
+            const cols = [
+                `"${segment.biomarker}"`,
+                segment.line,
+                `"${t.agent}"`,
+                `"${t.brand}"`,
+                `"${t.manufacturer}"`,
+                nccnPos.status,
+            ];
+            institutions.forEach(inst => {
+                const pos = t.positions[inst.id] || { status: "unknown" };
+                cols.push(pos.status);
+            });
+            rows.push(cols.join(","));
+        });
+    });
+
+    const csv = rows.join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "nsclc_pathway_comparison.csv";
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 
@@ -2333,8 +2402,8 @@ function renderInstitutionDetail() {
     const summaryHtml = `
         <div class="inst-summary">
             <div class="pathway-stat-card"><div class="pathway-stat-number">${totalTherapies}</div><div class="pathway-stat-label">Therapies Tracked</div></div>
-            <div class="pathway-stat-card"><div class="pathway-stat-number" style="color:#27ae60">${aligned}</div><div class="pathway-stat-label">Aligned with NCCN</div></div>
-            <div class="pathway-stat-card"><div class="pathway-stat-number" style="color:#e74c3c">${deviations}</div><div class="pathway-stat-label">Deviations from NCCN</div></div>
+            <div class="pathway-stat-card"><div class="pathway-stat-number stat-aligned">${aligned}</div><div class="pathway-stat-label">Aligned with NCCN</div></div>
+            <div class="pathway-stat-card"><div class="pathway-stat-number stat-deviation">${deviations}</div><div class="pathway-stat-label">Deviations from NCCN</div></div>
             <div class="pathway-stat-card"><div class="pathway-stat-number">${totalTherapies > 0 ? Math.round(aligned / totalTherapies * 100) : 0}%</div><div class="pathway-stat-label">Alignment Rate</div></div>
         </div>
     `;
