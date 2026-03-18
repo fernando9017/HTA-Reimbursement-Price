@@ -464,6 +464,337 @@ const PATHWAY_PROGRAMS = [
 ];
 
 
+// ── Data Sourcing Methodology (Appendix) ─────────────────────────────
+// Documents how each program entry was sourced, what evidence is available,
+// and an honest confidence rating for QC purposes.
+// confidence: "high" = direct public data, "medium" = verifiable but indirect, "low" = inferred from secondary sources
+
+const DATA_METHODOLOGY = {
+    uhc: {
+        confidence: "high",
+        urlQuality: "Direct link to pathway program page with regimen PDF",
+        primarySources: [
+            "UHC Provider Portal — Cancer Therapy Pathways Program page (publicly accessible)",
+            "Cancer Therapy Pathways Regimens PDF (publicly hosted, lists all on-pathway regimens by tumour type)",
+        ],
+        secondarySources: [
+            "CMS Innovation Center OCM model documentation (UHC participation)",
+            "Peer-reviewed: Hoverman et al. (JOP 2011) — pathway adherence outcomes at US Oncology",
+        ],
+        methodology: "Regimen list extracted directly from the publicly hosted PDF. Program structure, incentive amounts ($1,000/regimen), and coverage (27M members) verified from UHC provider communications and ASCO/AMCP conference presentations.",
+        limitations: "PDF may lag behind portal-level updates. Detailed clinical notes/restrictions visible only to contracted providers via the CGP tool.",
+        dataInComparison: "Therapy positions in the Comparison Matrix are derived from the public regimen PDF. Statuses (preferred/recommended) inferred from regimen listing and NCCN alignment.",
+    },
+    anthem: {
+        confidence: "medium",
+        urlQuality: "Generic corporate homepage — no direct pathway content visible",
+        primarySources: [
+            "Elevance Health corporate press releases and investor presentations",
+            "Carelon Insights (formerly AIM Specialty) oncology program descriptions",
+        ],
+        secondarySources: [
+            "AJMC publications on Anthem CCQP program outcomes",
+            "ASCO/AMCP conference presentations on pathway adherence",
+        ],
+        methodology: "Program details (300+ pathways, $350/month incentive, CCQP structure) sourced from Elevance investor presentations, Carelon Insights marketing materials, and published literature. No public regimen-level data available.",
+        limitations: "URL points to corporate homepage because Elevance does not publish pathway regimen lists publicly. Regimen-level detail is entirely proprietary to Carelon Insights.",
+        dataInComparison: "Therapy positions in the Comparison Matrix are inferred from published adherence studies, conference presentations, and Carelon Insights program descriptions. Lower certainty than programs with public regimen lists.",
+    },
+    humana: {
+        confidence: "low",
+        urlQuality: "Generic provider portal — no pathway-specific content at URL",
+        primarySources: [
+            "Humana provider communications mentioning oncology quality management",
+            "New Century Health (now Evolent) partnership announcements",
+        ],
+        secondarySources: [
+            "AJMC coverage of Humana oncology management programme",
+            "Evolent Health investor presentations referencing Humana partnership",
+        ],
+        methodology: "Program existence and structure confirmed via Humana provider bulletins and Evolent Health partnership disclosures. No direct regimen data is publicly accessible. Key features (peer-to-peer counseling model, pre-certification integration) from published descriptions.",
+        limitations: "URL is the generic Humana provider portal with no visible pathway content. No public regimen lists exist. Program details rely heavily on secondary reporting.",
+        dataInComparison: "Therapy positions are largely inferred from NCCN alignment assumptions and secondary descriptions. Confidence is low — these positions should be verified through direct engagement with Humana.",
+    },
+    "bcbs-michigan": {
+        confidence: "low",
+        urlQuality: "Generic BCBSM corporate homepage — no pathway content visible",
+        primarySources: [
+            "Published literature: Neubauer et al. (JOP 2010) — BCBSM pathway pilot outcomes",
+            "Cardinal Health Specialty Solutions programme descriptions",
+        ],
+        secondarySources: [
+            "ASCO conference presentations on payer-provider pathway collaborations",
+            "Physician Resource Management partnership documentation",
+        ],
+        methodology: "One of the earliest documented payer-provider pathway programs. Programme existence and outcomes well-documented in peer-reviewed literature (JOP 2010). Current operational status and regimen details are not publicly confirmed.",
+        limitations: "URL is the generic BCBSM homepage. Published research is from 2010 — the programme may have evolved significantly. No current regimen lists available publicly.",
+        dataInComparison: "Not included in the Comparison Matrix due to insufficient current regimen-level data.",
+    },
+    evicore: {
+        confidence: "medium",
+        urlQuality: "Direct link to eviCore pathways programme page with programme description",
+        primarySources: [
+            "eviCore Insights — Pathways Program page (publicly accessible)",
+            "eviCore provider communications and clinical guidelines",
+        ],
+        secondarySources: [
+            "Evernorth/Cigna investor presentations on oncology utilisation management",
+            "AMCP conference presentations on eviCore pathway outcomes",
+        ],
+        methodology: "Programme structure confirmed from the eviCore website. Immediate PA approval for on-pathway regimens is documented in provider-facing materials. Specific regimen lists are accessible only through the eviCore provider portal.",
+        limitations: "While the programme page is informative, actual regimen-level pathway data is behind the provider portal. Therapy positions require portal access to verify.",
+        dataInComparison: "Therapy positions inferred from documented NCCN alignment and available provider communications. Medium confidence — positions reflect expected NCCN-aligned behaviour.",
+    },
+    evolent: {
+        confidence: "low",
+        urlQuality: "Generic corporate homepage — no specific pathway content",
+        primarySources: [
+            "Evolent Health corporate press releases",
+            "Evolent investor presentations referencing oncology management",
+        ],
+        secondarySources: [
+            "Published descriptions of New Century Health oncology model",
+        ],
+        methodology: "Programme confirmed through Evolent acquisition of New Century Health and subsequent investor disclosures. Functions primarily as a PA management intermediary for health plans.",
+        limitations: "URL is corporate homepage. Evolent does not publish pathway regimen data. Programme operates behind the scenes for payer clients — no direct public-facing pathway content.",
+        dataInComparison: "Not included in the Comparison Matrix due to insufficient regimen-level data. Evolent operates as infrastructure, not as a direct pathway publisher.",
+    },
+    moffitt: {
+        confidence: "low",
+        urlQuality: "Direct link to Moffitt clinical pathways page — but page has minimal content",
+        primarySources: [
+            "Moffitt Cancer Center website — Clinical Pathways landing page",
+            "Published research from Moffitt on clinical pathway implementation",
+        ],
+        secondarySources: [
+            "Conference presentations by Moffitt oncologists on institutional pathways",
+            "NCI Cancer Centers designation documentation",
+        ],
+        methodology: "The URL links to Moffitt's clinical pathways page for healthcare professionals, but the actual pathway content requires institutional credentials. Programme existence is confirmed by Moffitt's public references to their pathway programme and published research on pathway implementation.",
+        limitations: "The linked page exists but provides very limited public detail. Actual pathway content (regimen lists, preferred therapies) is internal to Moffitt and not publicly accessible. This is a known gap — the entry documents that Moffitt HAS pathways, not what they contain.",
+        dataInComparison: "Therapy positions in the Comparison Matrix are inferred from Moffitt's published research, NCCN membership, and publicly presented institutional preferences. These are approximations, not direct extractions.",
+    },
+    "upmc-hillman": {
+        confidence: "medium",
+        urlQuality: "Direct link to UPMC Hillman treatment pathways page with programme description",
+        primarySources: [
+            "UPMC Hillman Cancer Center — Treatment Pathways page (public)",
+            "Published research: Ellis et al. (JOP 2017) — Via Oncology pathway outcomes in NSCLC",
+        ],
+        secondarySources: [
+            "Elsevier ClinicalPath product documentation",
+            "Via Oncology publications on pathway development methodology",
+        ],
+        methodology: "The URL has a public-facing description of the pathways programme. Detailed programme structure, cost outcomes (35% lower outpatient costs), and clinical trial accrual data from peer-reviewed publications. Powered by Elsevier ClinicalPath — same platform used commercially.",
+        limitations: "Actual pathway regimen selections are behind the ClinicalPath platform subscription. Published data demonstrates outcomes but doesn't expose current regimen choices.",
+        dataInComparison: "Positions derived from published ClinicalPath outcomes literature and platform methodology documentation. Reasonable confidence for major regimens; less certain for newer therapies.",
+    },
+    "us-oncology": {
+        confidence: "medium",
+        urlQuality: "McKesson specialty solutions page — programme description but no regimen data",
+        primarySources: [
+            "McKesson Specialty — Oncology Clinical Management Technology page",
+            "Ontada / Clear Value Plus platform documentation",
+            "Published: Hoverman et al. (JOP 2011) — Value Pathways cost/survival outcomes",
+        ],
+        secondarySources: [
+            "NCCN partnership announcements for Value Pathways",
+            "McKesson investor presentations on US Oncology Network",
+        ],
+        methodology: "Programme structure documented through McKesson/Ontada product pages and NCCN partnership materials. Cost and survival outcomes from peer-reviewed literature. '90% physician adherence' figure from US Oncology Network internal reporting cited in presentations.",
+        limitations: "URL is a product overview page, not a regimen list. Value Pathways content is proprietary to US Oncology Network practices. 'Level I Pathway' designations not publicly available.",
+        dataInComparison: "Positions based on documented NCCN alignment (programme is literally 'powered by NCCN') and published outcomes. High confidence for NCCN-preferred agents; less certain for positioning differences.",
+    },
+    oneoncology: {
+        confidence: "low",
+        urlQuality: "Generic corporate homepage — no pathway-specific content visible",
+        primarySources: [
+            "OneOncology press releases mentioning pathway finalisation",
+            "OneOncology investor/partner presentations",
+        ],
+        secondarySources: [
+            "Industry coverage of OneOncology pathway programme launch",
+        ],
+        methodology: "Programme existence and scope (25 finalised pathways covering lung, breast, GI, GU, hematology) confirmed from OneOncology corporate communications. No regimen-level detail is publicly available.",
+        limitations: "URL is the corporate homepage with no pathway content. Programme is relatively new. Internal clinical decision support tool is not publicly accessible.",
+        dataInComparison: "Therapy positions are largely inferred from NCCN alignment expectations. Low confidence — should be verified through direct engagement.",
+    },
+    aon: {
+        confidence: "low",
+        urlQuality: "Generic corporate homepage — no pathway-specific content visible",
+        primarySources: [
+            "AON corporate website — value-based care descriptions",
+            "AON press releases on clinical pathway implementation",
+        ],
+        secondarySources: [
+            "Industry coverage of pharmacist-driven pathway models",
+        ],
+        methodology: "Programme confirmed from AON corporate communications mentioning pharmacist-driven clinical pathways. Specific regimen data is not available publicly.",
+        limitations: "URL is the generic corporate site. No direct pathway content, no regimen lists, no detailed programme structure publicly visible. Entry documents programme existence, not content.",
+        dataInComparison: "Not included in the Comparison Matrix due to insufficient regimen-level data.",
+    },
+    eviti: {
+        confidence: "medium",
+        urlQuality: "Direct product page with programme description and coverage details",
+        primarySources: [
+            "NantHealth — eviti Connect for Oncology product page",
+            "ASCO classification of eviti as clinical decision support tool",
+        ],
+        secondarySources: [
+            "Published literature on eviti integration with AllScripts EHR",
+            "Payer utilization management documentation referencing eviti",
+        ],
+        methodology: "Product description and reach (7,700+ practices) from NantHealth product page. ASCO classification as 'decision support' rather than 'traditional pathway' from published ASCO oncology pathway landscape review.",
+        limitations: "eviti operates as decision support integrated into EHR workflow — its 'pathway' recommendations are generated dynamically, not published as static lists. Therapy positions are harder to extract than static pathway programmes.",
+        dataInComparison: "Positions based on eviti's documented NCCN alignment and available provider documentation. Medium confidence.",
+    },
+    aetna: {
+        confidence: "medium",
+        urlQuality: "Direct link to Aetna Clinical Policy Bulletins page — relevant oncology content",
+        primarySources: [
+            "Aetna Clinical Policy Bulletins (CPBs) — publicly accessible oncology policies",
+            "AIM Specialty Health oncology utilization management guidelines",
+        ],
+        secondarySources: [
+            "CVS Health investor presentations on specialty management",
+        ],
+        methodology: "Aetna CPBs are publicly accessible and contain detailed coverage criteria for oncology drugs. AIM Specialty Health partnership confirmed from Aetna provider documentation. CPBs specify which agents are covered and under what conditions.",
+        limitations: "CPBs are coverage policies, not 'pathways' in the traditional sense. They define what is covered, not what is preferred. Distinction between 'covered' and 'pathway-preferred' may be blurred.",
+        dataInComparison: "Therapy positions derived from CPB coverage criteria. 'On-pathway' mapped from CPB coverage with standard PA. Reasonable confidence for coverage status; less precise for preference ranking.",
+    },
+    mdanderson: {
+        confidence: "high",
+        urlQuality: "Direct link to MD Anderson Clinical Practice Algorithms page with downloadable content",
+        primarySources: [
+            "MD Anderson Clinical Practice Algorithms — publicly hosted treatment algorithms",
+            "Oncology Expert Advisor (OEA) platform documentation",
+        ],
+        secondarySources: [
+            "Published research from MD Anderson on algorithmic treatment approaches",
+        ],
+        methodology: "MD Anderson publishes clinical practice algorithms as downloadable PDFs/viewer for major cancer types including NSCLC. These are among the most detailed publicly available institutional pathways in the US. The Algorithms page directly hosts the content.",
+        limitations: "The publicly available algorithms may not reflect the most current internal practices. The OEA platform (subscription) may have more granular/updated content. Some algorithm details require registration.",
+        dataInComparison: "Therapy positions extracted from publicly available clinical algorithms. High confidence for the positions shown in their published materials.",
+    },
+    msk: {
+        confidence: "low",
+        urlQuality: "Generic physicians page — no direct pathway/guideline content visible",
+        primarySources: [
+            "MSK institutional references to clinical guidelines development",
+            "NCCN membership and guideline contribution documentation",
+        ],
+        secondarySources: [
+            "Published research from MSK on NSCLC treatment approaches",
+            "MSK Alliance network descriptions",
+        ],
+        methodology: "MSK is known to maintain institutional clinical pathways, confirmed by published research and NCCN membership. However, their guidelines are not publicly published online. The URL links to a general physicians page.",
+        limitations: "No publicly accessible pathway or guideline content at the URL. MSK's treatment protocols are internal. Entry documents that MSK HAS pathways and their general approach, not specific regimen preferences.",
+        dataInComparison: "Therapy positions are inferred from MSK's published research and NCCN contributions. Low confidence — these are educated estimates, not direct extractions.",
+    },
+    mayo: {
+        confidence: "low",
+        urlQuality: "Generic medical professionals portal — no pathway content visible",
+        primarySources: [
+            "Mayo Clinic references to internal oncology pathways",
+            "NCCN membership documentation",
+        ],
+        secondarySources: [
+            "Published research from Mayo on NSCLC treatment outcomes",
+        ],
+        methodology: "Mayo Clinic maintains internal EHR-integrated pathways confirmed by institutional descriptions and NCCN membership. No public-facing pathway content is available.",
+        limitations: "URL is the generic medical professionals portal with no pathway data. Mayo's pathways are entirely internal to their EHR system. Entry documents programme existence only.",
+        dataInComparison: "Therapy positions are inferred from NCCN alignment (Mayo is an NCCN member) and published research. Low confidence — should be treated as estimates.",
+    },
+    flatiron: {
+        confidence: "medium",
+        urlQuality: "Corporate homepage — general product description but no pathway data",
+        primarySources: [
+            "Flatiron Health product documentation for OncoEMR",
+            "Roche/Flatiron press releases on real-world data platform",
+        ],
+        secondarySources: [
+            "Published Flatiron real-world evidence studies on NSCLC treatment patterns",
+            "FDA regulatory filings using Flatiron real-world data",
+        ],
+        methodology: "Programme reach (280+ practices, 2.4M+ records) from Flatiron corporate materials. Flatiron functions primarily as a data/analytics platform rather than a pathway publisher. Treatment pattern data from published RWE studies.",
+        limitations: "Flatiron is a platform/data company, not a traditional pathway programme. 'Pathway' positioning reflects their treatment analytics rather than explicit pathway recommendations. URL is corporate homepage.",
+        dataInComparison: "Therapy positions reflect treatment patterns observed in Flatiron's published RWE studies rather than explicit 'pathway' recommendations. Medium confidence for pattern data; not direct pathway positions.",
+    },
+    va: {
+        confidence: "high",
+        urlQuality: "Direct link to VA Clinical Pathways hub with downloadable PDFs",
+        primarySources: [
+            "VA Cancer.gov — Clinical Pathways page with downloadable PDF files",
+            "Lung Cancer Clinical Pathways V2.2025 PDF (508-compliant)",
+            "VA Clinical Pathways Reference Sheet PDF",
+        ],
+        secondarySources: [
+            "VA National Oncology Program documentation",
+        ],
+        methodology: "Therapy data extracted directly from VA Lung Cancer Clinical Pathways PDF V2.2025. PDFs are freely downloadable, publicly accessible, and regularly updated. Most reliable public US oncology pathway source. Stage-by-stage, biomarker-stratified treatment algorithms with explicit preferred/alternative designations.",
+        limitations: "VA pathways are designed for the VA patient population (predominantly male, older, high comorbidity burden) — preferences may differ from commercial/community settings. Update cycle is quarterly.",
+        dataInComparison: "Therapy positions directly extracted from VA PDF. High confidence — these are explicit, documented positions.",
+    },
+    "nci-pdq": {
+        confidence: "high",
+        urlQuality: "Direct link to NCI PDQ NSCLC Treatment Summary — full content visible",
+        primarySources: [
+            "NCI PDQ NSCLC Treatment Summary (Health Professional Version) — full text online",
+            "NCBI Bookshelf PDQ mirror",
+            "NCI Content Syndication API",
+        ],
+        secondarySources: [],
+        methodology: "PDQ content is US government public domain, fully accessible online. Treatment options listed by stage with evidence levels. While not a 'pathway' in the traditional sense (no preferred/restricted designations), it documents evidence-supported treatment options comprehensively.",
+        limitations: "PDQ summarises evidence rather than making pathway-style preference recommendations. It documents what is supported by evidence, not what should be preferred over alternatives. More useful as a reference than a pathway.",
+        dataInComparison: "Not included in the Comparison Matrix as PDQ does not make preference designations between therapies.",
+    },
+    "mmit-pulse": {
+        confidence: "medium",
+        urlQuality: "Direct link to PULSE Analytics product page with programme description",
+        primarySources: [
+            "MMIT / Norstella — PULSE Analytics product page",
+            "PULSE Analytics marketing materials and case studies",
+        ],
+        secondarySources: [
+            "Norstella investor/partner presentations",
+            "Published industry analyses referencing PULSE data",
+        ],
+        methodology: "Product scope (300+ brands, 69 indications) from MMIT marketing materials. PULSE is a monitoring platform that TRACKS pathway positions across programmes — it does not create pathways itself. Included as a key industry data source.",
+        limitations: "PULSE is a commercial intelligence platform, not a pathway programme. Subscription-based access. No public data available.",
+        dataInComparison: "Not applicable — PULSE is a monitoring tool, not a pathway programme with therapy positions.",
+    },
+    dedham: {
+        confidence: "medium",
+        urlQuality: "Direct link to Dedham Group pathways strategy service page",
+        primarySources: [
+            "The Dedham Group — Clinical Pathways Strategy service page",
+            "Dedham Group marketing materials and whitepapers",
+        ],
+        secondarySources: [
+            "Industry conference presentations featuring Dedham Group data",
+        ],
+        methodology: "Dedham Group is a consulting firm specialising in oncology pathway strategy, not a pathway publisher. Included because it is the premier US firm for pathway intelligence and influences how pharmaceutical companies interact with pathways. Service description from their website.",
+        limitations: "Dedham Group produces proprietary analysis for pharmaceutical clients. Not a pathway programme. No public data.",
+        dataInComparison: "Not applicable — consulting firm, not a pathway programme.",
+    },
+    clinicalpath: {
+        confidence: "medium",
+        urlQuality: "Direct link to Elsevier ClinicalPath product page with detailed description",
+        primarySources: [
+            "Elsevier — ClinicalPath product page with platform description",
+            "Published: Ellis et al. (JOP 2017) — ClinicalPath/Via Oncology NSCLC outcomes",
+        ],
+        secondarySources: [
+            "Via Oncology historical publications on pathway methodology",
+            "MedTech Breakthrough 2019 award documentation",
+        ],
+        methodology: "Platform scope (2,000+ patient presentations, 1,500+ providers) from Elsevier product page. Pathway methodology and outcomes from published research (originally Via Oncology at UPMC). Clinical algorithms are expert-defined and reviewed quarterly.",
+        limitations: "Actual pathway content is behind a subscription paywall. Published research provides methodology context but not current regimen selections. Platform is dynamic — positions may change between quarterly reviews.",
+        dataInComparison: "Therapy positions based on published ClinicalPath literature and documented methodology. Medium confidence — positions reflect the platform's general approach rather than extracted current data.",
+    },
+};
+
+
 // ── VA Pathway Data (public) ──────────────────────────────────────────
 
 const VA_PATHWAY_DATA = {
@@ -2426,7 +2757,111 @@ function populateInstitutionSelector() {
 }
 
 
+// ── Appendix: Data Sources & Methodology ─────────────────────────────
+
+function confidenceBadge(level) {
+    const labels = { high: "High", medium: "Medium", low: "Low" };
+    return `<span class="appendix-confidence appendix-confidence-${level}">${labels[level] || level}</span>`;
+}
+
+function renderAppendix() {
+    const container = document.getElementById("appendix-content");
+    if (!container) return;
+
+    let html = `
+        <div class="appendix-intro">
+            <p>This appendix documents the sourcing methodology for every programme listed in this module. Each entry includes the primary and secondary sources used, how data was gathered, known limitations, and a confidence rating.</p>
+            <div class="appendix-legend">
+                <strong>Confidence Ratings:</strong>
+                ${confidenceBadge("high")} Direct public data — regimen lists, PDFs, or algorithms directly accessible and verifiable
+                ${confidenceBadge("medium")} Verifiable but indirect — programme confirmed from official pages, detail from published literature or provider docs
+                ${confidenceBadge("low")} Inferred from secondary sources — programme existence confirmed but URL has minimal/no pathway content; therapy positions are estimates
+            </div>
+        </div>
+    `;
+
+    PATHWAY_PROGRAMS.forEach(prog => {
+        const m = DATA_METHODOLOGY[prog.id];
+        if (!m) return;
+
+        const primaryHtml = m.primarySources.map(s => `<li>${esc(s)}</li>`).join("");
+        const secondaryHtml = m.secondarySources.length
+            ? m.secondarySources.map(s => `<li>${esc(s)}</li>`).join("")
+            : "<li><em>None</em></li>";
+
+        html += `
+            <div class="appendix-entry">
+                <div class="appendix-entry-header">
+                    <h4>${esc(prog.name)}</h4>
+                    ${confidenceBadge(m.confidence)}
+                </div>
+                <div class="appendix-org">${esc(prog.organization)}</div>
+
+                <div class="appendix-field">
+                    <strong>URL Quality:</strong>
+                    <span class="${m.confidence === 'low' ? 'appendix-url-warning' : ''}">${esc(m.urlQuality)}</span>
+                </div>
+
+                <div class="appendix-field">
+                    <strong>Source URL:</strong>
+                    <a href="${esc(prog.url)}" target="_blank" rel="noopener">${esc(prog.url)}</a>
+                </div>
+
+                <div class="appendix-sources-grid">
+                    <div>
+                        <strong>Primary Sources:</strong>
+                        <ul>${primaryHtml}</ul>
+                    </div>
+                    <div>
+                        <strong>Secondary Sources:</strong>
+                        <ul>${secondaryHtml}</ul>
+                    </div>
+                </div>
+
+                <div class="appendix-field">
+                    <strong>Methodology:</strong>
+                    <p>${esc(m.methodology)}</p>
+                </div>
+
+                <div class="appendix-field appendix-limitations">
+                    <strong>Limitations & Caveats:</strong>
+                    <p>${esc(m.limitations)}</p>
+                </div>
+
+                <div class="appendix-field">
+                    <strong>Data in Comparison Matrix:</strong>
+                    <p>${esc(m.dataInComparison)}</p>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
+function toggleAppendix() {
+    const modal = document.getElementById("appendix-modal");
+    if (!modal) return;
+    const isOpen = modal.classList.contains("open");
+    if (isOpen) {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+    } else {
+        modal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        renderAppendix();
+    }
+}
+
+
 // ── Event Listeners & Init ──────────────────────────────────────────
+
+// Appendix modal
+document.getElementById("appendix-open-btn").addEventListener("click", toggleAppendix);
+document.getElementById("appendix-close-btn").addEventListener("click", toggleAppendix);
+document.getElementById("appendix-modal").addEventListener("click", (e) => {
+    if (e.target.id === "appendix-modal") toggleAppendix();
+});
 
 // Initial render — Directory tab
 renderStats();
