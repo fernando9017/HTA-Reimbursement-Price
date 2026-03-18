@@ -4095,3 +4095,452 @@ footer a:hover {
     color: var(--accent);
 }
 
+/* ── US NSCLC Pathways Tracker ──────────────────────────────────── */
+
+.pathway-key-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.pathway-stat-card {
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.pathway-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+}
+
+.pathway-stat-label {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+.pathway-programs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.pathway-program-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: box-shadow 0.2s;
+}
+
+.pathway-program-card:hover {
+    box-shadow: var(--shadow);
+}
+
+.pathway-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.pathway-card-header h3 {
+    font-size: 1.05rem;
+    color: var(--primary);
+    margin: 0;
+}
+
+.pathway-card-badges {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.pathway-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.pathway-badge.public {
+    background: #d5f5e3;
+    color: #1e8449;
+}
+
+.pathway-badge.semi-public {
+    background: #fef9e7;
+    color: #b7950b;
+}
+
+.pathway-badge.proprietary {
+    background: #fadbd8;
+    color: #c0392b;
+}
+
+.pathway-badge.type-payer {
+    background: #d6eaf8;
+    color: #2471a3;
+}
+
+.pathway-badge.type-provider {
+    background: #e8daef;
+    color: #7d3c98;
+}
+
+.pathway-badge.type-public {
+    background: #d5f5e3;
+    color: #1e8449;
+}
+
+.pathway-badge.type-commercial {
+    background: #fdebd0;
+    color: #ca6f1e;
+}
+
+.pathway-org {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.pathway-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.pathway-features {
+    margin-bottom: 12px;
+}
+
+.pathway-features strong {
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.pathway-features ul {
+    margin: 4px 0 0 20px;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.pathway-features li {
+    margin-bottom: 2px;
+}
+
+.pathway-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    font-size: 0.83rem;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    margin-bottom: 10px;
+}
+
+.pathway-nsclc-yes {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.pathway-nsclc-no {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.pathway-source-link {
+    display: inline-block;
+    color: var(--primary-light);
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-right: 16px;
+}
+
+.pathway-source-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.pathway-pdf-link {
+    display: inline-block;
+    background: #eaf2f8;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    text-decoration: none;
+    margin: 4px 6px 4px 0;
+    border: 1px solid #d4e6f1;
+    transition: all 0.2s;
+}
+
+.pathway-pdf-link:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.pathway-pdf-links {
+    margin-top: 8px;
+}
+
+/* VA Pathways section */
+.va-header {
+    font-size: 0.9rem;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+}
+
+.va-pdf-links {
+    margin-bottom: 16px;
+}
+
+.va-section {
+    margin-bottom: 16px;
+    padding: 14px;
+    background: #f8fafe;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-light);
+}
+
+.va-section h4 {
+    font-size: 0.95rem;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+
+.va-section p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.va-other-pathways {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.va-other-pathways h4 {
+    font-size: 0.92rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.va-other-pathway {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.va-other-pathway:hover {
+    text-decoration: underline;
+}
+
+/* NCI Reference */
+.nci-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.pathway-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.88rem;
+}
+
+.pathway-table th,
+.pathway-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.pathway-table th {
+    background: #f0f4f8;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.pathway-table tr:hover td {
+    background: #fafbfd;
+}
+
+/* NCCN Reference */
+.nccn-header {
+    font-size: 0.9rem;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+}
+
+.nccn-header div {
+    margin-bottom: 4px;
+}
+
+.nccn-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.nccn-updates {
+    margin: 8px 0 0 20px;
+    font-size: 0.88rem;
+}
+
+.nccn-updates li {
+    margin-bottom: 6px;
+    line-height: 1.45;
+}
+
+/* Monitoring Landscape */
+.monitoring-card {
+    background: #fafbfd;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+.monitoring-card h4 {
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.monitoring-provider {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.monitoring-card ul {
+    margin: 8px 0 12px 20px;
+    font-size: 0.85rem;
+}
+
+.monitoring-card li {
+    margin-bottom: 3px;
+}
+
+/* Biomarker Grid */
+.biomarker-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.biomarker-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.biomarker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.biomarker-header h4 {
+    color: var(--primary);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.biomarker-prevalence {
+    font-size: 0.78rem;
+    background: #eaf2f8;
+    color: var(--primary);
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.biomarker-therapies {
+    margin-bottom: 8px;
+}
+
+.therapy-line {
+    margin-bottom: 6px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+}
+
+.therapy-line strong {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.therapy-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    margin: 2px 3px;
+}
+
+.therapy-tag.first-line {
+    background: #d5f5e3;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.therapy-tag.subsequent {
+    background: #fef9e7;
+    color: #7d6608;
+    border: 1px solid #f9e79f;
+}
+
+.biomarker-relevance {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    margin: 0;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+}
+
+.no-results {
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px 0;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .pathway-card-header {
+        flex-direction: column;
+    }
+    .pathway-meta {
+        grid-template-columns: 1fr;
+    }
+    .biomarker-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
+

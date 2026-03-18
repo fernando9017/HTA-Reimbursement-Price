@@ -489,6 +489,12 @@ async def hiv_landscape_page():
     return FileResponse(str(STATIC_DIR / "hiv_landscape.html"))
 
 
+@app.get("/us-pathways")
+async def us_pathways_page():
+    """Serve the US NSCLC Pathways Tracker module page."""
+    return FileResponse(str(STATIC_DIR / "us_pathways.html"))
+
+
 @app.get("/api/search", response_model=list[MedicineResult])
 @limiter.limit("30/minute")
 async def search_medicines(
