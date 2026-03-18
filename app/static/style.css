@@ -4775,7 +4775,18 @@ footer a:hover {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.85rem;
-    min-width: 700px;
+    min-width: 900px;
+}
+
+.cmp-header-link {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--primary);
+    transition: color 0.15s, border-color 0.15s;
+}
+.cmp-header-link:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
 }
 
 .cmp-table th {
