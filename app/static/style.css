@@ -5121,6 +5121,77 @@ footer a:hover {
     }
 }
 
+/* ── Verification Status Indicators ─────────────────────────────────── */
+
+.cmp-inferred {
+    opacity: 0.5;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 4px,
+        rgba(0,0,0,0.02) 4px,
+        rgba(0,0,0,0.02) 8px
+    );
+}
+.cmp-inferred:hover {
+    opacity: 0.85;
+}
+
+.cmp-unverified-dot {
+    color: #e67e22;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-left: 2px;
+    vertical-align: super;
+    cursor: help;
+}
+
+.cmp-hdr-inferred {
+    background: #fff8f0;
+}
+.cmp-hdr-inferred a {
+    opacity: 0.7;
+}
+
+.cmp-legend-divider {
+    color: var(--border);
+    margin: 0 6px;
+}
+.cmp-legend-verified {
+    color: #155724;
+}
+.cmp-legend-published {
+    color: #856404;
+}
+.cmp-legend-inferred {
+    color: #e67e22;
+}
+
+.inst-verification-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.84rem;
+}
+.inst-verification-verified {
+    background: #eafaf1;
+    border: 1px solid #c3e6cb;
+}
+.inst-verification-published {
+    background: #fff8e6;
+    border: 1px solid #ffeaa7;
+}
+.inst-verification-inferred {
+    background: #fdf0e6;
+    border: 1px solid #f5c6a0;
+}
+.inst-verification-source {
+    color: var(--text-light);
+}
+
 /* ── Appendix Modal ─────────────────────────────────────────────────── */
 
 .appendix-trigger-row {

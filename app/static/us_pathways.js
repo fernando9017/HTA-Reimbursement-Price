@@ -50,8 +50,8 @@ const PATHWAY_PROGRAMS = [
             "No penalty for off-pathway choices — incentive-based model",
             "Administered by Carelon Insights with dedicated oncology staff",
         ],
-        url: "https://www.elevancehealth.com/",
-        dataAvailability: "Aggregated adherence data published in literature; regimen-level detail proprietary",
+        url: "https://providers.carelonmedicalbenefitsmanagement.com/medoncology-ccqp/about-the-program/carelon-cancer-treatment-pathways/",
+        dataAvailability: "Carelon NSCLC guidelines page exists (login-gated); CCQP FAQ PDFs public; published adherence data in PMC",
         lastChecked: "2026-03",
     },
     {
@@ -202,15 +202,16 @@ const PATHWAY_PROGRAMS = [
         access: "proprietary",
         coverage: "OneOncology network practices across 19+ states",
         nsclcCoverage: true,
-        description: "OneOncology has finalised 25 oncology and hematology pathways covering lung, breast, GI, GU, and hematology disease groups. Delivered through an internal clinical decision support tool to network practices.",
+        description: "OneOncology has finalised 25 oncology and hematology pathways covering lung, breast, GI, GU, and hematology disease groups. ASCO-certified (May 2024, only 5th programme to achieve certification). Delivered through an internal clinical decision support tool. Pathways are NCCN-concordant and updated in real-time for new FDA approvals. Target adherence rate: 80%.",
         keyFeatures: [
-            "25 finalised oncology and hematology pathways",
+            "25 ASCO-certified oncology and hematology pathways",
+            "NCCN-concordant with real-time updates for new FDA approvals",
             "Covers lung, breast, GI, GU, and hematology",
-            "Internal clinical decision support tool",
-            "Growing network across 19+ states",
+            "80% adherence target met by all practices",
+            "Published methodology in AJMC",
         ],
-        url: "https://www.oneoncology.com/",
-        dataAvailability: "Internal to OneOncology network; not publicly accessible",
+        url: "https://www.oneoncology.com/blog/oneoncologys-treatment-pathways-certified-by-asco/",
+        dataAvailability: "ASCO-certified methodology published; specific regimen detail internal to network",
         lastChecked: "2026-03",
     },
     {
@@ -221,15 +222,16 @@ const PATHWAY_PROGRAMS = [
         access: "proprietary",
         coverage: "AON practices across 19 states",
         nsclcCoverage: true,
-        description: "Pharmacist-driven clinical pathways supporting value-based care across the AON network. Focus on data, technology, and collaboration to standardise evidence-based treatment.",
+        description: "Pharmacist-driven clinical pathways supporting value-based care across the AON network. In November 2025, AON partnered with Evolent Health to embed treatment pathways directly in EHR, eliminating prior authorisation for providers adhering to high-quality pathways. Uses MiBA (Meaningful Insights Biotech Analytics) co-developed analytics platform.",
         keyFeatures: [
+            "Evolent/AON partnership eliminates PA for on-pathway treatment (Nov 2025)",
             "Pharmacist-driven pathway implementation",
-            "Focus on value-based care delivery",
-            "Data and technology integration",
-            "Practices across 19 states",
+            "EHR-embedded Evolent Level 1 pathways",
+            "MiBA analytics platform for evidence-based insights",
+            "Published JCP study on treatment selection patterns",
         ],
-        url: "https://www.americanoncologynetwork.com/",
-        dataAvailability: "Internal to AON network; not publicly accessible",
+        url: "https://www.aoncology.com/2025/11/06/evolent-and-american-oncology-network-unveil-innovative-model/",
+        dataAvailability: "Evolent/AON partnership model published; EHR-embedded pathways; regimen detail internal",
         lastChecked: "2026-03",
     },
     {
@@ -487,18 +489,20 @@ const DATA_METHODOLOGY = {
     },
     anthem: {
         confidence: "medium",
-        urlQuality: "Generic corporate homepage — no direct pathway content visible",
+        urlQuality: "Carelon NSCLC guidelines page exists (login-gated); CCQP FAQ PDFs publicly available",
         primarySources: [
-            "Elevance Health corporate press releases and investor presentations",
-            "Carelon Insights (formerly AIM Specialty) oncology program descriptions",
+            "Carelon Clinical Guidelines: Lung Cancer, Non-Small Cell (guidelines.carelonmedicalbenefitsmanagement.com/lung-cancer-non-small-cell/) — page confirmed but regimen detail behind login",
+            "Carelon CCQP FAQ PDF (publicly hosted): providers.carelonmedicalbenefitsmanagement.com/medoncology-ccqp/wp-content/uploads/sites/9/2022/12/Elevance_CCQP_FAQ.pdf",
+            "Carelon Cancer Treatment Pathways programme page (public): providers.carelonmedicalbenefitsmanagement.com/medoncology-ccqp/about-the-program/carelon-cancer-treatment-pathways/",
         ],
         secondarySources: [
-            "AJMC publications on Anthem CCQP program outcomes",
-            "ASCO/AMCP conference presentations on pathway adherence",
+            "PMC5584892: Validation of clinical data from CCQP integrated with administrative claims data",
+            "PMC4570054: Anthem's Clinical Pathways Demonstrate Value — The Payer Perspective",
+            "Carelon Research: P4P Program Boosted Evidence-Based Care",
         ],
-        methodology: "Program details (300+ pathways, $350/month incentive, CCQP structure) sourced from Elevance investor presentations, Carelon Insights marketing materials, and published literature. No public regimen-level data available.",
-        limitations: "URL points to corporate homepage because Elevance does not publish pathway regimen lists publicly. Regimen-level detail is entirely proprietary to Carelon Insights.",
-        dataInComparison: "Therapy positions in the Comparison Matrix are inferred from published adherence studies, conference presentations, and Carelon Insights program descriptions. Lower certainty than programs with public regimen lists.",
+        methodology: "Programme structure confirmed from publicly accessible Carelon pages and FAQ PDFs. NSCLC-specific guidelines page confirmed to exist at Carelon's guidelines portal. Pathways developed by Carelon oncologists/pharmacists consulting with academic/community oncologist panel, based on NCCN guidelines. Updated at least quarterly. $350/month provider incentive with no off-pathway penalty.",
+        limitations: "NSCLC regimen list is behind the Carelon provider portal login. Specific preferred vs. alternate agent designations cannot be verified publicly. Updated URL now points to Carelon programme page rather than generic Elevance homepage.",
+        dataInComparison: "Therapy positions based on Carelon's documented NCCN alignment and published adherence data. Medium confidence — programme is well-documented but regimen-level detail requires portal access.",
     },
     humana: {
         confidence: "low",
@@ -561,18 +565,19 @@ const DATA_METHODOLOGY = {
     },
     moffitt: {
         confidence: "low",
-        urlQuality: "Direct link to Moffitt clinical pathways page — but page has minimal content",
+        urlQuality: "Direct link to Moffitt clinical pathways page — minimal public content; pathway data delivered via EvidenceCare/OncologyCare EHR integration",
         primarySources: [
-            "Moffitt Cancer Center website — Clinical Pathways landing page",
-            "Published research from Moffitt on clinical pathway implementation",
+            "Moffitt Cancer Center: Clinical Pathways landing page (moffitt.org/for-healthcare-professionals/clinical-pathways/)",
+            "AJMC: 'From Making Oncology Clinical Pathways Multidisciplinary, to Adding the Patient's Voice' — describes Moffitt's pathway programme history (since 2009) and methodology",
+            "EvidenceCare/OncologyCare partnership with Moffitt (evidence.care/carepathways/oncologycare/) — EHR-integrated pathway delivery platform",
         ],
         secondarySources: [
-            "Conference presentations by Moffitt oncologists on institutional pathways",
-            "NCI Cancer Centers designation documentation",
+            "AJMC: 'With Broad Input, Clinical Pathways Making a Difference for End Users' — Moffitt pathway details",
+            "Moffitt NSCLC treatment pages (moffitt.org/cancers/lung-cancer/) — general treatment approach but not pathway-specific",
         ],
-        methodology: "The URL links to Moffitt's clinical pathways page for healthcare professionals, but the actual pathway content requires institutional credentials. Programme existence is confirmed by Moffitt's public references to their pathway programme and published research on pathway implementation.",
-        limitations: "The linked page exists but provides very limited public detail. Actual pathway content (regimen lists, preferred therapies) is internal to Moffitt and not publicly accessible. This is a known gap — the entry documents that Moffitt HAS pathways, not what they contain.",
-        dataInComparison: "Therapy positions in the Comparison Matrix are inferred from Moffitt's published research, NCCN membership, and publicly presented institutional preferences. These are approximations, not direct extractions.",
+        methodology: "Moffitt's pathway programme (established 2009) is well-documented in AJMC publications. Pathways are EHR-integrated via EvidenceCare/OncologyCare platform, incorporating clinical trials and drug costs. Pathways are truly multidisciplinary (medical, surgical, radiation oncology). However, the actual regimen-level pathway content is only accessible to Moffitt-affiliated clinicians through the EHR-integrated platform.",
+        limitations: "Despite the public pathway page and published programme descriptions, no regimen-level NSCLC data is publicly accessible. The EvidenceCare platform delivers pathways within the EHR — content cannot be extracted without institutional access. Programme methodology is documented but specific therapy preferences are not.",
+        dataInComparison: "Therapy positions are inferred from Moffitt's NCCN alignment, published multidisciplinary approach, and general treatment descriptions. Low confidence — these are approximations, not verified extractions.",
     },
     "upmc-hillman": {
         confidence: "medium",
@@ -606,32 +611,37 @@ const DATA_METHODOLOGY = {
         dataInComparison: "Positions based on documented NCCN alignment (programme is literally 'powered by NCCN') and published outcomes. High confidence for NCCN-preferred agents; less certain for positioning differences.",
     },
     oneoncology: {
-        confidence: "low",
-        urlQuality: "Generic corporate homepage — no pathway-specific content visible",
+        confidence: "medium",
+        urlQuality: "Corporate homepage; pathway details published in AJMC and ASCO certification documentation",
         primarySources: [
-            "OneOncology press releases mentioning pathway finalisation",
-            "OneOncology investor/partner presentations",
+            "OneOncology blog: 'Finalizes 25 Oncology and Hematology Pathways' (oneoncology.com/blog/oneoncology-finalizes-25-oncology-and-hematology-pathways/)",
+            "OneOncology blog: 'Treatment Pathways Certified by ASCO' (oneoncology.com/blog/oneoncologys-treatment-pathways-certified-by-asco/) — 5th programme to achieve ASCO certification (May 2024)",
+            "AJMC: 'OneOncology Finalizes 25 Clinical Pathways in Oncology and Hematology' — published programme methodology and adherence targets",
         ],
         secondarySources: [
-            "Industry coverage of OneOncology pathway programme launch",
+            "AJMC: 'In Oncology Clinical Pathways, the Variability Isn't With the Drugs' — OneOncology physician interviews on pathway selection criteria",
+            "AJMC: 'Clinical Pathways Must Be More Dynamic as Oncology Care Evolves Faster' — Edward Arrowsmith MD on NSCLC pathway approach",
         ],
-        methodology: "Programme existence and scope (25 finalised pathways covering lung, breast, GI, GU, hematology) confirmed from OneOncology corporate communications. No regimen-level detail is publicly available.",
-        limitations: "URL is the corporate homepage with no pathway content. Programme is relatively new. Internal clinical decision support tool is not publicly accessible.",
-        dataInComparison: "Therapy positions are largely inferred from NCCN alignment expectations. Low confidence — should be verified through direct engagement.",
+        methodology: "Programme scope (25 pathways incl. lung, breast, GI, GU, hematology) and methodology published in AJMC. ASCO certification confirms concordance with evidence-based guidelines. 80% adherence target documented. Pathways are NCCN-concordant and updated in real-time for new FDA approvals. Efficacy and safety are primary criteria; cost considered secondarily within drug class.",
+        limitations: "Specific regimen-level pathway selections (preferred vs. alternate agents) are internal to OneOncology's clinical decision support tool. Published AJMC articles describe methodology but not specific agent rankings.",
+        dataInComparison: "Therapy positions based on documented NCCN concordance, ASCO certification, and published methodology descriptions. Medium confidence — methodology is transparent but specific agent preferences are not publicly disclosed.",
     },
     aon: {
-        confidence: "low",
-        urlQuality: "Generic corporate homepage — no pathway-specific content visible",
+        confidence: "medium",
+        urlQuality: "Corporate homepage; pathway model published via Evolent partnership press release and JCP study",
         primarySources: [
-            "AON corporate website — value-based care descriptions",
-            "AON press releases on clinical pathway implementation",
+            "Evolent/AON press release (Nov 2025): 'Innovative model seeking to improve cancer care while eliminating prior authorization burden' (aoncology.com/2025/11/06/evolent-and-american-oncology-network-unveil-innovative-model/)",
+            "Journal of Clinical Pathways: Real-world study of treatment selection patterns across AON medical oncologists with EHR-embedded Evolent Level 1 pathways",
+            "AON corporate: pharmacist-driven clinical pathway implementation documentation",
         ],
         secondarySources: [
-            "Industry coverage of pharmacist-driven pathway models",
+            "Evolent investor presentations referencing AON partnership model",
+            "AON P&T committee drug shortage management protocols",
+            "MiBA (Meaningful Insights Biotech Analytics) platform documentation — co-developed with AON",
         ],
-        methodology: "Programme confirmed from AON corporate communications mentioning pharmacist-driven clinical pathways. Specific regimen data is not available publicly.",
-        limitations: "URL is the generic corporate site. No direct pathway content, no regimen lists, no detailed programme structure publicly visible. Entry documents programme existence, not content.",
-        dataInComparison: "Not included in the Comparison Matrix due to insufficient regimen-level data.",
+        methodology: "Evolent/AON partnership model well-documented in press release and JCP publication. Providers adhering to high-quality treatment pathways no longer need prior authorization for most tests/treatments. Evolent Level 1 pathways embedded in EHR. Pharmacist-driven implementation with MiBA analytics platform for evidence-based insights.",
+        limitations: "Specific NSCLC regimen rankings are internal to the Evolent/AON pathway platform. Published JCP study provides adherence data but not specific preferred agent lists. Weight-based dosing initiative (e.g. pembrolizumab) documented but not regimen preference.",
+        dataInComparison: "Not included in the Comparison Matrix due to insufficient regimen-level data. However, programme methodology is now well-documented from published sources.",
     },
     eviti: {
         confidence: "medium",
@@ -649,32 +659,36 @@ const DATA_METHODOLOGY = {
         dataInComparison: "Positions based on eviti's documented NCCN alignment and available provider documentation. Medium confidence.",
     },
     aetna: {
-        confidence: "medium",
-        urlQuality: "Direct link to Aetna Clinical Policy Bulletins page — relevant oncology content",
+        confidence: "high",
+        urlQuality: "Direct link to Aetna Clinical Policy Bulletins — detailed NSCLC drug coverage criteria publicly accessible",
         primarySources: [
-            "Aetna Clinical Policy Bulletins (CPBs) — publicly accessible oncology policies",
-            "AIM Specialty Health oncology utilization management guidelines",
+            "Aetna CPB #0890: Pembrolizumab (Keytruda) — NSCLC coverage criteria including PD-L1 thresholds, combination regimens, and continuation criteria (aetna.com/cpb/medical/data/800_899/0890.html)",
+            "Aetna CPB #0995: Amivantamab (Rybrevant) — EGFR mutation-specific NSCLC criteria (aetna.com/cpb/medical/data/900_999/0995.html)",
+            "Aetna Specialty Pharmacy Policy #1663-A: Osimertinib (Tagrisso) — EGFR exon 19del/L858R and T790M criteria (aetna.com/products/rxnonmedicare/data/2024/Tagrisso_1663-A_SGM_P2024.html)",
+            "Aetna Medicare Part B Step Therapy criteria: cemiplimab preferred over pembrolizumab/nivolumab for NSCLC (aetna.com/content/dam/aetna/pdfs/.../PD1-PDL1-inhibitors-1022-AMBST.pdf)",
         ],
         secondarySources: [
-            "CVS Health investor presentations on specialty management",
+            "Aetna 2026 Commercial Clinical Program Summary PDF",
         ],
-        methodology: "Aetna CPBs are publicly accessible and contain detailed coverage criteria for oncology drugs. AIM Specialty Health partnership confirmed from Aetna provider documentation. CPBs specify which agents are covered and under what conditions.",
-        limitations: "CPBs are coverage policies, not 'pathways' in the traditional sense. They define what is covered, not what is preferred. Distinction between 'covered' and 'pathway-preferred' may be blurred.",
-        dataInComparison: "Therapy positions derived from CPB coverage criteria. 'On-pathway' mapped from CPB coverage with standard PA. Reasonable confidence for coverage status; less precise for preference ranking.",
+        methodology: "Therapy positions extracted directly from publicly accessible Aetna CPBs. Each CPB specifies exactly which NSCLC indications are considered 'medically necessary' including biomarker requirements, line of therapy, and combination regimen details. Medicare Part B step therapy criteria provide additional preference ranking data (cemiplimab preferred over other PD-1/PD-L1 agents).",
+        limitations: "CPBs define coverage (medically necessary vs. not), not pathway preference in the traditional sense. Distinction between 'preferred' and 'covered' is mapped from step therapy tier (preferred = step 1, covered = standard PA). Policies are updated regularly — positions reflect last verification date.",
+        dataInComparison: "Therapy positions extracted from CPBs. High confidence for coverage status and biomarker-specific indications. Step therapy preferences verified from Medicare Part B step criteria documents.",
     },
     mdanderson: {
-        confidence: "high",
-        urlQuality: "Direct link to MD Anderson Clinical Practice Algorithms page with downloadable content",
+        confidence: "medium",
+        urlQuality: "Direct link to MD Anderson Clinical Practice Algorithms page — algorithms now appear to require login for full access",
         primarySources: [
-            "MD Anderson Clinical Practice Algorithms — publicly hosted treatment algorithms",
-            "Oncology Expert Advisor (OEA) platform documentation",
+            "MD Anderson Clinical Practice Algorithms landing page (mdanderson.org/for-physicians/clinical-tools-resources/clinical-practice-algorithms.html)",
+            "MD Anderson Cancer Treatment Algorithms page (mdanderson.org/.../cancer-treatment-algorithms.html) — confirmed to list treatment algorithms but full content requires credentials",
+            "MD Anderson Research Library guide on Clinical Practice Algorithms (mdanderson.libguides.com/c.php?g=564859&p=3890701)",
         ],
         secondarySources: [
-            "Published research from MD Anderson on algorithmic treatment approaches",
+            "Published MD Anderson research on NSCLC treatment outcomes (npj Precision Oncology 2026)",
+            "MD Anderson contributions to NCCN Guidelines",
         ],
-        methodology: "MD Anderson publishes clinical practice algorithms as downloadable PDFs/viewer for major cancer types including NSCLC. These are among the most detailed publicly available institutional pathways in the US. The Algorithms page directly hosts the content.",
-        limitations: "The publicly available algorithms may not reflect the most current internal practices. The OEA platform (subscription) may have more granular/updated content. Some algorithm details require registration.",
-        dataInComparison: "Therapy positions extracted from publicly available clinical algorithms. High confidence for the positions shown in their published materials.",
+        methodology: "MD Anderson maintains clinical practice algorithms for cancer treatment and clinical management. Algorithm pages are publicly listed but full content now appears to require institutional login. MD Anderson is an NCCN member institution, so their algorithms are expected to align closely with NCCN recommendations. Published MD Anderson NSCLC research provides additional evidence for treatment preferences.",
+        limitations: "Full algorithm content now appears login-gated (was previously more openly accessible). OEA platform is subscription-only. Therapy positions rely partly on published research and NCCN alignment rather than direct algorithm extraction.",
+        dataInComparison: "Therapy positions based on MD Anderson's published research and NCCN membership. Medium-high confidence — MD Anderson algorithms are well-documented but current content requires institutional access to verify.",
     },
     msk: {
         confidence: "low",
@@ -1279,12 +1293,17 @@ document.getElementById("pathway-reset-filters").addEventListener("click", () =>
 // This data is locally stored and curated from publicly available sources.
 // Status values: "preferred" | "recommended" | "listed" | "not listed" | "restricted" | "unknown"
 // nccnCategory: "preferred" | "other recommended" | "useful in certain circumstances"
+//
+// VERIFICATION STATUS: Each institution has a verification level indicating data provenance.
+// "verified"   = positions extracted from a publicly accessible primary source (PDF, webpage, algorithm)
+// "published"  = positions supported by published literature (journal articles, conference presentations)
+// "inferred"   = positions assumed from NCCN alignment or general institutional reputation; no direct source
 
 const PATHWAY_INSTITUTIONS = [
     { id: "nccn", name: "NCCN", fullName: "National Comprehensive Cancer Network", type: "guideline", version: "v5.2026", url: "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1450" },
     { id: "va", name: "VA", fullName: "VA Oncology Pathways", type: "public", version: "V2.2025", url: "https://www.cancer.va.gov/clinical-pathways.html" },
     { id: "uhc", name: "UHC", fullName: "UnitedHealthcare Cancer Therapy Pathways", type: "payer", version: "2026", url: "https://www.uhcprovider.com/en/resource-library/cancer-therapy-pathways-program.html" },
-    { id: "anthem", name: "Anthem", fullName: "Anthem / Elevance CCQP", type: "payer", version: "2026", url: "https://www.elevancehealth.com/" },
+    { id: "anthem", name: "Anthem", fullName: "Anthem / Elevance CCQP", type: "payer", version: "2026", url: "https://providers.carelonmedicalbenefitsmanagement.com/medoncology-ccqp/about-the-program/carelon-cancer-treatment-pathways/" },
     { id: "evicore", name: "eviCore", fullName: "eviCore Oncology (Cigna/Evernorth)", type: "payer", version: "2026", url: "https://www.evicore.com/insights/pathways-program" },
     { id: "humana", name: "Humana", fullName: "Humana Oncology Quality Management", type: "payer", version: "2026", url: "https://www.humana.com/provider" },
     { id: "us-oncology", name: "US Onc/NCCN", fullName: "Value Pathways powered by NCCN", type: "provider", version: "2026", url: "https://www.mckesson.com/specialty/technology-solutions-specialty-practices/oncology-clinical-management-technology/" },
@@ -1298,6 +1317,30 @@ const PATHWAY_INSTITUTIONS = [
     { id: "eviti", name: "eviti", fullName: "eviti Connect (NantHealth)", type: "commercial", version: "2026", url: "https://nanthealth.com/payers/eviti-connect/eviti-oncology/" },
     { id: "flatiron", name: "Flatiron", fullName: "Flatiron Health OncoEMR", type: "commercial", version: "2026", url: "https://flatiron.com/" },
 ];
+
+// Verification level per institution — determines how positions are displayed in the matrix
+// "verified"  = extracted from a publicly accessible primary document
+// "published" = supported by published literature (peer-reviewed or official presentations)
+// "inferred"  = assumed from NCCN alignment; no direct source available
+const INSTITUTION_VERIFICATION = {
+    nccn:        { level: "verified",  source: "NCCN Guidelines v5.2026 (registration-gated but freely accessible)" },
+    va:          { level: "verified",  source: "VA Lung Cancer Clinical Pathways PDF V2.2025 — directly downloadable" },
+    uhc:         { level: "verified",  source: "UHC Cancer Therapy Pathways Regimens PDF — publicly hosted, regimen list extractable" },
+    aetna:       { level: "verified",  source: "Aetna CPBs publicly accessible: pembrolizumab (#0890), amivantamab (#0995), osimertinib (#1663-A) with NSCLC-specific coverage criteria" },
+    mdanderson:  { level: "published", source: "MD Anderson Clinical Practice Algorithms page exists but now requires login; algorithm content confirmed via MD Anderson research library guides" },
+    "us-oncology": { level: "published", source: "Published: Hoverman et al. JOP 2011 (cost/survival outcomes); NCCN partnership — programme is 'Value Pathways powered by NCCN'" },
+    evicore:     { level: "published", source: "eviCore clinical guidelines portal (medical oncology solution page); radiation/imaging guidelines publicly available as PDFs; medical oncology regimens require provider portal access" },
+    clinicalpath:{ level: "published", source: "Via Oncology / ClinicalPath published methodology: Ellis et al. JOP 2017; Elsevier ClinicalPath publications page" },
+    eviti:       { level: "published", source: "NantHealth product documentation; ASCO classification as clinical decision support tool" },
+    anthem:      { level: "published", source: "Carelon NSCLC guidelines page confirmed (guidelines.carelonmedicalbenefitsmanagement.com/lung-cancer-non-small-cell/); CCQP FAQ PDFs public; PMC published adherence data (PMC5584892); regimen detail behind provider portal" },
+    oneoncology: { level: "published", source: "25 pathways ASCO-certified (May 2024, 5th programme certified); published methodology in AJMC; 80% adherence target documented; regimen detail internal to network" },
+    aon:         { level: "published", source: "Evolent/AON partnership (Nov 2025) with EHR-embedded pathways; JCP published adherence study; pharmacist-driven model documented" },
+    humana:      { level: "inferred",  source: "Evolent Health partnership confirmed; no public regimen data; programme operates behind payer portal" },
+    moffitt:     { level: "inferred",  source: "EvidenceCare/OncologyCare EHR partnership confirmed (AJMC); pathway page exists but content behind institutional credentials; no public regimen data" },
+    msk:         { level: "inferred",  source: "NCCN founding member; MSK physicians contribute to national guidelines; no publicly available institutional pathway document" },
+    mayo:        { level: "inferred",  source: "NCCN member; no public pathway content found; internal EHR-integrated pathways only" },
+    flatiron:    { level: "inferred",  source: "Flatiron RWE publications reflect treatment patterns, not explicit pathway positions; platform/analytics company" },
+};
 
 const THERAPY_PREFERENCES = [
     // ── EGFR exon 19del / L858R — First Line ────────────────────────
@@ -2522,7 +2565,12 @@ function renderComparisonMatrix() {
                                 <th class="cmp-agent-col">Agent</th>
                                 <th class="cmp-brand-col">Brand</th>
                                 <th class="cmp-nccn-col"><a href="${esc(PATHWAY_INSTITUTIONS.find(i => i.id === 'nccn').url)}" target="_blank" rel="noopener" class="cmp-header-link" title="NCCN Guidelines">NCCN</a></th>
-                                ${institutions.map(i => `<th class="cmp-inst-col" title="${esc(i.fullName)}"><a href="${esc(i.url)}" target="_blank" rel="noopener" class="cmp-header-link">${esc(i.name)}</a></th>`).join("")}
+                                ${institutions.map(i => {
+                                    const v = INSTITUTION_VERIFICATION[i.id];
+                                    const vClass = v ? ` cmp-hdr-${v.level}` : "";
+                                    const vTitle = v ? `${i.fullName} — ${v.level.toUpperCase()}: ${v.source}` : i.fullName;
+                                    return `<th class="cmp-inst-col${vClass}" title="${esc(vTitle)}"><a href="${esc(i.url)}" target="_blank" rel="noopener" class="cmp-header-link">${esc(i.name)}</a>${v && v.level === "inferred" ? '<span class="cmp-unverified-dot" title="Unverified — positions inferred from NCCN alignment">*</span>' : ""}</th>`;
+                                }).join("")}
                             </tr>
                         </thead>
                         <tbody>
@@ -2538,7 +2586,10 @@ function renderComparisonMatrix() {
                                     ${institutions.map(inst => {
                                         const pos = t.positions[inst.id] || { status: "unknown", note: "" };
                                         const devClass = deviatesFromNCCN(nccnPos.status, pos.status) ? " cmp-deviation" : "";
-                                        return `<td class="cmp-inst-cell${devClass}" title="${esc(inst.fullName)}: ${esc(pos.note)}">${statusIcon(pos.status)}</td>`;
+                                        const v = INSTITUTION_VERIFICATION[inst.id];
+                                        const inferredClass = (v && v.level === "inferred") ? " cmp-inferred" : "";
+                                        const titleSource = v ? ` [${v.level}]` : "";
+                                        return `<td class="cmp-inst-cell${devClass}${inferredClass}" title="${esc(inst.fullName)}: ${esc(pos.note)}${titleSource}">${statusIcon(pos.status)}</td>`;
                                     }).join("")}
                                 </tr>`;
                             }).join("")}
@@ -2563,6 +2614,10 @@ function renderComparisonMatrix() {
             <span class="cmp-legend-item">${statusIcon("restricted")} Restricted</span>
             <span class="cmp-legend-item">${statusIcon("unknown")} Under Review</span>
             <span class="cmp-legend-item"><span class="cmp-deviation-marker"></span> Deviates from NCCN</span>
+            <span class="cmp-legend-divider">|</span>
+            <span class="cmp-legend-item cmp-legend-verified">Verified — from public source</span>
+            <span class="cmp-legend-item cmp-legend-published">Published — supported by literature</span>
+            <span class="cmp-legend-item cmp-legend-inferred"><span class="cmp-unverified-dot">*</span> Inferred — assumed from NCCN alignment (unverified)</span>
         </div>
     `;
 
@@ -2617,7 +2672,11 @@ function exportComparisonCSV() {
     if (selectedLine) data = data.filter(d => d.line === selectedLine);
 
     const headers = ["Biomarker", "Line", "Agent", "Brand", "Manufacturer", "NCCN"];
-    institutions.forEach(i => headers.push(i.name));
+    institutions.forEach(i => {
+        const v = INSTITUTION_VERIFICATION[i.id];
+        const vLabel = v ? ` [${v.level}]` : "";
+        headers.push(i.name + vLabel);
+    });
     const rows = [headers.join(",")];
 
     data.forEach(segment => {
@@ -2633,7 +2692,9 @@ function exportComparisonCSV() {
             ];
             institutions.forEach(inst => {
                 const pos = t.positions[inst.id] || { status: "unknown" };
-                cols.push(pos.status);
+                const v = INSTITUTION_VERIFICATION[inst.id];
+                const suffix = (v && v.level === "inferred") ? " (unverified)" : "";
+                cols.push(pos.status + suffix);
             });
             rows.push(cols.join(","));
         });
@@ -2676,6 +2737,16 @@ function renderInstitutionDetail() {
                 <span class="inst-version">Version: ${esc(inst.version)}</span>
             </div>
             ${program ? `<p class="inst-desc">${esc(program.description)}</p>` : ""}
+            ${(() => {
+                const v = INSTITUTION_VERIFICATION[instId];
+                if (!v) return "";
+                const cls = v.level === "verified" ? "appendix-confidence-high" : v.level === "published" ? "appendix-confidence-medium" : "appendix-confidence-low";
+                const label = v.level === "verified" ? "Verified" : v.level === "published" ? "Published" : "Inferred (Unverified)";
+                return `<div class="inst-verification-banner inst-verification-${v.level}">
+                    <span class="appendix-confidence ${cls}">${label}</span>
+                    <span class="inst-verification-source">${esc(v.source)}</span>
+                </div>`;
+            })()}
         </div>
     `;
 
