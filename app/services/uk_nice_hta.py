@@ -383,7 +383,10 @@ class UKNICEHTAService:
         """
         import httpx
 
-        from app.config import REQUEST_TIMEOUT, SSL_VERIFY
+        from app.config import OFFLINE_MODE, REQUEST_TIMEOUT, SSL_VERIFY
+
+        if OFFLINE_MODE:
+            return 0
         from app.services.hta_agencies.uk_nice import _extract_from_guidance_page
 
         needs_fetch = [
