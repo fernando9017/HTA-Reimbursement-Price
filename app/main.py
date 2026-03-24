@@ -496,6 +496,12 @@ async def us_pathways_page():
     return FileResponse(str(STATIC_DIR / "us_pathways.html"))
 
 
+@app.get("/us-mm-pathways")
+async def us_mm_pathways_page():
+    """Serve the US Multiple Myeloma Pathways — Elrexfio Asset Demo page."""
+    return FileResponse(str(STATIC_DIR / "us_mm_pathways.html"))
+
+
 @app.get("/api/search", response_model=list[MedicineResult])
 @limiter.limit("30/minute")
 async def search_medicines(

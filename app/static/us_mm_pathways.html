@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Multiple Myeloma Pathways — Asset Demo: Elrexfio</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+    <script async src="https://plausible.io/js/pa-WicLt2ziy4Y9gaHl7hJ8s.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><span class="fi fi-us country-flag"></span> US Multiple Myeloma Pathways — Asset Demo: Elrexfio</h1>
+            <p class="subtitle">Monitoring oncology clinical pathways for Multiple Myeloma across US payers, providers, and public institutions <span class="pathway-badge semi-public">Asset-Specific Demo</span></p>
+        </div>
+    </header>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Home</a>
+            <span class="page-title">US MM Pathways — Elrexfio Demo</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Overview panel -->
+        <section class="card" id="pathways-overview">
+            <h2>Overview</h2>
+            <p class="resource-intro">Clinical pathways are evidence-based treatment decision tools that recommend standardised regimens based on <strong>efficacy, toxicity, and cost</strong>. In the US, roughly <strong>64% of oncologists</strong> are exposed to third-party clinical pathways, and <strong>~86% adherence</strong> is reported among those subject to them. Multiple Myeloma is a key haematology/oncology tumour type targeted by pathway programs.</p>
+            <p class="resource-intro">This module provides an <strong>asset-specific</strong> view of the US Multiple Myeloma pathway landscape, centred on <strong>Elrexfio (elranatamab)</strong> — a BCMA-directed bispecific antibody. It tracks pathway positioning across <strong>payer-driven</strong> and <strong>provider/institution-driven</strong> programs, with dedicated competitive intelligence for the bispecific and BCMA-targeted therapy classes.</p>
+
+            <div class="pathway-key-stats" id="mm-stats-grid">
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-total-programs">—</div>
+                    <div class="pathway-stat-label">Pathway Programs Tracked</div>
+                </div>
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-payer-programs">—</div>
+                    <div class="pathway-stat-label">Payer-Driven</div>
+                </div>
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-provider-programs">—</div>
+                    <div class="pathway-stat-label">Provider/Institution</div>
+                </div>
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-public-sources">—</div>
+                    <div class="pathway-stat-label">Public Data Sources</div>
+                </div>
+            </div>
+            <div class="appendix-trigger-row">
+                <button id="mm-appendix-open-btn" class="btn-appendix" title="View data sourcing methodology for all programmes">Data Sources &amp; Methodology Appendix</button>
+            </div>
+        </section>
+
+        <!-- Appendix Modal -->
+        <div id="mm-appendix-modal" class="appendix-modal">
+            <div class="appendix-modal-content">
+                <div class="appendix-modal-header">
+                    <h2>Appendix: Data Sources &amp; Methodology</h2>
+                    <button id="mm-appendix-close-btn" class="appendix-modal-close" title="Close">&times;</button>
+                </div>
+                <div id="mm-appendix-content" class="appendix-body">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="pw-tabs">
+            <button class="pw-tab-btn active" data-tab="tab-directory">Programs Directory</button>
+            <button class="pw-tab-btn" data-tab="tab-nccn-algo">NCCN MM Algorithm</button>
+            <button class="pw-tab-btn" data-tab="tab-comparison">Therapy Comparison</button>
+            <button class="pw-tab-btn" data-tab="tab-spotlight">Elrexfio Spotlight</button>
+        </div>
+
+        <!-- ═══ TAB 1: Programs Directory ═══ -->
+        <div class="pw-tab-panel active" id="tab-directory">
+            <!-- Filter toolbar -->
+            <section class="card">
+                <h2>Pathway Programs Directory</h2>
+                <div class="resource-toolbar">
+                    <div class="resource-search-row">
+                        <input type="text" id="mm-pathway-search" class="resource-search-input" placeholder="Search pathway programs…" autocomplete="off" aria-label="Search pathway programs">
+                        <select id="mm-pathway-type-filter" class="resource-select" aria-label="Filter by type">
+                            <option value="">All Types</option>
+                            <option value="payer">Payer-Driven</option>
+                            <option value="provider">Provider/Institution</option>
+                            <option value="academic">Academic/Cancer Centre</option>
+                            <option value="public">Public/Government</option>
+                            <option value="commercial">Commercial Analytics</option>
+                        </select>
+                        <button id="mm-pathway-reset-filters" class="btn-reset" title="Reset all filters">Reset</button>
+                    </div>
+                    <div class="resource-results-row">
+                        <span id="mm-pathway-results-count" class="results-count"></span>
+                    </div>
+                </div>
+                <div id="mm-programs-grid" class="pathway-programs-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- NCCN Reference -->
+            <section class="card" id="mm-nccn-reference">
+                <h2><span class="pathway-badge semi-public">REGISTRATION REQ</span> NCCN Guidelines — Multiple Myeloma</h2>
+                <p class="resource-intro">The <strong>National Comprehensive Cancer Network (NCCN)</strong> Clinical Practice Guidelines for Multiple Myeloma define the standard-of-care treatment algorithm across all lines of therapy. Free with registration, but copyrighted — cannot be scraped or reproduced.</p>
+                <div class="nccn-reference" id="nccn-reference">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- MM Treatment Class Mapping -->
+            <section class="card" id="mm-treatment-classes">
+                <h2>Multiple Myeloma Treatment Class Landscape</h2>
+                <p class="resource-intro">Modern MM treatment is driven by <strong>drug class combinations</strong> across multiple lines of therapy. Pathway programs typically stratify regimens by mechanism of action and prior therapy exposure. This reference maps key drug classes to approved therapies commonly placed on pathways.</p>
+                <div class="biomarker-grid" id="mm-drug-class-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 2: NCCN MM Algorithm ═══ -->
+        <div class="pw-tab-panel" id="tab-nccn-algo">
+            <section class="card">
+                <h2>NCCN Multiple Myeloma Treatment Algorithm — Visual Overview</h2>
+                <p class="resource-intro">Structured view of the NCCN Clinical Practice Guidelines for Multiple Myeloma. Shows the decision flow from <strong>diagnosis and risk stratification</strong> through <strong>induction, consolidation/maintenance, and relapsed/refractory therapy</strong>. Use this as the <strong>reference baseline</strong> when comparing pathway programs.</p>
+                <p class="resource-intro"><em>Note: This is a curated summary for access strategy reference. For complete prescribing guidance, consult the <a href="https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1445" target="_blank">official NCCN Guidelines</a>.</em></p>
+                <div id="mm-nccn-algorithm">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 3: Therapy Comparison Matrix ═══ -->
+        <div class="pw-tab-panel" id="tab-comparison">
+            <section class="card">
+                <h2>Pathway Therapy Comparison Matrix</h2>
+                <p class="resource-intro">Compare how each pathway program positions MM therapies relative to the <strong>NCCN baseline</strong>. Cells highlighted in <span class="cmp-deviation-marker-inline">orange</span> indicate where a pathway <strong>deviates from NCCN</strong> (e.g., NCCN lists as preferred but the pathway does not).</p>
+
+                <div class="cmp-filters">
+                    <select id="mm-line-filter" class="resource-select" aria-label="Filter by line of therapy">
+                        <option value="">All Lines</option>
+                        <option value="ndte-induction">NDTE Induction</option>
+                        <option value="ndti">NDTI</option>
+                        <option value="1st-relapse">1st Relapse</option>
+                        <option value="2nd-relapse">2nd Relapse</option>
+                        <option value="3l-tce">3L+ TCE</option>
+                        <option value="bcma-4l">BCMA-Directed 4L+</option>
+                    </select>
+                    <label class="cmp-toggle-label">
+                        <input type="checkbox" id="mm-deviation-toggle">
+                        Show deviations only
+                    </label>
+                    <button id="mm-cmp-reset-filters" class="btn-reset" title="Reset all filters">Reset</button>
+                    <button id="mm-cmp-export-csv" class="btn-export" title="Export current view as CSV">Export CSV</button>
+                </div>
+
+                <div id="mm-comparison-matrix" class="cmp-matrix-container">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 4: Elrexfio Spotlight ═══ -->
+        <div class="pw-tab-panel" id="tab-spotlight">
+            <!-- Product Overview -->
+            <section class="card" id="spotlight-overview">
+                <h2>Elrexfio (elranatamab-bcmm) — Product Overview</h2>
+                <p class="resource-intro">Elrexfio is a <strong>BCMA × CD3 bispecific T-cell engager</strong> approved for the treatment of relapsed or refractory multiple myeloma. This section summarises the key product attributes, approved indications, and regulatory milestones relevant to pathway positioning.</p>
+                <div id="spotlight-overview-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Competitive Landscape -->
+            <section class="card" id="spotlight-competitive">
+                <h2>Competitive Landscape — BCMA-Targeted &amp; Bispecific Therapies</h2>
+                <p class="resource-intro">Elrexfio competes in the BCMA-targeted therapy class alongside <strong>CAR-T therapies</strong> (idecabtagene vicleucel, ciltacabtagene autoleucel), other <strong>bispecific antibodies</strong> (teclistamab), and <strong>antibody-drug conjugates</strong> (belantamab mafodotin). This section maps the competitive positioning across pathway programs.</p>
+                <div id="spotlight-competitive-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Pathway Positioning Heatmap -->
+            <section class="card" id="spotlight-heatmap">
+                <h2>Pathway Positioning Heatmap — Elrexfio vs. Competitors</h2>
+                <p class="resource-intro">Visual heatmap showing where Elrexfio is placed across tracked pathway programs compared to key competitors. Darker shading indicates <strong>preferred/recommended</strong> status; lighter shading indicates <strong>listed but not preferred</strong>; blank cells indicate the therapy is <strong>not on pathway</strong>.</p>
+                <div id="spotlight-heatmap-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Barriers & Opportunities -->
+            <section class="card" id="spotlight-barriers">
+                <h2>Barriers &amp; Opportunities</h2>
+                <p class="resource-intro">Analysis of key barriers to Elrexfio pathway adoption and strategic opportunities for improved positioning. Based on published pathway criteria, payer policies, and competitive dynamics.</p>
+                <div id="spotlight-barriers-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Clinical Pipeline -->
+            <section class="card" id="spotlight-pipeline">
+                <h2>Clinical Pipeline &amp; Emerging Data</h2>
+                <p class="resource-intro">Ongoing and planned clinical trials for elranatamab that may impact future pathway positioning, including <strong>earlier-line investigations</strong>, <strong>combination studies</strong>, and <strong>head-to-head trials</strong> against competing BCMA-targeted therapies.</p>
+                <div id="spotlight-pipeline-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Key Insights / Deviation Analysis -->
+            <section class="card" id="spotlight-insights">
+                <h2>Key Insights &amp; Deviation Analysis</h2>
+                <p class="resource-intro">Summary of notable pathway deviations, emerging trends, and strategic implications for Elrexfio across the tracked US Multiple Myeloma pathway landscape.</p>
+                <div id="spotlight-insights-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                Data sources:
+                <a href="https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1445" target="_blank">NCCN MM Guidelines</a> |
+                <a href="https://www.cancer.gov/publications/pdq" target="_blank">NCI PDQ</a> |
+                <a href="https://www.cancer.va.gov/clinical-pathways.html" target="_blank">VA Oncology Pathways</a>
+            </p>
+            <p>&copy; 2026 VAP Global Resources. Data provided for informational purposes only.</p>
+        </div>
+    </footer>
+
+    <script src="/static/shared.js"></script>
+    <script src="/static/us_mm_pathways.js"></script>
+</body>
+</html>

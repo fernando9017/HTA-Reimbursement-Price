@@ -4971,6 +4971,16 @@ footer a:hover {
     font-size: 0.68rem !important;
 }
 
+/* ── Elrexfio Highlight Row ──────────────────────────────────── */
+
+.cmp-highlight-row {
+    background: rgba(37, 99, 235, 0.06) !important;
+}
+
+.cmp-highlight-row td {
+    font-weight: 500;
+}
+
 /* ── Institution Detail View ──────────────────────────────────── */
 
 .inst-selector-row {
