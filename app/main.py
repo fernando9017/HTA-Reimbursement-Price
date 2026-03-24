@@ -1,17 +1,21 @@
 """FastAPI application for VAP Global Resources — Value, Access & Pricing."""
 
 import asyncio
+import hashlib
+import hmac
 import json
 import logging
 import os
 import re
+import secrets
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -424,7 +428,157 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 STATIC_DIR = Path(__file__).parent / "static"
+
+# ── Password Protection ──────────────────────────────────────────────
+
+SITE_PASSWORD = os.environ.get("SITE_PASSWORD", "Fernando9017")
+AUTH_SECRET = os.environ.get("AUTH_SECRET", secrets.token_hex(32))
+AUTH_COOKIE = "vap_auth"
+
+# Paths that don't require authentication
+PUBLIC_PATHS = {"/login", "/api/login", "/favicon.ico"}
+
+
+def _make_token(password: str) -> str:
+    """Create an HMAC token to verify the user provided the correct password."""
+    return hmac.new(AUTH_SECRET.encode(), password.encode(), hashlib.sha256).hexdigest()
+
+
+def _verify_token(token: str) -> bool:
+    """Check if the auth cookie token is valid."""
+    expected = _make_token(SITE_PASSWORD)
+    return hmac.compare_digest(token, expected)
+
+
+class AuthMiddleware(BaseHTTPMiddleware):
+    """Require password authentication for all routes."""
+
+    async def dispatch(self, request: Request, call_next):
+        path = request.url.path
+
+        # Allow public paths and static assets needed for the login page
+        if path in PUBLIC_PATHS or path.startswith("/static/"):
+            return await call_next(request)
+
+        # Check auth cookie
+        token = request.cookies.get(AUTH_COOKIE)
+        if token and _verify_token(token):
+            return await call_next(request)
+
+        # Not authenticated — redirect HTML requests, return 401 for API calls
+        if path.startswith("/api/"):
+            return JSONResponse({"detail": "Authentication required"}, status_code=401)
+        return RedirectResponse(url="/login", status_code=302)
+
+
+app.add_middleware(AuthMiddleware)
+
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+# ── Login Routes ─────────────────────────────────────────────────────
+
+LOGIN_PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — VAP Global Resources</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .login-wrapper { display: flex; justify-content: center; align-items: center;
+            min-height: 70vh; }
+        .login-box { background: var(--card-bg); padding: 2.5rem; border-radius: 12px;
+            box-shadow: var(--shadow); max-width: 400px; width: 100%; }
+        .login-box h2 { margin-bottom: 0.5rem; color: var(--primary); }
+        .login-box p { margin-bottom: 1.5rem; color: var(--text-light); font-size: 0.95rem; }
+        .login-box label { display: block; margin-bottom: 0.4rem; font-weight: 600;
+            font-size: 0.9rem; }
+        .login-box input[type="password"] { width: 100%; padding: 0.7rem 0.9rem;
+            border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;
+            margin-bottom: 1rem; }
+        .login-box input[type="password"]:focus { outline: none;
+            border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(41,128,185,0.15); }
+        .login-box button { width: 100%; padding: 0.75rem; background: var(--primary);
+            color: #fff; border: none; border-radius: 6px; font-size: 1rem;
+            cursor: pointer; font-weight: 600; }
+        .login-box button:hover { background: var(--primary-light); }
+        .login-error { color: var(--smr-insufficient); font-size: 0.9rem;
+            margin-bottom: 1rem; display: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VAP Global Resources</h1>
+            <p class="subtitle">Value, Access &amp; Pricing</p>
+        </div>
+    </header>
+    <main class="container">
+        <div class="login-wrapper">
+            <div class="login-box">
+                <h2>Welcome</h2>
+                <p>Please enter the password to access the platform.</p>
+                <div id="login-error" class="login-error">Incorrect password. Please try again.</div>
+                <form id="login-form">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password"
+                        placeholder="Enter password" autocomplete="current-password" required>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pw = document.getElementById('password').value;
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password: pw})
+            });
+            if (res.ok) {
+                window.location.href = '/';
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+    </script>
+</body>
+</html>"""
+
+
+@app.get("/login")
+async def login_page():
+    """Serve the login page."""
+    return HTMLResponse(LOGIN_PAGE)
+
+
+@app.post("/api/login")
+async def login(request: Request):
+    """Validate password and set auth cookie."""
+    try:
+        body = await request.json()
+        password = body.get("password", "")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid request body")
+
+    if not hmac.compare_digest(password, SITE_PASSWORD):
+        raise HTTPException(status_code=401, detail="Incorrect password")
+
+    token = _make_token(SITE_PASSWORD)
+    response = JSONResponse({"ok": True})
+    response.set_cookie(
+        key=AUTH_COOKIE,
+        value=token,
+        httponly=True,
+        samesite="lax",
+        max_age=60 * 60 * 24 * 30,  # 30 days
+    )
+    return response
 
 
 # ── API Routes ────────────────────────────────────────────────────────
