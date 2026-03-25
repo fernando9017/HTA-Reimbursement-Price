@@ -21,10 +21,8 @@ from app.models import AssessmentResult, MedicineResult
 
 def _make_client():
     """Create a TestClient that skips the lifespan (startup) logic."""
-    from app.main import app, _make_token, SITE_PASSWORD, AUTH_COOKIE
+    from app.main import app
     client = TestClient(app, raise_server_exceptions=False)
-    # Pre-authenticate the test client so auth middleware doesn't block requests
-    client.cookies.set(AUTH_COOKIE, _make_token(SITE_PASSWORD))
     return client
 
 
