@@ -1,16 +1,18 @@
 """FastAPI application for VAP Global Resources — Value, Access & Pricing."""
 
 import asyncio
+import hashlib
 import json
 import logging
 import os
 import re
+import secrets
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -426,6 +428,88 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 STATIC_DIR = Path(__file__).parent / "static"
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+# ── Site-Wide Password Protection ────────────────────────────────────
+
+SITE_PASSWORD = os.getenv("SITE_PASSWORD", "Fernando9017")
+# Generate a stable token from the password so it survives server restarts
+_AUTH_TOKEN = hashlib.sha256(f"vap-auth-{SITE_PASSWORD}".encode()).hexdigest()
+
+LOGIN_PAGE_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — VAP Global Resources</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+background:#f1f5f9;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-card{background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.08);
+padding:2.5rem;width:100%;max-width:400px;text-align:center}
+.login-card h1{font-size:1.4rem;color:#1e293b;margin-bottom:.5rem}
+.login-card p{color:#64748b;font-size:.9rem;margin-bottom:1.5rem}
+.login-card input{width:100%;padding:.7rem 1rem;border:1px solid #cbd5e1;border-radius:8px;
+font-size:1rem;margin-bottom:1rem;outline:none;transition:border-color .2s}
+.login-card input:focus{border-color:#3b82f6}
+.login-card button{width:100%;padding:.7rem;background:#1e40af;color:#fff;border:none;
+border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s}
+.login-card button:hover{background:#1e3a8a}
+.error{color:#dc2626;font-size:.85rem;margin-bottom:1rem;display:none}
+</style>
+</head>
+<body>
+<div class="login-card">
+<h1>VAP Global Resources</h1>
+<p>Enter password to access the platform</p>
+<form method="POST" action="/login">
+<div class="error" id="err">Incorrect password</div>
+<input type="password" name="password" placeholder="Password" required autofocus>
+<button type="submit">Sign In</button>
+</form>
+</div>
+<script>if(location.search.includes('error=1'))document.getElementById('err').style.display='block';</script>
+</body>
+</html>"""
+
+
+@app.middleware("http")
+async def password_gate(request: Request, call_next):
+    """Require password authentication for all pages."""
+    path = request.url.path
+    # Allow the login page, login POST, and static assets through
+    if path in ("/login",) or path.startswith("/static/"):
+        return await call_next(request)
+    # Check auth cookie
+    token = request.cookies.get("vap_auth")
+    if token == _AUTH_TOKEN:
+        return await call_next(request)
+    # Not authenticated — show login page
+    return HTMLResponse(LOGIN_PAGE_HTML, status_code=401)
+
+
+@app.post("/login")
+async def login(request: Request):
+    """Handle login form submission."""
+    form = await request.form()
+    password = form.get("password", "")
+    if password == SITE_PASSWORD:
+        response = Response(status_code=303, headers={"Location": "/"})
+        response.set_cookie(
+            key="vap_auth",
+            value=_AUTH_TOKEN,
+            httponly=True,
+            samesite="lax",
+            max_age=60 * 60 * 24 * 30,  # 30 days
+        )
+        return response
+    return Response(status_code=303, headers={"Location": "/login?error=1"})
+
+
+@app.get("/login")
+async def login_page():
+    """Serve the login page."""
+    return HTMLResponse(LOGIN_PAGE_HTML)
 
 
 # ── API Routes ────────────────────────────────────────────────────────
