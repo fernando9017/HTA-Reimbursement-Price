@@ -5453,6 +5453,14 @@ footer a:hover {
 .ai-analysis-output li { margin-bottom:0.4rem; }
 .ai-analysis-output strong { color:var(--text-primary,#1e293b); }
 .ai-analysis-output p { margin-bottom:0.75rem; }
+.ai-analysis-output code { background:rgba(59,130,246,0.08); padding:0.1rem 0.35rem; border-radius:3px; font-size:0.88em; }
+
+.ai-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:1rem 0 1.5rem; }
+.ai-table th { background:var(--bg-secondary,#f1f5f9); padding:0.6rem 0.75rem; text-align:left; font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.3px; color:var(--text-secondary,#475569); border-bottom:2px solid #cbd5e1; white-space:nowrap; }
+.ai-table td { padding:0.55rem 0.75rem; border-bottom:1px solid #e2e8f0; vertical-align:top; line-height:1.5; }
+.ai-table tbody tr:hover { background:rgba(59,130,246,0.04); }
+.ai-table tbody tr:last-child td { border-bottom:none; }
+
 .ai-model-badge { display:inline-block; padding:0.2rem 0.6rem; background:rgba(59,130,246,0.1); color:#3b82f6; border-radius:4px; font-size:0.75rem; font-weight:600; margin-bottom:1rem; }
 
 .competitor-summary-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:1.5rem; }

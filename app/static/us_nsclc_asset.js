@@ -763,6 +763,137 @@ function renderClinicalPathwayCorrelation(agentName) {
     container.innerHTML = html;
 }
 
+// ── Markdown to HTML (with table support) ────────────────────────────
+
+function markdownToHTML(md) {
+    if (!md) return "";
+    const lines = md.split("\n");
+    const out = [];
+    let inTable = false;
+    let inList = false;
+    let listType = ""; // "ul" or "ol"
+
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+
+        // Detect table rows: starts with | and contains at least one more |
+        const isTableRow = /^\s*\|(.+\|)\s*$/.test(line);
+        // Detect separator row: | --- | --- |
+        const isSeparator = /^\s*\|[\s\-:|]+\|\s*$/.test(line);
+
+        if (isTableRow) {
+            // Close any open list
+            if (inList) { out.push(`</${listType}>`); inList = false; }
+
+            if (!inTable) {
+                out.push('<div class="cmp-table-wrapper"><table class="ai-table">');
+                inTable = true;
+                // First table row is header
+                const cells = parseTableCells(line);
+                out.push("<thead><tr>" + cells.map(c => `<th>${inlineMarkdown(c)}</th>`).join("") + "</tr></thead>");
+                // Skip the separator row if next
+                if (i + 1 < lines.length && /^\s*\|[\s\-:|]+\|\s*$/.test(lines[i + 1])) {
+                    i++;
+                }
+                out.push("<tbody>");
+                continue;
+            }
+
+            if (isSeparator) continue; // skip separator rows within table
+
+            // Regular table data row
+            const cells = parseTableCells(line);
+            out.push("<tr>" + cells.map(c => `<td>${inlineMarkdown(c)}</td>`).join("") + "</tr>");
+            continue;
+        }
+
+        // If we were in a table and now we're not, close it
+        if (inTable) {
+            out.push("</tbody></table></div>");
+            inTable = false;
+        }
+
+        // Headers
+        if (/^### (.+)$/.test(line)) {
+            if (inList) { out.push(`</${listType}>`); inList = false; }
+            out.push(`<h3>${inlineMarkdown(line.replace(/^### /, ""))}</h3>`);
+            continue;
+        }
+        if (/^## (.+)$/.test(line)) {
+            if (inList) { out.push(`</${listType}>`); inList = false; }
+            out.push(`<h2>${inlineMarkdown(line.replace(/^## /, ""))}</h2>`);
+            continue;
+        }
+        if (/^# (.+)$/.test(line)) {
+            if (inList) { out.push(`</${listType}>`); inList = false; }
+            out.push(`<h2>${inlineMarkdown(line.replace(/^# /, ""))}</h2>`);
+            continue;
+        }
+
+        // Unordered list
+        if (/^[\s]*[-*] (.+)$/.test(line)) {
+            const content = line.replace(/^[\s]*[-*] /, "");
+            if (!inList || listType !== "ul") {
+                if (inList) out.push(`</${listType}>`);
+                out.push("<ul>");
+                inList = true; listType = "ul";
+            }
+            out.push(`<li>${inlineMarkdown(content)}</li>`);
+            continue;
+        }
+
+        // Ordered list
+        if (/^[\s]*(\d+)\. (.+)$/.test(line)) {
+            const content = line.replace(/^[\s]*\d+\. /, "");
+            if (!inList || listType !== "ol") {
+                if (inList) out.push(`</${listType}>`);
+                out.push("<ol>");
+                inList = true; listType = "ol";
+            }
+            out.push(`<li>${inlineMarkdown(content)}</li>`);
+            continue;
+        }
+
+        // Close list if we're out of list items
+        if (inList) { out.push(`</${listType}>`); inList = false; }
+
+        // Empty line = paragraph break
+        if (line.trim() === "") {
+            out.push("");
+            continue;
+        }
+
+        // Regular paragraph
+        out.push(`<p>${inlineMarkdown(line)}</p>`);
+    }
+
+    // Close any open structures
+    if (inTable) out.push("</tbody></table></div>");
+    if (inList) out.push(`</${listType}>`);
+
+    return out.join("\n");
+}
+
+function parseTableCells(line) {
+    // Split by | and trim, ignoring first and last empty entries from leading/trailing |
+    const parts = line.split("|");
+    // Remove first and last if empty (from leading/trailing pipes)
+    if (parts.length > 0 && parts[0].trim() === "") parts.shift();
+    if (parts.length > 0 && parts[parts.length - 1].trim() === "") parts.pop();
+    return parts.map(p => p.trim());
+}
+
+function inlineMarkdown(text) {
+    // Bold
+    text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    // Italic
+    text = text.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    // Inline code
+    text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+    return text;
+}
+
+
 // ── Render: AI Analysis ─────────────────────────────────────────────
 
 async function runAIAnalysis(agentName) {
@@ -825,20 +956,8 @@ async function runAIAnalysis(agentName) {
         setTimeout(() => { statusEl.style.display = "none"; }, 500);
 
         const modelBadge = data.model ? `<span class="ai-model-badge">${esc(data.model)}</span>` : "";
-        // Simple markdown-to-HTML
-        let text = data.analysis || "No analysis returned.";
-        text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-        text = text.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-        text = text.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-        text = text.replace(/^# (.+)$/gm, "<h2>$1</h2>");
-        text = text.replace(/^- (.+)$/gm, "<li>$1</li>");
-        text = text.replace(/(<li>.*<\/li>)/gs, (match) => "<ul>" + match + "</ul>");
-        text = text.replace(/<\/ul>\s*<ul>/g, "");
-        text = text.replace(/^(\d+)\. (.+)$/gm, "<li>$2</li>");
-        text = text.replace(/\n\n/g, "</p><p>");
-        text = "<p>" + text + "</p>";
-
-        contentEl.innerHTML = `${modelBadge}<div class="ai-analysis-output">${text}</div>`;
+        const html = markdownToHTML(data.analysis || "No analysis returned.");
+        contentEl.innerHTML = `${modelBadge}<div class="ai-analysis-output">${html}</div>`;
     } catch (err) {
         clearInterval(progressInterval);
         statusEl.style.display = "none";
