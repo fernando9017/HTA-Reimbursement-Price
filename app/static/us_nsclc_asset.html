@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US NSCLC Pathways — Asset Intelligence View</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+    <script async src="https://plausible.io/js/pa-WicLt2ziy4Y9gaHl7hJ8s.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><span class="fi fi-us country-flag"></span> US NSCLC Pathways — Asset Intelligence View</h1>
+            <p class="subtitle">Asset-specific competitive intelligence for the US NSCLC pathway landscape <span class="pathway-badge semi-public">ENHANCED</span></p>
+        </div>
+    </header>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Home</a>
+            <span class="page-title">NSCLC Asset Intelligence</span>
+            <a href="/us-pathways" class="back-link" style="margin-left:auto;">Full Pathways Tracker &rarr;</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Asset Selector -->
+        <section class="card" id="asset-selector-section">
+            <h2>Select Asset for Analysis</h2>
+            <p class="resource-intro">Choose a therapy to view its pathway positioning, competitive landscape, clinical data comparison, and AI-powered strategic insights across US NSCLC pathways.</p>
+            <div class="resource-toolbar">
+                <div class="resource-search-row">
+                    <select id="asset-selector" class="resource-select" style="min-width:350px;font-size:1rem;" aria-label="Select asset">
+                        <option value="">-- Choose an asset --</option>
+                    </select>
+                    <select id="biomarker-context" class="resource-select" aria-label="Biomarker context">
+                        <option value="">All Biomarker Segments</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pathway-key-stats" id="asset-stats-grid" style="display:none;">
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-pathways-on">—</div>
+                    <div class="pathway-stat-label">Pathways Listing</div>
+                </div>
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-preferred-count">—</div>
+                    <div class="pathway-stat-label">Preferred Status</div>
+                </div>
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-deviation-count">—</div>
+                    <div class="pathway-stat-label">NCCN Deviations</div>
+                </div>
+                <div class="pathway-stat-card">
+                    <div class="pathway-stat-number" id="stat-competitor-count">—</div>
+                    <div class="pathway-stat-label">Direct Competitors</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Navigation -->
+        <div class="pw-tabs" id="main-tabs" style="display:none;">
+            <button class="pw-tab-btn active" data-tab="tab-spotlight">Asset Spotlight</button>
+            <button class="pw-tab-btn" data-tab="tab-matrix">Preference Matrix</button>
+            <button class="pw-tab-btn" data-tab="tab-clinical">Clinical Data</button>
+            <button class="pw-tab-btn" data-tab="tab-ai">AI Analysis</button>
+        </div>
+
+        <!-- ═══ TAB 1: Asset Spotlight ═══ -->
+        <div class="pw-tab-panel active" id="tab-spotlight" style="display:none;">
+            <section class="card">
+                <h2>Asset Spotlight</h2>
+                <p class="resource-intro">Overview of the selected therapy's pathway positioning across all tracked US NSCLC pathway programs. Shows where the asset is listed, its status at each institution, and how it compares to NCCN.</p>
+                <div id="spotlight-overview-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+            <section class="card">
+                <h2>Pathway Positioning Heatmap</h2>
+                <p class="resource-intro">Visual summary of the selected asset's status across all pathways in relevant biomarker segments. <span class="cmp-deviation-marker-inline">Orange</span> cells indicate deviations from NCCN positioning.</p>
+                <div id="spotlight-heatmap-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+            <section class="card">
+                <h2>Key Competitors in Same Segment</h2>
+                <p class="resource-intro">Direct competitors in the same biomarker/line setting. Compare pathway positioning side by side.</p>
+                <div id="spotlight-competitors-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 2: Preference Matrix ═══ -->
+        <div class="pw-tab-panel" id="tab-matrix" style="display:none;">
+            <section class="card">
+                <h2>Cross-Pathway Preference Matrix</h2>
+                <p class="resource-intro">Head-to-head comparison of how the selected asset and its competitors are positioned across pathways. Helps identify where the asset is <strong>preferred over competitors</strong>, where it <strong>falls behind</strong>, and where competitors have an advantage.</p>
+                <div class="cmp-filters">
+                    <label class="cmp-toggle-label">
+                        <input type="checkbox" id="matrix-deviation-toggle">
+                        Highlight deviations only
+                    </label>
+                    <button id="matrix-export-csv" class="btn-export" title="Export as CSV">Export CSV</button>
+                </div>
+                <div id="preference-matrix-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+            <section class="card">
+                <h2>Positioning Insights</h2>
+                <p class="resource-intro">Analysis of why certain pathways may position the asset differently from NCCN recommendations — correlating clinical data, cost, and competitive dynamics.</p>
+                <div id="positioning-insights-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 3: Clinical Data Comparison ═══ -->
+        <div class="pw-tab-panel" id="tab-clinical" style="display:none;">
+            <section class="card">
+                <h2>Clinical Data: Asset vs Competitors</h2>
+                <p class="resource-intro">Side-by-side comparison of pivotal trial data for the selected asset and its direct competitors. Understanding clinical differentiation helps explain pathway positioning decisions — for example, when clinical data shows minimal efficacy differences, cost and convenience may drive pathway preference.</p>
+                <div id="clinical-comparison-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+            <section class="card">
+                <h2>Clinical Evidence vs Pathway Positioning Correlation</h2>
+                <p class="resource-intro">Maps how clinical data strength correlates with pathway inclusion. Identifies where clinical superiority does or does not translate into preferred pathway status.</p>
+                <div id="clinical-pathway-correlation-content">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ TAB 4: AI Analysis ═══ -->
+        <div class="pw-tab-panel" id="tab-ai" style="display:none;">
+            <section class="card">
+                <h2>AI-Powered Landscape Analysis</h2>
+                <p class="resource-intro">Strategic analysis powered by <strong>Claude Opus 4.6</strong>. Analyses the competitive NSCLC pathway landscape, identifies trends in pathway selection, and provides actionable insights for pre-launch strategy. Select an analysis type below.</p>
+                <div class="resource-toolbar" style="margin-bottom:1.5rem;">
+                    <div class="resource-search-row">
+                        <select id="ai-analysis-type" class="resource-select" style="min-width:300px;" aria-label="Analysis type">
+                            <option value="competitive">Competitive Landscape & Positioning Analysis</option>
+                            <option value="pathway-trends">Pathway Selection Trends & Drivers</option>
+                            <option value="launch-strategy">Pre-Launch Pathway Access Strategy</option>
+                            <option value="clinical-gaps">Clinical Evidence Gaps & Opportunities</option>
+                        </select>
+                        <button id="ai-run-analysis" class="btn-export" style="background:var(--primary);color:#fff;border:none;padding:0.6rem 1.5rem;cursor:pointer;border-radius:6px;">Run Analysis</button>
+                    </div>
+                </div>
+                <div id="ai-analysis-status" style="display:none;">
+                    <div class="pathway-stat-card" style="text-align:center;padding:2rem;">
+                        <div class="pathway-stat-label" style="font-size:1rem;">Analysing with Claude Opus 4.6...</div>
+                        <div style="margin-top:1rem;width:100%;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;">
+                            <div id="ai-progress-bar" style="width:0%;height:100%;background:var(--primary);transition:width 0.5s;border-radius:2px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ai-analysis-content">
+                    <p class="no-results">Select an asset above, then click "Run Analysis" to generate AI-powered strategic insights.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                Data sources:
+                <a href="https://www.cancer.va.gov/clinical-pathways.html" target="_blank">VA Oncology Pathways</a> |
+                <a href="https://www.cancer.gov/publications/pdq" target="_blank">NCI PDQ</a> |
+                <a href="https://www.nccn.org/guidelines/category_1" target="_blank">NCCN Guidelines</a> |
+                AI analysis powered by Claude Opus 4.6
+            </p>
+            <p>&copy; 2026 VAP Global Resources. Data provided for informational purposes only.</p>
+        </div>
+    </footer>
+
+    <script src="/static/shared.js"></script>
+    <script src="/static/us_nsclc_asset.js"></script>
+</body>
+</html>

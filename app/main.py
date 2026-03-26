@@ -503,6 +503,12 @@ async def us_mm_pathways_page():
     return FileResponse(str(STATIC_DIR / "us_mm_pathways.html"))
 
 
+@app.get("/us-nsclc-asset")
+async def us_nsclc_asset_page():
+    """Serve the US NSCLC Asset Intelligence View page."""
+    return FileResponse(str(STATIC_DIR / "us_nsclc_asset.html"))
+
+
 @app.get("/api/search", response_model=list[MedicineResult])
 @limiter.limit("30/minute")
 async def search_medicines(
@@ -1463,3 +1469,97 @@ async def spain_aemps_analyze_ipt(request: Request, ipt_ref: str):
     except Exception as e:
         logger.error("AI analysis failed for %s: %s", ipt_ref, e)
         raise HTTPException(500, "AI analysis failed. Please try again later.")
+
+
+@app.post("/api/nsclc-ai-analysis")
+@limiter.limit("5/minute")
+async def nsclc_ai_analysis(request: Request):
+    """Run AI-powered NSCLC pathway landscape analysis using Claude."""
+    body = await request.json()
+
+    agent_name = body.get("agent", "")
+    analysis_type = body.get("analysisType", "competitive")
+    context_data = body.get("contextData", "")
+
+    # Try to use Anthropic API
+    try:
+        import anthropic
+        client = anthropic.Anthropic()  # Uses ANTHROPIC_API_KEY env var
+
+        prompts = {
+            "competitive": f"""You are a pharmaceutical market access strategist specializing in US oncology pathway analysis. Analyze the competitive landscape for {agent_name} in the US NSCLC pathway ecosystem.
+
+Context data:
+{context_data}
+
+Provide a structured analysis with these sections:
+1. **Executive Summary** (2-3 sentences)
+2. **Competitive Position Assessment** — How does {agent_name} compare to competitors across pathways? Where does it lead/lag?
+3. **Pathway Selection Drivers** — What factors (clinical data, cost, convenience, inertia) are likely driving pathway committees' decisions?
+4. **Key Threats & Opportunities** — What competitive moves or data readouts could shift positioning?
+5. **Strategic Recommendations** — 3-5 actionable steps for a company preparing to launch or improve positioning
+6. **90-Day Watch List** — What pathway updates, data readouts, or competitive events to monitor
+
+Format as clear markdown with headers.""",
+
+            "pathway-trends": f"""You are a pharmaceutical market access analyst specializing in US oncology clinical pathways. Analyze pathway selection trends for {agent_name} and its competitive segment.
+
+Context data:
+{context_data}
+
+Provide analysis on:
+1. **Trend Summary** — How is the pathway landscape evolving for this biomarker/line segment?
+2. **Adoption Velocity** — How quickly are pathways incorporating newer agents vs incumbent therapies?
+3. **Payer vs Provider Divergence** — Where do payer-driven and provider-driven pathways differ, and why?
+4. **Cost vs Evidence Tension** — Where does cost appear to override clinical evidence in pathway selection?
+5. **NCCN Deviation Patterns** — Which pathways most frequently deviate from NCCN and what drives it?
+6. **Forecast** — Expected pathway positioning changes in the next 6-12 months
+
+Format as clear markdown with headers.""",
+
+            "launch-strategy": f"""You are a pharmaceutical launch strategist focused on US oncology market access. Develop a pre-launch pathway access strategy for a company preparing to enter the NSCLC space, analyzing how {agent_name} and its competitors are positioned.
+
+Context data:
+{context_data}
+
+Provide:
+1. **Market Access Landscape Overview** — Current state of NSCLC pathway inclusion for this segment
+2. **Pathway Committee Priorities** — What matters most to pathway committees (clinical endpoints, cost, administration, differentiation)?
+3. **Evidence Package Requirements** — What clinical evidence would be needed to achieve preferred pathway status?
+4. **Payer Engagement Strategy** — Which payers to prioritize and how to approach them
+5. **Differentiation Opportunities** — Where can a new entrant differentiate vs incumbents?
+6. **Timeline & Milestones** — Key pathway review cycles and timing considerations
+7. **Risk Mitigation** — Potential barriers to pathway inclusion and how to address them
+
+Format as clear markdown with headers.""",
+
+            "clinical-gaps": f"""You are a clinical development strategist analyzing the NSCLC competitive landscape to identify evidence gaps and opportunities.
+
+Context data:
+{context_data}
+
+Analyze:
+1. **Evidence Landscape Summary** — Current clinical evidence supporting pathway positioning for {agent_name} and competitors
+2. **Evidence Gaps** — Where is clinical data insufficient to differentiate between therapies?
+3. **Correlation Analysis** — Does stronger clinical data always translate to better pathway positioning? Where doesn't it, and why?
+4. **Unmet Needs** — What clinical questions remain unanswered that could shift pathway dynamics?
+5. **Data Generation Priorities** — What studies or real-world evidence would most impact pathway committees?
+6. **Competitor Pipeline Threats** — What upcoming data readouts could change the landscape?
+
+Format as clear markdown with headers.""",
+        }
+
+        prompt = prompts.get(analysis_type, prompts["competitive"])
+
+        message = client.messages.create(
+            model="claude-opus-4-6",
+            max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        return {"status": "success", "analysis": message.content[0].text, "model": "claude-opus-4-6"}
+
+    except ImportError:
+        return {"status": "fallback", "analysis": f"**Note:** Anthropic SDK not configured. Install with `pip install anthropic` and set ANTHROPIC_API_KEY.\n\nA live AI analysis would provide strategic insights for {agent_name} pathway positioning.", "model": "fallback"}
+    except Exception as e:
+        return {"status": "error", "analysis": f"**AI Analysis Unavailable**\n\nCould not connect to Claude API: {str(e)}\n\nEnsure `ANTHROPIC_API_KEY` is set in your environment.", "model": "error"}
