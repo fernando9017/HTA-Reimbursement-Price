@@ -1486,8 +1486,19 @@ async def nsclc_ai_analysis(request: Request):
         import anthropic
         client = anthropic.Anthropic()  # Uses ANTHROPIC_API_KEY env var
 
+        status_hierarchy = (
+            "IMPORTANT — Pathway status hierarchy (best to worst): "
+            "Preferred > Recommended > Listed > Restricted > Not Listed > Unknown. "
+            "'Preferred' is the BEST possible pathway status (highest formulary tier, fewest barriers). "
+            "'Recommended' is good but below Preferred. 'Listed' means available but not actively endorsed. "
+            "'Restricted' means available only with conditions/step-edits. "
+            "When comparing agents, a therapy with 'Preferred' status has a BETTER position than one with 'Recommended'."
+        )
+
         prompts = {
             "competitive": f"""You are a pharmaceutical market access strategist specializing in US oncology pathway analysis. Analyze the competitive landscape for {agent_name} in the US NSCLC pathway ecosystem.
+
+{status_hierarchy}
 
 Context data:
 {context_data}
@@ -1504,6 +1515,8 @@ Format as clear markdown with headers.""",
 
             "pathway-trends": f"""You are a pharmaceutical market access analyst specializing in US oncology clinical pathways. Analyze pathway selection trends for {agent_name} and its competitive segment.
 
+{status_hierarchy}
+
 Context data:
 {context_data}
 
@@ -1518,6 +1531,8 @@ Provide analysis on:
 Format as clear markdown with headers.""",
 
             "launch-strategy": f"""You are a pharmaceutical launch strategist focused on US oncology market access. Develop a pre-launch pathway access strategy for a company preparing to enter the NSCLC space, analyzing how {agent_name} and its competitors are positioned.
+
+{status_hierarchy}
 
 Context data:
 {context_data}
@@ -1534,6 +1549,8 @@ Provide:
 Format as clear markdown with headers.""",
 
             "clinical-gaps": f"""You are a clinical development strategist analyzing the NSCLC competitive landscape to identify evidence gaps and opportunities.
+
+{status_hierarchy}
 
 Context data:
 {context_data}
