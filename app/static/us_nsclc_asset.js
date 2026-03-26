@@ -442,7 +442,7 @@ function renderSpotlightHeatmap(agentName) {
         <span class="cmp-legend-item">${statusIcon("listed")} Listed</span>
         <span class="cmp-legend-item">${statusIcon("not listed")} Not Listed</span>
         <span class="cmp-legend-item">${statusIcon("restricted")} Restricted</span>
-        <span class="cmp-legend-item"><span class="cmp-deviation-marker-inline">Orange</span> = Deviates from NCCN</span>
+        <span class="cmp-legend-item"><span class="cmp-deviation-marker-inline"></span> Deviates from NCCN</span>
     </div>`;
 
     html += `<div class="cmp-table-wrapper"><table class="asset-heatmap-table"><thead><tr><th style="text-align:left;">Segment</th><th>NCCN</th>`;
@@ -540,7 +540,7 @@ function renderPreferenceMatrix(agentName) {
         <span class="cmp-legend-item">${statusIcon("recommended")} Recommended</span>
         <span class="cmp-legend-item">${statusIcon("listed")} Listed</span>
         <span class="cmp-legend-item">${statusIcon("restricted")} Restricted</span>
-        <span class="cmp-legend-item"><span class="cmp-deviation-marker-inline">Orange</span> = Deviates from NCCN</span>
+        <span class="cmp-legend-item"><span class="cmp-deviation-marker-inline"></span> Deviates from NCCN</span>
         <span class="cmp-legend-item" style="background:rgba(239,68,68,0.1);padding:0.2rem 0.4rem;border-radius:3px;">Red bg = Competitor has better status</span>
     </div>`;
 
