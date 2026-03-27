@@ -2880,9 +2880,14 @@ function renderAppendix() {
         </div>
     `;
 
-    PATHWAY_PROGRAMS.forEach(prog => {
+    // Sort programmes by confidence: high → medium → low
+    const confidenceOrder = { high: 0, medium: 1, low: 2 };
+    const sortedPrograms = [...PATHWAY_PROGRAMS]
+        .filter(p => DATA_METHODOLOGY[p.id])
+        .sort((a, b) => (confidenceOrder[DATA_METHODOLOGY[a.id].confidence] ?? 3) - (confidenceOrder[DATA_METHODOLOGY[b.id].confidence] ?? 3));
+
+    sortedPrograms.forEach(prog => {
         const m = DATA_METHODOLOGY[prog.id];
-        if (!m) return;
 
         const primaryHtml = m.primarySources.map(s => `<li>${esc(s)}</li>`).join("");
         const secondaryHtml = m.secondarySources.length

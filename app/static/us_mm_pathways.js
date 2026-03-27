@@ -377,6 +377,8 @@ const INSTITUTION_VERIFICATION = {
     mdanderson:  { level: "published", source: "MD Anderson published treatment algorithms" },
     msk:         { level: "published", source: "MSK clinical practice publications" },
     mayo:        { level: "verified",  source: "mSMART consensus guidelines — publicly available" },
+    nci:         { level: "verified",  source: "NCI PDQ — US government public domain, freely accessible online" },
+    mmit:        { level: "published", source: "MMIT PULSE — industry pathway monitoring platform; programme scope from marketing materials" },
 };
 
 
@@ -1366,8 +1368,14 @@ function renderAppendix() {
     const container = document.getElementById("mm-appendix-content");
     if (!container) return;
     let html = `<div class="appendix-intro"><p>This appendix documents sourcing methodology for pathway programs tracked in this module.</p><div class="appendix-legend"><strong>Verification:</strong> <span class="appendix-confidence appendix-confidence-high">Verified</span> Direct public data <span class="appendix-confidence appendix-confidence-medium">Published</span> Official pages/literature <span class="appendix-confidence appendix-confidence-low">Inferred</span> Estimated positions</div></div>`;
-    PATHWAY_PROGRAMS.forEach(prog => {
-        const v = INSTITUTION_VERIFICATION[prog.id]; if (!v) return;
+    // Sort programmes by confidence: verified (high) → published (medium) → inferred (low)
+    const verificationOrder = { verified: 0, published: 1, inferred: 2 };
+    const sortedPrograms = [...PATHWAY_PROGRAMS]
+        .filter(p => INSTITUTION_VERIFICATION[p.id])
+        .sort((a, b) => (verificationOrder[INSTITUTION_VERIFICATION[a.id].level] ?? 3) - (verificationOrder[INSTITUTION_VERIFICATION[b.id].level] ?? 3));
+
+    sortedPrograms.forEach(prog => {
+        const v = INSTITUTION_VERIFICATION[prog.id];
         const cls = v.level === "verified" ? "high" : v.level === "published" ? "medium" : "low";
         html += `<div class="appendix-entry"><div class="appendix-entry-header"><h4>${esc(prog.name)}</h4><span class="appendix-confidence appendix-confidence-${cls}">${esc(v.level)}</span></div><div class="appendix-org">${esc(prog.organization)}</div><div class="appendix-field"><strong>Source:</strong> ${esc(v.source)}</div><div class="appendix-field"><strong>Data:</strong> ${esc(prog.dataAvailability)}</div></div>`;
     });
