@@ -21,9 +21,8 @@ from app.models import AssessmentResult, MedicineResult
 
 def _make_client():
     """Create a TestClient that skips the lifespan (startup) logic."""
-    from app.main import app, _AUTH_TOKEN
+    from app.main import app
     client = TestClient(app, raise_server_exceptions=False)
-    client.cookies.set("vap_auth", _AUTH_TOKEN)
     return client
 
 
